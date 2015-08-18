@@ -1,0 +1,1231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r364 - in utilities/dzLib/trunk: .	IniFileFormatter tools tools/IniFileFormatter	tools/IniFileFormatter/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r364%20-%20in%20utilities/dzLib/trunk%3A%20.%0A%09IniFileFormatter%20tools%20tools/IniFileFormatter%0A%09tools/IniFileFormatter/src&In-Reply-To=%3C200909251531.n8PFVtGB020210%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000229.html">
+   <LINK REL="Next"  HREF="000231.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r364 - in utilities/dzLib/trunk: .	IniFileFormatter tools tools/IniFileFormatter	tools/IniFileFormatter/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r364%20-%20in%20utilities/dzLib/trunk%3A%20.%0A%09IniFileFormatter%20tools%20tools/IniFileFormatter%0A%09tools/IniFileFormatter/src&In-Reply-To=%3C200909251531.n8PFVtGB020210%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r364 - in utilities/dzLib/trunk: .	IniFileFormatter tools tools/IniFileFormatter	tools/IniFileFormatter/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:31:55 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000229.html">[Dzchart-svncheckins] r363 - utilities/dzLib/trunk/translations/de
+</A></li>
+        <LI>Next message: <A HREF="000231.html">[Dzchart-svncheckins] r365 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#230">[ date ]</a>
+              <a href="thread.html#230">[ thread ]</a>
+              <a href="subject.html#230">[ subject ]</a>
+              <a href="author.html#230">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:31:45 +0200 (Fri, 25 Sep 2009)
+New Revision: 364
+
+Added:
+   utilities/dzLib/trunk/IniFileFormatter/
+   utilities/dzLib/trunk/IniFileFormatter/u_dzIniEntryList.pas
+   utilities/dzLib/trunk/IniFileFormatter/u_dzIniFileFormatter.pas
+   utilities/dzLib/trunk/IniFileFormatter/u_dzIniSections.pas
+   utilities/dzLib/trunk/tools/IniFileFormatter/
+   utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini
+   utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini
+   utilities/dzLib/trunk/tools/IniFileFormatter/dcu/
+   utilities/dzLib/trunk/tools/IniFileFormatter/src/
+   utilities/dzLib/trunk/tools/IniFileFormatter/src/IniFileFormatter.dpr
+   utilities/dzLib/trunk/tools/IniFileFormatter/src/IniFileFormatter.dproj
+   utilities/dzLib/trunk/tools/IniFileFormatter/src/u_IniFileFormatterMain.pas
+   utilities/dzLib/trunk/tools/IniFileFormatter/src/w_IniFileFormatter.dfm
+   utilities/dzLib/trunk/tools/IniFileFormatter/src/w_IniFileFormatter.pas
+Log:
+tool and library for formatting and sorting .INI files for easier comparison
+
+Added: utilities/dzLib/trunk/IniFileFormatter/u_dzIniEntryList.pas
+===================================================================
+--- utilities/dzLib/trunk/IniFileFormatter/u_dzIniEntryList.pas	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/IniFileFormatter/u_dzIniEntryList.pas	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,59 @@
++unit u_dzIniEntryList;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  u_dzQuicksort;
++
++type
++  TIniEntryAbstract = class
++  private
++    FLine: string;
++    FComment: string;
++  public
++    constructor Create(const _Line: string);
++    function NameOnly: string; virtual; abstract;
++    property Line: string read FLine;
++    property Comment: string read FComment write FComment;
++  end;
++
++type
++  ICompareIniEntries = interface ['{B60AFA09-F11C-422F-9BE1-9205018F4183}']
++    function Compare(_Idx1, _Idx2: integer): integer;
++  end;
++
++{$DEFINE __DZ_OBJECT_LIST_TEMPLATE__}
++type
++  _LIST_ANCESTOR_ = TObject;
++  _ITEM_TYPE_ = TIniEntryAbstract;
++{$INCLUDE 't_dzObjectListTemplate.tpl'}
++
++type
++  {: List for storing TIniItem items }
++  TIniEntryList = class(_DZ_OBJECT_LIST_TEMPLATE_)
++    procedure Sort(_DataHandler: IQSDataHandler);
++  end;
++
++implementation
++
++{$INCLUDE 't_dzObjectListTemplate.tpl'}
++
++{ TIniEntryAbstract }
++
++constructor TIniEntryAbstract.Create(const _Line: string);
++begin
++  inherited Create;
++  FLine := _Line;
++end;
++
++{ TIniEntryList }
++
++procedure TIniEntryList.Sort(_DataHandler: IQSDataHandler);
++begin
++  QuickSort(0, Count - 1, _DataHandler);
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/IniFileFormatter/u_dzIniFileFormatter.pas
+===================================================================
+--- utilities/dzLib/trunk/IniFileFormatter/u_dzIniFileFormatter.pas	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/IniFileFormatter/u_dzIniFileFormatter.pas	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,231 @@
++unit u_dzIniFileFormatter;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  u_dzIniSections,
++  u_dzIniEntryList;
++
++type
++  TIniFileFormatter = class
++  private
++    FSections: TIniEntryList;
++  public
++    constructor Create;
++    destructor Destroy; override;
++    procedure LoadFrom(const _Filename: string);
++    procedure Assign(_Lines: TStrings);
++    procedure AssignSectionsTo(_Names: TStrings);
++    procedure AssignItemsTo(const _Section: string; _Names: TStrings);
++    procedure SortSections(_Template: TStrings = nil);
++    procedure SortItems(const _Section: string; _Template: TStrings = nil);
++    procedure AssignTo(_Lines: TStrings);
++    procedure SaveTo(const _Filename: string);
++  end;
++
++implementation
++
++uses
++  u_dzQuicksort;
++
++type
++  TComparer = class(TInterfacedObject, IQSDataHandler)
++  private
++    FList: TIniEntryList;
++    FTemplate: TStrings;
++  private
++    function Compare(_Idx1, _Idx2: integer): integer;
++    procedure Swap(_Idx1, _Idx2: integer);
++  public
++    constructor Create(_List: TIniEntryList; _Template: TStrings = nil);
++    destructor Destroy; override;
++  end;
++
++{ TComparer }
++
++constructor TComparer.Create(_List: TIniEntryList; _Template: TStrings = nil);
++var
++  i: Integer;
++begin
++  Assert(Assigned(_List));
++
++  inherited Create;
++  FList := _List;
++  FTemplate := TStringList.Create;
++  if Assigned(_Template) then begin
++    for i := 0 to _Template.Count - 1 do
++      FTemplate.Add(LowerCase(_Template[i]));
++  end;
++end;
++
++destructor TComparer.Destroy;
++begin
++  FreeAndNil(FTemplate);
++  inherited;
++end;
++
++procedure TComparer.Swap(_Idx1, _Idx2: integer);
++begin
++  FList.Exchange(_Idx1, _Idx2);
++end;
++
++function TComparer.Compare(_Idx1, _Idx2: integer): integer;
++var
++  Key1: string;
++  Key2: string;
++  Idx1: integer;
++  Idx2: integer;
++begin
++  Key1 := LowerCase(FList[_Idx1].NameOnly);
++  Idx1 := FTemplate.IndexOf(Key1);
++
++  Key2 := LowerCase(FList[_Idx2].NameOnly);
++  Idx2 := FTemplate.IndexOf(Key2);
++
++  if (Idx1 = -1) and (Idx2 &lt;&gt; -1) then
++    Result := 1
++  else if (Idx1 &lt;&gt; -1) and (Idx2 = -1) then
++    Result := -1
++  else begin
++    Result := Idx1 - Idx2;
++    if Result = 0 then
++      Result := CompareStr(Key1, Key2);
++  end;
++end;
++
++{ TIniFileSorter }
++
++constructor TIniFileFormatter.Create;
++begin
++  inherited Create;
++  FSections := TIniEntryList.Create;
++end;
++
++destructor TIniFileFormatter.Destroy;
++begin
++  FreeAndNil(FSections);
++  inherited;
++end;
++
++procedure TIniFileFormatter.LoadFrom(const _Filename: string);
++var
++  Lines: TStringList;
++begin
++  Lines := TStringList.Create;
++  try
++    Lines.LoadFromFile(_Filename);
++    Assign(Lines);
++
++  finally
++    FreeAndNil(Lines);
++  end;
++end;
++
++procedure TIniFileFormatter.Assign(_Lines: TStrings);
++var
++  Comment: TStringList;
++  Section: TIniSection;
++  Item: TIniEntryAbstract;
++  s: string;
++begin
++  FSections.Clear;
++
++  Section := nil;
++  Comment := TStringList.Create;
++  for s in _Lines do begin
++    if Copy(s, 1, 1) = '[' then begin
++      Section := TIniSection.Create(s);
++      Section.Comment := Trim(Comment.Text);
++      Comment.Clear;
++      FSections.Add(Section);
++    end else begin
++      if (Copy(s, 1, 2) = '//') or (Copy(s, 1, 1) = ';')
++        or (Copy(s, 1, 1) = '#') or (Section = nil) then begin
++        Comment.Add(s);
++      end else if (s &lt;&gt; '') then begin
++        Item := TIniItem.Create(s);
++        Item.Comment := Trim(Comment.Text);
++        Comment.Clear;
++        Section.Items.Add(Item);
++      end;
++    end;
++  end;
++end;
++
++procedure TIniFileFormatter.SortSections(_Template: TStrings = nil);
++begin
++  FSections.Sort(TComparer.Create(FSections, _Template));
++end;
++
++procedure TIniFileFormatter.SortItems(const _Section: string; _Template: TStrings = nil);
++var
++  Entry: TIniEntryAbstract;
++  Section: TIniSection;
++begin
++  for Entry in FSections do begin
++    Section := Entry as TIniSection;
++    if SameText(Section.NameOnly, _Section) then
++      Section.Items.Sort(TComparer.Create(Section.Items, _Template));
++  end;
++end;
++
++procedure TIniFileFormatter.AssignSectionsTo(_Names: TStrings);
++var
++  Section: TIniEntryAbstract;
++begin
++  _Names.Clear;
++  for Section in FSections do begin
++    _Names.Add(Section.NameOnly)
++  end;
++end;
++
++procedure TIniFileFormatter.AssignItemsTo(const _Section: string; _Names: TStrings);
++var
++  Section: TIniEntryAbstract;
++  Item: TIniEntryAbstract;
++begin
++  _Names.Clear;
++  for Section in FSections do begin
++    if SameText(Section.NameOnly, _Section) then
++      for Item in (Section as TIniSection).Items do begin
++        _Names.Add(Item.NameOnly);
++      end;
++  end;
++end;
++
++procedure TIniFileFormatter.AssignTo(_Lines: TStrings);
++var
++  Section: TIniEntryAbstract;
++  Item: TIniEntryAbstract;
++begin
++  _Lines.Clear;
++  for Section in FSections do begin
++    if Section.Comment &lt;&gt; '' then
++      _Lines.Add(Section.Comment);
++    _Lines.Add(Section.Line);
++    for Item in (Section as TIniSection).Items do begin
++      if Item.Comment &lt;&gt; '' then
++        _Lines.Add(Item.Comment);
++      _Lines.Add(Item.Line);
++    end;
++    _Lines.Add('');
++  end;
++end;
++
++procedure TIniFileFormatter.SaveTo(const _Filename: string);
++var
++  sl: TStringList;
++begin
++  sl := TStringList.Create;
++  try
++    AssignTo(sl);
++    sl.SaveToFile(_Filename);
++  finally
++    FreeAndNil(sl);
++  end;
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/IniFileFormatter/u_dzIniSections.pas
+===================================================================
+--- utilities/dzLib/trunk/IniFileFormatter/u_dzIniSections.pas	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/IniFileFormatter/u_dzIniSections.pas	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,75 @@
++unit u_dzIniSections;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  u_dzIniEntryList;
++
++type
++  TIniItem = class(TIniEntryAbstract)
++  public
++    constructor Create(const _Line: string);
++    function NameOnly: string; override;
++  end;
++
++type
++  TIniSection = class(TIniEntryAbstract)
++  private
++    FItems: TIniEntryList;
++  public
++    constructor Create(const _Name: string);
++    destructor Destroy; override;
++    function NameOnly: string; override;
++    property Items: TIniEntryList read FItems;
++  end;
++
++implementation
++
++uses
++  u_dzQuicksort;
++
++{ TIniItem }
++
++constructor TIniItem.Create(const _Line: string);
++begin
++  Assert(Pos('=', _Line) &gt; 0, 'String does not contain &quot;=&quot;');
++
++  inherited Create(_Line);
++end;
++
++function TIniItem.NameOnly: string;
++var
++  p: integer;
++begin
++  Result := Line;
++  p := Pos('=', Result);
++  Result := Copy(Result, 1, p - 1);
++end;
++
++{ TIniSection }
++
++constructor TIniSection.Create(const _Name: string);
++begin
++  Assert(Copy(_Name, 1, 1) = '[', 'String &quot;' + _Name + '&quot; does not start with &quot;[&quot;');
++  Assert(Copy(_Name, Length(_Name), 1) = ']', 'String &quot;' + _Name + '&quot; does not end in &quot;]&quot;');
++
++  inherited Create(_Name);
++  FItems := TIniEntryList.Create;
++end;
++
++destructor TIniSection.Destroy;
++begin
++  FreeAndNil(FItems);
++  inherited;
++end;
++
++function TIniSection.NameOnly: string;
++begin
++  Result := Line;
++  Result := Copy(Result, 2, Length(Result) - 2);
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,18 @@
++#comment for section2
++[section2]
++
++item2=zwei
++// comment for section2.item1
++item1=eins
++
++
++#comment for section1
++[section1]
++
++
++
++// comment1 for section1.item1
++// comment2 for section1.item1
++item1=1
++// comment for section1.item2
++item2=1
+
+Added: utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,18 @@
++#comment for section2
++[section2]
++// comment for section2.item1
++item1=eins
++
++item2=zwei
++
++
++#comment for section1
++[section1]
++
++// comment for section1.item2
++item2=1
++
++
++// comment1 for section1.item1
++// comment2 for section1.item1
++item1=1
+
+Added: utilities/dzLib/trunk/tools/IniFileFormatter/src/IniFileFormatter.dpr
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/src/IniFileFormatter.dpr	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/src/IniFileFormatter.dpr	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,27 @@
++program IniFileFormatter;
++
++uses
++  Forms,
++  w_IniFileFormatter in 'w_IniFileFormatter.pas' {f_IniFileFormatter},
++  u_dzIniFileFormatter in '..\..\..\IniFileFormatter\u_dzIniFileFormatter.pas',
++  u_dzIniSections in '..\..\..\IniFileFormatter\u_dzIniSections.pas',
++  u_dzIniEntryList in '..\..\..\IniFileFormatter\u_dzIniEntryList.pas',
++  u_IniFileFormatterMain in 'u_IniFileFormatterMain.pas',
++  u_dzDefaultMain in '..\..\..\..\dzcmdlineparser\src\u_dzDefaultMain.pas',
++  u_dzGetOpt in '..\..\..\..\dzcmdlineparser\src\u_dzGetOpt.pas',
++  u_dzOptionDescList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionDescList.pas',
++  u_dzOptionFoundList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionFoundList.pas',
++  u_dzOptionNameList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionNameList.pas',
++  u_dzParamDescList in '..\..\..\..\dzcmdlineparser\src\u_dzParamDescList.pas',
++  u_dzParamFoundList in '..\..\..\..\dzcmdlineparser\src\u_dzParamFoundList.pas',
++  w_dzDialog in '..\..\..\forms\w_dzDialog.pas' {f_dzDialog};
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.Title := 'Ini File Formatter';
++  MainClass := TIniFileFormatterMain;
++  System.ExitCode := Main;
++end.
++
+
+Added: utilities/dzLib/trunk/tools/IniFileFormatter/src/IniFileFormatter.dproj
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/src/IniFileFormatter.dproj	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/src/IniFileFormatter.dproj	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,129 @@
++&#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++		&lt;PropertyGroup&gt;
++			&lt;ProjectGuid&gt;{CC82D07A-2848-46C4-AF4C-2250312D9AB3}&lt;/ProjectGuid&gt;
++			&lt;ProjectVersion&gt;12.0&lt;/ProjectVersion&gt;
++			&lt;MainSource&gt;IniFileFormatter.dpr&lt;/MainSource&gt;
++			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
++			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Release' or '$(Cfg_1)'!=''&quot;&gt;
++			&lt;Cfg_1&gt;true&lt;/Cfg_1&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Debug' or '$(Cfg_2)'!=''&quot;&gt;
++			&lt;Cfg_2&gt;true&lt;/Cfg_2&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_UNIT_PLATFORM&gt;false&lt;/DCC_UNIT_PLATFORM&gt;
++			&lt;DCC_SYMBOL_PLATFORM&gt;false&lt;/DCC_SYMBOL_PLATFORM&gt;
++			&lt;DCC_Define&gt;no_translation;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_DebugDCUs&gt;true&lt;/DCC_DebugDCUs&gt;
++			&lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++			&lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++			&lt;DCC_UnitSearchPath&gt;..\..\..\..\dztemplates\Units;..\..\..\..\dztemplates\templates;..\..\..\jedi_inc;..\..\..\src;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
++			&lt;DCC_DependencyCheckOutputName&gt;..\IniFileFormatter.exe&lt;/DCC_DependencyCheckOutputName&gt;
++			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
++			&lt;DCC_UnitAlias&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)&lt;/DCC_UnitAlias&gt;
++			&lt;DCC_Platform&gt;x86&lt;/DCC_Platform&gt;
++			&lt;DCC_E&gt;false&lt;/DCC_E&gt;
++			&lt;DCC_N&gt;false&lt;/DCC_N&gt;
++			&lt;DCC_S&gt;false&lt;/DCC_S&gt;
++			&lt;DCC_F&gt;false&lt;/DCC_F&gt;
++			&lt;DCC_K&gt;false&lt;/DCC_K&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_1)'!=''&quot;&gt;
++			&lt;DCC_LocalDebugSymbols&gt;false&lt;/DCC_LocalDebugSymbols&gt;
++			&lt;DCC_Define&gt;RELEASE;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++			&lt;DCC_DebugInformation&gt;false&lt;/DCC_DebugInformation&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_2)'!=''&quot;&gt;
++			&lt;DCC_Optimize&gt;false&lt;/DCC_Optimize&gt;
++			&lt;DCC_Define&gt;DEBUG;$(DCC_Define)&lt;/DCC_Define&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;ItemGroup&gt;
++			&lt;DelphiCompile Include=&quot;IniFileFormatter.dpr&quot;&gt;
++				&lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++			&lt;/DelphiCompile&gt;
++			&lt;DCCReference Include=&quot;w_IniFileFormatter.pas&quot;&gt;
++				&lt;Form&gt;f_IniFileFormatter&lt;/Form&gt;
++			&lt;/DCCReference&gt;
++			&lt;DCCReference Include=&quot;..\..\..\IniFileFormatter\u_dzIniFileFormatter.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\IniFileFormatter\u_dzIniSections.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\IniFileFormatter\u_dzIniEntryList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;u_IniFileFormatterMain.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzDefaultMain.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzGetOpt.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzOptionDescList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzOptionFoundList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzOptionNameList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzParamDescList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzParamFoundList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\forms\w_dzDialog.pas&quot;&gt;
++				&lt;Form&gt;f_dzDialog&lt;/Form&gt;
++			&lt;/DCCReference&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
++				&lt;Key&gt;Cfg_2&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
++				&lt;Key&gt;Cfg_1&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++		&lt;/ItemGroup&gt;
++		&lt;Import Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot; Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot;/&gt;
++		&lt;ProjectExtensions&gt;
++			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
++			&lt;Borland.ProjectType/&gt;
++			&lt;BorlandProject&gt;
++				&lt;Delphi.Personality&gt;
++					&lt;Source&gt;
++						&lt;Source Name=&quot;MainSource&quot;&gt;IniFileFormatter.dpr&lt;/Source&gt;
++					&lt;/Source&gt;
++					&lt;Parameters&gt;
++						&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;RunParams&quot;&gt;--help&lt;/Parameters&gt;
++					&lt;/Parameters&gt;
++					&lt;VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++					&lt;/VersionInfo&gt;
++					&lt;VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;CompanyName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileDescription&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;InternalName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;Comments&quot;/&gt;
++					&lt;/VersionInfoKeys&gt;
++				&lt;/Delphi.Personality&gt;
++			&lt;/BorlandProject&gt;
++			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
++		&lt;/ProjectExtensions&gt;
++	&lt;/Project&gt;
+
+Added: utilities/dzLib/trunk/tools/IniFileFormatter/src/u_IniFileFormatterMain.pas
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/src/u_IniFileFormatterMain.pas	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/src/u_IniFileFormatterMain.pas	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,85 @@
++unit u_IniFileFormatterMain;
++
++interface
++
++uses
++  SysUtils,
++  u_dzDefaultMain;
++
++type
++  TIniFileFormatterMain = class(TDefaultMain)
++  protected
++    procedure InitCmdLineParser; override;
++    function doExecute: integer; override;
++  end;
++
++implementation
++
++uses
++  Forms,
++  u_dzTranslator,
++  w_IniFileFormatter;
++
++{ TIniFileFormatterMain }
++
++procedure TIniFileFormatterMain.InitCmdLineParser;
++begin
++  inherited;
++  FGetOpt.RegisterOption('SortSections', _(
++    'Sort sections. Possible values: no, alpha, template'), true);
++  FGetOpt.RegisterOption('SortItems', _(
++    'Sort items. Possible values: no, alpha, template'), true);
++  FGetOpt.RegisterOption('template', _('Template file for sorting by template')
++    , true);
++  FGetOpt.RegisterParam('SrcFile', _('Source INI file to read and format'), 0, 1);
++  FGetOpt.RegisterParam('DestFile', _('Destination INI file to write, if given, the program exits automatically'), 0, 1);
++end;
++
++function TIniFileFormatterMain.doExecute: integer;
++var
++  SrcFile: string;
++  frm: Tf_IniFileFormatter;
++  SortSections: string;
++  SortItems: string;
++  Template: string;
++  DestFile: string;
++begin
++  Application.CreateForm(Tf_IniFileFormatter, frm);
++
++  if FGetOpt.ParamPassed('SrcFile', SrcFile) then
++    frm.SetSrcFile(SrcFile);
++
++  if FGetOpt.OptionPassed('template', Template) then begin
++    frm.SetTemplate(Template);
++  end;
++
++  SortSections := '';
++  if FGetOpt.OptionPassed('SortSections', SortSections) then begin
++    if SameText(SortSections, 'no') then
++      frm.SetSortSections(0)
++    else if SameText(SortSections, 'template') then
++      frm.SetSortSections(2)
++    else if not SameText(SortSections, 'alpha') then
++      raise Exception.CreateFmt(_('Invalid value &quot;%s&quot; for option SortSections, must be one of &quot;no&quot;, &quot;alpha&quot; or &quot;template&quot;'), [SortSections]);
++  end;
++
++  SortItems := '';
++  if FGetOpt.OptionPassed('SortItems', SortItems) then begin
++    if SameText(SortItems, 'no') then
++      frm.SetSortItems(0)
++    else if SameText(SortItems, 'template') then
++      frm.SetSortItems(2)
++    else if not SameText(SortItems, 'alpha') then
++      raise Exception.CreateFmt(_('Invalid value &quot;%s&quot; for option SortSections, must be one of &quot;no&quot;, &quot;alpha&quot; or &quot;template&quot;'), [SortItems]);
++  end;
++
++  if FGetOpt.ParamPassed('DestFile', DestFile) then begin
++    frm.Execute(DestFile);
++  end else begin
++    Application.Run;
++  end;
++  Result := 0;
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/tools/IniFileFormatter/src/w_IniFileFormatter.dfm
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/src/w_IniFileFormatter.dfm	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/src/w_IniFileFormatter.dfm	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,212 @@
++object f_IniFileFormatter: Tf_IniFileFormatter
++  Left = 0
++  Top = 0
++  Caption = 'INI File Formatter'
++  ClientHeight = 569
++  ClientWidth = 601
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'Tahoma'
++  Font.Style = []
++  OldCreateOrder = False
++  Position = poScreenCenter
++  OnResize = FormResize
++  DesignSize = (
++    601
++    569)
++  PixelsPerInch = 96
++  TextHeight = 13
++  object l_Filename: TLabel
++    Left = 8
++    Top = 8
++    Width = 42
++    Height = 13
++    Caption = 'Filename'
++  end
++  object l_Original: TLabel
++    Left = 8
++    Top = 208
++    Width = 36
++    Height = 13
++    Caption = 'Original'
++  end
++  object l_Preview: TLabel
++    Left = 304
++    Top = 208
++    Width = 38
++    Height = 13
++    Caption = 'Preview'
++  end
++  object l_Template: TLabel
++    Left = 8
++    Top = 160
++    Width = 63
++    Height = 13
++    Caption = 'Template File'
++  end
++  object ed_Filename: TEdit
++    Left = 8
++    Top = 24
++    Width = 553
++    Height = 21
++    Anchors = [akLeft, akTop, akRight]
++    TabOrder = 0
++  end
++  object b_Filename: TButton
++    Left = 568
++    Top = 22
++    Width = 25
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = '...'
++    TabOrder = 1
++    OnClick = b_FilenameClick
++  end
++  object m_Original: TMemo
++    Left = 8
++    Top = 224
++    Width = 289
++    Height = 297
++    Anchors = [akLeft, akTop, akBottom]
++    ReadOnly = True
++    ScrollBars = ssBoth
++    TabOrder = 4
++  end
++  object m_Preview: TMemo
++    Left = 304
++    Top = 224
++    Width = 289
++    Height = 297
++    Anchors = [akLeft, akTop, akBottom]
++    ReadOnly = True
++    ScrollBars = ssBoth
++    TabOrder = 5
++  end
++  object gb_SortSections: TGroupBox
++    Left = 8
++    Top = 48
++    Width = 185
++    Height = 105
++    Caption = 'Sort Sections'
++    TabOrder = 2
++    object rb_SectionsUnsorted: TRadioButton
++      Left = 8
++      Top = 24
++      Width = 169
++      Height = 17
++      Caption = 'Unsorted'
++      TabOrder = 0
++      OnClick = SettingsChanged
++    end
++    object rb_SectionsAlpha: TRadioButton
++      Left = 8
++      Top = 48
++      Width = 169
++      Height = 17
++      Caption = 'Alphabetically'
++      Checked = True
++      TabOrder = 1
++      TabStop = True
++      OnClick = SettingsChanged
++    end
++    object rb_SectionsByTemplate: TRadioButton
++      Left = 8
++      Top = 72
++      Width = 169
++      Height = 17
++      Caption = 'By Template'
++      TabOrder = 2
++      OnClick = SettingsChanged
++    end
++  end
++  object gb_SortItems: TGroupBox
++    Left = 208
++    Top = 48
++    Width = 185
++    Height = 105
++    Caption = 'Sort Items'
++    TabOrder = 3
++    object rb_ItemsUnsorted: TRadioButton
++      Left = 8
++      Top = 24
++      Width = 169
++      Height = 17
++      Caption = 'Unsorted'
++      TabOrder = 0
++      OnClick = SettingsChanged
++    end
++    object rb_ItemsAlpha: TRadioButton
++      Left = 8
++      Top = 48
++      Width = 169
++      Height = 17
++      Caption = 'Alphabetically'
++      Checked = True
++      TabOrder = 1
++      TabStop = True
++      OnClick = SettingsChanged
++    end
++    object rb_ItemsByTemplate: TRadioButton
++      Left = 8
++      Top = 72
++      Width = 169
++      Height = 17
++      Caption = 'By Template'
++      TabOrder = 2
++      OnClick = SettingsChanged
++    end
++  end
++  object b_Close: TButton
++    Left = 520
++    Top = 536
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Cancel = True
++    Caption = 'Close'
++    TabOrder = 7
++    OnClick = b_CloseClick
++  end
++  object b_SaveAs: TButton
++    Left = 438
++    Top = 536
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Caption = 'Save As ...'
++    TabOrder = 6
++    OnClick = b_SaveAsClick
++  end
++  object ed_Template: TEdit
++    Left = 8
++    Top = 176
++    Width = 553
++    Height = 21
++    Anchors = [akLeft, akTop, akRight]
++    TabOrder = 8
++  end
++  object b_Template: TButton
++    Left = 568
++    Top = 174
++    Width = 25
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = '...'
++    TabOrder = 9
++    OnClick = b_TemplateClick
++  end
++  object od_Filename: TOpenDialog
++    Filter = 'All files (*.*)|*.*'
++    Title = 'Select file'
++    Left = 152
++  end
++  object sd_Filename: TSaveDialog
++    DefaultExt = '.ini'
++    Filter = 'All files (*.*)|*.*'
++    Title = 'Save File As'
++    Left = 368
++    Top = 520
++  end
++end
+
+Added: utilities/dzLib/trunk/tools/IniFileFormatter/src/w_IniFileFormatter.pas
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/src/w_IniFileFormatter.pas	2009-09-25 15:30:53 UTC (rev 363)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/src/w_IniFileFormatter.pas	2009-09-25 15:31:45 UTC (rev 364)
+@@ -0,0 +1,234 @@
++unit w_IniFileFormatter;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls;
++
++type
++  Tf_IniFileFormatter = class(TForm)
++    l_Filename: TLabel;
++    ed_Filename: TEdit;
++    od_Filename: TOpenDialog;
++    b_Filename: TButton;
++    l_Original: TLabel;
++    m_Original: TMemo;
++    l_Preview: TLabel;
++    m_Preview: TMemo;
++    gb_SortSections: TGroupBox;
++    rb_SectionsUnsorted: TRadioButton;
++    rb_SectionsAlpha: TRadioButton;
++    rb_SectionsByTemplate: TRadioButton;
++    gb_SortItems: TGroupBox;
++    rb_ItemsUnsorted: TRadioButton;
++    rb_ItemsAlpha: TRadioButton;
++    rb_ItemsByTemplate: TRadioButton;
++    b_Close: TButton;
++    b_SaveAs: TButton;
++    sd_Filename: TSaveDialog;
++    l_Template: TLabel;
++    ed_Template: TEdit;
++    b_Template: TButton;
++
++    procedure b_FilenameClick(Sender: TObject);
++    procedure FormResize(Sender: TObject);
++    procedure SettingsChanged(Sender: TObject);
++    procedure b_CloseClick(Sender: TObject);
++    procedure b_SaveAsClick(Sender: TObject);
++    procedure b_TemplateClick(Sender: TObject);
++  private
++    procedure LoadAndSort(const _Filename: string);
++    function FormatIni: boolean;
++  public
++    procedure SetSrcFile(const _Value: string);
++    procedure SetSortSections(_Idx: integer);
++    procedure SetSortItems(_Idx: integer);
++    procedure SetTemplate(const _Value: string);
++    function Execute(const _Value: string): boolean;
++  end;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  u_dzIniFileFormatter,
++  u_dzIniSections;
++
++procedure Tf_IniFileFormatter.b_CloseClick(Sender: TObject);
++begin
++  Close;
++end;
++
++procedure Tf_IniFileFormatter.b_FilenameClick(Sender: TObject);
++begin
++  od_Filename.FileName := ed_Filename.Text;
++  if od_Filename.Execute then begin
++    ed_Filename.Text := od_Filename.FileName;
++    LoadAndSort(ed_Filename.Text);
++  end;
++end;
++
++procedure Tf_IniFileFormatter.b_TemplateClick(Sender: TObject);
++begin
++  od_Filename.FileName := ed_Template.Text;
++  if od_Filename.Execute then begin
++    ed_Template.Text := od_Filename.FileName;
++  end;
++  FormatIni;
++end;
++
++procedure Tf_IniFileFormatter.b_SaveAsClick(Sender: TObject);
++begin
++  sd_Filename.FileName := ed_Filename.Text;
++  if sd_Filename.Execute then
++    m_Preview.Lines.SaveToFile(sd_Filename.FileName);
++end;
++
++function Tf_IniFileFormatter.Execute(const _Value: string): boolean;
++begin
++  Result := FormatIni;
++  if Result then
++    m_Preview.Lines.SaveToFile(_Value);
++end;
++
++procedure Tf_IniFileFormatter.SetSortItems(_Idx: integer);
++begin
++  case _Idx of
++    0: rb_ItemsUnsorted.Checked := true;
++    2: rb_ItemsByTemplate.Checked := true;
++  // else: alpha-sort
++  end;
++end;
++
++procedure Tf_IniFileFormatter.SetSortSections(_Idx: integer);
++begin
++  case _Idx of
++    0: rb_SectionsUnsorted.Checked := true;
++    2: rb_SectionsByTemplate.Checked := true;
++  // else: alpha-sort
++  end;
++end;
++
++procedure Tf_IniFileFormatter.SetSrcFile(const _Value: string);
++begin
++  ed_Filename.Text := _Value;
++  m_Original.Lines.LoadFromFile(_Value);
++end;
++
++procedure Tf_IniFileFormatter.SetTemplate(const _Value: string);
++begin
++  ed_Template.Text := _Value;
++end;
++
++procedure Tf_IniFileFormatter.SettingsChanged(Sender: TObject);
++begin
++  FormatIni;
++end;
++
++procedure Tf_IniFileFormatter.FormResize(Sender: TObject);
++var
++  w: Integer;
++  l: Integer;
++begin
++  w := (ClientWidth - m_Original.Left * 3) div 2;
++  m_Original.Width := w;
++  m_Preview.Width := w;
++  l := m_Original.Left * 2 + w;
++  m_Preview.Left := l;
++  l_Preview.Left := l;
++end;
++
++procedure Tf_IniFileFormatter.LoadAndSort(const _Filename: string);
++begin
++  m_Original.Lines.LoadFromFile(_Filename);
++  FormatIni;
++end;
++
++function Tf_IniFileFormatter.FormatIni: boolean;
++var
++  b: boolean;
++  Formatter: TIniFileFormatter;
++  Template: TIniFileFormatter;
++  SortTemplate: TStringList;
++  Sections: TStringList;
++  s: string;
++begin
++  Result := false;
++
++  Template := nil;
++
++  b := rb_SectionsByTemplate.Checked or rb_ItemsByTemplate.Checked;
++  if b then begin
++    if (ed_Template.Text = '') then begin
++      m_Preview.Lines.Clear;
++      exit;
++    end;
++    Template := TIniFileFormatter.Create;
++    try
++      Template.LoadFrom(ed_Template.Text);
++    except
++      FreeAndNil(Template);
++      raise;
++    end;
++  end;
++
++  Formatter := TIniFileFormatter.Create;
++  try
++    Formatter.Assign(m_Original.Lines);
++
++    if rb_SectionsAlpha.Checked then begin
++      Formatter.SortSections(nil);
++    end else if rb_SectionsByTemplate.Checked then begin
++      Assert(Assigned(Template));
++      SortTemplate := TStringList.Create;
++      try
++        Template.AssignSectionsTo(SortTemplate);
++        Formatter.SortSections(SortTemplate);
++      finally
++        FreeAndNil(SortTemplate);
++      end;
++    end;
++
++    Sections := TStringList.Create;
++    try
++      Formatter.AssignSectionsTo(Sections);
++      if rb_ItemsAlpha.Checked then begin
++        for s in Sections do begin
++          Formatter.SortItems(s, nil);
++        end;
++      end else if rb_ItemsByTemplate.Checked then begin
++        Assert(Assigned(Template));
++        for s in Sections do begin
++          SortTemplate := TStringList.Create;
++          try
++            Template.AssignItemsTo(s, SortTemplate);
++            Formatter.SortItems(s, SortTemplate);
++          finally
++            FreeAndNil(SortTemplate);
++          end;
++        end;
++      end;
++    finally
++      FreeAndNil(Sections);
++    end;
++
++    Formatter.AssignTo(m_Preview.Lines);
++  finally
++    FreeAndNil(Formatter);
++    FreeAndNil(Template);
++  end;
++  Result := true;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000229.html">[Dzchart-svncheckins] r363 - utilities/dzLib/trunk/translations/de
+</A></li>
+	<LI>Next message: <A HREF="000231.html">[Dzchart-svncheckins] r365 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#230">[ date ]</a>
+              <a href="thread.html#230">[ thread ]</a>
+              <a href="subject.html#230">[ subject ]</a>
+              <a href="author.html#230">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

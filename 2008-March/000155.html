@@ -1,0 +1,380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r286 - utilities/dzLib/trunk/forms
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r286%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C200803301225.m2UCPugJ002435%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000154.html">
+   <LINK REL="Next"  HREF="000156.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r286 - utilities/dzLib/trunk/forms</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r286%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C200803301225.m2UCPugJ002435%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r286 - utilities/dzLib/trunk/forms">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar 30 14:25:56 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000154.html">[Dzchart-svncheckins] r285 - utilities/dzLib/trunk/tests/src
+</A></li>
+        <LI>Next message: <A HREF="000156.html">[Dzchart-svncheckins] r287 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#155">[ date ]</a>
+              <a href="thread.html#155">[ thread ]</a>
+              <a href="subject.html#155">[ subject ]</a>
+              <a href="author.html#155">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-03-30 14:25:55 +0200 (Sun, 30 Mar 2008)
+New Revision: 286
+
+Added:
+   utilities/dzLib/trunk/forms/w_dzProgress.dfm
+   utilities/dzLib/trunk/forms/w_dzProgress.pas
+Log:
+added a generic progress form
+
+Added: utilities/dzLib/trunk/forms/w_dzProgress.dfm
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzProgress.dfm	2008-03-30 12:24:49 UTC (rev 285)
++++ utilities/dzLib/trunk/forms/w_dzProgress.dfm	2008-03-30 12:25:55 UTC (rev 286)
+@@ -0,0 +1,46 @@
++object f_dzProgress: Tf_dzProgress
++  Left = 402
++  Top = 269
++  BorderIcons = []
++  BorderStyle = bsSingle
++  Caption = 'Progress'
++  ClientHeight = 49
++  ClientWidth = 393
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'MS Sans Serif'
++  Font.Style = []
++  FormStyle = fsStayOnTop
++  OldCreateOrder = False
++  Position = poOwnerFormCenter
++  PixelsPerInch = 96
++  TextHeight = 13
++  object l_Action: TLabel
++    Left = 8
++    Top = 0
++    Width = 30
++    Height = 13
++    Caption = 'Action'
++    Layout = tlCenter
++  end
++  object pb_Progress: TProgressBar
++    Left = 8
++    Top = 24
++    Width = 297
++    Height = 16
++    Position = 30
++    TabOrder = 0
++  end
++  object b_Cancel: TButton
++    Left = 312
++    Top = 20
++    Width = 75
++    Height = 25
++    Cancel = True
++    Caption = 'Abort'
++    TabOrder = 1
++    OnClick = b_CancelClick
++  end
++end
+
+Added: utilities/dzLib/trunk/forms/w_dzProgress.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzProgress.pas	2008-03-30 12:24:49 UTC (rev 285)
++++ utilities/dzLib/trunk/forms/w_dzProgress.pas	2008-03-30 12:25:55 UTC (rev 286)
+@@ -0,0 +1,251 @@
++{GXFormatter.config=twm}
++{: generic progress form
++   This unit implements a generic progress form.
++   Create it, set FormCaption, optionally set Max, show the form.
++   Every now and then call Progress.
++   Free after you are done.
++   Note: You can use up to two %d and %% in FormCaption, examples:
++     FormCaption := 'progress %d of %d';
++     FormCaption := '%d%% done'; // display percentage
++     FormCaption := 'Progress - Line %d';
++   @author twm
++}
++unit w_dzProgress;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls,
++  ComCtrls;
++
++type
++  EdzProgress = class(Exception);
++
++type
++  Tf_dzProgress = class(TForm)
++    l_Action: TLabel;
++    pb_Progress: TProgressBar;
++    b_Cancel: TButton;
++    procedure b_CancelClick(Sender: TObject);
++  private
++    fCancelVisible: boolean;
++    fCancelPressed: boolean;
++    fProgressPos: integer;
++    fMax: integer;
++    fAction: string;
++    fActionVisible: boolean;
++    fPercent: integer;
++    fFormCaption: string;
++    fFormCaptionParams: integer;
++    fFormCaptionPercent: boolean;
++    procedure SetFormCaption(const _FormCaption: string);
++    procedure InternalSetCaption;
++    procedure SetProgressPos(_ProgressPos: integer);
++    procedure SetMax(_Max: integer);
++    procedure SetAction(const _Action: string);
++    procedure SetCancelVisible(_Visible: boolean);
++    procedure SetActionVisible(_Visible: boolean);
++    function AnalyseCaption(const _Caption: string;
++      var _ParamCount: integer; var _Percent: boolean;
++      var _Error: string): boolean;
++  public
++    constructor Create(_Owner: TComponent); overload; override;
++    property FormCaption: string read fFormCaption write SetFormCaption;
++    property ProgressPos: integer read fProgressPos write SetProgressPos;
++    property Max: integer read fMax write SetMax;
++    property Action: string read fAction write SetAction;
++    property CancelVisible: boolean read fCancelVisible write SetCancelVisible;
++    property ActionVisible: boolean read fActionVisible write SetActionVisible;
++    procedure Progress(_Position: integer; const _Action: string;
++      var _Abort: boolean); overload;
++    procedure Progress(_Position: integer; var _Abort: boolean); overload;
++  end;
++
++implementation
++
++{$R *.DFM}
++
++uses
++  StrUtils,
++  u_dzTranslator,
++  w_dzDialog;
++
++resourcestring
++  // Wirklich abbrechen?
++  QuestionAbort = 'Do you really want to abort?';
++  // Fortschritt (%d%%)
++  FormCaptionD = 'Progress (%d%%)';
++  // Tf_HkProgress.SetFormCaption: Ung&#252;ltige FormCaption, %s.
++  InvalidFormCaptionS = 'Tf_HkProgress.SetFormCaption: Invalid FormCaption, %s';
++  // darf kein &quot;%&quot; am Ende haben
++  PercentAtEnd = 'must not contain a % at the end';
++  // auf &quot;%&quot; mu&#223; &quot;d&quot; oder &quot;%&quot; folgen
++  InvalidFormatChar = '&quot;%&quot; must be followed by &quot;d&quot; or &quot;%&quot;.';
++  // zuviele Parameter
++  TooManyParameters = 'too many parameters';
++
++constructor Tf_dzProgress.Create(_Owner: tComponent);
++begin
++  inherited;
++  pb_Progress.Position := 0;
++  fMax := 100;
++  l_Action.Caption := '';
++  FormCaption := FormCaptionD;
++
++  TranslateComponent(Self);
++end;
++
++procedure Tf_dzProgress.b_CancelClick(Sender: TObject);
++begin
++  fCancelPressed := (mrYes = Tf_dzDialog.ShowMessage(mtConfirmation, QuestionAbort, [dbeYes, dbeNo], Self));
++end;
++
++procedure Tf_dzProgress.InternalSetCaption;
++var
++  OldPercent: integer;
++begin
++  if fFormCaptionPercent then
++  begin
++    OldPercent := fPercent;
++    fPercent := (fProgressPos * 100) div fMax;
++    if OldPercent = fPercent then
++      exit;
++  end;
++  case fFormCaptionParams of
++    0: Caption := fFormCaption;
++    1:
++      if fFormCaptionPercent then
++        Caption := Format(fFormCaption, [fPercent])
++      else
++        Caption := Format(fFormCaption, [fProgressPos]);
++    2: Caption := Format(fFormCaption, [fProgressPos, fMax]);
++  end;
++end;
++
++procedure Tf_dzProgress.Progress(_Position: integer; var _Abort: boolean);
++begin
++  fProgressPos := _Position;
++  pb_Progress.Position := _Position;
++  InternalSetCaption;
++  Application.ProcessMessages;
++  _Abort := fCancelPressed;
++end;
++
++procedure Tf_dzProgress.Progress(_Position: integer; const _Action: string;
++  var _Abort: boolean);
++begin
++  fAction := _Action;
++  l_Action.Caption := _Action;
++  Progress(_Position, _Abort);
++end;
++
++function Tf_dzProgress.AnalyseCaption(const _Caption: string; var _ParamCount: integer;
++  var _Percent: boolean; var _Error: string): boolean;
++var
++  p: integer;
++begin
++  Result := false;
++  _Percent := false;
++  _ParamCount := 0;
++  p := PosEx('%', _Caption, 1);
++  while p &lt;&gt; 0 do
++  begin
++    if (p &gt;= Length(_Caption)) then
++    begin
++      _Error := PercentAtEnd;
++      exit;
++    end;
++    if _Caption[p + 1] = 'd' then
++      Inc(_ParamCount)
++    else if _Caption[p + 1] = '%' then
++    begin
++      _Percent := true;
++      Inc(p)
++    end
++    else
++    begin
++      _Error := InvalidFormatChar;
++      exit;
++    end;
++    p := PosEx('%', _Caption, p + 1);
++  end;
++  if _ParamCount &gt; 2 then
++    _Error := TooManyParameters
++  else
++    Result := true;
++end;
++
++procedure Tf_dzProgress.SetFormCaption(const _FormCaption: string);
++var
++  Error: string;
++  Percent: boolean;
++  Params: integer;
++begin
++  if not AnalyseCaption(_FormCaption, Params, Percent, Error) then
++    raise EdzProgress.CreateFmt(InvalidFormCaptionS, [Error]);
++  fFormCaption := _FormCaption;
++  fFormCaptionParams := Params;
++  fFormCaptionPercent := Percent;
++  InternalSetCaption;
++end;
++
++procedure Tf_dzProgress.SetProgressPos(_ProgressPos: integer);
++begin
++  fProgressPos := _ProgressPos;
++  pb_Progress.Position := _ProgressPos;
++  InternalSetCaption;
++end;
++
++procedure Tf_dzProgress.SetMax(_Max: integer);
++begin
++  fMax := _Max;
++  pb_Progress.Max := _Max;
++  InternalSetCaption;
++end;
++
++procedure Tf_dzProgress.SetAction(const _Action: string);
++begin
++  fAction := _Action;
++  l_Action.Caption := _Action;
++  l_Action.Layout := tlCenter;
++end;
++
++procedure Tf_dzProgress.SetCancelVisible(_Visible: boolean);
++begin
++  fCancelVisible := _Visible;
++  b_Cancel.Visible := fCancelVisible;
++  if not fCancelVisible then
++    pb_Progress.Width := ClientWidth - 2 * pb_Progress.Left
++  else
++    pb_Progress.Width := b_Cancel.Left - 2 * pb_Progress.Left;
++end;
++
++procedure Tf_dzProgress.SetActionVisible(_Visible: boolean);
++begin
++  fActionVisible := _Visible;
++  l_Action.Visible := fActionVisible;
++  if not fActionVisible then
++  begin
++    ClientHeight := 2 * 5 + b_Cancel.Height;
++    b_Cancel.Top := (ClientHeight - b_Cancel.Height) div 2;
++    pb_Progress.Top := (ClientHeight - pb_Progress.Height) div 2;
++  end
++  else
++  begin
++    // as designed
++    b_Cancel.Top := 20;
++    pb_Progress.Top := 24;
++    Height := 76;
++  end;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000154.html">[Dzchart-svncheckins] r285 - utilities/dzLib/trunk/tests/src
+</A></li>
+	<LI>Next message: <A HREF="000156.html">[Dzchart-svncheckins] r287 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#155">[ date ]</a>
+              <a href="thread.html#155">[ thread ]</a>
+              <a href="subject.html#155">[ subject ]</a>
+              <a href="author.html#155">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

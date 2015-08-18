@@ -1,0 +1,2043 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r233 - in utilities/dzCmdLineParser/trunk: .	src tests
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r233%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20tests&In-Reply-To=%3C200711011419.lA1EJIkl014029%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000101.html">
+   <LINK REL="Next"  HREF="000103.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r233 - in utilities/dzCmdLineParser/trunk: .	src tests</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r233%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20tests&In-Reply-To=%3C200711011419.lA1EJIkl014029%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r233 - in utilities/dzCmdLineParser/trunk: .	src tests">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Nov  1 15:19:18 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000101.html">[Dzchart-svncheckins] r231 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000103.html">[Dzchart-svncheckins] r234 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#102">[ date ]</a>
+              <a href="thread.html#102">[ thread ]</a>
+              <a href="subject.html#102">[ subject ]</a>
+              <a href="author.html#102">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-11-01 15:19:11 +0100 (Thu, 01 Nov 2007)
+New Revision: 233
+
+Added:
+   utilities/dzCmdLineParser/trunk/tests/
+   utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr
+   utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj
+   utilities/dzCmdLineParser/trunk/tests/u_dzCmdLineParser_UnitTest.pas
+   utilities/dzCmdLineParser/trunk/tests/u_dzGetOpt_UnitTest.pas
+Removed:
+   utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dpr
+   utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dproj
+   utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser_UnitTest.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzGetOpt_UnitTest.pas
+Log:
+moved test code to subdir tests
+
+Deleted: utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dpr
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dpr	2007-11-01 14:12:16 UTC (rev 232)
++++ utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dpr	2007-11-01 14:19:11 UTC (rev 233)
+@@ -1,41 +0,0 @@
+-program CmdLineParserTest;
+-{
+-
+-  Delphi DUnit Test Project
+-  -------------------------
+-  This project contains the DUnit test framework and the GUI/Console test runners.
+-  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
+-  to use the console test runner.  Otherwise the GUI test runner will be used by 
+-  default.
+-
+-}
+-
+-{$IFDEF CONSOLE_TESTRUNNER}
+-{$APPTYPE CONSOLE}
+-{$ENDIF}
+-
+-uses
+-  Forms,
+-  TestFramework,
+-  GUITestRunner,
+-  TextTestRunner,
+-  u_dzCmdLineParser_UnitTest in 'u_dzCmdLineParser_UnitTest.pas',
+-  u_dzCmdLineParser in 'u_dzCmdLineParser.pas',
+-  u_dzGetOpt in 'u_dzGetOpt.pas',
+-  u_dzOptionDescList in 'u_dzOptionDescList.pas',
+-  u_dzParamDescList in 'u_dzParamDescList.pas',
+-  u_dzParamFoundList in 'u_dzParamFoundList.pas',
+-  u_dzOptionNameList in 'u_dzOptionNameList.pas',
+-  u_dzOptionFoundList in 'u_dzOptionFoundList.pas',
+-  u_dzGetOpt_UnitTest in 'u_dzGetOpt_UnitTest.pas';
+-
+-{$R *.RES}
+-
+-begin
+-  Application.Initialize;
+-  if IsConsole then
+-    TextTestRunner.RunRegisteredTests
+-  else
+-    GUITestRunner.RunRegisteredTests;
+-end.
+-
+
+Deleted: utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dproj
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dproj	2007-11-01 14:12:16 UTC (rev 232)
++++ utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dproj	2007-11-01 14:19:11 UTC (rev 233)
+@@ -1,121 +0,0 @@
+-&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;ProjectGuid&gt;{ff87c54f-7bb3-4fb0-8be9-da726c81d33c}&lt;/ProjectGuid&gt;
+-    &lt;MainSource&gt;CmdLineParserTest.dpr&lt;/MainSource&gt;
+-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+-    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;..\CmdLineParserTest.exe&lt;/DCC_DependencyCheckOutputName&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
+-    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
+-    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+-    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
+-    &lt;DCC_ImageBase&gt;700000&lt;/DCC_ImageBase&gt;
+-    &lt;DCC_UnitSearchPath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_IncludePath&gt;
+-    &lt;DCC_Define&gt;_CONSOLE_TESTRUNNER;RELEASE&lt;/DCC_Define&gt;
+-    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+-    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+-    &lt;DCC_Description&gt;RTS Highlighter Extensions&lt;/DCC_Description&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+-    &lt;DCC_Define&gt;_CONSOLE_TESTRUNNER;DEBUG&lt;/DCC_Define&gt;
+-    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+-    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+-    &lt;DCC_Description&gt;RTS Highlighter Extensions&lt;/DCC_Description&gt;
+-    &lt;DCC_UnitSearchPath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates&lt;/DCC_IncludePath&gt;
+-    &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
+-    &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ProjectExtensions&gt;
+-    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+-    &lt;Borland.ProjectType /&gt;
+-    &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\Delphi7\Bin\delphi32.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Language&gt;&lt;Language Name=&quot;RootDir&quot;&gt;C:\Delphi7\Bin\&lt;/Language&gt;&lt;/Language&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;4105&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/Versi!
+ onInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldb100.bpl&quot;&gt;Borland Database Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\bin\dclado100.bpl&quot;&gt;Borland ADO DB Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldbx100.bpl&quot;&gt;Borland dbExpress Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclnet100.bpl&quot;&gt;Borland Internet Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclmid100.bpl&quot;&gt;Borland MyBase DataAccess Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dbx100.bpl&quot;&gt;Borland SQL Explorer UI Package&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclact100.bpl&quot;&gt;Borland ActionBar Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\bcbie100.bpl&quot;&gt;Borland C++Builder Internet Explorer 5 Components Package&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldbxcds100.bpl&quot;&gt;Borland SimpleDataset Component (DBX)&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;CmdLineParserTest.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+-  &lt;/ProjectExtensions&gt;
+-  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+-  &lt;ItemGroup&gt;
+-    &lt;DelphiCompile Include=&quot;CmdLineParserTest.dpr&quot;&gt;
+-      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+-    &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;u_dzCmdLineParser.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_dzCmdLineParser_UnitTest.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_dzGetOpt.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_dzGetOpt_UnitTest.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_dzOptionDescList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_dzOptionFoundList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_dzOptionNameList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_dzParamDescList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_dzParamFoundList.pas&quot; /&gt;
+-  &lt;/ItemGroup&gt;
+-&lt;/Project&gt;
+\ No newline at end of file
+
+Deleted: utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser_UnitTest.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser_UnitTest.pas	2007-11-01 14:12:16 UTC (rev 232)
++++ utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser_UnitTest.pas	2007-11-01 14:19:11 UTC (rev 233)
+@@ -1,1006 +0,0 @@
+-{: Unit tests for the TCmdLineParser and the state machine it uses.
+-   @author Thomas Mueller &lt;<A HREF="http://www.dummzeuch.de">http://www.dummzeuch.de</A>&gt; }
+-unit u_dzCmdLineParser_UnitTest;
+-
+-interface
+-
+-uses
+-  SysUtils,
+-  Classes,
+-  TestFramework,
+-  u_dzCmdLineParser;
+-
+-type
+-  TEngineStateClass = TClass;
+-  TCharSet = set of Char;
+-
+-type
+-  ITestEngineContext = interface(IEngineContext)['{1680AC62-C4AE-4EF9-9B6F-07779E4B6D87}']
+-    function GetOptionPart: string;
+-    function GetParamPart: string;
+-    function GetOption: string;
+-    function GetParam: string;
+-  end;
+-
+-type
+-  TTestContext = class(TInterfacedObject, ITestEngineContext)
+-  private
+-    FInput: string;
+-    FReadIdx: integer;
+-    FOptionPart: string;
+-    FParamPart: string;
+-    FOption: string;
+-    FParam: string;
+-  public
+-    constructor Create(const _Input: string);
+-    function GetNextChar: char;
+-    procedure AddToOption(_c: char);
+-    procedure AddToParameter(_c: char);
+-    procedure HandleCmdLinePart;
+-    function GetOptionPart: string;
+-    function GetParamPart: string;
+-    function GetOption: string;
+-    function GetParam: string;
+-  end;
+-
+-type
+-  TTestEngineState = class(TTestCase)
+-  private
+-    FState: IEngineState;
+-    FContext: ITestEngineContext;
+-  protected
+-    procedure testChar(_c: char; _ExpectedState: TClass; const _ExpectedOptionPart: string = '';
+-      const _ExpectedParamPart: string = ''; const _ExpectedOption: string = '';
+-      const _ExpectedParam: string = '');
+-  public
+-  published
+-    procedure testNUL; virtual;
+-  end;
+-
+-  TTestEndState = class(TTestEngineState)
+-  published
+-    procedure testNUL; override;
+-  end;
+-
+-  TTestSpaceState = class(TTestEngineState)
+-  private
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testDash;
+-    procedure testParam;
+-    procedure testQuote;
+-    procedure testSpace;
+-    procedure testNUL; override;
+-  end;
+-
+-  TTestParamState = class(TTestEndState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testSpace;
+-    procedure testQuote;
+-  end;
+-
+-  TTestQuotedParamState = class(TTestEngineState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testNotQuote;
+-    procedure testQuote;
+-  end;
+-
+-  TTestDashState = class(TTestEngineState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testDash;
+-    procedure testAlphanumeric;
+-  end;
+-
+-  TTestDoubleDashState = class(TTestEngineState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testAlphanumeric;
+-  end;
+-
+-  TTestShortOption = class(TTestEndState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testSwitch;
+-    procedure testSpace;
+-  end;
+-
+-  TTestShortSwitchState = class(TTestEndState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testSpace;
+-  end;
+-
+-  TTestShortParamState = class(TTestEndState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testSpace;
+-    procedure testQuote;
+-    procedure testDash;
+-  end;
+-
+-  TTestQuotedShortParamState = class(TTestEngineState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testQuote;
+-  end;
+-
+-  TTestLongOptionState = class(TTestEndState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testEquals;
+-    procedure testSpace;
+-    procedure testError;
+-    procedure testInLongOption;
+-  end;
+-
+-  TTestLongParamState = class(TTestEndState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testQuote;
+-    procedure testSpace;
+-    procedure testInLongParam;
+-  end;
+-
+-  TTestQuotedLongParamState = class(TTestEngineState)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testQuote;
+-    procedure testInQuotedLongParam;
+-  end;
+-
+-  TTestCmdlineParser = class(TTestCase)
+-  private
+-    FOptions: TStrings;
+-    FParams: TStrings;
+-  public
+-    procedure SetUp; override;
+-    procedure TearDown; override;
+-  end;
+-
+-  TTestCmdLineParserParams = class(TTestCmdlineParser)
+-  published
+-    procedure testEmpty;
+-    procedure testOneParam;
+-    procedure testQuotedParam;
+-    procedure testQuotedParamWithSpace;
+-    procedure testEmbeddedQuote;
+-    procedure testEmbeddedQuotedString;
+-    procedure testEmbeddedUnquotedString;
+-    procedure testEmbeddedDoubleQuote;
+-    procedure testTwoParams;
+-    procedure testTwoParamsMultipleSpaces;
+-    procedure testTwoQuotedparams;
+-    procedure testTwoQuotedparamsWithSpace;
+-  end;
+-
+-  TTestCmdLineParserSwitches = class(TTestCmdlineParser)
+-  published
+-    procedure testOneSwitch;
+-    procedure testTwoSwitches;
+-    procedure testQuotedSwitch;
+-  end;
+-
+-  TTestCmdLineParserShortOptions = class(TTestCmdlineParser)
+-  published
+-    procedure testOneShortOption;
+-    procedure testTwoShortOptions;
+-    procedure testShortOptionParam;
+-    procedure testShortOptionQuotedParam;
+-    procedure testShortOptionParamEmbeddedQuote;
+-    procedure testShortOptionParamEmbeddedQuotedString;
+-    procedure testShortOptionParamEmbeddedDoubleQuote;
+-    procedure testTwoShortOptionParams;
+-    procedure testOptionWithDash;
+-  end;
+-
+-  TTestCmdLineParserLongOptions = class(TTestCmdlineParser)
+-  published
+-    procedure testOneLongOption;
+-    procedure testTowLongOptions;
+-    procedure testLongOptionParam;
+-    procedure testLongOptionQuotedParam;
+-    procedure testTwoLongOptionParams;
+-  end;
+-
+-  TTestCmdLineParserMixed = class(TTestCmdlineParser)
+-  published
+-    procedure testLongShortOptions;
+-    procedure testShortLongOptions;
+-    procedure testParamShortOptions;
+-    procedure testParamLongOptions;
+-    procedure testShortOptionParam;
+-    procedure testLongOptionParam;
+-    procedure testLongOptionParamParam;
+-  end;
+-
+-  TTestCmdLineParserDuplicates = class(TTestCmdlineParser)
+-  published
+-    procedure testDuplicateLongOptions;
+-    procedure testDuplicateShortOptions;
+-    procedure testDuplicateOptionValues;
+-    procedure testDuplicateParams;
+-  end;
+-
+-implementation
+-
+-{ TTestContext }
+-
+-constructor TTestContext.Create(const _Input: string);
+-begin
+-  inherited Create;
+-  FInput := _Input;
+-  FReadIdx := 0;
+-end;
+-
+-procedure TTestContext.AddToOption(_c: char);
+-begin
+-  FOptionPart := FOptionPart + _c;
+-end;
+-
+-procedure TTestContext.AddToParameter(_c: char);
+-begin
+-  FParamPart := FParamPart + _c;
+-end;
+-
+-function TTestContext.GetNextChar: char;
+-begin
+-  if FReadIdx &gt;= Length(FInput) then
+-    Result := #0
+-  else begin
+-    Inc(FReadIdx);
+-    Result := FInput[FReadIdx];
+-  end;
+-end;
+-
+-function TTestContext.GetOption: string;
+-begin
+-  Result := FOption;
+-end;
+-
+-function TTestContext.GetOptionPart: string;
+-begin
+-  Result := FOptionPart;
+-end;
+-
+-function TTestContext.GetParam: string;
+-begin
+-  Result := FParam;
+-end;
+-
+-function TTestContext.GetParamPart: string;
+-begin
+-  Result := FParamPart;
+-end;
+-
+-procedure TTestContext.HandleCmdLinePart;
+-begin
+-  if FOptionPart &lt;&gt; '' then
+-    FOption := FOptionPart + '=' + FParamPart
+-  else
+-    FParam := FParamPart;
+-  FOptionPart := '';
+-  FParamPart := '';
+-end;
+-
+-{ TTestEngineState }
+-
+-procedure TTestEngineState.testNUL;
+-begin
+-  testChar(#0, TEngineStateError);
+-end;
+-
+-procedure TTestEngineState.testChar(_c: char; _ExpectedState: TClass; const _ExpectedOptionPart: string = '';
+-  const _ExpectedParamPart: string = ''; const _ExpectedOption: string = '';
+-  const _ExpectedParam: string = '');
+-var
+-  State: IEngineState;
+-  s: string;
+-begin
+-  s := _c;
+-  s := PChar(s);
+-  FContext := TTestContext.Create(s);
+-  State := FState.Execute(FContext);
+-  CheckNotNull(State, Format('unexpected nil result parsing &quot;%s&quot; (#%.2d)', [s, Ord(_c)]));
+-  CheckEquals(_ExpectedState.ClassName, State.GetClassName,
+-    Format('unexpected class parsing &quot;%s&quot; (#%.2d)', [s, Ord(_c)]));
+-  CheckEquals(#0, FContext.GetNextChar, 'state did not consume a char');
+-  CheckEquals(_ExpectedOptionPart, FContext.GetOptionPart, 'OptionPart');
+-  CheckEquals(_ExpectedParamPart, FContext.GetParamPart, 'ParamPart');
+-  CheckEquals(_ExpectedOption, FContext.GetOption, 'Option');
+-  CheckEquals(_ExpectedParam, FContext.GetParam, 'Param');
+-end;
+-
+-{ TTestEndState }
+-
+-procedure TTestEndState.testNUL;
+-begin
+-  testChar(#0, TEngineStateSpace);
+-end;
+-
+-{ TTestSpaceState }
+-
+-procedure TTestSpaceState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateSpace.Create;
+-end;
+-
+-procedure TTestSpaceState.testDash;
+-begin
+-  testChar('-', TEngineStateDash);
+-end;
+-
+-procedure TTestSpaceState.testNUL;
+-var
+-  State: IEngineState;
+-begin
+-  FContext := TTestContext.Create('');
+-  State := FState.Execute(FContext);
+-  CheckNull(State, 'end state expected');
+-  CheckEquals('', FContext.GetOptionPart, 'OptionPart not empty');
+-  CheckEquals('', FContext.GetParamPart, 'ParamPart not empty');
+-  CheckEquals('', FContext.GetOption, 'Option not empty');
+-  CheckEquals('', FContext.GetParam, 'Param not empty');
+-end;
+-
+-procedure TTestSpaceState.testParam;
+-const
+-  CHARS_TO_TEST = ALLCHARS_BUT_NULL - ['-', '&quot;', ' '];
+-var
+-  c: char;
+-begin
+-  for c in CHARS_TO_TEST do
+-    testChar(c, TEngineStateParam, '', c);
+-end;
+-
+-procedure TTestSpaceState.testQuote;
+-begin
+-  testChar('&quot;', TEngineStateQuotedParam, '', '&quot;');
+-end;
+-
+-procedure TTestSpaceState.testSpace;
+-begin
+-  testChar(' ', TEngineStateSpace);
+-end;
+-
+-{ TTestParamState }
+-
+-procedure TTestParamState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateParam.Create;
+-end;
+-
+-procedure TTestParamState.testQuote;
+-begin
+-  testChar('&quot;', TEngineStateQuotedParam, '', '&quot;');
+-end;
+-
+-procedure TTestParamState.testSpace;
+-begin
+-  testChar(' ', TEngineStateSpace);
+-end;
+-
+-{ TTestQuotedParamState }
+-
+-procedure TTestQuotedParamState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateQuotedParam.Create;
+-end;
+-
+-procedure TTestQuotedParamState.testNotQuote;
+-const
+-  CHARS_TO_TEST = ALLCHARS_BUT_NULL - ['&quot;'];
+-var
+-  c: char;
+-begin
+-  for c in CHARS_TO_TEST do
+-    testChar(c, TEngineStateQuotedParam, '', c);
+-end;
+-
+-procedure TTestQuotedParamState.testQuote;
+-begin
+-  testChar('&quot;', TEngineStateParam, '', '&quot;');
+-end;
+-
+-{ TTestDashState }
+-
+-procedure TTestDashState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateDash.Create;
+-end;
+-
+-procedure TTestDashState.testAlphanumeric;
+-const
+-  CHARS_TO_TEST = ALPHANUMERIC_CHARS;
+-var
+-  c: char;
+-begin
+-  for c in CHARS_TO_TEST do
+-    testChar(c, TEngineStateShortOption, c, '');
+-end;
+-
+-procedure TTestDashState.testDash;
+-begin
+-  testChar('-', TEngineStateDoubleDash);
+-end;
+-
+-{ TTestShortOption }
+-
+-procedure TTestShortOption.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateShortOption.Create;
+-end;
+-
+-procedure TTestShortOption.testSpace;
+-begin
+-  testChar(' ', TEngineStateShortParam);
+-end;
+-
+-procedure TTestShortOption.testSwitch;
+-begin
+-  testChar('-', TEngineStateShortSwitch, '', '-');
+-  testChar('+', TEngineStateShortSwitch, '', '+');
+-end;
+-
+-{ TTestShortSwitch }
+-
+-procedure TTestShortSwitchState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateShortSwitch.Create;
+-end;
+-
+-procedure TTestShortSwitchState.testSpace;
+-begin
+-  testChar(' ', TEngineStateSpace);
+-end;
+-
+-{ TTestShortParam }
+-
+-procedure TTestShortParamState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateShortParam.Create;
+-end;
+-
+-procedure TTestShortParamState.testDash;
+-begin
+-  testChar('-', TEngineStateDash);
+-end;
+-
+-procedure TTestShortParamState.testQuote;
+-begin
+-  testChar('&quot;', TEngineStateQuotedShortParam, '', '&quot;');
+-end;
+-
+-procedure TTestShortParamState.testSpace;
+-begin
+-  testChar(' ', TEngineStateSpace);
+-end;
+-
+-{ TTestQuotedShortParam }
+-
+-procedure TTestQuotedShortParamState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateQuotedShortParam.Create;
+-end;
+-
+-procedure TTestQuotedShortParamState.testQuote;
+-begin
+-  testChar('&quot;', TEngineStateShortParam, '', '&quot;');
+-end;
+-
+-{ TTestDoubleDashState }
+-
+-procedure TTestDoubleDashState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateDoubleDash.Create;
+-end;
+-
+-procedure TTestDoubleDashState.testAlphanumeric;
+-const
+-  CHARS_TO_TEST = ALPHANUMERIC_CHARS;
+-var
+-  c: char;
+-begin
+-  for c in CHARS_TO_TEST do
+-    testChar(c, TEngineStateLongOption, c);
+-end;
+-
+-{ TTestLongOptionState }
+-
+-procedure TTestLongOptionState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateLongOption.Create;
+-end;
+-
+-procedure TTestLongOptionState.testEquals;
+-begin
+-  testChar('=', TEngineStateLongParam);
+-end;
+-
+-procedure TTestLongOptionState.testError;
+-begin
+-  testChar('&quot;', TEngineStateError);
+-  testChar('''', TEngineStateError);
+-end;
+-
+-procedure TTestLongOptionState.testInLongOption;
+-const
+-  CHARS_TO_TEST = ALLCHARS_BUT_NULL - ['&quot;', '''', ' ', '='];
+-var
+-  c: char;
+-begin
+-  for c in CHARS_TO_TEST do
+-    testChar(c, TEngineStateLongOption, c);
+-end;
+-
+-procedure TTestLongOptionState.testSpace;
+-begin
+-  testChar(' ', TEngineStateSpace);
+-end;
+-
+-{ TTestLongParamState }
+-
+-procedure TTestLongParamState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateLongParam.Create;
+-end;
+-
+-procedure TTestLongParamState.testInLongParam;
+-const
+-  CHARS_TO_TEST = ALLCHARS_BUT_NULL - [' ', '&quot;'];
+-var
+-  c: char;
+-begin
+-  for c in CHARS_TO_TEST do
+-    testChar(c, TEngineStateLongParam, '', c);
+-end;
+-
+-procedure TTestLongParamState.testQuote;
+-begin
+-  testChar('&quot;', TEngineStateQuotedLongParam, '', '&quot;');
+-end;
+-
+-procedure TTestLongParamState.testSpace;
+-begin
+-  testChar(' ', TEngineStateSpace);
+-end;
+-
+-{ TTestQuotedLongParamState }
+-
+-procedure TTestQuotedLongParamState.SetUp;
+-begin
+-  inherited;
+-  FState := TEngineStateQuotedLongParam.Create;
+-end;
+-
+-procedure TTestQuotedLongParamState.testInQuotedLongParam;
+-const
+-  CHARS_TO_TEST = ALLCHARS_BUT_NULL - ['&quot;'];
+-var
+-  c: char;
+-begin
+-  for c in CHARS_TO_TEST do
+-    testChar(c, TEngineStateQuotedLongParam, '', c);
+-end;
+-
+-procedure TTestQuotedLongParamState.testQuote;
+-begin
+-  testChar('&quot;', TEngineStateLongParam, '', '&quot;');
+-end;
+-
+-{ TTestCmdlineParser }
+-
+-procedure TTestCmdlineParser.SetUp;
+-begin
+-  inherited;
+-  FOptions := TStringList.Create;
+-  FParams := TStringList.Create;
+-end;
+-
+-procedure TTestCmdlineParser.TearDown;
+-begin
+-  inherited;
+-  FParams.Free;
+-  FOptions.Free;
+-end;
+-
+-{ TTestCmdLineParserParams }
+-
+-procedure TTestCmdLineParserParams.testEmbeddedDoubleQuote;
+-begin
+-  TCmdLineParser.Execute('one&quot;&quot;two', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('one&quot;&quot;two', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testEmbeddedQuote;
+-begin
+-  TCmdLineParser.Execute('one&quot;two&quot;', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('one&quot;two&quot;', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testEmbeddedQuotedString;
+-begin
+-  TCmdLineParser.Execute('one&quot;two&quot;three', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('one&quot;two&quot;three', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testEmbeddedUnquotedString;
+-begin
+-  TCmdLineParser.Execute('&quot;one&quot;two&quot;three&quot;', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('&quot;one&quot;two&quot;three&quot;', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testEmpty;
+-begin
+-  TCmdLineParser.Execute('', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-end;
+-
+-procedure TTestCmdLineParserParams.testOneParam;
+-begin
+-  TCmdLineParser.Execute('one', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('one', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testQuotedParam;
+-begin
+-  TCmdLineParser.Execute('&quot;one&quot;', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('&quot;one&quot;', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testQuotedParamWithSpace;
+-begin
+-  TCmdLineParser.Execute('&quot;one two&quot;', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('&quot;one two&quot;', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testTwoParams;
+-begin
+-  TCmdLineParser.Execute('one two', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(2, FParams.Count);
+-  CheckEquals('one', FParams[0]);
+-  CheckEquals('two', FParams[1]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testTwoParamsMultipleSpaces;
+-begin
+-  TCmdLineParser.Execute('one    two', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(2, FParams.Count);
+-  CheckEquals('one', FParams[0]);
+-  CheckEquals('two', FParams[1]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testTwoQuotedparams;
+-begin
+-  TCmdLineParser.Execute('&quot;one&quot; &quot;two&quot;', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(2, FParams.Count);
+-  CheckEquals('&quot;one&quot;', FParams[0]);
+-  CheckEquals('&quot;two&quot;', FParams[1]);
+-end;
+-
+-procedure TTestCmdLineParserParams.testTwoQuotedparamsWithSpace;
+-begin
+-  TCmdLineParser.Execute('&quot;one&quot; &quot;two   three&quot;', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(2, FParams.Count);
+-  CheckEquals('&quot;one&quot;', FParams[0]);
+-  CheckEquals('&quot;two   three&quot;', FParams[1]);
+-end;
+-
+-{ TTestCmdLineParserSwitches }
+-
+-procedure TTestCmdLineParserSwitches.testOneSwitch;
+-begin
+-  TCmdLineParser.Execute('-a+', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=+', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserSwitches.testQuotedSwitch;
+-begin
+-  TCmdLineParser.Execute('&quot;-a+&quot;', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('&quot;-a+&quot;', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserSwitches.testTwoSwitches;
+-begin
+-  TCmdLineParser.Execute('-a+ -b-', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=+', FOptions[0]);
+-  CheckEquals('b=-', FOptions[1]);
+-end;
+-
+-{ TTestCmdLineParserShortOptions }
+-
+-procedure TTestCmdLineParserShortOptions.testOneShortOption;
+-begin
+-  TCmdLineParser.Execute('-a', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserShortOptions.testOptionWithDash;
+-begin
+-  TCmdLineParser.Execute('--hallo-welt', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('hallo-welt=', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserShortOptions.testShortOptionParam;
+-begin
+-  TCmdLineParser.Execute('-a one', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=one', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserShortOptions.testShortOptionParamEmbeddedDoubleQuote;
+-begin
+-  TCmdLineParser.Execute('-a one&quot;&quot;two', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=one&quot;&quot;two', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserShortOptions.testShortOptionParamEmbeddedQuote;
+-begin
+-  TCmdLineParser.Execute('-a one&quot;two&quot;', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=one&quot;two&quot;', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserShortOptions.testShortOptionParamEmbeddedQuotedString;
+-begin
+-  TCmdLineParser.Execute('-a one&quot;two&quot;three', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=one&quot;two&quot;three', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserShortOptions.testShortOptionQuotedParam;
+-begin
+-  TCmdLineParser.Execute('-a &quot;one&quot;', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=&quot;one&quot;', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserShortOptions.testTwoShortOptions;
+-begin
+-  TCmdLineParser.Execute('-a -b', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=', FOptions[0]);
+-  CheckEquals('b=', FOptions[1]);
+-end;
+-
+-procedure TTestCmdLineParserShortOptions.testTwoShortOptionParams;
+-begin
+-  TCmdLineParser.Execute('-a one -b &quot;two three&quot;', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=one', FOptions[0]);
+-  CheckEquals('b=&quot;two three&quot;', FOptions[1]);
+-end;
+-
+-{ TTestCmdLineParserLongOptions }
+-
+-procedure TTestCmdLineParserLongOptions.testLongOptionParam;
+-begin
+-  TCmdLineParser.Execute('--one=two', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('one=two', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserLongOptions.testLongOptionQuotedParam;
+-begin
+-  TCmdLineParser.Execute('--one=&quot;two&quot;', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('one=&quot;two&quot;', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserLongOptions.testOneLongOption;
+-begin
+-  TCmdLineParser.Execute('--one', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('one=', FOptions[0]);
+-end;
+-
+-procedure TTestCmdLineParserLongOptions.testTowLongOptions;
+-begin
+-  TCmdLineParser.Execute('--one --two', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('one=', FOptions[0]);
+-  CheckEquals('two=', FOptions[1]);
+-end;
+-
+-procedure TTestCmdLineParserLongOptions.testTwoLongOptionParams;
+-begin
+-  TCmdLineParser.Execute('--one=two     --three=four', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('one=two', FOptions[0]);
+-  CheckEquals('three=four', FOptions[1]);
+-end;
+-
+-{ TTestCmdLineParserMixed }
+-
+-procedure TTestCmdLineParserMixed.testLongOptionParam;
+-begin
+-  TCmdLineParser.Execute('--one two', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('one=', FOptions[0]);
+-  CheckEquals('two', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserMixed.testLongOptionParamParam;
+-begin
+-  TCmdLineParser.Execute('--one=two three', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('one=two', FOptions[0]);
+-  CheckEquals('three', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserMixed.testLongShortOptions;
+-begin
+-  TCmdLineParser.Execute('--one -a', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('one=', FOptions[0]);
+-  CheckEquals('a=', FOptions[1]);
+-end;
+-
+-procedure TTestCmdLineParserMixed.testParamLongOptions;
+-begin
+-  TCmdLineParser.Execute('one --two', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('two=', FOptions[0]);
+-  CheckEquals('one', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserMixed.testParamShortOptions;
+-begin
+-  TCmdLineParser.Execute('one -a', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('a=', FOptions[0]);
+-  CheckEquals('one', FParams[0]);
+-end;
+-
+-procedure TTestCmdLineParserMixed.testShortLongOptions;
+-begin
+-  TCmdLineParser.Execute('-a --one', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=', FOptions[0]);
+-  CheckEquals('one=', FOptions[1]);
+-end;
+-
+-procedure TTestCmdLineParserMixed.testShortOptionParam;
+-begin
+-  TCmdLineParser.Execute('-a one two', FOptions, FParams);
+-  CheckEquals(1, FOptions.Count);
+-  CheckEquals(1, FParams.Count);
+-  CheckEquals('a=one', FOptions[0]);
+-  CheckEquals('two', FParams[0]);
+-end;
+-
+-{ TTestCmdLineParserDuplicates }
+-
+-procedure TTestCmdLineParserDuplicates.testDuplicateLongOptions;
+-begin
+-  TCmdLineParser.Execute('--one=two --one=three', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('one=two', FOptions[0]);
+-  CheckEquals('one=three', FOptions[1]);
+-end;
+-
+-procedure TTestCmdLineParserDuplicates.testDuplicateOptionValues;
+-begin
+-  TCmdLineParser.Execute('-a two -a three', FOptions, FParams);
+-  CheckEquals(2, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=two', FOptions[0]);
+-  CheckEquals('a=three', FOptions[1]);
+-end;
+-
+-procedure TTestCmdLineParserDuplicates.testDuplicateParams;
+-begin
+-  TCmdLineParser.Execute('one one one', FOptions, FParams);
+-  CheckEquals(0, FOptions.Count);
+-  CheckEquals(3, FParams.Count);
+-  CheckEquals('one', FParams[0]);
+-  CheckEquals('one', FParams[1]);
+-  CheckEquals('one', FParams[2]);
+-end;
+-
+-procedure TTestCmdLineParserDuplicates.testDuplicateShortOptions;
+-begin
+-  TCmdLineParser.Execute('-a -a -a -a', FOptions, FParams);
+-  CheckEquals(4, FOptions.Count);
+-  CheckEquals(0, FParams.Count);
+-  CheckEquals('a=', FOptions[0]);
+-  CheckEquals('a=', FOptions[1]);
+-  CheckEquals('a=', FOptions[2]);
+-  CheckEquals('a=', FOptions[3]);
+-end;
+-
+-initialization
+-  RegisterTest('states', TTestSpaceState.Suite);
+-  RegisterTest('states', TTestParamState.Suite);
+-  RegisterTest('states', TTestQuotedParamState.Suite);
+-  RegisterTest('states', TTestDashState.Suite);
+-  RegisterTest('states', TTestShortOption.Suite);
+-  RegisterTest('states', TTestShortSwitchState.Suite);
+-  RegisterTest('states', TTestShortParamState.Suite);
+-  RegisterTest('states', TTestQuotedShortParamState.Suite);
+-  RegisterTest('states', TTestDoubleDashState.Suite);
+-  RegisterTest('states', TTestLongOptionState.Suite);
+-  RegisterTest('states', TTestLongParamState.Suite);
+-  RegisterTest('states', TTestQuotedLongParamState.Suite);
+-  RegisterTest('parser', TTestCmdLineParserParams.Suite);
+-  RegisterTest('parser', TTestCmdLineParserSwitches.Suite);
+-  RegisterTest('parser', TTestCmdLineParserShortOptions.Suite);
+-  RegisterTest('parser', TTestCmdLineParserLongOptions.Suite);
+-  RegisterTest('parser', TTestCmdLineParserMixed.Suite);
+-  RegisterTest('parser', TTestCmdLineParserDuplicates.Suite);
+-end.
+-
+
+Deleted: utilities/dzCmdLineParser/trunk/src/u_dzGetOpt_UnitTest.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzGetOpt_UnitTest.pas	2007-11-01 14:12:16 UTC (rev 232)
++++ utilities/dzCmdLineParser/trunk/src/u_dzGetOpt_UnitTest.pas	2007-11-01 14:19:11 UTC (rev 233)
+@@ -1,602 +0,0 @@
+-{: Unit tests for the TGetOpt.
+-   @author Thomas Mueller &lt;<A HREF="http://www.dummzeuch.de">http://www.dummzeuch.de</A>&gt; }
+-unit u_dzGetOpt_UnitTest;
+-
+-interface
+-
+-uses
+-  TestFramework,
+-  u_dzGetOpt,
+-  u_dzParamDescList,
+-  u_dzOptionFoundList,
+-  u_dzOptionDescList,
+-  Classes,
+-  u_dzParamFoundList,
+-  SysUtils,
+-  u_dzOptionNameList;
+-
+-type
+-  TGetOptTest = class(TTestCase)
+-  protected
+-    FGetOpt: TGetOpt;
+-    procedure ParseNone;
+-    procedure ParseOne;
+-    procedure ParseTwo;
+-    procedure ParseThree;
+-  public
+-    procedure SetUp; override;
+-    procedure TearDown; override;
+-  end;
+-
+-type
+-  TUnknownParamTest = class(TGetOptTest)
+-  published
+-    procedure testNoParamRegistered;
+-    procedure testUnregisteredParam;
+-    procedure testWindowsCmdLine;
+-  end;
+-
+-type
+-  TSingleParamTest = class(TGetOptTest)
+-  public
+-  published
+-    procedure testParamGiven;
+-    procedure testTwoParams;
+-  end;
+-
+-type
+-  TSingleRequiredParamTest = class(TSingleParamTest)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testParamMissing;
+-  end;
+-
+-type
+-  TSingleOptionalParamTest = class(TSingleParamTest)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testParamMissing;
+-  end;
+-
+-type
+-  TSingleParamMultipleTest = class(TGetOptTest)
+-  private
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testParamMissing;
+-    procedure testOneParam;
+-    procedure testTwoParams;
+-    procedure testThreeParams;
+-  end;
+-
+-type
+-  TTwoParamsTest = class(TGetOptTest)
+-  published
+-    procedure testTwoParams;
+-    procedure testThreeParams;
+-  end;
+-
+-type
+-  TTwoRequiredParamsTest = class(TTwoParamsTest)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testAllParamsMissing;
+-    procedure testOneParam;
+-  end;
+-
+-type
+-  TTwoOptionalParamsTest = class(TTwoParamsTest)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testAllParamsMissing;
+-    procedure testOneParam;
+-  end;
+-
+-type
+-  TRequiredAndOptionalParamTest = class(TTwoParamsTest)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testAllParamsMissing;
+-    procedure testOneParam;
+-  end;
+-
+-type
+-  TOneParamRequiredTwice = class(TGetOptTest)
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testAllParamsMissing;
+-    procedure testOneParam;
+-    procedure testTwoParams;
+-    procedure testThreeParams;
+-  end;
+-
+-type
+-  TRegisterOptionTest = class(TGetOptTest)
+-  private
+-    FInvalidChar: char;
+-    procedure RegisterEmpty;
+-    procedure RegisterHallo;
+-    procedure RegisterHalloHallo;
+-    procedure RegisterWithChar;
+-    procedure RegisterStartChar;
+-  published
+-    procedure testDuplicateOption;
+-    procedure testDuplicateName;
+-    procedure testDuplicateSecondaryName;
+-    procedure testRegisterInvalidOptionNames;
+-  end;
+-
+-type
+-  TOneOptionTest = class(TGetOptTest)
+-  private
+-    procedure GetUnknownOption;
+-  public
+-    procedure SetUp; override;
+-  published
+-    procedure testNotGiven;
+-    procedure testGivenOnce;
+-    procedure testGivenTwice;
+-    procedure testGivenThrice;
+-    procedure testUnkownOption;
+-  end;
+-
+-implementation
+-
+-{ TGetOptTest }
+-
+-procedure TGetOptTest.SetUp;
+-begin
+-  inherited;
+-  FGetOpt := TGetOpt.Create;
+-end;
+-
+-procedure TGetOptTest.TearDown;
+-begin
+-  FGetOpt.Free;
+-  inherited;
+-end;
+-
+-procedure TGetOptTest.ParseNone;
+-begin
+-  FGetOpt.Parse('');
+-end;
+-
+-procedure TGetOptTest.ParseTwo;
+-begin
+-  FGetOpt.Parse('one two');
+-end;
+-
+-procedure TGetOptTest.ParseOne;
+-begin
+-  FGetOpt.Parse('one');
+-end;
+-
+-procedure TGetOptTest.ParseThree;
+-begin
+-  FGetOpt.Parse('one two three');
+-end;
+-
+-{ TUnknownParamTest }
+-
+-procedure TUnknownParamTest.testNoParamRegistered;
+-var
+-  s: string;
+-begin
+-  CheckFalse(FGetOpt.ParamPassed('hallo', s), 'result of ParamPassed(hallo)');
+-  CheckEquals(0, FGetOpt.ParamPassed('hallo', nil), 'result of ParamPassed(hallo)');
+-end;
+-
+-procedure TUnknownParamTest.testUnregisteredParam;
+-var
+-  s: string;
+-begin
+-  FGetOpt.RegisterParam('welt', 'welt');
+-  CheckFalse(FGetOpt.ParamPassed('hallo', s), 'result of ParamPassed(hallo)');
+-  CheckEquals(0, FGetOpt.ParamPassed('hallo', nil), 'result of ParamPassed(hallo)');
+-end;
+-
+-procedure TUnknownParamTest.testWindowsCmdLine;
+-begin
+-  FGetOpt.Parse;
+-end;
+-
+-{ TSingleParamTest }
+-
+-procedure TSingleParamTest.testParamGiven;
+-var
+-  s: string;
+-begin
+-  FGetOpt.Parse('one');
+-  CheckTrue(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound');
+-  CheckEquals('one', s, 'value of param');
+-  CheckEquals(1, FGetOpt.ParamPassed('hallo', nil), 'result of ParamFound');
+-end;
+-
+-procedure TSingleParamTest.testTwoParams;
+-begin
+-  CheckException(ParseTwo, ETooManyParams);
+-end;
+-
+-{ TSingleRequiredParamTest }
+-
+-procedure TSingleRequiredParamTest.SetUp;
+-begin
+-  inherited;
+-  FGetOpt.RegisterParam('hallo', 'hallo', 1, 1);
+-end;
+-
+-procedure TSingleRequiredParamTest.testParamMissing;
+-begin
+-  CheckException(ParseNone, ETooFewParams);
+-end;
+-
+-{ TSingleOptionalParamTest }
+-
+-procedure TSingleOptionalParamTest.SetUp;
+-begin
+-  inherited;
+-  FGetOpt.RegisterParam('hallo', 'hallo', 0, 1);
+-end;
+-
+-procedure TSingleOptionalParamTest.testParamMissing;
+-var
+-  s: string;
+-begin
+-  FGetOpt.Parse('');
+-  CheckFalse(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound');
+-  CheckEquals(0, FGetOpt.ParamPassed('hallo', nil), 'result of ParamFound');
+-end;
+-
+-{ TSingleParamMultipleTest }
+-
+-procedure TSingleParamMultipleTest.SetUp;
+-begin
+-  inherited;
+-  FGetOpt.RegisterParam('hallo', 'hallo', 1, 2);
+-end;
+-
+-procedure TSingleParamMultipleTest.testOneParam;
+-var
+-  s: string;
+-begin
+-  FGetOpt.Parse('one');
+-  CheckTrue(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound');
+-  CheckEquals('one', s, 'value of param');
+-  CheckEquals(1, FGetOpt.ParamPassed('hallo', nil), 'result of ParamFound');
+-end;
+-
+-procedure TSingleParamMultipleTest.testParamMissing;
+-begin
+-  CheckException(ParseNone, ETooFewParams);
+-end;
+-
+-procedure TSingleParamMultipleTest.testThreeParams;
+-begin
+-  CheckException(ParseThree, ETooManyParams);
+-end;
+-
+-procedure TSingleParamMultipleTest.testTwoParams;
+-var
+-  s: string;
+-  sl: TStringList;
+-begin
+-  FGetOpt.Parse('one two');
+-  CheckFalse(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound');
+-  sl := TStringList.Create;
+-  try
+-    CheckEquals(2, FGetOpt.ParamPassed('hallo', sl), 'result of ParamFound');
+-    CheckEquals(2, sl.Count, 'string list count');
+-    CheckEquals('one', sl[0], 'param one');
+-    CheckEquals('two', sl[1], 'param two');
+-  finally
+-    sl.Free;
+-  end;
+-end;
+-
+-{ TTwoParamsTest }
+-
+-procedure TTwoParamsTest.testThreeParams;
+-begin
+-  CheckException(ParseThree, ETooManyParams);
+-end;
+-
+-procedure TTwoParamsTest.testTwoParams;
+-var
+-  s: string;
+-begin
+-  ParseTwo;
+-  CheckTrue(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound(hallo)');
+-  CheckEquals('one', s, 'value of param hallo');
+-  CheckTrue(FGetOpt.ParamPassed('welt', s), 'result of ParamFound(welt)');
+-  CheckEquals('two', s, 'value of param welt');
+-end;
+-
+-{ TTwoRequiredParamsTest }
+-
+-procedure TTwoRequiredParamsTest.SetUp;
+-begin
+-  inherited;
+-  FGetOpt.RegisterParam('hallo', 'hallo');
+-  FGetOpt.RegisterParam('welt', 'welt');
+-end;
+-
+-procedure TTwoRequiredParamsTest.testAllParamsMissing;
+-begin
+-  CheckException(ParseNone, ETooFewParams);
+-end;
+-
+-procedure TTwoRequiredParamsTest.testOneParam;
+-begin
+-  CheckException(ParseOne, ETooFewParams);
+-end;
+-
+-{ TTwoOptionalParamsTest }
+-
+-procedure TTwoOptionalParamsTest.SetUp;
+-begin
+-  inherited;
+-  FGetOpt.RegisterParam('hallo', 'hallo', 0, 1);
+-  FGetOpt.RegisterParam('welt', 'welt', 0, 1);
+-end;
+-
+-procedure TTwoOptionalParamsTest.testAllParamsMissing;
+-var
+-  s: string;
+-begin
+-  ParseNone;
+-  CheckFalse(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound(hallo)');
+-  CheckEquals(0, FGetOpt.ParamPassed('hallo', nil), 'result of ParamFound(hallo)');
+-  CheckFalse(FGetOpt.ParamPassed('welt', s), 'result of ParamFound(welt)');
+-  CheckEquals(0, FGetOpt.ParamPassed('welt', nil), 'result of ParamFound(welt)');
+-end;
+-
+-procedure TTwoOptionalParamsTest.testOneParam;
+-var
+-  s: string;
+-begin
+-  ParseOne;
+-  CheckTrue(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound(hallo)');
+-  CheckEquals('one', s, 'value of param hallo');
+-  CheckFalse(FGetOpt.ParamPassed('welt', s), 'result of ParamFound(welt)');
+-end;
+-
+-{ TRequiredAndOptionalParamTest }
+-
+-procedure TRequiredAndOptionalParamTest.SetUp;
+-begin
+-  inherited;
+-  FGetOpt.RegisterParam('hallo', 'hallo');
+-  FGetOpt.RegisterParam('welt', 'welt', 0, 1);
+-end;
+-
+-procedure TRequiredAndOptionalParamTest.testAllParamsMissing;
+-begin
+-  CheckException(ParseNone, ETooFewParams);
+-end;
+-
+-procedure TRequiredAndOptionalParamTest.testOneParam;
+-var
+-  s: string;
+-begin
+-  ParseOne;
+-  CheckTrue(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound(hallo)');
+-  CheckEquals('one', s, 'value of param hallo');
+-  CheckFalse(FGetOpt.ParamPassed('welt', s), 'result of ParamFound(welt)');
+-end;
+-
+-{ TOneParamRequiredTwice }
+-
+-procedure TOneParamRequiredTwice.SetUp;
+-begin
+-  inherited;
+-  FGetOpt.RegisterParam('hallo', 'hallo', 2, 2);
+-end;
+-
+-procedure TOneParamRequiredTwice.testAllParamsMissing;
+-begin
+-  CheckException(ParseNone, ETooFewParams);
+-end;
+-
+-procedure TOneParamRequiredTwice.testOneParam;
+-begin
+-  CheckException(ParseOne, ETooFewParams);
+-end;
+-
+-procedure TOneParamRequiredTwice.testThreeParams;
+-begin
+-  CheckException(ParseThree, ETooManyParams);
+-end;
+-
+-procedure TOneParamRequiredTwice.testTwoParams;
+-var
+-  s: string;
+-  sl: TStringList;
+-begin
+-  ParseTwo;
+-  CheckFalse(FGetOpt.ParamPassed('hallo', s), 'result of ParamFound(hallo)');
+-  sl := TStringList.Create;
+-  try
+-    CheckEquals(2, FGetOpt.ParamPassed('hallo', sl), 'result of ParamFound(hallo)');
+-    CheckEquals('one', sl[0], '1st value of param hallo');
+-    CheckEquals('two', sl[1], '2nd value of param hallo');
+-  finally
+-    sl.Free;
+-  end;
+-end;
+-
+-{ TRegisterOptionTest }
+-
+-procedure TRegisterOptionTest.RegisterEmpty;
+-begin
+-  FGetOpt.RegisterOption('', 'hallo');
+-end;
+-
+-procedure TRegisterOptionTest.RegisterHallo;
+-begin
+-  FGetOpt.RegisterOption('hallo', 'hallo');
+-end;
+-
+-procedure TRegisterOptionTest.RegisterHalloHallo;
+-begin
+-  FGetOpt.RegisterOption(['hallo', 'hallo'], 'hallo');
+-end;
+-
+-procedure TRegisterOptionTest.RegisterStartChar;
+-begin
+-  FGetOpt.RegisterOption(FInvalidChar + 'hallo', 'hallo');
+-end;
+-
+-procedure TRegisterOptionTest.RegisterWithChar;
+-begin
+-  FGetOpt.RegisterOption('hallo' + FInvalidChar + 'welt', 'hallo welt');
+-end;
+-
+-procedure TRegisterOptionTest.testDuplicateName;
+-begin
+-  CheckException(RegisterHalloHallo, EListError);
+-end;
+-
+-procedure TRegisterOptionTest.testDuplicateOption;
+-begin
+-  RegisterHallo;
+-  CheckException(RegisterHallo, EListError);
+-end;
+-
+-procedure TRegisterOptionTest.testDuplicateSecondaryName;
+-begin
+-  FGetOpt.RegisterOption(['welt', 'hallo'], 'hallo welt');
+-  CheckException(RegisterHallo, EListError);
+-end;
+-
+-procedure TRegisterOptionTest.testRegisterInvalidOptionNames;
+-begin
+-  CheckException(RegisterEmpty, EOptionName);
+-
+-  FInvalidChar := ' ';
+-  CheckException(RegisterWithChar, EOptionName);
+-  CheckException(RegisterStartChar, EOptionName);
+-
+-  FInvalidChar := '+';
+-  CheckException(RegisterWithChar, EOptionName);
+-  CheckException(RegisterStartChar, EOptionName);
+-
+-  FInvalidChar := #10;
+-  CheckException(RegisterWithChar, EOptionName);
+-  CheckException(RegisterStartChar, EOptionName);
+-
+-  FInvalidChar := '-';
+-  RegisterWithChar;
+-  CheckException(RegisterStartChar, EOptionName);
+-
+-  FInvalidChar := '_';
+-  RegisterWithChar;
+-  CheckException(RegisterStartChar, EOptionName);
+-end;
+-
+-{ TOneOptionTest }
+-
+-procedure TOneOptionTest.GetUnknownOption;
+-begin
+-  CheckEquals(0, FGetOpt.OptionPassed('welt', nil), 'result of OptionPassed(welt)');
+-end;
+-
+-procedure TOneOptionTest.SetUp;
+-begin
+-  inherited;
+-  FGetOpt.RegisterOption('hallo', 'hallo');
+-end;
+-
+-procedure TOneOptionTest.testGivenOnce;
+-var
+-  s: string;
+-  sl: TStringList;
+-begin
+-  FGetOpt.Parse('--hallo');
+-  CheckTrue(FGetOpt.OptionPassed('hallo'), 'OptionPassed(hallo):bool');
+-  CheckTrue(FGetOpt.OptionPassed('hallo', s), 'OptionPassed(hallo):bool');
+-  CheckEquals('', s, 'Value for option');
+-  CheckEquals(1, FGetOpt.OptionPassed('hallo', nil), 'OptionPassed(hallo):bool');
+-  sl := TStringList.Create;
+-  try
+-    CheckEquals(1, FGetOpt.OptionPassed('hallo', sl), 'OptionPassed(hallo):bool');
+-    CheckEquals(1, sl.Count, 'sl.count');
+-    CheckEquals('', sl[0], 'Value for option');
+-  finally
+-    sl.Free;
+-  end;
+-end;
+-
+-procedure TOneOptionTest.testGivenThrice;
+-var
+-  s: string;
+-  sl: TStringList;
+-begin
+-  FGetOpt.Parse('--hallo --hallo --hallo');
+-  CheckFalse(FGetOpt.OptionPassed('hallo'), 'OptionPassed(hallo):bool');
+-  CheckFalse(FGetOpt.OptionPassed('hallo', s), 'OptionPassed(hallo):bool');
+-  CheckEquals(3, FGetOpt.OptionPassed('hallo', nil), 'OptionPassed(hallo):bool');
+-  sl := TStringList.Create;
+-  try
+-    CheckEquals(3, FGetOpt.OptionPassed('hallo', sl), 'OptionPassed(hallo):bool');
+-    CheckEquals(3, sl.Count, 'sl.count');
+-    CheckEquals('', sl[0], 'Value for option');
+-    CheckEquals('', sl[1], 'Value for option');
+-    CheckEquals('', sl[2], 'Value for option');
+-  finally
+-    sl.Free;
+-  end;
+-end;
+-
+-procedure TOneOptionTest.testGivenTwice;
+-var
+-  s: string;
+-  sl: TStringList;
+-begin
+-  FGetOpt.Parse('--hallo --hallo');
+-  CheckFalse(FGetOpt.OptionPassed('hallo'), 'OptionPassed(hallo):bool');
+-  CheckFalse(FGetOpt.OptionPassed('hallo', s), 'OptionPassed(hallo):bool');
+-  CheckEquals(2, FGetOpt.OptionPassed('hallo', nil), 'OptionPassed(hallo):bool');
+-  sl := TStringList.Create;
+-  try
+-    CheckEquals(2, FGetOpt.OptionPassed('hallo', sl), 'OptionPassed(hallo):bool');
+-    CheckEquals(2, sl.Count, 'sl.count');
+-    CheckEquals('', sl[0], 'Value for option');
+-    CheckEquals('', sl[1], 'Value for option');
+-  finally
+-    sl.Free;
+-  end;
+-end;
+-
+-procedure TOneOptionTest.testNotGiven;
+-begin
+-  ParseNone;
+-  CheckFalse(FGetOpt.OptionPassed('hallo'), 'OptionPassed(hallo):bool')
+-end;
+-
+-procedure TOneOptionTest.testUnkownOption;
+-begin
+-  ParseNone;
+-  CheckException(GetUnknownOption, EUnknownOption);
+-end;
+-
+-initialization
+-  RegisterTest('getopt', TUnknownParamTest.Suite);
+-  // do NOT register TSingleParamTest!
+-  RegisterTest('getopt', TSingleRequiredParamTest.Suite);
+-  RegisterTest('getopt', TSingleOptionalParamTest.Suite);
+-  RegisterTest('getopt', TSingleParamMultipleTest.Suite);
+-  RegisterTest('getopt', TTwoRequiredParamsTest.Suite);
+-  RegisterTest('getopt', TTwoOptionalParamsTest.Suite);
+-  RegisterTest('getopt', TRequiredAndOptionalParamTest.Suite);
+-  RegisterTest('getopt', TOneParamRequiredTwice.Suite);
+-  RegisterTest('getopt', TRegisterOptionTest.Suite);
+-  RegisterTest('getopt', TOneOptionTest.Suite);
+-end.
+-
+
+
+Property changes on: utilities/dzCmdLineParser/trunk/tests
+___________________________________________________________________
+Name: svn:ignore
+   + CmdLineParserTest.res
+
+
+Copied: utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr (from rev 232, utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dpr)
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dpr	2007-11-01 14:12:16 UTC (rev 232)
++++ utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr	2007-11-01 14:19:11 UTC (rev 233)
+@@ -0,0 +1,41 @@
++program CmdLineParserTest;
++{
++
++  Delphi DUnit Test Project
++  -------------------------
++  This project contains the DUnit test framework and the GUI/Console test runners.
++  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
++  to use the console test runner.  Otherwise the GUI test runner will be used by 
++  default.
++
++}
++
++{$IFDEF CONSOLE_TESTRUNNER}
++{$APPTYPE CONSOLE}
++{$ENDIF}
++
++uses
++  Forms,
++  TestFramework,
++  GUITestRunner,
++  TextTestRunner,
++  u_dzCmdLineParser_UnitTest in 'u_dzCmdLineParser_UnitTest.pas',
++  u_dzCmdLineParser in '..\src\u_dzCmdLineParser.pas',
++  u_dzGetOpt in '..\src\u_dzGetOpt.pas',
++  u_dzOptionDescList in '..\src\u_dzOptionDescList.pas',
++  u_dzParamDescList in '..\src\u_dzParamDescList.pas',
++  u_dzParamFoundList in '..\src\u_dzParamFoundList.pas',
++  u_dzOptionNameList in '..\src\u_dzOptionNameList.pas',
++  u_dzOptionFoundList in '..\src\u_dzOptionFoundList.pas',
++  u_dzGetOpt_UnitTest in 'u_dzGetOpt_UnitTest.pas';
++
++{$R *.RES}
++
++begin
++  Application.Initialize;
++  if IsConsole then
++    TextTestRunner.RunRegisteredTests
++  else
++    GUITestRunner.RunRegisteredTests;
++end.
++
+
+Copied: utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj (from rev 232, utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dproj)
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/CmdLineParserTest.dproj	2007-11-01 14:12:16 UTC (rev 232)
++++ utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj	2007-11-01 14:19:11 UTC (rev 233)
+@@ -0,0 +1,102 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{ff87c54f-7bb3-4fb0-8be9-da726c81d33c}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;CmdLineParserTest.dpr&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;..\CmdLineParserTest.exe&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_ImageBase&gt;700000&lt;/DCC_ImageBase&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_IncludePath&gt;
++    &lt;DCC_Define&gt;_CONSOLE_TESTRUNNER;RELEASE&lt;/DCC_Define&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++    &lt;DCC_Description&gt;RTS Highlighter Extensions&lt;/DCC_Description&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_Define&gt;_CONSOLE_TESTRUNNER;DEBUG&lt;/DCC_Define&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++    &lt;DCC_Description&gt;RTS Highlighter Extensions&lt;/DCC_Description&gt;
++    &lt;DCC_UnitSearchPath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates&lt;/DCC_IncludePath&gt;
++    &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++    &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++    &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
++    &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType /&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\Delphi7\Bin\delphi32.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Language&gt;&lt;Language Name=&quot;RootDir&quot;&gt;C:\Delphi7\Bin\&lt;/Language&gt;&lt;/Language&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;4105&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/Versi!
+ onInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldb100.bpl&quot;&gt;Borland Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\bin\dclado100.bpl&quot;&gt;Borland ADO DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldbx100.bpl&quot;&gt;Borland dbExpress Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclnet100.bpl&quot;&gt;Borland Internet Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclmid100.bpl&quot;&gt;Borland MyBase DataAccess Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dbx100.bpl&quot;&gt;Borland SQL Explorer UI Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclact100.bpl&quot;&gt;Borland ActionBar Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\bcbie100.bpl&quot;&gt;Borland C++Builder Internet Explorer 5 Components Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldbxcds100.bpl&quot;&gt;Borland SimpleDataset Component (DBX)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;CmdLineParserTest.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;CmdLineParserTest.dpr&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzCmdLineParser.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzGetOpt.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzOptionDescList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzOptionFoundList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzOptionNameList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzParamDescList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzParamFoundList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzCmdLineParser_UnitTest.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzGetOpt_UnitTest.pas&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Copied: utilities/dzCmdLineParser/trunk/tests/u_dzCmdLineParser_UnitTest.pas (from rev 232, utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser_UnitTest.pas)
+
+Copied: utilities/dzCmdLineParser/trunk/tests/u_dzGetOpt_UnitTest.pas (from rev 232, utilities/dzCmdLineParser/trunk/src/u_dzGetOpt_UnitTest.pas)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000101.html">[Dzchart-svncheckins] r231 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000103.html">[Dzchart-svncheckins] r234 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#102">[ date ]</a>
+              <a href="thread.html#102">[ thread ]</a>
+              <a href="subject.html#102">[ subject ]</a>
+              <a href="author.html#102">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

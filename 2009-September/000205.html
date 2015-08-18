@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r339 - utilities/dzLib/trunk/components
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r339%20-%20utilities/dzLib/trunk/components&In-Reply-To=%3C200909251439.n8PEdBa9011760%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000204.html">
+   <LINK REL="Next"  HREF="000206.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r339 - utilities/dzLib/trunk/components</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r339%20-%20utilities/dzLib/trunk/components&In-Reply-To=%3C200909251439.n8PEdBa9011760%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r339 - utilities/dzLib/trunk/components">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 16:39:11 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000204.html">[Dzchart-svncheckins] r338 - utilities/dzLib/trunk/dzAdoDb/src
+</A></li>
+        <LI>Next message: <A HREF="000206.html">[Dzchart-svncheckins] r340 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#205">[ date ]</a>
+              <a href="thread.html#205">[ thread ]</a>
+              <a href="subject.html#205">[ subject ]</a>
+              <a href="author.html#205">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 16:39:10 +0200 (Fri, 25 Sep 2009)
+New Revision: 339
+
+Modified:
+   utilities/dzLib/trunk/components/c_dzShellControls.pas
+Log:
+fixed memory leak
+
+Modified: utilities/dzLib/trunk/components/c_dzShellControls.pas
+===================================================================
+--- utilities/dzLib/trunk/components/c_dzShellControls.pas	2009-09-25 14:38:40 UTC (rev 338)
++++ utilities/dzLib/trunk/components/c_dzShellControls.pas	2009-09-25 14:39:10 UTC (rev 339)
+@@ -208,6 +208,7 @@
+     procedure RefreshEvent;
+   public
+     constructor Create(AOwner: TComponent); override;
++    destructor Destroy; override;
+     procedure Refresh(Node: TTreeNode);
+     function SelectedFolder: TShellFolder;
+     property AutoRefresh: boolean read FAutoRefresh write SetAutoRefresh;
+@@ -1597,6 +1598,12 @@
+   FLoadingRoot := False;
+ end;
+ 
++destructor TdzCustomShellTreeView.Destroy;
++begin
++   FRootFolder.Free;
++  inherited;
++end;
++
+ procedure TdzCustomShellTreeView.ClearItems;
+ var
+   I: Integer;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000204.html">[Dzchart-svncheckins] r338 - utilities/dzLib/trunk/dzAdoDb/src
+</A></li>
+	<LI>Next message: <A HREF="000206.html">[Dzchart-svncheckins] r340 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#205">[ date ]</a>
+              <a href="thread.html#205">[ thread ]</a>
+              <a href="subject.html#205">[ subject ]</a>
+              <a href="author.html#205">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

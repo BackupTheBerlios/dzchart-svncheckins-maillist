@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r345 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r345%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251450.n8PEopNJ013657%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000210.html">
+   <LINK REL="Next"  HREF="000212.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r345 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r345%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251450.n8PEopNJ013657%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r345 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 16:50:51 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000210.html">[Dzchart-svncheckins] r344 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000212.html">[Dzchart-svncheckins] r346 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#211">[ date ]</a>
+              <a href="thread.html#211">[ thread ]</a>
+              <a href="subject.html#211">[ subject ]</a>
+              <a href="author.html#211">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 16:50:50 +0200 (Fri, 25 Sep 2009)
+New Revision: 345
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzOsUtils.pas
+Log:
+* new function OsHasNTSecurity
+* renamed CurrentUserIsAdmin to CurrentUserHasAdminRights
+
+
+Modified: utilities/dzLib/trunk/src/u_dzOsUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzOsUtils.pas	2009-09-25 14:49:47 UTC (rev 344)
++++ utilities/dzLib/trunk/src/u_dzOsUtils.pas	2009-09-25 14:50:50 UTC (rev 345)
+@@ -84,9 +84,13 @@
+ 
+ procedure RegisterFileAssociation(const _Extension, _DocumentName, _OpenCommand: string);
+ 
+-///&lt;summary&gt; Checks whether the currently logged on user (the one who runs this process) is an Administrator }
+-function CurrentUserIsAdmin: Boolean;
++function OsHasNTSecurity: boolean;
+ 
++///&lt;summary&gt; Checks whether the currently logged on user (the one who runs this process) has administrator rights
++///          (In Win9x this always returns true, in WinNT+ it checks whether the user is member of the
++///          administrators group &lt;/summary&gt;
++function CurrentUserHasAdminRights: Boolean;
++
+ ///&lt;summary&gt; tries to open a file with the associated application
+ ///          @param Filename is the name of the file to open
+ ///          @returns true on success, false otherwise &lt;/summary&gt;
+@@ -325,6 +329,16 @@
+     Result := 'unknown';
+ end;
+ 
++function OsHasNTSecurity: boolean;
++var
++  vi: TOSVersionInfo;
++begin
++  FillChar(vi, SizeOf(vi), 0);
++  vi.dwOSVersionInfoSize := SizeOf(vi);
++  GetVersionEx(vi);
++  Result := (vi.dwPlatformId = VER_PLATFORM_WIN32_NT);
++end;
++
+ const
+   SECURITY_NT_AUTHORITY: SID_IDENTIFIER_AUTHORITY = (Value: (0, 0, 0, 0, 0, 5)); // ntifs
+ 
+@@ -334,45 +348,57 @@
+   DOMAIN_ALIAS_RID_GUESTS: DWORD = $00000222;
+   DOMAIN_ALIAS_RID_POWER_: DWORD = $00000223;
+ 
+-function CurrentUserIsAdmin: Boolean;
++function CurrentUserIsInAdminGroup: boolean;
+ var
+-  hAccessToken: THandle;
++  bSuccess: Boolean;
++  psidAdministrators: Pointer;
++  x: Integer;
+   ptgGroups: PTokenGroups;
+-  dwInfoBufferSize: DWORD;
+-  psidAdministrators: PSID;
+-  x: Integer;
+-  bSuccess: BOOL;
++  hAccessToken: Cardinal;
++  dwInfoBufferSize: Cardinal;
+ begin
+   Result := False;
+-  bSuccess := OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True,
+-    hAccessToken);
++  bSuccess := OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, hAccessToken);
+   if not bSuccess then begin
+     if GetLastError = ERROR_NO_TOKEN then
+-      bSuccess := OpenProcessToken(GetCurrentProcess, TOKEN_QUERY,
+-        hAccessToken);
++      bSuccess := OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, hAccessToken);
+   end;
+   if bSuccess then begin
+-    GetMem(ptgGroups, 1024);
+-    bSuccess := GetTokenInformation(hAccessToken, TokenGroups,
+-      ptgGroups, 1024, dwInfoBufferSize);
+-    CloseHandle(hAccessToken);
+-    if bSuccess then begin
+-      AllocateAndInitializeSid(SECURITY_NT_AUTHORITY, 2,
+-        SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS,
+-        0, 0, 0, 0, 0, 0, psidAdministrators);
++    try
++      GetMem(ptgGroups, 1024);
++      try
++        bSuccess := GetTokenInformation(hAccessToken, TokenGroups, ptgGroups, 1024, dwInfoBufferSize);
++        if bSuccess then begin
++          AllocateAndInitializeSid(SECURITY_NT_AUTHORITY, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, psidAdministrators);
++          try
+ {$R-}
+-      for x := 0 to ptgGroups.GroupCount - 1 do
+-        if EqualSid(psidAdministrators, ptgGroups.Groups[x].Sid) then begin
+-          Result := True;
+-          Break;
++            for x := 0 to ptgGroups.GroupCount - 1 do
++              if EqualSid(psidAdministrators, ptgGroups.Groups[x].Sid) then begin
++                Result := True;
++                Break;
++              end;
++          finally
++{$R+}
++            FreeSid(psidAdministrators);
++          end;
+         end;
+-{$R+}
+-      FreeSid(psidAdministrators);
++      finally
++        FreeMem(ptgGroups);
++      end;
++    finally
++      CloseHandle(hAccessToken);
+     end;
+-    FreeMem(ptgGroups);
+   end;
+ end;
+ 
++function CurrentUserHasAdminRights: Boolean;
++begin
++  if OsHasNTSecurity then
++    Result := CurrentUserIsInAdminGroup
++  else
++    Result := true;
++end;
++
+ function ShellExecEx(const FileName: string; const Parameters: string;
+   const Verb: string; CmdShow: Integer): Boolean;
+ var
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000210.html">[Dzchart-svncheckins] r344 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000212.html">[Dzchart-svncheckins] r346 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#211">[ date ]</a>
+              <a href="thread.html#211">[ thread ]</a>
+              <a href="subject.html#211">[ subject ]</a>
+              <a href="author.html#211">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

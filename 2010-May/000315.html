@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r455 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r455%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C201005071129.o47BTp9K030306%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000314.html">
+   <LINK REL="Next"  HREF="000316.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r455 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r455%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C201005071129.o47BTp9K030306%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r455 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri May  7 13:29:51 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000314.html">[Dzchart-svncheckins] r454 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000316.html">[Dzchart-svncheckins] r456 - utilities/dzPrepBuild/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#315">[ date ]</a>
+              <a href="thread.html#315">[ thread ]</a>
+              <a href="subject.html#315">[ subject ]</a>
+              <a href="author.html#315">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-05-07 13:29:50 +0200 (Fri, 07 May 2010)
+New Revision: 455
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* new procedure TCheckListBox_SetCheckedNoClick
+* TCheckListBox_SetChecked can now optionally suppress the automatic call of the OnClickCheck
+* new procedure TCheckListBox_Readonly
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2010-05-07 08:59:45 UTC (rev 454)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2010-05-07 11:29:50 UTC (rev 455)
+@@ -431,12 +431,28 @@
+ ///          @param clb is the TCheckListBox to modify
+ ///          @param Checked is a string list containing the items to be checked
+ ///          @param UncheckOthers determines whether any items not in the list should
+-///                 be unchecked (defaults to true).
++///                               be unchecked (defaults to true).
++///          @param SuppressClick determines whether the automatic OnClickCkeck
++///                               event should be suppressed.
+ ///          @returns the number of items that have been checked. &lt;/summary&gt;
+-function TCheckListBox_SetChecked(_clb: TCheckListBox; _Checked: TStrings; _UncheckOthers: boolean = true): integer;
++function TCheckListBox_SetChecked(_clb: TCheckListBox; _Checked: TStrings;
++  _UncheckOthers: boolean = true; _SuppressClick: boolean = false): integer;
++
++///&lt;summary&gt; sets the checked property without triggering an OnClickCheck event &lt;/summary&gt;
++procedure TCheckListBox_SetCheckedNoClick(_clb: TCheckListBox; _Idx: integer; _Checked: boolean);
++
+ procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
+ procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
+ 
++///&lt;summary&gt; Makes the given TCheckListBox readonly by assigning a special
++///          method to its OnClickCheck event or makes it ReadWrite again
++///          by removing that method.
++///          @param ReadOnly determines whether to assign or remove the event.
++///          @param ChangeColor determines whether to change the background color
++///                             to clWindow (ReadWrite) and clBtnFace (ReadOnly)
++///                             respectively. Defaults to true &lt;/summary&gt;
++procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = true);
++
+ ///&lt;summary&gt; Gets the caption of the given or selected item in the RadioGroup
+ ///          @param rg is the TCustomRadioGroup descendant to read
+ ///          @param Caption returns a string with the requested caption with
+@@ -1498,8 +1514,22 @@
+       _clb.Items.Delete(i);
+ end;
+ 
+-function TCheckListBox_SetChecked(_clb: TCheckListBox; _Checked: TStrings; _UncheckOthers: boolean = true): integer;
++procedure TCheckListBox_SetCheckedNoClick(_clb: TCheckListBox; _Idx: integer; _Checked: boolean);
+ var
++  Event: TNotifyEvent;
++begin
++  Event := _clb.OnClickCheck;
++  _clb.OnClickCheck := nil;
++  try
++    _clb.Checked[_Idx] := _Checked;
++  finally
++    _clb.OnClickCheck := Event;
++  end;
++end;
++
++function TCheckListBox_SetChecked(_clb: TCheckListBox; _Checked: TStrings;
++  _UncheckOthers: boolean = true; _SuppressClick: boolean = false): integer;
++var
+   i: integer;
+   Idx: integer;
+ begin
+@@ -1508,9 +1538,16 @@
+     Idx := _Checked.IndexOf(_clb.Items[i]);
+     if Idx &lt;&gt; -1 then begin
+       Inc(Result);
+-      _clb.Checked[i] := True;
+-    end else if _UncheckOthers then
+-      _clb.Checked[i] := False;
++      if _SuppressClick then
++        TCheckListBox_SetCheckedNoClick(_clb, i, True)
++      else
++        _clb.Checked[i] := True;
++    end else if _UncheckOthers then begin
++      if _SuppressClick then
++        TCheckListBox_SetCheckedNoClick(_clb, i, False)
++      else
++        _clb.Checked[i] := False;
++    end;
+   end;
+ end;
+ 
+@@ -2280,5 +2317,44 @@
+   inherited;
+ end;
+ 
++type
++  TCheckListBoxHelper = class
++  private
++    procedure HandleClickCheck(_Sender: TObject);
++  end;
++
++var
++  gblCheckListBoxHelper: TCheckListBoxHelper = nil;
++
++procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = true);
++begin
++  if _ReadOnly then begin
++    if not Assigned(gblCheckListBoxHelper) then
++      gblCheckListBoxHelper := TCheckListBoxHelper.Create;
++    _clb.OnClickCheck := gblCheckListBoxHelper.HandleClickCheck;
++    if _ChangeColor then
++      _clb.Color := clBtnFace;
++  end else begin
++    _clb.OnClickCheck := nil;
++    if _ChangeColor then
++      _clb.Color := clWindow;
++  end;
++end;
++
++procedure TCheckListBoxHelper.HandleClickCheck(_Sender: TObject);
++var
++  clb: TCheckListBox;
++  Idx: integer;
++begin
++  clb := _Sender as TCheckListBox;
++  Idx := clb.ItemIndex;
++  if Idx &lt;&gt; -1 then begin
++    clb.Checked[Idx] := not clb.Checked[Idx];
++  end;
++end;
++
++initialization
++finalization
++  FreeAndNil(gblCheckListBoxHelper);
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000314.html">[Dzchart-svncheckins] r454 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000316.html">[Dzchart-svncheckins] r456 - utilities/dzPrepBuild/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#315">[ date ]</a>
+              <a href="thread.html#315">[ thread ]</a>
+              <a href="subject.html#315">[ subject ]</a>
+              <a href="author.html#315">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

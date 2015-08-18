@@ -1,0 +1,919 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r138 - in utilities/dzLib/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r138%20-%20in%20utilities/dzLib/trunk%3A%20.%20src&In-Reply-To=%3C200704011358.l31Dw3G2031614%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000014.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r138 - in utilities/dzLib/trunk: . src</H1>
+    <B>twm at BerliOS</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r138%20-%20in%20utilities/dzLib/trunk%3A%20.%20src&In-Reply-To=%3C200704011358.l31Dw3G2031614%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r138 - in utilities/dzLib/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr  1 15:58:03 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000014.html">[Dzchart-svncheckins] r139 - in utilities/dzLib/trunk: . src tests	tests/dzfileutils tests/dzfileutils/dcu tests/dzfileutils/testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-04-01 15:58:01 +0200 (Sun, 01 Apr 2007)
+New Revision: 138
+
+Added:
+   utilities/dzLib/trunk/default_de.po
+   utilities/dzLib/trunk/ignore.po
+   utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+Modified:
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzDefaultMain.pas
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/src/u_dzStringUtils.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* extracted strings for dxgettext translation
+* added Float2Str function
+* Bugfix: TDefaultMain now frees the commandline parser
+* CreateDir and ForceDir methods in dzfileutils
+* added some PasDoc comments and a warning note to dzstringutils
+* added TMemo_DeleteTopLines and TMemo_ScrollToEnd functions to dzVclUtils
+* new dzVariantUtils unit
+
+Added: utilities/dzLib/trunk/default_de.po
+===================================================================
+--- utilities/dzLib/trunk/default_de.po	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/default_de.po	2007-04-01 13:58:01 UTC (rev 138)
+@@ -0,0 +1,172 @@
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the PACKAGE package.
++# FIRST AUTHOR &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">EMAIL at ADDRESS</A>&gt;, YEAR.
++#
++msgid &quot;&quot;
++msgstr &quot;&quot;
++&quot;Project-Id-Version: dzLib 1.0\n&quot;
++&quot;POT-Creation-Date: 2007-03-19 15:29\n&quot;
++&quot;PO-Revision-Date: 2007-03-19 15:41+0100\n&quot;
++&quot;Last-Translator: Schniering Ingenieursgesellschaft &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
++&quot;MIME-Version: 1.0\n&quot;
++&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
++&quot;Content-Transfer-Encoding: 8bit\n&quot;
++&quot;X-Generator: dxgettext 1.2.1\n&quot;
++&quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
++&quot;X-Poedit-Language: German\n&quot;
++&quot;X-Poedit-Country: GERMANY\n&quot;
++
++#: u_dzConvertUtils.pas:126
++msgid &quot;Digit out of range %s&quot;
++msgstr &quot;ung&#252;ltige Ziffer %s&quot;
++
++#: u_dzConvertUtils.pas:139
++msgid &quot;Digit #%d (%s) out of range&quot;
++msgstr &quot;Ung&#252;ltige Ziffer #%d (%s)&quot;
++
++#: u_dzDefaultMain.pas:113
++msgid &quot;Error: %s&quot;
++msgstr &quot;Fehler: %s&quot;
++
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
++#: u_dzFileUtils.pas:244
++msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
++msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath&quot;
++
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
++#: u_dzFileUtils.pas:245
++msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
++msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath (zweiter)&quot;
++
++#. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
++#: u_dzFileUtils.pas:246
++msgid &quot;could not find a unique directory name based on \&quot;%s\&quot;&quot;
++msgstr &quot;Konnte keinen eindeutigen Verzeichnisnamen basierend auf \&quot;%s\&quot; finden.&quot;
++
++#. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
++#: u_dzFileUtils.pas:247
++msgid &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
++msgstr &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von Windows.GetTempFileName&quot;
++
++#. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
++#: u_dzFileUtils.pas:248
++msgid &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
++msgstr &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von Windows.GetShortPathname&quot;
++
++#. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
++#: u_dzFileUtils.pas:249
++msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
++msgstr &quot;Kurzer Pfad ist l&#228;nger als MAX_PATH (%d) Zeichen&quot;
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_MOVEFILE_ERROR_SS
++#: u_dzFileUtils.pas:251
++msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
++msgstr &quot;Fehler %%1:s (%%0:d) beim Verschieben von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_SETREADONLY_ERROR_S
++#: u_dzFileUtils.pas:253
++msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
++msgstr &quot;Fehler %%1:s (%%0:d) beim &#196;ndern des Schreibschutz-Flags von \&quot;%s\&quot;&quot;
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_COPYFILE_ERROR_SS
++#: u_dzFileUtils.pas:255
++msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
++msgstr &quot;Fehler %%1:s (%%0:d) beim Kopieren von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_DELETEFILE_ERROR_S
++#: u_dzFileUtils.pas:257
++msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
++msgstr &quot;Fehler %%1:s (%%0:d) beim L&#246;schen der Datei \&quot;%s\&quot;&quot;
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_REMOVEDIR_ERROR_S
++#: u_dzFileUtils.pas:259
++msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
++msgstr &quot;Fehler %%1:s (%%0:d) beim L&#246;schen des Verzeichnisses \&quot;%s\&quot;&quot;
++
++#. Programmer's name for it: STR_DELTREE_ERROR_S
++#: u_dzFileUtils.pas:260
++msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
++msgstr &quot;\&quot;%s\&quot; existiert nicht oder ist kein Verzeichnis&quot;
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_CREATEDIR_ERROR_S
++#: u_dzFileUtils.pas:262
++msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
++msgstr &quot;Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses \&quot;%s\&quot;&quot;
++
++#. Variant ist Null, sollte %s sein: %s
++#. Programmer's name for it: STR_VARIANT_IS_NULL_SHOULD_BE_SS
++#: u_dzMiscUtils.pas:427
++msgid &quot;Variant is Null, should be %s: %s&quot;
++msgstr &quot;Variant ist Null, sollte %s sein: %s&quot;
++
++#. Variant ist Empty, sollte %s sein: %s
++#. Programmer's name for it: STR_VARIANT_IS_EMPTY_SHOULD_BE_SS
++#: u_dzMiscUtils.pas:429
++msgid &quot;Variant is Empty, should be %s: %s&quot;
++msgstr &quot;Variant ist leer, sollte %s sein: %s&quot;
++
++#. Variant kann nicht nach %s konvertiert werden: %s
++#. Programmer's name for it: STR_VARAINT_CAN_NOT_BE_CONVERTED_TO_SS
++#: u_dzMiscUtils.pas:431
++msgid &quot;Variant can not be converted to %s: %s&quot;
++msgstr &quot;Variant kann nicht nach %s konvertiert werden: %s&quot;
++
++#. Unbekannter Betriebssystem Fehler
++#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
++#: u_dzMiscUtils.pas:434
++msgid &quot;unknown OS error&quot;
++msgstr &quot;Unbekannter Betriebssystemfehler&quot;
++
++#. Unbekannter Win32 Fehler
++#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
++#: u_dzMiscUtils.pas:437
++msgid &quot;unknown Win32 error&quot;
++msgstr &quot;Unbekannter Windows Fehler&quot;
++
++#. &quot;%s&quot; ist kein g&#252;ltiger Flie&#223;komma Wert: %s
++#. Programmer's name for it: STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS
++#: u_dzMiscUtils.pas:440
++msgid &quot;\&quot;%s\&quot; is not a valid floating point value: %s&quot;
++msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Flie&#223;kommawert: %s&quot;
++
++#. &quot;%s&quot; ist kein g&#252;ltiger %s Wert: %s
++#. Programmer's name for it: STR_X_IS_NOT_A_VALID_Y_VALUE_SSS
++#: u_dzMiscUtils.pas:442
++msgid &quot;\&quot;%s\&quot; is not a valid %s value: %s&quot;
++msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger %s Wert: %s&quot;
++
++#. nthWord: Nulltes Wort nicht verf&#252;gbar
++#. Programmer's name for it: STR_NO_0TH_WORD
++#: u_dzStringUtils.pas:242
++msgid &quot;nthWord: 0th word not available&quot;
++msgstr &quot;nthWord: 0tes Wort ist nicht verf&#252;gbar&quot;
++
++#. Zu zentrierender String ist l&#228;nger als die Maximall&#228;nge und kann nicht zentriert werden.
++#. Programmer's name for it: STR_STRING_TOO_LONG_TO_CENTER
++#: u_dzStringUtils.pas:245
++msgid &quot;Cannot center string that is larger than the maximum length.&quot;
++msgstr &quot;Kann keinen String zentrieren, der l&#228;nger als die maximale L&#228;nge ist.&quot;
++
++#. Strings haben kein nulltes Zeichen.
++#. Programmer's name for it: STR_CHAR_INDEX_OUT_OF_RANGE
++#: u_dzStringUtils.pas:248
++msgid &quot;Strings do not have a 0th character.&quot;
++msgstr &quot;Strings haben kein 0tes Zeichen.&quot;
++
++#: u_dzVclUtils.pas:483
++#: u_dzVclUtils.pas:521
++msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
++msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Flie&#223;kommawert.&quot;
++
++#: u_dzVclUtils.pas:503
++#: u_dzVclUtils.pas:539
++msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
++msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Integerwert.&quot;
++
+
+Added: utilities/dzLib/trunk/ignore.po
+===================================================================
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -11,6 +11,10 @@
+ uses
+   SysUtils;
+ 
++var
++  {: contains the User's format setting, but with decimal separator = '.' and no thousands separator }
++  DZ_FORMAT_DECIMAL_POINT: TFormatSettings;
++
+ type
+   {: Raised by the number conversion functions if a digit is invalid for the
+      given base. }
+@@ -86,6 +90,13 @@
+ function TimeToSeconds(_Zeit: TDateTime): integer; deprecated;
+ {$ENDIF}
+ 
++{: Converts a floating point number to a string using the given decimal separator
++   in &quot;General number format&quot; with 15 significant digits
++   @param(flt is an extended floating point value)
++   @param(DecSeparator is the decimal separator to use)
++   @returns(a string representation of the floating point value) }
++function Float2Str(_flt: extended; _DecSeparator: char = '.'): string;
++
+ implementation
+ 
+ uses
+@@ -300,5 +311,18 @@
+   Result := Result * Sign;
+ end;
+ 
++function Float2Str(_flt: extended; _DecSeparator: char = '.'): string;
++var
++  FormatSettings: TFormatSettings;
++begin
++  FormatSettings := DZ_FORMAT_DECIMAL_POINT;
++  FormatSettings.DecimalSeparator := _DecSeparator;
++  Result := SysUtils.FloatToStr(_Flt, FormatSettings);
++end;
++
++initialization
++  DZ_FORMAT_DECIMAL_POINT := GetUserDefaultLocaleSettings;
++  DZ_FORMAT_DECIMAL_POINT.DecimalSeparator := '.';
++  DZ_FORMAT_DECIMAL_POINT.ThousandSeparator := #0;
+ end.
+ 
+
+Modified: utilities/dzLib/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDefaultMain.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzDefaultMain.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -95,6 +95,7 @@
+ 
+ destructor TDefaultMain.Destroy;
+ begin
++  FreeAndNil(FCmdLineParser);
+   LogInfo('Program finished.');
+   inherited;
+ end;
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -161,7 +161,18 @@
+        @returns true, if the file could be copied, false otherwise. }
+     class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+       _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean; overload;
+-    class function CreateDir(const _DirecoryName: string; _RaiseException: boolean = true): boolean;
++    {: Creates a directory (parent directories must already exist)
++       @param DirectoryName is the name for the new directory
++       @param RaiseException determines whether an exception is raised on error, default = true
++       @returns true, if the directory was created
++       @raises EOSError if there was an error and RaiseException was true }
++    class function CreateDir(const _DirectoryName: string; _RaiseException: boolean = true): boolean;
++    {: Creates a new directory, including the creation of parent directories as needed.
++       @param DirectoryPath is the name for the new directory
++       @param RaiseException determines whether an exception is raised on error, default = true
++       @returns true, if the directory was created
++       @raises EOSError if there was an error and RaiseException was true }
++    class function ForceDir(const _DirectoryPath: string; _RaiseException: boolean = true): boolean;
+     {: Sets a file's readonly flag
+        @param Filename is the file to change
+        @param Set determines whether to set or clear the flag }
+@@ -234,6 +245,9 @@
+     class function IsValidFilename(const _s: string; out _ErrPos: integer): boolean; overload;
+   end;
+ 
++{: This is an abbreviation for IncludeTrailingPathDelimiter }
++function itpd(const _Dirname: string): string; inline;
++
+ implementation
+ 
+ uses
+@@ -260,8 +274,14 @@
+   STR_DELTREE_ERROR_S = '&quot;%s&quot; does not exist or is not a directory';
+   // doppelte % zum Durchreichen in Prozedur
+   STR_CREATEDIR_ERROR_S = 'Error %%1:s (%%0:d) creating directory &quot;%s&quot;';
+-  { TSimpleDirEnumerator }
+ 
++function itpd(const _Dirname: string): string; inline;
++begin
++  Result := IncludeTrailingPathDelimiter(_Dirname);
++end;
++
++{ TSimpleDirEnumerator }
++
+ constructor TSimpleDirEnumerator.Create(const _Mask: string);
+ begin
+   fMask := _Mask;
+@@ -388,16 +408,16 @@
+   SetLength(Result, Res);
+ end;
+ 
+-class function TFileSystem.CreateDir(const _DirecoryName: string;
++class function TFileSystem.CreateDir(const _DirectoryName: string;
+   _RaiseException: boolean = true): boolean;
+ var
+   LastError: Cardinal;
+ begin
+-  Result := SysUtils.CreateDir(_DirecoryName);
++  Result := SysUtils.CreateDir(_DirectoryName);
+   if not Result then begin
+-    if _RaiseException then     begin
++    if _RaiseException then begin
+       LastError := GetLastError;
+-      RaiseLastOsErrorEx(LastError, Format(STR_CREATEDIR_ERROR_S, [_DirecoryName]));
++      RaiseLastOsErrorEx(LastError, Format(STR_CREATEDIR_ERROR_S, [_DirectoryName]));
+     end;
+   end;
+ end;
+@@ -579,6 +599,17 @@
+     end;
+ end;
+ 
++class function TFileSystem.ForceDir(const _DirectoryPath: string; _RaiseException: boolean): boolean;
++var
++  LastError: Cardinal;
++begin
++  Result := ForceDirectories(_DirectoryPath);
++  if not Result and _RaiseException then begin
++    LastError := GetLastError;
++    RaiseLastOsErrorEx(LastError, Format(STR_CREATEDIR_ERROR_S, [_DirectoryPath]));
++  end;
++end;
++
+ class function TFileSystem.RemoveDir(const _Dirname: string; _RaiseException: boolean = true; _Force: boolean = false): boolean;
+ var
+   Attr: integer;
+
+Modified: utilities/dzLib/trunk/src/u_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzStringUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -184,30 +184,51 @@
+ function UrlEncodeControlChars(const _s: string; _ControlChars: TCharSet = STANDARD_CONTROL_CHARS): string;
+ function UrlDecodeControlChars(const _s: string): string;
+ 
+-{: Returns the WordNo'th word, (counting from 1), using the given Delimiters. }
++{: Returns the WordNo'th word, (counting from 1), using the given Delimiters.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect) }
+ function nthWord(const _s: string; _WordNo: integer; const _Delimiter: string): string; overload;
+-{: Returns the WordNo'th word, (counting from 1), using the given Delimiters. }
++{: Returns the WordNo'th word, (counting from 1), using the given Delimiters.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect) }
+ function nthWord(const _s: string; _WordNo: integer; _Delimiter: TCharSet): string; overload;
+ 
+ {: Returns the Nth character of S or ' ' if S has less than N charaters. }
+ function nthCharOf(const _s: string; _n: integer): Char;
+ 
+ {: Extract the first word of S using the given delimiters. The word is deleted
+-   from S. }
++   from S.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect) }
+ function ExtractFirstWord(var _s: string; const _Delimiter: string): string; overload;
+ {: Extract the first word of S using the given delimiters. The word is deleted
+-   from S. }
++   from S.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect) }
+ function ExtractFirstWord(var _s: string; _Delimiter: TCharSet): string; overload;
+ {: Extract the first word of S using the given delimiters. The word is deleted
+    from S.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect)
+    @returns true, if a word could be extracted, false otherwise }
+ function ExtractFirstWord(var _s: string; const _Delimiter: string; out _FirstWord: string): boolean; overload;
+ {: Extract the first word of S using the given delimiters. The word is deleted
+    from S.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect)
+    @returns true, if a word could be extracted, false otherwise }
+ function ExtractFirstWord(var _s: string; _Delimiter: TCharSet; out _FirstWord: string): boolean; overload;
+ 
+ {: Split string s into the list of substrings delimited by delimter
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect)
+    @param sl is the stringlist in which to return the result
+    @param s is the string to split
+    @param Delimiter is a string containing all delimiter characters
+@@ -228,7 +249,6 @@
+ function StringOrNull(_P: PChar): string;
+ 
+ {: returns the default locale settings as read from the system's regional settings }
+-function GetDefaultLocaleSettings: TFormatSettings; deprecated; // use one of the functions below!
+ function GetUserDefaultLocaleSettings: TFormatSettings;
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ 
+@@ -913,11 +933,6 @@
+     Result := 'NULL';
+ end;
+ 
+-function GetDefaultLocaleSettings: TFormatSettings;
+-begin
+-  Result := GetSystemDefaultLocaleSettings;
+-end;
+-
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ begin
+   GetLocaleFormatSettings(GetSystemDefaultLCID, Result);
+
+Added: utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -0,0 +1,363 @@
++{: several utilty functions for Variants }
++unit u_dzVariantUtils;
++
++interface
++
++uses
++  SysUtils,
++  Variants;
++
++type
++  {: raised if there is a conversion error in one of the Var2XxxEx functions }
++  EVariantConvertError = class(Exception);
++  {: raised if the variant passed to one of the Var2XxxEx functions is null }
++  EVarIsNull = class(EVariantConvertError);
++  {: raised if the variant passed to one of the Var2XxxEx functions is empty }
++  EVarIsEmpty = class(EVariantConvertError);
++
++{: converts a variant to its string representation (for debugging) }
++function toString(_v: OleVariant): string; overload;
++
++{: Checks whether a variant is a type that can be assigned to an integer (signed 32 bit),
++   Note: Excludes longword and Int64, even if the value may be &lt;= MaxLongInt }
++function VarIsInteger(_v: variant): boolean;
++
++{: Checks whether a variant is of a type that can be assigned to a longword (unsigned 32 bit),
++   Note: Excludes signed integers, even if the value may be positive }
++function VarIsLongWord(_v: variant): boolean;
++
++{: Checks whether a variant is of a type that can be assigned to an Int64 (signed 64 bit) }
++function VarIsInt64(_v: variant): boolean;
++
++// Variant to other type conversion functions
++// TryVar2Xxx converts from variant to type Xxx, returns false, if
++// the variant is NULL.
++// Var2Xxx converts from variant to type Xxx and returns the Default if the
++// variant is NULL.
++// Var2XxxEx converts from variant to type Xxx, but raises an exception if
++// variant is NULL, using the Source for the message.
++
++{: Converts a variant to an integer.
++   If v is null or empty, it returns false
++   @param(v Variant value to convert)
++   @param(Value is the variants integer value, only valid if the function
++          returns true.)
++   @returns(true, if the variant could be converted to integer, false if not.) }
++function TryVar2Int(const _v: variant; out _Value: integer): boolean;
++
++{: Converts a variant to an integer.
++   If v is null or empty, it returns the Default.
++   @param(v Variant value to convert)
++   @param(Default Value to return if v is empty or null)
++   @returns(the integer value of v or the Default if v can not be converted) }
++function Var2Int(const _v: variant; _Default: integer): integer;
++
++{: Converts a variant to an integer.
++   Raises an exception if v can not be converted.
++   @param(v Variant value to convert)
++   @param(Source string to include in the exception message)
++   @returns(the integer value of v)
++   @raises(EVarIsNull if v is null)
++   @raises(EVarIsEmpty if v is empty)
++   @raises(EVariantConvertError if there is some other conversion error) }
++function Var2IntEx(const _v: variant; const _Source: string): integer;
++
++{: Converts a variant to the string representation of an integer.
++   If v is null or empty, it returns the NullValue.
++   @param(v Variant value to convert)
++   @param(NullValue String value to return if v is empty or null)
++   @returns(the string representation of the integer value of v or the
++            NullValue if v can not be converted) }
++function Var2IntStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++
++{: Converts a variant to a double.
++   If v is null or empty, it returns false.
++   @param(v Variant value to convert)
++   @param(Value is the variant's double value, only valid if the function
++                returns true.)
++   @returns(true, if the variant could be converted to double, false if not) }
++function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
++
++{: Converts a variant to a double.
++   If v is null or empty, it returns the Default.
++   @param(v Variant value to convert)
++   @param(Default Value to return if v is empty or null)
++   @returns(the double value of v or the Default if v can not be converted) }
++function Var2Dbl(const _v: variant; const _Default: double): double;
++
++{: Converts a variant to a double.
++   Raises an exception if v can not be converted.
++   @param(v Variant value to convert)
++   @param(Source string to include in the exception message)
++   @returns(the double value of v)
++   @raises(EVarIsNull if v is null)
++   @raises(EVarIsEmpty if v is empty)
++   @raises(EVariantConvertError if there is some other conversion error) }
++function Var2DblEx(const _v: variant; const _Source: string): double;
++
++{: Converts a variant to the string representation of a double.
++   If v is null or empty, it returns the Default.
++   It uses Float2Str (not FloatToStr) with a '.' as decimal separator.
++   @param(v Variant value to convert)
++   @param(NullValue String value to return if v is empty or null)
++   @returns(the string representation of the double value of v or the
++            NullValue if v can not be converted) }
++function Var2DblStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++
++{: Converts a variant to a TDateTime.
++   Raises an exception if v can not be converted.
++   @param(v Variant value to convert)
++   @param(Source string to include in the exception message)
++   @returns(the TDateTime value of v)
++   @raises(EVarIsNull if v is null)
++   @raises(EVarIsEmpty if v is empty)
++   @raises(EVariantConvertError if there is some other conversion error) }
++function Var2DateTimeEx(const _v: variant; const _Source: string): TDateTime;
++
++{: Converts a variant to an ISO format DateTime string (yyyy-mm-dd hh:mm:ss)
++   @param(v Variant value to convert)
++   @param(NullValue String value to return if v is empty or null)
++   @returns(an ISO format DateTime string of v or NullValue if v can not be converted) }
++function Var2DateTimeStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++
++{: Converts a variant to a string
++   If v is null or empty, it returns false.
++   @param(v Variant value to convert)
++   @param(Value is the variant's string value, only valid if the function
++                returns true.)
++   @returns(true, if the variant could be converted to double, false if not) }
++function TryVar2Str(const _v: variant; out _Value: string): boolean;
++
++{: Converts a variant to a string.
++   If v is null or empty, it returns the Default.
++   @param(v Variant value to convert)
++   @param(Default Value to return if v is empty or null)
++   @returns(the string value of v or the Default if v can not be converted) }
++function Var2Str(const _v: variant; const _Default: string = '*NULL*'): string;
++
++{: Converts a variant to a string.
++   Raises an exception if v can not be converted.
++   @param(v Variant value to convert)
++   @param(Source string to include in the exception message)
++   @returns(the string value of v)
++   @raises(EVarIsNull if v is null)
++   @raises(EVarIsEmpty if v is empty)
++   @raises(EVariantConvertError if there is some other conversion error) }
++function Var2StrEx(_v: variant; const _Source: string): string;
++
++implementation
++
++uses
++  u_dzConvertUtils;
++
++resourcestring
++  // Variant ist Null, sollte %s sein: %s
++  STR_VARIANT_IS_NULL_SHOULD_BE_SS = 'Variant is Null, should be %s: %s';
++  // Variant ist Empty, sollte %s sein: %s
++  STR_VARIANT_IS_EMPTY_SHOULD_BE_SS = 'Variant is Empty, should be %s: %s';
++  // Variant kann nicht nach %s konvertiert werden: %s
++  STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S = 'Variant can not be converted to %s';
++  STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS = 'Variant can not be converted to %s: %s';
++
++function toString(_v: OleVariant): string;
++var
++  i, j: Integer;
++begin
++  try
++    case VarType(_v) of
++      varEmpty: result := '&lt;Empty&gt;';
++      varNull: result := '&lt;Null&gt;';
++      varSmallint: result := VarToStr(_v);
++      varInteger: result := VarToStr(_v);
++      varSingle: result := VarToStr(_v);
++      varDouble: result := VarToStr(_v);
++      varCurrency: result := VarToStr(_v);
++      varDate: result := VarToStr(_v);
++      varOleStr: result := VarToStr(_v);
++      varDispatch: result := VarToStr(_v);
++      varString: result := VarToStr(_v);
++      varArray: begin
++          if VarArrayDimCount(_v) = 1 then begin
++            for i := VarArrayLowBound(_v, 1) to VarArrayHighBound(_v, 1) do
++              result := result + toString(_v[i]);
++          end else if VarArrayDimCount(_v) = 2 then begin
++            for i := VarArrayLowBound(_v, 1) to VarArrayHighBound(_v, 1) do
++              for j := VarArrayLowBound(_v, 1) to VarArrayHighBound(_v, 1) do
++                result := result + toString(_v[i, j]);
++          end else
++            result := '3dim-array not supported';
++        end;
++    else
++      result := '&lt;Unknown Type&gt;';
++    end;
++    result := result + ' (' + VarTypeAsText(VarType(_v)) + ')';
++  except
++    on ex: Exception do
++      result := result + '#ERROR: ' + ex.Message;
++  end;
++end;
++
++function VarIsInteger(_v: variant): boolean;
++begin
++  Result := FindVarData(_V)^.VType in [varSmallInt, varInteger, varShortInt,
++    varByte, varWord];
++end;
++
++function VarIsLongWord(_v: variant): boolean;
++begin
++  Result := FindVarData(_V)^.VType in [varByte, varWord, varLongWord];
++end;
++
++function VarIsInt64(_v: variant): boolean;
++begin
++  Result := FindVarData(_V)^.VType in [varSmallInt, varInteger, varShortInt,
++    varByte, varWord, varLongWord, varInt64];
++end;
++
++function TryVar2Int(const _v: variant; out _Value: integer): boolean;
++begin
++  Result := not VarIsNull(_v) and not VarIsEmpty(_v);
++  if Result then
++    try
++      _Value := _v;
++    except
++      on e: EVariantError do
++        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, ['Integer']);
++    end;
++end;
++
++function Var2Int(const _v: variant; _Default: integer): integer;
++begin
++  if not TryVar2Int(_v, Result) then
++    Result := _Default;
++end;
++
++function Var2IntEx(const _v: variant; const _Source: string): integer;
++begin
++  if VarIsNull(_v) then
++    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Integer', _Source]);
++  if VarIsEmpty(_v) then
++    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Integer', _Source]);
++  try
++    Result := _v;
++  except
++    on e: EVariantError do
++      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Integer', _Source]);
++  end;
++end;
++
++function Var2IntStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++var
++  Value: integer;
++begin
++  if TryVar2Int(_v, Value) then
++    Result := IntToStr(Value)
++  else
++    Result := _NullValue;
++end;
++
++function Var2DateTimeEx(const _v: variant; const _Source: string): TDateTime;
++begin
++  if VarIsNull(_v) then
++    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Date', _Source]);
++  if VarIsEmpty(_v) then
++    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Date', _Source]);
++  try
++    Result := _v;
++  except
++    on e: EVariantError do
++      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Date', _Source]);
++  end;
++end;
++
++function Var2DateTimeStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++var
++  Value: TDateTime;
++begin
++  if VarIsNull(_v) or VarIsEmpty(_v) then
++    Result := _NullValue
++  else
++    try
++      Value := _v;
++      Result := FormatDateTime('yyyy-mm-dd hh:nn:ss', Value);
++    except
++      Result := _NullValue;
++    end;
++end;
++
++function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
++begin
++  Result := not VarIsNull(_v) and not VarIsEmpty(_v);
++  if Result then
++    try
++      _Value := _v;
++    except
++      on e: EVariantError do
++        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, ['Double']);
++    end;
++end;
++
++function Var2Dbl(const _v: variant; const _Default: double): double;
++begin
++  if not TryVar2Dbl(_v, Result) then
++    Result := _Default
++end;
++
++function Var2DblEx(const _v: variant; const _Source: string): double;
++begin
++  if VarIsNull(_v) then
++    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Double', _Source]);
++  if VarIsEmpty(_v) then
++    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Double', _Source]);
++  try
++    Result := _v;
++  except
++    on e: EVariantError do
++      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Double', _Source]);
++  end;
++end;
++
++function Var2DblStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++var
++  Value: double;
++begin
++  if TryVar2Dbl(_v, Value) then
++    Result := Float2Str(Value)
++  else
++    Result := _NullValue;
++end;
++
++function TryVar2Str(const _v: variant; out _Value: string): boolean;
++begin
++  Result := not VarIsNull(_v) and not VarIsEmpty(_v);
++  if Result then
++    try
++      _Value := _v;
++    except
++      on e: EVariantError do
++        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, ['String']);
++    end;
++end;
++
++function Var2Str(const _v: variant; const _Default: string): string;
++begin
++  if not TryVar2Str(_v, Result) then
++    Result := _Default
++end;
++
++function Var2StrEx(_v: variant; const _Source: string): string;
++begin
++  if VarIsNull(_v) then
++    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['String', _Source]);
++  if VarIsEmpty(_v) then
++    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['String', _Source]);
++  try
++    Result := _v;
++  except
++    on e: EVariantError do
++      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['String', _Source]);
++  end;
++end;
++
++end.
++
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -131,6 +131,14 @@
+ function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
+ function StringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer; deprecated; // use TStringGrid_CellToInt instead
+ 
++{: Deletes the top lines of the memo so it only contains Retain lines
++   @param Memo is the meme to work on
++   @param Retain is the number of lines to retain }
++procedure TMemo_DeleteTopLines(_Memo: TMemo; _Retain: integer);
++
++{: Scrolls the memo to the end }
++procedure TMemo_ScrollToEnd(_Memo: TMemo);
++
+ {: Tries to convert the edit control text to a double, if an error occurs, it raises
+    an exception and optionally focuses the control.
+    @param ed is the edit control
+@@ -1359,5 +1367,33 @@
+   Result := FileFormats;
+ end;
+ 
++procedure TMemo_DeleteTopLines(_Memo: TMemo; _Retain: integer);
++const
++  EmptyStr: PChar = '';
++var
++  Offset: Integer;
++  cnt: Integer;
++begin
++  cnt := _Memo.Lines.Count;
++  if cnt &lt;= _Retain then
++    Exit;
++  Dec(cnt, _Retain);
++
++  Offset := SendMessage(_Memo.Handle, EM_LINEINDEX, cnt - 1, 0);
++  if (Offset &lt; 0) or (cnt = 0) then
++    Offset := SendMessage(_Memo.Handle, EM_LINELENGTH, 0, 0);
++  SendMessage(_Memo.Handle, EM_SETSEL, 0, Offset);
++  SendMessage(_Memo.Handle, EM_REPLACESEL, 0, Longint(EmptyStr));
++end;
++
++procedure TMemo_ScrollToEnd(_Memo: TMemo);
++Var
++  cnt: Integer;
++Begin
++  cnt := SendMessage(_Memo.Handle, EM_GETLINECOUNT, 0, 0);
++  SendMessage(_Memo.Handle, EM_LINESCROLL, 0, cnt);
++End;
++
++
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000014.html">[Dzchart-svncheckins] r139 - in utilities/dzLib/trunk: . src tests	tests/dzfileutils tests/dzfileutils/dcu tests/dzfileutils/testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,1596 @@
+From twm at mail.berlios.de  Sun Apr  1 15:58:03 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Sun, 1 Apr 2007 15:58:03 +0200
+Subject: [Dzchart-svncheckins] r138 - in utilities/dzLib/trunk: . src
+Message-ID: <200704011358.l31Dw3G2031614@sheep.berlios.de>
+
+Author: twm
+Date: 2007-04-01 15:58:01 +0200 (Sun, 01 Apr 2007)
+New Revision: 138
+
+Added:
+   utilities/dzLib/trunk/default_de.po
+   utilities/dzLib/trunk/ignore.po
+   utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+Modified:
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzDefaultMain.pas
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/src/u_dzStringUtils.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* extracted strings for dxgettext translation
+* added Float2Str function
+* Bugfix: TDefaultMain now frees the commandline parser
+* CreateDir and ForceDir methods in dzfileutils
+* added some PasDoc comments and a warning note to dzstringutils
+* added TMemo_DeleteTopLines and TMemo_ScrollToEnd functions to dzVclUtils
+* new dzVariantUtils unit
+
+Added: utilities/dzLib/trunk/default_de.po
+===================================================================
+--- utilities/dzLib/trunk/default_de.po	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/default_de.po	2007-04-01 13:58:01 UTC (rev 138)
+@@ -0,0 +1,172 @@
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the PACKAGE package.
++# FIRST AUTHOR <EMAIL at ADDRESS>, YEAR.
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: dzLib 1.0\n"
++"POT-Creation-Date: 2007-03-19 15:29\n"
++"PO-Revision-Date: 2007-03-19 15:41+0100\n"
++"Last-Translator: Schniering Ingenieursgesellschaft <info at schniering.com>\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"X-Generator: dxgettext 1.2.1\n"
++"Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
++"X-Poedit-Language: German\n"
++"X-Poedit-Country: GERMANY\n"
++
++#: u_dzConvertUtils.pas:126
++msgid "Digit out of range %s"
++msgstr "ung?ltige Ziffer %s"
++
++#: u_dzConvertUtils.pas:139
++msgid "Digit #%d (%s) out of range"
++msgstr "Ung?ltige Ziffer #%d (%s)"
++
++#: u_dzDefaultMain.pas:113
++msgid "Error: %s"
++msgstr "Fehler: %s"
++
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
++#: u_dzFileUtils.pas:244
++msgid "u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
++msgstr "u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath"
++
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
++#: u_dzFileUtils.pas:245
++msgid "u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
++msgstr "u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath (zweiter)"
++
++#. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
++#: u_dzFileUtils.pas:246
++msgid "could not find a unique directory name based on \"%s\""
++msgstr "Konnte keinen eindeutigen Verzeichnisnamen basierend auf \"%s\" finden."
++
++#. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
++#: u_dzFileUtils.pas:247
++msgid "u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
++msgstr "u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von Windows.GetTempFileName"
++
++#. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
++#: u_dzFileUtils.pas:248
++msgid "u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
++msgstr "u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von Windows.GetShortPathname"
++
++#. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
++#: u_dzFileUtils.pas:249
++msgid "Short pathname is longer than MAX_PATH (%d) characters"
++msgstr "Kurzer Pfad ist l?nger als MAX_PATH (%d) Zeichen"
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_MOVEFILE_ERROR_SS
++#: u_dzFileUtils.pas:251
++msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
++msgstr "Fehler %%1:s (%%0:d) beim Verschieben von \"%s\" nach \"%s\"."
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_SETREADONLY_ERROR_S
++#: u_dzFileUtils.pas:253
++msgid "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
++msgstr "Fehler %%1:s (%%0:d) beim ?ndern des Schreibschutz-Flags von \"%s\""
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_COPYFILE_ERROR_SS
++#: u_dzFileUtils.pas:255
++msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
++msgstr "Fehler %%1:s (%%0:d) beim Kopieren von \"%s\" nach \"%s\"."
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_DELETEFILE_ERROR_S
++#: u_dzFileUtils.pas:257
++msgid "Error %%1:s (%%0:d) deleting file \"%s\""
++msgstr "Fehler %%1:s (%%0:d) beim L?schen der Datei \"%s\""
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_REMOVEDIR_ERROR_S
++#: u_dzFileUtils.pas:259
++msgid "Error %%1:s (%%0:d) deleting directory \"%s\""
++msgstr "Fehler %%1:s (%%0:d) beim L?schen des Verzeichnisses \"%s\""
++
++#. Programmer's name for it: STR_DELTREE_ERROR_S
++#: u_dzFileUtils.pas:260
++msgid "\"%s\" does not exist or is not a directory"
++msgstr "\"%s\" existiert nicht oder ist kein Verzeichnis"
++
++#. doppelte % zum Durchreichen in Prozedur
++#. Programmer's name for it: STR_CREATEDIR_ERROR_S
++#: u_dzFileUtils.pas:262
++msgid "Error %%1:s (%%0:d) creating directory \"%s\""
++msgstr "Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses \"%s\""
++
++#. Variant ist Null, sollte %s sein: %s
++#. Programmer's name for it: STR_VARIANT_IS_NULL_SHOULD_BE_SS
++#: u_dzMiscUtils.pas:427
++msgid "Variant is Null, should be %s: %s"
++msgstr "Variant ist Null, sollte %s sein: %s"
++
++#. Variant ist Empty, sollte %s sein: %s
++#. Programmer's name for it: STR_VARIANT_IS_EMPTY_SHOULD_BE_SS
++#: u_dzMiscUtils.pas:429
++msgid "Variant is Empty, should be %s: %s"
++msgstr "Variant ist leer, sollte %s sein: %s"
++
++#. Variant kann nicht nach %s konvertiert werden: %s
++#. Programmer's name for it: STR_VARAINT_CAN_NOT_BE_CONVERTED_TO_SS
++#: u_dzMiscUtils.pas:431
++msgid "Variant can not be converted to %s: %s"
++msgstr "Variant kann nicht nach %s konvertiert werden: %s"
++
++#. Unbekannter Betriebssystem Fehler
++#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
++#: u_dzMiscUtils.pas:434
++msgid "unknown OS error"
++msgstr "Unbekannter Betriebssystemfehler"
++
++#. Unbekannter Win32 Fehler
++#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
++#: u_dzMiscUtils.pas:437
++msgid "unknown Win32 error"
++msgstr "Unbekannter Windows Fehler"
++
++#. "%s" ist kein g?ltiger Flie?komma Wert: %s
++#. Programmer's name for it: STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS
++#: u_dzMiscUtils.pas:440
++msgid "\"%s\" is not a valid floating point value: %s"
++msgstr "\"%s\" ist kein g?ltiger Flie?kommawert: %s"
++
++#. "%s" ist kein g?ltiger %s Wert: %s
++#. Programmer's name for it: STR_X_IS_NOT_A_VALID_Y_VALUE_SSS
++#: u_dzMiscUtils.pas:442
++msgid "\"%s\" is not a valid %s value: %s"
++msgstr "\"%s\" ist kein g?ltiger %s Wert: %s"
++
++#. nthWord: Nulltes Wort nicht verf?gbar
++#. Programmer's name for it: STR_NO_0TH_WORD
++#: u_dzStringUtils.pas:242
++msgid "nthWord: 0th word not available"
++msgstr "nthWord: 0tes Wort ist nicht verf?gbar"
++
++#. Zu zentrierender String ist l?nger als die Maximall?nge und kann nicht zentriert werden.
++#. Programmer's name for it: STR_STRING_TOO_LONG_TO_CENTER
++#: u_dzStringUtils.pas:245
++msgid "Cannot center string that is larger than the maximum length."
++msgstr "Kann keinen String zentrieren, der l?nger als die maximale L?nge ist."
++
++#. Strings haben kein nulltes Zeichen.
++#. Programmer's name for it: STR_CHAR_INDEX_OUT_OF_RANGE
++#: u_dzStringUtils.pas:248
++msgid "Strings do not have a 0th character."
++msgstr "Strings haben kein 0tes Zeichen."
++
++#: u_dzVclUtils.pas:483
++#: u_dzVclUtils.pas:521
++msgid "\"%s\" is not a valid floating point value."
++msgstr "\"%s\" ist kein g?ltiger Flie?kommawert."
++
++#: u_dzVclUtils.pas:503
++#: u_dzVclUtils.pas:539
++msgid "\"%s\" is not a valid integer value."
++msgstr "\"%s\" ist kein g?ltiger Integerwert."
++
+
+Added: utilities/dzLib/trunk/ignore.po
+===================================================================
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -11,6 +11,10 @@
+ uses
+   SysUtils;
+ 
++var
++  {: contains the User's format setting, but with decimal separator = '.' and no thousands separator }
++  DZ_FORMAT_DECIMAL_POINT: TFormatSettings;
++
+ type
+   {: Raised by the number conversion functions if a digit is invalid for the
+      given base. }
+@@ -86,6 +90,13 @@
+ function TimeToSeconds(_Zeit: TDateTime): integer; deprecated;
+ {$ENDIF}
+ 
++{: Converts a floating point number to a string using the given decimal separator
++   in "General number format" with 15 significant digits
++   @param(flt is an extended floating point value)
++   @param(DecSeparator is the decimal separator to use)
++   @returns(a string representation of the floating point value) }
++function Float2Str(_flt: extended; _DecSeparator: char = '.'): string;
++
+ implementation
+ 
+ uses
+@@ -300,5 +311,18 @@
+   Result := Result * Sign;
+ end;
+ 
++function Float2Str(_flt: extended; _DecSeparator: char = '.'): string;
++var
++  FormatSettings: TFormatSettings;
++begin
++  FormatSettings := DZ_FORMAT_DECIMAL_POINT;
++  FormatSettings.DecimalSeparator := _DecSeparator;
++  Result := SysUtils.FloatToStr(_Flt, FormatSettings);
++end;
++
++initialization
++  DZ_FORMAT_DECIMAL_POINT := GetUserDefaultLocaleSettings;
++  DZ_FORMAT_DECIMAL_POINT.DecimalSeparator := '.';
++  DZ_FORMAT_DECIMAL_POINT.ThousandSeparator := #0;
+ end.
+ 
+
+Modified: utilities/dzLib/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDefaultMain.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzDefaultMain.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -95,6 +95,7 @@
+ 
+ destructor TDefaultMain.Destroy;
+ begin
++  FreeAndNil(FCmdLineParser);
+   LogInfo('Program finished.');
+   inherited;
+ end;
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -161,7 +161,18 @@
+        @returns true, if the file could be copied, false otherwise. }
+     class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+       _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean; overload;
+-    class function CreateDir(const _DirecoryName: string; _RaiseException: boolean = true): boolean;
++    {: Creates a directory (parent directories must already exist)
++       @param DirectoryName is the name for the new directory
++       @param RaiseException determines whether an exception is raised on error, default = true
++       @returns true, if the directory was created
++       @raises EOSError if there was an error and RaiseException was true }
++    class function CreateDir(const _DirectoryName: string; _RaiseException: boolean = true): boolean;
++    {: Creates a new directory, including the creation of parent directories as needed.
++       @param DirectoryPath is the name for the new directory
++       @param RaiseException determines whether an exception is raised on error, default = true
++       @returns true, if the directory was created
++       @raises EOSError if there was an error and RaiseException was true }
++    class function ForceDir(const _DirectoryPath: string; _RaiseException: boolean = true): boolean;
+     {: Sets a file's readonly flag
+        @param Filename is the file to change
+        @param Set determines whether to set or clear the flag }
+@@ -234,6 +245,9 @@
+     class function IsValidFilename(const _s: string; out _ErrPos: integer): boolean; overload;
+   end;
+ 
++{: This is an abbreviation for IncludeTrailingPathDelimiter }
++function itpd(const _Dirname: string): string; inline;
++
+ implementation
+ 
+ uses
+@@ -260,8 +274,14 @@
+   STR_DELTREE_ERROR_S = '"%s" does not exist or is not a directory';
+   // doppelte % zum Durchreichen in Prozedur
+   STR_CREATEDIR_ERROR_S = 'Error %%1:s (%%0:d) creating directory "%s"';
+-  { TSimpleDirEnumerator }
+ 
++function itpd(const _Dirname: string): string; inline;
++begin
++  Result := IncludeTrailingPathDelimiter(_Dirname);
++end;
++
++{ TSimpleDirEnumerator }
++
+ constructor TSimpleDirEnumerator.Create(const _Mask: string);
+ begin
+   fMask := _Mask;
+@@ -388,16 +408,16 @@
+   SetLength(Result, Res);
+ end;
+ 
+-class function TFileSystem.CreateDir(const _DirecoryName: string;
++class function TFileSystem.CreateDir(const _DirectoryName: string;
+   _RaiseException: boolean = true): boolean;
+ var
+   LastError: Cardinal;
+ begin
+-  Result := SysUtils.CreateDir(_DirecoryName);
++  Result := SysUtils.CreateDir(_DirectoryName);
+   if not Result then begin
+-    if _RaiseException then     begin
++    if _RaiseException then begin
+       LastError := GetLastError;
+-      RaiseLastOsErrorEx(LastError, Format(STR_CREATEDIR_ERROR_S, [_DirecoryName]));
++      RaiseLastOsErrorEx(LastError, Format(STR_CREATEDIR_ERROR_S, [_DirectoryName]));
+     end;
+   end;
+ end;
+@@ -579,6 +599,17 @@
+     end;
+ end;
+ 
++class function TFileSystem.ForceDir(const _DirectoryPath: string; _RaiseException: boolean): boolean;
++var
++  LastError: Cardinal;
++begin
++  Result := ForceDirectories(_DirectoryPath);
++  if not Result and _RaiseException then begin
++    LastError := GetLastError;
++    RaiseLastOsErrorEx(LastError, Format(STR_CREATEDIR_ERROR_S, [_DirectoryPath]));
++  end;
++end;
++
+ class function TFileSystem.RemoveDir(const _Dirname: string; _RaiseException: boolean = true; _Force: boolean = false): boolean;
+ var
+   Attr: integer;
+
+Modified: utilities/dzLib/trunk/src/u_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzStringUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -184,30 +184,51 @@
+ function UrlEncodeControlChars(const _s: string; _ControlChars: TCharSet = STANDARD_CONTROL_CHARS): string;
+ function UrlDecodeControlChars(const _s: string): string;
+ 
+-{: Returns the WordNo'th word, (counting from 1), using the given Delimiters. }
++{: Returns the WordNo'th word, (counting from 1), using the given Delimiters.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect) }
+ function nthWord(const _s: string; _WordNo: integer; const _Delimiter: string): string; overload;
+-{: Returns the WordNo'th word, (counting from 1), using the given Delimiters. }
++{: Returns the WordNo'th word, (counting from 1), using the given Delimiters.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect) }
+ function nthWord(const _s: string; _WordNo: integer; _Delimiter: TCharSet): string; overload;
+ 
+ {: Returns the Nth character of S or ' ' if S has less than N charaters. }
+ function nthCharOf(const _s: string; _n: integer): Char;
+ 
+ {: Extract the first word of S using the given delimiters. The word is deleted
+-   from S. }
++   from S.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect) }
+ function ExtractFirstWord(var _s: string; const _Delimiter: string): string; overload;
+ {: Extract the first word of S using the given delimiters. The word is deleted
+-   from S. }
++   from S.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect) }
+ function ExtractFirstWord(var _s: string; _Delimiter: TCharSet): string; overload;
+ {: Extract the first word of S using the given delimiters. The word is deleted
+    from S.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect)
+    @returns true, if a word could be extracted, false otherwise }
+ function ExtractFirstWord(var _s: string; const _Delimiter: string; out _FirstWord: string): boolean; overload;
+ {: Extract the first word of S using the given delimiters. The word is deleted
+    from S.
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect)
+    @returns true, if a word could be extracted, false otherwise }
+ function ExtractFirstWord(var _s: string; _Delimiter: TCharSet; out _FirstWord: string): boolean; overload;
+ 
+ {: Split string s into the list of substrings delimited by delimter
++   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++   into two words (which you would expect), but also 'abc'#9#9'def' is two words
++   (which you might not expect)
+    @param sl is the stringlist in which to return the result
+    @param s is the string to split
+    @param Delimiter is a string containing all delimiter characters
+@@ -228,7 +249,6 @@
+ function StringOrNull(_P: PChar): string;
+ 
+ {: returns the default locale settings as read from the system's regional settings }
+-function GetDefaultLocaleSettings: TFormatSettings; deprecated; // use one of the functions below!
+ function GetUserDefaultLocaleSettings: TFormatSettings;
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ 
+@@ -913,11 +933,6 @@
+     Result := 'NULL';
+ end;
+ 
+-function GetDefaultLocaleSettings: TFormatSettings;
+-begin
+-  Result := GetSystemDefaultLocaleSettings;
+-end;
+-
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ begin
+   GetLocaleFormatSettings(GetSystemDefaultLCID, Result);
+
+Added: utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -0,0 +1,363 @@
++{: several utilty functions for Variants }
++unit u_dzVariantUtils;
++
++interface
++
++uses
++  SysUtils,
++  Variants;
++
++type
++  {: raised if there is a conversion error in one of the Var2XxxEx functions }
++  EVariantConvertError = class(Exception);
++  {: raised if the variant passed to one of the Var2XxxEx functions is null }
++  EVarIsNull = class(EVariantConvertError);
++  {: raised if the variant passed to one of the Var2XxxEx functions is empty }
++  EVarIsEmpty = class(EVariantConvertError);
++
++{: converts a variant to its string representation (for debugging) }
++function toString(_v: OleVariant): string; overload;
++
++{: Checks whether a variant is a type that can be assigned to an integer (signed 32 bit),
++   Note: Excludes longword and Int64, even if the value may be <= MaxLongInt }
++function VarIsInteger(_v: variant): boolean;
++
++{: Checks whether a variant is of a type that can be assigned to a longword (unsigned 32 bit),
++   Note: Excludes signed integers, even if the value may be positive }
++function VarIsLongWord(_v: variant): boolean;
++
++{: Checks whether a variant is of a type that can be assigned to an Int64 (signed 64 bit) }
++function VarIsInt64(_v: variant): boolean;
++
++// Variant to other type conversion functions
++// TryVar2Xxx converts from variant to type Xxx, returns false, if
++// the variant is NULL.
++// Var2Xxx converts from variant to type Xxx and returns the Default if the
++// variant is NULL.
++// Var2XxxEx converts from variant to type Xxx, but raises an exception if
++// variant is NULL, using the Source for the message.
++
++{: Converts a variant to an integer.
++   If v is null or empty, it returns false
++   @param(v Variant value to convert)
++   @param(Value is the variants integer value, only valid if the function
++          returns true.)
++   @returns(true, if the variant could be converted to integer, false if not.) }
++function TryVar2Int(const _v: variant; out _Value: integer): boolean;
++
++{: Converts a variant to an integer.
++   If v is null or empty, it returns the Default.
++   @param(v Variant value to convert)
++   @param(Default Value to return if v is empty or null)
++   @returns(the integer value of v or the Default if v can not be converted) }
++function Var2Int(const _v: variant; _Default: integer): integer;
++
++{: Converts a variant to an integer.
++   Raises an exception if v can not be converted.
++   @param(v Variant value to convert)
++   @param(Source string to include in the exception message)
++   @returns(the integer value of v)
++   @raises(EVarIsNull if v is null)
++   @raises(EVarIsEmpty if v is empty)
++   @raises(EVariantConvertError if there is some other conversion error) }
++function Var2IntEx(const _v: variant; const _Source: string): integer;
++
++{: Converts a variant to the string representation of an integer.
++   If v is null or empty, it returns the NullValue.
++   @param(v Variant value to convert)
++   @param(NullValue String value to return if v is empty or null)
++   @returns(the string representation of the integer value of v or the
++            NullValue if v can not be converted) }
++function Var2IntStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++
++{: Converts a variant to a double.
++   If v is null or empty, it returns false.
++   @param(v Variant value to convert)
++   @param(Value is the variant's double value, only valid if the function
++                returns true.)
++   @returns(true, if the variant could be converted to double, false if not) }
++function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
++
++{: Converts a variant to a double.
++   If v is null or empty, it returns the Default.
++   @param(v Variant value to convert)
++   @param(Default Value to return if v is empty or null)
++   @returns(the double value of v or the Default if v can not be converted) }
++function Var2Dbl(const _v: variant; const _Default: double): double;
++
++{: Converts a variant to a double.
++   Raises an exception if v can not be converted.
++   @param(v Variant value to convert)
++   @param(Source string to include in the exception message)
++   @returns(the double value of v)
++   @raises(EVarIsNull if v is null)
++   @raises(EVarIsEmpty if v is empty)
++   @raises(EVariantConvertError if there is some other conversion error) }
++function Var2DblEx(const _v: variant; const _Source: string): double;
++
++{: Converts a variant to the string representation of a double.
++   If v is null or empty, it returns the Default.
++   It uses Float2Str (not FloatToStr) with a '.' as decimal separator.
++   @param(v Variant value to convert)
++   @param(NullValue String value to return if v is empty or null)
++   @returns(the string representation of the double value of v or the
++            NullValue if v can not be converted) }
++function Var2DblStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++
++{: Converts a variant to a TDateTime.
++   Raises an exception if v can not be converted.
++   @param(v Variant value to convert)
++   @param(Source string to include in the exception message)
++   @returns(the TDateTime value of v)
++   @raises(EVarIsNull if v is null)
++   @raises(EVarIsEmpty if v is empty)
++   @raises(EVariantConvertError if there is some other conversion error) }
++function Var2DateTimeEx(const _v: variant; const _Source: string): TDateTime;
++
++{: Converts a variant to an ISO format DateTime string (yyyy-mm-dd hh:mm:ss)
++   @param(v Variant value to convert)
++   @param(NullValue String value to return if v is empty or null)
++   @returns(an ISO format DateTime string of v or NullValue if v can not be converted) }
++function Var2DateTimeStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++
++{: Converts a variant to a string
++   If v is null or empty, it returns false.
++   @param(v Variant value to convert)
++   @param(Value is the variant's string value, only valid if the function
++                returns true.)
++   @returns(true, if the variant could be converted to double, false if not) }
++function TryVar2Str(const _v: variant; out _Value: string): boolean;
++
++{: Converts a variant to a string.
++   If v is null or empty, it returns the Default.
++   @param(v Variant value to convert)
++   @param(Default Value to return if v is empty or null)
++   @returns(the string value of v or the Default if v can not be converted) }
++function Var2Str(const _v: variant; const _Default: string = '*NULL*'): string;
++
++{: Converts a variant to a string.
++   Raises an exception if v can not be converted.
++   @param(v Variant value to convert)
++   @param(Source string to include in the exception message)
++   @returns(the string value of v)
++   @raises(EVarIsNull if v is null)
++   @raises(EVarIsEmpty if v is empty)
++   @raises(EVariantConvertError if there is some other conversion error) }
++function Var2StrEx(_v: variant; const _Source: string): string;
++
++implementation
++
++uses
++  u_dzConvertUtils;
++
++resourcestring
++  // Variant ist Null, sollte %s sein: %s
++  STR_VARIANT_IS_NULL_SHOULD_BE_SS = 'Variant is Null, should be %s: %s';
++  // Variant ist Empty, sollte %s sein: %s
++  STR_VARIANT_IS_EMPTY_SHOULD_BE_SS = 'Variant is Empty, should be %s: %s';
++  // Variant kann nicht nach %s konvertiert werden: %s
++  STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S = 'Variant can not be converted to %s';
++  STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS = 'Variant can not be converted to %s: %s';
++
++function toString(_v: OleVariant): string;
++var
++  i, j: Integer;
++begin
++  try
++    case VarType(_v) of
++      varEmpty: result := '<Empty>';
++      varNull: result := '<Null>';
++      varSmallint: result := VarToStr(_v);
++      varInteger: result := VarToStr(_v);
++      varSingle: result := VarToStr(_v);
++      varDouble: result := VarToStr(_v);
++      varCurrency: result := VarToStr(_v);
++      varDate: result := VarToStr(_v);
++      varOleStr: result := VarToStr(_v);
++      varDispatch: result := VarToStr(_v);
++      varString: result := VarToStr(_v);
++      varArray: begin
++          if VarArrayDimCount(_v) = 1 then begin
++            for i := VarArrayLowBound(_v, 1) to VarArrayHighBound(_v, 1) do
++              result := result + toString(_v[i]);
++          end else if VarArrayDimCount(_v) = 2 then begin
++            for i := VarArrayLowBound(_v, 1) to VarArrayHighBound(_v, 1) do
++              for j := VarArrayLowBound(_v, 1) to VarArrayHighBound(_v, 1) do
++                result := result + toString(_v[i, j]);
++          end else
++            result := '3dim-array not supported';
++        end;
++    else
++      result := '<Unknown Type>';
++    end;
++    result := result + ' (' + VarTypeAsText(VarType(_v)) + ')';
++  except
++    on ex: Exception do
++      result := result + '#ERROR: ' + ex.Message;
++  end;
++end;
++
++function VarIsInteger(_v: variant): boolean;
++begin
++  Result := FindVarData(_V)^.VType in [varSmallInt, varInteger, varShortInt,
++    varByte, varWord];
++end;
++
++function VarIsLongWord(_v: variant): boolean;
++begin
++  Result := FindVarData(_V)^.VType in [varByte, varWord, varLongWord];
++end;
++
++function VarIsInt64(_v: variant): boolean;
++begin
++  Result := FindVarData(_V)^.VType in [varSmallInt, varInteger, varShortInt,
++    varByte, varWord, varLongWord, varInt64];
++end;
++
++function TryVar2Int(const _v: variant; out _Value: integer): boolean;
++begin
++  Result := not VarIsNull(_v) and not VarIsEmpty(_v);
++  if Result then
++    try
++      _Value := _v;
++    except
++      on e: EVariantError do
++        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, ['Integer']);
++    end;
++end;
++
++function Var2Int(const _v: variant; _Default: integer): integer;
++begin
++  if not TryVar2Int(_v, Result) then
++    Result := _Default;
++end;
++
++function Var2IntEx(const _v: variant; const _Source: string): integer;
++begin
++  if VarIsNull(_v) then
++    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Integer', _Source]);
++  if VarIsEmpty(_v) then
++    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Integer', _Source]);
++  try
++    Result := _v;
++  except
++    on e: EVariantError do
++      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Integer', _Source]);
++  end;
++end;
++
++function Var2IntStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++var
++  Value: integer;
++begin
++  if TryVar2Int(_v, Value) then
++    Result := IntToStr(Value)
++  else
++    Result := _NullValue;
++end;
++
++function Var2DateTimeEx(const _v: variant; const _Source: string): TDateTime;
++begin
++  if VarIsNull(_v) then
++    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Date', _Source]);
++  if VarIsEmpty(_v) then
++    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Date', _Source]);
++  try
++    Result := _v;
++  except
++    on e: EVariantError do
++      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Date', _Source]);
++  end;
++end;
++
++function Var2DateTimeStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++var
++  Value: TDateTime;
++begin
++  if VarIsNull(_v) or VarIsEmpty(_v) then
++    Result := _NullValue
++  else
++    try
++      Value := _v;
++      Result := FormatDateTime('yyyy-mm-dd hh:nn:ss', Value);
++    except
++      Result := _NullValue;
++    end;
++end;
++
++function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
++begin
++  Result := not VarIsNull(_v) and not VarIsEmpty(_v);
++  if Result then
++    try
++      _Value := _v;
++    except
++      on e: EVariantError do
++        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, ['Double']);
++    end;
++end;
++
++function Var2Dbl(const _v: variant; const _Default: double): double;
++begin
++  if not TryVar2Dbl(_v, Result) then
++    Result := _Default
++end;
++
++function Var2DblEx(const _v: variant; const _Source: string): double;
++begin
++  if VarIsNull(_v) then
++    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Double', _Source]);
++  if VarIsEmpty(_v) then
++    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Double', _Source]);
++  try
++    Result := _v;
++  except
++    on e: EVariantError do
++      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Double', _Source]);
++  end;
++end;
++
++function Var2DblStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++var
++  Value: double;
++begin
++  if TryVar2Dbl(_v, Value) then
++    Result := Float2Str(Value)
++  else
++    Result := _NullValue;
++end;
++
++function TryVar2Str(const _v: variant; out _Value: string): boolean;
++begin
++  Result := not VarIsNull(_v) and not VarIsEmpty(_v);
++  if Result then
++    try
++      _Value := _v;
++    except
++      on e: EVariantError do
++        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, ['String']);
++    end;
++end;
++
++function Var2Str(const _v: variant; const _Default: string): string;
++begin
++  if not TryVar2Str(_v, Result) then
++    Result := _Default
++end;
++
++function Var2StrEx(_v: variant; const _Source: string): string;
++begin
++  if VarIsNull(_v) then
++    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['String', _Source]);
++  if VarIsEmpty(_v) then
++    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['String', _Source]);
++  try
++    Result := _v;
++  except
++    on e: EVariantError do
++      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['String', _Source]);
++  end;
++end;
++
++end.
++
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-03-18 18:13:48 UTC (rev 137)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
+@@ -131,6 +131,14 @@
+ function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
+ function StringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer; deprecated; // use TStringGrid_CellToInt instead
+ 
++{: Deletes the top lines of the memo so it only contains Retain lines
++   @param Memo is the meme to work on
++   @param Retain is the number of lines to retain }
++procedure TMemo_DeleteTopLines(_Memo: TMemo; _Retain: integer);
++
++{: Scrolls the memo to the end }
++procedure TMemo_ScrollToEnd(_Memo: TMemo);
++
+ {: Tries to convert the edit control text to a double, if an error occurs, it raises
+    an exception and optionally focuses the control.
+    @param ed is the edit control
+@@ -1359,5 +1367,33 @@
+   Result := FileFormats;
+ end;
+ 
++procedure TMemo_DeleteTopLines(_Memo: TMemo; _Retain: integer);
++const
++  EmptyStr: PChar = '';
++var
++  Offset: Integer;
++  cnt: Integer;
++begin
++  cnt := _Memo.Lines.Count;
++  if cnt <= _Retain then
++    Exit;
++  Dec(cnt, _Retain);
++
++  Offset := SendMessage(_Memo.Handle, EM_LINEINDEX, cnt - 1, 0);
++  if (Offset < 0) or (cnt = 0) then
++    Offset := SendMessage(_Memo.Handle, EM_LINELENGTH, 0, 0);
++  SendMessage(_Memo.Handle, EM_SETSEL, 0, Offset);
++  SendMessage(_Memo.Handle, EM_REPLACESEL, 0, Longint(EmptyStr));
++end;
++
++procedure TMemo_ScrollToEnd(_Memo: TMemo);
++Var
++  cnt: Integer;
++Begin
++  cnt := SendMessage(_Memo.Handle, EM_GETLINECOUNT, 0, 0);
++  SendMessage(_Memo.Handle, EM_LINESCROLL, 0, cnt);
++End;
++
++
+ end.
+ 
+
+
+
+From twm at mail.berlios.de  Sun Apr  1 20:12:16 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Sun, 1 Apr 2007 20:12:16 +0200
+Subject: [Dzchart-svncheckins] r139 - in utilities/dzLib/trunk: . src tests
+	tests/dzfileutils tests/dzfileutils/dcu tests/dzfileutils/testdata
+Message-ID: <200704011812.l31ICGvj029104@sheep.berlios.de>
+
+Author: twm
+Date: 2007-04-01 20:12:14 +0200 (Sun, 01 Apr 2007)
+New Revision: 139
+
+Added:
+   utilities/dzLib/trunk/tests/
+   utilities/dzLib/trunk/tests/dzfileutils/
+   utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr
+   utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj
+   utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas
+   utilities/dzLib/trunk/tests/dzfileutils/dcu/
+   utilities/dzLib/trunk/tests/dzfileutils/testdata/
+   utilities/dzLib/trunk/tests/dzfileutils/testdata/sourcefile.txt
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+added CopyFileWithProgress and MoveFileWithProgress methods
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-04-01 18:12:14 UTC (rev 139)
+@@ -37,17 +37,17 @@
+   TSimpleDirEnumerator = class
+   protected
+     {: stores the search mask ('c:\windows\*.exe') }
+-    fMask: string;
++    FMask: string;
+     {: set of attributes a file must match }
+-    fMustHaveAttr: TFileAttributeSet;
++    FMustHaveAttr: TFileAttributeSet;
+     {: set of attributes a file may have }
+-    fMayHaveAttr: TFileAttributeSet;
++    FMayHaveAttr: TFileAttributeSet;
+     {: internally used TSearchRec structure }
+-    fSr: TSearchRec;
++    FSr: TSearchRec;
+     {: true if FindFirst was called and returned no error code }
+-    fActive: boolean;
++    FActive: boolean;
+     {: number of matching files found }
+-    fMatchCount: integer;
++    FMatchCount: integer;
+   public
+     {: creates a TSimpleDirEnumerator, sets the Mask, MustHaveAttr and MayHaveAttr
+        properties.
+@@ -81,18 +81,65 @@
+     procedure Reset;
+     {: Returns the number of matches so far, that is the number of successful
+        calls to FindNext }
+-    property MatchCount: integer read fMatchCount;
++    property MatchCount: integer read FMatchCount;
+     {: Returns the search mask }
+-    property Mask: string read fMask; // write fMask;
++    property Mask: string read FMask; // write fMask;
+     {: the set of attributes a file must have to be found by FindNext }
+-    property MustHaveAttr: TFileAttributeSet read fMustHaveAttr write fMustHaveAttr;
++    property MustHaveAttr: TFileAttributeSet read FMustHaveAttr write FMustHaveAttr;
+     {: the set of allowed attributes for a file to be found by FindNext }
+-    property MayHaveAttr: TFileAttributeSet read fMayHaveAttr write fMayHaveAttr;
++    property MayHaveAttr: TFileAttributeSet read FMayHaveAttr write FMayHaveAttr;
+     {: the search rec containing additional information about the file }
+-    property Sr: TSearchRec read fSr;
++    property Sr: TSearchRec read FSr;
+   end;
+ 
+ type
++  {: represents the status of a CopyFile/MoveFileWithProgress operation, passed
++     as parameter to the callback function. }
++  TCopyProgressStatus = class
++  public
++  {(*}
++  type
++    {: possible return values for the callback function }
++    TProgressResult = (
++      prContinue, {:< continue with the copy/move operation }
++      prCancel,   {:< cancel the operation, cannot be resumed }
++      prStop,     {:< stop the operation, can be resumed, if cfwRestartable was passed }
++      prQuiet);   {:< continue the operation, do not call the callback }
++    {: reason for calling the callback function }
++    TProgressReason = (
++      prChunkFinished, {:< a chunk of the file has been copied }
++      prStreamSwitch); {:< started to copy a new stream (set in the first callback) }
++  {*)}
++  protected
++    FTotalFileSize: LARGE_INTEGER;
++    FTotalBytesTransferred: LARGE_INTEGER;
++    FStreamSize: LARGE_INTEGER;
++    FStreamBytesTransferred: LARGE_INTEGER;
++    FStreamNumber: LongWord;
++    FCallbackReason: TProgressReason;
++    FSourceFile: THandle;
++    FDestinationFile: THandle;
++  public
++    {: total size of the file }
++    property TotalFileSize: LARGE_INTEGER read FTotalFileSize;
++    {: total bytes that have been transferred so far }
++    property TotalBytesTransferred: LARGE_INTEGER read FTotalBytesTransferred;
++    {: size of the stream that is currently being transferred }
++    property StreamSize: LARGE_INTEGER read FStreamSize;
++    {: bytes of the current stream taht have been transferred so far }
++    property StreamBytesTransferred: LARGE_INTEGER read FStreamBytesTransferred;
++    {: Number of the current stream, starts with 1 (usually always 1) }
++    property StreamNumber: LongWord read FStreamNumber;
++    {: reason for callback }
++    property CallbackReason: TProgressReason read FCallbackReason;
++    {: Handle of source file }
++    property SourceFile: THandle read FSourceFile;
++    {: Handle of destination file }
++    property DestinationFile: THandle read FDestinationFile;
++  end;
++  TCopyFileProgressEvt = procedure(_Status: TCopyProgressStatus;
++    var _Continue: TCopyProgressStatus.TProgressResult) of object;
++
+   {: This class owns all utility functions as class methods so they don't pollute the name space }
+   TFileSystem = class
+   public
+@@ -101,6 +148,17 @@
+     TCopyFileFlags = (cfFailIfExists, cfForceOverwrite, cfRaiseException);
+     TCopyFileFlagSet = set of TCopyFileFlags;
+     TMatchingFileResult = (mfNotFound, mfDirectory, mfFile, mfSpecial);
++    TCopyFileWithProgressFlags = (cfwFailIfExists, cfwRestartable, cfwRaiseException);
++    TCopyFileWithProgressFlagSet = set of TCopyFileWithProgressFlags;
++    TCopyFileWithProgressResult = (cfwOK, cfwAborted, cfwError);
++    TMoveFileWithProgressFlags = (
++      mfwFailIfExists, {:< fail if the destination file already exists }
++      mfwAllowCopy,    {:< allow using copy and delete if necessary }
++      mfwDelayUntilReboot, {:< wait until next reboot for moving the file }
++      mfwWriteThrough, {:< Setting this value guarantees that a move performed as a copy and delete operation is flushed to disk before the function returns. }
++      mfwFailIfNotTrackable, {:< The function fails if the source file is a link source, but the file cannot be tracked after the move. }
++      mfwRaiseException); {:< raise an exception if there is an error }
++    TMoveFileWithProgressFlagSet = set of TMoveFileWithProgressFlags;
+   const
+   {: set of char constant containing all characters that are invalid in a filename }
+     INVALID_FILENAME_CHARS: set of Char = ['\', '/', ':', '*', '?', '"', '<', '>', '|'];
+@@ -161,6 +219,52 @@
+        @returns true, if the file could be copied, false otherwise. }
+     class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+       _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean; overload;
++    {: Copies the file Source to Dest using the Windows CopyFile function.
++       @param(Source is a string containing the name of the existing file)
++       @param(Dest is a string containing the destination file name)
++       @param(Flags is a set of TCopyFileFlags specifying whether the copy operation
++              cfFailIfExists: fail if the destination file already exists.
++              cfForceOverwrite: remove a read-only flag from the destination file if necessary.
++              cfRaiseException: retrieve the Windows error and raise an exception if it fails.
++                If not set, it will not raise an exception but just return false if
++                copying the file fails.)
++       @returns(true, if the file could be copied, false otherwise.) }
++    class function CopyFile(const _Source, _Dest: string;
++      _Flags: TCopyFileFlagSet = [cfRaiseException]): boolean; overload;
++    {: Copies the file Source to Dest using the Windows CopyFileEx function which
++       allows for a progress callback
++       @param(Source is a string containing the name of the existing file)
++       @param(Dest is a string containing the destination file name)
++       @param(Flags is a set of TCopyFileWithProgressFlags specifying whether the copy operation
++              cfwFailIfExists: fail if the destination file already exists.
++              cfwRestartable: stores information in the destination file that allows
++                to restart a stopped copy operation
++              cfwRaiseException: retrieve the Windows error and raise an exception if it fails.
++                If not set, it will not raise an exception but just return cfwAborted
++                or cfwError if copying the file fails. (set by default))
++       @returns cfeOK, if the copying succeeds, cfeAborted if the copying was aborted or
++                stopped in the callback function and cfeError on any other error.
++       @raises  EOSError if an error occurs and cfwRaiseException was passed }
++    class function CopyFileWithProgress(const _Source, _Dest: string; _Progress: TCopyFileProgressEvt;
++      _Flags: TCopyFileWithProgressFlagSet = [cfwRaiseException]): TCopyFileWithProgressResult;
++    {: Copies the file Source to Dest using the Windows MoveFileWithProgress function which
++       allows for a progress callback
++       NOTE: If the file can be moved rather than copied, no call to the callback
++             function will occur!
++       @param(Source is a string containing the name of the existing file)
++       @param(Dest is a string containing the destination file name)
++       @param(Flags is a set of TCopyFileWithProgressFlags specifying whether the copy operation
++              cfwFailIfExists: fail if the destination file already exists.
++              cfwRestartable: stores information in the destination file that allows
++                to restart a stopped copy operation
++              cfwRaiseException: retrieve the Windows error and raise an exception if it fails.
++                If not set, it will not raise an exception but just return cfwAborted
++                or cfwError if copying the file fails. (set by default))
++       @returns cfeOK, if the copying succeeds, cfeAborted if the copying was aborted or
++                stopped in the callback function and cfeError on any other error.
++       @raises  EOSError if an error occurs and cfwRaiseException was passed }
++    class function MoveFileWithProgress(const _Source, _Dest: string; _Progress: TCopyFileProgressEvt;
++      _Flags: TMoveFileWithProgressFlagSet = [mfwRaiseException]): TCopyFileWithProgressResult;
+     {: Creates a directory (parent directories must already exist)
+        @param DirectoryName is the name for the new directory
+        @param RaiseException determines whether an exception is raised on error, default = true
+@@ -177,17 +281,6 @@
+        @param Filename is the file to change
+        @param Set determines whether to set or clear the flag }
+     class function SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
+-    {: Copies the file Source to Dest using the Windows CopyFile function.
+-       @param(Source is a string containing the name of the existing file)
+-       @param(Dest is a string containing the destination file name)
+-       @param(Flags is a set of TCopyFileFlags specifying whether the copy operation
+-              cfFailIfExists: fail if the destination file already exists.
+-              cfForceOverwrite: remove a read-only flag from the destination file if necessary.
+-              cfRaiseException: retrieve the Windows error and raise an exception if it fails.
+-                If not set, it will not raise an exception but just return false if
+-                copying the file fails.)
+-       @returns(true, if the file could be copied, false otherwise.) }
+-    class function CopyFile(const _Source, _Dest: string; _Flags: TCopyFileFlagSet): boolean; overload;
+     {: Deletes the file using the SysUtils.DeleteFile function.
+        @param(Filename is a string containing the name of the file)
+        @param(RaiseException is a boolean which controls whether the function
+@@ -284,9 +377,9 @@
+ 
+ constructor TSimpleDirEnumerator.Create(const _Mask: string);
+ begin
+-  fMask := _Mask;
+-  fMustHaveAttr := [];
+-  fMayHaveAttr := [faHidden, faSysFile, faVolumeID, faDirectory, faArchive];
++  FMask := _Mask;
++  FMustHaveAttr := [];
++  FMayHaveAttr := [faHidden, faSysFile, faVolumeID, faDirectory, faArchive];
+ end;
+ 
+ destructor TSimpleDirEnumerator.Destroy;
+@@ -315,21 +408,21 @@
+   function AttrOk(_EnumAttr: TFileAttributes; _SysAttr: integer): boolean;
+   begin
+     Result := true;
+-    if _EnumAttr in fMustHaveAttr then
++    if _EnumAttr in FMustHaveAttr then
+       if (Attr and _SysAttr) = 0 then
+         Result := false;
+   end;
+ 
+   procedure CondAddAttr(_EnumAttr: TFileAttributes; _SysAttr: integer);
+   begin
+-    if _EnumAttr in fMayHaveAttr then
++    if _EnumAttr in FMayHaveAttr then
+       Attr := Attr + _SysAttr;
+   end;
+ 
+ begin
+   repeat
+-    if not fActive then begin
+-      fMatchCount := 0;
++    if not FActive then begin
++      FMatchCount := 0;
+       Attr := 0;
+       CondAddAttr(faReadOnly, SysUtils.faReadOnly);
+       CondAddAttr(faHidden, SysUtils.faHidden);
+@@ -337,20 +430,20 @@
+       CondAddAttr(faVolumeID, SysUtils.faVolumeID);
+       CondAddAttr(faDirectory, SysUtils.faDirectory);
+       CondAddAttr(faArchive, SysUtils.faArchive);
+-      Res := FindFirst(fMask, Attr, fSr);
++      Res := FindFirst(FMask, Attr, FSr);
+       Result := (Res = 0);
+       if Result then
+-        fActive := true;
++        FActive := true;
+     end else begin
+-      Res := SysUtils.FindNext(fSr);
++      Res := SysUtils.FindNext(FSr);
+       Result := (Res = 0);
+     end;
+     if not Result then
+       exit;
+     if (sr.Name = '.') or (sr.Name = '..') then
+       Continue;
+-    if fMustHaveAttr <> [] then begin
+-      Attr := fSr.Attr;
++    if FMustHaveAttr <> [] then begin
++      Attr := FSr.Attr;
+       if not AttrOk(faReadonly, SysUtils.faReadOnly) then
+         Continue;
+       if not AttrOk(faHidden, SysUtils.faHidden) then
+@@ -364,7 +457,7 @@
+       if not AttrOk(faArchive, SysUtils.faArchive) then
+         Continue;
+     end;
+-    Inc(fMatchCount);
++    Inc(FMatchCount);
+     _Filename := sr.Name;
+     exit;
+   until false;
+@@ -379,9 +472,9 @@
+ 
+ procedure TSimpleDirEnumerator.Reset;
+ begin
+-  if fActive then
+-    FindClose(fSr);
+-  fActive := false;
++  if FActive then
++    FindClose(FSr);
++  FActive := false;
+ end;
+ 
+ { TFileSystem }
+@@ -533,6 +626,141 @@
+     cfForceOverwrite in _Flags);
+ end;
+ 
++type
++  TProgressRedir = class(TCopyProgressStatus)
++  strict private
++    FOnProgress: TCopyFileProgressEvt;
++  private
++    CancelFlag: BOOL;
++    function doProgress(): TCopyProgressStatus.TProgressResult;
++  public
++    constructor Create(_OnProgress: TCopyFileProgressEvt);
++  end;
++
++//  PROGRESS_CONTINUE = 0;
++//  PROGRESS_CANCEL = 1;
++//  PROGRESS_STOP = 2;
++//  PROGRESS_QUIET = 3;
++
++//  CALLBACK_CHUNK_FINISHED = $00000000;
++//  CALLBACK_STREAM_SWITCH = $00000001;
++
++function ProgressCallback(
++  _TotalFileSize, _TotalBytesTransferred, _StreamSize, _StreamBytesTransferred: LARGE_INTEGER;
++  _StreamNumber, _CallbackReason: LongWord;
++  _SourceFile, _DestinationFile: THandle; _Data: pointer): LongWord; far; stdcall;
++var
++  Status: TProgressRedir;
++begin
++  Status := TProgressRedir(_Data);
++  Status.FTotalFileSize := _TotalFileSize;
++  Status.FTotalBytesTransferred := _TotalBytesTransferred;
++  Status.FStreamSize := _StreamSize;
++  Status.FStreamBytesTransferred := _StreamBytesTransferred;
++  Status.FStreamNumber := _StreamNumber;
++  case _CallbackReason of
++  CALLBACK_CHUNK_FINISHED: Status.FCallbackReason := prChunkFinished;
++  CALLBACK_STREAM_SWITCH: Status.FCallbackReason := prStreamSwitch;
++  else
++    // Shouldn't happen, assume CALLBACK_CHUNK_FINISHED for now
++    Status.FCallbackReason := prChunkFinished;
++  end;
++  Status.FSourceFile := _SourceFile;
++  Status.FDestinationFile := _DestinationFile;
++  case Status.doProgress() of
++    prContinue: Result := PROGRESS_CONTINUE;
++    prCancel: Result := PROGRESS_CANCEL;
++    prStop: Result := PROGRESS_STOP;
++    prQuiet: Result := PROGRESS_QUIET;
++  else // should not happen, assume prContinue
++    Result := PROGRESS_CONTINUE;
++  end;
++end;
++
++//  COPY_FILE_FAIL_IF_EXISTS = $00000001;
++//  COPY_FILE_RESTARTABLE = $00000002;
++
++class function TFileSystem.CopyFileWithProgress(const _Source, _Dest: string;
++  _Progress: TCopyFileProgressEvt;
++  _Flags: TCopyFileWithProgressFlagSet = [cfwRaiseException]): TCopyFileWithProgressResult;
++var
++  Redir: TProgressRedir;
++  Flags: DWORD;
++  Res: BOOL;
++  LastError: DWORD;
++begin
++  Redir := TProgressRedir.Create(_Progress);
++  try
++    Flags := 0;
++    if cfwFailIfExists in _Flags then
++      Flags := Flags or COPY_FILE_FAIL_IF_EXISTS;
++     if cfwRestartable in _Flags then
++       Flags := Flags or COPY_FILE_RESTARTABLE;
++    Res := Windows.CopyFileEx(PChar(_Source), PChar(_Dest), @ProgressCallback, Redir,
++      @Redir.CancelFlag, Flags);
++    if not Res then begin
++      LastError := GetLastError;
++      if cfwRaiseException in _Flags then
++        RaiseLastOsErrorEx(LastError, Format(STR_COPYFILE_ERROR_SS, [_Source, _Dest]));
++
++      if LastError = ERROR_REQUEST_ABORTED then
++        Result := cfwAborted
++      else
++        Result := cfwError;
++    end else
++      Result := cfwOK;
++  finally
++    Redir.Free;
++  end;
++end;
++
++//  MOVEFILE_REPLACE_EXISTING       = $00000001;
++//  MOVEFILE_COPY_ALLOWED           = $00000002;
++//  MOVEFILE_DELAY_UNTIL_REBOOT     = $00000004;
++//  MOVEFILE_WRITE_THROUGH          = $00000008;
++//  MOVEFILE_CREATE_HARDLINK        = $00000010;
++//  MOVEFILE_FAIL_IF_NOT_TRACKABLE  = $00000020;
++
++class function TFileSystem.MoveFileWithProgress(const _Source, _Dest: string;
++  _Progress: TCopyFileProgressEvt;
++  _Flags: TMoveFileWithProgressFlagSet = [mfwRaiseException]): TCopyFileWithProgressResult;
++var
++  Redir: TProgressRedir;
++  Flags: DWORD;
++  Res: BOOL;
++  LastError: DWORD;
++begin
++  Redir := TProgressRedir.Create(_Progress);
++  try
++    Flags := MOVEFILE_REPLACE_EXISTING;
++    if mfwFailIfExists in _Flags then
++      Flags := Flags - MOVEFILE_COPY_ALLOWED;
++    if mfwAllowCopy in _Flags then
++      Flags := Flags or MOVEFILE_COPY_ALLOWED;
++    if mfwDelayUntilReboot in _Flags then
++      Flags := Flags or MOVEFILE_DELAY_UNTIL_REBOOT;
++    if mfwWriteThrough in _Flags then
++      Flags := Flags or MOVEFILE_WRITE_THROUGH;
++    if mfwFailIfNotTrackable in _Flags then
++      Flags := Flags or MOVEFILE_FAIL_IF_NOT_TRACKABLE;
++    Res := Windows.MoveFileWithProgress(PChar(_Source), PChar(_Dest),
++      @ProgressCallback, Redir, Flags);
++    if not Res then begin
++      LastError := GetLastError;
++      if mfwRaiseException in _Flags then
++        RaiseLastOsErrorEx(LastError, Format(STR_COPYFILE_ERROR_SS, [_Source, _Dest]));
++
++      if LastError = ERROR_REQUEST_ABORTED then
++        Result := cfwAborted
++      else
++        Result := cfwError;
++    end else
++      Result := cfwOK;
++  finally
++    Redir.Free;
++  end;
++end;
++
+ class function TFileSystem.DeleteFile(const _Filename: string; _RaiseException: boolean = true;
+   _Force: boolean = false): boolean;
+ var
+@@ -708,5 +936,20 @@
+   Result := IsValidFilename(_s, ErrPos);
+ end;
+ 
++{ TProgressRedir }
++
++constructor TProgressRedir.Create(_OnProgress: TCopyFileProgressEvt);
++begin
++  inherited Create;
++  FOnProgress := _OnProgress;
++end;
++
++function TProgressRedir.doProgress(): TCopyProgressStatus.TProgressResult;
++begin
++  Result := prContinue;
++  if Assigned(FOnProgress) then
++    FOnProgress(Self, Result);
++end;
++
+ end.
+ 
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzfileutils
+___________________________________________________________________
+Name: svn:ignore
+   + DUnitTest_dzFileUtils.exe
+*.res
+dunit.ini
+
+
+Added: utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr	2007-04-01 13:58:01 UTC (rev 138)
++++ utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr	2007-04-01 18:12:14 UTC (rev 139)
+@@ -0,0 +1,38 @@
++program DUnitTest_dzFileUtils;
++{
++
++  Delphi DUnit Test Project
++  -------------------------
++  This project contains the DUnit test framework and the GUI/Console test runners.
++  Add "CONSOLE_TESTRUNNER" to the conditional defines entry in the project options 
++  to use the console test runner.  Otherwise the GUI test runner will be used by 
++  default.
++
++}
++
++{$IFDEF CONSOLE_TESTRUNNER}
++{$APPTYPE CONSOLE}
++{$ENDIF}
++
++uses
++  Forms,
++  TestFramework,
++  GUITestRunner,
++  TextTestRunner,
++  u_dzFileUtils in '..\..\src\u_dzFileUtils.pas',
++  Testu_dzFileUtils in 'Testu_dzFileUtils.pas',
++  u_dzMiscUtils in '..\..\src\u_dzMiscUtils.pas',
++  u_dzStringUtils in '..\..\src\u_dzStringUtils.pas',
++  u_dzConvertUtils in '..\..\src\u_dzConvertUtils.pas',
++  u_dzTranslator in '..\..\src\u_dzTranslator.pas';
++
++{$R *.RES}
++
++begin
++  Application.Initialize;
++  if IsConsole then
++    TextTestRunner.RunRegisteredTests
++  else
++    GUITestRunner.RunRegisteredTests;
++end.
++
+
+Added: utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj	2007-04-01 13:58:01 UTC (rev 138)
++++ utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj	2007-04-01 18:12:14 UTC (rev 139)
+@@ -0,0 +1,89 @@
++?<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <PropertyGroup>
++    <ProjectGuid>{9732bdc0-39a6-4dbb-817c-3fb77772e288}</ProjectGuid>
++    <MainSource>DUnitTest_dzFileUtils.dpr</MainSource>
++    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
++    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++    <DCC_DependencyCheckOutputName>DUnitTest_dzFileUtils.exe</DCC_DependencyCheckOutputName>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_DebugInformation>False</DCC_DebugInformation>
++    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++    <DCC_Define>RELEASE</DCC_Define>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_Define>DEBUG;_CONSOLE_TESTRUNNER;no_translation</DCC_Define>
++    <DCC_UnitSearchPath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;;$(BDS)\Source\DUnit\src;..\..\inc</DCC_UnitSearchPath>
++    <DCC_ResourcePath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;;$(BDS)\Source\DUnit\src;..\..\inc</DCC_ResourcePath>
++    <DCC_ObjPath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;;$(BDS)\Source\DUnit\src;..\..\inc</DCC_ObjPath>
++    <DCC_IncludePath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;;$(BDS)\Source\DUnit\src;..\..\inc</DCC_IncludePath>
++    <DCC_DcuOutput>dcu</DCC_DcuOutput>
++    <DCC_ObjOutput>dcu</DCC_ObjOutput>
++    <DCC_HppOutput>dcu</DCC_HppOutput>
++    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
++    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
++    <DCC_Optimize>False</DCC_Optimize>
++    <DCC_IntegerOverflowCheck>True</DCC_IntegerOverflowCheck>
++    <DCC_RangeChecking>True</DCC_RangeChecking>
++  </PropertyGroup>
++  <ProjectExtensions>
++    <Borland.Personality>Delphi.Personality</Borland.Personality>
++    <Borland.ProjectType />
++    <BorlandProject>
++<BorlandProject xmlns=""> <Delphi.Personality>   <Parameters>
++      <Parameters Name="UseLauncher">False</Parameters>
++      <Parameters Name="LoadAllSymbols">True</Parameters>
++      <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++    </Parameters>
++    <VersionInfo>
++      <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++      <VersionInfo Name="AutoIncBuild">False</VersionInfo>
++      <VersionInfo Name="MajorVer">1</VersionInfo>
++      <VersionInfo Name="MinorVer">0</VersionInfo>
++      <VersionInfo Name="Release">0</VersionInfo>
++      <VersionInfo Name="Build">0</VersionInfo>
++      <VersionInfo Name="Debug">False</VersionInfo>
++      <VersionInfo Name="PreRelease">False</VersionInfo>
++      <VersionInfo Name="Special">False</VersionInfo>
++      <VersionInfo Name="Private">False</VersionInfo>
++      <VersionInfo Name="DLL">False</VersionInfo>
++      <VersionInfo Name="Locale">1033</VersionInfo>
++      <VersionInfo Name="CodePage">1252</VersionInfo>
++    </VersionInfo>
++    <VersionInfoKeys>
++      <VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
++      <VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
++      <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++      <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
++      <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
++      <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
++      <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
++      <VersionInfoKeys Name="ProductName"></VersionInfoKeys>
++      <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++      <VersionInfoKeys Name="Comments"></VersionInfoKeys>
++    </VersionInfoKeys>
++    <Source>
++      <Source Name="MainSource">DUnitTest_dzFileUtils.dpr</Source>
++    </Source>
++  </Delphi.Personality>   <UnitTesting>   <TestFramework>DUnit / Delphi Win32</TestFramework>
++    <TestRunner>GUI</TestRunner>
++  </UnitTesting>
++</BorlandProject></BorlandProject>
++  </ProjectExtensions>
++  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
++  <ItemGroup>
++    <DelphiCompile Include="DUnitTest_dzFileUtils.dpr">
++      <MainSource>MainSource</MainSource>
++    </DelphiCompile>
++    <DCCReference Include="..\..\src\u_dzConvertUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzFileUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzMiscUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzStringUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzTranslator.pas" />
++    <DCCReference Include="Testu_dzFileUtils.pas" />
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas	2007-04-01 13:58:01 UTC (rev 138)
++++ utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas	2007-04-01 18:12:14 UTC (rev 139)
+@@ -0,0 +1,92 @@
++unit Testu_dzFileUtils;
++
++interface
++
++uses
++  Windows,
++  Classes,
++  SysUtils,
++  TestFramework,
++  u_dzFileUtils;
++
++type
++  TestTFileSystem = class(TTestCase)
++  private
++    FCallbackCount: integer;
++    procedure ProgressContinue(_Status: TCopyProgressStatus;
++      var _Continue: TCopyProgressStatus.TProgressResult);
++    procedure ProgressCancel(_Status: TCopyProgressStatus;
++      var _Continue: TCopyProgressStatus.TProgressResult);
++  protected
++    procedure SetUp; override;
++  published
++    procedure TestCopyFileWithProgressContinue;
++    procedure TestCopyFileWithProgressCancel;
++    procedure TestMoveFileWithProgressCancel;
++  end;
++
++implementation
++
++
++{ TestTFileSystem }
++
++procedure TestTFileSystem.ProgressCancel(_Status: TCopyProgressStatus;
++  var _Continue: TCopyProgressStatus.TProgressResult);
++begin
++  _Continue := prCancel;
++  Inc(FCallbackCount);
++end;
++
++procedure TestTFileSystem.ProgressContinue(_Status: TCopyProgressStatus;
++  var _Continue: TCopyProgressStatus.TProgressResult);
++begin
++  _Continue := prContinue;
++  Inc(FCallbackCount);
++end;
++
++procedure TestTFileSystem.SetUp;
++begin
++  inherited;
++  FCallbackCount := 0;
++end;
++
++procedure TestTFileSystem.TestCopyFileWithProgressContinue;
++const
++  SOURCEFILE = 'testdata\sourcefile.txt';
++  DESTFILE = 'testdata\destfile.txt';
++var
++  Res: TFileSystem.TCopyFileWithProgressResult;
++begin
++  Res := TFileSystem.CopyFileWithProgress(SOURCEFILE, DESTFILE, ProgressContinue);
++  Check(Res = cfwOK, 'aborted or error');
++  CheckTrue(FileExists(DESTFILE), 'destination file missing');
++  CheckEquals(2, FCallbackCount, 'Callback count wrong');
++end;
++
++procedure TestTFileSystem.TestMoveFileWithProgressCancel;
++const
++  SOURCEFILE = 'testdata\sourcefile.txt';
++  DESTFILE = 'testdata\destfile.txt';
++var
++  Res: TFileSystem.TCopyFileWithProgressResult;
++begin
++  Res := TFileSystem.MoveFileWithProgress(SOURCEFILE, DESTFILE, ProgressCancel, []);
++  Check(Res = cfwOK, 'aborted expected');
++end;
++
++procedure TestTFileSystem.TestCopyFileWithProgressCancel;
++const
++  SOURCEFILE = 'testdata\sourcefile.txt';
++  DESTFILE = 'testdata\destfile.txt';
++var
++  Res: TFileSystem.TCopyFileWithProgressResult;
++begin
++  Res := TFileSystem.CopyFileWithProgress(SOURCEFILE, DESTFILE, ProgressCancel, []);
++  Check(Res = cfwAborted, 'aborted expected');
++  CheckEquals(1, FCallbackCount, 'Callback count wrong');
++end;
++
++initialization
++  RegisterTest(TestTFileSystem.Suite);
++end.
++
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzfileutils/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Added: utilities/dzLib/trunk/tests/dzfileutils/testdata/sourcefile.txt
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/testdata/sourcefile.txt	2007-04-01 13:58:01 UTC (rev 138)
++++ utilities/dzLib/trunk/tests/dzfileutils/testdata/sourcefile.txt	2007-04-01 18:12:14 UTC (rev 139)
+@@ -0,0 +1 @@
++this is a testfile for various dzFileUtils functions
+\ No newline at end of file
+
+
+

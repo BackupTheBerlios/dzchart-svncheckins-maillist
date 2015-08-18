@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r169 - in utilities/dzPrepBuild/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r169%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%20src&In-Reply-To=%3C200707141244.l6ECipdp002896%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000043.html">
+   <LINK REL="Next"  HREF="000045.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r169 - in utilities/dzPrepBuild/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r169%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%20src&In-Reply-To=%3C200707141244.l6ECipdp002896%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r169 - in utilities/dzPrepBuild/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jul 14 14:44:52 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000043.html">[Dzchart-svncheckins] r168 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000045.html">[Dzchart-svncheckins] r170 - /
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#44">[ date ]</a>
+              <a href="thread.html#44">[ thread ]</a>
+              <a href="subject.html#44">[ subject ]</a>
+              <a href="author.html#44">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-14 14:44:49 +0200 (Sat, 14 Jul 2007)
+New Revision: 169
+
+Added:
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Modified:
+   utilities/dzPrepBuild/trunk/
+Log:
+started new concept: Read .dof/.bdsproj/.ini and call a script which then does the rest using environment variables.
+
+
+Property changes on: utilities/dzPrepBuild/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs\dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+
+   + libs\dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs\dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk</A>
+libs\dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+
+
+Added: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2007-07-14 12:43:40 UTC (rev 168)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2007-07-14 12:44:49 UTC (rev 169)
+@@ -0,0 +1,57 @@
++unit u_PrepBuildMain;
++
++interface
++
++uses
++  u_dzDefaultMain,
++  u_dzGetOpt;
++
++type
++  TPrepBuildMain = class(TDefaultMain)
++  private
++  protected
++    procedure InitCmdLineParser; override;
++    function doExecute: integer; override;
++  public
++
++  end;
++
++implementation
++
++{ TPrepBuildMain }
++
++function TPrepBuildMain.doExecute: integer;
++begin
++  Result := inherited doExecute;
++end;
++
++procedure TPrepBuildMain.InitCmdLineParser;
++begin
++  inherited;
++  FGetOpt.RegisterOption('ReadDof', 'read a .dof file to get the version information', true);
++  FGetOpt.RegisterOption('ReadBdsproj', 'read a .bdsproj file to get the version information', true);
++  FGetOpt.RegisterOption('ReadIni', 'read a .ini file to get the version information', true);
++  FGetOpt.RegisterOption('Exec', 'execute the given program or script with extended environment', true);
++  FGetOpt.RegisterOption('UpdateDof', 'update a .dof file with the version information', true);
++  FGetOpt.RegisterOption('UpdateBdsproj', 'update a .bdsproj file with the version information', true);
++  FGetOpt.RegisterOption('UpdateIni', 'update a .ini file with the version information', true);
++  FGetOpt.RegisterOption('IncBuild', 'increment the build number', false);
++  FGetOpt.RegisterOption('MajorVer', 'set the major version number', true);
++  FGetOpt.RegisterOption('MinorVer', 'set the minor version number', true);
++  FGetOpt.RegisterOption('Revision', 'set the revision number', true);
++  FGetOpt.RegisterOption('Build', 'set the build number', true);
++  FGetOpt.RegisterOption('FileDesc', 'set the file description', true);
++  FGetOpt.RegisterOption('InternalName', 'set the internal name', true);
++  FGetOpt.RegisterOption('OriginalName', 'set the original file name', true);
++  FGetOpt.RegisterOption('Product', 'set the product name', true);
++  FGetOpt.RegisterOption('ProductVersion', 'set the product version', true);
++  FGetOpt.RegisterOption('Company', 'set the company name', true);
++  FGetOpt.RegisterOption('Copyright', 'set the legal copyright', true);
++  FGetOpt.RegisterOption('Trademark', 'set the legal trademark', true);
++  FGetOpt.RegisterOption('Comments', 'set the comments', true);
++end;
++
++initialization
++  MainClass := TPrepBuildMain;
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000043.html">[Dzchart-svncheckins] r168 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000045.html">[Dzchart-svncheckins] r170 - /
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#44">[ date ]</a>
+              <a href="thread.html#44">[ thread ]</a>
+              <a href="subject.html#44">[ subject ]</a>
+              <a href="author.html#44">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

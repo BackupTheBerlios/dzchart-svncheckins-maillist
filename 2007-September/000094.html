@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r224 - utilities/ccpack/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r224%20-%20utilities/ccpack/trunk/src&In-Reply-To=%3C200709301146.l8UBkeKG026751%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000093.html">
+   <LINK REL="Next"  HREF="000095.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r224 - utilities/ccpack/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r224%20-%20utilities/ccpack/trunk/src&In-Reply-To=%3C200709301146.l8UBkeKG026751%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r224 - utilities/ccpack/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep 30 13:46:40 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000093.html">[Dzchart-svncheckins] r223 - utilities/ccpack/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000095.html">[Dzchart-svncheckins] r225 - in utilities/ccpack/trunk: Delphi2007	src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#94">[ date ]</a>
+              <a href="thread.html#94">[ thread ]</a>
+              <a href="subject.html#94">[ subject ]</a>
+              <a href="author.html#94">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-09-30 13:46:35 +0200 (Sun, 30 Sep 2007)
+New Revision: 224
+
+Modified:
+   utilities/ccpack/trunk/src/ccpdef.inc
+Log:
+added cond. define for Delphi 2007 and Delphi 2005
+
+Modified: utilities/ccpack/trunk/src/ccpdef.inc
+===================================================================
+--- utilities/ccpack/trunk/src/ccpdef.inc	2007-09-30 11:26:46 UTC (rev 223)
++++ utilities/ccpack/trunk/src/ccpdef.inc	2007-09-30 11:46:35 UTC (rev 224)
+@@ -21,10 +21,18 @@
+ //======================================
+ // VCL Version Define
+ 
++{$IFDEF VER185}  // Delphi 2007 (not really necessary since Delphi 2006 also defines VER180)
++      {$DEFINE VER_VCL5}
++{$ENDIF}
++
+ {$IFDEF VER180}  // Delphi 2006
+       {$DEFINE VER_VCL5}
+ {$ENDIF}
+ 
++{$IFDEF VER170}  // Delphi 2005
++      {$DEFINE VER_VCL5}
++{$ENDIF}
++
+ {$IFDEF VER150}  // Delphi 7
+       {$DEFINE VER_VCL5}
+ {$ENDIF}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000093.html">[Dzchart-svncheckins] r223 - utilities/ccpack/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000095.html">[Dzchart-svncheckins] r225 - in utilities/ccpack/trunk: Delphi2007	src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#94">[ date ]</a>
+              <a href="thread.html#94">[ thread ]</a>
+              <a href="subject.html#94">[ subject ]</a>
+              <a href="author.html#94">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

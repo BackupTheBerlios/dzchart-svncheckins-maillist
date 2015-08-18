@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r297 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r297%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041025.m84APrfj023683%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000163.html">
+   <LINK REL="Next"  HREF="000165.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r297 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r297%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041025.m84APrfj023683%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r297 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 12:25:53 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000163.html">[Dzchart-svncheckins] r296 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000165.html">[Dzchart-svncheckins] r298 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#164">[ date ]</a>
+              <a href="thread.html#164">[ thread ]</a>
+              <a href="subject.html#164">[ subject ]</a>
+              <a href="author.html#164">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-04 12:25:53 +0200 (Thu, 04 Sep 2008)
+New Revision: 297
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzShellApiUtils.pas
+Log:
+* changed all pasdoc comments to xmldoc
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+
+
+Modified: utilities/dzLib/trunk/src/u_dzShellApiUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzShellApiUtils.pas	2008-09-04 10:21:48 UTC (rev 296)
++++ utilities/dzLib/trunk/src/u_dzShellApiUtils.pas	2008-09-04 10:25:53 UTC (rev 297)
+@@ -1,5 +1,5 @@
+ {.GXFormatter.config=twm}
+-{: implements an object with utility functions regarding the ShellAPI }
++///&lt;summary&gt; implements an object with utility functions regarding the ShellAPI &lt;/summary&gt;
+ unit u_dzShellApiUtils;
+ 
+ {$i jedi.inc}
+@@ -25,28 +25,28 @@
+   TSHGetFolderPath = function(hwnd: HWND; csidl: Integer; hToken: THandle; dwFlags: DWORD; pszPath: PChar): HResult; Stdcall;
+ 
+ type
+-  {: TWindowsShell is a wrapper object for several ShellApi functions }
++  ///&lt;summary&gt; TWindowsShell is a wrapper object for several ShellApi functions &lt;/summary&gt;
+   TWindowsShell = class
+   private
+     function LoadSHFolder(var SHGetFolderPath: TSHGetFolderPath): Integer;
+   protected
+-    fAppHandle: THandle;
++    FAppHandle: THandle;
+     function GetSpecialFolder(_CSIDL: integer): string;
+   public
+-    {: Creates a TWindowsShell object,
+-       @param ApplicationHandle is the application's handle (Application.Handle) }
++    ///&lt;summary&gt; Creates a TWindowsShell object,
++    ///   @param ApplicationHandle is the application's handle (Application.Handle) &lt;/summary&gt;
+     constructor Create(_ApplicationHandle: THandle = 0);
+     destructor Destroy; override;
+-    {: returns the path to the 'My Documents' folder }
++    ///&lt;summary&gt; returns the path to the 'My Documents' folder &lt;/summary&gt;
+     function GetMyDocuments: string;
+     class function GetMyDocumentsDir(_ApplicationHandle: THandle = 0): string;
+-    {: returns the path of the 'My Pictures' folder }
++    ///&lt;summary&gt; returns the path of the 'My Pictures' folder &lt;/summary&gt;
+     function GetMyPictures: string;
+     class function GetMyPicturesDir(_ApplicationHandle: THandle = 0): string;
+-    {: returns the 'common files' folder }
++    ///&lt;summary&gt; returns the 'common files' folder &lt;/summary&gt;
+     function GetCommonFiles: string;
+     class function GetCommonFilesDir(_ApplicationHandle: THandle = 0): string;
+-    {: returngs the 'program files' folder }
++    ///&lt;summary&gt; returngs the 'program files' folder &lt;/summary&gt;
+     function GetProgramFiles: string;
+     class function GetProgramFilesDir(_ApplicationHandle: THandle = 0): string;
+ 
+@@ -114,9 +114,9 @@
+ begin
+   inherited Create;
+   if _ApplicationHandle = 0 then
+-    fAppHandle := Application.Handle
++    FAppHandle := Application.Handle
+   else
+-    fAppHandle := _ApplicationHandle;
++    FAppHandle := _ApplicationHandle;
+ end;
+ 
+ destructor TWindowsShell.Destroy;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000163.html">[Dzchart-svncheckins] r296 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000165.html">[Dzchart-svncheckins] r298 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#164">[ date ]</a>
+              <a href="thread.html#164">[ thread ]</a>
+              <a href="subject.html#164">[ subject ]</a>
+              <a href="author.html#164">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

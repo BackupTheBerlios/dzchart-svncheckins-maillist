@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r300 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r300%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041047.m84Al19P009438%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000166.html">
+   <LINK REL="Next"  HREF="000168.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r300 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r300%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041047.m84Al19P009438%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r300 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 12:47:01 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000166.html">[Dzchart-svncheckins] r299 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000168.html">[Dzchart-svncheckins] r301 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#167">[ date ]</a>
+              <a href="thread.html#167">[ thread ]</a>
+              <a href="subject.html#167">[ subject ]</a>
+              <a href="author.html#167">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-04 12:46:59 +0200 (Thu, 04 Sep 2008)
+New Revision: 300
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+Log:
+* changed all pasdoc comments to xmldoc
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+
+
+Modified: utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2008-09-04 10:44:21 UTC (rev 299)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2008-09-04 10:46:59 UTC (rev 300)
+@@ -97,7 +97,7 @@
+     FDataset: TDataset;
+     FTableName: string;
+   public
+-    ///&lt;summary&gt; creates a TDatasetHelper for accessing a TAdoTable or TAdoQuery &lt;/summary&gt;
++    ///&lt;summary&gt; creates a TDatasetHelper for accessing a TQuery, TTable, TAdoTable or TAdoQuery &lt;/summary&gt;
+     constructor Create(_Table: TAdoTable); overload;
+     constructor Create(_Table: TTable); overload;
+     ///&lt;summary&gt; creates a TDatasetHelper for accessing a query
+@@ -160,9 +160,15 @@
+ 
+ uses
+   Variants,
++  u_dzTranslator,
+   u_dzVariantUtils,
+   u_dzMiscUtils;
+ 
++function _(const _s: string): string; inline;
++begin
++  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++end;
++
+ { TDatasetHelper }
+ 
+ constructor TDatasetHelper.Create(_Table: TTable);
+@@ -326,7 +332,7 @@
+   else if FDataset is TQuery then
+     (FDataset as TQuery).ParamByName(_Param).Value := _Value
+   else
+-    raise Exception.CreateFmt('SetParamByName is not supported for a %s (only TQuery and TAdoDataset descendants).', [FDataset.ClassName]);
++    raise Exception.CreateFmt(_('SetParamByName is not supported for a %s (only TQuery and TAdoDataset descendants).'), [FDataset.ClassName]);
+ end;
+ 
+ procedure TDatasetHelper.Cancel;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000166.html">[Dzchart-svncheckins] r299 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000168.html">[Dzchart-svncheckins] r301 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#167">[ date ]</a>
+              <a href="thread.html#167">[ thread ]</a>
+              <a href="subject.html#167">[ subject ]</a>
+              <a href="author.html#167">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

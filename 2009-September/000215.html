@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r349 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r349%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251459.n8PExGZH015811%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000214.html">
+   <LINK REL="Next"  HREF="000216.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r349 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r349%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251459.n8PExGZH015811%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r349 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 16:59:16 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000214.html">[Dzchart-svncheckins] r348 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000216.html">[Dzchart-svncheckins] r350 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#215">[ date ]</a>
+              <a href="thread.html#215">[ thread ]</a>
+              <a href="subject.html#215">[ subject ]</a>
+              <a href="author.html#215">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 16:59:12 +0200 (Fri, 25 Sep 2009)
+New Revision: 349
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+Log:
+new function Var2Ext
+
+Modified: utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2009-09-25 14:58:33 UTC (rev 348)
++++ utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2009-09-25 14:59:12 UTC (rev 349)
+@@ -134,6 +134,13 @@
+ ///          @raises EVariantConvertError if there is some other conversion error &lt;/summary&gt;
+ function Var2ExtEx(const _v: variant; const _Source: string): extended;
+ 
++///&lt;summary&gt; Converts a variant to an extended.
++///          If v is null or empty, it returns the Default.
++///          @param v Variant value to convert
++///          @param Default Value to return if v is empty or null
++///          @returns the extended value of v or the Default if v can not be converted &lt;/summary&gt;
++function Var2Ext(const _v: variant; const _Default: extended): extended;
++
+ ///&lt;summary&gt; Converts a variant to a TDateTime.
+ ///          Raises an exception if v can not be converted.
+ ///          @param v Variant value to convert
+@@ -450,6 +457,12 @@
+   end;
+ end;
+ 
++function Var2Ext(const _v: variant; const _Default: extended): extended;
++begin
++  if not TryVar2Ext(_v, Result) then
++    Result := _Default
++end;
++
+ function Var2DblStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ var
+   Value: double;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000214.html">[Dzchart-svncheckins] r348 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000216.html">[Dzchart-svncheckins] r350 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#215">[ date ]</a>
+              <a href="thread.html#215">[ thread ]</a>
+              <a href="subject.html#215">[ subject ]</a>
+              <a href="author.html#215">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,820 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r321 - in utilities/dzLib/trunk: forms tests	tests/dzWizardForm tests/dzWizardForm/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r321%20-%20in%20utilities/dzLib/trunk%3A%20forms%20tests%0A%09tests/dzWizardForm%20tests/dzWizardForm/src&In-Reply-To=%3C200809051641.m85GfNre008442%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000187.html">
+   <LINK REL="Next"  HREF="000189.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r321 - in utilities/dzLib/trunk: forms tests	tests/dzWizardForm tests/dzWizardForm/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r321%20-%20in%20utilities/dzLib/trunk%3A%20forms%20tests%0A%09tests/dzWizardForm%20tests/dzWizardForm/src&In-Reply-To=%3C200809051641.m85GfNre008442%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r321 - in utilities/dzLib/trunk: forms tests	tests/dzWizardForm tests/dzWizardForm/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep  5 18:41:23 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000187.html">[Dzchart-svncheckins] r320 - in utilities/dzLib/trunk: forms tests	tests/dzprogress tests/dzprogress/src
+</A></li>
+        <LI>Next message: <A HREF="000189.html">[Dzchart-svncheckins] r322 -	utilities/dzLib/trunk/tests/dzWizardForm
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#188">[ date ]</a>
+              <a href="thread.html#188">[ thread ]</a>
+              <a href="subject.html#188">[ subject ]</a>
+              <a href="author.html#188">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-05 18:41:03 +0200 (Fri, 05 Sep 2008)
+New Revision: 321
+
+Added:
+   utilities/dzLib/trunk/tests/dzWizardForm/
+   utilities/dzLib/trunk/tests/dzWizardForm/dcu/
+   utilities/dzLib/trunk/tests/dzWizardForm/dzWizardFormTest.exe
+   utilities/dzLib/trunk/tests/dzWizardForm/src/
+   utilities/dzLib/trunk/tests/dzWizardForm/src/dz.bmp
+   utilities/dzLib/trunk/tests/dzWizardForm/src/dzWizardFormTest.dpr
+   utilities/dzLib/trunk/tests/dzWizardForm/src/dzWizardFormTest.dproj
+   utilities/dzLib/trunk/tests/dzWizardForm/src/w_dzWizardFormTest.dfm
+   utilities/dzLib/trunk/tests/dzWizardForm/src/w_dzWizardFormTest.pas
+   utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageAge.dfm
+   utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageAge.pas
+   utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageBirthday.dfm
+   utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageBirthday.pas
+   utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageName.dfm
+   utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageName.pas
+Modified:
+   utilities/dzLib/trunk/forms/w_dzWizardForm.pas
+   utilities/dzLib/trunk/forms/wf_dzWizardFrame.pas
+Log:
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+* local _() functions now call dzDGetText rather than DGetText to avoid warning in dxgettext tool
+* moved u_dzTranslator to uses in interface to allow inlining the local _() call
+* test/demo for using tf_dzWizardForm / tfr_dzWizardFrame
+* Bugfix: Parameters OldPage/NewPage were wrongly declared, they are actually the PageData pointers
+
+Modified: utilities/dzLib/trunk/forms/w_dzWizardForm.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzWizardForm.pas	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/forms/w_dzWizardForm.pas	2008-09-05 16:41:03 UTC (rev 321)
+@@ -15,10 +15,11 @@
+   Dialogs,
+   StdCtrls,
+   ExtCtrls,
++  u_dzTranslator,
+   wf_dzWizardFrame;
+ 
+ const
+-  {: Sent as NewPageId if the old page is the first/last page in that direction }
++  ///&lt;summary&gt; Sent as NewPageId if the old page is the first/last page in that direction &lt;/summary&gt;
+   NO_MORE_PAGES = -1;
+ 
+ type
+@@ -81,33 +82,33 @@
+   protected
+     FPages: TPageList;
+     procedure DoShow; override;
+-    {: called before the new page is displayed
+-       @param Direction gives the direction of the page change
+-       @param OldPageId is the ID of the page we are about to leave
+-       @param NewPageId is the ID of the page we are about to enter
+-       @param OldPageData is the Data parameter of the page we are about to leave
+-       @param NewPageData is the Data parameter of the page we are about to enter
+-       @returns true if the page change is allowed
+-       Note: This is also called on the last page when the user presses the
+-       Finish button. }
++    ///&lt;summary&gt; called before the new page is displayed
++    ///          @param Direction gives the direction of the page change
++    ///          @param OldPageId is the ID of the page we are about to leave
++    ///          @param NewPageId is the ID of the page we are about to enter
++    ///          @param OldPageData is the Data parameter of the page we are about to leave
++    ///          @param NewPageData is the Data parameter of the page we are about to enter
++    ///          @returns true if the page change is allowed
++    ///          Note: This is also called on the last page when the user presses the
++    ///          Finish button. &lt;/summary&gt;
+     function DoBeforePageChange(_Direction: TPrevNext;
+       _OldPageId: integer; var _NewPageId: integer;
+       _OldPageData, _NewPageData: pointer): boolean; virtual;
+-    {: called after the new page has been displayed
+-       @param Direction gives the direction of the page change
+-       @param OldPageId is the ID of the page we just left
+-       @param NewPageId is the ID of the page we just entered
+-       @param OldPageData is the Data parameter of the page we just left
+-       @param NewPageData is the Data parameter of the page we just entered
+-       Note: Is not called after the last page! }
++    ///&lt;summary&gt; called after the new page has been displayed
++    ///          @param Direction gives the direction of the page change
++    ///          @param OldPageId is the ID of the page we just left
++    ///          @param NewPageId is the ID of the page we just entered
++    ///          @param OldPageData is the Data parameter of the page we just left
++    ///          @param NewPageData is the Data parameter of the page we just entered
++    ///          Note: Is not called after the last page! &lt;/summary&gt;
+     procedure DoAfterPageChange(_Direction: TPrevNext;
+       _OldPageId, _NewPageId: integer;
+       _OldPageData, _NewPageData: pointer); virtual;
+-    {: called after DoBeforePageChanged when the user presses the finish button
+-       @returns true, if the dialog is done }
++    ///&lt;summary&gt; called after DoBeforePageChanged when the user presses the finish button
++    ///          @returns true, if the dialog is done &lt;/summary&gt;
+     function DoOnFinished: boolean; virtual;
+-    {: Called when the user presses the cancel button.
+-       @returns true, if canceling the dialog is allowed, false otherwise }
++    ///&lt;summary&gt; Called when the user presses the cancel button.
++    ///          @returns true, if canceling the dialog is allowed, false otherwise &lt;/summary&gt;
+     function DoOnCancel: boolean; virtual;
+     procedure PageAdded(_PageFrame: Tfr_dzWizardFrame); virtual;
+   public
+@@ -148,9 +149,13 @@
+ {$R *.DFM}
+ 
+ uses
+-  u_dzTranslator,
+   u_dzVclUtils;
+ 
++function _(const _s: string): string; inline;
++begin
++  Result := dzDGetText(_s, 'dzlib');
++end;
++
+ { TPageList }
+ 
+ constructor TPageList.Create(_Wizard: Tf_dzWizardForm);
+
+Modified: utilities/dzLib/trunk/forms/wf_dzWizardFrame.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/wf_dzWizardFrame.pas	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/forms/wf_dzWizardFrame.pas	2008-09-05 16:41:03 UTC (rev 321)
+@@ -20,12 +20,12 @@
+ 
+   TBeforePageChange = procedure(_Sender: TObject; _Direction: TPrevNext;
+     _OldPageId: integer; var _NewPageId: integer;
+-    _OldPage, _NewPage: Tfr_dzWizardFrame;
++    _OldPageData, _NewPageData: Pointer;
+     var _CanChange: boolean) of object;
+ 
+   TAfterPageChange = procedure(_Sender: TObject; _Direction: TPrevNext;
+     _OldPageId, _NewPageId: integer;
+-    _OldPage, _NewPage: Tfr_dzWizardFrame) of object;
++    _OldPageData, _NewPageData: Pointer) of object;
+ 
+   Tfr_dzWizardFrame = class(TFrame)
+   private
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzWizardForm
+___________________________________________________________________
+Name: svn:ignore
+   + dzWizardFormTest.exe
+
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/dzWizardFormTest.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzWizardForm/dzWizardFormTest.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzWizardForm/src
+___________________________________________________________________
+Name: svn:ignore
+   + dzWizardFormTest.res
+
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/dz.bmp
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzWizardForm/src/dz.bmp
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/dzWizardFormTest.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/dzWizardFormTest.dpr	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/dzWizardFormTest.dpr	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,20 @@
++program dzWizardFormTest;
++
++uses
++  Forms,
++  w_dzWizardFormTest in 'w_dzWizardFormTest.pas' {f_dzWizardFormTest},
++  w_dzWizardForm in '..\..\..\forms\w_dzWizardForm.pas' {f_dzWizardForm},
++  wf_dzWizardFrame in '..\..\..\forms\wf_dzWizardFrame.pas' {fr_dzWizardFrame: TFrame},
++  wf_WizardPageName in 'wf_WizardPageName.pas' {fr_WizardPageName: TFrame},
++  wf_WizardPageBirthday in 'wf_WizardPageBirthday.pas' {fr_WizardPageBirthday: TFrame},
++  wf_WizardPageAge in 'wf_WizardPageAge.pas' {fr_WizardPageAge: TFrame},
++  w_dzDialog in '..\..\..\forms\w_dzDialog.pas' {f_dzDialog};
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.MainFormOnTaskbar := True;
++  Application.CreateForm(Tf_dzWizardFormTest, f_dzWizardFormTest);
++  Application.Run;
++end.
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/dzWizardFormTest.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/dzWizardFormTest.dproj	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/dzWizardFormTest.dproj	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,117 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{c2b7ef5e-93da-40d1-9871-3c25aa9955f4}&lt;/ProjectGuid&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;..\dzWizardFormTest.exe&lt;/DCC_DependencyCheckOutputName&gt;
++    &lt;MainSource&gt;dzWizardFormTest.dpr&lt;/MainSource&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_Define&gt;DEBUG;no_translation&lt;/DCC_Define&gt;
++    &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++    &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++    &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
++    &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\..\..\src;..\..\..\..\jcl\source;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\windows;..\..\..\..\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\..\..\src;..\..\..\..\jcl\source;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\windows;..\..\..\..\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\..\..\src;..\..\..\..\jcl\source;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\windows;..\..\..\..\jcl\source\vcl&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\..\..\src;..\..\..\..\jcl\source;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\windows;..\..\..\..\jcl\source\vcl&lt;/DCC_IncludePath&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType /&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionI!
+ nfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzWizardFormTest.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dzWizardFormTest.dpr&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\..\..\forms\wf_dzWizardFrame.pas&quot;&gt;
++      &lt;Form&gt;fr_dzWizardFrame&lt;/Form&gt;
++      &lt;DesignClass&gt;TFrame&lt;/DesignClass&gt;
++    &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;..\..\..\forms\w_dzDialog.pas&quot;&gt;
++      &lt;Form&gt;f_dzDialog&lt;/Form&gt;
++    &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;..\..\..\forms\w_dzWizardForm.pas&quot;&gt;
++      &lt;Form&gt;f_dzWizardForm&lt;/Form&gt;
++    &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;wf_WizardPageAge.pas&quot;&gt;
++      &lt;Form&gt;fr_WizardPageAge&lt;/Form&gt;
++      &lt;DesignClass&gt;TFrame&lt;/DesignClass&gt;
++    &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;wf_WizardPageBirthday.pas&quot;&gt;
++      &lt;Form&gt;fr_WizardPageBirthday&lt;/Form&gt;
++      &lt;DesignClass&gt;TFrame&lt;/DesignClass&gt;
++    &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;wf_WizardPageName.pas&quot;&gt;
++      &lt;Form&gt;fr_WizardPageName&lt;/Form&gt;
++      &lt;DesignClass&gt;TFrame&lt;/DesignClass&gt;
++    &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;w_dzWizardFormTest.pas&quot;&gt;
++      &lt;Form&gt;f_dzWizardFormTest&lt;/Form&gt;
++    &lt;/DCCReference&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/w_dzWizardFormTest.dfm
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/w_dzWizardFormTest.dfm	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/w_dzWizardFormTest.dfm	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,131 @@
++object f_dzWizardFormTest: Tf_dzWizardFormTest
++  Left = 0
++  Top = 0
++  Caption = 'dzWizardForm / Frame Test'
++  ClientHeight = 62
++  ClientWidth = 163
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'Tahoma'
++  Font.Style = []
++  OldCreateOrder = False
++  PixelsPerInch = 96
++  TextHeight = 13
++  object im_dz: TImage
++    Left = 96
++    Top = 0
++    Width = 65
++    Height = 65
++    Picture.Data = {
++      07544269746D6170360C0000424D360C00000000000036000000280000002000
++      0000200000000100180000000000000C00000000000000000000000000000000
++      0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000
++      00000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
++      00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
++      00FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000
++      00000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000
++      000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFF
++      FFFFFF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFF
++      FFFFFFFFFFFF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFF
++      FFFFFFFFFFFF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFF
++      FFFFFFFFFFFF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFF
++      FFFFFFFFFFFF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFF
++      FFFFFF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000
++      000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++      FFFF}
++  end
++  object b_Start: TButton
++    Left = 8
++    Top = 16
++    Width = 75
++    Height = 25
++    Caption = 'Start'
++    TabOrder = 0
++    OnClick = b_StartClick
++  end
++end
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/w_dzWizardFormTest.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/w_dzWizardFormTest.pas	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/w_dzWizardFormTest.pas	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,113 @@
++unit w_dzWizardFormTest;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls,
++  w_dzWizardForm,
++  wf_dzWizardFrame,
++  wf_WizardPageName,
++  wf_WizardPageBirthday,
++  wf_WizardPageAge,
++  ExtCtrls;
++
++type
++  Tf_dzWizardFormTest = class(TForm)
++    b_Start: TButton;
++    im_dz: TImage;
++    procedure b_StartClick(Sender: TObject);
++  private
++    FName: string;
++    FPageName: Tfr_WizardPageName;
++    FPageBirthday: Tfr_WizardPageBirthday;
++    FPageAge: Tfr_WizardPageAge;
++    FPageIdName: integer;
++    FPageIdBirthday: integer;
++    FPageIdAge: integer;
++    procedure HandleNameExit(_Sender: TObject; _Direction: TPrevNext;
++      _OldPageId: integer; var _NewPageId: integer; _OldPageData, _NewPageData: Pointer;
++      var _CanChange: boolean);
++    procedure HandleBirthdayExit(_Sender: TObject; _Direction: TPrevNext;
++      _OldPageId: integer; var _NewPageId: integer; _OldPageData, _NewPageData: Pointer;
++      var _CanChange: boolean);
++  public
++  end;
++
++var
++  f_dzWizardFormTest: Tf_dzWizardFormTest;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  DateUtils,
++  w_dzDialog;
++
++procedure Tf_dzWizardFormTest.b_StartClick(Sender: TObject);
++var
++  frm: Tf_dzWizardForm;
++begin
++  frm := Tf_dzWizardForm.Create(self);
++  try
++    frm.Picture := self.im_dz.Picture;
++    FPageName := Tfr_WizardPageName.Create(frm);
++    FPageName.BeforeExit := HandleNameExit;
++    FPageIdName := frm.Pages.AddPage(FPageName, 'What is your name?');
++    FPageBirthday := Tfr_WizardPageBirthday.Create(frm);
++    FPageBirthday.BeforeExit := HandleBirthdayExit;
++    FPageIdBirthday := frm.Pages.AddPage(FPageBirthday, 'When have you been born?');
++    FPageAge := Tfr_WizardPageAge.Create(frm);
++    FPageIdAge := frm.Pages.AddPage(FPageAge, 'Result');
++    frm.ShowModal;
++  finally
++    frm.Free;
++  end;
++end;
++
++procedure Tf_dzWizardFormTest.HandleBirthdayExit(_Sender: TObject;
++  _Direction: TPrevNext; _OldPageId: integer; var _NewPageId: integer;
++  _OldPageData, _NewPageData: Pointer; var _CanChange: boolean);
++var
++  Age: Integer;
++  Birthday: TDateTime;
++begin
++  Assert(_OldPageId = FPageIdBirthday);
++
++  if _Direction = pnPrevious then
++    exit;
++
++  Birthday := FPageBirthday.dtp_Birthday.Date;
++
++  if _NewPageId = FPageIdAge then begin
++    Age := DateUtils.YearsBetween(Now, Birthday);
++    FPageAge.l_Age.Caption := Format('%s, you are now %d years old.', [FName, Age]);
++  end;
++end;
++
++procedure Tf_dzWizardFormTest.HandleNameExit(_Sender: TObject;
++  _Direction: TPrevNext; _OldPageId: integer; var _NewPageId: integer;
++  _OldPageData, _NewPageData: Pointer; var _CanChange: boolean);
++begin
++  Assert(_OldPageId = FPageIdName);
++
++  if _Direction = pnPrevious then
++    exit;
++
++  FName := FPageName.ed_Name.Text;
++  _CanChange := FName &lt;&gt; '';
++  if not _CanChange then
++    TF_DZDialog.ShowError('Please enter your name!', '', [dbeRetry]);
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageAge.dfm
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageAge.dfm	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageAge.dfm	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,12 @@
++inherited fr_WizardPageAge: Tfr_WizardPageAge
++  Height = 45
++  ExplicitHeight = 45
++  object l_Age: TLabel
++    Left = 8
++    Top = 8
++    Width = 154
++    Height = 13
++    Margins.Bottom = 0
++    Caption = '%s, you are now %d years old.'
++  end
++end
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageAge.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageAge.pas	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageAge.pas	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,30 @@
++unit wf_WizardPageAge;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  wf_dzWizardFrame,
++  StdCtrls;
++
++type
++  Tfr_WizardPageAge = class(Tfr_dzWizardFrame)
++    l_Age: TLabel;
++  private
++  public
++  end;
++
++implementation
++
++{$R *.dfm}
++
++end.
++
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageBirthday.dfm
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageBirthday.dfm	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageBirthday.dfm	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,21 @@
++inherited fr_WizardPageBirthday: Tfr_WizardPageBirthday
++  Height = 59
++  ExplicitHeight = 59
++  object l_Birthday: TLabel
++    Left = 8
++    Top = 8
++    Width = 40
++    Height = 13
++    Margins.Bottom = 0
++    Caption = 'Birthday'
++  end
++  object dtp_Birthday: TDateTimePicker
++    Left = 8
++    Top = 24
++    Width = 186
++    Height = 21
++    Date = 39696.370576099540000000
++    Time = 39696.370576099540000000
++    TabOrder = 0
++  end
++end
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageBirthday.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageBirthday.pas	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageBirthday.pas	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,30 @@
++unit wf_WizardPageBirthday;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  wf_dzWizardFrame, StdCtrls, ComCtrls;
++
++type
++  Tfr_WizardPageBirthday = class(Tfr_dzWizardFrame)
++    dtp_Birthday: TDateTimePicker;
++    l_Birthday: TLabel;
++  private
++  public
++  end;
++
++implementation
++
++{$R *.dfm}
++
++end.
++
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageName.dfm
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageName.dfm	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageName.dfm	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,21 @@
++inherited fr_WizardPageName: Tfr_WizardPageName
++  Width = 141
++  Height = 55
++  ExplicitWidth = 141
++  ExplicitHeight = 55
++  object l_Name: TLabel
++    Left = 8
++    Top = 8
++    Width = 27
++    Height = 13
++    Margins.Bottom = 0
++    Caption = 'Name'
++  end
++  object ed_Name: TEdit
++    Left = 8
++    Top = 24
++    Width = 121
++    Height = 21
++    TabOrder = 0
++  end
++end
+
+Added: utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageName.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageName.pas	2008-09-05 15:40:59 UTC (rev 320)
++++ utilities/dzLib/trunk/tests/dzWizardForm/src/wf_WizardPageName.pas	2008-09-05 16:41:03 UTC (rev 321)
+@@ -0,0 +1,31 @@
++unit wf_WizardPageName;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  wf_dzWizardFrame,
++  StdCtrls;
++
++type
++  Tfr_WizardPageName = class(Tfr_dzWizardFrame)
++    l_Name: TLabel;
++    ed_Name: TEdit;
++  private
++  public
++  end;
++
++implementation
++
++{$R *.dfm}
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000187.html">[Dzchart-svncheckins] r320 - in utilities/dzLib/trunk: forms tests	tests/dzprogress tests/dzprogress/src
+</A></li>
+	<LI>Next message: <A HREF="000189.html">[Dzchart-svncheckins] r322 -	utilities/dzLib/trunk/tests/dzWizardForm
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#188">[ date ]</a>
+              <a href="thread.html#188">[ thread ]</a>
+              <a href="subject.html#188">[ subject ]</a>
+              <a href="author.html#188">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

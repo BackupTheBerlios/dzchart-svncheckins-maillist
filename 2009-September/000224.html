@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r358 - utilities/dzLib/trunk/dbcreator
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r358%20-%20utilities/dzLib/trunk/dbcreator&In-Reply-To=%3C200909251527.n8PFRJ6s019404%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000223.html">
+   <LINK REL="Next"  HREF="000225.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r358 - utilities/dzLib/trunk/dbcreator</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r358%20-%20utilities/dzLib/trunk/dbcreator&In-Reply-To=%3C200909251527.n8PFRJ6s019404%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r358 - utilities/dzLib/trunk/dbcreator">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:27:19 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000223.html">[Dzchart-svncheckins] r357 - utilities/dzLib/trunk/dbcreator
+</A></li>
+        <LI>Next message: <A HREF="000225.html">[Dzchart-svncheckins] r359 - utilities/dzLib/trunk/dbcreator
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#224">[ date ]</a>
+              <a href="thread.html#224">[ thread ]</a>
+              <a href="subject.html#224">[ subject ]</a>
+              <a href="author.html#224">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:27:17 +0200 (Fri, 25 Sep 2009)
+New Revision: 358
+
+Modified:
+   utilities/dzLib/trunk/dbcreator/u_dzDbCreatorDescription.pas
+Log:
+* Support for GUID-Fields
+* overloaded I/TdzDbIndexDescription.AppendColumn that takes a IdzColumnDescription parameter
+* added assertions for foreign key checks
+
+
+Modified: utilities/dzLib/trunk/dbcreator/u_dzDbCreatorDescription.pas
+===================================================================
+--- utilities/dzLib/trunk/dbcreator/u_dzDbCreatorDescription.pas	2009-09-25 15:24:35 UTC (rev 357)
++++ utilities/dzLib/trunk/dbcreator/u_dzDbCreatorDescription.pas	2009-09-25 15:27:17 UTC (rev 358)
+@@ -23,7 +23,7 @@
+ 
+   TNullAllowed = (naNotNull, naNull);
+   TSortOrder = (soAscending, soDescending);
+-  TFieldDataType = (dtLongInt, dtDouble, dtText, dtMemo, dtDate);
++  TFieldDataType = (dtLongInt, dtDouble, dtText, dtMemo, dtDate, dtGUID);
+ 
+ const
+   CHKSUM_FIELD = 'chksum';
+@@ -171,7 +171,8 @@
+     function GetColumns(_Idx: integer): IdzDbColumnDescription;
+     function GetColumnsSortorder(_Idx: integer): TSortOrder;
+     procedure AlterColumnSortOrder(_ColumnName: string; _SortOrder: TSortOrder);
+-    procedure AppendColumn(_ColumnName: string; _SortOrder: TSortOrder = soAscending);
++    procedure AppendColumn(_ColumnName: string; _SortOrder: TSortOrder = soAscending); overload;
++    procedure AppendColumn(_Column: IdzDbColumnDescription; _SortOrder: TSortOrder = soAscending); overload;
+     function GetName: string;
+     procedure SetName(const _Name: string);
+ 
+@@ -206,7 +207,8 @@
+     function GetRefTable: string;
+ 
+     function GetColumns(_Idx: integer): IdzDbColumnDescription; virtual;
+-    procedure AppendColumn(_ColumnName: string; _SortOrder: TSortOrder = soAscending); virtual;
++    procedure AppendColumn(_ColumnName: string; _SortOrder: TSortOrder = soAscending); overload;
++    procedure AppendColumn(_Column: IdzDbColumnDescription; _SortOrder: TSortOrder = soAscending); overload;
+     procedure AlterColumnSortOrder(_ColumnName: string; _SortOrder: TSortOrder); virtual;
+   public
+     constructor Create(const _Table: IdzDbTableDescription; const _Name: string;
+@@ -791,6 +793,7 @@
+     dtText: Result := 'Text';
+     dtMemo: Result := 'Memo';
+     dtDate: Result := 'Date';
++    dtGuid: Result := 'GUID';
+   else
+     raise EConvertError.Create(_('Invalid TFieldDataType value'));
+   end;
+@@ -808,6 +811,8 @@
+     Result := dtMemo
+   else if AnsiSameText(_s, 'Date') then
+     Result := dtDate
++  else if AnsiSameText(_s, 'GUID') then
++    Result := dtGuid
+   else
+     raise EConvertError.CreateFmt(_('%s is not a valid TFieldDataType name'), [_s]);
+ end;
+@@ -881,6 +886,9 @@
+ procedure TdzDbColumnDescription.SetForeignKey(const _ForeignKeyColumn: IdzDbColumnDescription;
+   const _ForeignKeyTable: IdzDbTableDescription);
+ begin
++  Assert(Assigned(_ForeignKeyColumn), 'ForeignKeyColumn must not be NIL');
++  Assert(Assigned(_ForeignKeyTable), 'ForeignKeyTable must not be NIL');
++
+   FIsForeignKey := true;
+   FForeignKeyTable := _ForeignKeyTable;
+   FForeignKeyColumn := _ForeignKeyColumn;
+@@ -1623,13 +1631,30 @@
+   Column: IdzDbColumnDescription;
+ begin
+   Column := FTable.ColumnByName(_ColumnName);
+-
+   if not Assigned(Column) then
+-    raise EdzDbNoSuchColumn.CreateFmt(_('Table already has a column with name &quot;%s&quot;'), [_ColumnName]);
+-
++    raise EdzDbNoSuchColumn.CreateFmt(_('Table has no column with name &quot;%s&quot;'), [_ColumnName]);
+   FColumns.Add(TdzDbColNSortorder.Create(Column, _SortOrder));
+ end;
+ 
++procedure TdzDbIndexDescription.AppendColumn(_Column: IdzDbColumnDescription; _SortOrder: TSortOrder);
++begin
++  Assert(Assigned(_Column), 'Column must not be NIL');
++
++
++  // workaround
++  // Wenn die Spalte einem Index hinzugef&#252;gt wird
++  // der einen Primary Key beschreibt, dann muss
++  // die Spalte ebenfalls als PrimaryKey markiert werden
++  if self.FIsPrimaryKey then
++    _Column.SetIndexType(itPrimaryKey)
++  else if self.FIsForeignKey and (not _Column.IsPrimaryKey) then
++    _Column.SetIndexType(itForeignKey)
++  else if self.FIsUniq and (not _Column.IsPrimaryKey) and (not _Column.IsUniqueIndex) then
++    _Column.SetIndexType(itUnique);
++
++  FColumns.Add(TdzDbColNSortorder.Create(_Column, _SortOrder));
++end;
++
+ constructor TdzDbIndexDescription.Create(const _Table: IdzDbTableDescription;
+   const _Name: string; const _IsPrimaryKey, _IsUniq, _IsForeign: boolean);
+ begin
+@@ -1726,7 +1751,7 @@
+ begin
+   inherited Create;
+   FColumn := _Column;
+-  FSortOrder := _SortOrder
++  FSortOrder := _SortOrder;
+ end;
+ 
+ { TdzDbVersionNTypeAncestor }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000223.html">[Dzchart-svncheckins] r357 - utilities/dzLib/trunk/dbcreator
+</A></li>
+	<LI>Next message: <A HREF="000225.html">[Dzchart-svncheckins] r359 - utilities/dzLib/trunk/dbcreator
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#224">[ date ]</a>
+              <a href="thread.html#224">[ thread ]</a>
+              <a href="subject.html#224">[ subject ]</a>
+              <a href="author.html#224">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

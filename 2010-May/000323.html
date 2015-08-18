@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r463 - in utilities/dzPrepBuild/tags: . 1.2.0	1.2.0/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r463%20-%20in%20utilities/dzPrepBuild/tags%3A%20.%201.2.0%0A%091.2.0/src&In-Reply-To=%3C201005160913.o4G9DPuZ015838%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000322.html">
+   <LINK REL="Next"  HREF="000324.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r463 - in utilities/dzPrepBuild/tags: . 1.2.0	1.2.0/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r463%20-%20in%20utilities/dzPrepBuild/tags%3A%20.%201.2.0%0A%091.2.0/src&In-Reply-To=%3C201005160913.o4G9DPuZ015838%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r463 - in utilities/dzPrepBuild/tags: . 1.2.0	1.2.0/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun May 16 11:13:25 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000322.html">[Dzchart-svncheckins] r462 - utilities/dzCmdLineParser/tags
+</A></li>
+        <LI>Next message: <A HREF="000324.html">[Dzchart-svncheckins] r464 - in utilities/dzPrepBuild/trunk: .	buildtools buildtools/templates src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#323">[ date ]</a>
+              <a href="thread.html#323">[ thread ]</a>
+              <a href="subject.html#323">[ subject ]</a>
+              <a href="author.html#323">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-05-16 11:13:20 +0200 (Sun, 16 May 2010)
+New Revision: 463
+
+Added:
+   utilities/dzPrepBuild/tags/1.2.0/
+   utilities/dzPrepBuild/tags/1.2.0/ReadMe.txt
+   utilities/dzPrepBuild/tags/1.2.0/buildtools/
+   utilities/dzPrepBuild/tags/1.2.0/dcu/
+   utilities/dzPrepBuild/tags/1.2.0/src/
+   utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dpr
+   utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dproj
+   utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/tags/1.2.0/testdata/
+Removed:
+   utilities/dzPrepBuild/tags/1.2.0/ReadMe.txt
+   utilities/dzPrepBuild/tags/1.2.0/buildtools/
+   utilities/dzPrepBuild/tags/1.2.0/dcu/
+   utilities/dzPrepBuild/tags/1.2.0/src/
+   utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dpr
+   utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dproj
+   utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/tags/1.2.0/testdata/
+Log:
+
+
+Copied: utilities/dzPrepBuild/tags/1.2.0 (from rev 460, utilities/dzPrepBuild/trunk)
+
+
+Property changes on: utilities/dzPrepBuild/tags/1.2.0
+___________________________________________________________________
+Name: svn:ignore
+   + __history
+dcu
+IncBuildNo.cfg
+IncBuildNo.exe
+IncBuildNo.res
+PrepBuild.exe
+PrepBuild.res
+PrepBuild.dsk
+testproject.rc
+PrepBuild.dpr.lnk
+
+Name: svn:externals
+   + libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/tags/for_dzPrepBuild_1.2.0">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/tags/for_dzPrepBuild_1.2.0</A>
+libs/dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/tags/for_dzPrepBuild_1.2.0">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/tags/for_dzPrepBuild_1.2.0</A>
+libs/dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/tags/for_dzPrepBuild_1.2.0">https://svn.berlios.de/svnroot/repos/dztemplates/tags/for_dzPrepBuild_1.2.0</A>
+libs/jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2</A>
+libs/tregexpr <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1">https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1</A>
+
+
+Deleted: utilities/dzPrepBuild/tags/1.2.0/ReadMe.txt
+===================================================================
+--- utilities/dzPrepBuild/trunk/ReadMe.txt	2010-05-16 09:05:59 UTC (rev 460)
++++ utilities/dzPrepBuild/tags/1.2.0/ReadMe.txt	2010-05-16 09:13:20 UTC (rev 463)
+@@ -1,192 +0,0 @@
+-PrepBuild is a commandline tool for handling the version information
+-for Delphi projects when compiling using the dcc32.exe commandline
+-compiler. It can also be used as a Pre-Build tool in Delphi 2007.
+-
+-It can read and update three different kinds of sources for the
+-version information:
+-* &lt;projectname&gt;.dof files (used up to Delphi 7)
+-* &lt;projectname&gt;.bdsproj files (used in BDS 2005 and 2006)
+-* &lt;projectname&gt;_version.ini files (uses the same format as .dof)
+-
+-It cannot read the .dproj file format of Delphi/Rad Studio 2007,
+-in this case I suggest using an .ini file instead.
+-
+-If you call the programm with the --help or -? option, it will display
+-usage information.
+-
+-Example 1:
+-
+-Let's assume you are using Delphi 7, so you probably store the version
+-in the &lt;projectname&gt;.dof file and let the IDE autoincrement the build
+-number. Now, for release builds you don't want to use the IDE because
+-you want to make sure that the process is 100% repeatable without
+-relying on a particular IDE setup. So you use the commandline compiler
+-dcc32.exe rather than the IDE which is called from a script called
+-build.cmd:
+-
+--------------
+-
+-[... other stuff, e.g. checkout the current sourcecode ...]
+-
+-del &lt;projectname&gt;.cfg
+-dcc32 [... options ...] &lt;projectname&gt;.dpr
+-
+-[... other stuff, e.g. create a tag in the SCM ...]
+-
+--------------
+-
+-dcc32, in contrast to the IDE, does not use the .dof file and does not
+-automatically increment the build number. Instead it reads a .cfg file,
+-if one exists. The Delphi IDE creates this .cfg file every time it saves,
+-the project, so it always contains the settings of the IDE, which is
+-usually not what you want, hence the delete in the example above.
+-
+-If you are like me you don't check your .res file into the sourcecode
+-repository because it is binary, so you can't easily check what changed,
+-and it changes with every build. Instead you rely on the .dof file for
+-tracking the version information and let the IDE create the .res file
+-whenever needed.
+-
+-This has got the drawback that you lose the application's icon because
+-it is only stored in the .res file. Which is quite annoying. Also, the
+-commandline compiler does not create the .res file but fails if it does
+-not exist.
+-
+-PrepBuild to the rescue. It does any of the following for you:
+-1. Read the .dof file
+-2. increment the build number
+-3. call a batch file that again calls prepbuild to
+-  3.1 change the .dof file
+-  3.2 create a .rc file containing the version info
+-  3.3 add a .ico file to the .rc file so the icon is back
+-  3.4 call brcc32 to create .res file for the project
+-
+-Your build script then looks like this:
+-
+--------------
+-
+-[... other stuff, e.g. checkout the current sourcecode ...]
+-
+-prepbuild --ReadDof=&lt;projectname&gt; --IncBuild --exec=prep.cmd
+-
+-del &lt;projectname&gt;.cfg
+-dcc32 [... options ...] &lt;projectname&gt;.dpr
+-
+-[... other stuff, e.g. create a tag in the SCM ...]
+-
+--------------
+-
+-Which means that it reads the .dof file of your project, increments the
+-build number and calls another script prep.cmd. This script will get
+-all the version information as well as the current date and time as
+-environment variables. It can use these to call PrepBuild once again to
+-
+-1. update the .dof file
+-2. write the build date / time e.g. to the comment entry of the
+-   version information
+-3. write a .rc file
+-
+-To do this, you create a prep.cmd script containing this call:
+-
+-PrepBuild --updatedof=%dzProject%
+-          --icon=%dzProject%
+-          --writerc=%dzProject%
+-          --MajorVer=%dzVersion.MajorVer%
+-          --MinorVer=%dzVersion.MinorVer%
+-          --Release=%dzVersion.Release%
+-          --Build=%dzVersion.Build% 
+-          --FileDesc=&quot;%dzVersion.FileDesc%&quot;
+-          --InternalName=&quot;%dzVersion.InternalName%&quot;
+-          --OriginalName=&quot;%dzVersion.OriginalName%&quot;
+-          --Product=&quot;%dzVersion.Product%&quot;
+-          --ProductVersion=&quot;%dzVersion.ProductVersion%&quot;
+-          --Company=&quot;%dzVersion.Company%&quot;
+-          --Copyright=&quot;%dzVersion.Copyright%&quot;
+-          --Trademark=&quot;%dzVersion.Trademark%&quot;
+-          --Comments=&quot;build on %dzDateTime%&quot;
+-
+-(all this must go into one line, I just wrapped it to improve readability)
+-
+-The following environment variables can be used (in addition to the ones
+-that are usually set):
+-
+-%dzDate% - the current date in ISO format (yyyy-mm-dd)
+-%dzTime% - the current time in 24 hour format (hh:mm:ss)
+-%dzDateTime% - combination of the above (yyyy-mm-dd hh:mm:ss)
+-%dzMyDocuments% - the My Documents folder of the current user
+-%dzProject% - the project name passed by the --ReadDof / --ReadBdsProj
+-              or --ReadIni option without extension
+-
+-The following values are read from the .dof / .bdsproj / .ini file and
+-also passed as environment variables:
+-
+-%dzVersion.MajorVer% - the major version number
+-%dzVersion.MinorVer% - the minor version number
+-%dzVersion.Release% - the release number
+-%dzVersion.Build% - the build number (optionally incremented by one)
+-%dzVersion.FileDesc% - the file description
+-%dzVersion.InternalName% - the internal name
+-%dzVersion.OriginalName% - the original filename
+-%dzVersion.Product% - the product name
+-%dzVersion.ProductVersion% - the product version
+-%dzVersion.Company% - the company name
+-%dzVersion.Copyright% - the copyright string
+-%dzVersion.Trademark% - the trademark string
+-%dzVersion.Comments% - the comments string
+-
+-In the above example these environment variables are used to call
+-PrepBuild again passing all values as commandline options to update
+-the project's .dof file and also create a .rc file.
+-
+-In addition an icon file is also added to the .rc file.
+-
+-You may ask why I am using a second script instead of doing everything
+-in PrepBuild itself. The answer is that I didn't want to add too
+-much functionality to the tool but also wanted the maximum of flexibility.
+-With this second script, I can use the version info and also the
+-build timestamp to modify the version information. Others may want to
+-add the user name to the version info, so they can just use the
+-standard environment variable %USERNAME% to add it. You might even want
+-to move creating a tag in your SCM to this script because there you
+-can use the current version number and build date/time for generating
+-the tag's name.
+-
+-Example 2:
+-
+-Let's assume your company is using Delphi 2007 and there are
+-multiple Developers working on the same project. You want to make
+-sure that the build number of a project always increases no matter
+-which developer does a build. This cannot be done with the options
+-of the Delphi IDE because it - worse than Delphi 7 - takes the
+-version information from the .res file (and only from the .dproj file
+-if no .res file exists). .res files are binary and there is no easy
+-way to modify them. So, what do you do?
+-
+-The first thing is disabling the version information in the project
+-options. Since the IDE doesn't do it correctly, there is no point in
+-letting it manage the version info. Instead you use a .ini file
+-to store it. This .ini file goes into your source code repository
+-together with the code. In addtion you have got another .ini file
+-in a central location (on the network) that stores the build number.
+-You refer to this .ini file in the entry of your version .ini file
+-like this:
+-
+-[Version Info]
+-// other stuff
+-Build=redirect:\\server\share\Testproject_Buildno.ini,Version Info,Build
+-
+-This will make PrepBuild read and write the build number to the
+-central .ini file rather than the local one (*1).
+-
+-Now, you add PrepBuild as a prebuild event like this:
+-
+-prepbuild 
+-
+-
+-(*1: Of course there is the small chance of two developers doing
+-a build at the same time. This will result in a duplicate build
+-number, but this shouldn't happen very often and I was too lazy
+-to try and implement some kind of locking mechanism to prevent
+-this rare case. If you need it, you have got the source code....)
+-
+-to be continued ....
+
+Copied: utilities/dzPrepBuild/tags/1.2.0/ReadMe.txt (from rev 459, utilities/dzPrepBuild/trunk/ReadMe.txt)
+
+Copied: utilities/dzPrepBuild/tags/1.2.0/buildtools (from rev 459, utilities/dzPrepBuild/trunk/buildtools)
+
+Copied: utilities/dzPrepBuild/tags/1.2.0/dcu (from rev 459, utilities/dzPrepBuild/trunk/dcu)
+
+Copied: utilities/dzPrepBuild/tags/1.2.0/src (from rev 459, utilities/dzPrepBuild/trunk/src)
+
+Deleted: utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dpr
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2010-05-16 09:01:02 UTC (rev 459)
++++ utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dpr	2010-05-16 09:13:20 UTC (rev 463)
+@@ -1,41 +0,0 @@
+-program PrepBuild;
+-
+-
+-
+-
+-{$APPTYPE CONSOLE}
+-
+-uses
+-  SysUtils,
+-  Forms,
+-  oxmldom,
+-  d_XmlVersionInfo in 'd_XmlVersionInfo.pas' {dm_XmlVersionInfo: TDataModule},
+-  d_DprojVersionInfo in 'd_DprojVersionInfo.pas' {dm_DprojVersionInfo: TDataModule},
+-  d_BdsProjVersionInfo in 'd_BdsProjVersionInfo.pas' {dm_BdsProjVersionInfo: TDataModule},
+-  i_VersionInfoAccess in 'i_VersionInfoAccess.pas',
+-  u_DofVersionInfo in 'u_DofVersionInfo.pas',
+-  u_IniVersionInfo in 'u_IniVersionInfo.pas',
+-  u_CentralIniVersionInfo in 'u_CentralIniVersionInfo.pas',
+-  u_PrepBuildMain in 'u_PrepBuildMain.pas',
+-  u_VersionInfo in 'u_VersionInfo.pas',
+-  u_dzGetOpt in '..\libs\dzCmdLineParsersrc\u_dzGetOpt.pas',
+-  u_dzDefaultMain in '..\libs\dzCmdLineParsersrc\u_dzDefaultMain.pas',
+-  u_dzParamDescList in '..\libs\dzCmdLineParsersrc\u_dzParamDescList.pas',
+-  u_dzParamFoundList in '..\libs\dzCmdLineParsersrc\u_dzParamFoundList.pas',
+-  u_dzOptionDescList in '..\libs\dzCmdLineParsersrc\u_dzOptionDescList.pas',
+-  u_dzOptionNameList in '..\libs\dzCmdLineParsersrc\u_dzOptionNameList.pas',
+-  u_dzOptionFoundList in '..\libs\dzCmdLineParsersrc\u_dzOptionFoundList.pas',
+-  w_dzDialog in '..\libs\dzlib\forms\w_dzDialog.pas' {f_dzDialog},
+-  u_dzJclUtils in '..\libs\dzlib\src\u_dzJclUtils.pas',
+-  RegExpr in '..\libs\tregexpr\Source\RegExpr.pas';
+-
+-{$R *_icon.res}
+-{$R *_version.res}
+-
+-begin
+-  Application.Initialize;
+-  Application.Title := 'PrepBuild';
+-  MainClass := TPrepBuildMain;
+-  System.ExitCode := Main;
+-end.
+-
+
+Copied: utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dpr (from rev 460, utilities/dzPrepBuild/trunk/src/PrepBuild.dpr)
+
+Deleted: utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-05-16 09:01:02 UTC (rev 459)
++++ utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dproj	2010-05-16 09:13:20 UTC (rev 463)
+@@ -1,85 +0,0 @@
+-&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+-&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;ProjectGuid&gt;{209412ac-0ec2-4f63-b92a-e78853ff142a}&lt;/ProjectGuid&gt;
+-    &lt;MainSource&gt;PrepBuild.dpr&lt;/MainSource&gt;
+-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+-    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;..\PrepBuild.exe&lt;/DCC_DependencyCheckOutputName&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
+-    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
+-    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
+-    &lt;DCC_DcuOutput&gt;dcu&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;dcu&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;dcu&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DcuOutput&gt;z:\dcu\dzprepbuild&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;z:\dcu\dzprepbuild&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;z:\dcu\dzprepbuild&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_Define&gt;DEBUG;no_translation;NO_TRANSLATION_HINT&lt;/DCC_Define&gt;
+-    &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
+-    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_IncludePath&gt;
+-    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+-    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+-    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ProjectExtensions&gt;
+-    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+-    &lt;Borland.ProjectType /&gt;
+-    &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--incbuild --readini=testdata\testproject --updateini=testdata\testproject --writerc=testdata\testproject&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/Ver!
+ sionInfo&gt;&lt;Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;/Delphi.Personality&gt;&lt;ModelSupport&gt;False&lt;/ModelSupport&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+-  &lt;/ProjectExtensions&gt;
+-  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;PreBuildEvent&gt;subwcrev .. SVN_Version_template.ini SVN_Version.ini
+-..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --updateini=$(PROJECTPATH) --WriteRc=$(PROJECTPATH) --exec=..\buildtools\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ItemGroup&gt;
+-    &lt;DelphiCompile Include=&quot;PrepBuild.dpr&quot;&gt;
+-      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+-    &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzCmdLineParsersrc\u_dzDefaultMain.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzCmdLineParsersrc\u_dzGetOpt.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzCmdLineParsersrc\u_dzOptionDescList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzCmdLineParsersrc\u_dzOptionFoundList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzCmdLineParsersrc\u_dzOptionNameList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzCmdLineParsersrc\u_dzParamDescList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzCmdLineParsersrc\u_dzParamFoundList.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzlib\forms\w_dzDialog.pas&quot;&gt;
+-      &lt;Form&gt;f_dzDialog&lt;/Form&gt;
+-    &lt;/DCCReference&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzlib\src\u_dzJclUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\tregexpr\Source\RegExpr.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;d_BdsProjVersionInfo.pas&quot;&gt;
+-      &lt;Form&gt;dm_BdsProjVersionInfo&lt;/Form&gt;
+-      &lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+-    &lt;/DCCReference&gt;
+-    &lt;DCCReference Include=&quot;d_DprojVersionInfo.pas&quot;&gt;
+-      &lt;Form&gt;dm_DprojVersionInfo&lt;/Form&gt;
+-      &lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+-    &lt;/DCCReference&gt;
+-    &lt;DCCReference Include=&quot;d_XmlVersionInfo.pas&quot;&gt;
+-      &lt;Form&gt;dm_XmlVersionInfo&lt;/Form&gt;
+-      &lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+-    &lt;/DCCReference&gt;
+-    &lt;DCCReference Include=&quot;i_VersionInfoAccess.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_CentralIniVersionInfo.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_DofVersionInfo.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_IniVersionInfo.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_PrepBuildMain.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;u_VersionInfo.pas&quot; /&gt;
+-  &lt;/ItemGroup&gt;
+-&lt;/Project&gt;
+\ No newline at end of file
+
+Copied: utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild.dproj (from rev 460, utilities/dzPrepBuild/trunk/src/PrepBuild.dproj)
+
+Deleted: utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-05-16 09:01:02 UTC (rev 459)
++++ utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild_BuildNo.ini	2010-05-16 09:13:20 UTC (rev 463)
+@@ -1,4 +0,0 @@
+-[Version Info]
+-Build=307
+-FileVersion=1.2.0.307
+-
+
+Copied: utilities/dzPrepBuild/tags/1.2.0/src/PrepBuild_BuildNo.ini (from rev 460, utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini)
+
+Copied: utilities/dzPrepBuild/tags/1.2.0/testdata (from rev 459, utilities/dzPrepBuild/trunk/testdata)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000322.html">[Dzchart-svncheckins] r462 - utilities/dzCmdLineParser/tags
+</A></li>
+	<LI>Next message: <A HREF="000324.html">[Dzchart-svncheckins] r464 - in utilities/dzPrepBuild/trunk: .	buildtools buildtools/templates src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#323">[ date ]</a>
+              <a href="thread.html#323">[ thread ]</a>
+              <a href="subject.html#323">[ subject ]</a>
+              <a href="author.html#323">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

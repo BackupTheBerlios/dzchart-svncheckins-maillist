@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r570 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r570%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110423102429.B2A8B4814C9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000427.html">
+   <LINK REL="Next"  HREF="000429.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r570 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r570%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110423102429.B2A8B4814C9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r570 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Apr 23 12:24:29 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000427.html">[Dzchart-svncheckins] r569 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000429.html">[Dzchart-svncheckins] r571 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#428">[ date ]</a>
+              <a href="thread.html#428">[ thread ]</a>
+              <a href="subject.html#428">[ subject ]</a>
+              <a href="author.html#428">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-04-23 12:24:29 +0200 (Sat, 23 Apr 2011)
+New Revision: 570
+
+Added:
+   utilities/dzLib/trunk/src/u_dzUnsortedNameValueList.pas
+Log:
+new unsorted name value list
+
+Added: utilities/dzLib/trunk/src/u_dzUnsortedNameValueList.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzUnsortedNameValueList.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzUnsortedNameValueList.pas	2011-04-23 10:24:29 UTC (rev 570)
+@@ -0,0 +1,150 @@
++unit u_dzUnsortedNameValueList;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  u_dzNameValueList;
++
++{$DEFINE __DZ_OBJECT_LIST_TEMPLATE__}
++type
++  _LIST_ANCESTOR_ = TObject;
++  _ITEM_TYPE_ = TNameValue;
++  _KEY_TYPE_ = string;
++{$INCLUDE 't_dzObjectListTemplate.tpl'}
++
++type
++  {: unsorted list for storing TNameValue items }
++  TUnsortedNameValueList = class(_DZ_OBJECT_LIST_TEMPLATE_)
++  private
++    function GetByName(const _Name: string): string;
++    procedure SetByName(const _Name, _Value: string);
++  public
++    function Add(const _Name, _Value: string): integer; reintroduce; overload;
++    function Add(const _NameValue: string): integer; reintroduce; overload;
++    function ByNameDef(const _Name, _Default: string): string;
++    function Find(const _Name: string; out _Value: string): boolean; overload;
++    function Find(const _Name: string; out _Idx: integer): boolean; overload;
++    procedure LoadFrom(_Strings: TStrings);
++    procedure SaveTo(_Strings: TStrings);
++    // Checks for duplicate names and empty values
++    function IsValid(var _Error: string): boolean;
++    property ByName[const _Name: string]: string read GetByName write SetByName;
++  end;
++
++implementation
++
++uses
++  u_dzTranslator;
++
++{$INCLUDE 't_dzObjectListTemplate.tpl'}
++
++{ TUnsortedNameValueList }
++
++function TUnsortedNameValueList.Add(const _Name, _Value: string): integer;
++begin
++  Result := Add(TNameValue.Create(_Name, _Value));
++end;
++
++function TUnsortedNameValueList.Add(const _NameValue: string): integer;
++var
++  p: integer;
++begin
++  p := Pos('=', _NameValue);
++  if p = 0 then
++    raise Exception.CreateFmt(_('NameValue &quot;%s&quot; does not contain a &quot;=&quot;.'), [_NameValue]);
++  Result := Add(Copy(_NameValue, 1, p - 1), Copy(_NameValue, p + 1));
++end;
++
++function TUnsortedNameValueList.Find(const _Name: string; out _Idx: integer): boolean;
++var
++  i: integer;
++  nv: TNameValue;
++begin
++  for i := 0 to Count - 1 do begin
++    nv := Items[i];
++    if SameText(_Name, nv.Name) then begin
++      _Idx := i;
++      Result := true;
++      exit;
++    end;
++  end;
++  Result := False;
++end;
++
++function TUnsortedNameValueList.Find(const _Name: string; out _Value: string): boolean;
++var
++  Idx: integer;
++begin
++  Result := Find(_Name, Idx);
++  if Result then
++    _Value := Items[Idx].Value;
++end;
++
++function TUnsortedNameValueList.GetByName(const _Name: string): string;
++begin
++  if not Find(_Name, Result) then
++    raise ENameNotFound.CreateFmt(_('Entry &quot;%s&quot; not found.'), [_Name]);
++end;
++
++function TUnsortedNameValueList.IsValid(var _Error: string): boolean;
++var
++  i: integer;
++  j: integer;
++  Item: TNameValue;
++begin
++  Result := false;
++  for i := 0 to Count - 1 do begin
++    Item := Items[i];
++    for j := i + 1 to Count - 1 do
++      if SameText(Item.Name, Items[j].Name) then begin
++        _Error := Format(_('Duplicate value name &quot;%s&quot;.'), [Item.Name]);
++        exit;
++      end;
++    if Item.Value = '' then begin
++      _Error := Format(_('Empty value for &quot;%s&quot;.'), [Item.Name]);
++      exit;
++    end;
++  end;
++  Result := true;
++end;
++
++procedure TUnsortedNameValueList.LoadFrom(_Strings: TStrings);
++var
++  i: Integer;
++  Name: string;
++begin
++  Clear;
++  for i := 0 to _Strings.Count - 1 do begin
++    Name := _Strings.Names[i];
++    Add(Name, _Strings.Values[Name]);
++  end;
++end;
++
++procedure TUnsortedNameValueList.SaveTo(_Strings: TStrings);
++var
++  i: Integer;
++begin
++  for i := 0 to Count - 1 do
++    _Strings.Values[Items[i].Name] := Items[i].Value;
++end;
++
++procedure TUnsortedNameValueList.SetByName(const _Name, _Value: string);
++var
++  Idx: integer;
++begin
++  if Find(_Name, Idx) then
++    Items[Idx].Value := _Value
++  else
++    Add(TNameValue.Create(_Name, _Value));
++end;
++
++function TUnsortedNameValueList.ByNameDef(const _Name, _Default: string): string;
++begin
++  if not Find(_Name, Result) then
++    Result := _Default;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000427.html">[Dzchart-svncheckins] r569 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000429.html">[Dzchart-svncheckins] r571 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#428">[ date ]</a>
+              <a href="thread.html#428">[ thread ]</a>
+              <a href="subject.html#428">[ subject ]</a>
+              <a href="author.html#428">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

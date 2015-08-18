@@ -1,0 +1,329 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r347 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r347%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251456.n8PEuLJ2015072%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000212.html">
+   <LINK REL="Next"  HREF="000214.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r347 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r347%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251456.n8PEuLJ2015072%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r347 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 16:56:22 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000212.html">[Dzchart-svncheckins] r346 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000214.html">[Dzchart-svncheckins] r348 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#213">[ date ]</a>
+              <a href="thread.html#213">[ thread ]</a>
+              <a href="subject.html#213">[ subject ]</a>
+              <a href="author.html#213">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 16:56:20 +0200 (Fri, 25 Sep 2009)
+New Revision: 347
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzStringUtils.pas
+Log:
+* new overloaded ReplaceChars that optionally allows to remove duplicates
+* new functions LoadStringFromFile / SaveStringToFile
+* new methods for TLineBuilder
+ - AddQuoted
+ - Formatted Add for floats
+ - formatted Add for times
+* TLineBuilder's FormatSettings can now be read
+
+Modified: utilities/dzLib/trunk/src/u_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringUtils.pas	2009-09-25 14:51:55 UTC (rev 346)
++++ utilities/dzLib/trunk/src/u_dzStringUtils.pas	2009-09-25 14:56:20 UTC (rev 347)
+@@ -227,9 +227,14 @@
+ function PosStr(const _SubStr, _s: string; _Start: integer): integer; deprecated;
+ 
+ ///&lt;summary&gt; Replaces all occurences of characters in Search in S with the corresponding
+-///          character in Replace. &lt;/summary&gt;
+-function ReplaceChars(const _s, _Search, _Replace: string): string;
++///          character in Replace. If there is no matching character in Replace,
++///          the character will be omitted. &lt;/summary&gt;
++function ReplaceChars(const _s, _Search, _Replace: string): string; overload;
+ 
++///&lt;summary&gt; Replaces all occurences of characters in Search in S with the Replace string.
++///          If Replace is an empty string, the characters will be omitted. &lt;/summary&gt;
++function ReplaceChars(const _s: string; _Search: TCharSet; const _Replace: string; _RemoveDuplicates: boolean = true): string; overload;
++
+ ///&lt;summary&gt; Replaces all control characters (ord(c) &lt; ord(' ')) with ReplaceChar.
+ ///          If RemoveDuplicates is true, a sequence of control characters is replaced
+ ///          by a single ReplaceChar. &lt;/summary&gt;
+@@ -322,6 +327,11 @@
+ function GetUserDefaultLocaleSettings: TFormatSettings;
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ 
++///&lt;summary&gt; Read the content of the file into a string and return it &lt;/summary&gt;
++function LoadStringFromFile(const _Filename: string): string;
++///&lt;summary&gt; Write the content of the string to a file &lt;/summary&gt;
++procedure SaveStringToFile(const _Filename: string; const _Content: string);
++
+ type
+   ///&lt;summary&gt; Helper class for building a text line &lt;/summary&gt;
+   TLineBuilder = class
+@@ -329,6 +339,7 @@
+     FListSeparator: string;
+     FContent: string;
+     FFormatSettings: TFormatSettings;
++    FQuoteChar: char;
+   public
+     ///&lt;summary&gt; Creates a TLineBuilder instance with the given separator
+     ///          @param ListSeparator is the separator string to use, defaults to TAB (#9)
+@@ -339,12 +350,19 @@
+     procedure Assign(_Source: TLineBuilder);
+     ///&lt;summary&gt; Adds a string column &lt;/summary&gt;
+     procedure Add(const _Column: string); overload;
++    ///&lt;summary&gt; Adds a string column, putting it in quotes &lt;/summary&gt;
++    procedure AddQuoted(const _Column: string);
+     ///&lt;summary&gt; Adds an integer value column &lt;/summary&gt;
+     procedure Add(_IntValue: integer); overload;
+     ///&lt;summary&gt; Adds a floating point value column with the given number of decimals &lt;/summary&gt;
+     procedure Add(_FloatValue: extended; _Decimals: integer); overload;
++    ///&lt;summary&gt; Adds a floating point value column with the given number of integer digits
++    ///          and the given number of fractional digits &lt;/summary&gt;
++    procedure Add(_FloatValue: extended; _IntDigits, _FracDigits: integer); overload;
+     ///&lt;summary&gt; Adds a column with a time in hh:mm:ss format &lt;/summary&gt;
+     procedure Add(_Hours, _Minutes, _Seconds: integer); overload;
++    ///&lt;summary&gt; Adds a column with a time in hh:mm:ss:tt format &lt;/summary&gt;
++    procedure Add(_Hours, _Minutes, _Seconds, _Hundredth: integer); overload;
+     ///&lt;summary&gt; Adds a boolean column, with 'Y' for true and 'N' for false &lt;/summary&gt;
+     procedure Add(_b: Boolean); overload;
+     ///&lt;summary&gt; Clears the line &lt;/summary&gt;
+@@ -359,6 +377,8 @@
+     property Content: string read FContent;
+     property DecimalSeparator: char read FFormatSettings.DecimalSeparator write FFormatSettings.DecimalSeparator default '.';
+     property ListSeparator: string read FListSeparator write FListSeparator;
++    property QuoteChar: char read FQuoteChar write FQuoteChar;
++    property FormatSettings: TFormatSettings read FFormatSettings;
+   end;
+ 
+ implementation
+@@ -433,7 +453,7 @@
+ end;
+ 
+ function nthWordStartAndEnd(const _s: string; _WordNo: integer;
+-  const _Delimiter: string; var _Start, _Ende: integer): boolean; overload;
++  const _Delimiter: AnsiString; var _Start, _Ende: integer): boolean; overload;
+ var
+   i: integer;
+   DelimiterSet: TCharSet;
+@@ -464,7 +484,7 @@
+     Result := '';
+ end;
+ 
+-function ExtractFirstWord(var _s: string; _Delimiter: TCharSet): string; overload;
++function ExtractFirstWord(var _s: string; _Delimiter: TCharSet): string;
+ begin
+   if not ExtractFirstWord(_s, _Delimiter, Result) then begin // s contained only Delimiters
+     Result := '';
+@@ -480,7 +500,7 @@
+   end;
+ end;
+ 
+-function ExtractFirstWord(var _s: string; const _Delimiter: string; out _FirstWord: string): boolean; overload;
++function ExtractFirstWord(var _s: string; const _Delimiter: string; out _FirstWord: string): boolean;
+ var
+   Start, Ende: integer;
+ begin
+@@ -491,7 +511,7 @@
+   end;
+ end;
+ 
+-function ExtractFirstWord(var _s: string; _Delimiter: TCharSet; out _FirstWord: string): boolean; overload;
++function ExtractFirstWord(var _s: string; _Delimiter: TCharSet; out _FirstWord: string): boolean;
+ var
+   Start, Ende: integer;
+ begin
+@@ -541,6 +561,26 @@
+   SetLength(Result, j - 1);
+ end;
+ 
++function ReplaceChars(const _s: string; _Search: TCharSet; const _Replace: string; _RemoveDuplicates: boolean = true): string;
++var
++  i: LongInt;
++  Dup: boolean;
++begin
++  Result := '';
++  Dup := false;
++  for i := 1 to Length(_s) do begin
++    if _s[i] in _Search then begin
++      if not Dup or not _RemoveDuplicates then begin
++        Result := Result + _Replace;
++        Dup := true;
++      end;
++    end else begin
++      Result := Result + _s[i];
++      Dup := false;
++    end;
++  end;
++end;
++
+ function ReplaceCtrlChars(const _s: string; _ReplaceChar: char; _RemoveDuplicates: boolean = true): string;
+ var
+   i: integer;
+@@ -575,12 +615,12 @@
+   Result := ReplaceCtrlChars(_s, ' ', _RemoveDuplicates);
+ end;
+ 
+-function HexEncodeControlChars(_Prefix: char; const _s: string; _ControlChars: TCharSet): string;
++function HexEncodeControlChars(_Prefix: Char; const _s: string; _ControlChars: TCharSet): string;
+ var
+   i: integer;
+ begin
+   Result := '';
+-  Include(_ControlChars, _Prefix);
++  Include(_ControlChars, AnsiChar(_Prefix));
+   for i := 1 to Length(_s) do begin
+     if _s[i] in _ControlChars then
+       Result := Result + Format('%s%.2x', [_Prefix, Ord(_s[i])]) // do not translate
+@@ -857,7 +897,7 @@
+   Result := ExtractStr(_Source, _Delimiters, _Substr, b);
+ end;
+ 
+-function ExtractStr(var _Source: string; _Delimiter: char; out _Substr: string; var _LastWasDelimiter: boolean): boolean; overload;
++function ExtractStr(var _Source: string; _Delimiter: char; out _Substr: string; var _LastWasDelimiter: boolean): boolean;
+ begin
+   Result := ExtractStr(_Source, [_Delimiter], _SubStr, _LastWasDelimiter);
+ end;
+@@ -1050,6 +1090,7 @@
+   FFormatSettings := GetUserDefaultLocaleSettings;
+   FFormatSettings.DecimalSeparator := _DecimalSeparator;
+   FFormatSettings.ThousandSeparator := #0;
++  FQuoteChar := '&quot;';
+ end;
+ 
+ procedure TLineBuilder.Add(_IntValue: integer);
+@@ -1062,6 +1103,11 @@
+   Add(FloatToStrF(_FloatValue, ffFixed, 18, _Decimals, FFormatSettings));
+ end;
+ 
++procedure TLineBuilder.Add(_FloatValue: extended; _IntDigits, _FracDigits: integer);
++begin
++  Add(Format('%*.*f', [_IntDigits, _FracDigits, _FloatValue], FFormatSettings));
++end;
++
+ procedure TLineBuilder.Add(const _Column: string);
+ begin
+   if FContent &lt;&gt; '' then
+@@ -1069,24 +1115,34 @@
+   FContent := FContent + _Column;
+ end;
+ 
++function ZeroPadLeft(_Value: Integer; _Len: Integer): string;
++begin
++  Str(_Value, Result);
++  while Length(Result) &lt; _Len do
++    Result := '0' + Result;
++end;
++
+ procedure TLineBuilder.Add(_Hours, _Minutes, _Seconds: integer);
+-
+-  function ZeroPadLeft(_Value: Integer; _Len: Integer): string;
+-  begin
+-    Str(_Value, Result);
+-    while Length(Result) &lt; _Len do
+-      Result := '0' + Result;
+-  end;
+-
+ begin
+   Add(ZeroPadLeft(_Hours, 2) + ':' + ZeroPadLeft(_Minutes, 2) + ':' + ZeroPadLeft(_Seconds, 2));
+ end;
+ 
++procedure TLineBuilder.Add(_Hours, _Minutes, _Seconds, _Hundredth: integer);
++begin
++  Add(ZeroPadLeft(_Hours, 2) + ':' + ZeroPadLeft(_Minutes, 2) + ':' + ZeroPadLeft(_Seconds, 2)
++    + ':' + ZeroPadLeft(_Hundredth, 2));
++end;
++
+ procedure TLineBuilder.Add(_b: Boolean);
+ begin
+   Add(IfThen(_B, 'Y', 'N'));
+ end;
+ 
++procedure TLineBuilder.AddQuoted(const _Column: string);
++begin
++  Add(FQuoteChar + _Column + FQuoteChar);
++end;
++
+ procedure TLineBuilder.Append(_Line: TLineBuilder);
+ var
+   s: string;
+@@ -1135,5 +1191,31 @@
+     FContent := s;
+ end;
+ 
++function LoadStringFromFile(const _Filename: string): string;
++var
++  sl: TStringList;
++begin
++  sl := TStringList.Create;
++  try
++    sl.LoadFromFile(_Filename);
++    Result := sl.Text;
++  finally
++    sl.Free;
++  end;
++end;
++
++procedure SaveStringToFile(const _Filename: string; const _Content: string);
++var
++  sl: TStringList;
++begin
++  sl := TStringList.Create;
++  try
++    sl.Text := _Content;
++    sl.SaveToFile(_Filename);
++  finally
++    sl.Free;
++  end;
++end;
++
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000212.html">[Dzchart-svncheckins] r346 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000214.html">[Dzchart-svncheckins] r348 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#213">[ date ]</a>
+              <a href="thread.html#213">[ thread ]</a>
+              <a href="subject.html#213">[ subject ]</a>
+              <a href="author.html#213">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

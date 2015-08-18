@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r503 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r503%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101002140555.9EAF3480FE9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000361.html">
+   <LINK REL="Next"  HREF="000363.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r503 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r503%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101002140555.9EAF3480FE9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r503 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct  2 16:05:55 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000361.html">[Dzchart-svncheckins] r502 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+        <LI>Next message: <A HREF="000363.html">[Dzchart-svncheckins] r504 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#362">[ date ]</a>
+              <a href="thread.html#362">[ thread ]</a>
+              <a href="subject.html#362">[ subject ]</a>
+              <a href="author.html#362">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-02 16:05:55 +0200 (Sat, 02 Oct 2010)
+New Revision: 503
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzOsUtils.pas
+Log:
+RegisterFileAssociation corrected: There should always be a short name for a document type
+
+Modified: utilities/dzLib/trunk/src/u_dzOsUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzOsUtils.pas	2010-10-02 12:55:26 UTC (rev 502)
++++ utilities/dzLib/trunk/src/u_dzOsUtils.pas	2010-10-02 14:05:55 UTC (rev 503)
+@@ -87,7 +87,17 @@
+ function GetModuleFilename: string; overload;
+ function GetModuleFilename(const _Module: Cardinal): string; overload;
+ 
+-procedure RegisterFileAssociation(const _Extension, _DocumentName, _OpenCommand: string);
++///&lt;summary&gt; registers an open command for a file extension
++///          @param Extension is the file extension to register e.g. '.bla'
++///          @param DocumentName is the user friendly name for the file type e.g. 'Bla bla file'
++///          @param OpenCommand is the command that must be executed to open that file
++///                             e.g. '&quot;c:\program files\My Company\My App\myprog.exe&quot; &quot;%1&quot;'
++///                             Don't forget to put quotes around both, the executable name and
++///                             the parameter, and also don't forget to pass the parameter.
++///          @param ShortDocName is an internal, short name for the file type e.g. 'MyProg.bla'
++//                               You should always supply one
++procedure RegisterFileAssociation(const _Extension, _DocumentName, _OpenCommand: string); overload; deprecated;
++procedure RegisterFileAssociation(const _Extension, _ShortDocName, _DocumentName, _OpenCommand: string); overload;
+ 
+ function OsHasNTSecurity: boolean;
+ 
+@@ -238,12 +248,16 @@
+   end;
+ end;
+ 
++procedure RegisterFileAssociation(const _Extension, _ShortDocName, _DocumentName, _OpenCommand: string);
++begin
++  SetRegValue(HKEY_CLASSES_ROOT, _Extension, '', _ShortDocName);
++  SetRegValue(HKEY_CLASSES_ROOT, _ShortDocName, '', _DocumentName);
++  SetRegValue(HKEY_CLASSES_ROOT, Format('%s\shell\command', [_ShortDocName]), '', _OpenCommand);
++end;
++
+ procedure RegisterFileAssociation(const _Extension, _DocumentName, _OpenCommand: string);
+ begin
+-  SetRegValue(HKEY_CLASSES_ROOT, _Extension, '', _DocumentName);
+-  SetRegValue(HKEY_CLASSES_ROOT, _DocumentName, '', _DocumentName);
+-  SetRegValue(HKEY_CLASSES_ROOT, Format('%s\shell\command', [_DocumentName]),
+-    '', _OpenCommand);
++  RegisterFileAssociation(_Extension, _DocumentName, _DocumentName, _OpenCommand);
+ end;
+ 
+ function GetModuleFilename(const _Module: Cardinal): string;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000361.html">[Dzchart-svncheckins] r502 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+	<LI>Next message: <A HREF="000363.html">[Dzchart-svncheckins] r504 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#362">[ date ]</a>
+              <a href="thread.html#362">[ thread ]</a>
+              <a href="subject.html#362">[ subject ]</a>
+              <a href="author.html#362">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

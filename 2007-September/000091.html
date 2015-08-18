@@ -1,0 +1,565 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r221 - in utilities/ccpack/trunk/examples:	CustomBox CustomBox/Delphi2006 CustomFrame/Delphi2006
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r221%20-%20in%20utilities/ccpack/trunk/examples%3A%0A%09CustomBox%20CustomBox/Delphi2006%20CustomFrame/Delphi2006&In-Reply-To=%3C200709291845.l8TIjYk2024250%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000090.html">
+   <LINK REL="Next"  HREF="000092.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r221 - in utilities/ccpack/trunk/examples:	CustomBox CustomBox/Delphi2006 CustomFrame/Delphi2006</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r221%20-%20in%20utilities/ccpack/trunk/examples%3A%0A%09CustomBox%20CustomBox/Delphi2006%20CustomFrame/Delphi2006&In-Reply-To=%3C200709291845.l8TIjYk2024250%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r221 - in utilities/ccpack/trunk/examples:	CustomBox CustomBox/Delphi2006 CustomFrame/Delphi2006">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Sep 29 20:45:34 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000090.html">[Dzchart-svncheckins] r220 - in utilities/ccpack/trunk/examples: .	CustomBox CustomBox/Delphi2007 CustomBox/src
+</A></li>
+        <LI>Next message: <A HREF="000092.html">[Dzchart-svncheckins] r222 - utilities/ccpack/trunk/doc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#91">[ date ]</a>
+              <a href="thread.html#91">[ thread ]</a>
+              <a href="subject.html#91">[ subject ]</a>
+              <a href="author.html#91">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-09-29 20:45:26 +0200 (Sat, 29 Sep 2007)
+New Revision: 221
+
+Added:
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2006/
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2006/CCCustomBoxPackage.bdsproj
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2006/CCCustomBoxPackage.dpk
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2006/FourLists.bdsproj
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2006/FourLists.dpr
+Modified:
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi2006/
+Log:
+added another exmample for Delphi 2006
+
+
+Property changes on: utilities/ccpack/trunk/examples/CustomBox/Delphi2006
+___________________________________________________________________
+Name: svn:ignore
+   + CCCustomBoxPackage.cfg
+CCCustomBoxPackage.res
+FourLists.cfg
+FourLists.res
+
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi2006/CCCustomBoxPackage.bdsproj
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi2006/CCCustomBoxPackage.bdsproj	2007-09-29 18:36:33 UTC (rev 220)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi2006/CCCustomBoxPackage.bdsproj	2007-09-29 18:45:26 UTC (rev 221)
+@@ -0,0 +1,216 @@
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;BorlandProject&gt;
++	&lt;PersonalityInfo&gt;
++		&lt;Option&gt;
++			&lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
++			&lt;Option Name=&quot;ProjectType&quot;&gt;VCLApplication&lt;/Option&gt;
++			&lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
++			&lt;Option Name=&quot;GUID&quot;&gt;{0FD48501-D124-4336-856B-B9B2C9CB2B5E}&lt;/Option&gt;
++		&lt;/Option&gt;
++	&lt;/PersonalityInfo&gt;
++	&lt;Delphi.Personality&gt;
++		&lt;Source&gt;
++			&lt;Source Name=&quot;MainSource&quot;&gt;CCCustomBoxPackage.dpk&lt;/Source&gt;
++		&lt;/Source&gt;
++		&lt;FileVersion&gt;
++			&lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
++		&lt;/FileVersion&gt;
++		&lt;Compiler&gt;
++			&lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;J&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Q&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;R&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;T&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitPlatform&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
++		&lt;/Compiler&gt;
++		&lt;Linker&gt;
++			&lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
++			&lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
++			&lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
++			&lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
++			&lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;
++		&lt;/Linker&gt;
++		&lt;Directories&gt;
++			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\dcu&lt;/Directories&gt;
++			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;Packages&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UsePackages&quot;&gt;False&lt;/Directories&gt;
++		&lt;/Directories&gt;
++		&lt;Parameters&gt;
++			&lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;HostApplication&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++		&lt;/Parameters&gt;
++		&lt;Language&gt;
++			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
++			&lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
++			&lt;Language Name=&quot;RootDir&quot;&gt;&lt;/Language&gt;
++		&lt;/Language&gt;
++		&lt;VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++		&lt;/VersionInfo&gt;
++		&lt;VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++		&lt;/VersionInfoKeys&gt;  &lt;Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvStdCtrlsD10D.bpl&quot;&gt;JVCL Standard Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCtrlsD10D.bpl&quot;&gt;JVCL Visual Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPluginD10D.bpl&quot;&gt;JVCL Plugin Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPageCompsD10D.bpl&quot;&gt;JVCL Page Style Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvMMD10D.bpl&quot;&gt;JVCL Multimedia and Image Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDlgsD10D.bpl&quot;&gt;JVCL Dialog Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBandsD10D.bpl&quot;&gt;JVCL Band Objects&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CivEvoButtons.bpl&quot;&gt;(untitled)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;
++  &lt;/Delphi.Personality&gt;
++&lt;/BorlandProject&gt;
+
+Copied: utilities/ccpack/trunk/examples/CustomBox/Delphi2006/CCCustomBoxPackage.dpk (from rev 220, utilities/ccpack/trunk/examples/CustomBox/Delphi2007/CCCustomBoxPackage.dpk)
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi2006/FourLists.bdsproj
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi2006/FourLists.bdsproj	2007-09-29 18:36:33 UTC (rev 220)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi2006/FourLists.bdsproj	2007-09-29 18:45:26 UTC (rev 221)
+@@ -0,0 +1,217 @@
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;BorlandProject&gt;
++  &lt;PersonalityInfo&gt;
++    &lt;Option&gt;
++      &lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
++      &lt;Option Name=&quot;ProjectType&quot;&gt;VCLApplication&lt;/Option&gt;
++      &lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
++      &lt;Option Name=&quot;GUID&quot;&gt;{1F609E01-2EE2-4E76-AA35-0C52AF5DB219}&lt;/Option&gt;
++    &lt;/Option&gt;
++  &lt;/PersonalityInfo&gt;
++  &lt;Delphi.Personality&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;FourLists.dpr&lt;/Source&gt;
++    &lt;/Source&gt;
++    &lt;FileVersion&gt;
++      &lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
++    &lt;/FileVersion&gt;
++    &lt;Compiler&gt;
++      &lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;J&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Q&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;R&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;T&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitPlatform&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
++    &lt;/Compiler&gt;
++    &lt;Linker&gt;
++      &lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
++      &lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
++      &lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
++      &lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
++      &lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;
++    &lt;/Linker&gt;
++    &lt;Directories&gt;
++      &lt;Directories Name=&quot;OutputDir&quot;&gt;..&lt;/Directories&gt;
++      &lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\dcu&lt;/Directories&gt;
++      &lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;SearchPath&quot;&gt;..\src;..\..\..\src&lt;/Directories&gt;
++      &lt;Directories Name=&quot;Packages&quot;&gt;rtl;vclx;vcl;dbrtl;vcldb;dbxcds;dbexpress;xmlrtl;vclie;inet;inetdbbde;inetdbxpress;dsnap;vclactnband;bdertl;VclSmp;adortl;vclib;ibxpress;JclVcl;Jcl;JvCoreD10R;JvStdCtrlsD10R;JvSystemD10R;JvCtrlsD10R;JvCmpD10R;JvCustomD10R;JvDlgsD10R;JvCryptD10R;JvMMD10R;JvNetD10R;JvAppFrmD10R;JvDBD10R;JvBDED10R;JvInterpreterD10R;JvBandsD10R;JvPluginD10R;JvJansD10R;JvGlobusD10R;JvPrintPreviewD10R;JvPageCompsD10R;JvValidatorsD10R;JvUIBD10R;JvWizardD10R;JvTimeFrameworkD10R;JvHMID10R;JvManagedThreadsD10R;JvXPCtrlsD10R;JvDockingD10R;JvDotNetCtrlsD10R;JvEDID10R;JvRuntimeDesignD10R&lt;/Directories&gt;
++      &lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;UsePackages&quot;&gt;False&lt;/Directories&gt;
++    &lt;/Directories&gt;
++    &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;HostApplication&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;Language&gt;
++      &lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
++      &lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
++      &lt;Language Name=&quot;RootDir&quot;&gt;&lt;/Language&gt;
++    &lt;/Language&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++    &lt;/VersionInfoKeys&gt;
++    &lt;Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvStdCtrlsD10D.bpl&quot;&gt;JVCL Standard Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCtrlsD10D.bpl&quot;&gt;JVCL Visual Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPluginD10D.bpl&quot;&gt;JVCL Plugin Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPageCompsD10D.bpl&quot;&gt;JVCL Page Style Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvMMD10D.bpl&quot;&gt;JVCL Multimedia and Image Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDlgsD10D.bpl&quot;&gt;JVCL Dialog Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBandsD10D.bpl&quot;&gt;JVCL Band Objects&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CivEvoButtons.bpl&quot;&gt;(untitled)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;
++  &lt;/Delphi.Personality&gt;
++&lt;/BorlandProject&gt;
+
+Copied: utilities/ccpack/trunk/examples/CustomBox/Delphi2006/FourLists.dpr (from rev 220, utilities/ccpack/trunk/examples/CustomBox/Delphi2007/FourLists.dpr)
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi2007/FourLists.dpr	2007-09-29 18:36:33 UTC (rev 220)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi2006/FourLists.dpr	2007-09-29 18:45:26 UTC (rev 221)
+@@ -0,0 +1,13 @@
++program FourLists;
++
++uses
++  Forms,
++  w_FourLists in '..\src\w_FourLists.pas' {Form1};
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.CreateForm(TForm1, Form1);
++  Application.Run;
++end.
+
+
+Property changes on: utilities/ccpack/trunk/examples/CustomFrame/Delphi2006
+___________________________________________________________________
+Name: svn:ignore
+   - CCCustomFrameExample.cfg
+CCCustomFrameExample.res
+
+   + CCCustomFrameExample.cfg
+CCCustomFrameExample.res
+FamilyData.cfg
+FamilyData.res
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000090.html">[Dzchart-svncheckins] r220 - in utilities/ccpack/trunk/examples: .	CustomBox CustomBox/Delphi2007 CustomBox/src
+</A></li>
+	<LI>Next message: <A HREF="000092.html">[Dzchart-svncheckins] r222 - utilities/ccpack/trunk/doc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#91">[ date ]</a>
+              <a href="thread.html#91">[ thread ]</a>
+              <a href="subject.html#91">[ subject ]</a>
+              <a href="author.html#91">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

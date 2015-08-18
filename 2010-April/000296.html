@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r435 - utilities/dzPrepBuild/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r435%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201004111430.o3BEUPsa022159%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000295.html">
+   <LINK REL="Next"  HREF="000297.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r435 - utilities/dzPrepBuild/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r435%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201004111430.o3BEUPsa022159%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r435 - utilities/dzPrepBuild/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr 11 16:30:25 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000295.html">[Dzchart-svncheckins] r434 - utilities/dzPrepBuild/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000297.html">[Dzchart-svncheckins] r436 - in utilities/dzPrepBuild/trunk: src	testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#296">[ date ]</a>
+              <a href="thread.html#296">[ thread ]</a>
+              <a href="subject.html#296">[ subject ]</a>
+              <a href="author.html#296">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-04-11 16:30:18 +0200 (Sun, 11 Apr 2010)
+New Revision: 435
+
+Added:
+   utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.dfm
+   utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.pas
+Modified:
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+Log:
+started dproj support
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2010-04-11 14:20:26 UTC (rev 434)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2010-04-11 14:30:18 UTC (rev 435)
+@@ -9,6 +9,7 @@
+   SysUtils,
+   Forms,
+   oxmldom,
++  d_DProjVersionInfo in 'd_DProjVersionInfo.pas' {dm_DProjVersionInfo: TDataModule},
+   d_BdsProjVersionInfo in 'd_BdsProjVersionInfo.pas' {dm_BdsProjVersionInfo: TDataModule},
+   i_VersionInfoAccess in 'i_VersionInfoAccess.pas',
+   u_DofVersionInfo in 'u_DofVersionInfo.pas',
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-04-11 14:20:26 UTC (rev 434)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-04-11 14:30:18 UTC (rev 435)
+@@ -66,6 +66,10 @@
+       &lt;Form&gt;dm_BdsProjVersionInfo&lt;/Form&gt;
+       &lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+     &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;d_DProjVersionInfo.pas&quot;&gt;
++      &lt;Form&gt;dm_DProjVersionInfo&lt;/Form&gt;
++      &lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
++    &lt;/DCCReference&gt;
+     &lt;DCCReference Include=&quot;i_VersionInfoAccess.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;u_CentralIniVersionInfo.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;u_DofVersionInfo.pas&quot; /&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 14:20:26 UTC (rev 434)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 14:30:18 UTC (rev 435)
+@@ -1,4 +1,4 @@
+ [Version Info]
+-Build=222
+-FileVersion=1.2.0.222
++Build=224
++FileVersion=1.2.0.224
+ 
+
+Copied: utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.dfm (from rev 434, utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.dfm)
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.dfm	2010-04-11 14:20:26 UTC (rev 434)
++++ utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.dfm	2010-04-11 14:30:18 UTC (rev 435)
+@@ -0,0 +1,10 @@
++object dm_DProjVersionInfo: Tdm_DProjVersionInfo
++  OldCreateOrder = False
++  Height = 150
++  Width = 215
++  object ProjDoc: TXMLDocument
++    Left = 64
++    Top = 40
++    DOMVendorDesc = 'MSXML'
++  end
++end
+
+Copied: utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.pas (from rev 434, utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas)
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas	2010-04-11 14:20:26 UTC (rev 434)
++++ utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.pas	2010-04-11 14:30:18 UTC (rev 435)
+@@ -0,0 +1,213 @@
++unit d_DProjVersionInfo;
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  Classes,
++  xmldom,
++  XMLIntf,
++  msxmldom,
++  XMLDoc,
++  u_VersionInfo,
++  i_VersionInfoAccess;
++
++type
++  Tdm_DProjVersionInfo = class(TDataModule, IVersionInfoAccess)
++    ProjDoc: TXMLDocument;
++  private
++    FProjectName: string;
++    function GetChildNodeContent(_Parent: IXMLNode; const _NodeName, _AttrName: string): string;
++    function GetVersionInfo(const _Name: string): string;
++    function GetVersionInfoKey(const _Name: string): string;
++    procedure SetChildNodeContent(_Parent: IXMLNode; const _NodeName, _AttrName, _Value: string);
++    procedure SetVersionInfo(const _Name, _Value: string);
++    procedure SetVersionInfoKey(const _Name, _Value: string);
++  protected // IInterface
++    FRefCount: integer;
++    function QueryInterface(const IID: TGUID; out Obj): HResult; override; stdcall;
++    function _AddRef: integer; stdcall;
++    function _Release: integer; stdcall;
++  protected // implementation of IVersionInfo
++    function VerInfoFilename: string;
++    procedure ReadFromFile(_VerInfo: TVersionInfo);
++    procedure WriteToFile(_VerInfo: TVersionInfo);
++  protected
++    FBdsProjFile: string;
++    FVersionInfo: IXMLNode;
++    FVersionInfoKeys: IXMLNode;
++  public
++    constructor Create(const _Project: string); reintroduce;
++    destructor Destroy; override;
++    class function FilenameFor(const _Project: string): string;
++  end;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  StrUtils,
++  u_dzTranslator;
++
++{ Tdm_BdsProjVersionInfo }
++
++function Tdm_DProjVersionInfo.GetChildNodeContent(_Parent: IXMLNode; const _NodeName, _AttrName: string): string;
++var
++  Node: IXMLNode;
++begin
++  // &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++  Node := _Parent.ChildNodes.First;
++  while Assigned(Node) do begin
++    if Node.nodeName = _NodeName then begin
++      if SameText(Node.Attributes['Name'], _AttrName) then begin
++        Result := Node.Text;
++        exit;
++      end;
++    end;
++    Node := Node.nextSibling;
++  end;
++end;
++
++function Tdm_DProjVersionInfo.GetVersionInfo(const _Name: string): string;
++begin
++  Result := GetChildNodeContent(FVersionInfo, 'VersionInfo', _Name);
++end;
++
++function Tdm_DProjVersionInfo.GetVersionInfoKey(const _Name: string): string;
++begin
++  Result := GetChildNodeContent(FVersionInfoKeys, 'VersionInfoKeys', _Name);
++end;
++
++procedure Tdm_DProjVersionInfo.SetChildNodeContent(_Parent: IXMLNode; const _NodeName, _AttrName, _Value: string);
++var
++  Node: IXMLNode;
++begin
++  // &lt;*NodeName* Name=&quot;*AttrName*&quot;&gt;*Value*&lt;/VersionInfo&gt;
++  Node := _Parent.ChildNodes.First;
++  while Assigned(Node) do begin
++    if Node.nodeName = _NodeName then begin
++      if SameText(Node.Attributes['Name'], _AttrName) then begin
++        Node.Text := _Value;
++        exit;
++      end;
++    end;
++    Node := Node.nextSibling;
++  end;
++end;
++
++constructor Tdm_DProjVersionInfo.Create(const _Project: string);
++var
++  Project: IXMLNode;
++  ProjectExtensions: IXMLNode;
++  BorlandProject: IXMLNode;
++  DelphiPersonality: IXMLNode;
++begin
++  inherited Create(nil);
++  FProjectName := _Project;
++  FBdsProjFile := VerInfoFilename;
++  ProjDoc.FileName := FBdsProjFile;
++  ProjDoc.Active := True;
++  Project := ProjDoc.DocumentElement;
++  ProjectExtensions := Project.ChildNodes['ProjectExtensions'];
++  BorlandProject := ProjectExtensions.ChildNodes['BorlandProject'];
++  DelphiPersonality := BorlandProject.ChildNodes['Delphi.Personality'];
++  FVersionInfo := DelphiPersonality.ChildNodes['VersionInfo'];
++  FVersionInfoKeys := DelphiPersonality.ChildNodes['VersionInfoKeys'];
++
++  if not SameText(GetChildNodeContent(FVersionInfo, 'VersionInfo', 'IncludeVerInfo'), 'True') then
++    raise ENoVersionInfo.Create(_('.dproj file does not contain version information'));
++end;
++
++destructor Tdm_DProjVersionInfo.Destroy;
++begin
++  FVersionInfo := nil;
++  inherited;
++end;
++
++class function Tdm_DProjVersionInfo.FilenameFor(const _Project: string): string;
++begin
++  Result := ChangeFileExt(_Project, '.bdsproj');
++end;
++
++procedure Tdm_DProjVersionInfo.ReadFromFile(_VerInfo: TVersionInfo);
++begin
++  _VerInfo.AutoIncBuild := SameText(GetVersionInfo('AutoIncBuild'), 'True');
++
++  _VerInfo.MajorVer := StrToIntDef(GetVersionInfo('MajorVer'), 0);
++  _VerInfo.MinorVer := StrToIntDef(GetVersionInfo('MinorVer'), 0);
++  _VerInfo.Release := StrToIntDef(GetVersionInfo('Release'), 0);
++  _VerInfo.Build := StrToIntDef(GetVersionInfo('Build'), 0);
++
++  _VerInfo.Comments := GetVersionInfoKey('Comments');
++  _VerInfo.CompanyName := GetVersionInfoKey('CompanyName');
++  _VerInfo.FileDescription := GetVersionInfoKey('FileDescription');
++  _VerInfo.FileVersion := GetVersionInfoKey('FileVersion');
++  _VerInfo.InternalName := GetVersionInfoKey('InternalName');
++  _VerInfo.LegalCopyright := GetVersionInfoKey('LegalCopyright');
++  _VerInfo.LegalTrademarks := GetVersionInfoKey('LegalTrademarks');
++  _VerInfo.OriginalFilename := GetVersionInfoKey('OriginalFilename');
++  _VerInfo.ProductName := GetVersionInfoKey('ProductName');
++  _VerInfo.ProductVersion := GetVersionInfoKey('ProductVersion');
++end;
++
++procedure Tdm_DProjVersionInfo.WriteToFile(_VerInfo: TVersionInfo);
++begin
++  SetVersionInfo('AutoIncBuild', IfThen(_VerInfo.AutoIncBuild, 'True', 'False'));
++  SetVersionInfo('Build', IntToStr(_VerInfo.Build));
++  SetVersionInfoKey('Comments', _VerInfo.Comments);
++  SetVersionInfoKey('CompanyName', _VerInfo.CompanyName);
++  SetVersionInfoKey('FileDescription', _VerInfo.FileDescription);
++  SetVersionInfoKey('FileVersion', _VerInfo.FileVersion);
++  SetVersionInfoKey('InternalName', _VerInfo.InternalName);
++  SetVersionInfoKey('LegalCopyright', _VerInfo.LegalCopyright);
++  SetVersionInfoKey('LegalTrademarks', _VerInfo.LegalTrademarks);
++  SetVersionInfo('MajorVer', IntToStr(_VerInfo.MajorVer));
++  SetVersionInfo('MinorVer', IntToStr(_VerInfo.MinorVer));
++  SetVersionInfoKey('OriginalFilename', _VerInfo.OriginalFilename);
++  SetVersionInfoKey('ProductName', _VerInfo.ProductName);
++  SetVersionInfoKey('ProductVersion', _VerInfo.ProductVersion);
++  SetVersionInfo('Release', IntToStr(_VerInfo.Release));
++  ProjDoc.SaveToFile(FBdsProjFile);
++end;
++
++procedure Tdm_DProjVersionInfo.SetVersionInfo(const _Name, _Value: string);
++begin
++  SetChildNodeContent(FVersionInfo, 'VersionInfo', _Name, _Value);
++end;
++
++procedure Tdm_DProjVersionInfo.SetVersionInfoKey(const _Name, _Value: string);
++begin
++  SetChildNodeContent(FVersionInfoKeys, 'VersionInfoKeys', _Name, _Value);
++end;
++
++function Tdm_DProjVersionInfo.VerInfoFilename: string;
++begin
++  Result := FilenameFor(FProjectName);
++end;
++
++// standard TInterfacedObject implementation of IInterface
++
++function Tdm_DProjVersionInfo.QueryInterface(const IID: TGUID; out Obj): HResult;
++begin
++  if GetInterface(IID, Obj) then
++    Result := S_OK
++  else
++    Result := E_NOINTERFACE
++end;
++
++function Tdm_DProjVersionInfo._AddRef: integer;
++begin
++  Result := InterlockedIncrement(FRefCount);
++end;
++
++function Tdm_DProjVersionInfo._Release: integer;
++begin
++  Result := InterlockedDecrement(FRefCount);
++  if Result = 0 then
++    Destroy;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000295.html">[Dzchart-svncheckins] r434 - utilities/dzPrepBuild/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000297.html">[Dzchart-svncheckins] r436 - in utilities/dzPrepBuild/trunk: src	testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#296">[ date ]</a>
+              <a href="thread.html#296">[ thread ]</a>
+              <a href="subject.html#296">[ subject ]</a>
+              <a href="author.html#296">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

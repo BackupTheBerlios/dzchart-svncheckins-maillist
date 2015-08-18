@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r190 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r190%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707270851.l6R8pmNX003334%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000063.html">
+   <LINK REL="Next"  HREF="000065.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r190 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r190%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707270851.l6R8pmNX003334%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r190 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Jul 27 10:51:48 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000063.html">[Dzchart-svncheckins] r189 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000065.html">[Dzchart-svncheckins] r191 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#64">[ date ]</a>
+              <a href="thread.html#64">[ thread ]</a>
+              <a href="subject.html#64">[ subject ]</a>
+              <a href="author.html#64">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-27 10:51:47 +0200 (Fri, 27 Jul 2007)
+New Revision: 190
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+three new overloaded functions TListBox_DeleteSelected
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-07-27 08:51:04 UTC (rev 189)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-07-27 08:51:47 UTC (rev 190)
+@@ -242,13 +242,22 @@
+ function TComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+ 
+ {: Gets the object pointer of the selected listbox item
+-   @param cmb is the TCustomListbox (descendant) to read from
++   @param lst is the TCustomListbox (descendant) to read from
+    @param Idx is the listbox's ItemIndex, only valid if the function returns true
+    @param Obj is the value of the object pointer of the selected item, only valid
+           if the function returns true
+    @returns true, if these values are valid }
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ 
++{: Deletes the selected listbox item
++   @param lst is the TCustomListbox (descendant) to read from
++   @param Idx is the listbox's ItemIndex, only valid if the function returns true
++          if the function returns true
++   @returns true, if these values are valid }
++function TListBox_DeleteSelected(_lst: TCustomListbox; out _Idx: integer): boolean; overload;
++function TListBox_DeleteSelected(_lst: TCustomListbox): boolean; overload;
++function TListBox_DeleteSelected(_lst: TCustomListBox; out _s: string): boolean; overload;
++
+ {: Gets the caption of the given or selected item in the RadioGroup
+    @param rg is the TCustomRadioGroup descendant to read
+    @param Caption returns a string with the requested caption with
+@@ -839,6 +848,33 @@
+     _Obj := _lst.Items.Objects[_Idx];
+ end;
+ 
++function TListBox_DeleteSelected(_lst: TCustomListbox; out _Idx: integer): boolean;
++begin
++  _Idx := _lst.ItemIndex;
++  Result := _Idx &lt;&gt; -1;
++  if Result then
++    _lst.Items.Delete(_Idx);
++end;
++
++function TListBox_DeleteSelected(_lst: TCustomListBox; out _s: string): boolean; overload;
++var
++  Idx: Integer;
++begin
++  Idx := _lst.ItemIndex;
++  Result := Idx &lt;&gt; -1;
++  if Result then begin
++    _s := _lst.Items[Idx];
++    _lst.Items.Delete(Idx);
++  end;
++end;
++
++function TListBox_DeleteSelected(_lst: TCustomListbox): boolean;
++var
++  Idx: integer;
++begin
++  Result := TListBox_DeleteSelected(_lst, Idx);
++end;
++
+ function TComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+ begin
+   Result := _Cmb.Items.IndexOf(_Item);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000063.html">[Dzchart-svncheckins] r189 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000065.html">[Dzchart-svncheckins] r191 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#64">[ date ]</a>
+              <a href="thread.html#64">[ thread ]</a>
+              <a href="subject.html#64">[ subject ]</a>
+              <a href="author.html#64">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

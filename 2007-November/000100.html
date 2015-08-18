@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r230 - in utilities/dzPrepBuild/trunk: .	buildtools src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r230%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%0A%09buildtools%20src&In-Reply-To=%3C200711011352.lA1Dqriu011151%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000101.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r230 - in utilities/dzPrepBuild/trunk: .	buildtools src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r230%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%0A%09buildtools%20src&In-Reply-To=%3C200711011352.lA1Dqriu011151%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r230 - in utilities/dzPrepBuild/trunk: .	buildtools src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Nov  1 14:52:53 CET 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000101.html">[Dzchart-svncheckins] r231 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#100">[ date ]</a>
+              <a href="thread.html#100">[ thread ]</a>
+              <a href="subject.html#100">[ subject ]</a>
+              <a href="author.html#100">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-11-01 14:52:18 +0100 (Thu, 01 Nov 2007)
+New Revision: 230
+
+Added:
+   utilities/dzPrepBuild/trunk/buildtools/
+   utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+Modified:
+   utilities/dzPrepBuild/trunk/prep.cmd
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Log:
+minor changes
+
+Added: utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Modified: utilities/dzPrepBuild/trunk/prep.cmd
+===================================================================
+--- utilities/dzPrepBuild/trunk/prep.cmd	2007-09-30 16:38:53 UTC (rev 229)
++++ utilities/dzPrepBuild/trunk/prep.cmd	2007-11-01 13:52:18 UTC (rev 230)
+@@ -21,5 +21,5 @@
+ echo Comments=%dzVersion.Comments%
+ 
+ @echo on
+-PrepBuild --writerc=%dzProject%_Version.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc=&quot;%dzVersion.FileDesc%&quot; --InternalName=&quot;%dzVersion.InternalName%&quot; --OriginalName=&quot;%dzVersion.OriginalName%&quot; --Product=&quot;%dzVersion.Product%&quot; --ProductVersion=&quot;%dzDate%&quot; --Company=&quot;%dzVersion.Company%&quot; --Copyright=&quot;%dzVersion.Copyright%&quot; --Trademark=&quot;%dzVersion.Trademark%&quot; --Comments=&quot;%dzVersion.Comments%&quot;
++..\buildtools\PrepBuild --writerc=%dzProject%_Version.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc=&quot;%dzVersion.FileDesc%&quot; --InternalName=&quot;%dzVersion.InternalName%&quot; --OriginalName=&quot;%dzVersion.OriginalName%&quot; --Product=&quot;%dzVersion.Product%&quot; --ProductVersion=&quot;%dzDate%&quot; --Company=&quot;%dzVersion.Company%&quot; --Copyright=&quot;%dzVersion.Copyright%&quot; --Trademark=&quot;%dzVersion.Trademark%&quot; --Comments=&quot;%dzVersion.Comments%&quot;
+ brcc32 %dzProject%_Version.rc
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-09-30 16:38:53 UTC (rev 229)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-11-01 13:52:18 UTC (rev 230)
+@@ -37,39 +37,18 @@
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType /&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--incbuild --readini=src\prepbuild --exec=prep.cmd&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;  &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
+-    &lt;/VersionInfo&gt;&lt;Excluded_Packages&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--incbuild --readini=src\prepbuild --exec=prep.cmd&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;Excluded_Packages&gt;
+       
+       
++      
++      
+       &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;  &lt;VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
+-    &lt;/VersionInfoKeys&gt;
+-  &lt;/Delphi.Personality&gt;&lt;ModelSupport&gt;False&lt;/ModelSupport&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;/Delphi.Personality&gt;&lt;ModelSupport&gt;False&lt;/ModelSupport&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;PropertyGroup&gt;
+-    &lt;PreBuildEvent&gt;prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\prep.cmd&lt;/PreBuildEvent&gt;
++    &lt;PreBuildEvent&gt;..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ItemGroup&gt;
+     &lt;DelphiCompile Include=&quot;PrepBuild.dpr&quot;&gt;
+@@ -78,6 +57,7 @@
+     &lt;DCCReference Include=&quot;..\libs\dzlib\src\u_dzDefaultMain.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;d_BdsProjVersionInfo.pas&quot;&gt;
+       &lt;Form&gt;dm_BdsProjVersionInfo&lt;/Form&gt;
++      &lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+     &lt;/DCCReference&gt;
+     &lt;DCCReference Include=&quot;i_VersionInfo.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;u_AbstractVersionInfo.pas&quot; /&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2007-09-30 16:38:53 UTC (rev 229)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2007-11-01 13:52:18 UTC (rev 230)
+@@ -1,3 +1,3 @@
+ [Version Info]
+-Build=101
++Build=104
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2007-09-30 16:38:53 UTC (rev 229)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2007-11-01 13:52:18 UTC (rev 230)
+@@ -16,12 +16,12 @@
+ [Version Info Keys]
+ CompanyName=dummzeuch.de
+ FileDescription=commandline and IDE prebuild tool
+-FileVersion=1.1.0.101
++FileVersion=1.1.0.104
+ InternalName=PrepBuild
+ LegalCopyright=Copyright 2002-2007 by Thomas Mueller
+ LegalTrademarks=
+ OriginalFilename=PrepBuild.exe
+ ProductName=PrepBuild
+-ProductVersion=2007-07-28
++ProductVersion=2007-11-01
+ Comments=Use at your own risk
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2007-09-30 16:38:53 UTC (rev 229)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2007-11-01 13:52:18 UTC (rev 230)
+@@ -174,6 +174,8 @@
+   IconFile: string;
+   Project: string;
+ begin
++  WriteLn('dzPrepBuild');
++
+   if FGetOpt.OptionsFoundList.Count = 0 then
+     Usage(_('You must supply some options.'));
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000101.html">[Dzchart-svncheckins] r231 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#100">[ date ]</a>
+              <a href="thread.html#100">[ thread ]</a>
+              <a href="subject.html#100">[ subject ]</a>
+              <a href="author.html#100">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

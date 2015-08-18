@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r464 - in utilities/dzPrepBuild/trunk: .	buildtools buildtools/templates src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r464%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%0A%09buildtools%20buildtools/templates%20src&In-Reply-To=%3C201005161021.o4GALMYR019999%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000323.html">
+   <LINK REL="Next"  HREF="000325.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r464 - in utilities/dzPrepBuild/trunk: .	buildtools buildtools/templates src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r464%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%0A%09buildtools%20buildtools/templates%20src&In-Reply-To=%3C201005161021.o4GALMYR019999%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r464 - in utilities/dzPrepBuild/trunk: .	buildtools buildtools/templates src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun May 16 12:21:22 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000323.html">[Dzchart-svncheckins] r463 - in utilities/dzPrepBuild/tags: . 1.2.0	1.2.0/src
+</A></li>
+        <LI>Next message: <A HREF="000325.html">[Dzchart-svncheckins] r465 - utilities/dzPrepBuild/trunk/buildtools
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#324">[ date ]</a>
+              <a href="thread.html#324">[ thread ]</a>
+              <a href="subject.html#324">[ subject ]</a>
+              <a href="author.html#324">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-05-16 12:21:19 +0200 (Sun, 16 May 2010)
+New Revision: 464
+
+Added:
+   utilities/dzPrepBuild/trunk/buildtools/prebuild.cmd
+   utilities/dzPrepBuild/trunk/buildtools/templates/SVN_Version_template.ini
+Removed:
+   utilities/dzPrepBuild/trunk/src/SVN_Version_template.ini
+Modified:
+   utilities/dzPrepBuild/trunk/
+   utilities/dzPrepBuild/trunk/buildtools/!ReadMe.txt
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+Log:
+* simplified use of pre-build events by using a batch file
+* moved SVN_Version_template.ini to templates subdir since it is not modified
+
+
+Property changes on: utilities/dzPrepBuild/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser/src <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src</A>
+libs/dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2</A>
+libs/tregexpr <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1">https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1</A>
+
+   + libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk</A>
+libs/dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2</A>
+libs/tregexpr <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1">https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1</A>
+
+
+Modified: utilities/dzPrepBuild/trunk/buildtools/!ReadMe.txt
+===================================================================
+--- utilities/dzPrepBuild/trunk/buildtools/!ReadMe.txt	2010-05-16 09:13:20 UTC (rev 463)
++++ utilities/dzPrepBuild/trunk/buildtools/!ReadMe.txt	2010-05-16 10:21:19 UTC (rev 464)
+@@ -1,5 +1,5 @@
+ Pre-Build events:
+-..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd $(SAVE)
++..\buildtools\prebuild.cmd $(PROJECTPATH)
+ 
+ (optional) Post-Build events:
+ ..\buildtools\makejcldbg -e $(OUTPUTDIR)\$(OUTPUTNAME).map
+
+Copied: utilities/dzPrepBuild/trunk/buildtools/prebuild.cmd (from rev 463, utilities/dzPrepBuild/trunk/buildtools/prep.cmd)
+===================================================================
+--- utilities/dzPrepBuild/trunk/buildtools/prep.cmd	2010-05-16 09:13:20 UTC (rev 463)
++++ utilities/dzPrepBuild/trunk/buildtools/prebuild.cmd	2010-05-16 10:21:19 UTC (rev 464)
+@@ -0,0 +1,27 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> prebuild.cmd should be called as pre-build event like this:
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> ..\buildtools\prebuild.cmd $(OUTPUTDIR)$(OUTPUTNAME)
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> on
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> %0 running in
++cd
++
++set PROJECTPATH=%1
++if &quot;%PROJECTPATH%&quot;==&quot;&quot; goto NeedPara
++rem echo PROJECTPATH=%PROJECTPATH%
++set PROJECTNAMEONLY=%~dpn1
++rem echo PROJECTNAMEONLY=%PROJECTNAMEONLY%
++set OUTPUTDIR=%~dp1
++
++subwcrev .. %~dp0\templates\SVN_Version_template.ini SVN_Version.ini
++
++pushd %OUTPUTDIR%
++
++%~dp0\prepbuild.exe --incbuild --readini=%PROJECTPATH% --updateini=%PROJECTPATH% --WriteRc=%PROJECTPATH%
++brcc32 %PROJECTNAMEONLY%_Version.rc
++
++popd
++
++echo %0 exiting
++goto :EOF
++
++:NeedPara
++echo needs the base filename of the executable as parameter
+
+Added: utilities/dzPrepBuild/trunk/buildtools/templates/SVN_Version_template.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/buildtools/templates/SVN_Version_template.ini	2010-05-16 09:13:20 UTC (rev 463)
++++ utilities/dzPrepBuild/trunk/buildtools/templates/SVN_Version_template.ini	2010-05-16 10:21:19 UTC (rev 464)
+@@ -0,0 +1,13 @@
++// Do not change this template, it is read
++// by the call subwcrev in prebuild.cmd
++// to create SVN_Version.ini in the src directory
++//
++// You can refer to it e.g. to include
++// information about the subversion respository
++// in your version resources.
++// See dzPrepBuild_version.ini for an example.
++
++[SVN]
++URL=$WCURL$
++VersionRange=$WCRANGE$
++LocalModifications=$WCMODS?yes:no$
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-05-16 09:13:20 UTC (rev 463)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-05-16 10:21:19 UTC (rev 464)
+@@ -44,8 +44,7 @@
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;PropertyGroup&gt;
+-    &lt;PreBuildEvent&gt;subwcrev .. SVN_Version_template.ini SVN_Version.ini
+-..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --updateini=$(PROJECTPATH) --WriteRc=$(PROJECTPATH) --exec=..\buildtools\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
++    &lt;PreBuildEvent&gt;..\buildtools\prebuild.cmd $(PROJECTPATH)&lt;/PreBuildEvent&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ItemGroup&gt;
+     &lt;DelphiCompile Include=&quot;PrepBuild.dpr&quot;&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-05-16 09:13:20 UTC (rev 463)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-05-16 10:21:19 UTC (rev 464)
+@@ -1,4 +1,4 @@
+ [Version Info]
+-Build=311
+-FileVersion=1.2.0.311
++Build=319
++FileVersion=1.2.0.319
+ 
+
+Deleted: utilities/dzPrepBuild/trunk/src/SVN_Version_template.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/SVN_Version_template.ini	2010-05-16 09:13:20 UTC (rev 463)
++++ utilities/dzPrepBuild/trunk/src/SVN_Version_template.ini	2010-05-16 10:21:19 UTC (rev 464)
+@@ -1,4 +0,0 @@
+-[SVN]
+-URL=$WCURL$
+-VersionRange=$WCRANGE$
+-LocalModifications=$WCMODS?yes:no$
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000323.html">[Dzchart-svncheckins] r463 - in utilities/dzPrepBuild/tags: . 1.2.0	1.2.0/src
+</A></li>
+	<LI>Next message: <A HREF="000325.html">[Dzchart-svncheckins] r465 - utilities/dzPrepBuild/trunk/buildtools
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#324">[ date ]</a>
+              <a href="thread.html#324">[ thread ]</a>
+              <a href="subject.html#324">[ subject ]</a>
+              <a href="author.html#324">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

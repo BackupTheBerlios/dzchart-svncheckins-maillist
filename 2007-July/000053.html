@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r179 - utilities/dzCmdLineParser/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r179%20-%20utilities/dzCmdLineParser/trunk&In-Reply-To=%3C200707141731.l6EHVsaM029091%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000052.html">
+   <LINK REL="Next"  HREF="000054.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r179 - utilities/dzCmdLineParser/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r179%20-%20utilities/dzCmdLineParser/trunk&In-Reply-To=%3C200707141731.l6EHVsaM029091%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r179 - utilities/dzCmdLineParser/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jul 14 19:31:54 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000052.html">[Dzchart-svncheckins] r178 - utilities/dzPrepBuild/trunk/testdata
+</A></li>
+        <LI>Next message: <A HREF="000054.html">[Dzchart-svncheckins] r180 - in utilities/dzPrepBuild/trunk: . src	testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#53">[ date ]</a>
+              <a href="thread.html#53">[ thread ]</a>
+              <a href="subject.html#53">[ subject ]</a>
+              <a href="author.html#53">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-14 19:31:52 +0200 (Sat, 14 Jul 2007)
+New Revision: 179
+
+Modified:
+   utilities/dzCmdLineParser/trunk/u_dzGetOpt.pas
+Log:
+the lists of found parameters and options are now public
+
+Modified: utilities/dzCmdLineParser/trunk/u_dzGetOpt.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/u_dzGetOpt.pas	2007-07-14 17:28:06 UTC (rev 178)
++++ utilities/dzCmdLineParser/trunk/u_dzGetOpt.pas	2007-07-14 17:31:52 UTC (rev 179)
+@@ -102,6 +102,8 @@
+     {: the program's name as either passed to the constructor or read from
+        ParamStr(0). }
+     property ProgName: string read FProgName;
++    property ParamsFoundList: TParamFoundList read FParamsFoundList;
++    property OptionsFoundList: TOptionFoundList read FOptionsFoundList;
+   end;
+ 
+ implementation
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000052.html">[Dzchart-svncheckins] r178 - utilities/dzPrepBuild/trunk/testdata
+</A></li>
+	<LI>Next message: <A HREF="000054.html">[Dzchart-svncheckins] r180 - in utilities/dzPrepBuild/trunk: . src	testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#53">[ date ]</a>
+              <a href="thread.html#53">[ thread ]</a>
+              <a href="subject.html#53">[ subject ]</a>
+              <a href="author.html#53">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

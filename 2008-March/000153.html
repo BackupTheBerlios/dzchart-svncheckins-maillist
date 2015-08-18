@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r284 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r284%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200803301222.m2UCMxdM002236%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000152.html">
+   <LINK REL="Next"  HREF="000154.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r284 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r284%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200803301222.m2UCMxdM002236%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r284 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar 30 14:22:59 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000152.html">[Dzchart-svncheckins] r283 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000154.html">[Dzchart-svncheckins] r285 - utilities/dzLib/trunk/tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#153">[ date ]</a>
+              <a href="thread.html#153">[ thread ]</a>
+              <a href="subject.html#153">[ subject ]</a>
+              <a href="author.html#153">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-03-30 14:22:58 +0200 (Sun, 30 Mar 2008)
+New Revision: 284
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* added TEdit_SetTextNoChange to change the text of a TEdit without triggering an OnChange event
+* added overloaded TComboBox_GetSelected that directly returns the selected string and raises an exception if none is selected
+* added TListBox_GetSelected function
+* added TRadioGroup_Select to select an item by its caption
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-03-30 12:19:39 UTC (rev 283)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-03-30 12:22:58 UTC (rev 284)
+@@ -1,4 +1,4 @@
+-{GXFormatter.config=twm}
++{.GXFormatter.config=twm}
+ {: Implements functions which work on components but are not methods.
+    @author        twm }
+ unit u_dzVclUtils;
+@@ -29,6 +29,9 @@
+   {: raised if the Listbox passed to SetOwnerDrawListboxItemCount is not ownder drawn. }
+   EdzListBoxNotOwnerDraw = class(EdzVclUtils);
+ 
++  EdzComboBoxNoSelection = class(EdzVclUtils);
++  EdzListBoxNoSelection = class(EdzVclUtils);
++
+ type
+   {: This is a copy of the TFileFormatsList class from Graphics which
+      is unfortunately only declaread in the implementation section }
+@@ -152,6 +155,9 @@
+ {: Scrolls the memo to the end }
+ procedure TMemo_ScrollToEnd(_Memo: TMemo);
+ 
++///&lt;summary&gt; sets the Text property of a TEdit without triggering an OnChange event &lt;/summary&gt;
++procedure TEdit_SetTextNoChange(_ed: TCustomEdit; const _Text: string);
++
+ {: Tries to convert the edit control text to a double, if an error occurs, it raises
+    an exception and optionally focuses the control.
+    @param ed is the edit control
+@@ -246,7 +252,8 @@
+           if it does not contain a valid value or not, default = false
+    @returns true, if an item was selected }
+ function TComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean;
++  _FocusControl: boolean = false): boolean; overload;
++function TComboBox_GetSelected(_cmb: TCustomComboBox): string; overload;
+ 
+ {: Selects the item if it is in the list and returns the new ItemIndex
+    @param cmb is the TCustomCombobox (descendant) to use
+@@ -263,6 +270,16 @@
+    @returns true, if these values are valid }
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ 
++{: Gets the caption of the selected listbox item
++   @param cmb is the TCustomListbox (descendant) to read from
++   @param Item is the selected item, only valid if the function returns true
++   @param FocusControl is a boolean which determines whether to focus the control
++          if it does not contain a valid value or not, default = false
++   @returns true, if an item was selected }
++function TListBox_GetSelected(_lb: TCustomListBox; out _Item: string;
++  _FocusControl: boolean = false): boolean; overload;
++function TListBox_GetSelected(_lb: TCustomListBox): string; overload;
++
+ {: Deletes the selected listbox item
+    @param lst is the TCustomListbox (descendant) to read from
+    @param Idx is the listbox's ItemIndex, only valid if the function returns true
+@@ -289,6 +306,11 @@
+ function TRadioGroup_GetItemCaption(_rg: TCustomRadioGroup;
+   out _Caption: string; _Idx: integer = -1): boolean;
+ 
++///&lt;summary&gt; Selects the item in the radio group with the given caption,
++///          returns the item's index or -1 if no item matched.
++///          Comparison is case insensitive &lt;/summary&gt;
++function TRadioGroup_Select(_rg: TCustomRadioGroup; const _Item: string; _DefaultIdx: integer = -1): integer;
++
+ {: Gets the object pointer of the selected RadioGroup item
+    @param cmb is the TCustomListbox (descendant) to read from
+    @param Idx is the listbox's ItemIndex, only valid if the function returns true
+@@ -576,6 +598,25 @@
+   end;
+ end;
+ 
++type
++  THackEdit = class(TCustomEdit)
++  end;
++
++procedure TEdit_SetTextNoChange(_ed: TCustomEdit; const _Text: string);
++var
++  Event: TNotifyEvent;
++  ed: THackEdit;
++begin
++  ed := THackEdit(_ed);
++  Event := ed.OnChange;
++  ed.OnChange := nil;
++  try
++    ed.Text := _Text;
++  finally
++    ed.OnChange := Event;
++  end;
++end;
++
+ function TEdit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
+ var
+   s: string;
+@@ -934,6 +975,31 @@
+     _cmb.SetFocus;
+ end;
+ 
++function TComboBox_GetSelected(_cmb: TCustomComboBox): string; overload;
++begin
++  if not TComboBox_GetSelected(_cmb, Result) then
++    raise EdzComboBoxNoSelection.Create(_('No item selected in combobox'));
++end;
++
++function TListBox_GetSelected(_lb: TCustomListBox; out _Item: string;
++  _FocusControl: boolean = false): boolean;
++var
++  Idx: integer;
++begin
++  Idx := _lb.ItemIndex;
++  Result := Idx &lt;&gt; -1;
++  if Result then
++    _Item := _lb.Items[Idx]
++  else if _FocusControl then
++    _lb.SetFocus;
++end;
++
++function TListBox_GetSelected(_lb: TCustomListBox): string;
++begin
++  if not TListBox_GetSelected(_lb, Result) then
++    raise EdzListBoxNoSelection(_('No item selected in listbox'));
++end;
++
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ begin
+   _Idx := _lst.ItemIndex;
+@@ -1046,6 +1112,22 @@
+     _Caption := StripHotKey(Hack.Items[_Idx]);
+ end;
+ 
++function TRadioGroup_Select(_rg: TCustomRadioGroup; const _Item: string; _DefaultIdx: integer = -1): integer;
++var
++  Hack: TRadioGroupHack;
++  i: Integer;
++begin
++  Hack := TRadioGroupHack(_rg);
++  for i := 0 to Hack.Items.Count - 1 do
++    if AnsiSameText(Hack.Items[i], _Item) then begin
++      Hack.ItemIndex := i;
++      Result := Hack.ItemIndex;
++      exit;
++    end;
++  Hack.ItemIndex := _DefaultIdx;
++  Result := Hack.ItemIndex;
++end;
++
+ function TRadioGroup_GetSelectedObject(_rg: TCustomRadioGroup; out _Idx: integer; out _Obj: pointer): boolean;
+ var
+   Hack: TRadioGroupHack;
+@@ -1229,14 +1311,14 @@
+ end;
+ 
+ type
+-  TCheckBox = class(TCustomCheckBox)
++  THackCheckBox = class(TCustomCheckBox)
+   end;
+ 
+ procedure TCheckBox_SetCheckedNoOnClick(_Chk: TCustomCheckBox; _Checked: boolean);
+ var
+-  Chk: TCheckBox;
++  Chk: THackCheckBox;
+ begin
+-  Chk := TCheckBox(_Chk);
++  Chk := THackCheckBox(_Chk);
+   Chk.ClicksDisabled := true;
+   try
+     Chk.Checked := _Checked;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000152.html">[Dzchart-svncheckins] r283 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000154.html">[Dzchart-svncheckins] r285 - utilities/dzLib/trunk/tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#153">[ date ]</a>
+              <a href="thread.html#153">[ thread ]</a>
+              <a href="subject.html#153">[ subject ]</a>
+              <a href="author.html#153">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

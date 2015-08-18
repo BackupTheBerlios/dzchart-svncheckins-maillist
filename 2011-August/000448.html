@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r591 - in	utilities/dzLib/trunk/tests/dzICalendarTest: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r591%20-%20in%0A%09utilities/dzLib/trunk/tests/dzICalendarTest%3A%20.%20src&In-Reply-To=%3C20110806164713.E13D648132C%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000449.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r591 - in	utilities/dzLib/trunk/tests/dzICalendarTest: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r591%20-%20in%0A%09utilities/dzLib/trunk/tests/dzICalendarTest%3A%20.%20src&In-Reply-To=%3C20110806164713.E13D648132C%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r591 - in	utilities/dzLib/trunk/tests/dzICalendarTest: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Aug  6 18:47:13 CEST 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000449.html">[Dzchart-svncheckins] r592 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#448">[ date ]</a>
+              <a href="thread.html#448">[ thread ]</a>
+              <a href="subject.html#448">[ subject ]</a>
+              <a href="author.html#448">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-08-06 18:47:13 +0200 (Sat, 06 Aug 2011)
+New Revision: 591
+
+Modified:
+   utilities/dzLib/trunk/tests/dzICalendarTest/
+   utilities/dzLib/trunk/tests/dzICalendarTest/src/w_dzICalendarTest.dfm
+   utilities/dzLib/trunk/tests/dzICalendarTest/src/w_dzICalendarTest.pas
+Log:
+added import test for my google calendar export (not included ;-) )
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzICalendarTest
+___________________________________________________________________
+Modified: svn:ignore
+   - dzICalendarTest.exe
+
+   + dzICalendarTest.exe
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dummzeuch at gmail.com_dummzeuch</A>@gmail.com.ics
+
+
+Modified: utilities/dzLib/trunk/tests/dzICalendarTest/src/w_dzICalendarTest.dfm
+===================================================================
+--- utilities/dzLib/trunk/tests/dzICalendarTest/src/w_dzICalendarTest.dfm	2011-08-06 16:02:50 UTC (rev 590)
++++ utilities/dzLib/trunk/tests/dzICalendarTest/src/w_dzICalendarTest.dfm	2011-08-06 16:47:13 UTC (rev 591)
+@@ -78,4 +78,12 @@
+     Caption = 'Example'
+     TabOrder = 3
+   end
++  object rb_Dummzeuch: TRadioButton
++    Left = 304
++    Top = 320
++    Width = 113
++    Height = 17
++    Caption = 'Dummzeuch'
++    TabOrder = 4
++  end
+ end
+
+Modified: utilities/dzLib/trunk/tests/dzICalendarTest/src/w_dzICalendarTest.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzICalendarTest/src/w_dzICalendarTest.pas	2011-08-06 16:02:50 UTC (rev 590)
++++ utilities/dzLib/trunk/tests/dzICalendarTest/src/w_dzICalendarTest.pas	2011-08-06 16:47:13 UTC (rev 591)
+@@ -21,6 +21,7 @@
+     lv_Events: TListView;
+     rb_FeiertageNRW: TRadioButton;
+     rb_Example: TRadioButton;
++    rb_Dummzeuch: TRadioButton;
+     procedure b_StartClick(Sender: TObject);
+   private
+   public
+@@ -45,6 +46,7 @@
+ const
+   Feiertage = 'feiertage_deutschland-2010-2013.ics';
+   Example = 'example.ics';
++  dummzeuch = '<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dummzeuch at gmail.com_dummzeuch</A>@gmail.com.ics';
+ var
+   ICal: TdzICalendar;
+   Parser: TDzIcalendarParser;
+@@ -55,8 +57,10 @@
+ begin
+   if rb_FeiertageNRW.Checked then
+     IcsFile := Feiertage
++  else if rb_Example.Checked then
++    IcsFile := Example
+   else
+-    IcsFile := Example;
++    IcsFile := dummzeuch;
+   ICal := TdzICalendar.Create;
+   try
+     Parser := TDzIcalendarParser.Create;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000449.html">[Dzchart-svncheckins] r592 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#448">[ date ]</a>
+              <a href="thread.html#448">[ thread ]</a>
+              <a href="subject.html#448">[ subject ]</a>
+              <a href="author.html#448">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

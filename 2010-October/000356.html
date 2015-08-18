@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r497 - 3rd/jcl/2.000/trunk/source/common
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r497%20-%203rd/jcl/2.000/trunk/source/common&In-Reply-To=%3C20101001165200.D6A634810A0%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000355.html">
+   <LINK REL="Next"  HREF="000357.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r497 - 3rd/jcl/2.000/trunk/source/common</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r497%20-%203rd/jcl/2.000/trunk/source/common&In-Reply-To=%3C20101001165200.D6A634810A0%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r497 - 3rd/jcl/2.000/trunk/source/common">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 18:52:00 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000355.html">[Dzchart-svncheckins] r496 - 3rd/jedi_inc/trunk
+</A></li>
+        <LI>Next message: <A HREF="000357.html">[Dzchart-svncheckins] r498 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#356">[ date ]</a>
+              <a href="thread.html#356">[ thread ]</a>
+              <a href="subject.html#356">[ subject ]</a>
+              <a href="author.html#356">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 18:52:00 +0200 (Fri, 01 Oct 2010)
+New Revision: 497
+
+Modified:
+   3rd/jcl/2.000/trunk/source/common/JclFileUtils.pas
+Log:
+new class function TJclFileVersionInfo.FileHasVersionInfo
+
+Modified: 3rd/jcl/2.000/trunk/source/common/JclFileUtils.pas
+===================================================================
+--- 3rd/jcl/2.000/trunk/source/common/JclFileUtils.pas	2010-10-01 16:22:31 UTC (rev 496)
++++ 3rd/jcl/2.000/trunk/source/common/JclFileUtils.pas	2010-10-01 16:52:00 UTC (rev 497)
+@@ -642,6 +642,7 @@
+     destructor Destroy; override;
+     class function VersionLanguageId(const LangIdRec: TLangIdRec): string;
+     class function VersionLanguageName(const LangId: Word): string;
++    class function FileHasVersionInfo(const FileName: string): boolean;
+     function TranslationMatchesLanguages(Exact: Boolean = True): Boolean;
+     property BinFileVersion: string read GetBinFileVersion;
+     property BinProductVersion: string read GetBinProductVersion;
+@@ -4874,6 +4875,13 @@
+   inherited Destroy;
+ end;
+ 
++class function TJclFileVersionInfo.FileHasVersionInfo(const FileName: string): boolean;
++var
++  Dummy: DWord;
++begin
++  Result := GetFileVersionInfoSize(PChar(FileName), Dummy) &lt;&gt; 0;
++end;
++
+ procedure TJclFileVersionInfo.CheckLanguageIndex(Value: Integer);
+ begin
+   if (Value &lt; 0) or (Value &gt;= LanguageCount) then
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000355.html">[Dzchart-svncheckins] r496 - 3rd/jedi_inc/trunk
+</A></li>
+	<LI>Next message: <A HREF="000357.html">[Dzchart-svncheckins] r498 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#356">[ date ]</a>
+              <a href="thread.html#356">[ thread ]</a>
+              <a href="subject.html#356">[ subject ]</a>
+              <a href="author.html#356">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

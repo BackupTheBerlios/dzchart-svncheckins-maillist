@@ -1,0 +1,3879 @@
+From twm at mail.berlios.de  Sun Sep  5 17:17:45 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Sep 2010 17:17:45 +0200
+Subject: [Dzchart-svncheckins] r469 - in utilities/dzCmdLineParser/trunk:
+	src translations/de
+Message-ID: <20100905151745.BDB0948104F@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-05 17:17:45 +0200 (Sun, 05 Sep 2010)
+New Revision: 469
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+   utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+Log:
+partly adapted to Delphi XE
+bugfix in translation
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2010-09-05 15:17:13 UTC (rev 468)
++++ utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2010-09-05 15:17:45 UTC (rev 469)
+@@ -212,7 +212,8 @@
+   SetLength(ModuleName, 255);
+   GetModuleFileNameA(MainInstance, PAnsiChar(ModuleName), Length(ModuleName));
+   OemToAnsi(PAnsiChar(ModuleName), PAnsiChar(ModuleName));
+-  Result := PAnsiChar(ModuleName);
++  ModuleName := PAnsiChar(ModuleName);
++  Result := string(ModuleName);
+ end;
+ 
+ function TDefaultMain.GetProgName: string;
+
+Modified: utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2010-09-05 15:17:13 UTC (rev 468)
++++ utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2010-09-05 15:17:45 UTC (rev 469)
+@@ -7,7 +7,7 @@
+ msgstr ""
+ "Project-Id-Version: dzCmdLineParser 1.0\n"
+ "POT-Creation-Date: 2009-06-30 11:42\n"
+-"PO-Revision-Date: 2009-06-30 11:46+0100\n"
++"PO-Revision-Date: 2010-04-27 17:26+0100\n"
+ "Last-Translator: Thomas Mueller <info at schniering.com>\n"
+ "Language-Team: twm <nospam at dummzeuch.de>\n"
+ "MIME-Version: 1.0\n"
+@@ -69,7 +69,7 @@
+ 
+ #: u_dzGetOpt.pas:329
+ msgid "Option %s is unknown"
+-msgstr "Option %s ist nciht bekannt"
++msgstr "Option %s ist nicht bekannt"
+ 
+ #: u_dzGetOpt.pas:333
+ msgid "Option %s requires a value."
+
+
+
+From twm at mail.berlios.de  Sun Sep  5 17:33:18 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Sep 2010 17:33:18 +0200
+Subject: [Dzchart-svncheckins] r470 - in utilities/buildtools/trunk: .
+	templates
+Message-ID: <20100905153318.C351F48104F@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-05 17:33:18 +0200 (Sun, 05 Sep 2010)
+New Revision: 470
+
+Added:
+   utilities/buildtools/trunk/prebuild.cmd
+   utilities/buildtools/trunk/templates/Auto_Build_Check.cmd
+   utilities/buildtools/trunk/templates/Build_Project.cmd
+   utilities/buildtools/trunk/templates/SVN_Version_template.ini
+Modified:
+   utilities/buildtools/trunk/!ReadMe.txt
+   utilities/buildtools/trunk/AppendTranslations.cmd
+   utilities/buildtools/trunk/ExtractTranslations.cmd
+   utilities/buildtools/trunk/PrepBuild.exe
+   utilities/buildtools/trunk/doExtractTranslations.cmd
+   utilities/buildtools/trunk/prep.cmd
+   utilities/buildtools/trunk/templates/Template_version.ini
+Log:
+* updated buildscript template (build_project.cmd) to automatically get the project's name from the directory it is located in, so no changes to the script are necessary as long as this convention is being used.
+* added prebuild.cmd to be called from the pre build event
+* addeed Auto_Build_Check.cmd which updates the sources from svn, builds the project and then reverts the build number if everything works. If there is an error, it stops, otherwise it just exits. the idea is to have a build server regularly call all Auto_Build_Check scripts for all projects.
+* AppendTranslations.cmd now also compiles dzlib and delphi2007.po, if they exist
+* ExtractTranslations.cmd now calls gorm.exe rather than poedit.exe because it does not use any installer and can therefore just be included in buildtools. Also it is possible to skip any of the translation languages
+* doExtractTranslations.cmd now calls all tools using its own directory (the buildtools directory) as base so it should always find them
+* adapted prep.cmd to new PrepBuild.exe
+* adapted Template_version.ini to use the new {today} and {thisyear} variables in PrepBuild.exe
+
+
+Modified: utilities/buildtools/trunk/!ReadMe.txt
+===================================================================
+--- utilities/buildtools/trunk/!ReadMe.txt	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/!ReadMe.txt	2010-09-05 15:33:18 UTC (rev 470)
+@@ -1,5 +1,5 @@
+ Pre-Build events:
+-..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd
++..\buildtools\prebuild.cmd $(PROJECTPATH)
+ 
+ Post-Build events:
+-..\buildtools\makejcldbg -e $(OUTPUTDIR)\$(OUTPUTNAME).map
++..\buildtools\postbuild.cmd $(OUTPUTDIR)$(OUTPUTNAME)
+
+Modified: utilities/buildtools/trunk/AppendTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/AppendTranslations.cmd	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/AppendTranslations.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -12,7 +12,15 @@
+ 
+ :locexists
+ 
++if not exist libs\dzlib\translations\de\dzlib.po goto nodzlib
++ at echo compile German dzlib.po
++%~dp0\msgfmt libs\dzlib\translations\de\dzlib.po -o locale\de\lc_messages\dzlib.mo
++:nodzlib
+ 
++if not exist libs\dxgettext\translations\de\delphi2007.po goto nodelphi
++ at echo compile German delphi2007.po
++%~dp0\msgfmt libs\dxgettext\translations\de\delphi2007.po -o locale\de\lc_messages\delphi2007.mo
++:nodelphi
+ @echo compile German default.po
+ %~dp0\msgfmt locale\de\lc_messages\default.po -o locale\de\lc_messages\default.mo
+ 
+
+Modified: utilities/buildtools/trunk/ExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/ExtractTranslations.cmd	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/ExtractTranslations.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -1,3 +1,14 @@
+-call doextracttranslations.cmd
++ at echo off
++ at rem this file must be copied to the main project directory since it does not work inside the buildtools subdir
++rem set the following if you don't need French, English or German translations:
++rem set SKIPDE=1
++rem set SKIPFR=1
++rem set SKIPEN=1
++if not exist buildtools\doextracttranslations.cmd goto error
++call buildtools\doextracttranslations.cmd
++goto ende
++:error
++echo this file must be copied to the main project directory since it does not work inside the buildtools subdir
++:ende
+ pause
+-"%ProgramFiles%\poEdit\bin\poedit.exe" locale\de\lc_messages\default.po
++"buildtools\gorm.exe" locale\de\lc_messages\default.po
+
+Modified: utilities/buildtools/trunk/PrepBuild.exe
+===================================================================
+(Binary files differ)
+
+Modified: utilities/buildtools/trunk/doExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/doExtractTranslations.cmd	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/doExtractTranslations.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -12,23 +12,25 @@
+ set OUTDIR=.
+ 
+ set BASE=.
+-dxgettext %MASKS% -r -b %BASE%\src -o %BASE%
+-msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
++%~dp0\dxgettext %MASKS% -r -b %BASE%\src -o %BASE%
++%~dp0\msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
+ move %BASE%\filtered.po %BASE%\default.po
+ set POFILES=%POFILES% %BASE%\default.po
+-msgcat -o default.po %POFILES%
++%~dp0\msgcat -o default.po %POFILES%
+ 
++if "%SKIPDE%"=="1" goto skipde
+ @rem German:
+ set LNG=de
+ call :HandLng
++:skipde
+ 
+-goto skipfr
++if "%SKIPFR%"=="1" goto skipfr
+ @rem French:
+ set LNG=fr
+ call :HandLng
+ :skipfr
+ 
+-goto skipen
++if "%SKIPEN%"=="1" goto skipen
+ @rem English:
+ set LNG=en
+ call :HandLng
+@@ -41,10 +43,10 @@
+ :HandLng
+ @echo ** handling language %LNG% **
+ @rem merge translations
+-msgmerge --no-wrap --update locale\%LNG%\lc_messages\default.po default.po
++%~dp0\msgmerge --no-wrap --update locale\%LNG%\lc_messages\default.po default.po
+ @rem compile
+-msgfmt locale\%LNG%\lc_messages\default.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\default.mo
++%~dp0\msgfmt locale\%LNG%\lc_messages\default.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\default.mo
+ @rem add Delphi, sigunits and dzlib translations
+-msgfmt libs\dxgettext\translations\%LNG%\delphi2007.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\delphi2007.mo
+-msgfmt libs\sigunits\translations\%LNG%\sigunits.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\sigunits.mo
+-msgfmt libs\dzlib\translations\%LNG%\dzlib.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\dzlib.mo
++%~dp0\msgfmt libs\dxgettext\translations\%LNG%\delphi2007.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\delphi2007.mo
++%~dp0\msgfmt libs\sigunits\translations\%LNG%\sigunits.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\sigunits.mo
++%~dp0\msgfmt libs\dzlib\translations\%LNG%\dzlib.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\dzlib.mo
+
+Added: utilities/buildtools/trunk/prebuild.cmd
+===================================================================
+--- utilities/buildtools/trunk/prebuild.cmd	                        (rev 0)
++++ utilities/buildtools/trunk/prebuild.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -0,0 +1,27 @@
++ at rem prebuild.cmd should be called as pre-build event like this:
++ at rem ..\buildtools\prebuild.cmd $(OUTPUTDIR)$(OUTPUTNAME)
++ at echo on
++ at echo %0 running in
++cd
++
++set PROJECTPATH=%1
++if "%PROJECTPATH%"=="" goto NeedPara
++rem echo PROJECTPATH=%PROJECTPATH%
++set PROJECTNAMEONLY=%~dpn1
++rem echo PROJECTNAMEONLY=%PROJECTNAMEONLY%
++set OUTPUTDIR=%~dp1
++
++subwcrev .. %~dp0\templates\SVN_Version_template.ini SVN_Version.ini
++
++pushd %OUTPUTDIR%
++
++%~dp0\prepbuild.exe --incbuild --readini=%PROJECTPATH% --updateini=%PROJECTPATH% --WriteRc=%PROJECTPATH%
++brcc32 %PROJECTNAMEONLY%_Version.rc
++
++popd
++
++echo %0 exiting
++goto :EOF
++
++:NeedPara
++echo needs the base filename of the executable as parameter
+
+Modified: utilities/buildtools/trunk/prep.cmd
+===================================================================
+--- utilities/buildtools/trunk/prep.cmd	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/prep.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -1,3 +1,3 @@
+ @echo off
+-%~dp0\PrepBuild --writerc=%dzProject%_Version.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc="%dzVersion.FileDesc%" --InternalName="%dzVersion.InternalName%" --OriginalName="%dzVersion.OriginalName%" --Product="%dzVersion.Product%" --ProductVersion="%dzDate%" --Company="%dzVersion.Company%" --Copyright="%dzVersion.Copyright%" --Trademark="%dzVersion.Trademark%" --Comments="%dzVersion.Comments%"
++%~dp0\PrepBuild --writerc=%dzProject%.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc="%dzVersion.FileDesc%" --InternalName="%dzVersion.InternalName%" --OriginalName="%dzVersion.OriginalName%" --Product="%dzVersion.Product%" --ProductVersion="%dzDate%" --Company="%dzVersion.Company%" --Copyright="%dzVersion.Copyright%" --Trademark="%dzVersion.Trademark%" --Comments="%dzVersion.Comments%"
+ brcc32 %dzProject%_Version.rc
+
+Added: utilities/buildtools/trunk/templates/Auto_Build_Check.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Auto_Build_Check.cmd	                        (rev 0)
++++ utilities/buildtools/trunk/templates/Auto_Build_Check.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -0,0 +1,21 @@
++ at echo off
++rem Sourcen aus Repository updaten
++rem Build durchfuehren
++rem falls Fehler: Anhalten und Fehler anzeigen
++rem revert der automatischen Buildnummer-Aenderung
++
++svn update
++if errorlevel 1 goto Error
++
++set BatchBuild=1
++call build_project.cmd
++
++svn revert src\*_version.ini
++if errorlevel 1 goto error
++
++goto :eof
++
++:error
++echo ***** ERROR *****
++pause
++
+
+Added: utilities/buildtools/trunk/templates/Build_Project.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_Project.cmd	                        (rev 0)
++++ utilities/buildtools/trunk/templates/Build_Project.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -0,0 +1,47 @@
++ at echo off
++REM - nimmt an, dass das uebergeordnete Verzeichnis gleichzeitig der Name des Projekts ist,
++REM - extrahiert ihn und ruft dann msbuild mit %projekt%.dproj auf.
++
++setlocal
++if not "%project%"=="" goto projgiven
++call :GetLastDir %0
++set project=%result%
++pushd %directory%
++
++:projgiven
++
++echo building project %project%.dproj
++
++call "%ProgramFiles%\CodeGear\RAD Studio\5.0\bin\rsvars.bat"
++
++pushd src
++msbuild %project%.dproj
++popd
++popd
++endlocal
++
++if errorlevel 1 goto error
++if "%BatchBuild%"=="1" goto nopause
++pause
++:nopause
++goto :eof
++
++:error
++echo ************************************
++echo ***** Error building %project% *****
++echo ************************************
++pause
++goto :eof
++
++:GetLastDir
++rem Pfad extrahieren
++set directory=%~p1%
++rem backslash (=letztes Zeichen)  entfernen
++set directory=%directory:~0,-1%
++rem "Dateienamen" (= letztes Verzeichnis des Pfades) extrahieren
++call :LastItem %directory%
++goto :eof
++
++:LastItem
++set result=%~n1%
++goto :eof
+
+Added: utilities/buildtools/trunk/templates/SVN_Version_template.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/SVN_Version_template.ini	                        (rev 0)
++++ utilities/buildtools/trunk/templates/SVN_Version_template.ini	2010-09-05 15:33:18 UTC (rev 470)
+@@ -0,0 +1,13 @@
++// Do not change this template, it is read
++// by the call subwcrev in prebuild.cmd
++// to create SVN_Version.ini in the src directory
++//
++// You can refer to it e.g. to include
++// information about the subversion respository
++// in your version resources.
++// See dzPrepBuild_version.ini for an example.
++
++[SVN]
++URL=$WCURL$
++VersionRange=$WCRANGE$
++LocalModifications=$WCMODS?yes:no$
+
+Modified: utilities/buildtools/trunk/templates/Template_version.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_version.ini	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/templates/Template_version.ini	2010-09-05 15:33:18 UTC (rev 470)
+@@ -7,12 +7,12 @@
+ 
+ [Version Info Keys]
+ FileVersion=1.0.0.0
+-ProductVersion=
++ProductVersion={today}
+ FileDescription=<file description here>
+ OriginalFilename=<filename here>
+ Comments=
+ CompanyName=dzlib
+ InternalName=<internale name here>
+-LegalCopyright=Thomas Mueller, 2009
++LegalCopyright=Thomas Mueller, 2009--{ThisYear}
+ LegalTrademarks=T. Mueller
+ ProductName=<productname here>
+
+
+
+From twm at mail.berlios.de  Sun Sep  5 18:07:49 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Sep 2010 18:07:49 +0200
+Subject: [Dzchart-svncheckins] r471 - 3rd/jcl/2.000/trunk/source/include
+Message-ID: <20100905160749.2456D48104F@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-05 18:07:48 +0200 (Sun, 05 Sep 2010)
+New Revision: 471
+
+Modified:
+   3rd/jcl/2.000/trunk/source/include/jedi.inc
+Log:
+added preliminary support for Delphi XE
+
+Modified: 3rd/jcl/2.000/trunk/source/include/jedi.inc
+===================================================================
+--- 3rd/jcl/2.000/trunk/source/include/jedi.inc	2010-09-05 15:33:18 UTC (rev 470)
++++ 3rd/jcl/2.000/trunk/source/include/jedi.inc	2010-09-05 16:07:48 UTC (rev 471)
+@@ -683,6 +683,21 @@
+       {$UNDEF UNKNOWN_COMPILER_VERSION}
+     {$ENDIF VER210}
+ 
++    {$ifdef VER220} // Rad Studio XE
++      {$DEFINE BDS}
++      {$DEFINE BDS8}
++      {$DEFINE COMPILER15}
++      {$IFDEF BCB}
++        {$DEFINE BCB15}
++      {$ELSE}
++        {$DEFINE DELPHI15}
++        {$DEFINE DELPHI2011} // synonym to DELPHI14
++        {$DEFINE DELPHICOMPILER14}
++      {$ENDIF BCB}
++      {$DEFINE RTL220_UP}
++      {$UNDEF UNKNOWN_COMPILER_VERSION}
++    {$endif VER220}
++
+     {$IFDEF UNKNOWN_COMPILER_VERSION} // adjust for newer version (always use latest version)
+       {$DEFINE BDS}
+       {$DEFINE BDS7}
+@@ -714,6 +729,7 @@
+ { DELPHIX_UP from DELPHIX mappings                                             }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF Delphi15} {$DEFINE DELPHI_15_UP} {$ENDIF}
+ {$IFDEF DELPHI14} {$DEFINE DELPHI14_UP} {$ENDIF}
+ {$IFDEF DELPHI12} {$DEFINE DELPHI12_UP} {$ENDIF}
+ {$IFDEF DELPHI11} {$DEFINE DELPHI11_UP} {$ENDIF}
+@@ -732,6 +748,11 @@
+ { DELPHIX_UP from DELPHIX_UP mappings                                          }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF DELPHI15_UP}
++  {$DEFINE DELPHI2011_UP} // synonym to DELPHI15_UP
++  {$DEFINE DELPHI14_UP}
++{$ENDIF}
++
+ {$IFDEF DELPHI14_UP}
+   {$DEFINE DELPHI2010_UP} // synonym to DELPHI14_UP
+   {$DEFINE DELPHI12_UP}
+@@ -796,6 +817,7 @@
+ { BDSX_UP from BDSX mappings                                                   }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF BDS8} {$DEFINE BDS8_UP} {$ENDIF}
+ {$IFDEF BDS7} {$DEFINE BDS7_UP} {$ENDIF}
+ {$IFDEF BDS6} {$DEFINE BDS6_UP} {$ENDIF}
+ {$IFDEF BDS5} {$DEFINE BDS5_UP} {$ENDIF}
+@@ -807,6 +829,7 @@
+ { BDSX_UP from BDSX_UP mappings                                                }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF BDS8_UP} {$DEFINE BDS7_UP} {$ENDIF}
+ {$IFDEF BDS7_UP} {$DEFINE BDS6_UP} {$ENDIF}
+ {$IFDEF BDS6_UP} {$DEFINE BDS5_UP} {$ENDIF}
+ {$IFDEF BDS5_UP} {$DEFINE BDS4_UP} {$ENDIF}
+@@ -817,6 +840,7 @@
+ { DELPHICOMPILERX_UP from DELPHICOMPILERX mappings                             }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF DELPHICOMPILER15} {$DEFINE DELPHICOMPILER15_UP} {$ENDIF}
+ {$IFDEF DELPHICOMPILER14} {$DEFINE DELPHICOMPILER14_UP} {$ENDIF}
+ {$IFDEF DELPHICOMPILER12} {$DEFINE DELPHICOMPILER12_UP} {$ENDIF}
+ {$IFDEF DELPHICOMPILER11} {$DEFINE DELPHICOMPILER11_UP} {$ENDIF}
+@@ -835,6 +859,7 @@
+ { DELPHICOMPILERX_UP from DELPHICOMPILERX_UP mappings                          }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF DELPHICOMPILER15_UP} {$DEFINE DELPHICOMPILER14_UP} {$ENDIF}
+ {$IFDEF DELPHICOMPILER14_UP} {$DEFINE DELPHICOMPILER12_UP} {$ENDIF}
+ {$IFDEF DELPHICOMPILER12_UP} {$DEFINE DELPHICOMPILER11_UP} {$ENDIF}
+ {$IFDEF DELPHICOMPILER11_UP} {$DEFINE DELPHICOMPILER10_UP} {$ENDIF}
+@@ -853,6 +878,7 @@
+ { COMPILERX_UP from COMPILERX mappings                                         }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF COMPILER15} {$DEFINE COMPILER15_UP} {$ENDIF}
+ {$IFDEF COMPILER14} {$DEFINE COMPILER14_UP} {$ENDIF}
+ {$IFDEF COMPILER12} {$DEFINE COMPILER12_UP} {$ENDIF}
+ {$IFDEF COMPILER11} {$DEFINE COMPILER11_UP} {$ENDIF}
+@@ -872,6 +898,7 @@
+ { COMPILERX_UP from COMPILERX_UP mappings                                      }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF COMPILER15_UP} {$DEFINE COMPILER14_UP} {$ENDIF}
+ {$IFDEF COMPILER14_UP} {$DEFINE COMPILER12_UP} {$ENDIF}
+ {$IFDEF COMPILER12_UP} {$DEFINE COMPILER11_UP} {$ENDIF}
+ {$IFDEF COMPILER11_UP} {$DEFINE COMPILER10_UP} {$ENDIF}
+@@ -890,6 +917,7 @@
+ { RTLX_UP from RTLX_UP mappings                                                }
+ {------------------------------------------------------------------------------}
+ 
++{$IFDEF RTL220_UP} {$DEFINE RTL210_UP} {$ENDIF}
+ {$IFDEF RTL210_UP} {$DEFINE RTL200_UP} {$ENDIF}
+ {$IFDEF RTL200_UP} {$DEFINE RTL190_UP} {$ENDIF}
+ {$IFDEF RTL190_UP} {$DEFINE RTL185_UP} {$ENDIF}
+
+
+
+From twm at mail.berlios.de  Sun Sep  5 18:09:38 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Sep 2010 18:09:38 +0200
+Subject: [Dzchart-svncheckins] r472 - 3rd/jcl/2.000/trunk/source/include
+Message-ID: <20100905160938.A18A248104F@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-05 18:09:38 +0200 (Sun, 05 Sep 2010)
+New Revision: 472
+
+Added:
+   3rd/jcl/2.000/trunk/source/include/jcld15.inc
+Modified:
+   3rd/jcl/2.000/trunk/source/include/jcl.inc
+Log:
+added preliminary support for Delphi XE
+
+Modified: 3rd/jcl/2.000/trunk/source/include/jcl.inc
+===================================================================
+--- 3rd/jcl/2.000/trunk/source/include/jcl.inc	2010-09-05 16:07:48 UTC (rev 471)
++++ 3rd/jcl/2.000/trunk/source/include/jcl.inc	2010-09-05 16:09:38 UTC (rev 472)
+@@ -1,4 +1,4 @@
+-{**************************************************************************************************}
++?{**************************************************************************************************}
+ {                                                                                                  }
+ {  The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License");}
+ {  you may not use this file except in compliance with the License. You may obtain a copy of the   }
+@@ -134,6 +134,10 @@
+       {$I jcld14.inc}
+       {$DEFINE JCL_CONFIGURED}
+     {$ENDIF BDS7}
++    {$IFDEF BDS8} // Rad Studio XE
++      {$I jcld15.inc}
++      {$DEFINE JCL_CONFIGURED}
++    {$ENDIF BDS8}
+     {----------------------------}
+     {$IFDEF FPC}
+       {$I jclfpc.inc}
+
+Copied: 3rd/jcl/2.000/trunk/source/include/jcld15.inc (from rev 470, 3rd/jcl/2.000/trunk/source/include/jcld14.inc)
+===================================================================
+--- 3rd/jcl/2.000/trunk/source/include/jcld15.inc	                        (rev 0)
++++ 3rd/jcl/2.000/trunk/source/include/jcld15.inc	2010-09-05 16:09:38 UTC (rev 472)
+@@ -0,0 +1,131 @@
++{**************************************************************************************************}
++{                                                                                                  }
++{ Project JEDI Code Library (JCL)                                                                  }
++{                                                                                                  }
++{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
++{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
++{ License at http://www.mozilla.org/MPL/                                                           }
++{                                                                                                  }
++{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
++{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
++{ and limitations under the License.                                                               }
++{                                                                                                  }
++{ The Original Code is jcl.inc                                                                     }
++{                                                                                                  }
++{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
++{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel.                       }
++{                                                                                                  }
++{ Contributors:                                                                                    }
++{   Marcel van Brakel                                                                              }
++{   Matthias Thoma (mthoma)                                                                        }
++{   Petr Vones                                                                                     }
++{   Robert Marquardt (marquardt)                                                                   }
++{   Robert Rossmair (rrossmair)                                                                    }
++{   Florent Ouchet (outchy)                                                                        }
++{                                                                                                  }
++{**************************************************************************************************}
++{                                                                                                  }
++{ This include file defines various JCL specific defines.                                          }
++{ The more generic JCL defines are defined in jcl.inc and the generic defines in the jedi.inc file }
++{ which is shared with the JEDI VCL.                                                               }
++{                                                                                                  }
++{**************************************************************************************************}
++{                                                                                                  }
++{ This file is filled by the JCL installer, all the changes made in its content will be lost the   }
++{ next time the JCL is installed.                                                                  }
++{                                                                                                  }
++{**************************************************************************************************}
++
++// $Id: jcl.template.inc 132 2009-08-09 18:39:51Z outch $
++
++// Math precision selection, mutually exclusive
++// FPC does not support EXTENDED when targetting x86_64, MATH_DOUBLE_PRECISION is the default in this situation
++{$DEFINE MATH_EXTENDED_PRECISION} // default
++{.$DEFINE MATH_DOUBLE_PRECISION}
++{.$DEFINE MATH_SINGLE_PRECISION}
++
++
++// Math functions takes care of infinites and NaN
++{$DEFINE MATH_EXT_EXTREMEVALUES}
++
++
++// JclHookExcept support for hooking exceptions from DLLs
++{.$DEFINE HOOK_DLL_EXCEPTIONS}
++
++
++//Threadsafe directive
++{$DEFINE THREADSAFE}
++
++
++// To exclude obsolete code from compilation, remove the point from the line below
++{$DEFINE DROP_OBSOLETE_CODE}
++
++
++//Support for JclUnitVersioning.pas, not supported by Delphi 2005 (automatically disabled afterward)
++{$DEFINE UNITVERSIONING}
++
++
++// debug sources
++// defining these symbols will the debug source to be automatically registered
++{.$DEFINE DEBUG_NO_BINARY}
++{.$DEFINE DEBUG_NO_TD32}     // automatically defined for FPC
++{.$DEFINE DEBUG_NO_MAP}
++{.$DEFINE DEBUG_NO_EXPORTS}
++{.$DEFINE DEBUG_NO_SYMBOLS}
++
++
++// mark EDI units as weak package units (to avoid conflicts with the EDI package)
++{.$DEFINE EDI_WEAK_PACKAGE_UNITS}
++
++
++// PCRE options, mutually exclusive
++// IMPORTANT: The static link works only for Delphi 2005 and newer
++//            (an internal error is raised on other compilers)
++// Only one of the following defines can be defined at a time
++//   static link: PCRE_STATICLINK
++//   static dll import: PCRE_LINKDLL
++//   dynamic dll import: PCRE_LINKONREQUEST
++
++{$DEFINE PCRE_STATICLINK}
++{.$DEFINE PCRE_LINKDLL}
++{.$DEFINE PCRE_LINKONREQUEST} // default
++
++
++// BZIP2 options, mutually exclusive
++
++{$DEFINE BZIP2_STATICLINK} // default
++{.$DEFINE BZIP2_LINKDLL}
++{.$DEFINE BZIP2_LINKONREQUEST}
++
++
++// ZLIB options, mutually exclusive
++
++{$DEFINE ZLIB_STATICLINK} // default
++{.$DEFINE ZLIB_LINKDLL}
++{.$DEFINE ZLIB_LINKONREQUEST}
++
++
++// Unicode options
++// insert a replacement character if sequence is corrupted rather than raising an exception
++{$DEFINE UNICODE_SILENT_FAILURE}
++
++// defines resource compression (uncompressed, compressed with ZLib, compressed with BZip2), mutually exclusive
++{$DEFINE UNICODE_RAW_DATA} // default
++{.$DEFINE UNICODE_ZLIB_DATA}
++{.$DEFINE UNICODE_BZIP2_DATA}
++
++
++// container options
++// define mapping of TJclStr* containers to TJclAnsiStr* or TJclWideStr* (mutually exclusive)
++{.$DEFINE CONTAINER_ANSISTR} // default
++{.$DEFINE CONTAINER_WIDESTR}
++{.$DEFINE CONTAINER_NOSTR}
++
++
++// 7Zip options, mutually exclusive
++// IMPORTANT: The static link is not supported yet
++
++{.$DEFINE 7ZIP_STATICLINK} // not supported yet
++{.$DEFINE 7ZIP_LINKDLL}
++{$DEFINE 7ZIP_LINKONREQUEST} // default
++
+
+
+
+From twm at mail.berlios.de  Sun Sep  5 18:15:36 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Sep 2010 18:15:36 +0200
+Subject: [Dzchart-svncheckins] r473 - utilities/dzLib/trunk/src
+Message-ID: <20100905161536.68EEF48104F@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-05 18:15:36 +0200 (Sun, 05 Sep 2010)
+New Revision: 473
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzExecutor.pas
+Log:
+Bugfix: AnsiString instead of string
+
+Modified: utilities/dzLib/trunk/src/u_dzExecutor.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzExecutor.pas	2010-09-05 16:09:38 UTC (rev 472)
++++ utilities/dzLib/trunk/src/u_dzExecutor.pas	2010-09-05 16:15:36 UTC (rev 473)
+@@ -167,7 +167,7 @@
+        copied to the StdOut property. }
+     property RedirectStdErr: boolean read fRedirectStdErr write fRedirectStdErr;
+     {: Set this to the standard input you want to supply to the process. }
+-    property StdIn: string read fStdIn write fStdIn;
++    property StdIn: AnsiString read fStdIn write fStdIn;
+     {: After the process has terminated this contains the standard output. When
+        accessed before the process has terminated this will raise either a ENoProcess
+        or EProcessRunning exception }
+
+
+
+From twm at mail.berlios.de  Sun Sep  5 18:16:34 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Sep 2010 18:16:34 +0200
+Subject: [Dzchart-svncheckins] r474 - in utilities/dzPrepBuild/trunk: . src
+Message-ID: <20100905161634.72A2248104F@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-05 18:16:34 +0200 (Sun, 05 Sep 2010)
+New Revision: 474
+
+Added:
+   utilities/dzPrepBuild/trunk/src/PrepBuild-D2010.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild-D2011.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild-d2007.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild-d2009.dproj
+Removed:
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+Modified:
+   utilities/dzPrepBuild/trunk/
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+Log:
+now compiles with all Delphi versions from 2007 to 2011(XE)
+
+
+Property changes on: utilities/dzPrepBuild/trunk
+___________________________________________________________________
+Modified: svn:ignore
+   - __history
+dcu
+IncBuildNo.cfg
+IncBuildNo.exe
+IncBuildNo.res
+PrepBuild.exe
+PrepBuild.res
+PrepBuild.dsk
+testproject.rc
+PrepBuild.dpr.lnk
+
+   + __history
+dcu
+IncBuildNo.cfg
+IncBuildNo.exe
+IncBuildNo.res
+PrepBuild.exe
+PrepBuild.res
+PrepBuild.dsk
+testproject.rc
+PrepBuild.dpr.lnk
+PrepBuild-d2007.dproj.lnk
+PrepBuild-d2009.dproj.lnk
+PrepBuild-D2010.dproj.lnk
+PrepBuild-D2011.dproj.lnk
+
+Modified: svn:externals
+   - libs/dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+libs/dzTemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs/jcl https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2
+libs/tregexpr https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1
+
+   + libs/dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+libs/dzTemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs/jcl https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/2.000/trunk
+libs/tregexpr https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1
+
+
+Copied: utilities/dzPrepBuild/trunk/src/PrepBuild-D2010.dproj (from rev 470, utilities/dzPrepBuild/trunk/src/PrepBuild.dproj)
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild-D2010.dproj	                        (rev 0)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild-D2010.dproj	2010-09-05 16:16:34 UTC (rev 474)
+@@ -0,0 +1,149 @@
++?	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++		<PropertyGroup>
++			<ProjectGuid>{209412ac-0ec2-4f63-b92a-e78853ff142a}</ProjectGuid>
++			<MainSource>PrepBuild.dpr</MainSource>
++			<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++			<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
++			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++			<DCC_DependencyCheckOutputName>..\PrepBuild.exe</DCC_DependencyCheckOutputName>
++			<ProjectVersion>12.0</ProjectVersion>
++			<Config Condition="'$(Config)'==''">Debug</Config>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
++			<Cfg_1>true</Cfg_1>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
++			<Cfg_2>true</Cfg_2>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Base)'!=''">
++			<DCC_UnitSearchPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source\include;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_DependencyCheckOutputName>PrepBuild.exe</DCC_DependencyCheckOutputName>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_1)'!=''">
++			<Version>7.0</Version>
++			<DCC_DebugInformation>False</DCC_DebugInformation>
++			<DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++			<DCC_DcuOutput>dcu</DCC_DcuOutput>
++			<DCC_ObjOutput>dcu</DCC_ObjOutput>
++			<DCC_HppOutput>dcu</DCC_HppOutput>
++			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_2)'!=''">
++			<DCC_DependencyCheckOutputName>..\PrepBuild.exe</DCC_DependencyCheckOutputName>
++			<Version>7.0</Version>
++			<DCC_DcuOutput>z:\dcu\dzprepbuild</DCC_DcuOutput>
++			<DCC_ObjOutput>z:\dcu\dzprepbuild</DCC_ObjOutput>
++			<DCC_HppOutput>z:\dcu\dzprepbuild</DCC_HppOutput>
++			<DCC_Define>DEBUG;no_translation;NO_TRANSLATION_HINT;$(DCC_Define)</DCC_Define>
++			<DCC_ExeOutput>..</DCC_ExeOutput>
++			<DCC_UnitSearchPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source\include;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_ResourcePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_ResourcePath)</DCC_ResourcePath>
++			<DCC_ObjPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_ObjPath)</DCC_ObjPath>
++			<DCC_IncludePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_IncludePath)</DCC_IncludePath>
++			<DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
++			<DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
++			<DCC_Optimize>False</DCC_Optimize>
++		</PropertyGroup>
++		<ProjectExtensions>
++			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
++			<Borland.ProjectType/>
++			<BorlandProject>
++				<Delphi.Personality>
++					<Parameters>
++						<Parameters Name="UseLauncher">False</Parameters>
++						<Parameters Name="LoadAllSymbols">True</Parameters>
++						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++						<Parameters Name="RunParams">--incbuild --readini=testdata\testproject --updateini=testdata\testproject --writerc=testdata\testproject</Parameters>
++					</Parameters>
++					<VersionInfo>
++						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
++						<VersionInfo Name="MajorVer">1</VersionInfo>
++						<VersionInfo Name="MinorVer">0</VersionInfo>
++						<VersionInfo Name="Release">0</VersionInfo>
++						<VersionInfo Name="Build">0</VersionInfo>
++						<VersionInfo Name="Debug">False</VersionInfo>
++						<VersionInfo Name="PreRelease">False</VersionInfo>
++						<VersionInfo Name="Special">False</VersionInfo>
++						<VersionInfo Name="Private">False</VersionInfo>
++						<VersionInfo Name="DLL">False</VersionInfo>
++						<VersionInfo Name="Locale">2057</VersionInfo>
++						<VersionInfo Name="CodePage">1252</VersionInfo>
++					</VersionInfo>
++					<Excluded_Packages>
++						<Excluded_Packages Name="$(BDS)\bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
++						<Excluded_Packages Name="$(BDS)\bin\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
++					</Excluded_Packages>
++					<Source>
++						<Source Name="MainSource">PrepBuild.dpr</Source>
++					</Source>
++					<VersionInfoKeys>
++						<VersionInfoKeys Name="CompanyName"/>
++						<VersionInfoKeys Name="FileDescription"/>
++						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="InternalName"/>
++						<VersionInfoKeys Name="LegalCopyright"/>
++						<VersionInfoKeys Name="LegalTrademarks"/>
++						<VersionInfoKeys Name="OriginalFilename"/>
++						<VersionInfoKeys Name="ProductName"/>
++						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="Comments"/>
++					</VersionInfoKeys>
++				</Delphi.Personality>
++				<ModelSupport>False</ModelSupport>
++			</BorlandProject>
++			<ProjectFileVersion>12</ProjectFileVersion>
++		</ProjectExtensions>
++		<ItemGroup>
++			<DelphiCompile Include="PrepBuild.dpr">
++				<MainSource>MainSource</MainSource>
++			</DelphiCompile>
++			<DCCReference Include="d_XmlVersionInfo.pas">
++				<Form>dm_XmlVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="d_DprojVersionInfo.pas">
++				<Form>dm_DprojVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="d_BdsProjVersionInfo.pas">
++				<Form>dm_BdsProjVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="i_VersionInfoAccess.pas"/>
++			<DCCReference Include="u_DofVersionInfo.pas"/>
++			<DCCReference Include="u_IniVersionInfo.pas"/>
++			<DCCReference Include="u_CentralIniVersionInfo.pas"/>
++			<DCCReference Include="u_PrepBuildMain.pas"/>
++			<DCCReference Include="u_VersionInfo.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas"/>
++			<DCCReference Include="..\libs\dzlib\forms\w_dzDialog.pas">
++				<Form>f_dzDialog</Form>
++			</DCCReference>
++			<DCCReference Include="..\libs\dzlib\src\u_dzJclUtils.pas"/>
++			<DCCReference Include="..\libs\tregexpr\Source\RegExpr.pas"/>
++			<BuildConfiguration Include="Base">
++				<Key>Base</Key>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Debug">
++				<Key>Cfg_2</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Release">
++				<Key>Cfg_1</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++		</ItemGroup>
++		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
++		<PropertyGroup>
++			<PreBuildEvent><![CDATA[..\buildtools\prebuild.cmd $(PROJECTPATH)]]></PreBuildEvent>
++		</PropertyGroup>
++	</Project>
+
+Copied: utilities/dzPrepBuild/trunk/src/PrepBuild-D2011.dproj (from rev 470, utilities/dzPrepBuild/trunk/src/PrepBuild.dproj)
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild-D2011.dproj	                        (rev 0)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild-D2011.dproj	2010-09-05 16:16:34 UTC (rev 474)
+@@ -0,0 +1,154 @@
++?	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++		<PropertyGroup>
++			<ProjectGuid>{209412ac-0ec2-4f63-b92a-e78853ff142a}</ProjectGuid>
++			<MainSource>PrepBuild.dpr</MainSource>
++			<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++			<DCC_DependencyCheckOutputName>..\PrepBuild.exe</DCC_DependencyCheckOutputName>
++			<ProjectVersion>12.2</ProjectVersion>
++			<Config Condition="'$(Config)'==''">Debug</Config>
++			<Base>True</Base>
++			<Platform>Win32</Platform>
++			<AppType>Application</AppType>
++			<FrameworkType>VCL</FrameworkType>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
++			<Cfg_1>true</Cfg_1>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
++			<Cfg_2>true</Cfg_2>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Base)'!=''">
++			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
++			<DCC_UnitSearchPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source\include;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_DependencyCheckOutputName>PrepBuild.exe</DCC_DependencyCheckOutputName>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_1)'!=''">
++			<Version>7.0</Version>
++			<DCC_DebugInformation>False</DCC_DebugInformation>
++			<DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++			<DCC_DcuOutput>dcu</DCC_DcuOutput>
++			<DCC_ObjOutput>dcu</DCC_ObjOutput>
++			<DCC_HppOutput>dcu</DCC_HppOutput>
++			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_2)'!=''">
++			<DCC_DependencyCheckOutputName>..\PrepBuild.exe</DCC_DependencyCheckOutputName>
++			<Version>7.0</Version>
++			<DCC_DcuOutput>z:\dcu\dzprepbuild</DCC_DcuOutput>
++			<DCC_ObjOutput>z:\dcu\dzprepbuild</DCC_ObjOutput>
++			<DCC_HppOutput>z:\dcu\dzprepbuild</DCC_HppOutput>
++			<DCC_Define>DEBUG;no_translation;NO_TRANSLATION_HINT;$(DCC_Define)</DCC_Define>
++			<DCC_ExeOutput>..</DCC_ExeOutput>
++			<DCC_UnitSearchPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source\include;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_ResourcePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_ResourcePath)</DCC_ResourcePath>
++			<DCC_ObjPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_ObjPath)</DCC_ObjPath>
++			<DCC_IncludePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_IncludePath)</DCC_IncludePath>
++			<DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
++			<DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
++			<DCC_Optimize>False</DCC_Optimize>
++		</PropertyGroup>
++		<ProjectExtensions>
++			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
++			<Borland.ProjectType/>
++			<BorlandProject>
++				<Delphi.Personality>
++					<Parameters>
++						<Parameters Name="RunParams">--incbuild --readini=testdata\testproject --updateini=testdata\testproject --writerc=testdata\testproject</Parameters>
++					</Parameters>
++					<VersionInfo>
++						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
++						<VersionInfo Name="MajorVer">1</VersionInfo>
++						<VersionInfo Name="MinorVer">0</VersionInfo>
++						<VersionInfo Name="Release">0</VersionInfo>
++						<VersionInfo Name="Build">0</VersionInfo>
++						<VersionInfo Name="Debug">False</VersionInfo>
++						<VersionInfo Name="PreRelease">False</VersionInfo>
++						<VersionInfo Name="Special">False</VersionInfo>
++						<VersionInfo Name="Private">False</VersionInfo>
++						<VersionInfo Name="DLL">False</VersionInfo>
++						<VersionInfo Name="Locale">2057</VersionInfo>
++						<VersionInfo Name="CodePage">1252</VersionInfo>
++					</VersionInfo>
++					<Excluded_Packages>
++						<Excluded_Packages Name="$(BDSBIN)\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
++						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
++					</Excluded_Packages>
++					<Source>
++						<Source Name="MainSource">PrepBuild.dpr</Source>
++					</Source>
++					<VersionInfoKeys>
++						<VersionInfoKeys Name="CompanyName"/>
++						<VersionInfoKeys Name="FileDescription"/>
++						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="InternalName"/>
++						<VersionInfoKeys Name="LegalCopyright"/>
++						<VersionInfoKeys Name="LegalTrademarks"/>
++						<VersionInfoKeys Name="OriginalFilename"/>
++						<VersionInfoKeys Name="ProductName"/>
++						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="Comments"/>
++					</VersionInfoKeys>
++				</Delphi.Personality>
++				<ModelSupport>False</ModelSupport>
++				<Platforms>
++					<Platform value="Win32">True</Platform>
++				</Platforms>
++			</BorlandProject>
++			<ProjectFileVersion>12</ProjectFileVersion>
++		</ProjectExtensions>
++		<ItemGroup>
++			<DelphiCompile Include="PrepBuild.dpr">
++				<MainSource>MainSource</MainSource>
++			</DelphiCompile>
++			<DCCReference Include="d_XmlVersionInfo.pas">
++				<Form>dm_XmlVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="d_DprojVersionInfo.pas">
++				<Form>dm_DprojVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="d_BdsProjVersionInfo.pas">
++				<Form>dm_BdsProjVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="i_VersionInfoAccess.pas"/>
++			<DCCReference Include="u_DofVersionInfo.pas"/>
++			<DCCReference Include="u_IniVersionInfo.pas"/>
++			<DCCReference Include="u_CentralIniVersionInfo.pas"/>
++			<DCCReference Include="u_PrepBuildMain.pas"/>
++			<DCCReference Include="u_VersionInfo.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas"/>
++			<DCCReference Include="..\libs\dzlib\forms\w_dzDialog.pas">
++				<Form>f_dzDialog</Form>
++			</DCCReference>
++			<DCCReference Include="..\libs\dzlib\src\u_dzJclUtils.pas"/>
++			<DCCReference Include="..\libs\tregexpr\Source\RegExpr.pas"/>
++			<BuildConfiguration Include="Debug">
++				<Key>Cfg_2</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Base">
++				<Key>Base</Key>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Release">
++				<Key>Cfg_1</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++		</ItemGroup>
++		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
++		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj"/>
++		<PropertyGroup>
++			<PreBuildEvent><![CDATA[..\buildtools\prebuild.cmd $(PROJECTPATH)]]></PreBuildEvent>
++		</PropertyGroup>
++	</Project>
+
+Copied: utilities/dzPrepBuild/trunk/src/PrepBuild-d2007.dproj (from rev 470, utilities/dzPrepBuild/trunk/src/PrepBuild.dproj)
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild-d2007.dproj	                        (rev 0)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild-d2007.dproj	2010-09-05 16:16:34 UTC (rev 474)
+@@ -0,0 +1,78 @@
++?<?xml version="1.0" encoding="utf-8"?>
++<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <PropertyGroup>
++    <ProjectGuid>{209412ac-0ec2-4f63-b92a-e78853ff142a}</ProjectGuid>
++    <MainSource>PrepBuild.dpr</MainSource>
++    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
++    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++    <DCC_DependencyCheckOutputName>..\PrepBuild.exe</DCC_DependencyCheckOutputName>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_DebugInformation>False</DCC_DebugInformation>
++    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++    <DCC_DcuOutput>dcu</DCC_DcuOutput>
++    <DCC_ObjOutput>dcu</DCC_ObjOutput>
++    <DCC_HppOutput>dcu</DCC_HppOutput>
++    <DCC_Define>RELEASE</DCC_Define>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_DcuOutput>z:\dcu\dzprepbuild</DCC_DcuOutput>
++    <DCC_ObjOutput>z:\dcu\dzprepbuild</DCC_ObjOutput>
++    <DCC_HppOutput>z:\dcu\dzprepbuild</DCC_HppOutput>
++    <DCC_Define>DEBUG;no_translation;NO_TRANSLATION_HINT</DCC_Define>
++    <DCC_ExeOutput>..</DCC_ExeOutput>
++    <DCC_UnitSearchPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl</DCC_UnitSearchPath>
++    <DCC_ResourcePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl</DCC_ResourcePath>
++    <DCC_ObjPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl</DCC_ObjPath>
++    <DCC_IncludePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl</DCC_IncludePath>
++    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
++    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
++    <DCC_Optimize>False</DCC_Optimize>
++  </PropertyGroup>
++  <ProjectExtensions>
++    <Borland.Personality>Delphi.Personality</Borland.Personality>
++    <Borland.ProjectType />
++    <BorlandProject>
++<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters><Parameters Name="RunParams">--incbuild --readini=testdata\testproject --updateini=testdata\testproject --writerc=testdata\testproject</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">False</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">2057</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></Vers
+ ionInfo><Excluded_Packages>
++      <Excluded_Packages Name="$(BDS)\bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
++      <Excluded_Packages Name="$(BDS)\bin\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
++    </Excluded_Packages><Source><Source Name="MainSource">PrepBuild.dpr</Source></Source><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys></Delphi.Personality><ModelSupport>False</ModelSupport></BorlandProject></BorlandProject>
++  </ProjectExtensions>
++  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
++  <PropertyGroup>
++    <PreBuildEvent>..\buildtools\prebuild.cmd $(PROJECTPATH)</PreBuildEvent>
++  </PropertyGroup>
++  <ItemGroup>
++    <DelphiCompile Include="PrepBuild.dpr">
++      <MainSource>MainSource</MainSource>
++    </DelphiCompile>
++    <DCCReference Include="..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas" />
++    <DCCReference Include="..\libs\dzlib\forms\w_dzDialog.pas">
++      <Form>f_dzDialog</Form>
++    </DCCReference>
++    <DCCReference Include="..\libs\dzlib\src\u_dzJclUtils.pas" />
++    <DCCReference Include="..\libs\tregexpr\Source\RegExpr.pas" />
++    <DCCReference Include="d_BdsProjVersionInfo.pas">
++      <Form>dm_BdsProjVersionInfo</Form>
++      <DesignClass>TDataModule</DesignClass>
++    </DCCReference>
++    <DCCReference Include="d_DprojVersionInfo.pas">
++      <Form>dm_DprojVersionInfo</Form>
++      <DesignClass>TDataModule</DesignClass>
++    </DCCReference>
++    <DCCReference Include="d_XmlVersionInfo.pas">
++      <Form>dm_XmlVersionInfo</Form>
++      <DesignClass>TDataModule</DesignClass>
++    </DCCReference>
++    <DCCReference Include="i_VersionInfoAccess.pas" />
++    <DCCReference Include="u_CentralIniVersionInfo.pas" />
++    <DCCReference Include="u_DofVersionInfo.pas" />
++    <DCCReference Include="u_IniVersionInfo.pas" />
++    <DCCReference Include="u_PrepBuildMain.pas" />
++    <DCCReference Include="u_VersionInfo.pas" />
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+
+Copied: utilities/dzPrepBuild/trunk/src/PrepBuild-d2009.dproj (from rev 470, utilities/dzPrepBuild/trunk/src/PrepBuild.dproj)
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild-d2009.dproj	                        (rev 0)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild-d2009.dproj	2010-09-05 16:16:34 UTC (rev 474)
+@@ -0,0 +1,155 @@
++?	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++		<PropertyGroup>
++			<ProjectGuid>{209412ac-0ec2-4f63-b92a-e78853ff142a}</ProjectGuid>
++			<MainSource>PrepBuild.dpr</MainSource>
++			<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++			<DCC_DependencyCheckOutputName>..\PrepBuild.exe</DCC_DependencyCheckOutputName>
++			<ProjectVersion>12.2</ProjectVersion>
++			<Config Condition="'$(Config)'==''">Debug</Config>
++			<Base>True</Base>
++			<Platform>Win32</Platform>
++			<AppType>Application</AppType>
++			<FrameworkType>VCL</FrameworkType>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
++			<Cfg_1>true</Cfg_1>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
++			<Cfg_2>true</Cfg_2>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Base)'!=''">
++			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
++			<DCC_UnitSearchPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source\include;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_DependencyCheckOutputName>PrepBuild.exe</DCC_DependencyCheckOutputName>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_1)'!=''">
++			<Version>7.0</Version>
++			<DCC_DebugInformation>False</DCC_DebugInformation>
++			<DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++			<DCC_DcuOutput>dcu</DCC_DcuOutput>
++			<DCC_ObjOutput>dcu</DCC_ObjOutput>
++			<DCC_HppOutput>dcu</DCC_HppOutput>
++			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_2)'!=''">
++			<DCC_DependencyCheckOutputName>..\PrepBuild.exe</DCC_DependencyCheckOutputName>
++			<Version>7.0</Version>
++			<DCC_DcuOutput>z:\dcu\dzprepbuild</DCC_DcuOutput>
++			<DCC_ObjOutput>z:\dcu\dzprepbuild</DCC_ObjOutput>
++			<DCC_HppOutput>z:\dcu\dzprepbuild</DCC_HppOutput>
++			<DCC_Define>DEBUG;no_translation;NO_TRANSLATION_HINT;$(DCC_Define)</DCC_Define>
++			<DCC_ExeOutput>..</DCC_ExeOutput>
++			<DCC_ResourcePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_ResourcePath)</DCC_ResourcePath>
++			<DCC_ObjPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_ObjPath)</DCC_ObjPath>
++			<DCC_IncludePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_IncludePath)</DCC_IncludePath>
++			<DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
++			<DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
++			<DCC_Optimize>False</DCC_Optimize>
++		</PropertyGroup>
++		<ProjectExtensions>
++			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
++			<Borland.ProjectType/>
++			<BorlandProject>
++				<Delphi.Personality>
++					<Parameters>
++						<Parameters Name="RunParams">--incbuild --readini=testdata\testproject --updateini=testdata\testproject --writerc=testdata\testproject</Parameters>
++						<Parameters Name="UseLauncher">False</Parameters>
++						<Parameters Name="LoadAllSymbols">True</Parameters>
++						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++					</Parameters>
++					<VersionInfo>
++						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
++						<VersionInfo Name="MajorVer">1</VersionInfo>
++						<VersionInfo Name="MinorVer">0</VersionInfo>
++						<VersionInfo Name="Release">0</VersionInfo>
++						<VersionInfo Name="Build">0</VersionInfo>
++						<VersionInfo Name="Debug">False</VersionInfo>
++						<VersionInfo Name="PreRelease">False</VersionInfo>
++						<VersionInfo Name="Special">False</VersionInfo>
++						<VersionInfo Name="Private">False</VersionInfo>
++						<VersionInfo Name="DLL">False</VersionInfo>
++						<VersionInfo Name="Locale">2057</VersionInfo>
++						<VersionInfo Name="CodePage">1252</VersionInfo>
++					</VersionInfo>
++					<Excluded_Packages>
++						<Excluded_Packages Name="%BDSBIN%\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
++						<Excluded_Packages Name="%BDSBIN%\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
++					</Excluded_Packages>
++					<Source>
++						<Source Name="MainSource">PrepBuild.dpr</Source>
++					</Source>
++					<VersionInfoKeys>
++						<VersionInfoKeys Name="CompanyName"/>
++						<VersionInfoKeys Name="FileDescription"/>
++						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="InternalName"/>
++						<VersionInfoKeys Name="LegalCopyright"/>
++						<VersionInfoKeys Name="LegalTrademarks"/>
++						<VersionInfoKeys Name="OriginalFilename"/>
++						<VersionInfoKeys Name="ProductName"/>
++						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="Comments"/>
++					</VersionInfoKeys>
++				</Delphi.Personality>
++				<ModelSupport>False</ModelSupport>
++				<Platforms>
++					<Platform value="Win32">True</Platform>
++				</Platforms>
++			</BorlandProject>
++			<ProjectFileVersion>12</ProjectFileVersion>
++		</ProjectExtensions>
++		<ItemGroup>
++			<DelphiCompile Include="PrepBuild.dpr">
++				<MainSource>MainSource</MainSource>
++			</DelphiCompile>
++			<DCCReference Include="d_XmlVersionInfo.pas">
++				<Form>dm_XmlVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="d_DprojVersionInfo.pas">
++				<Form>dm_DprojVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="d_BdsProjVersionInfo.pas">
++				<Form>dm_BdsProjVersionInfo</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<DCCReference Include="i_VersionInfoAccess.pas"/>
++			<DCCReference Include="u_DofVersionInfo.pas"/>
++			<DCCReference Include="u_IniVersionInfo.pas"/>
++			<DCCReference Include="u_CentralIniVersionInfo.pas"/>
++			<DCCReference Include="u_PrepBuildMain.pas"/>
++			<DCCReference Include="u_VersionInfo.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas"/>
++			<DCCReference Include="..\libs\dzlib\forms\w_dzDialog.pas">
++				<Form>f_dzDialog</Form>
++			</DCCReference>
++			<DCCReference Include="..\libs\dzlib\src\u_dzJclUtils.pas"/>
++			<DCCReference Include="..\libs\tregexpr\Source\RegExpr.pas"/>
++			<BuildConfiguration Include="Base">
++				<Key>Base</Key>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Debug">
++				<Key>Cfg_2</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Release">
++				<Key>Cfg_1</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++		</ItemGroup>
++		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
++		<PropertyGroup>
++			<PreBuildEvent><![CDATA[..\buildtools\prebuild.cmd $(PROJECTPATH)]]></PreBuildEvent>
++		</PropertyGroup>
++	</Project>
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2010-09-05 16:15:36 UTC (rev 473)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2010-09-05 16:16:34 UTC (rev 474)
+@@ -1,14 +1,10 @@
+ program PrepBuild;
+ 
+-
+-
+-
+ {$APPTYPE CONSOLE}
+ 
+ uses
+   SysUtils,
+   Forms,
+-  oxmldom,
+   d_XmlVersionInfo in 'd_XmlVersionInfo.pas' {dm_XmlVersionInfo: TDataModule},
+   d_DprojVersionInfo in 'd_DprojVersionInfo.pas' {dm_DprojVersionInfo: TDataModule},
+   d_BdsProjVersionInfo in 'd_BdsProjVersionInfo.pas' {dm_BdsProjVersionInfo: TDataModule},
+
+Deleted: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-09-05 16:15:36 UTC (rev 473)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-09-05 16:16:34 UTC (rev 474)
+@@ -1,78 +0,0 @@
+-?<?xml version="1.0" encoding="utf-8"?>
+-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+-  <PropertyGroup>
+-    <ProjectGuid>{209412ac-0ec2-4f63-b92a-e78853ff142a}</ProjectGuid>
+-    <MainSource>PrepBuild.dpr</MainSource>
+-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+-    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+-    <DCC_DependencyCheckOutputName>..\PrepBuild.exe</DCC_DependencyCheckOutputName>
+-  </PropertyGroup>
+-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+-    <Version>7.0</Version>
+-    <DCC_DebugInformation>False</DCC_DebugInformation>
+-    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+-    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+-    <DCC_DcuOutput>dcu</DCC_DcuOutput>
+-    <DCC_ObjOutput>dcu</DCC_ObjOutput>
+-    <DCC_HppOutput>dcu</DCC_HppOutput>
+-    <DCC_Define>RELEASE</DCC_Define>
+-  </PropertyGroup>
+-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+-    <Version>7.0</Version>
+-    <DCC_DcuOutput>z:\dcu\dzprepbuild</DCC_DcuOutput>
+-    <DCC_ObjOutput>z:\dcu\dzprepbuild</DCC_ObjOutput>
+-    <DCC_HppOutput>z:\dcu\dzprepbuild</DCC_HppOutput>
+-    <DCC_Define>DEBUG;no_translation;NO_TRANSLATION_HINT</DCC_Define>
+-    <DCC_ExeOutput>..</DCC_ExeOutput>
+-    <DCC_UnitSearchPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl</DCC_UnitSearchPath>
+-    <DCC_ResourcePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl</DCC_ResourcePath>
+-    <DCC_ObjPath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl</DCC_ObjPath>
+-    <DCC_IncludePath>$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\dzCmdLineParser\src;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl</DCC_IncludePath>
+-    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+-    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+-    <DCC_Optimize>False</DCC_Optimize>
+-  </PropertyGroup>
+-  <ProjectExtensions>
+-    <Borland.Personality>Delphi.Personality</Borland.Personality>
+-    <Borland.ProjectType />
+-    <BorlandProject>
+-<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters><Parameters Name="RunParams">--incbuild --readini=testdata\testproject --updateini=testdata\testproject --writerc=testdata\testproject</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">False</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">2057</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></Vers
+ ionInfo><Excluded_Packages>
+-      <Excluded_Packages Name="$(BDS)\bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+-      <Excluded_Packages Name="$(BDS)\bin\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+-    </Excluded_Packages><Source><Source Name="MainSource">PrepBuild.dpr</Source></Source><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys></Delphi.Personality><ModelSupport>False</ModelSupport></BorlandProject></BorlandProject>
+-  </ProjectExtensions>
+-  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+-  <PropertyGroup>
+-    <PreBuildEvent>..\buildtools\prebuild.cmd $(PROJECTPATH)</PreBuildEvent>
+-  </PropertyGroup>
+-  <ItemGroup>
+-    <DelphiCompile Include="PrepBuild.dpr">
+-      <MainSource>MainSource</MainSource>
+-    </DelphiCompile>
+-    <DCCReference Include="..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas" />
+-    <DCCReference Include="..\libs\dzlib\forms\w_dzDialog.pas">
+-      <Form>f_dzDialog</Form>
+-    </DCCReference>
+-    <DCCReference Include="..\libs\dzlib\src\u_dzJclUtils.pas" />
+-    <DCCReference Include="..\libs\tregexpr\Source\RegExpr.pas" />
+-    <DCCReference Include="d_BdsProjVersionInfo.pas">
+-      <Form>dm_BdsProjVersionInfo</Form>
+-      <DesignClass>TDataModule</DesignClass>
+-    </DCCReference>
+-    <DCCReference Include="d_DprojVersionInfo.pas">
+-      <Form>dm_DprojVersionInfo</Form>
+-      <DesignClass>TDataModule</DesignClass>
+-    </DCCReference>
+-    <DCCReference Include="d_XmlVersionInfo.pas">
+-      <Form>dm_XmlVersionInfo</Form>
+-      <DesignClass>TDataModule</DesignClass>
+-    </DCCReference>
+-    <DCCReference Include="i_VersionInfoAccess.pas" />
+-    <DCCReference Include="u_CentralIniVersionInfo.pas" />
+-    <DCCReference Include="u_DofVersionInfo.pas" />
+-    <DCCReference Include="u_IniVersionInfo.pas" />
+-    <DCCReference Include="u_PrepBuildMain.pas" />
+-    <DCCReference Include="u_VersionInfo.pas" />
+-  </ItemGroup>
+-</Project>
+\ No newline at end of file
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-09-05 16:15:36 UTC (rev 473)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-09-05 16:16:34 UTC (rev 474)
+@@ -1,4 +1,4 @@
+ [Version Info]
+-Build=319
+-FileVersion=1.2.0.319
++Build=328
++FileVersion=1.2.0.328
+ 
+
+
+
+From twm at mail.berlios.de  Sun Sep  5 19:37:47 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Sep 2010 19:37:47 +0200
+Subject: [Dzchart-svncheckins] r475 - utilities/dzCmdLineParser/trunk/src
+Message-ID: <20100905173747.4CFDB48104F@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-05 19:37:47 +0200 (Sun, 05 Sep 2010)
+New Revision: 475
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas
+Log:
+adapted to Delphi 2009 and up
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas	2010-09-05 16:16:34 UTC (rev 474)
++++ utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas	2010-09-05 17:37:47 UTC (rev 475)
+@@ -208,7 +208,7 @@
+   c: char;
+ begin
+   c := _Context.GetNextChar;
+-  if c in ALPHANUMERIC_CHARS + ['?'] then begin
++  if CharInSet(c, ALPHANUMERIC_CHARS + ['?']) then begin
+     _Context.AddToOption(c);
+     Result := TEngineStateShortOption.Create;
+   end else if c = '-' then
+@@ -224,7 +224,7 @@
+   c: char;
+ begin
+   c := _Context.GetNextChar;
+-  if c in ALPHANUMERIC_CHARS then begin
++  if CharInSet(c, ALPHANUMERIC_CHARS) then begin
+     _Context.AddToOption(c);
+     Result := TEngineStateLongOption.Create;
+   end else
+
+
+
+From twm at mail.berlios.de  Sun Sep  5 19:38:10 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Sep 2010 19:38:10 +0200
+Subject: [Dzchart-svncheckins] r476 - utilities/IniFileFormatter/trunk/src
+Message-ID: <20100905173810.C492148104F@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-05 19:38:10 +0200 (Sun, 05 Sep 2010)
+New Revision: 476
+
+Modified:
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini
+Log:
+dcu output to Z:
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-09-05 17:37:47 UTC (rev 475)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-09-05 17:38:10 UTC (rev 476)
+@@ -24,7 +24,7 @@
+ 			<DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
+ 			<DCC_Define>no_translation;no_jcl;$(DCC_Define)</DCC_Define>
+ 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
+-			<DCC_DcuOutput>..\dcu</DCC_DcuOutput>
++			<DCC_DcuOutput>z:\dcu\IniFileFormatter</DCC_DcuOutput>
+ 			<DCC_ExeOutput>..</DCC_ExeOutput>
+ 			<DCC_UnitSearchPath>..\libs\dztemplates\Units;..\libs\dztemplates\templates;..\libs\dzlib\jedi_inc;..\libs\dzlib\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+ 			<DCC_DependencyCheckOutputName>..\IniFileFormatter.exe</DCC_DependencyCheckOutputName>
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini	2010-09-05 17:37:47 UTC (rev 475)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini	2010-09-05 17:38:10 UTC (rev 476)
+@@ -1,13 +1,13 @@
+ [Version Info]
+ AutoIncBuild=0
+-Build=1
++Build=5
+ MajorVer=1
+ MinorVer=0
+ Release=0
+ 
+ [Version Info Keys]
+-FileVersion=1.0.0.1
+-ProductVersion=2010-03-27
++FileVersion=1.0.0.5
++ProductVersion=2010-09-05
+ FileDescription=INI file formatter
+ OriginalFilename=IniFileFormatter
+ Comments=
+
+
+
+From twm at mail.berlios.de  Wed Sep 29 11:09:47 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed, 29 Sep 2010 11:09:47 +0200
+Subject: [Dzchart-svncheckins] r477 - in utilities/dzLib/trunk:
+	Packages/Delphi2007 src
+Message-ID: <20100929090947.70450480FA8@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-29 11:09:47 +0200 (Wed, 29 Sep 2010)
+New Revision: 477
+
+Added:
+   utilities/dzLib/trunk/src/u_dzMutex.pas
+Modified:
+   utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk
+   utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj
+Log:
+added more units to the packages
+new unit dzMutex (class TdzMutex)
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk	2010-09-05 17:38:10 UTC (rev 476)
++++ utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk	2010-09-29 09:09:47 UTC (rev 477)
+@@ -36,7 +36,8 @@
+   vcljpg,
+   vcldb,
+   dbrtl,
+-  vclshlctrls;
++  vclshlctrls,
++  Jcl;
+ 
+ contains
+   c_dzShellControls in '..\..\components\c_dzShellControls.pas',
+@@ -45,6 +46,15 @@
+   u_dzConvertUtils in '..\..\src\u_dzConvertUtils.pas',
+   u_dzStringUtils in '..\..\src\u_dzStringUtils.pas',
+   u_dzTranslator in '..\..\src\u_dzTranslator.pas',
+-  u_dzClassUtils in '..\..\src\u_dzClassUtils.pas';
++  u_dzClassUtils in '..\..\src\u_dzClassUtils.pas',
++  u_dzShellApiUtils in '..\..\src\u_dzShellApiUtils.pas',
++  u_dzVariantUtils in '..\..\src\u_dzVariantUtils.pas',
++  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
++  u_dzFileStreams in '..\..\src\u_dzFileStreams.pas',
++  u_dzFileUtils in '..\..\src\u_dzFileUtils.pas',
++  u_dzMiscUtils in '..\..\src\u_dzMiscUtils.pas',
++  u_dzLogging in '..\..\src\u_dzLogging.pas',
++  u_dzVersionInfo in '..\..\src\u_dzVersionInfo.pas',
++  u_dzOsUtils in '..\..\src\u_dzOsUtils.pas';
+ 
+ end.
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj	2010-09-05 17:38:10 UTC (rev 476)
++++ utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj	2010-09-29 09:09:47 UTC (rev 477)
+@@ -25,6 +25,8 @@
+     <DCC_ObjPath>..\..\jedi_inc</DCC_ObjPath>
+     <DCC_IncludePath>..\..\jedi_inc</DCC_IncludePath>
+     <DCC_Define>no_translation;NO_TRANSLATION_HINT</DCC_Define>
++    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
++    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+   </PropertyGroup>
+   <ProjectExtensions>
+     <Borland.Personality>Delphi.Personality</Borland.Personality>
+@@ -43,12 +45,22 @@
+     <DCCReference Include="..\..\components\c_dzShellControls.pas" />
+     <DCCReference Include="..\..\components\c_dzVirtualStringGrid.pas" />
+     <DCCReference Include="..\..\src\dbrtl.dcp" />
++    <DCCReference Include="..\..\src\Jcl.dcp" />
+     <DCCReference Include="..\..\src\rtl.dcp" />
+     <DCCReference Include="..\..\src\u_dzClassUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzConvertUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzDateUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzFileStreams.pas" />
++    <DCCReference Include="..\..\src\u_dzFileUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzLogging.pas" />
++    <DCCReference Include="..\..\src\u_dzMiscUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzOsUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzShellApiUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzStringUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzTranslator.pas" />
++    <DCCReference Include="..\..\src\u_dzVariantUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzVclUtils.pas" />
++    <DCCReference Include="..\..\src\u_dzVersionInfo.pas" />
+     <DCCReference Include="..\..\src\vcl.dcp" />
+     <DCCReference Include="..\..\src\vcldb.dcp" />
+     <DCCReference Include="..\..\src\vcljpg.dcp" />
+
+Added: utilities/dzLib/trunk/src/u_dzMutex.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzMutex.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzMutex.pas	2010-09-29 09:09:47 UTC (rev 477)
+@@ -0,0 +1,54 @@
++unit u_dzMutex;
++
++interface
++
++uses
++  Windows,
++  SyncObjs;
++
++type
++  TdzMutex = class(TMutex)
++  public
++    ///<summary> Calls WaitFor with and returns true, if that returns
++    ///          wrSignaled or wrAbandoned. Returns false if WaitFor
++    ///          returns wrTimeout or wrError.
++    ///          If ExceptionOnError is set to true, wrError will raise an
++    ///          exception.
++    function TryAcquire(_Timeout: LongWord = 0; _ExceptionOnError: boolean = true): boolean;
++  end;
++
++implementation
++
++uses
++  u_dzMiscUtils,
++  u_dzTranslator;
++
++function _(const _s: string): string; inline;
++begin
++  Result := dzDGetText(_s, 'dzlib');
++end;
++
++{ TdzMutex }
++
++function TdzMutex.TryAcquire(_Timeout: LongWord = 0; _ExceptionOnError: boolean = true): boolean;
++var
++  Res: TWaitResult;
++begin
++  Res := WaitFor(_Timeout);
++  case res of
++    wrSignaled, wrAbandoned: begin
++        Result := true;
++      end;
++    wrTimeout: begin
++        Result := false;
++      end;
++    wrError: begin
++        if _ExceptionOnError then
++          RaiseLastOsErrorEx(self.LastError, _('Error "%1:s (%0:d)" while trying to acquire mutex.'));
++        Result := false;
++      end;
++  end;
++end;
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Wed Sep 29 11:23:31 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed, 29 Sep 2010 11:23:31 +0200
+Subject: [Dzchart-svncheckins] r478 - utilities
+Message-ID: <20100929092331.A8E37480FAA@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-29 11:23:31 +0200 (Wed, 29 Sep 2010)
+New Revision: 478
+
+Added:
+   utilities/dzContextMenu/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Wed Sep 29 11:23:49 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed, 29 Sep 2010 11:23:49 +0200
+Subject: [Dzchart-svncheckins] r479 - in utilities/dzContextMenu: . trunk
+	trunk/src
+Message-ID: <20100929092349.97342480FAA@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-29 11:23:49 +0200 (Wed, 29 Sep 2010)
+New Revision: 479
+
+Added:
+   utilities/dzContextMenu/trunk/
+   utilities/dzContextMenu/trunk/src/
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.dfm
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+   utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+Log:
+initial import
+
+Added: utilities/dzContextMenu/trunk/src/d_ContextMenu.dfm
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.dfm	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.dfm	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,9 @@
++object dm_ContextMenu: Tdm_ContextMenu
++  OldCreateOrder = False
++  Height = 150
++  Width = 215
++  object ThePopupMenu: TPopupMenu
++    Left = 88
++    Top = 56
++  end
++end
+
+Added: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,159 @@
++unit d_ContextMenu;
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  Classes,
++  IniFiles,
++  Menus;
++
++type
++  Tdm_ContextMenu = class(TDataModule)
++    ThePopupMenu: TPopupMenu;
++  private
++    FFiles: TStringList;
++    FMaxItemCount: Integer;
++    FItems: TStringList;
++    procedure UpdatePopup;
++  public
++    class function IniFile: TMemIniFile;
++    constructor Create(_Owner: TComponent); override;
++    destructor Destroy; override;
++    procedure UpdateSubmenu(_SubMenu: HMenu; var _Id: integer);
++    procedure DoCommand(_Idx: integer);
++    property Files: TStringList read FFiles;
++    property MaxItemCount: Integer read FMaxItemCount;
++  end;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  Dialogs;
++
++const
++  INI_FILE = 'c:\dzcontextmenu.ini';
++
++var
++  gblIni: TMemIniFile = nil;
++
++constructor Tdm_ContextMenu.Create(_Owner: TComponent);
++var
++  Sections: TStringList;
++  i: Integer;
++  Ini: TMemIniFile;
++begin
++  inherited;
++  FFiles := TStringList.Create;
++  FItems := TStringList.Create;
++
++  Ini := IniFile;
++  FMaxItemCount := 0;
++  Sections := nil;
++  Sections := TStringList.Create;
++  try
++    Ini.ReadSections(Sections);
++    for i := 0 to Sections.Count - 1 do begin
++      FItems.Clear;
++      Ini.ReadSection(Sections[i], FItems);
++      // First entry is file extension
++      FItems.Delete(0);
++      if FItems.Count > FMaxItemCount then
++        FMaxItemCount := FItems.Count;
++    end;
++  finally
++    FreeAndNil(Sections);
++  end;
++end;
++
++destructor Tdm_ContextMenu.Destroy;
++begin
++  FreeAndNil(FItems);
++  FreeAndNil(FFiles);
++  inherited;
++end;
++
++procedure Tdm_ContextMenu.DoCommand(_Idx: integer);
++begin
++  if _Idx < FItems.Count then
++    MessageBox(0, PChar(FItems[_Idx] + #13#10 + FFiles.Text), 'Execute', MB_ICONINFORMATION or MB_OK);
++end;
++
++procedure Tdm_ContextMenu.UpdatePopup;
++var
++  SecIdx: Integer;
++  SectExt: string;
++  Ext: string;
++  Sections: TStringList;
++  i: Integer;
++  ItemIdx: Integer;
++  mi: TMenuItem;
++begin
++  ThePopupMenu.Items.Clear;
++
++  Sections := TStringList.Create;
++  try
++    IniFile.ReadSections(Sections);
++    for SecIdx := 0 to Sections.Count - 1 do begin
++      for i := 0 to Files.Count - 1 do begin
++        Ext := ExtractFileExt(Files[i]);
++        SectExt := IniFile.ReadString(Sections[SecIdx], 'extension', '');
++        if SameText(Ext, SectExt) then begin
++          FItems.Clear;
++          IniFile.ReadSection(Sections[SecIdx], FItems);
++          FItems.Delete(0);
++          for ItemIdx := 0 to FItems.Count - 1 do begin
++            mi := TMenuItem.Create(Self);
++            mi.Caption := FItems[ItemIdx];
++            ThePopupMenu.Items.Add(mi);
++          end;
++          exit;
++        end;
++      end;
++    end;
++  finally
++    FreeAndNil(Sections);
++  end;
++end;
++
++procedure Tdm_ContextMenu.UpdateSubmenu(_SubMenu: HMenu; var _Id: integer);
++var
++  i: integer;
++  mi: TMenuItem;
++  mii: TMenuItemInfo;
++begin
++  UpdatePopup;
++
++  for i := 0 to ThePopupMenu.Items.Count - 1 do begin
++    mi := ThePopupMenu.Items[i];
++
++    FillChar(mii, sizeof(mii), 0);
++    mii.cbSize := sizeof(mii);
++    mii.fMask := MIIM_CHECKMARKS or MIIM_ID or MIIM_TYPE or MIIM_STATE or MIIM_DATA;
++    mii.wID := _Id;
++    mii.hSubMenu := _SubMenu;
++    mii.fType := MFT_STRING;
++    mii.fState := MFS_ENABLED;
++    mii.dwItemData := integer(mi);
++    mii.dwTypeData := PChar(mi.Caption);
++    InsertMenuItem(_SubMenu, i, LongBool(True), mii);
++    Inc(_Id);
++  end;
++
++end;
++
++class function Tdm_ContextMenu.IniFile: TMemIniFile;
++begin
++  Result := gblIni;
++end;
++
++initialization
++//  MessageBox(0, 'Attach debugger now!', 'Initialization', MB_ICONINFORMATION or MB_OK);
++  gblIni := TMemIniFile.Create(INI_FILE);
++finalization
++  FreeAndNil(gblIni);
++end.
++
+
+Added: utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,19 @@
++library dzcontextmenu;
++
++uses
++  ComServ,
++  u_ContextMenuHandler in 'u_ContextMenuHandler.pas',
++  d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule};
++
++exports
++  DllGetClassObject,
++  DllCanUnloadNow,
++  DllRegisterServer,
++  DllUnregisterServer;
++
++{$R *.RES}
++
++begin
++
++end.
++
+
+Added: utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,134 @@
++?	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++		<PropertyGroup>
++			<ProjectGuid>{360D7DF5-66F4-464B-B883-865ECD2DE195}</ProjectGuid>
++			<MainSource>dzcontextmenu.dpr</MainSource>
++			<ProjectVersion>12.2</ProjectVersion>
++			<Base>True</Base>
++			<Config Condition="'$(Config)'==''">Debug</Config>
++			<Platform>Win32</Platform>
++			<AppType>Library</AppType>
++			<FrameworkType>None</FrameworkType>
++			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
++			<Cfg_1>true</Cfg_1>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
++			<Cfg_2>true</Cfg_2>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Base)'!=''">
++			<DCC_UsePackage>vcl;vclx;VclSmp;rtl;vclimg;svnui;svn;bdertl;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyProtocols;inet;vclie;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;soaprtl;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;dbexpress;dbxcds</DCC_UsePackage>
++			<DCC_ImageBase>00400000</DCC_ImageBase>
++			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
++			<DCC_DcuOutput>.\$(Config)\$(Platform)</DCC_DcuOutput>
++			<DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
++			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
++			<DCC_ExeOutput>.\$(Config)\$(Platform)</DCC_ExeOutput>
++			<DCC_N>false</DCC_N>
++			<DCC_S>false</DCC_S>
++			<GenDll>true</GenDll>
++			<DCC_E>false</DCC_E>
++			<DCC_F>false</DCC_F>
++			<DCC_K>false</DCC_K>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_1)'!=''">
++			<DCC_ExeOutput>..</DCC_ExeOutput>
++			<DCC_Optimize>false</DCC_Optimize>
++			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
++			<DCC_DcuOutput>..\$(Config)\$(Platform)\dcu</DCC_DcuOutput>
++			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
++			<DCC_DebugDCUs>true</DCC_DebugDCUs>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_2)'!=''">
++			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
++			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
++			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++			<DCC_DebugInformation>false</DCC_DebugInformation>
++		</PropertyGroup>
++		<ItemGroup>
++			<DelphiCompile Include="dzcontextmenu.dpr">
++				<MainSource>MainSource</MainSource>
++			</DelphiCompile>
++			<DCCReference Include="u_ContextMenuHandler.pas"/>
++			<DCCReference Include="d_ContextMenu.pas">
++				<Form>dm_ContextMenu</Form>
++				<DesignClass>TDataModule</DesignClass>
++			</DCCReference>
++			<None Include="c:\dzcontextmenu.ini"/>
++			<BuildConfiguration Include="Release">
++				<Key>Cfg_2</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Base">
++				<Key>Base</Key>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Debug">
++				<Key>Cfg_1</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++		</ItemGroup>
++		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
++		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj"/>
++		<ProjectExtensions>
++			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
++			<Borland.ProjectType/>
++			<BorlandProject>
++				<Delphi.Personality>
++					<VersionInfo>
++						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
++						<VersionInfo Name="MajorVer">1</VersionInfo>
++						<VersionInfo Name="MinorVer">0</VersionInfo>
++						<VersionInfo Name="Release">0</VersionInfo>
++						<VersionInfo Name="Build">0</VersionInfo>
++						<VersionInfo Name="Debug">False</VersionInfo>
++						<VersionInfo Name="PreRelease">False</VersionInfo>
++						<VersionInfo Name="Special">False</VersionInfo>
++						<VersionInfo Name="Private">False</VersionInfo>
++						<VersionInfo Name="DLL">False</VersionInfo>
++						<VersionInfo Name="Locale">1031</VersionInfo>
++						<VersionInfo Name="CodePage">1252</VersionInfo>
++					</VersionInfo>
++					<VersionInfoKeys>
++						<VersionInfoKeys Name="CompanyName"/>
++						<VersionInfoKeys Name="FileDescription"/>
++						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="InternalName"/>
++						<VersionInfoKeys Name="LegalCopyright"/>
++						<VersionInfoKeys Name="LegalTrademarks"/>
++						<VersionInfoKeys Name="OriginalFilename"/>
++						<VersionInfoKeys Name="ProductName"/>
++						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="Comments"/>
++					</VersionInfoKeys>
++					<Source>
++						<Source Name="MainSource">dzcontextmenu.dpr</Source>
++					</Source>
++					<Parameters>
++						<Parameters Name="RunParams">/n, /e, C:\src\test\contextmenu\src</Parameters>
++						<Parameters Name="HostApplication">C:\WINDOWS\explorer.exe</Parameters>
++					</Parameters>
++					<Excluded_Packages>
++						<Excluded_Packages Name="$(BDSBIN)\dcltee9150.bpl">TeeChart Standard 9 Components</Excluded_Packages>
++						<Excluded_Packages Name="$(BDSBIN)\dclIndyCore150.bpl">Indy 10 Core Design Time</Excluded_Packages>
++						<Excluded_Packages Name="$(BDSBIN)\dclIndyProtocols150.bpl">Indy 10 Protocols Design Time</Excluded_Packages>
++						<Excluded_Packages Name="$(BDSBIN)\dclIntraweb_110_150.bpl">VCL for the Web 11.0 Design Package for Embarcadero RAD Studio XE</Excluded_Packages>
++						<Excluded_Packages Name="C:\Program Files\Raize\CS4\Bin\VCL\CodeSiteExpressVcl_Design150.bpl">CodeSite Express 4.6.1</Excluded_Packages>
++						<Excluded_Packages Name="$(BDSBIN)\dcloffice2k150.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
++						<Excluded_Packages Name="$(BDSBIN)\dclofficexp150.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
++					</Excluded_Packages>
++				</Delphi.Personality>
++				<Platforms>
++					<Platform value="Win32">True</Platform>
++				</Platforms>
++			</BorlandProject>
++			<ProjectFileVersion>12</ProjectFileVersion>
++		</ProjectExtensions>
++	</Project>
+
+Added: utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,263 @@
++unit u_ContextMenuHandler;
++
++interface
++
++uses
++  Windows,
++  Classes,
++  Menus,
++  ActiveX,
++  ComObj,
++  ShlObj,
++  d_ContextMenu;
++
++type
++  TContextMenu = class(TComObject, IShellExtInit, IContextMenu)
++  private
++  {(*}
++  const
++    GUID: TGUID = '{99D8B139-0855-4C5D-95E7-BC8EC6254B3D}';
++  {*)}
++  private
++    FCmdCount: LongWord;
++    FLog: TextFile;
++    FDm: Tdm_ContextMenu;
++  protected
++    function IShellExtInit.Initialize = IShellExtInit_Initialize;
++    function IShellExtInit_Initialize(_pidlFolder: PItemIDList; _lpdobj: IDataObject;
++      _HKeyProgID: HKEY): HResult; stdcall;
++    function QueryContextMenu(_Menu: HMENU; _indexMenu, _idCmdFirst, _idCmdLast, _UFlags: UINT): HResult; stdcall;
++    function InvokeCommand(var _ici: TCMInvokeCommandInfo): HResult; stdcall;
++    function GetCommandString(_idCmd, _uType: UINT; _pwReserved: PUINT; _PszName: LPSTR; _cchMax: UINT): HResult; stdcall;
++  public
++    procedure Initialize; override;
++    destructor Destroy; override;
++  end;
++
++implementation
++
++uses
++  ComServ,
++  SysUtils,
++  Shellapi,
++  Registry,
++  Dialogs,
++  IniFiles;
++
++procedure TContextMenu.Initialize;
++begin
++  inherited;
++  FCmdCount := $FFFFFFFF;
++  FDm := Tdm_ContextMenu.Create(nil);
++  AssignFile(FLog, 'c:\log.txt');
++  Rewrite(FLog);
++  WriteLn(FLog, 'TContextMenu.Initialize');
++end;
++
++destructor TContextMenu.Destroy;
++begin
++  WriteLn(FLog, 'TContextMenu.Destroy');
++  CloseFile(FLog);
++  FreeAndNil(FDm);
++  inherited;
++end;
++
++function TContextMenu.IShellExtInit_Initialize(_pidlFolder: PItemIDList; _lpdobj: IDataObject; _HKeyProgID: HKEY): HResult;
++var
++  StgMedium: TStgMedium;
++  FormatEtc: TFormatEtc;
++  Count: integer;
++  i: Integer;
++  Files: TStringList;
++  FileName: array[0..MAX_PATH] of Char;
++begin
++  WriteLn(FLog, 'enter TContextMenu.IShellExtInit_Initialize');
++
++  try
++    // if lpdobj is nil, fail
++    if (_lpdobj = nil) then begin
++      Result := E_INVALIDARG;
++      Exit;
++    end;
++
++    Files := FDm.Files;
++    Files.Clear;
++
++    // initialize clipboard format
++    FormatEtc.CfFormat := CF_HDROP;
++    FormatEtc.Ptd := nil;
++    FormatEtc.DwAspect := DVASPECT_CONTENT;
++    FormatEtc.Lindex := 1;
++    FormatEtc.Tymed := TYMED_HGLOBAL;
++    Result := _lpdobj.GetData(FormatEtc, StgMedium);
++    if Succeeded(Result) then begin
++      try
++        // get selected files count
++        Count := DragQueryFile(StgMedium.hGlobal, $FFFFFFFF, nil, 0);
++        // get selected files
++        for i := 0 to Count - 1 do begin
++          DragQueryFile(StgMedium.hGlobal, i, FileName, SizeOf(FileName));
++          Files.Add(FileName);
++        end;
++      finally
++        ReleaseStgMedium(StgMedium);
++      end;
++      Result := NOERROR;
++    end;
++  finally
++    WriteLn(FLog, 'exit TContextMenu.IShellExtInit_Initialize');
++  end;
++end;
++
++function TContextMenu.QueryContextMenu(_Menu: HMENU; _indexMenu, _idCmdFirst, _idCmdLast, _UFlags: UINT): HResult;
++var
++  Id: integer;
++  mii: TMenuItemInfo;
++  Submenu: HMENU;
++begin
++  WriteLn(FLog, 'enter TContextMenu.QueryContextMenu');
++  try
++    Result := 0;
++    if ((_UFlags and $0000000F) = CMF_NORMAL) or ((_UFlags and CMF_EXPLORE) <> 0) then begin
++      Id := Integer(_idCmdFirst);
++      Submenu := CreatePopupMenu;
++      FDm.UpdateSubmenu(Submenu, Id);
++      FillChar(mii, sizeof(mii), 0);
++      mii.cbSize := sizeof(mii);
++      mii.fMask := MIIM_SUBMENU or MIIM_ID or MIIM_TYPE or MIIM_STATE;
++      mii.wID := Id;
++      mii.hSubMenu := Submenu;
++      mii.fType := MFT_STRING;
++      mii.fState := MFS_ENABLED;
++      mii.dwTypeData := 'Submenu';
++      InsertMenuItem(_Menu, _indexMenu, LongBool(True), mii);
++      Inc(Id);
++
++      // Return value is number of items added to context menu
++      FCmdCount := Id - integer(_idCmdFirst);
++      Result := MakeResult(SEVERITY_SUCCESS, 0, FCmdCount);
++    end;
++  finally
++    WriteLn(FLog, 'exit TContextMenu.QueryContextMenu');
++  end;
++end;
++
++function TContextMenu.GetCommandString(_idCmd, _uType: UINT; _pwReserved: PUINT; _PszName: LPSTR;
++  _cchMax: UINT): HRESULT;
++var
++  szName: PWideChar absolute _PszName;
++begin
++  WriteLn(FLog, 'enter TContextMenu.GetCommandString(' + IntToStr(_idCmd) + ')');
++  try
++    Result := E_INVALIDARG;
++    if _idCmd < FCmdCount then begin
++      case _uType of
++        GCS_HELPTEXTW: begin
++          // Return the menu item's help
++            StrLCopy(szName, PChar('execute some command'), _cchMax);
++            Result := S_OK;
++          end;
++      end;
++    end;
++  finally
++    WriteLn(FLog, 'exit TContextMenu.GetCommandString');
++  end;
++end;
++
++type
++  TCMInvokeCommandInfoHack = record
++    cbSize: DWORD;
++    fMask: DWORD;
++    hwnd: HWND;
++    VerbLo: Word;
++    VerbHi: Word;
++    lpParameters: LPCSTR;
++    lpDirectory: LPCSTR;
++    nShow: Integer;
++    dwHotKey: DWORD;
++    hIcon: THandle;
++  end;
++
++function TContextMenu.InvokeCommand(var _ici: TCMInvokeCommandInfo): HResult;
++var
++  ici: TCMInvokeCommandInfoHack absolute _ici;
++begin
++  WriteLn(FLog, 'enter TContextMenu.InvokeCommand');
++  try
++    Result := E_FAIL;
++    if ici.VerbHi = 0 then begin
++      FDm.DoCommand(ici.VerbLo);
++      Result := S_OK;
++    end;
++  finally
++    WriteLn(FLog, 'exit TContextMenu.InvokeCommand');
++  end;
++end;
++
++type
++  TContextMenuFactory = class(TComObjectFactory)
++  public
++    procedure UpdateRegistry(_Register: Boolean); override;
++  end;
++
++procedure TContextMenuFactory.UpdateRegistry(_Register: Boolean);
++var
++  ClassID: string;
++  Ini: TMemIniFile;
++  Sections: TStringList;
++  i: Integer;
++  FileType: string;
++begin
++  ClassID := GUIDToString(TContextMenu.GUID);
++  if _Register then begin
++    inherited UpdateRegistry(_Register);
++
++    Sections := nil;
++    Ini := Tdm_ContextMenu.IniFile;
++    Sections := TStringList.Create;
++    try
++      Ini.ReadSections(Sections);
++      for i := 0 to Sections.Count - 1 do begin
++        FileType := Sections[i];
++        CreateRegKey(FileType + '\shellex', '', '');
++        CreateRegKey(FileType + '\shellex\ContextMenuHandlers', '', '');
++        CreateRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu', '', ClassID);
++      end;
++
++    finally
++      FreeAndNil(Sections);
++    end;
++    if (Win32Platform = VER_PLATFORM_WIN32_NT) then
++      with TRegistry.Create do
++        try
++          RootKey := HKEY_LOCAL_MACHINE;
++          OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
++          OpenKey('Approved', True);
++          WriteString(ClassID, 'dzContextMenu');
++        finally
++          Free;
++        end;
++  end else begin
++    DeleteRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu');
++
++    if (Win32Platform = VER_PLATFORM_WIN32_NT) then
++      with TRegistry.Create do
++        try
++          RootKey := HKEY_LOCAL_MACHINE;
++          OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
++          OpenKey('Approved', True);
++          DeleteValue(ClassID);
++        finally
++          Free;
++        end;
++
++    inherited UpdateRegistry(_Register);
++  end;
++end;
++
++initialization
++  TContextMenuFactory.Create(ComServer, TContextMenu, TContextMenu.GUID,
++    '', 'Context Menu Shell Extension', ciMultiInstance, tmApartment);
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Wed Sep 29 17:25:44 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed, 29 Sep 2010 17:25:44 +0200
+Subject: [Dzchart-svncheckins] r480 - utilities/dzLib/trunk/src
+Message-ID: <20100929152545.05FB9481024@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-29 17:25:44 +0200 (Wed, 29 Sep 2010)
+New Revision: 480
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzOsUtils.pas
+Log:
+new GetEnvironmentVars function
+
+Modified: utilities/dzLib/trunk/src/u_dzOsUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzOsUtils.pas	2010-09-29 09:23:49 UTC (rev 479)
++++ utilities/dzLib/trunk/src/u_dzOsUtils.pas	2010-09-29 15:25:44 UTC (rev 480)
+@@ -28,6 +28,11 @@
+ 
+ ///<summary> Calls the windows function with the same name and returns its result </summary>
+ function ExpandEnvironmentStrings(const _WithVariables: string): string;
++///<summary> Calls the windows API function GetEnvironmentStrings and returns them result
++///          in the string list.
++///          @param Vars is the string list that contains the environment
++///          @returns true, if the function succeeded, false otherwise. </summary>
++function GetEnvironmentVars(const _Vars: TStrings): Boolean;
+ 
+ ///<summary> Reads an integer value from the registry.
+ ///          @param RootKey is the HK_* constant specifying the registry branch to read
+@@ -156,6 +161,34 @@
+   SetLength(Result, Res - 1);
+ end;
+ 
++function GetEnvironmentVars(const _Vars: TStrings): Boolean;
++var
++  Vars: PChar;
++  P: PChar;
++begin
++  Result := false;
++  _Vars.BeginUpdate;
++  try
++    _Vars.Clear;
++    Vars := Windows.GetEnvironmentStrings;
++    if Vars <> nil then begin
++      try
++        P := Vars;
++        while P^ <> #0 do begin
++          _Vars.Add(P);
++          P := StrEnd(P);
++          Inc(P);
++        end;
++      finally
++        Windows.FreeEnvironmentStrings(Vars);
++      end;
++      Result := True;
++    end;
++  finally
++    _Vars.EndUpdate;
++  end;
++end;
++
+ function GetHomeDir: string;
+ begin
+   Result := GetEnvironmentVariable('HOME');
+
+
+
+From twm at mail.berlios.de  Wed Sep 29 17:27:01 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed, 29 Sep 2010 17:27:01 +0200
+Subject: [Dzchart-svncheckins] r481 - utilities/dzLib/trunk/src
+Message-ID: <20100929152701.BF5DB481024@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-29 17:27:01 +0200 (Wed, 29 Sep 2010)
+New Revision: 481
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzShellApiUtils.pas
+Log:
+adapted to Delphi XE (and probably also 2009 and 2010) by using unicode versions of the API
+
+Modified: utilities/dzLib/trunk/src/u_dzShellApiUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzShellApiUtils.pas	2010-09-29 15:25:44 UTC (rev 480)
++++ utilities/dzLib/trunk/src/u_dzShellApiUtils.pas	2010-09-29 15:27:01 UTC (rev 481)
+@@ -22,13 +22,30 @@
+   CSIDL_PROGRAM_FILES_COMMON = $2B;
+ 
+ type
+-  TSHGetFolderPath = function(hwnd: HWND; csidl: Integer; hToken: THandle; dwFlags: DWORD; pszPath: PChar): HResult; Stdcall;
++  TSHGetFolderPathA = function(hwnd: HWND; csidl: Integer; hToken: THandle; dwFlags: DWORD; pszPath: PAnsiChar): HResult; Stdcall;
++  TSHGetFolderPathW = function(hwnd: HWND; csidl: Integer; hToken: THandle; dwFlags: DWORD; pszPath: PWideChar): HResult; Stdcall;
++{$IFDEF SUPPORTS_UNICODE_STRING}
++  TSHGetFolderPath = TSHGetFolderPathW;
++{$ELSE}
++  TSHGetFolderPath = TSHGetFolderPathA;
++{$ENDIF}
++const
++{$IFDEF SUPPORTS_UNICODE_STRING}
++  SHGetFolderPathEntryPoint = 'SHGetFolderPathW';
++{$ELSE}
++  SHGetFolderPathEntryPoint = 'SHGetFolderPathA';
++{$ENDIF}
+ 
+ type
+-  ///<summary> TWindowsShell is a wrapper object for several ShellApi functions </summary>
++  ///<summary> TWindowsShell is a wrapper object for several ShellApi functions.
++  ///          For most SHGetFolderPath functions there are two methods. One is called GetXxxxx
++  ///          and is a regular method of TWindowsShell (so you must instantiate the
++  ///          object to use it). The other is called GetXxxxxDir a class
++  ///          method that internally instantiates and frees an object instance
++  ///          (so you don't have to do that explicitly). </summary>
+   TWindowsShell = class
+   private
+-    function LoadSHFolder(var SHGetFolderPath: TSHGetFolderPath): Integer;
++    function LoadSHFolder(var _SHGetFolderPath: TSHGetFolderPath): Integer;
+   protected
+     FAppHandle: THandle;
+     function GetSpecialFolder(_CSIDL: integer): string;
+@@ -83,15 +100,15 @@
+ const
+   SHGFP_TYPE_CURRENT = 0;
+ 
+-function TWindowsShell.LoadSHFolder(var SHGetFolderPath: TSHGetFolderPath): Integer;
++function TWindowsShell.LoadSHFolder(var _SHGetFolderPath: TSHGetFolderPath): Integer;
+ var
+   Hdl: Hwnd;
+ begin
+   Result := 0;
+   Hdl := LoadLibrary('SHFOLDER.DLL');
+   if Hdl <> 0 then begin
+-    @SHGetFolderPath := GetProcAddress(Hdl, 'SHGetFolderPathA');
+-    if @SHGetFolderPath <> nil then
++    @_SHGetFolderPath := GetProcAddress(Hdl, SHGetFolderPathEntryPoint);
++    if @_SHGetFolderPath <> nil then
+       Result := Hdl;
+   end;
+ end;
+
+
+
+From twm at mail.berlios.de  Wed Sep 29 17:29:51 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed, 29 Sep 2010 17:29:51 +0200
+Subject: [Dzchart-svncheckins] r482 - in utilities/dzLib/trunk: src tests
+	tests/dzExecutor tests/dzExecutor/dcu tests/dzExecutor/src
+Message-ID: <20100929152951.E8A8D481024@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-29 17:29:51 +0200 (Wed, 29 Sep 2010)
+New Revision: 482
+
+Added:
+   utilities/dzLib/trunk/tests/dzExecutor/
+   utilities/dzLib/trunk/tests/dzExecutor/dcu/
+   utilities/dzLib/trunk/tests/dzExecutor/src/
+   utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dpr
+   utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dproj
+   utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dproj.d2007
+Modified:
+   utilities/dzLib/trunk/src/u_dzExecutor.pas
+Log:
+* adapted to Delphi XE (and probably also to 2009 and 2010) by using unicode calls
+* simple test program
+
+Modified: utilities/dzLib/trunk/src/u_dzExecutor.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzExecutor.pas	2010-09-29 15:27:01 UTC (rev 481)
++++ utilities/dzLib/trunk/src/u_dzExecutor.pas	2010-09-29 15:29:51 UTC (rev 482)
+@@ -59,33 +59,33 @@
+   TExecutor = class
+   protected
+     {: stores the ExeName property }
+-    fExeName: string;
++    FExeName: string;
+     {: stores the Commandline property }
+-    fCommandline: string;
++    FCommandline: string;
+     {: stores the Environment property }
+     FEnvironment: TStringList;
+     {: stores the WorkingDir property }
+-    fWorkingDir: string;
++    FWorkingDir: string;
+     {: stores the RedirectStdOut property }
+-    fRedirectStdOut: boolean;
++    FRedirectStdOut: boolean;
+     {: stores the RedirectStdErr property }
+-    fRedirectStdErr: boolean;
++    FRedirectStdErr: boolean;
+     {: stores the StdIn property }
+-    fStdIn: AnsiString;
++    FStdIn: AnsiString;
+     {: stores the ExitCode property }
+-    fExitCode: DWORD;
++    FExitCode: DWORD;
+     {: stores the Visible property }
+-    fVisible: boolean;
++    FVisible: boolean;
+     {: temporary file stream to be used as standard input for the process }
+-    fInputFile: TdzTempFile;
++    FInputFile: TdzTempFile;
+     {: temporary file stream to be used as standard output for the process }
+-    fOutputFile: TdzTempFile;
++    FOutputFile: TdzTempFile;
+     {: temporary file stream to be used as standard error for the process }
+-    fErrorFile: TdzTempFile;
++    FErrorFile: TdzTempFile;
+     {: Process information for CreateProcess }
+-    fProcessInfo: TProcessInformation;
++    FProcessInfo: TProcessInformation;
+     {: stores the Status property }
+-    fStatus: TExecutorStatus;
++    FStatus: TExecutorStatus;
+     {: gets the process handle, raises an ENoProcess exception if status is esInvalid
+        @returns the process handle value }
+     function GetProcessHandle: THandle;
+@@ -147,27 +147,27 @@
+        used if only the filename is known. Alternatively this can be left
+        empty in which case the first parameter in CommanLine is used as
+        executable name. }
+-    property ExeName: string read fExeName write fExeName;
++    property ExeName: string read FExeName write FExeName;
+     {: Commandline to pass to the process. If ExeName is empty the first
+        parameter is used as executable name. }
+-    property Commandline: string read fCommandline write fCommandline;
++    property Commandline: string read FCommandline write FCommandline;
+     property Environment: TStringList read FEnvironment;
+     {: determines whether the process is started visible or not. If set
+        to true, starting a commandline program form a GUI app will open
+        a console window. }
+-    property Visible: boolean read fVisible write fVisible;
++    property Visible: boolean read FVisible write FVisible;
+     {: True if StdIn is redirected }
+     property RedirectStdIn: boolean read GetRedirectStdIn;
+     {: Set to true to redirect the process' standard output. This will result
+        in having all text the process writes to its standard output handle
+        copied to the StdOut property. }
+-    property RedirectStdOut: boolean read fRedirectStdOut write fRedirectStdOut;
++    property RedirectStdOut: boolean read FRedirectStdOut write FRedirectStdOut;
+     {: Set to true to redirect the process' standard output. This will result
+        in having all text the process writes to its standard output handle
+        copied to the StdOut property. }
+-    property RedirectStdErr: boolean read fRedirectStdErr write fRedirectStdErr;
++    property RedirectStdErr: boolean read FRedirectStdErr write FRedirectStdErr;
+     {: Set this to the standard input you want to supply to the process. }
+-    property StdIn: AnsiString read fStdIn write fStdIn;
++    property StdIn: AnsiString read FStdIn write FStdIn;
+     {: After the process has terminated this contains the standard output. When
+        accessed before the process has terminated this will raise either a ENoProcess
+        or EProcessRunning exception }
+@@ -192,13 +192,13 @@
+     property Status: TExecutorStatus read GetStatus;
+     {: Contains the working directory the process should be started in. If
+        left empty the process will start in the current directory. }
+-    property WorkingDir: string read fWorkingDir write fWorkingDir;
++    property WorkingDir: string read FWorkingDir write FWorkingDir;
+   end;
+ 
+ implementation
+ 
+ uses
+-  JclSysInfo,
++  u_dzOsUtils,
+   u_dzMiscUtils;
+ 
+ function _(const _s: string): string; inline;
+@@ -206,17 +206,37 @@
+   Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
++// Auteur Thaddy de Koning
++// adapted to unicode by twm
++type
++  TEnvironmentBlockReader = class(TStringList)
++  public
++    constructor Create;
++  end;
++
++  TEnvironmentBlockWriter = class(TStringStream)
++  private
++    FClosed: Boolean;
++    function GetBlockPtr: PChar;
++  protected
++    procedure Close;
++  public
++    procedure Add(const aValue: string); overload;
++    procedure Add(const aToken, aValue: string); overload;
++    property Block: PChar read GetBlockPtr;
++  end;
++
+ { TExecutor }
+ 
+ constructor TExecutor.Create;
+ begin
+   inherited;
+-  fStatus := esInvalid;
+-  fRedirectStdOut := false;
+-  fRedirectStdErr := false;
+-  FEnvironment := TStringList.Create;
+-  FEnvironment.Sorted := false;
+-  GetEnvironmentVars(FEnvironment, False);
++  FStatus := esInvalid;
++  FRedirectStdOut := false;
++  FRedirectStdErr := false;
++  FEnvironment := TEnvironmentBlockReader.Create;
++  ZeroMemory(@FProcessInfo, SizeOf(FProcessInfo));
++  FWorkingDir := 'c:\';
+ end;
+ 
+ destructor TExecutor.Destroy;
+@@ -225,17 +245,17 @@
+   if (Status = esRunning) and
+     (RedirectStdIn or RedirectStdOut or RedirectStdErr) then
+     raise ERedirectedProcess.Create(_('Can not free Executor while a process using redirection is still running.'));
+-  fInputFile.Free;
+-  fOutputFile.Free;
+-  fErrorFile.Free;
++  FInputFile.Free;
++  FOutputFile.Free;
++  FErrorFile.Free;
+   //  Kernel objects, like the process and the files we created in this case,
+   //  are maintained by a usage count.
+   //  So, for cleaning up purposes we have to close the handles
+   //  to inform the system that we don't need the objects anymore
+-  if fProcessInfo.hThread <> 0 then
+-    CloseHandle(fProcessInfo.hThread);
+-  if fProcessInfo.hProcess <> 0 then
+-    CloseHandle(fProcessInfo.hProcess);
++  if FProcessInfo.hThread <> 0 then
++    CloseHandle(FProcessInfo.hThread);
++  if FProcessInfo.hProcess <> 0 then
++    CloseHandle(FProcessInfo.hProcess);
+ end;
+ 
+ function TExecutor.FindExecutable(_ExeName: string): boolean;
+@@ -244,14 +264,14 @@
+   Found: string;
+ begin
+   if _ExeName = '' then
+-    _ExeName := fExeName;
++    _ExeName := FExeName;
+   Result := _ExeName <> '';
+   if Result then begin
+     SearchPath := GetEnvironmentVariable('path');
+     Found := FileSearch(_ExeName, SearchPath);
+     Result := Found <> '';
+     if Result then
+-      fExeName := Found;
++      FExeName := Found;
+   end;
+ end;
+ 
+@@ -270,20 +290,20 @@
+ 
+ function TExecutor.GetStatus: TExecutorStatus;
+ begin
+-  if fStatus = esRunning then begin
+-    Win32Check(GetExitCodeProcess(fProcessInfo.hProcess, fExitCode));
+-    if fExitCode = STILL_ACTIVE then
+-      fStatus := esRunning
++  if FStatus = esRunning then begin
++    Win32Check(GetExitCodeProcess(FProcessInfo.hProcess, FExitCode));
++    if FExitCode = STILL_ACTIVE then
++      FStatus := esRunning
+     else
+-      fStatus := esTerminated;
++      FStatus := esTerminated;
+   end;
+-  Result := fStatus;
++  Result := FStatus;
+ end;
+ 
+ function TExecutor.GetExitCode: DWORD;
+ begin
+   AssertStatus([esRunning, esTerminated]);
+-  Result := fExitCode;
++  Result := FExitCode;
+ end;
+ 
+ function TExecutor.Wait(_Timeout: DWORD): DWORD;
+@@ -296,7 +316,7 @@
+ begin
+   case GetStatus of
+     esInvalid: raise ENoProcess.Create(_('Process has not yet been started'));
+-    esRunning: Result := TerminateProcess(fProcessInfo.hProcess, $FFFFFFFF);
++    esRunning: Result := TerminateProcess(FProcessInfo.hProcess, $FFFFFFFF);
+   else
+     Result := true;
+   end;
+@@ -305,18 +325,18 @@
+ function TExecutor.GetProcessHandle: THandle;
+ begin
+   AssertStatus([esRunning, esTerminated]);
+-  Result := fProcessInfo.hProcess;
++  Result := FProcessInfo.hProcess;
+ end;
+ 
+ function TExecutor.GetThreadHandle: THandle;
+ begin
+   AssertStatus([esRunning, esTerminated]);
+-  Result := fProcessInfo.hThread;
++  Result := FProcessInfo.hThread;
+ end;
+ 
+ function TExecutor.GetRedirectStdIn: boolean;
+ begin
+-  Result := fStdIn <> '';
++  Result := FStdIn <> '';
+ end;
+ 
+ function TExecutor.Execute: boolean;
+@@ -324,99 +344,117 @@
+   StartupInfo: TStartupInfo;
+   SecurityAttributes: TSecurityAttributes;
+   Cmdline: string;
+-  env: string;
++  env: TEnvironmentBlockWriter;
+   i: Integer;
+   LastError: LongWord;
++  pCmdLine: PChar;
++  pEnv: PChar;
++  PExeName: PChar;
++  CreationFlags: DWORD;
+ begin
+-  // prepare SecurityAttribute, set InheritHandle to true
+-  FillChar(SecurityAttributes, SizeOf(SecurityAttributes), #0);
++  if FStatus <> esInvalid then
++    raise Exception.Create(_('Process has already been started.'));
++
++  // prepare SecurityAttributes for files, set InheritHandle to true
++  ZeroMemory(@SecurityAttributes, SizeOf(SecurityAttributes));
+   SecurityAttributes.nLength := SizeOf(SecurityAttributes);
+   SecurityAttributes.lpSecurityDescriptor := nil;
+   SecurityAttributes.bInheritHandle := true;
+ 
+   // prepare StartupInfo structure
+-  FillChar(StartupInfo, SizeOf(StartupInfo), #0);
++  ZeroMemory(@StartupInfo, sizeof(StartupInfo));
+   StartupInfo.cb := SizeOf(StartupInfo);
++  StartupInfo.lpDesktop := 'winsta0\default';
+   StartupInfo.hStdOutput := 0;
+   StartupInfo.hStdInput := 0;
+   StartupInfo.hStdError := 0;
+   StartupInfo.dwFlags := 0;
+ 
+   if RedirectStdIn then begin
+-    fInputFile := TdzTempFile.Create;
++    FInputFile := TdzTempFile.Create;
+     try
+-      fInputFile.SecurityAttributes := @SecurityAttributes;
+-      fInputFile.Open;
+-      fInputFile.Write(fStdIn[1], Length(fStdIn));
+-      fInputFile.Seek(0, soFromBeginning);
++      FInputFile.SecurityAttributes := @SecurityAttributes;
++      FInputFile.Open;
++      FInputFile.Write(FStdIn[1], Length(FStdIn));
++      FInputFile.Seek(0, soFromBeginning);
+       StartupInfo.dwFlags := StartupInfo.dwFlags or STARTF_USESTDHANDLES;
+-      StartupInfo.hStdInput := fInputFile.Handle;
++      StartupInfo.hStdInput := FInputFile.Handle;
+     except
+-      fInputFile.Free;
+-      fInputFile := nil;
++      FInputFile.Free;
++      FInputFile := nil;
+       raise;
+     end;
+   end;
+ 
+   if RedirectStdOut then begin
+-    fOutputFile := TdzTempFile.Create;
+-    fOutputFile.SecurityAttributes := @SecurityAttributes;
+-    fOutputFile.Open;
++    FOutputFile := TdzTempFile.Create;
++    FOutputFile.SecurityAttributes := @SecurityAttributes;
++    FOutputFile.Open;
+     StartupInfo.dwFlags := StartupInfo.dwFlags or STARTF_USESTDHANDLES;
+-    StartupInfo.hStdOutput := fOutputFile.Handle;
++    StartupInfo.hStdOutput := FOutputFile.Handle;
+   end;
+ 
+   if RedirectStdErr then begin
+-    fErrorFile := TdzTempFile.Create;
+-    fErrorFile.SecurityAttributes := @SecurityAttributes;
+-    fErrorFile.Open;
++    FErrorFile := TdzTempFile.Create;
++    FErrorFile.SecurityAttributes := @SecurityAttributes;
++    FErrorFile.Open;
+     StartupInfo.dwFlags := StartupInfo.dwFlags or STARTF_USESTDHANDLES;
+-    StartupInfo.hStdError := fErrorFile.Handle;
++    StartupInfo.hStdError := FErrorFile.Handle;
+   end;
+ 
+-  if not fVisible then begin
++  if not FVisible then begin
+     StartupInfo.dwFlags := StartupInfo.dwFlags or STARTF_USESHOWWINDOW;
+     StartupInfo.wShowWindow := SW_HIDE;
+   end;
+ 
+-  if fExeName <> '' then
+-    CmdLine := Format('"%s" %s', [fExeName, fCommandLine])
+-  else
+-    CmdLine := fCommandline;
+-
+-  env := '';
+-  for i := 0 to Environment.Count - 1 do begin
+-    if Env <> '' then
+-      Env := Env + #0;
+-    Env := Env + Environment[i];
++  if FExeName <> '' then begin
++    CmdLine := Format('"%s" %s', [FExeName, FCommandline]);
++    PExeName := PChar(FExeName);
++  end else begin
++    PExeName := nil;
++    CmdLine := FCommandline;
+   end;
+-  Env := Env + #0#0;
+ 
+-  // start the program, ExeName and Commandline are casted to pointers rather
+-  // than PChar because we want to pass a nil pointer if the string is empty.
+-  Result := CreateProcess(
+-    pointer(fExeName), // pointer to the executable (or nil)
+-    pointer(CmdLine), // pointer to command line string (or nil)
+-    nil, // pointer to process security attributes
+-    nil, // pointer to thread security attributes
+-    true, // handle inheritance flag
+-    NORMAL_PRIORITY_CLASS, // creation flags
+-    PChar(Env), // pointer to new environment block
+-    pointer(fWorkingDir), // pointer to current directory name
+-    StartupInfo, // pointer to STARTUPINFO
+-    fProcessInfo); // pointer to PROCESS_INF
++  env := nil;
++  pCmdLine := StrNew(Pchar(Cmdline));
++  try
++    env := TEnvironmentBlockWriter.Create('');
++    for i := 0 to Environment.Count - 1 do begin
++      Env.Add(Environment[i]);
++    end;
++    pEnv := env.Block;
+ 
+-  if Result then
+-    fStatus := esRunning
+-  else begin
+-    LastError := GetLastError;
+-    RaiseLastOsErrorEx(LastError, Format(_('%1:s (%0:d) in CreateProcess("%s", "%s")'), [fExeName, CmdLine]));
++    CreationFlags := NORMAL_PRIORITY_CLASS;
++{$IFDEF SUPPORTS_UNICODE_STRING}
++    CreationFlags := CreationFlags or CREATE_UNICODE_ENVIRONMENT;
++{$ENDIF SUPPORTS_UNICODE_STRING}
++
++    Result := CreateProcess(
++      PExeName, // pointer to the executable (or nil)
++      pCmdLine, // pointer to command line string (or nil)
++      nil, // pointer to process security attributes
++      nil, // pointer to thread security attributes
++      true, // handle inheritance flag
++      CreationFlags, // creation flags
++      pEnv, // pointer to new environment block
++      PChar(FWorkingDir), // pointer to current directory name
++      StartupInfo, // pointer to STARTUPINFO
++      FProcessInfo); // pointer to PROCESS_INF
++    if Result then begin
++      FStatus := esRunning;
++    end else begin
++      LastError := GetLastError;
++      RaiseLastOsErrorEx(LastError, Format(_('%%1:s (%%0:d) in CreateProcess("%s", "%s")'), [FExeName, CmdLine]));
++    end;
++  finally
++    StrDispose(pCmdLine);
++    FreeAndNil(env);
+   end;
+ end; // TExecutor.Execute
+ 
+ procedure TExecutor.ResetStatus;
+ begin
+-  fStatus := esTerminated;
++  FStatus := esTerminated;
+ end;
+ 
+ function TExecutor.GetStdErr: string;
+@@ -425,11 +463,11 @@
+ begin
+   AssertStatus([esTerminated]);
+   if RedirectStdErr then begin
+-    fErrorFile.Seek(0, soFromBeginning);
+-    Size := fErrorFile.Size;
++    FErrorFile.Seek(0, soFromBeginning);
++    Size := FErrorFile.Size;
+     if Size <> 0 then begin
+       SetLength(Result, Size);
+-      fErrorFile.Read(Result[1], Size);
++      FErrorFile.Read(Result[1], Size);
+     end;
+   end else
+     raise ENotRedirected.Create(_('StdErr was not redirected'));
+@@ -441,15 +479,83 @@
+ begin
+   AssertStatus([esTerminated]);
+   if RedirectStdOut then begin
+-    fOutputFile.Seek(0, soFromBeginning);
+-    Size := fOutputFile.Size;
++    FOutputFile.Seek(0, soFromBeginning);
++    Size := FOutputFile.Size;
+     if Size <> 0 then begin
+       SetLength(Result, Size);
+-      fOutputFile.Read(Result[1], Size);
++      FOutputFile.Read(Result[1], Size);
+     end;
+   end else
+     raise ENotRedirected.Create(_('StdOut was not redirected'));
+ end;
+ 
++// Auteur Thaddy de Koning
++// adapted to unicode by twm
++
++const
++  // Terminator gedefinieerd als typed const
++  // (Zoadat het een memory reference heeft)
++  NullChar: Char = #0;
++
++{ TEnvironmentBlockWriter }
++
++procedure TEnvironmentBlockWriter.Add(const aValue: string);
++// Is het blok gesloten?
++// Zoja, ga een positie terug
++// Schrijf de string
++// Schrijf terminating #0
++begin
++  if FClosed then begin
++    Seek(-1, soFromEnd);
++    Fclosed := False;
++  end;
++  WriteString(aValue);
++  Write(NullChar, 1);
++end;
++
++procedure TEnvironmentBlockWriter.Add(const aToken, aValue: string);
++begin
++  Add(aToken + '=' + aValue);
++end;
++
++// Block afsluiten door een extra #0 te schrijven, als gespecificeerd
++
++procedure TEnvironmentBlockWriter.Close;
++begin
++  if not FClosed then begin
++    write(NullChar, 1);
++    FClosed := True;
++  end;
++end;
++
++// Als we het block uitlezen nemen we aan dat het gesloten is!
++
++function TEnvironmentBlockWriter.GetBlockPtr: PChar;
++begin
++  Close;
++  Result := PChar(DataString);
++end;
++
++{ TEnvironmentBlockReader }
++
++constructor TEnvironmentBlockReader.Create;
++var
++  FBlock: PChar;
++  StrPtr: PChar;
++begin
++  inherited;
++  FBlock := GetEnvironmentStrings;
++  if FBlock <> nil then
++    try
++      StrPtr := FBlock;
++      repeat
++        Add(StrPtr);
++        inc(StrPtr, Succ(StrLen(StrPtr)));
++      until StrPtr^ = #0;
++    finally
++      FreeEnvironmentStrings(Fblock);
++    end;
++end;
++
+ end.
+ 
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzExecutor
+___________________________________________________________________
+Added: svn:ignore
+   + Debug
+dzExecutorTest.exe
+
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzExecutor/dcu
+___________________________________________________________________
+Added: svn:ignore
+   + *.dcu
+
+
+Added: utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dpr	                        (rev 0)
++++ utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dpr	2010-09-29 15:29:51 UTC (rev 482)
+@@ -0,0 +1,42 @@
++program dzExecutorTest;
++
++{$APPTYPE CONSOLE}
++
++uses
++  SysUtils,
++  Windows,
++  u_dzExecutor in '..\..\..\src\u_dzExecutor.pas',
++  u_dzMiscUtils in '..\..\..\src\u_dzMiscUtils.pas',
++  u_dzTranslator in '..\..\..\src\u_dzTranslator.pas';
++
++procedure Main;
++var
++  exec: TExecutor;
++begin
++  exec := TExecutor.Create;
++  try
++    exec.Visible := true;
++    exec.WorkingDir := 'c:\';
++    exec.Environment.Add('bla=blub');
++    if not exec.FindExecutable('cmd.exe') then
++      raise exception.Create('Could not find cmd.exe in search path.');
++    exec.Commandline := '/c set';
++    if not exec.Execute then
++      raise Exception.Create('Error executing cmd.exe');
++  finally
++    FreeAndNil(exec);
++  end;
++end;
++
++begin
++  try
++    Main;
++  except
++    on E: Exception do begin
++      Writeln(E.ClassName, ': ', E.Message);
++    end;
++  end;
++  WriteLn('Press enter');
++  ReadLn;
++end.
++
+
+Added: utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dproj	                        (rev 0)
++++ utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dproj	2010-09-29 15:29:51 UTC (rev 482)
+@@ -0,0 +1,120 @@
++?	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++		<PropertyGroup>
++			<ProjectGuid>{aa1b471d-a8ac-49fd-95fc-21eb6d6b186f}</ProjectGuid>
++			<MainSource>dzExecutorTest.dpr</MainSource>
++			<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++			<DCC_DependencyCheckOutputName>..\dzExecutorTest.exe</DCC_DependencyCheckOutputName>
++			<ProjectVersion>12.2</ProjectVersion>
++			<Base>True</Base>
++			<Config Condition="'$(Config)'==''">Debug</Config>
++			<Platform>Win32</Platform>
++			<AppType>Console</AppType>
++			<FrameworkType>None</FrameworkType>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
++			<Cfg_1>true</Cfg_1>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
++			<Cfg_2>true</Cfg_2>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Base)'!=''">
++			<DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
++			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
++			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_1)'!=''">
++			<Version>7.0</Version>
++			<DCC_DebugInformation>False</DCC_DebugInformation>
++			<DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_2)'!=''">
++			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
++			<DCC_DebugDCUs>true</DCC_DebugDCUs>
++			<DCC_Optimize>false</DCC_Optimize>
++			<Version>7.0</Version>
++			<DCC_Define>DEBUG;no_translation;$(DCC_Define)</DCC_Define>
++			<DCC_ExeOutput>..</DCC_ExeOutput>
++			<DCC_UnitSearchPath>..\..\..\src;..\..\..\jedi_inc;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_ResourcePath>..\..\..\src;..\..\..\jedi_inc;$(DCC_ResourcePath)</DCC_ResourcePath>
++			<DCC_ObjPath>..\..\..\src;..\..\..\jedi_inc;$(DCC_ObjPath)</DCC_ObjPath>
++			<DCC_IncludePath>..\..\..\src;..\..\..\jedi_inc;$(DCC_IncludePath)</DCC_IncludePath>
++			<DCC_DcuOutput>..\dcu</DCC_DcuOutput>
++			<DCC_ObjOutput>..\dcu</DCC_ObjOutput>
++			<DCC_HppOutput>..\dcu</DCC_HppOutput>
++		</PropertyGroup>
++		<ProjectExtensions>
++			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
++			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
++			<BorlandProject>
++				<Delphi.Personality>
++					<Parameters/>
++					<VersionInfo>
++						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
++						<VersionInfo Name="MajorVer">1</VersionInfo>
++						<VersionInfo Name="MinorVer">0</VersionInfo>
++						<VersionInfo Name="Release">0</VersionInfo>
++						<VersionInfo Name="Build">0</VersionInfo>
++						<VersionInfo Name="Debug">False</VersionInfo>
++						<VersionInfo Name="PreRelease">False</VersionInfo>
++						<VersionInfo Name="Special">False</VersionInfo>
++						<VersionInfo Name="Private">False</VersionInfo>
++						<VersionInfo Name="DLL">False</VersionInfo>
++						<VersionInfo Name="Locale">1031</VersionInfo>
++						<VersionInfo Name="CodePage">1252</VersionInfo>
++					</VersionInfo>
++					<VersionInfoKeys>
++						<VersionInfoKeys Name="CompanyName"/>
++						<VersionInfoKeys Name="FileDescription"/>
++						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="InternalName"/>
++						<VersionInfoKeys Name="LegalCopyright"/>
++						<VersionInfoKeys Name="LegalTrademarks"/>
++						<VersionInfoKeys Name="OriginalFilename"/>
++						<VersionInfoKeys Name="ProductName"/>
++						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="Comments"/>
++					</VersionInfoKeys>
++					<Source>
++						<Source Name="MainSource">dzExecutorTest.dpr</Source>
++					</Source>
++				</Delphi.Personality>
++				<Platforms>
++					<Platform value="Win32">True</Platform>
++				</Platforms>
++			</BorlandProject>
++			<ProjectFileVersion>12</ProjectFileVersion>
++		</ProjectExtensions>
++		<ItemGroup>
++			<DelphiCompile Include="dzExecutorTest.dpr">
++				<MainSource>MainSource</MainSource>
++			</DelphiCompile>
++			<DCCReference Include="..\..\..\src\u_dzExecutor.pas"/>
++			<DCCReference Include="..\..\..\src\u_dzMiscUtils.pas"/>
++			<DCCReference Include="..\..\..\src\u_dzTranslator.pas"/>
++			<BuildConfiguration Include="Debug">
++				<Key>Cfg_2</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Base">
++				<Key>Base</Key>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Release">
++				<Key>Cfg_1</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++		</ItemGroup>
++		<ItemGroup/>
++		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
++		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj"/>
++	</Project>
+
+Added: utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dproj.d2007
+===================================================================
+--- utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dproj.d2007	                        (rev 0)
++++ utilities/dzLib/trunk/tests/dzExecutor/src/dzExecutorTest.dproj.d2007	2010-09-29 15:29:51 UTC (rev 482)
+@@ -0,0 +1,79 @@
++?<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <PropertyGroup>
++    <ProjectGuid>{7dedeae0-a9b7-4225-923a-cdf00395c049}</ProjectGuid>
++    <MainSource>dzExecutorTest.dpr</MainSource>
++    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
++    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++    <DCC_DependencyCheckOutputName>..\dzExecutorTest.exe</DCC_DependencyCheckOutputName>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_DebugInformation>False</DCC_DebugInformation>
++    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++    <DCC_Define>RELEASE</DCC_Define>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_Define>DEBUG;no_translation</DCC_Define>
++    <DCC_ExeOutput>..</DCC_ExeOutput>
++    <DCC_DcuOutput>..\dcu</DCC_DcuOutput>
++    <DCC_ObjOutput>..\dcu</DCC_ObjOutput>
++    <DCC_HppOutput>..\dcu</DCC_HppOutput>
++    <DCC_UnitSearchPath>..\..\..\jedi_inc;..\..\..\src</DCC_UnitSearchPath>
++    <DCC_ResourcePath>..\..\..\jedi_inc;..\..\..\src</DCC_ResourcePath>
++    <DCC_ObjPath>..\..\..\jedi_inc;..\..\..\src</DCC_ObjPath>
++    <DCC_IncludePath>..\..\..\jedi_inc;..\..\..\src</DCC_IncludePath>
++  </PropertyGroup>
++  <ProjectExtensions>
++    <Borland.Personality>Delphi.Personality</Borland.Personality>
++    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
++    <BorlandProject>
++<BorlandProject xmlns=""> <Delphi.Personality>   <Parameters>
++      <Parameters Name="UseLauncher">False</Parameters>
++      <Parameters Name="LoadAllSymbols">True</Parameters>
++      <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++    </Parameters>
++    <VersionInfo>
++      <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++      <VersionInfo Name="AutoIncBuild">False</VersionInfo>
++      <VersionInfo Name="MajorVer">1</VersionInfo>
++      <VersionInfo Name="MinorVer">0</VersionInfo>
++      <VersionInfo Name="Release">0</VersionInfo>
++      <VersionInfo Name="Build">0</VersionInfo>
++      <VersionInfo Name="Debug">False</VersionInfo>
++      <VersionInfo Name="PreRelease">False</VersionInfo>
++      <VersionInfo Name="Special">False</VersionInfo>
++      <VersionInfo Name="Private">False</VersionInfo>
++      <VersionInfo Name="DLL">False</VersionInfo>
++      <VersionInfo Name="Locale">1031</VersionInfo>
++      <VersionInfo Name="CodePage">1252</VersionInfo>
++    </VersionInfo>
++    <VersionInfoKeys>
++      <VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
++      <VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
++      <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++      <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
++      <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
++      <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
++      <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
++      <VersionInfoKeys Name="ProductName"></VersionInfoKeys>
++      <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++      <VersionInfoKeys Name="Comments"></VersionInfoKeys>
++    </VersionInfoKeys>
++    <Source>
++      <Source Name="MainSource">dzExecutorTest.dpr</Source>
++    </Source>
++  </Delphi.Personality> </BorlandProject></BorlandProject>
++  </ProjectExtensions>
++  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
++  <ItemGroup>
++    <DelphiCompile Include="dzExecutorTest.dpr">
++      <MainSource>MainSource</MainSource>
++    </DelphiCompile>
++    <DCCReference Include="..\..\..\src\u_dzExecutor.pas" />
++    <DCCReference Include="..\..\..\src\u_dzMiscUtils.pas" />
++    <DCCReference Include="..\..\..\src\u_dzTranslator.pas" />
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+
+
+
+From twm at mail.berlios.de  Wed Sep 29 18:21:02 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed, 29 Sep 2010 18:21:02 +0200
+Subject: [Dzchart-svncheckins] r483 - in utilities/dzContextMenu/trunk: . src
+Message-ID: <20100929162102.87E35481024@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-29 18:21:02 +0200 (Wed, 29 Sep 2010)
+New Revision: 483
+
+Modified:
+   utilities/dzContextMenu/trunk/
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+   utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+Log:
+* can now show context menues based on the entries in an ini file
+* and call executables as configured
+
+
+Property changes on: utilities/dzContextMenu/trunk
+___________________________________________________________________
+Added: svn:ignore
+   + Debug
+dzcontextmenu.dll
+
+Added: svn:externals
+   + libs/dzLib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+libs/dztemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+buildtools https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk
+
+
+Modified: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-09-29 15:29:51 UTC (rev 482)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-09-29 16:21:02 UTC (rev 483)
+@@ -1,5 +1,9 @@
+ unit d_ContextMenu;
+ 
++{$IFDEF debug}
++{.$DEFINE show_attach_dialog}
++{$ENDIF debug}
++
+ interface
+ 
+ uses
+@@ -15,6 +19,7 @@
+   private
+     FFiles: TStringList;
+     FMaxItemCount: Integer;
++    FSection: string;
+     FItems: TStringList;
+     procedure UpdatePopup;
+   public
+@@ -32,10 +37,13 @@
+ {$R *.dfm}
+ 
+ uses
+-  Dialogs;
++  u_dzShellApiUtils,
++  u_dzFileUtils,
++  u_dzOsUtils,
++  u_dzExecutor;
+ 
+ const
+-  INI_FILE = 'c:\dzcontextmenu.ini';
++  INI_FILE = 'menu.ini';
+ 
+ var
+   gblIni: TMemIniFile = nil;
+@@ -77,9 +85,28 @@
+ end;
+ 
+ procedure Tdm_ContextMenu.DoCommand(_Idx: integer);
++var
++  Executable: string;
++  Exec: TExecutor;
++  s: string;
+ begin
+-  if _Idx < FItems.Count then
+-    MessageBox(0, PChar(FItems[_Idx] + #13#10 + FFiles.Text), 'Execute', MB_ICONINFORMATION or MB_OK);
++  if _Idx < FItems.Count then begin
++    Executable := IniFile.ReadString(FSection, FItems[_Idx], '');
++    Exec := TExecutor.Create;
++    try
++      if not Exec.FindExecutable(Executable) then
++        raise Exception.CreateFmt('Could not find executable %s', [Executable]);
++      FFiles.Delimiter := ' ';
++      FFiles.QuoteChar := '"';
++      s := FFiles.DelimitedText;
++      Exec.Commandline := s;
++      Exec.Visible := true;
++      Exec.WorkingDir := Extractfiledir(FFiles[0]);
++      Exec.Execute;
++    finally
++      FreeAndNil(Exec)
++    end;
++  end;
+ end;
+ 
+ procedure Tdm_ContextMenu.UpdatePopup;
+@@ -103,7 +130,8 @@
+         SectExt := IniFile.ReadString(Sections[SecIdx], 'extension', '');
+         if SameText(Ext, SectExt) then begin
+           FItems.Clear;
+-          IniFile.ReadSection(Sections[SecIdx], FItems);
++          FSection := Sections[SecIdx];
++          IniFile.ReadSection(FSection, FItems);
+           FItems.Delete(0);
+           for ItemIdx := 0 to FItems.Count - 1 do begin
+             mi := TMenuItem.Create(Self);
+@@ -150,10 +178,29 @@
+   Result := gblIni;
+ end;
+ 
++procedure Initialize;
++var
++  AppDataDir: string;
++  ModuleName: string;
++  IniName: string;
++begin
++  ModuleName := GetModuleFilename;
++  AppDataDir := TWindowsShell.GetAppDataDir;
++  IniName := itpd(AppDataDir) + ChangeFileExt(ExtractFileName(ModuleName), '') + '\' + INI_FILE;
++  gblIni := TMemIniFile.Create(IniName);
++end;
++
++procedure Finalize;
++begin
++  FreeAndNil(gblIni);
++end;
++
+ initialization
+-//  MessageBox(0, 'Attach debugger now!', 'Initialization', MB_ICONINFORMATION or MB_OK);
+-  gblIni := TMemIniFile.Create(INI_FILE);
++{$IFDEF show_attach_dialog}
++  MessageBox(0, 'Attach debugger now!', 'Initialization', MB_ICONINFORMATION or MB_OK);
++{$ENDIF show_attach_dialog}
++  Initialize;
+ finalization
+-  FreeAndNil(gblIni);
++  Finalize;
+ end.
+ 
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-09-29 15:29:51 UTC (rev 482)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-09-29 16:21:02 UTC (rev 483)
+@@ -3,7 +3,9 @@
+ uses
+   ComServ,
+   u_ContextMenuHandler in 'u_ContextMenuHandler.pas',
+-  d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule};
++  d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule},
++  u_dzShellApiUtils in '..\libs\dzLib\src\u_dzShellApiUtils.pas',
++  u_dzExecutor in '..\libs\dzLib\src\u_dzExecutor.pas';
+ 
+ exports
+   DllGetClassObject,
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-09-29 15:29:51 UTC (rev 482)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-09-29 16:21:02 UTC (rev 483)
+@@ -24,6 +24,8 @@
+ 			<Base>true</Base>
+ 		</PropertyGroup>
+ 		<PropertyGroup Condition="'$(Base)'!=''">
++			<DCC_UnitSearchPath>..\libs\dzlib\src;..\libs\dzlib\jedi_inc;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_Define>NO_TRANSLATION;$(DCC_Define)</DCC_Define>
+ 			<DCC_UsePackage>vcl;vclx;VclSmp;rtl;vclimg;svnui;svn;bdertl;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyProtocols;inet;vclie;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;soaprtl;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;dbexpress;dbxcds</DCC_UsePackage>
+ 			<DCC_ImageBase>00400000</DCC_ImageBase>
+ 			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
+@@ -61,7 +63,9 @@
+ 				<Form>dm_ContextMenu</Form>
+ 				<DesignClass>TDataModule</DesignClass>
+ 			</DCCReference>
+-			<None Include="c:\dzcontextmenu.ini"/>
++			<DCCReference Include="..\libs\dzLib\src\u_dzShellApiUtils.pas"/>
++			<DCCReference Include="..\libs\dzLib\src\u_dzExecutor.pas"/>
++			<None Include="C:\Documents and Settings\twm\Application Data\dzContextMenu\menu.ini"/>
+ 			<BuildConfiguration Include="Release">
+ 				<Key>Cfg_2</Key>
+ 				<CfgParent>Base</CfgParent>
+@@ -112,7 +116,7 @@
+ 						<Source Name="MainSource">dzcontextmenu.dpr</Source>
+ 					</Source>
+ 					<Parameters>
+-						<Parameters Name="RunParams">/n, /e, C:\src\test\contextmenu\src</Parameters>
++						<Parameters Name="RunParams">/n, /e, C:\src\berlios.dzContextMenu</Parameters>
+ 						<Parameters Name="HostApplication">C:\WINDOWS\explorer.exe</Parameters>
+ 					</Parameters>
+ 					<Excluded_Packages>
+
+Modified: utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-09-29 15:29:51 UTC (rev 482)
++++ utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-09-29 16:21:02 UTC (rev 483)
+@@ -20,7 +20,6 @@
+   {*)}
+   private
+     FCmdCount: LongWord;
+-    FLog: TextFile;
+     FDm: Tdm_ContextMenu;
+   protected
+     function IShellExtInit.Initialize = IShellExtInit_Initialize;
+@@ -49,15 +48,10 @@
+   inherited;
+   FCmdCount := $FFFFFFFF;
+   FDm := Tdm_ContextMenu.Create(nil);
+-  AssignFile(FLog, 'c:\log.txt');
+-  Rewrite(FLog);
+-  WriteLn(FLog, 'TContextMenu.Initialize');
+ end;
+ 
+ destructor TContextMenu.Destroy;
+ begin
+-  WriteLn(FLog, 'TContextMenu.Destroy');
+-  CloseFile(FLog);
+   FreeAndNil(FDm);
+   inherited;
+ end;
+@@ -71,41 +65,35 @@
+   Files: TStringList;
+   FileName: array[0..MAX_PATH] of Char;
+ begin
+-  WriteLn(FLog, 'enter TContextMenu.IShellExtInit_Initialize');
+-
+-  try
+     // if lpdobj is nil, fail
+-    if (_lpdobj = nil) then begin
+-      Result := E_INVALIDARG;
+-      Exit;
+-    end;
++  if (_lpdobj = nil) then begin
++    Result := E_INVALIDARG;
++    Exit;
++  end;
+ 
+-    Files := FDm.Files;
+-    Files.Clear;
++  Files := FDm.Files;
++  Files.Clear;
+ 
+-    // initialize clipboard format
+-    FormatEtc.CfFormat := CF_HDROP;
+-    FormatEtc.Ptd := nil;
+-    FormatEtc.DwAspect := DVASPECT_CONTENT;
+-    FormatEtc.Lindex := 1;
+-    FormatEtc.Tymed := TYMED_HGLOBAL;
+-    Result := _lpdobj.GetData(FormatEtc, StgMedium);
+-    if Succeeded(Result) then begin
+-      try
+-        // get selected files count
+-        Count := DragQueryFile(StgMedium.hGlobal, $FFFFFFFF, nil, 0);
+-        // get selected files
+-        for i := 0 to Count - 1 do begin
+-          DragQueryFile(StgMedium.hGlobal, i, FileName, SizeOf(FileName));
+-          Files.Add(FileName);
+-        end;
+-      finally
+-        ReleaseStgMedium(StgMedium);
++  // initialize clipboard format
++  FormatEtc.CfFormat := CF_HDROP;
++  FormatEtc.Ptd := nil;
++  FormatEtc.DwAspect := DVASPECT_CONTENT;
++  FormatEtc.Lindex := 1;
++  FormatEtc.Tymed := TYMED_HGLOBAL;
++  Result := _lpdobj.GetData(FormatEtc, StgMedium);
++  if Succeeded(Result) then begin
++    try
++      // get selected files count
++      Count := DragQueryFile(StgMedium.hGlobal, $FFFFFFFF, nil, 0);
++      // get selected files
++      for i := 0 to Count - 1 do begin
++        DragQueryFile(StgMedium.hGlobal, i, FileName, SizeOf(FileName));
++        Files.Add(FileName);
+       end;
+-      Result := NOERROR;
++    finally
++      ReleaseStgMedium(StgMedium);
+     end;
+-  finally
+-    WriteLn(FLog, 'exit TContextMenu.IShellExtInit_Initialize');
++    Result := NOERROR;
+   end;
+ end;
+ 
+@@ -114,31 +102,28 @@
+   Id: integer;
+   mii: TMenuItemInfo;
+   Submenu: HMENU;
++  MenuTitle: string;
+ begin
+-  WriteLn(FLog, 'enter TContextMenu.QueryContextMenu');
+-  try
+-    Result := 0;
+-    if ((_UFlags and $0000000F) = CMF_NORMAL) or ((_UFlags and CMF_EXPLORE) <> 0) then begin
+-      Id := Integer(_idCmdFirst);
+-      Submenu := CreatePopupMenu;
+-      FDm.UpdateSubmenu(Submenu, Id);
+-      FillChar(mii, sizeof(mii), 0);
+-      mii.cbSize := sizeof(mii);
+-      mii.fMask := MIIM_SUBMENU or MIIM_ID or MIIM_TYPE or MIIM_STATE;
+-      mii.wID := Id;
+-      mii.hSubMenu := Submenu;
+-      mii.fType := MFT_STRING;
+-      mii.fState := MFS_ENABLED;
+-      mii.dwTypeData := 'Submenu';
+-      InsertMenuItem(_Menu, _indexMenu, LongBool(True), mii);
+-      Inc(Id);
++  Result := 0;
++  if ((_UFlags and $0000000F) = CMF_NORMAL) or ((_UFlags and CMF_EXPLORE) <> 0) then begin
++    MenuTitle := FDm.IniFile.ReadString('global', 'caption', 'Submenu');
++    Id := Integer(_idCmdFirst);
++    Submenu := CreatePopupMenu;
++    FDm.UpdateSubmenu(Submenu, Id);
++    FillChar(mii, sizeof(mii), 0);
++    mii.cbSize := sizeof(mii);
++    mii.fMask := MIIM_SUBMENU or MIIM_ID or MIIM_TYPE or MIIM_STATE;
++    mii.wID := Id;
++    mii.hSubMenu := Submenu;
++    mii.fType := MFT_STRING;
++    mii.fState := MFS_ENABLED;
++    mii.dwTypeData := PChar(MenuTitle);
++    InsertMenuItem(_Menu, _indexMenu, LongBool(True), mii);
++    Inc(Id);
+ 
+-      // Return value is number of items added to context menu
+-      FCmdCount := Id - integer(_idCmdFirst);
+-      Result := MakeResult(SEVERITY_SUCCESS, 0, FCmdCount);
+-    end;
+-  finally
+-    WriteLn(FLog, 'exit TContextMenu.QueryContextMenu');
++    // Return value is number of items added to context menu
++    FCmdCount := Id - integer(_idCmdFirst);
++    Result := MakeResult(SEVERITY_SUCCESS, 0, FCmdCount);
+   end;
+ end;
+ 
+@@ -147,20 +132,15 @@
+ var
+   szName: PWideChar absolute _PszName;
+ begin
+-  WriteLn(FLog, 'enter TContextMenu.GetCommandString(' + IntToStr(_idCmd) + ')');
+-  try
+-    Result := E_INVALIDARG;
+-    if _idCmd < FCmdCount then begin
+-      case _uType of
+-        GCS_HELPTEXTW: begin
++  Result := E_INVALIDARG;
++  if _idCmd < FCmdCount then begin
++    case _uType of
++      GCS_HELPTEXTW: begin
+           // Return the menu item's help
+-            StrLCopy(szName, PChar('execute some command'), _cchMax);
+-            Result := S_OK;
+-          end;
+-      end;
++          StrLCopy(szName, PChar('execute some command'), _cchMax);
++          Result := S_OK;
++        end;
+     end;
+-  finally
+-    WriteLn(FLog, 'exit TContextMenu.GetCommandString');
+   end;
+ end;
+ 
+@@ -182,15 +162,10 @@
+ var
+   ici: TCMInvokeCommandInfoHack absolute _ici;
+ begin
+-  WriteLn(FLog, 'enter TContextMenu.InvokeCommand');
+-  try
+-    Result := E_FAIL;
+-    if ici.VerbHi = 0 then begin
+-      FDm.DoCommand(ici.VerbLo);
+-      Result := S_OK;
+-    end;
+-  finally
+-    WriteLn(FLog, 'exit TContextMenu.InvokeCommand');
++  Result := E_FAIL;
++  if ici.VerbHi = 0 then begin
++    FDm.DoCommand(ici.VerbLo);
++    Result := S_OK;
+   end;
+ end;
+ 
+@@ -219,9 +194,13 @@
+       Ini.ReadSections(Sections);
+       for i := 0 to Sections.Count - 1 do begin
+         FileType := Sections[i];
+-        CreateRegKey(FileType + '\shellex', '', '');
+-        CreateRegKey(FileType + '\shellex\ContextMenuHandlers', '', '');
+-        CreateRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu', '', ClassID);
++        if SameText(FileType, 'Global') then begin
++          // maybe do something later on
++        end else begin
++          CreateRegKey(FileType + '\shellex', '', '');
++          CreateRegKey(FileType + '\shellex\ContextMenuHandlers', '', '');
++          CreateRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu', '', ClassID);
++        end;
+       end;
+ 
+     finally
+
+
+
+From twm at mail.berlios.de  Thu Sep 30 11:23:04 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Thu, 30 Sep 2010 11:23:04 +0200
+Subject: [Dzchart-svncheckins] r484 - in utilities/dzContextMenu/trunk: . src
+Message-ID: <20100930092304.818DE481009@sheep.berlios.de>
+
+Author: twm
+Date: 2010-09-30 11:23:04 +0200 (Thu, 30 Sep 2010)
+New Revision: 484
+
+Added:
+   utilities/dzContextMenu/trunk/menu.ini
+Modified:
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+Log:
+refactoring
+
+Added: utilities/dzContextMenu/trunk/menu.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/menu.ini	                        (rev 0)
++++ utilities/dzContextMenu/trunk/menu.ini	2010-09-30 09:23:04 UTC (rev 484)
+@@ -0,0 +1,59 @@
++[global]
++Caption=Delphi Project
++
++[BDS.DprFile]
++extension=.dpr
++Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
++Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
++Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++-=n1
++Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
++Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++-=n2
++Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
++Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++
++[BDS.DpkFile]
++extension=.dpk
++Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
++Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
++Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
++Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
++Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++
++[BDS.DProjFile]
++extension=.dproj
++Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
++Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
++Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++
++[BDS.GroupProjFile]
++extension=.groupproj
++Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
++Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
++Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++
++[BDS.ProjectFile]
++extension=.bdsproj
++Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
++Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++
++[BDS.ProjectGroup]
++extension=.bdsgroup
++Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
++Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++
++[BorlandProjectGroup]
++extension=.bpg
++Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
++Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++
+
+Modified: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-09-29 16:21:02 UTC (rev 483)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-09-30 09:23:04 UTC (rev 484)
+@@ -110,14 +110,37 @@
+ end;
+ 
+ procedure Tdm_ContextMenu.UpdatePopup;
++
++  function HandleSection(const _Section: string): boolean;
++  var
++    i: integer;
++    Ext: string;
++    SectExt: string;
++    ItemIdx: Integer;
++    mi: TMenuItem;
++  begin
++   Result := false;
++    for i := 0 to FFiles.Count - 1 do begin
++      Ext := ExtractFileExt(FFiles[i]);
++      SectExt := IniFile.ReadString(_Section, 'extension', '');
++      if SameText(Ext, SectExt) then begin
++        FItems.Clear;
++        FSection := _Section;
++        IniFile.ReadSection(FSection, FItems);
++        FItems.Delete(0);
++        for ItemIdx := 0 to FItems.Count - 1 do begin
++          mi := TMenuItem.Create(Self);
++          mi.Caption := FItems[ItemIdx];
++          ThePopupMenu.Items.Add(mi);
++        end;
++        exit(true);
++      end;
++    end;
++  end;
++
+ var
+   SecIdx: Integer;
+-  SectExt: string;
+-  Ext: string;
+   Sections: TStringList;
+-  i: Integer;
+-  ItemIdx: Integer;
+-  mi: TMenuItem;
+ begin
+   ThePopupMenu.Items.Clear;
+ 
+@@ -125,22 +148,8 @@
+   try
+     IniFile.ReadSections(Sections);
+     for SecIdx := 0 to Sections.Count - 1 do begin
+-      for i := 0 to Files.Count - 1 do begin
+-        Ext := ExtractFileExt(Files[i]);
+-        SectExt := IniFile.ReadString(Sections[SecIdx], 'extension', '');
+-        if SameText(Ext, SectExt) then begin
+-          FItems.Clear;
+-          FSection := Sections[SecIdx];
+-          IniFile.ReadSection(FSection, FItems);
+-          FItems.Delete(0);
+-          for ItemIdx := 0 to FItems.Count - 1 do begin
+-            mi := TMenuItem.Create(Self);
+-            mi.Caption := FItems[ItemIdx];
+-            ThePopupMenu.Items.Add(mi);
+-          end;
+-          exit;
+-        end;
+-      end;
++      if HandleSection(Sections[SecIdx]) then
++        exit;
+     end;
+   finally
+     FreeAndNil(Sections);
+
+
+

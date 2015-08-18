@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r515 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r515%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101023121755.0C7794801CC%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000372.html">
+   <LINK REL="Next"  HREF="000374.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r515 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r515%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101023121755.0C7794801CC%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r515 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct 23 14:17:54 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000372.html">[Dzchart-svncheckins] r514 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000374.html">[Dzchart-svncheckins] r516 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#373">[ date ]</a>
+              <a href="thread.html#373">[ thread ]</a>
+              <a href="subject.html#373">[ subject ]</a>
+              <a href="author.html#373">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-23 14:17:54 +0200 (Sat, 23 Oct 2010)
+New Revision: 515
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzStringUtils.pas
+Log:
+Changed RPadStr and LPadStr to optionally not truncate the strings
+
+
+Modified: utilities/dzLib/trunk/src/u_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringUtils.pas	2010-10-23 12:16:55 UTC (rev 514)
++++ utilities/dzLib/trunk/src/u_dzStringUtils.pas	2010-10-23 12:17:54 UTC (rev 515)
+@@ -173,13 +173,18 @@
+ function RemoveSuffixIfMatching(const _s, _Suffix: string): string;
+ 
+ ///&lt;summary&gt; Appends spaces to the string S to bring it to the given length. If S is
++///          too long and AllowTruncate is true (default) it is truncated and thus the result is
++///          guaranteed to be Len characters long. If AllowTruncate is false, no truncation
++///          is done and the string is only guaranteed to be at least Len characters long. &lt;/summary&gt;
++function RPadStr(const _s: string; _Len: integer; _AllowTruncate: boolean = true): string;
++///&lt;summary&gt; Prepends spaces to the string S to bring it to the given length. If S is
+ ///          too long it is truncated, thus the result is guaranteed to be Len characters
+ ///          long. &lt;/summary&gt;
+-function RPadStr(const _s: string; _Len: integer): string;
+ ///&lt;summary&gt; Prepends spaces to the string S to bring it to the given length. If S is
+-///          too long it is truncated, thus the result is guaranteed to be Len characters
+-///          long. &lt;/summary&gt;
+-function LPadStr(const _s: string; _Len: integer): string;
++///          too long and AllowTruncate is true (default) it is truncated (at the start) and thus the
++///          result is guaranteed to be Len characters long. If AllowTruncate is false, no truncation
++///          is done and the string is only guaranteed to be at least Len characters long. &lt;/summary&gt;
++function LPadStr(const _s: string; _Len: integer; _AllowTruncate: boolean = true): string;
+ 
+ ///&lt;summary&gt; Returns true, if SubStr is found in Str and sets Head to the text before
+ ///          and Tail to the text after SubStr. Otherwise Head and Tail are undefined. &lt;/summary&gt;
+@@ -733,19 +738,25 @@
+     Result := StrPas(_p);
+ end;
+ 
+-function RPadStr(const _s: string; _Len: integer): string;
++function RPadStr(const _s: string; _Len: integer; _AllowTruncate: boolean = true): string;
+ begin
+-  if Length(_s) &gt;= _Len then
+-    Result := LeftStr(_s, _Len)
+-  else
++  if Length(_s) &gt;= _Len then begin
++    if _AllowTruncate then
++      Result := LeftStr(_s, _Len)
++    else
++      Result := _s;
++  end else
+     Result := _s + SpaceStr(_Len - Length(_s));
+ end;
+ 
+-function LPadStr(const _s: string; _Len: integer): string;
++function LPadStr(const _s: string; _Len: integer; _AllowTruncate: boolean = true): string;
+ begin
+-  if Length(_s) &gt;= _Len then
+-    Result := RightStr(_s, _Len)
+-  else
++  if Length(_s) &gt;= _Len then begin
++    if _AllowTruncate then
++      Result := RightStr(_s, _Len)
++    else
++      Result := _s;
++  end else
+     Result := SpaceStr(_Len - Length(_s)) + _s;
+ end;
+ 
+@@ -1261,6 +1272,7 @@
+ {$ENDIF SUPPORTS_UNICODE_STRING}
+ 
+ {$IFDEF SUPPORTS_UNICODE_STRING}
++
+ function Copy(const _s: AnsiString; _Pos, _Len: integer): AnsiString;
+ begin
+   SetLength(Result, _Len);
+@@ -1269,7 +1281,7 @@
+ 
+ function Copy(const _s: AnsiString; _Pos: integer): AnsiString;
+ begin
+-  Result :=  Copy(_s, _Pos, Length(_s) - _Pos);
++  Result := Copy(_s, _Pos, Length(_s) - _Pos);
+ end;
+ 
+ function Copy(const _s: string; _Pos, _Len: integer): string; inline;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000372.html">[Dzchart-svncheckins] r514 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000374.html">[Dzchart-svncheckins] r516 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#373">[ date ]</a>
+              <a href="thread.html#373">[ thread ]</a>
+              <a href="subject.html#373">[ subject ]</a>
+              <a href="author.html#373">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

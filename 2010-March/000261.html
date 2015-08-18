@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r400 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r400%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C201003131124.o2DBOLV4026488%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000260.html">
+   <LINK REL="Next"  HREF="000262.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r400 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r400%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C201003131124.o2DBOLV4026488%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r400 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 13 12:24:21 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000260.html">[Dzchart-svncheckins] r399 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000262.html">[Dzchart-svncheckins] r401 - in utilities/dzCmdLineParser/trunk: .	translations translations/en
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#261">[ date ]</a>
+              <a href="thread.html#261">[ thread ]</a>
+              <a href="subject.html#261">[ subject ]</a>
+              <a href="author.html#261">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-13 12:24:20 +0100 (Sat, 13 Mar 2010)
+New Revision: 400
+
+Added:
+   utilities/dzLib/trunk/src/u_dzProgress.pas
+Log:
+interface for progress dialog
+
+Added: utilities/dzLib/trunk/src/u_dzProgress.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzProgress.pas	2010-03-13 11:22:59 UTC (rev 399)
++++ utilities/dzLib/trunk/src/u_dzProgress.pas	2010-03-13 11:24:20 UTC (rev 400)
+@@ -0,0 +1,137 @@
++unit u_dzProgress;
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  Controls,
++  w_dzProgress;
++
++type
++  IdzProgress = interface ['{68DDF5DC-D71B-4D9A-9C45-D65E9D259C32}']
++    function GetAction: string;
++    function GetIsActionVisible: boolean;
++    function GetIsCancelVisible: boolean;
++    function GetProgressMax: integer;
++    function GetProgressPos: integer;
++    procedure SetAction(const Value: string);
++    procedure SetIsActionVisible(const Value: boolean);
++    procedure SetIsCancelVisible(const Value: boolean);
++    procedure SetProgressMax(const Value: integer);
++    procedure SetProgressPos(const Value: integer);
++    property ProgressPos: integer read GetProgressPos write SetProgressPos;
++    property ProgressMax: integer read GetProgressMax write SetProgressMax;
++    property Action: string read GetAction write SetAction;
++    property IsCancelVisible: boolean read GetIsCancelVisible write SetIsCancelVisible;
++    property IsActionVisible: boolean read GetIsActionVisible write SetIsActionVisible;
++    procedure Progress(_Position: integer; const _Action: string; var _Abort: boolean); overload;
++    procedure Progress(_Position: integer; var _Abort: boolean); overload;
++  end;
++
++type
++  TdzProgress = class(TInterfacedObject, IdzProgress)
++  private
++    FForm: Tf_dzProgress;
++  private // implement IdzProgress
++    function GetAction: string;
++    function GetIsActionVisible: boolean;
++    function GetIsCancelVisible: boolean;
++    function GetProgressMax: integer;
++    function GetProgressPos: integer;
++    procedure SetAction(const _Value: string);
++    procedure SetIsActionVisible(const _Value: boolean);
++    procedure SetIsCancelVisible(const _Value: boolean);
++    procedure SetProgressMax(const _Value: integer);
++    procedure SetProgressPos(const _Value: integer);
++    procedure Progress(_Position: integer; const _Action: string; var _Abort: boolean); overload;
++    procedure Progress(_Position: integer; var _Abort: boolean); overload;
++  public
++    constructor Create(_Owner: TWinControl; const _Caption: string);
++    destructor Destroy; override;
++  end;
++
++implementation
++
++uses
++  u_dzVclUtils;
++
++{ TdzProgress }
++
++constructor TdzProgress.Create(_Owner: TWinControl; const _Caption: string);
++begin
++  inherited Create;
++  FForm := Tf_dzProgress.Create(_Owner);
++  TForm_CenterOn(FForm, _Owner);
++  FForm.FormCaption := _Caption;
++  FForm.Show;
++end;
++
++destructor TdzProgress.Destroy;
++begin
++  FreeAndNil(FForm);
++  inherited;
++end;
++
++function TdzProgress.GetAction: string;
++begin
++  Result := FForm.Action;
++end;
++
++function TdzProgress.GetIsActionVisible: boolean;
++begin
++  Result := FForm.IsActionVisible;
++end;
++
++function TdzProgress.GetIsCancelVisible: boolean;
++begin
++  Result := FForm.IsCancelVisible;
++end;
++
++function TdzProgress.GetProgressMax: integer;
++begin
++  Result := FForm.ProgressMax;
++end;
++
++function TdzProgress.GetProgressPos: integer;
++begin
++  Result := FForm.ProgressPos;
++end;
++
++procedure TdzProgress.Progress(_Position: integer; const _Action: string; var _Abort: boolean);
++begin
++  FForm.Progress(_Position, _Action, _Abort);
++end;
++
++procedure TdzProgress.Progress(_Position: integer; var _Abort: boolean);
++begin
++  FForm.Progress(_Position, _Abort);
++end;
++
++procedure TdzProgress.SetAction(const _Value: string);
++begin
++  FForm.Action := _Value;
++end;
++
++procedure TdzProgress.SetIsActionVisible(const _Value: boolean);
++begin
++  FForm.IsActionVisible := _Value;
++end;
++
++procedure TdzProgress.SetIsCancelVisible(const _Value: boolean);
++begin
++  FForm.IsCancelVisible := _Value;
++end;
++
++procedure TdzProgress.SetProgressMax(const _Value: integer);
++begin
++  FForm.ProgressMax := _Value;
++end;
++
++procedure TdzProgress.SetProgressPos(const _Value: integer);
++begin
++  FForm.ProgressPos := _Value;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000260.html">[Dzchart-svncheckins] r399 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000262.html">[Dzchart-svncheckins] r401 - in utilities/dzCmdLineParser/trunk: .	translations translations/en
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#261">[ date ]</a>
+              <a href="thread.html#261">[ thread ]</a>
+              <a href="subject.html#261">[ subject ]</a>
+              <a href="author.html#261">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

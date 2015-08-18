@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r537 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-November/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r537%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101120115022.D7E45480C2F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000394.html">
+   <LINK REL="Next"  HREF="000396.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r537 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r537%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101120115022.D7E45480C2F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r537 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Nov 20 12:50:22 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000394.html">[Dzchart-svncheckins] r536 - utilities/dzLib/trunk/forms
+</A></li>
+        <LI>Next message: <A HREF="000396.html">[Dzchart-svncheckins] r538 - utilities/dzLib/trunk/forms
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#395">[ date ]</a>
+              <a href="thread.html#395">[ thread ]</a>
+              <a href="subject.html#395">[ subject ]</a>
+              <a href="author.html#395">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-11-20 12:50:22 +0100 (Sat, 20 Nov 2010)
+New Revision: 537
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzClassUtils.pas
+Log:
+new procedure TIniFile_ReadSection
+
+Modified: utilities/dzLib/trunk/src/u_dzClassUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzClassUtils.pas	2010-11-20 11:49:46 UTC (rev 536)
++++ utilities/dzLib/trunk/src/u_dzClassUtils.pas	2010-11-20 11:50:22 UTC (rev 537)
+@@ -181,6 +181,11 @@
+ /// Reads an integer from the ini-file, raises an exception if the value is not an integer &lt;/summary&gt;
+ function TIniFile_ReadInt(_Ini: TCustomIniFile; const _Section, _Ident: string): integer;
+ 
++/// &lt;summary&gt;
++/// Reads the given section from the given .INI file and returns it as a TStrings
++/// @raises Exception if the section does not exist. &lt;/summary&gt;
++procedure TIniFile_ReadSection(const _Filename, _Section: string; _sl: TStrings); inline;
++
+ implementation
+ 
+ uses
+@@ -460,5 +465,19 @@
+     raise Exception.CreateFmt(_('Invalid integer value &quot;%s&quot; in ini file for [%s]%s'), [s, _Section, _Ident]);
+ end;
+ 
++procedure TIniFile_ReadSection(const _Filename, _Section: string; _sl: TStrings);
++var
++  Ini: TMemIniFile;
++begin
++  Ini := TMemIniFile.Create(_Filename);
++  try
++    if not Ini.SectionExists(_Section) then
++      raise Exception.CreateFmt('Section %s does not exist in file %s.', [_Section, _Filename]);
++    Ini.ReadSection(_Section, _sl);
++  finally
++    FreeAndNil(Ini);
++  end;
++end;
++
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000394.html">[Dzchart-svncheckins] r536 - utilities/dzLib/trunk/forms
+</A></li>
+	<LI>Next message: <A HREF="000396.html">[Dzchart-svncheckins] r538 - utilities/dzLib/trunk/forms
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#395">[ date ]</a>
+              <a href="thread.html#395">[ thread ]</a>
+              <a href="subject.html#395">[ subject ]</a>
+              <a href="author.html#395">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

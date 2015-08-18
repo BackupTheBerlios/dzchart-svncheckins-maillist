@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r429 - utilities/dzPrepBuild/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r429%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201004111202.o3BC2qdQ009941%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000289.html">
+   <LINK REL="Next"  HREF="000291.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r429 - utilities/dzPrepBuild/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r429%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201004111202.o3BC2qdQ009941%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r429 - utilities/dzPrepBuild/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr 11 14:02:52 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000289.html">[Dzchart-svncheckins] r428 - utilities/dzPrepBuild/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000291.html">[Dzchart-svncheckins] r430 - utilities/dzPrepBuild/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#290">[ date ]</a>
+              <a href="thread.html#290">[ thread ]</a>
+              <a href="subject.html#290">[ subject ]</a>
+              <a href="author.html#290">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-04-11 14:02:50 +0200 (Sun, 11 Apr 2010)
+New Revision: 429
+
+Modified:
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/SVN_Version_template.ini
+Log:
+* added subwcrev to pre-build event
+* redirected FileVersion to PrepBuild_BuildNo.ini so PrepBuild_Version.ini changes less often
+* moved information about local modifications to its own entry rather than appending it to the version range
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-04-11 11:51:57 UTC (rev 428)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-04-11 12:02:50 UTC (rev 429)
+@@ -38,17 +38,14 @@
+     &lt;Borland.ProjectType /&gt;
+     &lt;BorlandProject&gt;
+ &lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--incbuild --readini=src\prepbuild --exec=prep.cmd&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;Excluded_Packages&gt;
+-      
+-      
+-      
+-      
+       &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+     &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;/Delphi.Personality&gt;&lt;ModelSupport&gt;False&lt;/ModelSupport&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;PropertyGroup&gt;
+-    &lt;PreBuildEvent&gt;..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
++    &lt;PreBuildEvent&gt;subwcrev .. SVN_Version_template.ini SVN_Version.ini
++..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ItemGroup&gt;
+     &lt;DelphiCompile Include=&quot;PrepBuild.dpr&quot;&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 11:51:57 UTC (rev 428)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 12:02:50 UTC (rev 429)
+@@ -1,3 +1,4 @@
+ [Version Info]
+-Build=139
++Build=143
++FileVersion=1.1.0.143
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2010-04-11 11:51:57 UTC (rev 428)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2010-04-11 12:02:50 UTC (rev 429)
+@@ -16,7 +16,7 @@
+ [Version Info Keys]
+ CompanyName=dummzeuch.de
+ FileDescription=commandline and IDE prebuild tool
+-FileVersion=1.1.0.139
++FileVersion=redirect:PrepBuild_BuildNo.ini,Version Info,FileVersion
+ InternalName=PrepBuild
+ LegalCopyright=Copyright 2002-2010 by Thomas Mueller
+ LegalTrademarks=
+
+Modified: utilities/dzPrepBuild/trunk/src/SVN_Version_template.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/SVN_Version_template.ini	2010-04-11 11:51:57 UTC (rev 428)
++++ utilities/dzPrepBuild/trunk/src/SVN_Version_template.ini	2010-04-11 12:02:50 UTC (rev 429)
+@@ -1,3 +1,4 @@
+ [SVN]
+-VersionRange=$WCRANGE$$WCMODS? modified:$
+ URL=$WCURL$
++VersionRange=$WCRANGE$
++LocalModifications=$WCMODS?yes:no$
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000289.html">[Dzchart-svncheckins] r428 - utilities/dzPrepBuild/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000291.html">[Dzchart-svncheckins] r430 - utilities/dzPrepBuild/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#290">[ date ]</a>
+              <a href="thread.html#290">[ thread ]</a>
+              <a href="subject.html#290">[ subject ]</a>
+              <a href="author.html#290">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

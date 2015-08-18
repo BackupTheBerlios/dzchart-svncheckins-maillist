@@ -1,0 +1,294 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r318 - in utilities/dzCmdLineParser/trunk: .	src translations/de
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r318%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20translations/de&In-Reply-To=%3C200809051319.m85DJODb009980%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000184.html">
+   <LINK REL="Next"  HREF="000186.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r318 - in utilities/dzCmdLineParser/trunk: .	src translations/de</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r318%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20translations/de&In-Reply-To=%3C200809051319.m85DJODb009980%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r318 - in utilities/dzCmdLineParser/trunk: .	src translations/de">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep  5 15:19:24 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000184.html">[Dzchart-svncheckins] r317 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000186.html">[Dzchart-svncheckins] r319 - in utilities/dzLib/trunk: forms src	tests tests/dzdialog tests/dzdialog/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#185">[ date ]</a>
+              <a href="thread.html#185">[ thread ]</a>
+              <a href="subject.html#185">[ subject ]</a>
+              <a href="author.html#185">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-05 15:19:23 +0200 (Fri, 05 Sep 2008)
+New Revision: 318
+
+Modified:
+   utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+   utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas
+   utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+Log:
+local _() functions now call dzDGetText rather than DGetText to avoid warning in dxgettext tool
+
+Modified: utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2008-09-05 13:17:42 UTC (rev 317)
++++ utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2008-09-05 13:19:23 UTC (rev 318)
+@@ -5,7 +5,7 @@
+ set BASE=.
+ 
+ @rem extract from subdirectories src and forms
+-dxgettext --delphi -r -b %BASE%\src -b %BASE%\forms -o %BASE%
++dxgettext --delphi -r -b %BASE%\src -o %BASE%\
+ 
+ @rem remove strings given in ignore.po
+ msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas	2008-09-05 13:17:42 UTC (rev 317)
++++ utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas	2008-09-05 13:19:23 UTC (rev 318)
+@@ -3,7 +3,8 @@
+ interface
+ 
+ uses
+-  u_dzCmdLineParser;
++  u_dzCmdLineParser,
++  u_dzTranslator;
+ 
+ type
+   TEngineStateAbstract = class(TInterfacedObject)
+@@ -107,12 +108,11 @@
+ implementation
+ 
+ uses
+-  SysUtils,
+-  u_dzTranslator;
++  SysUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := DGetText(_s, 'dzCmdLineParser');
++  Result := dzDGetText(_s, 'dzCmdLineParser');
+ end;
+ 
+ { TEngineStateAbstract }
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2008-09-05 13:17:42 UTC (rev 317)
++++ utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2008-09-05 13:19:23 UTC (rev 318)
+@@ -5,6 +5,7 @@
+ uses
+   SysUtils,
+   Classes,
++  u_dzTranslator,
+   u_dzParamDescList,
+   u_dzParamFoundList,
+   u_dzOptionDescList,
+@@ -111,12 +112,11 @@
+ implementation
+ 
+ uses
+-  u_dzCmdLineParser,
+-  u_dzTranslator;
++  u_dzCmdLineParser;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := DGetText(_s, 'dzCmdLineParser');
++  Result := dzDGetText(_s, 'dzCmdLineParser');
+ end;
+ 
+ { TdzGetOpt }
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas	2008-09-05 13:17:42 UTC (rev 317)
++++ utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas	2008-09-05 13:19:23 UTC (rev 318)
+@@ -5,6 +5,7 @@
+ uses
+   SysUtils,
+   Classes,
++  u_dzTranslator,
+   u_dzQuicksort;
+ 
+ type
+@@ -51,12 +52,11 @@
+ implementation
+ 
+ uses
+-  StrUtils,
+-  u_dzTranslator;
++  StrUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := DGetText(_s, 'dzCmdLineParser');
++  Result := dzDGetText(_s, 'dzCmdLineParser');
+ end;
+ 
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+
+Modified: utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2008-09-05 13:17:42 UTC (rev 317)
++++ utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2008-09-05 13:19:23 UTC (rev 318)
+@@ -6,7 +6,7 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzCmdLineParser 1.0\n&quot;
+-&quot;POT-Creation-Date: 2008-09-05 06:02\n&quot;
++&quot;POT-Creation-Date: 2008-09-05 06:07\n&quot;
+ &quot;PO-Revision-Date: 2008-09-05 06:03-0800\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">nospam at dummzeuch.de</A>&gt;\n&quot;
+@@ -17,78 +17,74 @@
+ &quot;X-Poedit-Language: German\n&quot;
+ &quot;X-Poedit-Country: GERMANY\n&quot;
+ 
+-#: u_dzCmdLineParserStates.pas:197
+-#: u_dzCmdLineParserStates.pas:231
+-#: u_dzCmdLineParserStates.pas:254
+-#: u_dzCmdLineParserStates.pas:270
+-#: u_dzCmdLineParserStates.pas:313
+-#: u_dzCmdLineParserStates.pas:335
+-#: u_dzCmdLineParserStates.pas:377
++#: u_dzCmdLineParserStates.pas:197 
+ u_dzCmdLineParserStates.pas:217
++#: u_dzCmdLineParserStates.pas:231 u_dzCmdLineParserStates.pas:254
++#: u_dzCmdLineParserStates.pas:270 u_dzCmdLineParserStates.pas:313
++#: u_dzCmdLineParserStates.pas:335 u_dzCmdLineParserStates.pas:377
+ msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
+ msgstr &quot;Ung&#252;ltiges Zeichen \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: RS_Error_S
+-#: u_dzDefaultMain.pas:97
++#. Programmer's name for it: RS_Error_S
++#: u_dzDefaultMain.pas:97 
+ msgid &quot;Error: %s&quot;
+ msgstr &quot;Fehler: %s&quot;
+ 
+-#. Programmer's name for it: RS_Synopsis_S_S
+-#: u_dzDefaultMain.pas:98
++#. Programmer's name for it: RS_Synopsis_S_S
++#: u_dzDefaultMain.pas:98 
+ msgid &quot;Synopsis: %s %s&quot;
+ msgstr &quot;Aufruf: %s %s&quot;
+ 
+-#. Programmer's name for it: RS_Parameters
+-#: u_dzDefaultMain.pas:99
++#. Programmer's name for it: RS_Parameters
++#: u_dzDefaultMain.pas:99 
+ msgid &quot;Parameters:&quot;
+ msgstr &quot;Parameter:&quot;
+ 
+-#. Programmer's name for it: RS_Options
+-#: u_dzDefaultMain.pas:100
++#. Programmer's name for it: RS_Options
++#: u_dzDefaultMain.pas:100 
+ msgid &quot;Options:&quot;
+ msgstr &quot;Optionen:&quot;
+ 
+-#: u_dzGetOpt.pas:156
++#: u_dzGetOpt.pas:156 
+ msgid &quot;[options]&quot;
+ msgstr &quot;[Optionen]&quot;
+ 
+-#: u_dzGetOpt.pas:215
++#: u_dzGetOpt.pas:215 
+ msgid &quot;%s is not a registered option.&quot;
+ msgstr &quot;%s ist keine registrierte Option&quot;
+ 
+-#: u_dzGetOpt.pas:294
++#: u_dzGetOpt.pas:294 
+ msgid &quot;There are too many parameters.&quot;
+ msgstr &quot;Zuviele Parameter&quot;
+ 
+-#: u_dzGetOpt.pas:304
++#: u_dzGetOpt.pas:304 
+ u_dzGetOpt.pas:310
+ msgid &quot;There are not enough %s parameters (min: %d)&quot;
+ msgstr &quot;Nicht gen&#252;gend %s Parameter (min: %d)&quot;
+ 
+-#: u_dzGetOpt.pas:317
++#: u_dzGetOpt.pas:317 
+ msgid &quot;Option %s is unknown&quot;
+ msgstr &quot;Option %s ist nciht bekannt&quot;
+ 
+-#: u_dzGetOpt.pas:321
++#: u_dzGetOpt.pas:321 
+ msgid &quot;Option %s requires a value.&quot;
+ msgstr &quot;Option %s ben&#246;tigt einen Wert.&quot;
+ 
+-#: u_dzGetOpt.pas:365
++#: u_dzGetOpt.pas:365 
+ msgid &quot;display parameter help&quot;
+ msgstr &quot;Parameter Hilfe anzeigen&quot;
+ 
+-#: u_dzOptionDescList.pas:105
++#: u_dzOptionDescList.pas:105 
+ msgid &quot;Option name cannot be empty.&quot;
+ msgstr &quot;Optionsname kann nicht leer sein.&quot;
+ 
+-#: u_dzOptionDescList.pas:108
++#: u_dzOptionDescList.pas:108 
+ msgid &quot;Option name must start with an alphanumeric character.&quot;
+ msgstr &quot;Optionsname muss mit einem alphanumerischen Zeichen beginnen.&quot;
+ 
+-#: u_dzOptionDescList.pas:111
++#: u_dzOptionDescList.pas:111 
+ msgid &quot;Option name contains invalid character \&quot;%s\&quot; (%d).&quot;
+ msgstr &quot;Optionsname enth&#228;lt ung&#252;ltiges Zeichen \&quot;%s\&quot; (%d)&quot;
+ 
+-#. should never happen
+-#: u_dzOptionDescList.pas:121
++#. should never happen
++#: u_dzOptionDescList.pas:121 
+ u_dzOptionDescList.pas:126
+ msgid &quot;value&quot;
+ msgstr &quot;Wert&quot;
+-
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000184.html">[Dzchart-svncheckins] r317 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000186.html">[Dzchart-svncheckins] r319 - in utilities/dzLib/trunk: forms src	tests tests/dzdialog tests/dzdialog/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#185">[ date ]</a>
+              <a href="thread.html#185">[ thread ]</a>
+              <a href="subject.html#185">[ subject ]</a>
+              <a href="author.html#185">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

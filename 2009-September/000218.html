@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r352 - utilities/dzLib/trunk/tests/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r352%20-%20utilities/dzLib/trunk/tests/src&In-Reply-To=%3C200909251508.n8PF8fgP017025%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000217.html">
+   <LINK REL="Next"  HREF="000219.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r352 - utilities/dzLib/trunk/tests/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r352%20-%20utilities/dzLib/trunk/tests/src&In-Reply-To=%3C200909251508.n8PF8fgP017025%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r352 - utilities/dzLib/trunk/tests/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:08:41 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000217.html">[Dzchart-svncheckins] r351 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000219.html">[Dzchart-svncheckins] r353 - utilities/dzLib/trunk/forms
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#218">[ date ]</a>
+              <a href="thread.html#218">[ thread ]</a>
+              <a href="subject.html#218">[ subject ]</a>
+              <a href="author.html#218">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:08:40 +0200 (Fri, 25 Sep 2009)
+New Revision: 352
+
+Modified:
+   utilities/dzLib/trunk/tests/src/Testu_dzConvertUtils.pas
+Log:
+unit tests for Swap16 and Swap32
+
+Modified: utilities/dzLib/trunk/tests/src/Testu_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzConvertUtils.pas	2009-09-25 15:08:03 UTC (rev 351)
++++ utilities/dzLib/trunk/tests/src/Testu_dzConvertUtils.pas	2009-09-25 15:08:40 UTC (rev 352)
+@@ -24,6 +24,8 @@
+     procedure TestLong2Dec4(_l: ULong);
+     procedure TestLong2DecN(_l: ULong; _n: ULong);
+     procedure TestLong2Dec(_l: ULong);
++    procedure TestSwap16;
++    procedure TestSwap32;
+   end;
+ 
+ implementation
+@@ -99,6 +101,30 @@
+ 
+ end;
+ 
++procedure TestDecimalConversion.TestSwap16;
++var
++  i: Integer;
++begin
++  for i := 0 to $FFFF do begin
++    CheckEquals(i shr 8 + ((i and $FF) shl 8), Swap16(i));
++  end;
++end;
++
++procedure TestDecimalConversion.TestSwap32;
++var
++  i: LongWord;
++begin
++  i := 0;
++  // to prevent an integer overflow we can not use while i &lt;= $FFFFFFFF do
++  while true do begin
++    CheckEquals(i shr 24 + ((i shr 16) and $FF) shl 8 + ((i shr 8 and $FF) shl 16) + ((i and $FF) shl 24), Swap32(i));
++    if i &lt;= $FFFFFFFF then
++      Inc(i)
++    else
++      break;
++  end;
++end;
++
+ initialization
+   RegisterTest(TestDecimalConversion.Suite);
+ end.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000217.html">[Dzchart-svncheckins] r351 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000219.html">[Dzchart-svncheckins] r353 - utilities/dzLib/trunk/forms
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#218">[ date ]</a>
+              <a href="thread.html#218">[ thread ]</a>
+              <a href="subject.html#218">[ subject ]</a>
+              <a href="author.html#218">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

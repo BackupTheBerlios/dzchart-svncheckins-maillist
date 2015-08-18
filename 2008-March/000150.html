@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r281 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r281%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200803301214.m2UCE9jd001449%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000149.html">
+   <LINK REL="Next"  HREF="000151.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r281 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r281%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200803301214.m2UCE9jd001449%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r281 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar 30 14:14:09 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000149.html">[Dzchart-svncheckins] r280 - in utilities/dzPrepBuild/trunk: . src
+</A></li>
+        <LI>Next message: <A HREF="000151.html">[Dzchart-svncheckins] r282 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#150">[ date ]</a>
+              <a href="thread.html#150">[ thread ]</a>
+              <a href="subject.html#150">[ subject ]</a>
+              <a href="author.html#150">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-03-30 14:14:08 +0200 (Sun, 30 Mar 2008)
+New Revision: 281
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+Log:
+* added IncludeSeconds parameter to Time2Iso
+* new functions: TryIso2Time, TryIso2Date, Iso2DateTime, TryIso2DateTime, Date2ddmmyyyy, ddmmyyyy2Date and Tryddmmyyyy2Date
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2008-03-25 11:02:17 UTC (rev 280)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2008-03-30 12:14:08 UTC (rev 281)
+@@ -17,22 +17,35 @@
+ ///          'yyyy-mm-dd hh:mm:ss'
+ /// &lt;/summary&gt;
+ function DateTime2Iso(_dt: TDateTime; _IncludeTime: boolean = false): string; inline;
+-function Time2Iso(_dt: TDateTime): string;
++function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true): string; inline;
+ /// &lt;summary&gt;
+ /// converts a string that contains a time in ISO 8601 format to a TDateTime value
+ /// @param s is the string to convert, it must be in the form 'hh:mm:ss' or 'hh:mm'
+ /// @returns a TDateTime value with the time
+ /// &lt;/summary&gt;
+ function Iso2Time(_s: string): TDateTime;
+-
++function TryIso2Time(_s: string; out _Time: TDateTime): boolean;
+ /// &lt;summary&gt;
+ /// converts a string that contains a date in ISO 8601 format to a TDateTime value
+ /// @param s is the string to convert, it must be in the form 'yyyy-mm-dd', it must
+ ///          not contain a time
+ /// @returns a TDateTime value with the date
+ /// &lt;/summary&gt;
+-function Iso2Date(_s: string): TDateTime;
++function Iso2Date(const _s: string): TDateTime;
++function TryIso2Date(const _s: string; out _Date: TDateTime): boolean;
+ 
++/// &lt;summary&gt;
++/// converts a string that contains a date and time in ISO 8601 format to a TDateTime value
++/// @param s is the string to convert, it must be in the form 'yyyy-mm-dd hh:mm[:ss]'
++/// @returns a TDateTime value with the date
++/// &lt;/summary&gt;
++function Iso2DateTime(const _s: string): TDateTime;
++function TryIso2DateTime(const _s: string; out _DateTime: TDateTime): boolean;
++
++function Date2ddmmyyyy(_Date: TDateTime): string;
++function ddmmyyyy2Date(const _s: string): TDateTime;
++function Tryddmmyyyy2Date(const _s: string; out _Date: TDateTime): boolean;
++
+ implementation
+ 
+ uses
+@@ -47,46 +60,103 @@
+     DateTimeToString(Result, 'yyyy-mm-dd', _dt);
+ end;
+ 
+-function Time2Iso(_dt: TDateTime): string;
++function Date2ddmmyyyy(_Date: TDateTime): string;
+ begin
+-  DateTimeToString(Result, 'hh:nn:ss', _dt)
++  DateTimeToString(Result, 'dd.mm.yyyy', _Date);
+ end;
+ 
++function Tryddmmyyyy2Date(const _s: string; out _Date: TDateTime): boolean;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '.';
++  Settings.ShortDateFormat := 'dd.mm.yyyy';
++  Result := TryStrToDate(_s, _Date, Settings); 
++end;
++
++function ddmmyyyy2Date(const _s: string): TDateTime;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '.';
++  Settings.ShortDateFormat := 'dd.mm.yyyy';
++  Result := StrToDate(_s, Settings);
++end;
++
++function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true): string;
++var
++  fmt: string;
++begin
++  fmt := 'hh:nn';
++  if _IncludeSeconds then
++    fmt := fmt + ':ss';
++  DateTimeToString(Result, fmt, _dt);
++end;
++
++function TryIso2Time(_s: string; out _Time: TDateTime): boolean;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.TimeSeparator := ':';
++  Settings.ShortTimeFormat := 'hh:nn:ss';
++  Result := TryStrToTime(_s, _Time, Settings);
++end;
++
+ function Iso2Time(_s: string): TDateTime;
+ var
+-  s: string;
+-  h, m, sec: integer;
++  Settings: TFormatSettings;
+ begin
+-  s := ExtractFirstWord(_s, ':');
+-  h := StrToInt(s);
+-  s := ExtractFirstWord(_s, ':');
+-  m := StrToInt(s);
+-  if _s = '' then
+-    sec := 0
+-  else
+-    sec := StrToInt(_s);
+-  Result := EncodeTime(h, m, sec, 0);
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.TimeSeparator := ':';
++  Settings.ShortTimeFormat := 'hh:nn:ss';
++  Result := StrToTime(_s, Settings);
+ end;
+ 
+-function Iso2Date(_s: string): TDateTime;
++function TryIso2Date(const _s: string; out _Date: TDateTime): boolean;
+ var
+-  s: string;
+-  y, m, d: integer;
++  Settings: TFormatSettings;
+ begin
+-  s := ExtractFirstWord(_s, '-');
+-  y := StrToInt(s);
+-  s := ExtractFirstWord(_s, '-');
+-  m := StrToInt(s);
+-  d := StrToInt(_s);
+-  Result := EncodeDate(y, m, d);
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '-';
++  Settings.ShortDateFormat := 'yyyy-mm-dd';
++  Result := TryStrToDate(_s, _Date, Settings);
+ end;
+ 
+-function Iso2DateTime(_s: string): TDateTime;
++function Iso2Date(const _s: string): TDateTime;
+ var
+-  Date: string;
++  Settings: TFormatSettings;
+ begin
+-  Date := ExtractFirstWord(_s, ' ');
+-  Result := Iso2Date(Date) + Iso2Time(_s)
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '-';
++  Settings.ShortDateFormat := 'yyyy-mm-dd';
++  Result := StrToDate(_s, Settings);
+ end;
+ 
++function TryIso2DateTime(const _s: string; out _DateTime: TDateTime): boolean;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '-';
++  Settings.ShortDateFormat := 'yyyy-mm-dd';
++  Settings.TimeSeparator := ':';
++  Settings.ShortTimeFormat := 'hh:nn:ss';
++  Result := TryStrToDateTime(_s, _DateTime, Settings);
++end;
++
++function Iso2DateTime(const _s: string): TDateTime;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '-';
++  Settings.ShortDateFormat := 'yyyy-mm-dd';
++  Settings.TimeSeparator := ':';
++  Settings.ShortTimeFormat := 'hh:nn:ss';
++  Result := StrToDateTime(_s, Settings);
++end;
++
+ end.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000149.html">[Dzchart-svncheckins] r280 - in utilities/dzPrepBuild/trunk: . src
+</A></li>
+	<LI>Next message: <A HREF="000151.html">[Dzchart-svncheckins] r282 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#150">[ date ]</a>
+              <a href="thread.html#150">[ thread ]</a>
+              <a href="subject.html#150">[ subject ]</a>
+              <a href="author.html#150">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

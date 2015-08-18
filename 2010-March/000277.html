@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r416 - in utilities/IniFileFormatter/trunk: .	src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r416%20-%20in%20utilities/IniFileFormatter/trunk%3A%20.%0A%09src&In-Reply-To=%3C201003271209.o2RC90AX017839%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000276.html">
+   <LINK REL="Next"  HREF="000278.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r416 - in utilities/IniFileFormatter/trunk: .	src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r416%20-%20in%20utilities/IniFileFormatter/trunk%3A%20.%0A%09src&In-Reply-To=%3C201003271209.o2RC90AX017839%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r416 - in utilities/IniFileFormatter/trunk: .	src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 27 13:09:00 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000276.html">[Dzchart-svncheckins] r415 - utilities/buildtools/trunk/templates
+</A></li>
+        <LI>Next message: <A HREF="000278.html">[Dzchart-svncheckins] r417 - utilities/buildtools/trunk/templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#277">[ date ]</a>
+              <a href="thread.html#277">[ thread ]</a>
+              <a href="subject.html#277">[ subject ]</a>
+              <a href="author.html#277">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-27 13:08:57 +0100 (Sat, 27 Mar 2010)
+New Revision: 416
+
+Added:
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini
+Modified:
+   utilities/IniFileFormatter/trunk/
+   utilities/IniFileFormatter/trunk/src/
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+Log:
+switched to buildtools
+
+
+Property changes on: utilities/IniFileFormatter/trunk
+___________________________________________________________________
+Name: svn:ignore
+   - IniFileFormatter.exe
+
+   + IniFileFormatter.exe
+IniFileFormatter.dpr.lnk
+
+Name: svn:externals
+   - libs/dztemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk</A>
+
+   + libs/dztemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk</A>
+buildtools <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk</A>
+
+
+
+Property changes on: utilities/IniFileFormatter/trunk/src
+___________________________________________________________________
+Name: svn:ignore
+   + IniFileFormatter_Version.rc
+IniFileFormatter_Version.RES
+
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr	2010-03-27 12:05:43 UTC (rev 415)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr	2010-03-27 12:08:57 UTC (rev 416)
+@@ -18,7 +18,7 @@
+   u_dzParamDescList in '..\libs\dzCmdLineParser\src\u_dzParamDescList.pas',
+   u_dzParamFoundList in '..\libs\dzCmdLineParser\src\u_dzParamFoundList.pas';
+ 
+-{$R *.res}
++{$R *_version.res}
+ 
+ begin
+   Application.Initialize;
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-03-27 12:05:43 UTC (rev 415)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-03-27 12:08:57 UTC (rev 416)
+@@ -83,6 +83,10 @@
+ 			&lt;/BuildConfiguration&gt;
+ 		&lt;/ItemGroup&gt;
+ 		&lt;Import Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot; Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot;/&gt;
++		&lt;PropertyGroup&gt;
++			&lt;PreBuildEvent&gt;&lt;![CDATA[..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd]]&gt;&lt;/PreBuildEvent&gt;
++			&lt;PostBuildEvent&gt;&lt;![CDATA[..\buildtools\makejcldbg -e $(OUTPUTDIR)\$(OUTPUTNAME).map]]&gt;&lt;/PostBuildEvent&gt;
++		&lt;/PropertyGroup&gt;
+ 		&lt;ProjectExtensions&gt;
+ 			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
+ 			&lt;Borland.ProjectType/&gt;
+
+Added: utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini	2010-03-27 12:05:43 UTC (rev 415)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini	2010-03-27 12:08:57 UTC (rev 416)
+@@ -0,0 +1,19 @@
++[Version Info]
++AutoIncBuild=0
++Build=1
++MajorVer=1
++MinorVer=0
++Release=0
++
++[Version Info Keys]
++FileVersion=1.0.0.1
++ProductVersion=2010-03-27
++FileDescription=INI file formatter
++OriginalFilename=IniFileFormatter
++Comments=
++CompanyName=twm
++InternalName=IniFileFormatter
++LegalCopyright=Thomas Mueller 2010
++LegalTrademarks=T. M&#252;ller
++ProductName=dzlib
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000276.html">[Dzchart-svncheckins] r415 - utilities/buildtools/trunk/templates
+</A></li>
+	<LI>Next message: <A HREF="000278.html">[Dzchart-svncheckins] r417 - utilities/buildtools/trunk/templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#277">[ date ]</a>
+              <a href="thread.html#277">[ thread ]</a>
+              <a href="subject.html#277">[ subject ]</a>
+              <a href="author.html#277">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

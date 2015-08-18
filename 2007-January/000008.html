@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r132 -	utilities/dzFeedReader/trunk/dzFeedReader
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r132%20-%0A%09utilities/dzFeedReader/trunk/dzFeedReader&In-Reply-To=%3C200701252119.l0PLJ6wX009492%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000007.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r132 -	utilities/dzFeedReader/trunk/dzFeedReader</H1>
+    <B>twm at BerliOS</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r132%20-%0A%09utilities/dzFeedReader/trunk/dzFeedReader&In-Reply-To=%3C200701252119.l0PLJ6wX009492%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r132 -	utilities/dzFeedReader/trunk/dzFeedReader">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Jan 25 22:19:06 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000007.html">[Dzchart-svncheckins] r131 -	utilities/dzFeedReader/trunk/SimpleRss/Source
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-01-25 22:19:05 +0100 (Thu, 25 Jan 2007)
+New Revision: 132
+
+Modified:
+   utilities/dzFeedReader/trunk/dzFeedReader/dzFeedReader.bdsproj
+Log:
+adapted search path
+
+Modified: utilities/dzFeedReader/trunk/dzFeedReader/dzFeedReader.bdsproj
+===================================================================
+--- utilities/dzFeedReader/trunk/dzFeedReader/dzFeedReader.bdsproj	2007-01-25 21:01:48 UTC (rev 131)
++++ utilities/dzFeedReader/trunk/dzFeedReader/dzFeedReader.bdsproj	2007-01-25 21:19:05 UTC (rev 132)
+@@ -123,7 +123,7 @@
+ 			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;SearchPath&quot;&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\SimpleRss\Source;..\..\dztemplates\templates;..\..\dztemplates\units&lt;/Directories&gt;
++			&lt;Directories Name=&quot;SearchPath&quot;&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\SimpleRss\Source;..\..\berlios.dztemplates\templates;..\..\berlios.dztemplates\units&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;Packages&quot;&gt;rtl;vcl;vclx;xmlrtl;vclactnband;VclSmp;dummzeuchchartd2006;dbrtl;vcldb;dbxcds;dbexpress;vclie;inet;inetdbbde;inetdbxpress;IndyCore;IndySystem;dsnap;bdertl;vcldbx;IndyProtocols;SimpleRSS_D2k6_Win32&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10&lt;/Directories&gt;
+@@ -150,7 +150,7 @@
+ 			&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Build&quot;&gt;2&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Build&quot;&gt;3&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
+@@ -162,7 +162,7 @@
+ 		&lt;VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;www.dummzeuch.de&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;a simple RSS feed reader&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.2&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.3&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;dzFeedReader&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2006 by Thomas Mueller&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000007.html">[Dzchart-svncheckins] r131 -	utilities/dzFeedReader/trunk/SimpleRss/Source
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

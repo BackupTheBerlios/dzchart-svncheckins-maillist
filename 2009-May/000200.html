@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r334 - utilities/gtdnotes/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r334%20-%20utilities/gtdnotes/trunk/src&In-Reply-To=%3C200905301557.n4UFvdd7029722%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000199.html">
+   <LINK REL="Next"  HREF="000201.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r334 - utilities/gtdnotes/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r334%20-%20utilities/gtdnotes/trunk/src&In-Reply-To=%3C200905301557.n4UFvdd7029722%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r334 - utilities/gtdnotes/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat May 30 17:57:39 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000199.html">[Dzchart-svncheckins] r333 - utilities/gtdnotes/trunk
+</A></li>
+        <LI>Next message: <A HREF="000201.html">[Dzchart-svncheckins] r335 - utilities/gtdnotes/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#200">[ date ]</a>
+              <a href="thread.html#200">[ thread ]</a>
+              <a href="subject.html#200">[ subject ]</a>
+              <a href="author.html#200">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-05-30 17:57:38 +0200 (Sat, 30 May 2009)
+New Revision: 334
+
+Modified:
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+automatically load &lt;exename&gt;.gtdnote 
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 15:52:48 UTC (rev 333)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 15:57:38 UTC (rev 334)
+@@ -164,6 +164,7 @@
+     FPlaces: TGtdPlaces;
+     FProjects: TGtdProjects;
+     FLabels: TGtdLabels;
++    FFilename: string;
+     procedure SetDoneVisible(_Visible: boolean);
+     procedure HideNodes(_Sender: TBaseVirtualTree; _Node: PVirtualNode;
+       _Data: Pointer; var _Abort: Boolean);
+@@ -204,7 +205,9 @@
+   FProjects := TGtdProjects.Create;
+   FLabels := TGtdLabels.Create;
+ 
+-  LoadXml('data.gtdnote');
++  FFilename := ChangeFileExt(Application.ExeName, '.gtdnote');
++  if FileExists(FFilename) then
++    LoadXml(FFilename);
+ 
+   VST.NodeDataSize := SizeOf(TGtdLabelRec);
+ 
+@@ -286,72 +289,9 @@
+   finally
+     FreeAndNil(XmlDoc);
+   end;
++
++  Caption := ChangeFileExt(ExtractFileName(_Filename), '') + ' - GTD Notes'
+ end;
+-//procedure Tf_gtdNotes.LoadXml(const _Filename: string);
+-//var
+-//  XmlDoc: TXMLDocument;
+-//  LabelNode: IDOMNode;
+-//  RootNode: IDOMNode;
+-//  PlaceNode: IDOMNode;
+-//  ProjectNode: IDOMNode;
+-//  Node: IDOMNode;
+-//  doc: IDOMDocument;
+-//  Project: TGtdProject;
+-//  xmlnode: IXMLNode;
+-//begin
+-//  // owner must NOT be nil, otherwise we get an access violation
+-//  XmlDoc := TXMLDocument.Create(self);
+-//  try
+-//    XmlDoc.Active := false;
+-//    XmlDoc.DOMVendor := GetDOMVendor('MSXML');
+-//    XmlDoc.LoadFromFile(_Filename);
+-//    XmlDoc.Active := true;
+-//
+-//    if XmlDoc.ChildNodes.Count &lt; 1 then
+-//      raise Exception.Create('Document must contain at least one child node.');
+-//    xmlnode := XmlDoc.ChildNodes[0];
+-//    WriteLn(xmlnode.NodeName);
+-//
+-//    doc := XmlDoc.DOMDocument;
+-//    if doc.childNodes.length &lt;&gt; 1 then
+-//      raise Exception.Create('Document must contain one child node.');
+-//    RootNode := doc.firstChild;
+-//    if RootNode.nodeName &lt;&gt; 'gtdnotes' then
+-//      raise Exception.Create('no &quot;gtdnotes&quot; node found');
+-//    Node := RootNode.firstChild;
+-//    while Assigned(Node) do begin
+-//      if Node.nodeName = 'places' then begin
+-//        PlaceNode := Node.firstChild;
+-//        while Assigned(PlaceNode) do begin
+-//          if PlaceNode.nodeName = 'place' then begin
+-//            FPlaces.Add(TGtdPlace.Create(PlaceNode));
+-//          end;
+-//          PlaceNode := PlaceNode.nextSibling;
+-//        end;
+-//      end else if Node.nodeName = 'labels' then begin
+-//        LabelNode := Node.firstChild;
+-//        while Assigned(LabelNode) do begin
+-//          if LabelNode.nodeName = 'label' then begin
+-//            FLabels.Add(TGtdLabel.Create(LabelNode));
+-//          end;
+-//          LabelNode := LabelNode.nextSibling;
+-//        end;
+-//      end else if Node.nodeName = 'projects' then begin
+-//        ProjectNode := Node.firstChild;
+-//        while Assigned(ProjectNode) do begin
+-//          if ProjectNode.nodeName = 'project' then begin
+-//            Project := TGtdProject.Create(ProjectNode, FPlaces, FLabels);
+-//            FProjects.Add(Project);
+-//          end;
+-//          ProjectNode := ProjectNode.nextSibling;
+-//        end;
+-//      end;
+-//      Node := Node.nextSibling;
+-//    end;
+-//  finally
+-//    FreeAndNil(XmlDoc);
+-//  end;
+-//end;
+ 
+ procedure Tf_gtdNotes.SaveXml(const _Filename: string);
+ var
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000199.html">[Dzchart-svncheckins] r333 - utilities/gtdnotes/trunk
+</A></li>
+	<LI>Next message: <A HREF="000201.html">[Dzchart-svncheckins] r335 - utilities/gtdnotes/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#200">[ date ]</a>
+              <a href="thread.html#200">[ thread ]</a>
+              <a href="subject.html#200">[ subject ]</a>
+              <a href="author.html#200">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

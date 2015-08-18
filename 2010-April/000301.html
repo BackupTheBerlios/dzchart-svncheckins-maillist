@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r440 - in utilities/dzPrepBuild/trunk:	buildtools src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r440%20-%20in%20utilities/dzPrepBuild/trunk%3A%0A%09buildtools%20src&In-Reply-To=%3C201004111554.o3BFs3LH028775%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000300.html">
+   <LINK REL="Next"  HREF="000302.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r440 - in utilities/dzPrepBuild/trunk:	buildtools src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r440%20-%20in%20utilities/dzPrepBuild/trunk%3A%0A%09buildtools%20src&In-Reply-To=%3C201004111554.o3BFs3LH028775%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r440 - in utilities/dzPrepBuild/trunk:	buildtools src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr 11 17:54:03 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000300.html">[Dzchart-svncheckins] r439 - utilities/dzPrepBuild/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000302.html">[Dzchart-svncheckins] r441 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#301">[ date ]</a>
+              <a href="thread.html#301">[ thread ]</a>
+              <a href="subject.html#301">[ subject ]</a>
+              <a href="author.html#301">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-04-11 17:53:56 +0200 (Sun, 11 Apr 2010)
+New Revision: 440
+
+Modified:
+   utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+   utilities/dzPrepBuild/trunk/buildtools/prep.cmd
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/i_VersionInfoAccess.pas
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Log:
+* got rid of the additional call to prepbuild in prep.cmd due to --ProductVersionToDate option
+* added some output for what the program actually does for debug purposes
+
+Modified: utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+===================================================================
+(Binary files differ)
+
+Modified: utilities/dzPrepBuild/trunk/buildtools/prep.cmd
+===================================================================
+--- utilities/dzPrepBuild/trunk/buildtools/prep.cmd	2010-04-11 15:33:57 UTC (rev 439)
++++ utilities/dzPrepBuild/trunk/buildtools/prep.cmd	2010-04-11 15:53:56 UTC (rev 440)
+@@ -1,3 +1,2 @@
+ @echo on
+-%~dp0\PrepBuild --writerc=%dzProject%_Version.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc=&quot;%dzVersion.FileDesc%&quot; --InternalName=&quot;%dzVersion.InternalName%&quot; --OriginalName=&quot;%dzVersion.OriginalName%&quot; --Product=&quot;%dzVersion.Product%&quot; --ProductVersion=&quot;%dzDate%&quot; --Company=&quot;%dzVersion.Company%&quot; --Copyright=&quot;%dzVersion.Copyright%&quot; --Trademark=&quot;%dzVersion.Trademark%&quot; --Comments=&quot;%dzVersion.Comments%&quot;
+ brcc32 %dzProject%_Version.rc
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-04-11 15:33:57 UTC (rev 439)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-04-11 15:53:56 UTC (rev 440)
+@@ -45,7 +45,7 @@
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;PropertyGroup&gt;
+     &lt;PreBuildEvent&gt;subwcrev .. SVN_Version_template.ini SVN_Version.ini
+-..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
++..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --updateini=$(PROJECTPATH)  --productversiontodate --exec=..\buildtools\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ItemGroup&gt;
+     &lt;DelphiCompile Include=&quot;PrepBuild.dpr&quot;&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 15:33:57 UTC (rev 439)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 15:53:56 UTC (rev 440)
+@@ -1,4 +1,4 @@
+ [Version Info]
+-Build=244
+-FileVersion=1.2.0.244
++Build=253
++FileVersion=1.2.0.253
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/i_VersionInfoAccess.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/i_VersionInfoAccess.pas	2010-04-11 15:33:57 UTC (rev 439)
++++ utilities/dzPrepBuild/trunk/src/i_VersionInfoAccess.pas	2010-04-11 15:53:56 UTC (rev 440)
+@@ -11,6 +11,7 @@
+ 
+ type
+   IVersionInfoAccess = interface ['{57B36255-0A4B-4F62-9007-B4D211C2185D}']
++    function VerInfoFilename: string;
+     procedure ReadFromFile(_VerInfo: TVersionInfo);
+     procedure WriteToFile(_VerInfo: TVersionInfo);
+   end;
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2010-04-11 15:33:57 UTC (rev 439)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2010-04-11 15:53:56 UTC (rev 440)
+@@ -215,6 +215,7 @@
+   VersionInfo := TVersionInfo.Create;
+   try
+     if Assigned(VerInfoAccess) then begin
++      WriteLn('Reading ' + VerInfoAccess.VerInfoFilename);
+       VerInfoAccess.ReadFromFile(VersionInfo);
+       VerInfoAccess := nil;
+     end;
+@@ -222,94 +223,134 @@
+     if FGetOpt.OptionPassed('MajorVer', Param) then begin
+       if not TryStrToInt(Param, IntValue) then
+         raise Exception.Create(_('Parameter for MajorVer must be a number'));
++      WriteLn('Setting MajorVer to ', IntValue);
+       VersionInfo.MajorVer := IntValue;
+     end;
+ 
+     if FGetOpt.OptionPassed('MinorVer', Param) then begin
+       if not TryStrToInt(Param, IntValue) then
+         raise Exception.Create(_('Parameter for MinorVer must be a number'));
++      WriteLn('Setting MinorVer to ', IntValue);
+       VersionInfo.MinorVer := IntValue;
+     end;
+ 
+     if FGetOpt.OptionPassed('Release', Param) then begin
+       if not TryStrToInt(Param, IntValue) then
+         raise Exception.Create(_('Parameter for Release must be a number'));
++      WriteLn('Setting Release to ', IntValue);
+       VersionInfo.Release := IntValue;
+     end;
+ 
+     if FGetOpt.OptionPassed('Build', Param) then begin
+       if not TryStrToInt(Param, IntValue) then
+         raise Exception.Create(_('Parameter for Build must be a number'));
++      WriteLn('Setting Build to ', IntValue);
+       VersionInfo.Build := IntValue;
+     end;
+ 
+-    if FGetOpt.OptionPassed('FileDesc', Param) then
++    if FGetOpt.OptionPassed('FileDesc', Param) then begin
+       VersionInfo.FileDescription := UnquoteStr(Param);
++      WriteLn('Setting FileDescription to ', VersionInfo.FileDescription);
++    end;
+ 
+-    if FGetOpt.OptionPassed('InternalName', Param) then
++    if FGetOpt.OptionPassed('InternalName', Param) then begin
+       VersionInfo.InternalName := UnquoteStr(Param);
++      WriteLn('Setting InternalName to ', VersionInfo.InternalName);
++    end;
+ 
+-    if FGetOpt.OptionPassed('OriginalName', Param) then
++    if FGetOpt.OptionPassed('OriginalName', Param) then begin
+       VersionInfo.OriginalFilename := UnquoteStr(Param);
++      WriteLn('Setting OriginalFilename to ', VersionInfo.OriginalFilename);
++    end;
+ 
+-    if FGetOpt.OptionPassed('Product', Param) then
++    if FGetOpt.OptionPassed('Product', Param) then begin
+       VersionInfo.ProductName := UnquoteStr(Param);
++      WriteLn('Setting ProductName to ', VersionInfo.ProductName);
++    end;
+ 
+-    if FGetOpt.OptionPassed('ProductVersion', Param) then
++    if FGetOpt.OptionPassed('ProductVersion', Param) then begin
+       VersionInfo.ProductVersion := UnquoteStr(Param);
++      WriteLn('Setting ProductVersion to ', VersionInfo.ProductVersion);
++    end;
+ 
+     dt := Now;
+-    if FGetOpt.OptionPassed('ProductVersionToDate') then
++    if FGetOpt.OptionPassed('ProductVersionToDate') then begin
+       VersionInfo.ProductVersion := DateTimeToString('yyyy-mm-dd', dt);
++      WriteLn('Setting ProductVersion to ', VersionInfo.ProductVersion);
++    end;
+ 
+-    if FGetOpt.OptionPassed('ProductVersionToDateTime') then
++    if FGetOpt.OptionPassed('ProductVersionToDateTime') then begin
+       VersionInfo.ProductVersion := DateTimeToString('yyyy-mm-dd hh:nn:ss', dt);
++      WriteLn('Setting ProductVersion to ', VersionInfo.ProductVersion);
++    end;
+ 
+-    if FGetOpt.OptionPassed('Company', Param) then
++    if FGetOpt.OptionPassed('Company', Param) then begin
+       VersionInfo.CompanyName := UnquoteStr(Param);
++      WriteLn('Setting CompanyName to ', VersionInfo.CompanyName);
++    end;
+ 
+-    if FGetOpt.OptionPassed('Copyright', Param) then
++    if FGetOpt.OptionPassed('Copyright', Param) then begin
+       VersionInfo.LegalCopyright := UnquoteStr(Param);
++      WriteLn('Setting LegalCopyright to ', VersionInfo.LegalCopyright);
++    end;
+ 
+-    if FGetOpt.OptionPassed('Trademark', Param) then
++    if FGetOpt.OptionPassed('Trademark', Param) then begin
+       VersionInfo.LegalTrademarks := UnquoteStr(Param);
++      WriteLn('Setting LegalTrademarks to ', VersionInfo.LegalTrademarks);
++    end;
+ 
+-    if FGetOpt.OptionPassed('Comments', Param) then
++    if FGetOpt.OptionPassed('Comments', Param) then begin
+       VersionInfo.Comments := UnquoteStr(Param);
++      WriteLn('Setting Comments to ', VersionInfo.Comments);
++    end;
+ 
+-    if FGetOpt.OptionPassed('IncBuild') then
++    if FGetOpt.OptionPassed('IncBuild') then begin
+       VersionInfo.Build := VersionInfo.Build + 1;
++      WriteLn('Incrementing build number to ', VersionInfo.Build);
++    end;
+ 
+     VersionInfo.UpdateFileVersion;
++    WriteLn('FileVersion is now ', VersionInfo.FileVersion);
+ 
+     if FGetOpt.OptionPassed('UpdateDof', Param) then begin
+       VerInfoAccess := TDofVersionInfo.Create(Param);
++      WriteLn('Updating ', VerInfoAccess.VerInfoFilename);
+       VerInfoAccess.WriteToFile(VersionInfo);
+     end;
+ 
+     if FGetOpt.OptionPassed('UpdateBdsproj', Param) then begin
+       VerInfoAccess := Tdm_BdsProjVersionInfo.Create(Param);
++      WriteLn('Updating ', VerInfoAccess.VerInfoFilename);
+       VerInfoAccess.WriteToFile(VersionInfo);
+     end;
+ 
+     if FGetOpt.OptionPassed('UpdateIni', Param) then begin
+       VerInfoAccess := TCentralVersionInfo.Create(Param);
++      WriteLn('Updating ', VerInfoAccess.VerInfoFilename);
+       VerInfoAccess.WriteToFile(VersionInfo);
+     end;
+ 
+     if FGetOpt.OptionPassed('UpdateDproj', Param) then begin
+       VerInfoAccess := Tdm_DprojVersionInfo.Create(Param);
++      WriteLn('Updating ', VerInfoAccess.VerInfoFilename);
+       VerInfoAccess.WriteToFile(VersionInfo);
+     end;
+ 
+-    if not FGetOpt.OptionPassed('Icon', IconFile) then
++    if FGetOpt.OptionPassed('Icon', IconFile) then
++      WriteLn('Adding icon to rcfile from ', IconFile)
++    else
+       IconFile := '';
+ 
+-    if FGetOpt.OptionPassed('WriteRc', Param) then
++    if FGetOpt.OptionPassed('WriteRc', Param) then begin
++      WriteLn('Writing rc file ', Param);
+       WriteRcFile(Param, VersionInfo, IconFile);
++    end;
+ 
+-    if FGetOpt.OptionPassed('Exec', Param) then
++    if FGetOpt.OptionPassed('Exec', Param) then begin
++      WriteLn('Executing ', Param);
++      Flush(Output);
+       HandleExecOption(Param, VersionInfo, Project);
++    end;
+ 
+   finally
+     FreeAndNil(VersionInfo);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000300.html">[Dzchart-svncheckins] r439 - utilities/dzPrepBuild/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000302.html">[Dzchart-svncheckins] r441 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#301">[ date ]</a>
+              <a href="thread.html#301">[ thread ]</a>
+              <a href="subject.html#301">[ subject ]</a>
+              <a href="author.html#301">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

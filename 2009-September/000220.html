@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r354 - utilities/dzLib/trunk/forms
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r354%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C200909251517.n8PFHNOl018050%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000219.html">
+   <LINK REL="Next"  HREF="000221.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r354 - utilities/dzLib/trunk/forms</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r354%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C200909251517.n8PFHNOl018050%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r354 - utilities/dzLib/trunk/forms">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:17:23 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000219.html">[Dzchart-svncheckins] r353 - utilities/dzLib/trunk/forms
+</A></li>
+        <LI>Next message: <A HREF="000221.html">[Dzchart-svncheckins] r355 - utilities/dzLib/trunk/lockfree
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#220">[ date ]</a>
+              <a href="thread.html#220">[ thread ]</a>
+              <a href="subject.html#220">[ subject ]</a>
+              <a href="author.html#220">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:17:21 +0200 (Fri, 25 Sep 2009)
+New Revision: 354
+
+Modified:
+   utilities/dzLib/trunk/forms/w_dzWizardForm.pas
+   utilities/dzLib/trunk/forms/wf_dzWizardFrame.pas
+Log:
+* new property Pages
+* pressing Cancel now calls the CancelPressed and Cancelling methods in all pages
+* The buttons to enable are now determined dynamically by calling the ButtonAllowed method in all pages
+
+Modified: utilities/dzLib/trunk/forms/w_dzWizardForm.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzWizardForm.pas	2009-09-25 15:13:08 UTC (rev 353)
++++ utilities/dzLib/trunk/forms/w_dzWizardForm.pas	2009-09-25 15:17:21 UTC (rev 354)
+@@ -34,9 +34,6 @@
+ 
+   TOnFinished = procedure(_Sender: TObject; var _CanClose: boolean) of object;
+ 
+-  TWizardButtons = (wbPrev, wbNext, wbCancel);
+-  TWizardButtonSet = set of TWizardButtons;
+-
+   Tf_dzWizardForm = class(TForm)
+     p_Client: TPanel;
+     p_Buttons: TPanel;
+@@ -118,6 +115,7 @@
+     function GoBack: integer; virtual;
+     function GetEnabledButtons: TWizardButtonSet;
+     procedure SetEnabledButtons(const _Buttons: TWizardButtonSet; _Enabled: boolean);
++    procedure UpdateButtonState;
+     property Pages: TPageList read FPages;
+     property Picture: TPicture read GetPicture write SetPicture;
+     property CurrentPageNo: integer read FCurrentPageNo write SetCurrentPageNo;
+@@ -135,13 +133,14 @@
+     FNextId: integer;
+     FList: TList;
+     FWizard: Tf_dzWizardForm;
+-    function GetPage(_Idx: integer): pointer;
++    function GetPages(_Idx: integer): Tfr_dzWizardFrame;
+     function PageById(_PageId: integer): Tfr_dzWizardFrame;
+   public
+     constructor Create(_Wizard: Tf_dzWizardForm);
+     destructor Destroy; override;
+     function AddPage(_Frame: Tfr_dzWizardFrame; const _Description: string; _Data: pointer = nil): integer;
+     function PageCount: integer;
++    property Pages[_Idx: integer]: Tfr_dzWizardFrame read GetPages; default;
+   end;
+ 
+ implementation
+@@ -205,7 +204,7 @@
+   Result := nil;
+ end;
+ 
+-function TPageList.GetPage(_Idx: integer): pointer;
++function TPageList.GetPages(_Idx: integer): Tfr_dzWizardFrame;
+ begin
+   Result := FList[_Idx];
+ end;
+@@ -392,6 +391,7 @@
+   if Assigned(FCurrentPage) then
+     FCurrentPage.PageDeactivate;
+   FCurrentPage := _NextPage;
++  CurrentPageNo := FPages.FList.IndexOf(_NextPage);
+   FCurrentPage.PageActivate;
+   s := _NextPage.Description;
+   if s = '' then
+@@ -405,7 +405,6 @@
+     l_Description.Caption := s;
+     p_Description.Visible := true;
+   end;
+-  CurrentPageNo := FPages.FList.IndexOf(_NextPage);
+ end;
+ 
+ procedure Tf_dzWizardForm.b_CancelClick(Sender: TObject);
+@@ -426,8 +425,15 @@
+ end;
+ 
+ function Tf_dzWizardForm.DoOnCancel: boolean;
++var
++  i: Integer;
+ begin
+   Result := true;
++  for i := 0 to FPages.PageCount - 1 do
++    FPages[i].CancelPressed(Result);
++  if Result then
++    for i := 0 to FPages.PageCount - 1 do
++      FPages[i].Cancelling;
+ end;
+ 
+ procedure Tf_dzWizardForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+@@ -466,6 +472,34 @@
+   b_Prev.Caption := _Caption;
+ end;
+ 
++procedure Tf_dzWizardForm.UpdateButtonState;
++var
++  Buttons: TWizardButtonSet;
++
++  procedure CheckButton(_Button: TWizardButtons; _Default: boolean);
++  var
++    Allowed: boolean;
++  begin
++    Allowed := _Default;
++    FCurrentPage.ButtonAllowed(_Button, Allowed);
++    if Allowed then
++      Include(Buttons, _Button)
++    else
++      Exclude(Buttons, _Button);
++  end;
++
++begin
++  Buttons := GetEnabledButtons;
++  if Assigned(FCurrentPage) then begin
++    if FCurrentPageNo &gt; 0 then
++      CheckButton(wbPrev, true);
++    CheckButton(wbNext, true);
++    CheckButton(wbCancel, true);
++  end;
++  SetEnabledButtons(Buttons, true);
++  SetEnabledButtons([wbPrev, wbNext, wbCancel] - Buttons, false);
++end;
++
+ function Tf_dzWizardForm.GetEnabledButtons: TWizardButtonSet;
+ begin
+   Result := [];
+
+Modified: utilities/dzLib/trunk/forms/wf_dzWizardFrame.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/wf_dzWizardFrame.pas	2009-09-25 15:13:08 UTC (rev 353)
++++ utilities/dzLib/trunk/forms/wf_dzWizardFrame.pas	2009-09-25 15:17:21 UTC (rev 354)
+@@ -27,6 +27,9 @@
+     _OldPageId, _NewPageId: integer;
+     _OldPageData, _NewPageData: Pointer) of object;
+ 
++  TWizardButtons = (wbPrev, wbNext, wbCancel);
++  TWizardButtonSet = set of TWizardButtons;
++
+   Tfr_dzWizardFrame = class(TFrame)
+   private
+     FPageId: integer;
+@@ -38,12 +41,20 @@
+   protected
+     function GetNextPageId: integer; virtual;
+     procedure SetNextPageId(const _Value: integer); virtual;
++    procedure doUpdateButtonState;
+   public
+     constructor Create(_Owner: TComponent); override;
++    procedure ButtonAllowed(_Button: TWizardButtons; var _Allowed: boolean); virtual;
+     procedure PageActivate; virtual;
+     procedure PageDeactivate; virtual;
+     function Exiting(_Direction: TPrevNext; var _NewPageId: integer; _NewPage: Tfr_dzWizardFrame): boolean; virtual;
+     procedure Entered(_Direction: TPrevNext; _OldPageId: integer; _OldPage: Tfr_dzWizardFrame); virtual;
++    ///&lt;summary&gt; Called for all pages when the user presses the Cancel button, set Allow to false to prevent
++    ///          the wizard from closing &lt;/summary&gt;
++    procedure CancelPressed(var _Allow: boolean); virtual;
++    ///&lt;summary&gt; Called for all pages when calls to CancelPressed all returned true, just before closing
++    ///          the wizard &lt;/summary&gt;
++    procedure Cancelling; virtual;
+     property PageId: integer read FPageId write FPageId;
+     property NextPageId: integer read GetNextPageId write SetNextPageId;
+     property Description: string read FDescription write FDescription;
+@@ -56,6 +67,9 @@
+ 
+ {$R *.dfm}
+ 
++uses
++  w_dzWizardForm;
++
+ { Tfr_dzWizardFrame }
+ 
+ constructor Tfr_dzWizardFrame.Create(_Owner: TComponent);
+@@ -65,18 +79,38 @@
+   FNextPageId := -1;
+ end;
+ 
++procedure Tfr_dzWizardFrame.Cancelling;
++begin
++  // do nothing
++end;
++
++procedure Tfr_dzWizardFrame.CancelPressed(var _Allow: boolean);
++begin
++  // do nothing
++end;
++
++procedure Tfr_dzWizardFrame.doUpdateButtonState;
++begin
++  (Owner as Tf_dzWizardForm).UpdateButtonState;
++end;
++
++procedure Tfr_dzWizardFrame.ButtonAllowed(_Button: TWizardButtons; var _Allowed: boolean);
++begin
++  // do nothing
++end;
++
+ procedure Tfr_dzWizardFrame.Entered(_Direction: TPrevNext; _OldPageId: integer; _OldPage: Tfr_dzWizardFrame);
+ begin
+   if Assigned(FAfterEnter) then
+-    FAfterEnter(Self, _Direction, _OldPageId, PageId, _OldPage, Self);
++    FAfterEnter(Self, _Direction, _OldPageId, PageId, _OldPage.Data, Data);
+ end;
+ 
+ function Tfr_dzWizardFrame.Exiting(_Direction: TPrevNext;
+   var _NewPageId: integer; _NewPage: Tfr_dzWizardFrame): boolean;
+ begin
+-  Result := true;
++  Result := True;
+   if Assigned(FBeforeExit) then
+-    FBeforeExit(Self, _Direction, PageId, _NewPageId, Self, _NewPage, Result);
++    FBeforeExit(Self, _Direction, PageId, _NewPageId, Data, _NewPage.Data, Result);
+ end;
+ 
+ function Tfr_dzWizardFrame.GetNextPageId: integer;
+@@ -88,6 +122,7 @@
+ begin
+   Align := alClient;
+   Visible := true;
++  doUpdateButtonState;
+ end;
+ 
+ procedure Tfr_dzWizardFrame.PageDeactivate;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000219.html">[Dzchart-svncheckins] r353 - utilities/dzLib/trunk/forms
+</A></li>
+	<LI>Next message: <A HREF="000221.html">[Dzchart-svncheckins] r355 - utilities/dzLib/trunk/lockfree
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#220">[ date ]</a>
+              <a href="thread.html#220">[ thread ]</a>
+              <a href="subject.html#220">[ subject ]</a>
+              <a href="author.html#220">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

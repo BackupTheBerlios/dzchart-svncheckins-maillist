@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r195 - utilities/dzLib/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r195%20-%20utilities/dzLib/trunk&In-Reply-To=%3C200707270858.l6R8waQE003753%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000068.html">
+   <LINK REL="Next"  HREF="000070.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r195 - utilities/dzLib/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r195%20-%20utilities/dzLib/trunk&In-Reply-To=%3C200707270858.l6R8waQE003753%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r195 - utilities/dzLib/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Jul 27 10:58:36 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000068.html">[Dzchart-svncheckins] r194 - utilities/dzLib/trunk/tests/dzfileutils
+</A></li>
+        <LI>Next message: <A HREF="000070.html">[Dzchart-svncheckins] r196 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#69">[ date ]</a>
+              <a href="thread.html#69">[ thread ]</a>
+              <a href="subject.html#69">[ subject ]</a>
+              <a href="author.html#69">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-27 10:58:32 +0200 (Fri, 27 Jul 2007)
+New Revision: 195
+
+Added:
+   utilities/dzLib/trunk/UpdateTranslations.cmd
+Modified:
+   utilities/dzLib/trunk/default_de.po
+   utilities/dzLib/trunk/ignore.po
+Log:
+updated German translation and batch file to update them
+
+Added: utilities/dzLib/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzLib/trunk/UpdateTranslations.cmd	2007-07-27 08:57:52 UTC (rev 194)
++++ utilities/dzLib/trunk/UpdateTranslations.cmd	2007-07-27 08:58:32 UTC (rev 195)
+@@ -0,0 +1,16 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> This batch will
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * call dxgettext to extract all strings to translate
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * call msgremove remove any strings stored in the ignore.po file
++
++set BASE=.
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> extract from subdirectories src and forms
++dxgettext --delphi -r -b %BASE%\src -b %BASE%\forms -o %BASE%
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> remove strings given in ignore.po
++msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> merge German translations
++msgmerge --no-wrap --update %BASE%\default_de.po %BASE%\filtered.po
++
++pause
+
+Modified: utilities/dzLib/trunk/default_de.po
+===================================================================
+--- utilities/dzLib/trunk/default_de.po	2007-07-27 08:57:52 UTC (rev 194)
++++ utilities/dzLib/trunk/default_de.po	2007-07-27 08:58:32 UTC (rev 195)
+@@ -6,8 +6,8 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2007-05-23 17:05\n&quot;
+-&quot;PO-Revision-Date: 2007-05-23 17:10+0100\n&quot;
++&quot;POT-Creation-Date: 2007-07-18 15:13\n&quot;
++&quot;PO-Revision-Date: 2007-07-18 15:14+0100\n&quot;
+ &quot;Last-Translator: Schniering Ingenieursgesellschaft &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+@@ -19,96 +19,136 @@
+ 
+ #. &quot;%s&quot; ist kein g&#195;&#188;ltiger Flie&#195;&#159;komma Wert: %s
+ #. Programmer's name for it: STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS
+-#: u_dzConvertUtils.pas:182
++#: u_dzConvertUtils.pas:223
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger Flie&#195;&#159;kommawert: %s&quot;
+ 
+ #. &quot;%s&quot; ist kein g&#195;&#188;ltiger %s Wert: %s
+ #. Programmer's name for it: STR_X_IS_NOT_A_VALID_Y_VALUE_SSS
+-#: u_dzConvertUtils.pas:184
++#: u_dzConvertUtils.pas:225
+ msgid &quot;\&quot;%s\&quot; is not a valid %s value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger %s Wert: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:215
++#: u_dzConvertUtils.pas:256
+ msgid &quot;Digit out of range %s&quot;
+ msgstr &quot;ung&#195;&#188;ltige Ziffer %s&quot;
+ 
+-#: u_dzConvertUtils.pas:228
++#: u_dzConvertUtils.pas:269
+ msgid &quot;Digit #%d (%s) out of range&quot;
+ msgstr &quot;Ung&#195;&#188;ltige Ziffer #%d (%s)&quot;
+ 
+-#: u_dzDefaultMain.pas:114
++#: u_dzConvertUtils.pas:553
++msgid &quot;%.2f EiB&quot;
++msgstr &quot;%.2f EiB&quot;
++
++#: u_dzConvertUtils.pas:555
++msgid &quot;%.2f PiB&quot;
++msgstr &quot;%.2f PiB&quot;
++
++#: u_dzConvertUtils.pas:557
++msgid &quot;%.2f TiB&quot;
++msgstr &quot;%.2f TiB&quot;
++
++#: u_dzConvertUtils.pas:559
++msgid &quot;%.2f GiB&quot;
++msgstr &quot;%.2f GiB&quot;
++
++#: u_dzConvertUtils.pas:561
++msgid &quot;%.2f MiB&quot;
++msgstr &quot;%.2f MiB&quot;
++
++#: u_dzConvertUtils.pas:563
++msgid &quot;%.2f KiB&quot;
++msgstr &quot;%.2f KiB&quot;
++
++#: u_dzConvertUtils.pas:565
++msgid &quot;%d Bytes&quot;
++msgstr &quot;%d Bytes&quot;
++
++#: u_dzDefaultMain.pas:115
+ msgid &quot;Error: %s&quot;
+ msgstr &quot;Fehler: %s&quot;
+ 
++#: u_dzDefaultMain.pas:119
++msgid &quot;Synopsis: %s %s&quot;
++msgstr &quot;Aufruf: %s %s&quot;
++
++#: u_dzDefaultMain.pas:120
++msgid &quot;Parameters:&quot;
++msgstr &quot;Parameter:&quot;
++
++#: u_dzDefaultMain.pas:122
++msgid &quot;Options:&quot;
++msgstr &quot;Optionen:&quot;
++
+ #. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
+-#: u_dzFileUtils.pas:450
++#: u_dzFileUtils.pas:458
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath&quot;
+ 
+ #. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
+-#: u_dzFileUtils.pas:451
++#: u_dzFileUtils.pas:459
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath (zweiter)&quot;
+ 
+ #. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
+-#: u_dzFileUtils.pas:452
++#: u_dzFileUtils.pas:460
+ msgid &quot;could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ msgstr &quot;Konnte keinen eindeutigen Verzeichnisnamen basierend auf \&quot;%s\&quot; finden.&quot;
+ 
+ #. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
+-#: u_dzFileUtils.pas:453
++#: u_dzFileUtils.pas:461
+ msgid &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ msgstr &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von Windows.GetTempFileName&quot;
+ 
+ #. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
+-#: u_dzFileUtils.pas:454
++#: u_dzFileUtils.pas:462
+ msgid &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ msgstr &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von Windows.GetShortPathname&quot;
+ 
+ #. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
+-#: u_dzFileUtils.pas:455
++#: u_dzFileUtils.pas:463
+ msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ msgstr &quot;Kurzer Pfad ist l&#195;&#164;nger als MAX_PATH (%d) Zeichen&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_MOVEFILE_ERROR_SS
+-#: u_dzFileUtils.pas:457
++#: u_dzFileUtils.pas:465
+ msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Verschieben von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_SETREADONLY_ERROR_S
+-#: u_dzFileUtils.pas:459
++#: u_dzFileUtils.pas:467
+ msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim &#195;&#132;ndern des Schreibschutz-Flags von \&quot;%s\&quot;&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_COPYFILE_ERROR_SS
+-#: u_dzFileUtils.pas:461
++#: u_dzFileUtils.pas:469
+ msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Kopieren von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_DELETEFILE_ERROR_S
+-#: u_dzFileUtils.pas:463
++#: u_dzFileUtils.pas:471
+ msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim L&#195;&#182;schen der Datei \&quot;%s\&quot;&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_REMOVEDIR_ERROR_S
+-#: u_dzFileUtils.pas:465
++#: u_dzFileUtils.pas:473
+ msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim L&#195;&#182;schen des Verzeichnisses \&quot;%s\&quot;&quot;
+ 
+ #. Programmer's name for it: STR_DELTREE_ERROR_S
+-#: u_dzFileUtils.pas:466
++#: u_dzFileUtils.pas:474
+ msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ msgstr &quot;\&quot;%s\&quot; existiert nicht oder ist kein Verzeichnis&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_CREATEDIR_ERROR_S
+-#: u_dzFileUtils.pas:468
++#: u_dzFileUtils.pas:476
+ msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses \&quot;%s\&quot;&quot;
+ 
+@@ -149,33 +189,64 @@
+ 
+ #. nthWord: Nulltes Wort nicht verf&#195;&#188;gbar
+ #. Programmer's name for it: STR_NO_0TH_WORD
+-#: u_dzStringUtils.pas:262
++#: u_dzStringUtils.pas:265
+ msgid &quot;nthWord: 0th word not available&quot;
+ msgstr &quot;nthWord: 0tes Wort ist nicht verf&#195;&#188;gbar&quot;
+ 
+ #. Zu zentrierender String ist l&#195;&#164;nger als die Maximall&#195;&#164;nge und kann nicht zentriert werden.
+ #. Programmer's name for it: STR_STRING_TOO_LONG_TO_CENTER
+-#: u_dzStringUtils.pas:265
++#: u_dzStringUtils.pas:268
+ msgid &quot;Cannot center string that is larger than the maximum length.&quot;
+ msgstr &quot;Kann keinen String zentrieren, der l&#195;&#164;nger als die maximale L&#195;&#164;nge ist.&quot;
+ 
+ #. Strings haben kein nulltes Zeichen.
+ #. Programmer's name for it: STR_CHAR_INDEX_OUT_OF_RANGE
+-#: u_dzStringUtils.pas:268
++#: u_dzStringUtils.pas:271
+ msgid &quot;Strings do not have a 0th character.&quot;
+ msgstr &quot;Strings haben kein 0tes Zeichen.&quot;
+ 
+ #. Variant kann nicht nach %s konvertiert werden: %s
+ #. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S
+-#: u_dzVariantUtils.pas:159
++#: u_dzVariantUtils.pas:165
+ msgid &quot;Variant can not be converted to %s&quot;
+ msgstr &quot;Variant kann nicht nach %s konvertiert werden&quot;
+ 
+-#: u_dzVclUtils.pas:491
++#: u_dzVclUtils.pas:465
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger Flie&#195;&#159;kommawert.&quot;
+ 
+-#: u_dzVclUtils.pas:511
++#: u_dzVclUtils.pas:480
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger Integerwert.&quot;
+ 
++#. Programmer's name for it: STR_SHOW_DETAILS
++#: w_dzDialog.pas:298
++msgid &quot;&amp;Details &gt;&gt;&quot;
++msgstr &quot;&amp;Details &gt;&gt;&quot;
++
++#. Programmer's name for it: STR_HIDE_DETAILS
++#: w_dzDialog.pas:299
++msgid &quot;&amp;Details &lt;&lt;&quot;
++msgstr &quot;&amp;Details &lt;&lt;&quot;
++
++#: w_dzDialog.pas:310
++msgid &quot;Invalid modal result %d.&quot;
++msgstr &quot;Ung&#195;&#188;ltiger modaler R&#195;&#188;ckgabewert %d.&quot;
++
++#: w_dzDialog.pas:453
++msgid &quot;Do not show again.&quot;
++msgstr &quot;Nicht nochmal anzeigen.&quot;
++
++#: w_dzDialog.pas:534
++msgid &quot;&quot;
++&quot;An error occurred:\n&quot;
++&quot;%s&quot;
++msgstr &quot;&quot;
++&quot;Es ist ein Fehler aufgetreten:\n&quot;
++&quot;%s&quot;
++
++#. 400;
++#: w_dzDialog.pas:558
++msgid &quot;Additional information:&quot;
++msgstr &quot;Erweiterte Informationen:&quot;
++
+
+Modified: utilities/dzLib/trunk/ignore.po
+===================================================================
+--- utilities/dzLib/trunk/ignore.po	2007-07-27 08:57:52 UTC (rev 194)
++++ utilities/dzLib/trunk/ignore.po	2007-07-27 08:58:32 UTC (rev 195)
+@@ -0,0 +1,39 @@
++#  Ignorierliste. Entfernen Sie die, die Sie &#252;bersetzt haben wollen.
++
++#  Seems like a Font.Name extract
++#. f_dzDialog..Font.Name
++#: w_dzDialog.dfm:12
++msgid &quot;MS Sans Serif&quot;
++msgstr &quot;&quot;
++
++#  Seems like a Font.Name extract
++#. f_dzDialog..p_Details..m_Details..Font.Name
++#: w_dzDialog.dfm:76
++msgid &quot;Courier New&quot;
++msgstr &quot;&quot;
++
++#. f_dzDialog..Caption
++#: w_dzDialog.dfm:5 
++msgid &quot;f_dzDialog&quot;
++msgstr &quot;&quot;
++
++#. f_dzDialog..p_Top..l_Message....Caption
++#: w_dzDialog.dfm:36 
++msgid &quot;Mitteilung an den Benutzer, dies ist eine sehr lange Mitteilung und sie wird ein paar mal wiederholt, damit auch ein Umbruch stattfindet. (do not translate)&quot;
++msgstr &quot;&quot;
++
++#. f_dzDialog..p_Top..l_Options..Caption
++#: w_dzDialog.dfm:45 
++msgid &quot;Beschreibung der Optionen (do not translate)&quot;
++msgstr &quot;&quot;
++
++#. f_dzDialog..p_Details..m_Details....Lines.Strings
++#: w_dzDialog.dfm:79 
++msgid &quot;ExcectionClass: (do not translate)&quot;
++msgstr &quot;&quot;
++
++#. f_dzDialog..p_Details..m_Details....Lines.Strings
++#: w_dzDialog.dfm:80 
++msgid &quot;Message der Exception (do not translate)&quot;
++msgstr &quot;&quot;
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000068.html">[Dzchart-svncheckins] r194 - utilities/dzLib/trunk/tests/dzfileutils
+</A></li>
+	<LI>Next message: <A HREF="000070.html">[Dzchart-svncheckins] r196 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#69">[ date ]</a>
+              <a href="thread.html#69">[ thread ]</a>
+              <a href="subject.html#69">[ subject ]</a>
+              <a href="author.html#69">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

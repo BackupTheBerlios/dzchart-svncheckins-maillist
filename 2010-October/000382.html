@@ -1,0 +1,723 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r524 - in utilities/IniFileFormatter/trunk:	locale/de/LC_MESSAGES locale/en/LC_MESSAGES	locale/fr/LC_MESSAGES src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r524%20-%20in%20utilities/IniFileFormatter/trunk%3A%0A%09locale/de/LC_MESSAGES%20locale/en/LC_MESSAGES%0A%09locale/fr/LC_MESSAGES%20src&In-Reply-To=%3C20101023174352.469454801DB%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000381.html">
+   <LINK REL="Next"  HREF="000383.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r524 - in utilities/IniFileFormatter/trunk:	locale/de/LC_MESSAGES locale/en/LC_MESSAGES	locale/fr/LC_MESSAGES src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r524%20-%20in%20utilities/IniFileFormatter/trunk%3A%0A%09locale/de/LC_MESSAGES%20locale/en/LC_MESSAGES%0A%09locale/fr/LC_MESSAGES%20src&In-Reply-To=%3C20101023174352.469454801DB%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r524 - in utilities/IniFileFormatter/trunk:	locale/de/LC_MESSAGES locale/en/LC_MESSAGES	locale/fr/LC_MESSAGES src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct 23 19:43:52 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000381.html">[Dzchart-svncheckins] r523 - utilities/buildtools/trunk
+</A></li>
+        <LI>Next message: <A HREF="000383.html">[Dzchart-svncheckins] r525 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#382">[ date ]</a>
+              <a href="thread.html#382">[ thread ]</a>
+              <a href="subject.html#382">[ subject ]</a>
+              <a href="author.html#382">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-23 19:43:52 +0200 (Sat, 23 Oct 2010)
+New Revision: 524
+
+Modified:
+   utilities/IniFileFormatter/trunk/locale/de/LC_MESSAGES/
+   utilities/IniFileFormatter/trunk/locale/de/LC_MESSAGES/default.po
+   utilities/IniFileFormatter/trunk/locale/en/LC_MESSAGES/
+   utilities/IniFileFormatter/trunk/locale/en/LC_MESSAGES/default.po
+   utilities/IniFileFormatter/trunk/locale/fr/LC_MESSAGES/
+   utilities/IniFileFormatter/trunk/locale/fr/LC_MESSAGES/default.po
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini
+   utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas
+Log:
+* fixed broken po file format (broken by old msgcat version)
+* some German translations
+* Upgrade to Delphi XE (which probably won't work with Delphi 2010 any more)
+
+
+
+Property changes on: utilities/IniFileFormatter/trunk/locale/de/LC_MESSAGES
+___________________________________________________________________
+Added: svn:ignore
+   + default.mo
+dzlib.mo
+
+
+Modified: utilities/IniFileFormatter/trunk/locale/de/LC_MESSAGES/default.po
+===================================================================
+--- utilities/IniFileFormatter/trunk/locale/de/LC_MESSAGES/default.po	2010-10-23 17:40:32 UTC (rev 523)
++++ utilities/IniFileFormatter/trunk/locale/de/LC_MESSAGES/default.po	2010-10-23 17:43:52 UTC (rev 524)
+@@ -7,7 +7,7 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: PACKAGE VERSION\n&quot;
+-&quot;POT-Creation-Date: 2010-10-23 16:54\n&quot;
++&quot;POT-Creation-Date: 2010-10-23 19:05\n&quot;
+ &quot;PO-Revision-Date: 2010-10-23 16:47\n&quot;
+ &quot;Last-Translator: Somebody &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">your.email at address.com</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+@@ -47,19 +47,19 @@
+ 
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsUnsorted..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsUnsorted..Caption
+-#: w_IniFileFormatter.dfm:99  w_IniFileFormatter.dfm:136
++#: w_IniFileFormatter.dfm:99 w_IniFileFormatter.dfm:136
+ msgid &quot;Unsorted&quot;
+ msgstr &quot;&quot;
+ 
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsAlpha..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsAlpha..Caption
+-#: w_IniFileFormatter.dfm:108  w_IniFileFormatter.dfm:145
++#: w_IniFileFormatter.dfm:108 w_IniFileFormatter.dfm:145
+ msgid &quot;Alphabetically&quot;
+ msgstr &quot;Alphabetisch&quot;
+ 
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsByTemplate..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsByTemplate..Caption
+-#: w_IniFileFormatter.dfm:119  w_IniFileFormatter.dfm:156
++#: w_IniFileFormatter.dfm:119 w_IniFileFormatter.dfm:156
+ msgid &quot;By Template&quot;
+ msgstr &quot;nach einer Vorlage&quot;
+ 
+@@ -80,7 +80,7 @@
+ 
+ #. f_IniFileFormatter..od_Filename..Filter
+ #. f_IniFileFormatter..sd_Filename..Filter
+-#: w_IniFileFormatter.dfm:201  w_IniFileFormatter.dfm:207
++#: w_IniFileFormatter.dfm:201 w_IniFileFormatter.dfm:207
+ msgid &quot;All files (*.*)|*.*&quot;
+ msgstr &quot;Alle Dateien (*.*)|*.*&quot;
+ 
+@@ -103,7 +103,7 @@
+ #: u_IniFileFormatterMain.pas:31
+ msgid &quot;&quot;
+ &quot;Sort items. Possible values: no, alpha, template (default: &quot;
+-&quot;alpha&quot;
++&quot;alpha)&quot;
+ msgstr &quot;&quot;
+ 
+ #: u_IniFileFormatterMain.pas:32
+@@ -120,7 +120,8 @@
+ &quot;automatically&quot;
+ msgstr &quot;&quot;
+ 
+-#: u_IniFileFormatterMain.pas:63  u_IniFileFormatterMain.pas:73
++#: u_IniFileFormatterMain.pas:63 u_IniFileFormatterMain.pas:73
++#, object-pascal-format
+ msgid &quot;&quot;
+ &quot;Invalid value \&quot;%s\&quot; for option SortSections, must be one of \&quot;no\&quot;, &quot;
+ &quot;\&quot;alpha\&quot; or \&quot;template\&quot;&quot;
+
+
+Property changes on: utilities/IniFileFormatter/trunk/locale/en/LC_MESSAGES
+___________________________________________________________________
+Added: svn:ignore
+   + default.mo
+dzlib.mo
+
+
+Modified: utilities/IniFileFormatter/trunk/locale/en/LC_MESSAGES/default.po
+===================================================================
+--- utilities/IniFileFormatter/trunk/locale/en/LC_MESSAGES/default.po	2010-10-23 17:40:32 UTC (rev 523)
++++ utilities/IniFileFormatter/trunk/locale/en/LC_MESSAGES/default.po	2010-10-23 17:43:52 UTC (rev 524)
+@@ -3,122 +3,118 @@
+ # This file is distributed under the same license as the PACKAGE package.
+ # FIRST AUTHOR &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">EMAIL at ADDRESS</A>&gt;, YEAR.
+ # 
+-#, fuzzy
+-msgid &quot;&quot;
+-msgstr &quot;&quot;
+-&quot;Project-Id-Version: PACKAGE VERSION\n&quot;
+-&quot;POT-Creation-Date: 2010-10-23 16:54\n&quot;
+-&quot;PO-Revision-Date: 2010-10-23 16:47\n&quot;
+-&quot;Last-Translator: Somebody &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">your.email at address.com</A>&gt;\n&quot;
+-&quot;MIME-Version: 1.0\n&quot;
+-&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
+-&quot;Content-Transfer-Encoding: 8bit\n&quot;
+-&quot;X-Generator: dxgettext 1.2.2\n&quot;
+-
++#, fuzzy
++msgid &quot;&quot;
++msgstr &quot;&quot;
++&quot;Project-Id-Version: PACKAGE VERSION\n&quot;
++&quot;POT-Creation-Date: 2010-10-23 19:05\n&quot;
++&quot;PO-Revision-Date: 2010-10-23 16:47\n&quot;
++&quot;Last-Translator: Somebody &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">your.email at address.com</A>&gt;\n&quot;
++&quot;MIME-Version: 1.0\n&quot;
++&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
++&quot;Content-Transfer-Encoding: 8bit\n&quot;
++&quot;X-Generator: dxgettext 1.2.2\n&quot;
++
+ #. f_IniFileFormatter..Caption
+-#: w_IniFileFormatter.dfm:4 
+-msgid &quot;INI File Formatter&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:4
++msgid &quot;INI File Formatter&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..l_Filename..Caption
+-#: w_IniFileFormatter.dfm:26 
+-msgid &quot;Filename&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:26
++msgid &quot;Filename&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..l_Original..Caption
+-#: w_IniFileFormatter.dfm:33 
+-msgid &quot;Original&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:33
++msgid &quot;Original&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..l_Preview..Caption
+-#: w_IniFileFormatter.dfm:40 
+-msgid &quot;Preview&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:40
++msgid &quot;Preview&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..l_Template..Caption
+-#: w_IniFileFormatter.dfm:47 
+-msgid &quot;Template File&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:47
++msgid &quot;Template File&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortSections..Caption
+-#: w_IniFileFormatter.dfm:92 
+-msgid &quot;Sort Sections&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:92
++msgid &quot;Sort Sections&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsUnsorted..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsUnsorted..Caption
+-#: w_IniFileFormatter.dfm:99 
+- w_IniFileFormatter.dfm:136
+-msgid &quot;Unsorted&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:99 w_IniFileFormatter.dfm:136
++msgid &quot;Unsorted&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsAlpha..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsAlpha..Caption
+-#: w_IniFileFormatter.dfm:108 
+- w_IniFileFormatter.dfm:145
+-msgid &quot;Alphabetically&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:108 w_IniFileFormatter.dfm:145
++msgid &quot;Alphabetically&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsByTemplate..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsByTemplate..Caption
+-#: w_IniFileFormatter.dfm:119 
+- w_IniFileFormatter.dfm:156
+-msgid &quot;By Template&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:119 w_IniFileFormatter.dfm:156
++msgid &quot;By Template&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortItems..Caption
+-#: w_IniFileFormatter.dfm:129 
+-msgid &quot;Sort Items&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:129
++msgid &quot;Sort Items&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..b_Close..Caption
+-#: w_IniFileFormatter.dfm:168 
+-msgid &quot;Close&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:168
++msgid &quot;Close&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..b_SaveAs..Caption
+-#: w_IniFileFormatter.dfm:178 
+-msgid &quot;Save As ...&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:178
++msgid &quot;Save As ...&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..od_Filename..Filter
+ #. f_IniFileFormatter..sd_Filename..Filter
+-#: w_IniFileFormatter.dfm:201 
+- w_IniFileFormatter.dfm:207
+-msgid &quot;All files (*.*)|*.*&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:201 w_IniFileFormatter.dfm:207
++msgid &quot;All files (*.*)|*.*&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..od_Filename..Title
+-#: w_IniFileFormatter.dfm:202 
+-msgid &quot;Select file&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:202
++msgid &quot;Select file&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..sd_Filename..Title
+-#: w_IniFileFormatter.dfm:208 
+-msgid &quot;Save File As&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:29 
+-msgid &quot;Sort sections. Possible values: no, alpha, template (default: alpha)&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:31 
+-msgid &quot;Sort items. Possible values: no, alpha, template (default: alpha&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:32 
+-msgid &quot;Template file for sorting by template&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:34 
+-msgid &quot;Source INI file to read and format&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:35 
+-msgid &quot;Destination INI file to write, if given, the program exits automatically&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:63 
+- u_IniFileFormatterMain.pas:73
+-msgid &quot;Invalid value \&quot;%s\&quot; for option SortSections, must be one of \&quot;no\&quot;, \&quot;alpha\&quot; or \&quot;template\&quot;&quot;
+-msgstr &quot;&quot;
++#: w_IniFileFormatter.dfm:208
++msgid &quot;Save File As&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:29
++msgid &quot;Sort sections. Possible values: no, alpha, template (default: alpha)&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:31
++msgid &quot;Sort items. Possible values: no, alpha, template (default: alpha)&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:32
++msgid &quot;Template file for sorting by template&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:34
++msgid &quot;Source INI file to read and format&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:35
++msgid &quot;Destination INI file to write, if given, the program exits automatically&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:63 u_IniFileFormatterMain.pas:73
++#, object-pascal-format
++msgid &quot;Invalid value \&quot;%s\&quot; for option SortSections, must be one of \&quot;no\&quot;, \&quot;alpha\&quot; or \&quot;template\&quot;&quot;
++msgstr &quot;&quot;
+
+
+Property changes on: utilities/IniFileFormatter/trunk/locale/fr/LC_MESSAGES
+___________________________________________________________________
+Added: svn:ignore
+   + default.mo
+dzlib.mo
+
+
+Modified: utilities/IniFileFormatter/trunk/locale/fr/LC_MESSAGES/default.po
+===================================================================
+--- utilities/IniFileFormatter/trunk/locale/fr/LC_MESSAGES/default.po	2010-10-23 17:40:32 UTC (rev 523)
++++ utilities/IniFileFormatter/trunk/locale/fr/LC_MESSAGES/default.po	2010-10-23 17:43:52 UTC (rev 524)
+@@ -3,122 +3,118 @@
+ # This file is distributed under the same license as the PACKAGE package.
+ # FIRST AUTHOR &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">EMAIL at ADDRESS</A>&gt;, YEAR.
+ # 
+-#, fuzzy
+-msgid &quot;&quot;
+-msgstr &quot;&quot;
+-&quot;Project-Id-Version: PACKAGE VERSION\n&quot;
+-&quot;POT-Creation-Date: 2010-10-23 16:54\n&quot;
+-&quot;PO-Revision-Date: 2010-10-23 16:47\n&quot;
+-&quot;Last-Translator: Somebody &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">your.email at address.com</A>&gt;\n&quot;
+-&quot;MIME-Version: 1.0\n&quot;
+-&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
+-&quot;Content-Transfer-Encoding: 8bit\n&quot;
+-&quot;X-Generator: dxgettext 1.2.2\n&quot;
+-
++#, fuzzy
++msgid &quot;&quot;
++msgstr &quot;&quot;
++&quot;Project-Id-Version: PACKAGE VERSION\n&quot;
++&quot;POT-Creation-Date: 2010-10-23 19:05\n&quot;
++&quot;PO-Revision-Date: 2010-10-23 16:47\n&quot;
++&quot;Last-Translator: Somebody &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">your.email at address.com</A>&gt;\n&quot;
++&quot;MIME-Version: 1.0\n&quot;
++&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
++&quot;Content-Transfer-Encoding: 8bit\n&quot;
++&quot;X-Generator: dxgettext 1.2.2\n&quot;
++
+ #. f_IniFileFormatter..Caption
+-#: w_IniFileFormatter.dfm:4 
+-msgid &quot;INI File Formatter&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:4
++msgid &quot;INI File Formatter&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..l_Filename..Caption
+-#: w_IniFileFormatter.dfm:26 
+-msgid &quot;Filename&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:26
++msgid &quot;Filename&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..l_Original..Caption
+-#: w_IniFileFormatter.dfm:33 
+-msgid &quot;Original&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:33
++msgid &quot;Original&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..l_Preview..Caption
+-#: w_IniFileFormatter.dfm:40 
+-msgid &quot;Preview&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:40
++msgid &quot;Preview&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..l_Template..Caption
+-#: w_IniFileFormatter.dfm:47 
+-msgid &quot;Template File&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:47
++msgid &quot;Template File&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortSections..Caption
+-#: w_IniFileFormatter.dfm:92 
+-msgid &quot;Sort Sections&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:92
++msgid &quot;Sort Sections&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsUnsorted..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsUnsorted..Caption
+-#: w_IniFileFormatter.dfm:99 
+- w_IniFileFormatter.dfm:136
+-msgid &quot;Unsorted&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:99 w_IniFileFormatter.dfm:136
++msgid &quot;Unsorted&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsAlpha..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsAlpha..Caption
+-#: w_IniFileFormatter.dfm:108 
+- w_IniFileFormatter.dfm:145
+-msgid &quot;Alphabetically&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:108 w_IniFileFormatter.dfm:145
++msgid &quot;Alphabetically&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortSections..rb_SectionsByTemplate..Caption
+ #. f_IniFileFormatter..gb_SortItems..rb_ItemsByTemplate..Caption
+-#: w_IniFileFormatter.dfm:119 
+- w_IniFileFormatter.dfm:156
+-msgid &quot;By Template&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:119 w_IniFileFormatter.dfm:156
++msgid &quot;By Template&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..gb_SortItems..Caption
+-#: w_IniFileFormatter.dfm:129 
+-msgid &quot;Sort Items&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:129
++msgid &quot;Sort Items&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..b_Close..Caption
+-#: w_IniFileFormatter.dfm:168 
+-msgid &quot;Close&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:168
++msgid &quot;Close&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..b_SaveAs..Caption
+-#: w_IniFileFormatter.dfm:178 
+-msgid &quot;Save As ...&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:178
++msgid &quot;Save As ...&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..od_Filename..Filter
+ #. f_IniFileFormatter..sd_Filename..Filter
+-#: w_IniFileFormatter.dfm:201 
+- w_IniFileFormatter.dfm:207
+-msgid &quot;All files (*.*)|*.*&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:201 w_IniFileFormatter.dfm:207
++msgid &quot;All files (*.*)|*.*&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..od_Filename..Title
+-#: w_IniFileFormatter.dfm:202 
+-msgid &quot;Select file&quot;
+-msgstr &quot;&quot;
+-
++#: w_IniFileFormatter.dfm:202
++msgid &quot;Select file&quot;
++msgstr &quot;&quot;
++
+ #. f_IniFileFormatter..sd_Filename..Title
+-#: w_IniFileFormatter.dfm:208 
+-msgid &quot;Save File As&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:29 
+-msgid &quot;Sort sections. Possible values: no, alpha, template (default: alpha)&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:31 
+-msgid &quot;Sort items. Possible values: no, alpha, template (default: alpha&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:32 
+-msgid &quot;Template file for sorting by template&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:34 
+-msgid &quot;Source INI file to read and format&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:35 
+-msgid &quot;Destination INI file to write, if given, the program exits automatically&quot;
+-msgstr &quot;&quot;
+-
+-#: u_IniFileFormatterMain.pas:63 
+- u_IniFileFormatterMain.pas:73
+-msgid &quot;Invalid value \&quot;%s\&quot; for option SortSections, must be one of \&quot;no\&quot;, \&quot;alpha\&quot; or \&quot;template\&quot;&quot;
+-msgstr &quot;&quot;
++#: w_IniFileFormatter.dfm:208
++msgid &quot;Save File As&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:29
++msgid &quot;Sort sections. Possible values: no, alpha, template (default: alpha)&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:31
++msgid &quot;Sort items. Possible values: no, alpha, template (default: alpha)&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:32
++msgid &quot;Template file for sorting by template&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:34
++msgid &quot;Source INI file to read and format&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:35
++msgid &quot;Destination INI file to write, if given, the program exits automatically&quot;
++msgstr &quot;&quot;
++
++#: u_IniFileFormatterMain.pas:63 u_IniFileFormatterMain.pas:73
++#, object-pascal-format
++msgid &quot;Invalid value \&quot;%s\&quot; for option SortSections, must be one of \&quot;no\&quot;, \&quot;alpha\&quot; or \&quot;template\&quot;&quot;
++msgstr &quot;&quot;
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-10-23 17:40:32 UTC (rev 523)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-10-23 17:43:52 UTC (rev 524)
+@@ -1,10 +1,14 @@
+ &#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+ 		&lt;PropertyGroup&gt;
+ 			&lt;ProjectGuid&gt;{CC82D07A-2848-46C4-AF4C-2250312D9AB3}&lt;/ProjectGuid&gt;
+-			&lt;ProjectVersion&gt;12.0&lt;/ProjectVersion&gt;
++			&lt;ProjectVersion&gt;12.2&lt;/ProjectVersion&gt;
+ 			&lt;MainSource&gt;IniFileFormatter.dpr&lt;/MainSource&gt;
+ 			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
+ 			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++			&lt;Base&gt;True&lt;/Base&gt;
++			&lt;Platform&gt;Win32&lt;/Platform&gt;
++			&lt;AppType&gt;Application&lt;/AppType&gt;
++			&lt;FrameworkType&gt;VCL&lt;/FrameworkType&gt;
+ 		&lt;/PropertyGroup&gt;
+ 		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
+ 			&lt;Base&gt;true&lt;/Base&gt;
+@@ -70,19 +74,20 @@
+ 			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzOptionNameList.pas&quot;/&gt;
+ 			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzParamDescList.pas&quot;/&gt;
+ 			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzParamFoundList.pas&quot;/&gt;
+-			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
+-				&lt;Key&gt;Base&lt;/Key&gt;
+-			&lt;/BuildConfiguration&gt;
+ 			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
+ 				&lt;Key&gt;Cfg_2&lt;/Key&gt;
+ 				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
+ 			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
+ 			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
+ 				&lt;Key&gt;Cfg_1&lt;/Key&gt;
+ 				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
+ 			&lt;/BuildConfiguration&gt;
+ 		&lt;/ItemGroup&gt;
+-		&lt;Import Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot; Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot;/&gt;
++		&lt;Import Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot; Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot;/&gt;
++		&lt;Import Condition=&quot;Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')&quot; Project=&quot;$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj&quot;/&gt;
+ 		&lt;PropertyGroup&gt;
+ 			&lt;PreBuildEvent&gt;&lt;![CDATA[..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd]]&gt;&lt;/PreBuildEvent&gt;
+ 			&lt;PostBuildEvent&gt;&lt;![CDATA[..\buildtools\makejcldbg -e $(OUTPUTDIR)\$(OUTPUTNAME).map]]&gt;&lt;/PostBuildEvent&gt;
+@@ -95,11 +100,7 @@
+ 					&lt;Source&gt;
+ 						&lt;Source Name=&quot;MainSource&quot;&gt;IniFileFormatter.dpr&lt;/Source&gt;
+ 					&lt;/Source&gt;
+-					&lt;Parameters&gt;
+-						&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
+-						&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+-						&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
+-					&lt;/Parameters&gt;
++					&lt;Parameters/&gt;
+ 					&lt;VersionInfo&gt;
+ 						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
+ 						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
+@@ -128,6 +129,9 @@
+ 						&lt;VersionInfoKeys Name=&quot;Comments&quot;/&gt;
+ 					&lt;/VersionInfoKeys&gt;
+ 				&lt;/Delphi.Personality&gt;
++				&lt;Platforms&gt;
++					&lt;Platform value=&quot;Win32&quot;&gt;True&lt;/Platform&gt;
++				&lt;/Platforms&gt;
+ 			&lt;/BorlandProject&gt;
+ 			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
+ 		&lt;/ProjectExtensions&gt;
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini	2010-10-23 17:40:32 UTC (rev 523)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini	2010-10-23 17:43:52 UTC (rev 524)
+@@ -1,13 +1,13 @@
+ [Version Info]
+ AutoIncBuild=0
+-Build=5
++Build=6
+ MajorVer=1
+ MinorVer=0
+ Release=0
+ 
+ [Version Info Keys]
+-FileVersion=1.0.0.5
+-ProductVersion=2010-09-05
++FileVersion=1.0.0.6
++ProductVersion=2010-10-23
+ FileDescription=INI file formatter
+ OriginalFilename=IniFileFormatter
+ Comments=
+
+Modified: utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas	2010-10-23 17:40:32 UTC (rev 523)
++++ utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas	2010-10-23 17:43:52 UTC (rev 524)
+@@ -28,7 +28,7 @@
+   FGetOpt.RegisterOption('SortSections', _(
+     'Sort sections. Possible values: no, alpha, template (default: alpha)'), true);
+   FGetOpt.RegisterOption('SortItems', _(
+-    'Sort items. Possible values: no, alpha, template (default: alpha'), true);
++    'Sort items. Possible values: no, alpha, template (default: alpha)'), true);
+   FGetOpt.RegisterOption('template', _('Template file for sorting by template')
+     , true);
+   FGetOpt.RegisterParam('SrcFile', _('Source INI file to read and format'), 0, 1);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000381.html">[Dzchart-svncheckins] r523 - utilities/buildtools/trunk
+</A></li>
+	<LI>Next message: <A HREF="000383.html">[Dzchart-svncheckins] r525 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#382">[ date ]</a>
+              <a href="thread.html#382">[ thread ]</a>
+              <a href="subject.html#382">[ subject ]</a>
+              <a href="author.html#382">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

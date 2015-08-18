@@ -1,0 +1,531 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r505 - in utilities/dzLib/trunk/Packages: .	Delphi2011
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r505%20-%20in%20utilities/dzLib/trunk/Packages%3A%20.%0A%09Delphi2011&In-Reply-To=%3C20101002164610.C41214810AD%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000363.html">
+   <LINK REL="Next"  HREF="000365.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r505 - in utilities/dzLib/trunk/Packages: .	Delphi2011</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r505%20-%20in%20utilities/dzLib/trunk/Packages%3A%20.%0A%09Delphi2011&In-Reply-To=%3C20101002164610.C41214810AD%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r505 - in utilities/dzLib/trunk/Packages: .	Delphi2011">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct  2 18:46:10 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000363.html">[Dzchart-svncheckins] r504 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+        <LI>Next message: <A HREF="000365.html">[Dzchart-svncheckins] r506 -	utilities/dzLib/trunk/Packages/Delphi2011
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#364">[ date ]</a>
+              <a href="thread.html#364">[ thread ]</a>
+              <a href="subject.html#364">[ subject ]</a>
+              <a href="author.html#364">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-02 18:46:10 +0200 (Sat, 02 Oct 2010)
+New Revision: 505
+
+Added:
+   utilities/dzLib/trunk/Packages/Delphi2011/
+Modified:
+   utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsD.dpk
+   utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsD.dproj
+   utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dpk
+   utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dproj
+Log:
+* Packages for Delphi XE
+* Updated as patch to ShellControls from Delphi XE
+
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsD.dpk
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsD.dpk	2010-10-02 14:07:06 UTC (rev 504)
++++ utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsD.dpk	2010-10-02 16:46:10 UTC (rev 505)
+@@ -23,7 +23,7 @@
+ {$MINENUMSIZE 1}
+ {$IMAGEBASE $400000}
+ {$DESCRIPTION 'dzComponents designtime package'}
+-{$LIBSUFFIX '110'}
++{$LIBSUFFIX '114'}
+ {$DESIGNONLY}
+ {$IMPLICITBUILD OFF}
+ 
+@@ -33,7 +33,7 @@
+   dzComponentsR,
+   dbrtl,
+   vcldb,
+-  vcljpg,
++  vclImg,
+   vclx;
+ 
+ contains
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsD.dproj
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsD.dproj	2010-10-02 14:07:06 UTC (rev 504)
++++ utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsD.dproj	2010-10-02 16:46:10 UTC (rev 505)
+@@ -1,45 +1,125 @@
+-&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+-&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;ProjectGuid&gt;{2728d1ff-eed2-4201-985d-51b1c41f01eb}&lt;/ProjectGuid&gt;
+-    &lt;MainSource&gt;dzComponentsD.dpk&lt;/MainSource&gt;
+-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+-    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzComponentsD110.bpl&lt;/DCC_DependencyCheckOutputName&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
+-    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
+-    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
+-    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ProjectExtensions&gt;
+-    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+-    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
+-    &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;110&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dzComponents designtime package&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;S
+ pecial&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzComponentsD.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+-  &lt;/ProjectExtensions&gt;
+-  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+-  &lt;ItemGroup&gt;
+-    &lt;DelphiCompile Include=&quot;dzComponentsD.dpk&quot;&gt;
+-      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+-    &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;..\..\components\u_dzShellControlsReg.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\components\u_dzVirtualStringGridReg.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;dbrtl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;dzComponentsR.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;rtl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;vcl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;vcldb.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;vcljpg.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;vclx.dcp&quot; /&gt;
+-  &lt;/ItemGroup&gt;
+-&lt;/Project&gt;
+\ No newline at end of file
++&#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++		&lt;PropertyGroup&gt;
++			&lt;ProjectGuid&gt;{2728d1ff-eed2-4201-985d-51b1c41f01eb}&lt;/ProjectGuid&gt;
++			&lt;MainSource&gt;dzComponentsD.dpk&lt;/MainSource&gt;
++			&lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++			&lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzComponentsD110.bpl&lt;/DCC_DependencyCheckOutputName&gt;
++			&lt;ProjectVersion&gt;12.2&lt;/ProjectVersion&gt;
++			&lt;Base&gt;True&lt;/Base&gt;
++			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
++			&lt;Platform&gt;Win32&lt;/Platform&gt;
++			&lt;AppType&gt;Package&lt;/AppType&gt;
++			&lt;FrameworkType&gt;VCL&lt;/FrameworkType&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Release' or '$(Cfg_1)'!=''&quot;&gt;
++			&lt;Cfg_1&gt;true&lt;/Cfg_1&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Debug' or '$(Cfg_2)'!=''&quot;&gt;
++			&lt;Cfg_2&gt;true&lt;/Cfg_2&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
++			&lt;DesignOnlyPackage&gt;true&lt;/DesignOnlyPackage&gt;
++			&lt;DCC_UnitAlias&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)&lt;/DCC_UnitAlias&gt;
++			&lt;DCC_Description&gt;dzComponents designtime package&lt;/DCC_Description&gt;
++			&lt;DCC_OutputNeverBuildDcps&gt;true&lt;/DCC_OutputNeverBuildDcps&gt;
++			&lt;GenDll&gt;true&lt;/GenDll&gt;
++			&lt;DllSuffix&gt;114&lt;/DllSuffix&gt;
++			&lt;GenPackage&gt;true&lt;/GenPackage&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_1)'!=''&quot;&gt;
++			&lt;Version&gt;7.0&lt;/Version&gt;
++			&lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++			&lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++			&lt;DCC_Define&gt;RELEASE;$(DCC_Define)&lt;/DCC_Define&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_2)'!=''&quot;&gt;
++			&lt;Version&gt;7.0&lt;/Version&gt;
++			&lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++			&lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
++			&lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;ProjectExtensions&gt;
++			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
++			&lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++			&lt;BorlandProject&gt;
++				&lt;Delphi.Personality&gt;
++					&lt;Parameters/&gt;
++					&lt;VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++					&lt;/VersionInfo&gt;
++					&lt;VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;CompanyName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileDescription&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;InternalName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;Comments&quot;/&gt;
++					&lt;/VersionInfoKeys&gt;
++					&lt;Source&gt;
++						&lt;Source Name=&quot;MainSource&quot;&gt;dzComponentsD.dpk&lt;/Source&gt;
++					&lt;/Source&gt;
++					&lt;Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dcloffice2k150.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dclofficexp150.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++					&lt;/Excluded_Packages&gt;
++				&lt;/Delphi.Personality&gt;
++				&lt;Platforms&gt;
++					&lt;Platform value=&quot;Win32&quot;&gt;True&lt;/Platform&gt;
++				&lt;/Platforms&gt;
++			&lt;/BorlandProject&gt;
++			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
++		&lt;/ProjectExtensions&gt;
++		&lt;ItemGroup&gt;
++			&lt;DelphiCompile Include=&quot;dzComponentsD.dpk&quot;&gt;
++				&lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++			&lt;/DelphiCompile&gt;
++			&lt;DCCReference Include=&quot;rtl.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vcl.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;dzComponentsR.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;dbrtl.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vcldb.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vclImg.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vclx.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\components\u_dzVirtualStringGridReg.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\components\u_dzShellControlsReg.pas&quot;/&gt;
++			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
++				&lt;Key&gt;Cfg_2&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
++				&lt;Key&gt;Cfg_1&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++		&lt;/ItemGroup&gt;
++		&lt;Import Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot; Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot;/&gt;
++		&lt;Import Condition=&quot;Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')&quot; Project=&quot;$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj&quot;/&gt;
++	&lt;/Project&gt;
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dpk
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk	2010-10-02 14:07:06 UTC (rev 504)
++++ utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dpk	2010-10-02 16:46:10 UTC (rev 505)
+@@ -23,7 +23,7 @@
+ {$MINENUMSIZE 1}
+ {$IMAGEBASE $400000}
+ {$DESCRIPTION 'dzCompoments runtime package'}
+-{$LIBSUFFIX '110'}
++{$LIBSUFFIX '114'}
+ {$RUNONLY}
+ {$IMPLICITBUILD OFF}
+ {$DEFINE no_translation}
+@@ -33,11 +33,11 @@
+   rtl,
+   vcl,
+   vclx,
+-  vcljpg,
+   vcldb,
+   dbrtl,
+   vclshlctrls,
+-  Jcl;
++  Jcl,
++  vclimg;
+ 
+ contains
+   c_dzShellControls in '..\..\components\c_dzShellControls.pas',
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dproj
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj	2010-10-02 14:07:06 UTC (rev 504)
++++ utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dproj	2010-10-02 16:46:10 UTC (rev 505)
+@@ -1,70 +1,147 @@
+-&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+-&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;ProjectGuid&gt;{a70d6f5f-120f-4438-9e1c-93ce0e2a85b0}&lt;/ProjectGuid&gt;
+-    &lt;MainSource&gt;dzComponentsR.dpk&lt;/MainSource&gt;
+-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+-    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzComponentsR110.bpl&lt;/DCC_DependencyCheckOutputName&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
+-    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
+-    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
+-    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_UnitSearchPath&gt;..\..\jedi_inc&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;..\..\jedi_inc&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;..\..\jedi_inc&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;..\..\jedi_inc&lt;/DCC_IncludePath&gt;
+-    &lt;DCC_Define&gt;no_translation;NO_TRANSLATION_HINT&lt;/DCC_Define&gt;
+-    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+-    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ProjectExtensions&gt;
+-    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+-    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
+-    &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;110&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dzCompoments runtime package&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Spec
+ ial&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzComponentsR.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+-  &lt;/ProjectExtensions&gt;
+-  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+-  &lt;ItemGroup&gt;
+-    &lt;DelphiCompile Include=&quot;dzComponentsR.dpk&quot;&gt;
+-      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+-    &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;..\..\components\c_dzShellControls.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\components\c_dzVirtualStringGrid.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\dbrtl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\Jcl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\rtl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzClassUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzConvertUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzDateUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzFileStreams.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzFileUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzLogging.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzMiscUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzOsUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzShellApiUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzStringUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzTranslator.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzVariantUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzVclUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzVersionInfo.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\vcl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\vcldb.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\vcljpg.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\vclshlctrls.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\vclx.dcp&quot; /&gt;
+-  &lt;/ItemGroup&gt;
+-&lt;/Project&gt;
+\ No newline at end of file
++&#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++		&lt;PropertyGroup&gt;
++			&lt;ProjectGuid&gt;{a70d6f5f-120f-4438-9e1c-93ce0e2a85b0}&lt;/ProjectGuid&gt;
++			&lt;MainSource&gt;dzComponentsR.dpk&lt;/MainSource&gt;
++			&lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++			&lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzComponentsR110.bpl&lt;/DCC_DependencyCheckOutputName&gt;
++			&lt;ProjectVersion&gt;12.2&lt;/ProjectVersion&gt;
++			&lt;Base&gt;True&lt;/Base&gt;
++			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
++			&lt;Platform&gt;Win32&lt;/Platform&gt;
++			&lt;AppType&gt;Package&lt;/AppType&gt;
++			&lt;FrameworkType&gt;VCL&lt;/FrameworkType&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Release' or '$(Cfg_1)'!=''&quot;&gt;
++			&lt;Cfg_1&gt;true&lt;/Cfg_1&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Debug' or '$(Cfg_2)'!=''&quot;&gt;
++			&lt;Cfg_2&gt;true&lt;/Cfg_2&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++			&lt;DCC_Description&gt;dzCompoments runtime package&lt;/DCC_Description&gt;
++			&lt;RuntimeOnlyPackage&gt;true&lt;/RuntimeOnlyPackage&gt;
++			&lt;DCC_UnitAlias&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)&lt;/DCC_UnitAlias&gt;
++			&lt;DCC_Define&gt;no_translation;NO_TRANSLATION_HINT;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
++			&lt;DCC_OutputNeverBuildDcps&gt;true&lt;/DCC_OutputNeverBuildDcps&gt;
++			&lt;GenDll&gt;true&lt;/GenDll&gt;
++			&lt;DllSuffix&gt;114&lt;/DllSuffix&gt;
++			&lt;GenPackage&gt;true&lt;/GenPackage&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_1)'!=''&quot;&gt;
++			&lt;Version&gt;7.0&lt;/Version&gt;
++			&lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++			&lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++			&lt;DCC_Define&gt;RELEASE;$(DCC_Define)&lt;/DCC_Define&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_2)'!=''&quot;&gt;
++			&lt;Version&gt;7.0&lt;/Version&gt;
++			&lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
++			&lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
++			&lt;DCC_UnitSearchPath&gt;..\..\jedi_inc;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
++			&lt;DCC_ResourcePath&gt;..\..\jedi_inc;$(DCC_ResourcePath)&lt;/DCC_ResourcePath&gt;
++			&lt;DCC_ObjPath&gt;..\..\jedi_inc;$(DCC_ObjPath)&lt;/DCC_ObjPath&gt;
++			&lt;DCC_IncludePath&gt;..\..\jedi_inc;$(DCC_IncludePath)&lt;/DCC_IncludePath&gt;
++			&lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++			&lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;ProjectExtensions&gt;
++			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
++			&lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++			&lt;BorlandProject&gt;
++				&lt;Delphi.Personality&gt;
++					&lt;Parameters/&gt;
++					&lt;VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++					&lt;/VersionInfo&gt;
++					&lt;VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;CompanyName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileDescription&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;InternalName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;Comments&quot;/&gt;
++					&lt;/VersionInfoKeys&gt;
++					&lt;Source&gt;
++						&lt;Source Name=&quot;MainSource&quot;&gt;dzComponentsR.dpk&lt;/Source&gt;
++					&lt;/Source&gt;
++					&lt;Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++					&lt;/Excluded_Packages&gt;
++				&lt;/Delphi.Personality&gt;
++				&lt;Platforms&gt;
++					&lt;Platform value=&quot;Win32&quot;&gt;True&lt;/Platform&gt;
++				&lt;/Platforms&gt;
++			&lt;/BorlandProject&gt;
++			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
++		&lt;/ProjectExtensions&gt;
++		&lt;ItemGroup&gt;
++			&lt;DelphiCompile Include=&quot;dzComponentsR.dpk&quot;&gt;
++				&lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++			&lt;/DelphiCompile&gt;
++			&lt;DCCReference Include=&quot;rtl.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vcl.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vclx.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vcldb.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;dbrtl.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vclshlctrls.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;Jcl.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;vclimg.dcp&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\components\c_dzShellControls.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\components\c_dzVirtualStringGrid.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzVclUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzConvertUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzStringUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzTranslator.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzClassUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzShellApiUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzVariantUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzDateUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzFileStreams.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzFileUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzMiscUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzLogging.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzVersionInfo.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\src\u_dzOsUtils.pas&quot;/&gt;
++			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
++				&lt;Key&gt;Cfg_2&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
++				&lt;Key&gt;Cfg_1&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++		&lt;/ItemGroup&gt;
++		&lt;Import Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot; Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot;/&gt;
++		&lt;Import Condition=&quot;Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')&quot; Project=&quot;$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj&quot;/&gt;
++	&lt;/Project&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000363.html">[Dzchart-svncheckins] r504 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+	<LI>Next message: <A HREF="000365.html">[Dzchart-svncheckins] r506 -	utilities/dzLib/trunk/Packages/Delphi2011
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#364">[ date ]</a>
+              <a href="thread.html#364">[ thread ]</a>
+              <a href="subject.html#364">[ subject ]</a>
+              <a href="author.html#364">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

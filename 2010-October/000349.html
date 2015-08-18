@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r490 - in utilities/dzContextMenu/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r490%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101001130417.476C848108F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000348.html">
+   <LINK REL="Next"  HREF="000350.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r490 - in utilities/dzContextMenu/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r490%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101001130417.476C848108F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r490 - in utilities/dzContextMenu/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 15:04:17 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000348.html">[Dzchart-svncheckins] r489 - utilities/dzContextMenu/trunk
+</A></li>
+        <LI>Next message: <A HREF="000350.html">[Dzchart-svncheckins] r491 - utilities/dzContextMenu/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#349">[ date ]</a>
+              <a href="thread.html#349">[ thread ]</a>
+              <a href="subject.html#349">[ subject ]</a>
+              <a href="author.html#349">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 15:04:17 +0200 (Fri, 01 Oct 2010)
+New Revision: 490
+
+Added:
+   utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+Modified:
+   utilities/dzContextMenu/trunk/
+   utilities/dzContextMenu/trunk/src/
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+Log:
+changed to use pre-/post-build scripts and prepbuild
+
+
+Property changes on: utilities/dzContextMenu/trunk
+___________________________________________________________________
+Modified: svn:ignore
+   - Debug
+dzcontextmenu.dll
+
+   + Debug
+dzcontextmenu.dll
+dzcontextmenu.map
+
+
+
+Property changes on: utilities/dzContextMenu/trunk/src
+___________________________________________________________________
+Added: svn:ignore
+   + dzcontextmenu_Version.rc
+dzcontextmenu_Version.RES
+SVN_Version.ini
+
+
+Added: utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-01 13:04:17 UTC (rev 490)
+@@ -0,0 +1,19 @@
++[Version Info]
++AutoIncBuild=0
++Build=3
++MajorVer=1
++MinorVer=0
++Release=0
++
++[Version Info Keys]
++FileVersion=1.0.0.3
++ProductVersion={today}
++FileDescription=configurable context menu for windows explorer
++OriginalFilename=dzContextMenu.dll
++Comments=
++CompanyName=dzlib
++InternalName=dzContextMenu
++LegalCopyright=Thomas Mueller, 2010--{ThisYear}
++LegalTrademarks=T. Mueller
++ProductName=dzContextMenu
++
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-10-01 12:47:28 UTC (rev 489)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-10-01 13:04:17 UTC (rev 490)
+@@ -13,7 +13,7 @@
+   DllRegisterServer,
+   DllUnregisterServer;
+ 
+-{$R *.RES}
++{$R *_version.RES}
+ 
+ begin
+ 
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-10-01 12:47:28 UTC (rev 489)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-10-01 13:04:17 UTC (rev 490)
+@@ -24,6 +24,7 @@
+ 			&lt;Base&gt;true&lt;/Base&gt;
+ 		&lt;/PropertyGroup&gt;
+ 		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_MapFile&gt;3&lt;/DCC_MapFile&gt;
+ 			&lt;DCC_UnitSearchPath&gt;..\libs\dzlib\src;..\libs\dzlib\jedi_inc;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
+ 			&lt;DCC_Define&gt;NO_TRANSLATION;$(DCC_Define)&lt;/DCC_Define&gt;
+ 			&lt;DCC_UsePackage&gt;vcl;vclx;VclSmp;rtl;vclimg;svnui;svn;bdertl;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyProtocols;inet;vclie;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;soaprtl;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;dbexpress;dbxcds&lt;/DCC_UsePackage&gt;
+@@ -65,7 +66,6 @@
+ 			&lt;/DCCReference&gt;
+ 			&lt;DCCReference Include=&quot;..\libs\dzLib\src\u_dzShellApiUtils.pas&quot;/&gt;
+ 			&lt;DCCReference Include=&quot;..\libs\dzLib\src\u_dzExecutor.pas&quot;/&gt;
+-			&lt;None Include=&quot;C:\Documents and Settings\twm\Application Data\dzContextMenu\menu.ini&quot;/&gt;
+ 			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
+ 				&lt;Key&gt;Cfg_2&lt;/Key&gt;
+ 				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
+@@ -80,6 +80,10 @@
+ 		&lt;/ItemGroup&gt;
+ 		&lt;Import Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot; Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot;/&gt;
+ 		&lt;Import Condition=&quot;Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')&quot; Project=&quot;$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj&quot;/&gt;
++		&lt;PropertyGroup&gt;
++			&lt;PreBuildEvent&gt;&lt;![CDATA[..\buildtools\prebuild.cmd $(PROJECTPATH)]]&gt;&lt;/PreBuildEvent&gt;
++			&lt;PostBuildEvent&gt;&lt;![CDATA[..\buildtools\postbuild.cmd $(OUTPUTDIR)$(OUTPUTNAME)]]&gt;&lt;/PostBuildEvent&gt;
++		&lt;/PropertyGroup&gt;
+ 		&lt;ProjectExtensions&gt;
+ 			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
+ 			&lt;Borland.ProjectType/&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000348.html">[Dzchart-svncheckins] r489 - utilities/dzContextMenu/trunk
+</A></li>
+	<LI>Next message: <A HREF="000350.html">[Dzchart-svncheckins] r491 - utilities/dzContextMenu/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#349">[ date ]</a>
+              <a href="thread.html#349">[ thread ]</a>
+              <a href="subject.html#349">[ subject ]</a>
+              <a href="author.html#349">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

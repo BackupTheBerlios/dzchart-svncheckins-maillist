@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r361 -	utilities/dzLib/trunk/tools/DbCreator/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r361%20-%0A%09utilities/dzLib/trunk/tools/DbCreator/src&In-Reply-To=%3C200909251529.n8PFTneq019775%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000226.html">
+   <LINK REL="Next"  HREF="000228.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r361 -	utilities/dzLib/trunk/tools/DbCreator/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r361%20-%0A%09utilities/dzLib/trunk/tools/DbCreator/src&In-Reply-To=%3C200909251529.n8PFTneq019775%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r361 -	utilities/dzLib/trunk/tools/DbCreator/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:29:49 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000226.html">[Dzchart-svncheckins] r360 - utilities/dzLib/trunk/dbcreator
+</A></li>
+        <LI>Next message: <A HREF="000228.html">[Dzchart-svncheckins] r362 -	utilities/dzLib/trunk/Packages/Delphi2007
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#227">[ date ]</a>
+              <a href="thread.html#227">[ thread ]</a>
+              <a href="subject.html#227">[ subject ]</a>
+              <a href="author.html#227">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:29:47 +0200 (Fri, 25 Sep 2009)
+New Revision: 361
+
+Modified:
+   utilities/dzLib/trunk/tools/DbCreator/src/w_Options.dfm
+   utilities/dzLib/trunk/tools/DbCreator/src/w_Options.pas
+   utilities/dzLib/trunk/tools/DbCreator/src/w_dbCreatorWizard.pas
+Log:
+removed support for buggy old Validat checksums since I no longer work for iCD there is no point in maintaining this crap
+
+Modified: utilities/dzLib/trunk/tools/DbCreator/src/w_Options.dfm
+===================================================================
+--- utilities/dzLib/trunk/tools/DbCreator/src/w_Options.dfm	2009-09-25 15:28:29 UTC (rev 360)
++++ utilities/dzLib/trunk/tools/DbCreator/src/w_Options.dfm	2009-09-25 15:29:47 UTC (rev 361)
+@@ -31,7 +31,7 @@
+     Left = 0
+     Top = 24
+     Width = 273
+-    Height = 81
++    Height = 49
+     Caption = 'Checksum options'
+     TabOrder = 1
+     object Label2: TLabel
+@@ -50,14 +50,6 @@
+       TabOrder = 0
+       OnClick = chk_AddChecksumClick
+     end
+-    object chk_BuggyChecksum: TCheckBox
+-      Left = 8
+-      Top = 40
+-      Width = 257
+-      Height = 17
+-      Caption = 'use original Validat checksums (with bug)'
+-      TabOrder = 2
+-    end
+     object chk_RemoveChksum: TCheckBox
+       Left = 136
+       Top = 16
+@@ -70,7 +62,7 @@
+   end
+   object grp_GraphViz: TGroupBox
+     Left = 0
+-    Top = 112
++    Top = 88
+     Width = 273
+     Height = 81
+     Caption = 'GraphViz options'
+@@ -94,7 +86,7 @@
+   end
+   object grp_HtmlOptions: TGroupBox
+     Left = 0
+-    Top = 264
++    Top = 256
+     Width = 273
+     Height = 105
+     Caption = 'HTML Options'
+@@ -119,7 +111,7 @@
+   end
+   object rg_AccessOptions: TRadioGroup
+     Left = 0
+-    Top = 200
++    Top = 184
+     Width = 273
+     Height = 57
+     Caption = 'MS Access Options'
+@@ -137,7 +129,6 @@
+       'ed_Prefix.Text'
+       'chk_AddChecksum.Checked'
+       'chk_RemoveChksum.Checked'
+-      'chk_BuggyChecksum.Checked'
+       'rg_AccessOptions.ItemIndex')
+     StoredValues = &lt;&gt;
+     Left = 200
+
+Modified: utilities/dzLib/trunk/tools/DbCreator/src/w_Options.pas
+===================================================================
+--- utilities/dzLib/trunk/tools/DbCreator/src/w_Options.pas	2009-09-25 15:28:29 UTC (rev 360)
++++ utilities/dzLib/trunk/tools/DbCreator/src/w_Options.pas	2009-09-25 15:29:47 UTC (rev 361)
+@@ -25,7 +25,6 @@
+     ed_Prefix: TEdit;
+     grp_Checksum: TGroupBox;
+     chk_AddChecksum: TCheckBox;
+-    chk_BuggyChecksum: TCheckBox;
+     TheFormStorage: TJvFormStorage;
+     chk_RemoveChksum: TCheckBox;
+     Label2: TLabel;
+
+Modified: utilities/dzLib/trunk/tools/DbCreator/src/w_dbCreatorWizard.pas
+===================================================================
+--- utilities/dzLib/trunk/tools/DbCreator/src/w_dbCreatorWizard.pas	2009-09-25 15:28:29 UTC (rev 360)
++++ utilities/dzLib/trunk/tools/DbCreator/src/w_dbCreatorWizard.pas	2009-09-25 15:29:47 UTC (rev 361)
+@@ -29,7 +29,7 @@
+   ECreateDelphiCode = class(Exception);
+ 
+ type
+-  Tf_dbCreatorWizard = class(Tf_HkWizard)
++  Tf_dbCreatorWizard = class(Tf_dzWizard)
+     chk_Console: TCheckBox;
+     TheAppRegistryStorage: TJvAppRegistryStorage;
+     procedure chk_ConsoleClick(Sender: TObject);
+@@ -581,10 +581,7 @@
+       end;
+     end;
+ 
+-    if FOptions.chk_BuggyChecksum.Checked then
+-      ImplementationSection.Add('  Result := TV2kUtils.V2kCrcl(s);')
+-    else
+-      ImplementationSection.Add('  Result := TV2kUtils.Crc32l(Trim(s));');
++    ImplementationSection.Add('  Result := TV2kUtils.Crc32l(Trim(s));');
+     ImplementationSection.Add('end;');
+     ImplementationSection.Add('');
+   end;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000226.html">[Dzchart-svncheckins] r360 - utilities/dzLib/trunk/dbcreator
+</A></li>
+	<LI>Next message: <A HREF="000228.html">[Dzchart-svncheckins] r362 -	utilities/dzLib/trunk/Packages/Delphi2007
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#227">[ date ]</a>
+              <a href="thread.html#227">[ thread ]</a>
+              <a href="subject.html#227">[ subject ]</a>
+              <a href="author.html#227">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

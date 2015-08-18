@@ -1,0 +1,468 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r305 - in utilities/dzLib/trunk: src	translations/de translations/en translations/fr
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r305%20-%20in%20utilities/dzLib/trunk%3A%20src%0A%09translations/de%20translations/en%20translations/fr&In-Reply-To=%3C200809041242.m84Cg1oX025693%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000171.html">
+   <LINK REL="Next"  HREF="000173.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r305 - in utilities/dzLib/trunk: src	translations/de translations/en translations/fr</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r305%20-%20in%20utilities/dzLib/trunk%3A%20src%0A%09translations/de%20translations/en%20translations/fr&In-Reply-To=%3C200809041242.m84Cg1oX025693%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r305 - in utilities/dzLib/trunk: src	translations/de translations/en translations/fr">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 14:42:01 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000171.html">[Dzchart-svncheckins] r304 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000173.html">[Dzchart-svncheckins] r306 - in utilities/dzCmdLineParser/trunk: .	src tests translations translations/de
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-04 14:41:59 +0200 (Thu, 04 Sep 2008)
+New Revision: 305
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzOsUtils.pas
+   utilities/dzLib/trunk/src/u_dzRecordArray.pas
+   utilities/dzLib/trunk/translations/de/dzlib.po
+   utilities/dzLib/trunk/translations/en/dzlib.po
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+* changed all pasdoc comments to xmldoc
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+
+
+Modified: utilities/dzLib/trunk/src/u_dzOsUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzOsUtils.pas	2008-09-04 11:37:48 UTC (rev 304)
++++ utilities/dzLib/trunk/src/u_dzOsUtils.pas	2008-09-04 12:41:59 UTC (rev 305)
+@@ -147,7 +147,7 @@
+   end;
+   if Res = 0 then begin
+     LastError := GetLastError;
+-    RaiseLastOsErrorEx(LastError, _('Error %1:s (%0:d)'));
++    RaiseLastOsErrorEx(LastError, _('Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings'));
+   end;
+   SetLength(Result, Res - 1);
+ end;
+
+Modified: utilities/dzLib/trunk/src/u_dzRecordArray.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzRecordArray.pas	2008-09-04 11:37:48 UTC (rev 304)
++++ utilities/dzLib/trunk/src/u_dzRecordArray.pas	2008-09-04 12:41:59 UTC (rev 305)
+@@ -8,6 +8,7 @@
+   Classes;
+ 
+ type
++  ///&lt;summary&gt; a class emulating a generic array of records &lt;/summary&gt;
+   TRecordArray = class
+   private
+     FData: array of byte;
+@@ -32,11 +33,9 @@
+ implementation
+ 
+ uses
+-  RTLConsts;
++  RTLConsts,
++  u_dzTranslator;
+ 
+-resourcestring
+-  RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH = 'New capacity cannot be less than current length.';
+-
+ { TRecordArray }
+ 
+ constructor TRecordArray.Create(_RecordSize: integer; _InitialCapacity: integer = 0; _GrowBy: extended = 0.1);
+@@ -65,7 +64,7 @@
+   NewArraySize := _NewCapacity * FRecordSize;
+   if System.Length(FData) &lt;&gt; NewArraySize then begin
+     if _NewCapacity &lt; FLength then
+-      raise Exception.Create(RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH);
++      raise Exception.Create(_('New capacity cannot be less than current length.'));
+     System.SetLength(FData, NewArraySize);
+   end;
+ end;
+
+Modified: utilities/dzLib/trunk/translations/de/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/de/dzlib.po	2008-09-04 11:37:48 UTC (rev 304)
++++ utilities/dzLib/trunk/translations/de/dzlib.po	2008-09-04 12:41:59 UTC (rev 305)
+@@ -6,8 +6,8 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2008-09-04 04:10\n&quot;
+-&quot;PO-Revision-Date: 2008-09-04 04:13-0800\n&quot;
++&quot;POT-Creation-Date: 2008-09-04 05:40\n&quot;
++&quot;PO-Revision-Date: 2008-09-04 05:40-0800\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+@@ -255,26 +255,22 @@
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;StdOut wurde nicht umgeleitet&quot;
+ 
+-#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
+-#: u_dzFileStreams.pas:198
+-msgid &quot;Cannot change filename when file is open.&quot;
+-msgstr &quot;Kann Dateinamen nicht &#228;ndern wenn Datei ge&#246;ffnet ist.&quot;
++#: u_dzFileStreams.pas:259
++msgid &quot;%1:s (%0:d)&quot;
++msgstr &quot;%1:s (%0:d)&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_FLAGS
+-#: u_dzFileStreams.pas:199
+-msgid &quot;Invalid file flags&quot;
+-msgstr &quot;Ung&#252;ltige Dateiflags&quot;
+-
+-#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
+-#: u_dzFileStreams.pas:200
++#: u_dzFileStreams.pas:307
+ msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Ung&#252;ltige Dateiattribute&quot;
+ 
+-#. Programmer's name for it: STR_0S_ERROR_SD
+-#: u_dzFileStreams.pas:201
+-msgid &quot;%1:s (%0:d)&quot;
+-msgstr &quot;%1:s (%0:d)&quot;
++#: u_dzFileStreams.pas:319
++msgid &quot;Invalid file flags&quot;
++msgstr &quot;Ung&#252;ltige Dateiflags&quot;
+ 
++#: u_dzFileStreams.pas:338
++msgid &quot;Cannot change filename when file is open.&quot;
++msgstr &quot;Kann Dateinamen nicht &#228;ndern wenn Datei ge&#246;ffnet ist.&quot;
++
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+ #: u_dzFileUtils.pas:834
+ msgid &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+@@ -352,37 +348,34 @@
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;Kombination von ResultContainsNumber und KeepOriginal ist nicht erlaubt&quot;
+ 
+-#. Unbekannter Betriebssystem Fehler
+-#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
+-#: u_dzMiscUtils.pas:236
+-msgid &quot;unknown OS error&quot;
+-msgstr &quot;Unbekannter Betriebssystemfehler&quot;
+-
+-#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
+-#: u_dzMiscUtils.pas:237
++#. do not translate
++#: u_dzMiscUtils.pas:253
+ msgid &quot;unknown Registry Root Key %x&quot;
+ msgstr &quot;unbekannter Registry Rook-Key %x&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
+-#: u_dzMiscUtils.pas:238
++#. do not translate
++#: u_dzMiscUtils.pas:266
+ msgid &quot;unknown RegDataType&quot;
+ msgstr &quot;unbekannter RegDataType&quot;
+ 
++#: u_dzMiscUtils.pas:295
++msgid &quot;unknown OS error&quot;
++msgstr &quot;Unbekannter Betriebssystemfehler&quot;
++
+ #: u_dzOsUtils.pas:130
+ msgid &quot;%s (code %d) calling Windows.GetUsername&quot;
+ msgstr &quot;%s (Code %d) beim Aufruf von Windows.GetUsername&quot;
+ 
+ #. 16 KB should be enough for everybody... ;-)
+ #: u_dzOsUtils.pas:150
+-msgid &quot;Error %1:s (%0:d)&quot;
+-msgstr &quot;Fehler %1:s (%0:d)&quot;
++msgid &quot;Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings&quot;
++msgstr &quot;Fehler %%1:s (%%0:d) beim Aufruf von Windows.ExpandEnvironmentStrings&quot;
+ 
+ #: u_dzOsUtils.pas:308
+ msgid &quot;No version information available for %s&quot;
+ msgstr &quot;Keine Versionsinfirmationen fuer %s verf&#252;gbar&quot;
+ 
+-#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
+-#: u_dzRecordArray.pas:38
++#: u_dzRecordArray.pas:67
+ msgid &quot;New capacity cannot be less than current length.&quot;
+ msgstr &quot;Neue Kapazit&#228;t kann nicht kleiner sein als aktuelle L&#228;nge.&quot;
+ 
+@@ -577,6 +570,8 @@
+ msgid &quot;Already on first page.&quot;
+ msgstr &quot;Bereits auf erster Seite.&quot;
+ 
++#~ msgid &quot;Error %1:s (%0:d)&quot;
++#~ msgstr &quot;Fehler %1:s (%0:d)&quot;
+ #~ msgid &quot;Buffer is full&quot;
+ #~ msgstr &quot;Puffer ist voll&quot;
+ #~ msgid &quot;Buffer is empty&quot;
+
+Modified: utilities/dzLib/trunk/translations/en/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/en/dzlib.po	2008-09-04 11:37:48 UTC (rev 304)
++++ utilities/dzLib/trunk/translations/en/dzlib.po	2008-09-04 12:41:59 UTC (rev 305)
+@@ -6,8 +6,8 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2008-09-04 04:10\n&quot;
+-&quot;PO-Revision-Date: 2008-09-04 04:11-0800\n&quot;
++&quot;POT-Creation-Date: 2008-09-04 05:40\n&quot;
++&quot;PO-Revision-Date: 2008-09-04 05:41-0800\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+@@ -255,26 +255,22 @@
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;StdOut was not redirected&quot;
+ 
+-#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
+-#: u_dzFileStreams.pas:198
+-msgid &quot;Cannot change filename when file is open.&quot;
+-msgstr &quot;Cannot change filename when file is open.&quot;
++#: u_dzFileStreams.pas:259
++msgid &quot;%1:s (%0:d)&quot;
++msgstr &quot;%1:s (%0:d)&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_FLAGS
+-#: u_dzFileStreams.pas:199
+-msgid &quot;Invalid file flags&quot;
+-msgstr &quot;Invalid file flags&quot;
+-
+-#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
+-#: u_dzFileStreams.pas:200
++#: u_dzFileStreams.pas:307
+ msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Invalid file attributes&quot;
+ 
+-#. Programmer's name for it: STR_0S_ERROR_SD
+-#: u_dzFileStreams.pas:201
+-msgid &quot;%1:s (%0:d)&quot;
+-msgstr &quot;%1:s (%0:d)&quot;
++#: u_dzFileStreams.pas:319
++msgid &quot;Invalid file flags&quot;
++msgstr &quot;Invalid file flags&quot;
+ 
++#: u_dzFileStreams.pas:338
++msgid &quot;Cannot change filename when file is open.&quot;
++msgstr &quot;Cannot change filename when file is open.&quot;
++
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+ #: u_dzFileUtils.pas:834
+ msgid &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+@@ -352,37 +348,34 @@
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ 
+-#. Unbekannter Betriebssystem Fehler
+-#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
+-#: u_dzMiscUtils.pas:236
+-msgid &quot;unknown OS error&quot;
+-msgstr &quot;unknown OS error&quot;
+-
+-#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
+-#: u_dzMiscUtils.pas:237
++#. do not translate
++#: u_dzMiscUtils.pas:253
+ msgid &quot;unknown Registry Root Key %x&quot;
+ msgstr &quot;unknown Registry Root Key %x&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
+-#: u_dzMiscUtils.pas:238
++#. do not translate
++#: u_dzMiscUtils.pas:266
+ msgid &quot;unknown RegDataType&quot;
+ msgstr &quot;unknown RegDataType&quot;
+ 
++#: u_dzMiscUtils.pas:295
++msgid &quot;unknown OS error&quot;
++msgstr &quot;unknown OS error&quot;
++
+ #: u_dzOsUtils.pas:130
+ msgid &quot;%s (code %d) calling Windows.GetUsername&quot;
+ msgstr &quot;%s (code %d) calling Windows.GetUsername&quot;
+ 
+ #. 16 KB should be enough for everybody... ;-)
+ #: u_dzOsUtils.pas:150
+-msgid &quot;Error %1:s (%0:d)&quot;
+-msgstr &quot;Error %1:s (%0:d)&quot;
++msgid &quot;Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings&quot;
++msgstr &quot;Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings&quot;
+ 
+ #: u_dzOsUtils.pas:308
+ msgid &quot;No version information available for %s&quot;
+ msgstr &quot;No version information available for %s&quot;
+ 
+-#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
+-#: u_dzRecordArray.pas:38
++#: u_dzRecordArray.pas:67
+ msgid &quot;New capacity cannot be less than current length.&quot;
+ msgstr &quot;New capacity cannot be less than current length.&quot;
+ 
+@@ -577,6 +570,8 @@
+ msgid &quot;Already on first page.&quot;
+ msgstr &quot;Already on first page.&quot;
+ 
++#~ msgid &quot;Error %1:s (%0:d)&quot;
++#~ msgstr &quot;Error %1:s (%0:d)&quot;
+ #~ msgid &quot;Buffer is full&quot;
+ #~ msgstr &quot;Buffer is full&quot;
+ #~ msgid &quot;Buffer is empty&quot;
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2008-09-04 11:37:48 UTC (rev 304)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2008-09-04 12:41:59 UTC (rev 305)
+@@ -6,8 +6,8 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2008-09-04 04:10\n&quot;
+-&quot;PO-Revision-Date: 2008-09-04 04:15-0800\n&quot;
++&quot;POT-Creation-Date: 2008-09-04 05:40\n&quot;
++&quot;PO-Revision-Date: 2008-09-04 05:41-0800\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+@@ -250,27 +250,23 @@
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
+-#: u_dzFileStreams.pas:198
+-msgid &quot;Cannot change filename when file is open.&quot;
+-msgstr &quot;&quot;
++#: u_dzFileStreams.pas:259
++msgid &quot;%1:s (%0:d)&quot;
++msgstr &quot;%1:s (%0:d)&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_FLAGS
+-#: u_dzFileStreams.pas:199
++#: u_dzFileStreams.pas:307
+ #, fuzzy
+-msgid &quot;Invalid file flags&quot;
++msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Allocation du fichier de capture&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
+-#: u_dzFileStreams.pas:200
++#: u_dzFileStreams.pas:319
+ #, fuzzy
+-msgid &quot;Invalid file attributes&quot;
++msgid &quot;Invalid file flags&quot;
+ msgstr &quot;Allocation du fichier de capture&quot;
+ 
+-#. Programmer's name for it: STR_0S_ERROR_SD
+-#: u_dzFileStreams.pas:201
+-msgid &quot;%1:s (%0:d)&quot;
+-msgstr &quot;%1:s (%0:d)&quot;
++#: u_dzFileStreams.pas:338
++msgid &quot;Cannot change filename when file is open.&quot;
++msgstr &quot;&quot;
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+ #: u_dzFileUtils.pas:834
+@@ -351,40 +347,35 @@
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;&quot;
+ 
+-#. Unbekannter Betriebssystem Fehler
+-#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
+-#: u_dzMiscUtils.pas:236
+-msgid &quot;unknown OS error&quot;
+-msgstr &quot;Erreur syst&#232;me d'exploitation inconnue&quot;
+-
+-#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
+-#: u_dzMiscUtils.pas:237
++#. do not translate
++#: u_dzMiscUtils.pas:253
+ msgid &quot;unknown Registry Root Key %x&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
+-#: u_dzMiscUtils.pas:238
++#. do not translate
++#: u_dzMiscUtils.pas:266
+ #, fuzzy
+ msgid &quot;unknown RegDataType&quot;
+ msgstr &quot;commande inconnue \&quot;%s\&quot;&quot;
+ 
++#: u_dzMiscUtils.pas:295
++msgid &quot;unknown OS error&quot;
++msgstr &quot;Erreur syst&#232;me d'exploitation inconnue&quot;
++
+ #: u_dzOsUtils.pas:130
+-#, fuzzy
+ msgid &quot;%s (code %d) calling Windows.GetUsername&quot;
+-msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
++msgstr &quot;%s (code %d) calling Windows.GetUsername&quot;
+ 
+ #. 16 KB should be enough for everybody... ;-)
+ #: u_dzOsUtils.pas:150
+-#, fuzzy
+-msgid &quot;Error %1:s (%0:d)&quot;
+-msgstr &quot;%1:s (%0:d)&quot;
++msgid &quot;Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings&quot;
++msgstr &quot;Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings&quot;
+ 
+ #: u_dzOsUtils.pas:308
+ msgid &quot;No version information available for %s&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
+-#: u_dzRecordArray.pas:38
++#: u_dzRecordArray.pas:67
+ msgid &quot;New capacity cannot be less than current length.&quot;
+ msgstr &quot;&quot;
+ 
+@@ -581,6 +572,10 @@
+ msgstr &quot;&quot;
+ 
+ #, fuzzy
++#~ msgid &quot;Error %1:s (%0:d)&quot;
++#~ msgstr &quot;%1:s (%0:d)&quot;
++
++#, fuzzy
+ #~ msgid &quot;Buffer is full&quot;
+ #~ msgstr &quot;La taille actuelle est %s&quot;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000171.html">[Dzchart-svncheckins] r304 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000173.html">[Dzchart-svncheckins] r306 - in utilities/dzCmdLineParser/trunk: .	src tests translations translations/de
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

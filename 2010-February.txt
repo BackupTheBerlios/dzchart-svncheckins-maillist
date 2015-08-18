@@ -1,0 +1,405 @@
+From twm at mail.berlios.de  Mon Feb 22 15:47:50 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 15:47:50 +0100
+Subject: [Dzchart-svncheckins] r375 - utilities/dzLib/trunk/src
+Message-ID: <201002221447.o1MEloGF025411@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 15:47:50 +0100 (Mon, 22 Feb 2010)
+New Revision: 375
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+additional overloaded versions of TFileSystem.DeleteMatchingFiles
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2010-01-31 16:29:13 UTC (rev 374)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2010-02-22 14:47:50 UTC (rev 375)
+@@ -525,7 +525,11 @@
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// </summary>
+     class function DeleteMatchingFiles(const _Dir, _Mask: string;
+-      _RaiseException: boolean = true; _Force: boolean = false; _ExceptMask: string = ''): integer;
++      _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
++    class function DeleteMatchingFiles(const _Dir, _Mask: string; _ExceptMask: string = '';
++      _RaiseException: boolean = true; _Force: boolean = false): integer; overload; deprecated;
++    class function DeleteMatchingFiles(const _Dir, _Mask: string; const _ExceptMasks: array of string;
++      _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
+ 
+     /// <summary>
+     /// tries to find a matching file
+@@ -1275,7 +1279,36 @@
+ end;
+ 
+ class function TFileSystem.DeleteMatchingFiles(const _Dir, _Mask: string;
+-  _RaiseException: boolean = true; _Force: boolean = false; _ExceptMask: string = ''): integer;
++  _RaiseException, _Force: boolean): integer;
++begin
++  Result := DeleteMatchingFiles(_Dir, _Mask, [], _RaiseException, _Force);
++end;
++
++class function TFileSystem.DeleteMatchingFiles(const _Dir, _Mask: string;
++  _ExceptMask: string; _RaiseException, _Force: boolean): integer;
++begin
++  Result := DeleteMatchingFiles(_Dir, _Mask, [_ExceptMask], _RaiseException, _Force);
++end;
++
++class function TFileSystem.DeleteMatchingFiles(const _Dir, _Mask: string;
++  const _ExceptMasks: array of string; _RaiseException,
++  _Force: boolean): integer;
++
++  function MatchesAnyExceptMask(const _s: string): boolean;
++  var
++    i: Integer;
++    Mask: string;
++  begin
++    for i := Low(_ExceptMasks) to High(_ExceptMasks) do begin
++      Mask := LowerCase(_ExceptMasks[i]);
++      if MatchesMask(_s, Mask) then begin
++        Result := true;
++        exit;
++      end;
++    end;
++    Result := false;
++  end;
++
+ var
+   sr: TSearchRec;
+   Dir: string;
+@@ -1283,21 +1316,21 @@
+   Assert(_Dir <> '', 'Dir parameter must not be an empty string');
+   Assert(_Mask <> '', 'Dir parameter must not be an empty string');
+ 
+-  _ExceptMask := LowerCase(_ExceptMask);
+   Result := 0;
+   Dir := IncludeTrailingPathDelimiter(_Dir);
+-  if 0 = FindFirst(Dir + _Mask, faAnyFile, sr) then
++  if 0 = FindFirst(Dir + _Mask, faAnyFile, sr) then begin
+     try
+       repeat
+         if (sr.Name <> '.') and (sr.Name <> '..') then
+           if ((sr.Attr and (SysUtils.faVolumeID or SysUtils.faDirectory)) = 0) then
+-            if (_ExceptMask = '') or not MatchesMask(LowerCase(sr.Name), _ExceptMask) then
++            if not MatchesAnyExceptMask(LowerCase(sr.Name)) then
+               if not DeleteFile(Dir + sr.Name, _RaiseException, _Force) then
+                 Inc(Result);
+       until 0 <> FindNext(sr);
+     finally
+       FindClose(sr);
+     end;
++  end;
+ end;
+ 
+ class function TFileSystem.FileExists(const _Filename: string): boolean;
+
+
+
+From twm at mail.berlios.de  Mon Feb 22 15:48:48 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 15:48:48 +0100
+Subject: [Dzchart-svncheckins] r376 - utilities/dzLib/trunk/src
+Message-ID: <201002221448.o1MEmmS3025464@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 15:48:47 +0100 (Mon, 22 Feb 2010)
+New Revision: 376
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzNameBoolList.pas
+Log:
+new method TNameBoolList.FindName and new property Values
+
+Modified: utilities/dzLib/trunk/src/u_dzNameBoolList.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNameBoolList.pas	2010-02-22 14:47:50 UTC (rev 375)
++++ utilities/dzLib/trunk/src/u_dzNameBoolList.pas	2010-02-22 14:48:47 UTC (rev 376)
+@@ -26,6 +26,12 @@
+ type
+   {: Sorted list for storing TNameBool items }
+   TNameBoolList = class(_DZ_OBJECT_LIST_TEMPLATE_)
++  private
++    function FindName(const _Name: string; out _Idx: integer): boolean;
++    function GetValues(const _Name: string): boolean;
++    procedure SetValues(const _Name: string; _Value: boolean);
++  public
++    property Values[const _Name: string]: boolean read GetValues write SetValues;
+   end;
+ 
+ implementation
+@@ -44,5 +50,40 @@
+   FBool := _Bool;
+ end;
+ 
++{ TNameBoolList }
++
++function TNameBoolList.FindName(const _Name: string; out _Idx: integer): boolean;
++var
++  i: Integer;
++begin
++  for i := 0 to Count - 1 do
++    if SameText(Items[i].Name, _Name) then begin
++      Result := true;
++      _Idx := i;
++      exit;
++    end;
++  Result := false;
++end;
++
++function TNameBoolList.GetValues(const _Name: string): boolean;
++var
++  Idx: integer;
++begin
++  if not FindName(_Name, Idx) then
++    Result := false
++  else
++    Result := Items[Idx].Bool;
++end;
++
++procedure TNameBoolList.SetValues(const _Name: string; _Value: boolean);
++var
++  Idx: integer;
++begin
++  if FindName(_Name, Idx) then
++    Items[Idx].Bool := _Value
++  else
++    Add(TNameBool.Create(_Name, _Value))
++end;
++
+ end.
+ 
+
+
+
+From twm at mail.berlios.de  Mon Feb 22 15:50:45 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 15:50:45 +0100
+Subject: [Dzchart-svncheckins] r377 - utilities/dzLib/trunk/src
+Message-ID: <201002221450.o1MEojfG025586@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 15:50:44 +0100 (Mon, 22 Feb 2010)
+New Revision: 377
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* TGrid_SetRowCount and TGrid_SetColCount are now functions
+* new procedure TGrid_SetNonfixedColCount for setting the number of non-fixed columns
+
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2010-02-22 14:48:47 UTC (rev 376)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2010-02-22 14:50:44 UTC (rev 377)
+@@ -118,12 +118,18 @@
+ ///          @param IncludeFixed determines whether the fixed rows/columns are also exported </summary>
+ procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = false);
+ 
+-///<summary> sets the row count, taking the fixed rows into account </summary>
+-procedure TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer);
++///<summary> sets the row count, taking the fixed rows into account
++///          @returns the new RowCount </summary>
++function TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer): integer;
+ 
+-///<summary> sets the column count, taking the fixed columns into account </summary>
+-procedure TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer);
++///<summary> sets the column count, taking the fixed columns into account
++///          @returns the new ColCount </summary>
++function TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
+ 
++///<summary> sets the nonfixd column count
++///          @returns the new ColCount </summary>
++function TGrid_SetNonfixedColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
++
+ ///<summary> sets the row count to FixedRows + 1 and clears all non-fixed cells </summary>
+ procedure TStringGrid_Clear(_Grid: TStringGrid);
+ 
+@@ -670,28 +676,39 @@
+   end;
+ end;
+ 
+-procedure TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer);
++function TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer): integer;
+ var
+   Grid: TGridHack;
+ begin
+   Grid := TGridHack(_Grid);
+   if Grid.FixedRows >= _RowCount then
+-    Grid.RowCount := Grid.FixedRows + 1
++    Result := Grid.FixedRows + 1
+   else
+-    Grid.RowCount := _RowCount;
++    Result := _RowCount;
++  Grid.RowCount := Result;
+ end;
+ 
+-procedure TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer);
++function TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
+ var
+   Grid: TGridHack;
+ begin
+   Grid := TGridHack(_Grid);
+   if Grid.FixedCols >= _ColCount then
+-    Grid.ColCount := Grid.FixedCols + 1
++    Result := Grid.FixedCols + 1
+   else
+-    Grid.ColCount := _ColCount;
++    Result := _ColCount;
++  Grid.ColCount := Result;
+ end;
+ 
++function TGrid_SetNonfixedColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
++var
++  Grid: TGridHack;
++begin
++  Grid := TGridHack(_Grid);
++  Result := Grid.FixedCols + _ColCount;
++  Grid.ColCount := Result;
++end;
++
+ procedure TStringGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer);
+ begin
+   TGrid_SetRowCount(_Grid, _RowCount);
+
+
+
+From twm at mail.berlios.de  Mon Feb 22 16:54:33 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 16:54:33 +0100
+Subject: [Dzchart-svncheckins] r378 - 3rd
+Message-ID: <201002221554.o1MFsX6g030267@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 16:54:33 +0100 (Mon, 22 Feb 2010)
+New Revision: 378
+
+Added:
+   3rd/dunit/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Mon Feb 22 16:55:03 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 16:55:03 +0100
+Subject: [Dzchart-svncheckins] r379 - 3rd/dunit
+Message-ID: <201002221555.o1MFt3C9030328@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 16:55:02 +0100 (Mon, 22 Feb 2010)
+New Revision: 379
+
+Added:
+   3rd/dunit/9.3.0/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Mon Feb 22 16:57:48 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 16:57:48 +0100
+Subject: [Dzchart-svncheckins] r381 - 3rd/dunit/9.3.0
+Message-ID: <201002221557.o1MFvmId030582@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 16:57:47 +0100 (Mon, 22 Feb 2010)
+New Revision: 381
+
+Added:
+   3rd/dunit/9.3.0/tags/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Mon Feb 22 16:58:17 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 16:58:17 +0100
+Subject: [Dzchart-svncheckins] r382 - 3rd/dunit/9.3.0/tags
+Message-ID: <201002221558.o1MFwH9O030601@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 16:58:16 +0100 (Mon, 22 Feb 2010)
+New Revision: 382
+
+Added:
+   3rd/dunit/9.3.0/tags/1/
+Log:
+
+
+Copied: 3rd/dunit/9.3.0/tags/1 (from rev 381, 3rd/dunit/9.3.0/trunk)
+
+
+
+From twm at mail.berlios.de  Mon Feb 22 17:09:36 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 17:09:36 +0100
+Subject: [Dzchart-svncheckins] r383 - 3rd/dunit/9.3.0/trunk/src
+Message-ID: <201002221609.o1MG9aAB031293@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 17:09:35 +0100 (Mon, 22 Feb 2010)
+New Revision: 383
+
+Modified:
+   3rd/dunit/9.3.0/trunk/src/TestFramework.pas
+Log:
+added {$typeinfo on/off} to get rid of the warnings
+
+Modified: 3rd/dunit/9.3.0/trunk/src/TestFramework.pas
+===================================================================
+--- 3rd/dunit/9.3.0/trunk/src/TestFramework.pas	2010-02-22 15:58:16 UTC (rev 382)
++++ 3rd/dunit/9.3.0/trunk/src/TestFramework.pas	2010-02-22 16:09:35 UTC (rev 383)
+@@ -74,7 +74,9 @@
+   IStatusListener = interface;
+ 
+   TTestResult   = class;
++{$TYPEINFO ON}
+   TAbstractTest = class;
++{$TYPEINFO OFF}
+   TTestCase     = class;
+   TTestSuite    = class;
+   TTestFailure  = class;
+@@ -357,7 +359,6 @@
+     property OverRides: integer read FOverRides write FOverRides;
+   end;
+ 
+-
+   TAbstractTest = class(TInterfacedObject, ITest)
+   protected
+     FTestName: string;
+@@ -550,7 +551,6 @@
+       write SetIgnoreSetUpTearDownLeaks;
+   end;
+ 
+-
+   TTestCase = class(TAbstractTest, ITest)
+   protected
+     fMethod:    TTestMethod;
+
+
+
+From twm at mail.berlios.de  Mon Feb 22 17:10:21 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 22 Feb 2010 17:10:21 +0100
+Subject: [Dzchart-svncheckins] r384 - 3rd/dunit/9.3.0/tags
+Message-ID: <201002221610.o1MGALfY031419@sheep.berlios.de>
+
+Author: twm
+Date: 2010-02-22 17:10:19 +0100 (Mon, 22 Feb 2010)
+New Revision: 384
+
+Added:
+   3rd/dunit/9.3.0/tags/2/
+Log:
+
+
+Copied: 3rd/dunit/9.3.0/tags/2 (from rev 383, 3rd/dunit/9.3.0/trunk)
+
+
+

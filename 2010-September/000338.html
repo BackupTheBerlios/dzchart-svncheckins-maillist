@@ -1,0 +1,690 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r479 - in utilities/dzContextMenu: . trunk	trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r479%20-%20in%20utilities/dzContextMenu%3A%20.%20trunk%0A%09trunk/src&In-Reply-To=%3C20100929092349.97342480FAA%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000337.html">
+   <LINK REL="Next"  HREF="000339.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r479 - in utilities/dzContextMenu: . trunk	trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r479%20-%20in%20utilities/dzContextMenu%3A%20.%20trunk%0A%09trunk/src&In-Reply-To=%3C20100929092349.97342480FAA%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r479 - in utilities/dzContextMenu: . trunk	trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Wed Sep 29 11:23:49 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000337.html">[Dzchart-svncheckins] r478 - utilities
+</A></li>
+        <LI>Next message: <A HREF="000339.html">[Dzchart-svncheckins] r480 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#338">[ date ]</a>
+              <a href="thread.html#338">[ thread ]</a>
+              <a href="subject.html#338">[ subject ]</a>
+              <a href="author.html#338">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-09-29 11:23:49 +0200 (Wed, 29 Sep 2010)
+New Revision: 479
+
+Added:
+   utilities/dzContextMenu/trunk/
+   utilities/dzContextMenu/trunk/src/
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.dfm
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+   utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+Log:
+initial import
+
+Added: utilities/dzContextMenu/trunk/src/d_ContextMenu.dfm
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.dfm	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.dfm	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,9 @@
++object dm_ContextMenu: Tdm_ContextMenu
++  OldCreateOrder = False
++  Height = 150
++  Width = 215
++  object ThePopupMenu: TPopupMenu
++    Left = 88
++    Top = 56
++  end
++end
+
+Added: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,159 @@
++unit d_ContextMenu;
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  Classes,
++  IniFiles,
++  Menus;
++
++type
++  Tdm_ContextMenu = class(TDataModule)
++    ThePopupMenu: TPopupMenu;
++  private
++    FFiles: TStringList;
++    FMaxItemCount: Integer;
++    FItems: TStringList;
++    procedure UpdatePopup;
++  public
++    class function IniFile: TMemIniFile;
++    constructor Create(_Owner: TComponent); override;
++    destructor Destroy; override;
++    procedure UpdateSubmenu(_SubMenu: HMenu; var _Id: integer);
++    procedure DoCommand(_Idx: integer);
++    property Files: TStringList read FFiles;
++    property MaxItemCount: Integer read FMaxItemCount;
++  end;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  Dialogs;
++
++const
++  INI_FILE = 'c:\dzcontextmenu.ini';
++
++var
++  gblIni: TMemIniFile = nil;
++
++constructor Tdm_ContextMenu.Create(_Owner: TComponent);
++var
++  Sections: TStringList;
++  i: Integer;
++  Ini: TMemIniFile;
++begin
++  inherited;
++  FFiles := TStringList.Create;
++  FItems := TStringList.Create;
++
++  Ini := IniFile;
++  FMaxItemCount := 0;
++  Sections := nil;
++  Sections := TStringList.Create;
++  try
++    Ini.ReadSections(Sections);
++    for i := 0 to Sections.Count - 1 do begin
++      FItems.Clear;
++      Ini.ReadSection(Sections[i], FItems);
++      // First entry is file extension
++      FItems.Delete(0);
++      if FItems.Count &gt; FMaxItemCount then
++        FMaxItemCount := FItems.Count;
++    end;
++  finally
++    FreeAndNil(Sections);
++  end;
++end;
++
++destructor Tdm_ContextMenu.Destroy;
++begin
++  FreeAndNil(FItems);
++  FreeAndNil(FFiles);
++  inherited;
++end;
++
++procedure Tdm_ContextMenu.DoCommand(_Idx: integer);
++begin
++  if _Idx &lt; FItems.Count then
++    MessageBox(0, PChar(FItems[_Idx] + #13#10 + FFiles.Text), 'Execute', MB_ICONINFORMATION or MB_OK);
++end;
++
++procedure Tdm_ContextMenu.UpdatePopup;
++var
++  SecIdx: Integer;
++  SectExt: string;
++  Ext: string;
++  Sections: TStringList;
++  i: Integer;
++  ItemIdx: Integer;
++  mi: TMenuItem;
++begin
++  ThePopupMenu.Items.Clear;
++
++  Sections := TStringList.Create;
++  try
++    IniFile.ReadSections(Sections);
++    for SecIdx := 0 to Sections.Count - 1 do begin
++      for i := 0 to Files.Count - 1 do begin
++        Ext := ExtractFileExt(Files[i]);
++        SectExt := IniFile.ReadString(Sections[SecIdx], 'extension', '');
++        if SameText(Ext, SectExt) then begin
++          FItems.Clear;
++          IniFile.ReadSection(Sections[SecIdx], FItems);
++          FItems.Delete(0);
++          for ItemIdx := 0 to FItems.Count - 1 do begin
++            mi := TMenuItem.Create(Self);
++            mi.Caption := FItems[ItemIdx];
++            ThePopupMenu.Items.Add(mi);
++          end;
++          exit;
++        end;
++      end;
++    end;
++  finally
++    FreeAndNil(Sections);
++  end;
++end;
++
++procedure Tdm_ContextMenu.UpdateSubmenu(_SubMenu: HMenu; var _Id: integer);
++var
++  i: integer;
++  mi: TMenuItem;
++  mii: TMenuItemInfo;
++begin
++  UpdatePopup;
++
++  for i := 0 to ThePopupMenu.Items.Count - 1 do begin
++    mi := ThePopupMenu.Items[i];
++
++    FillChar(mii, sizeof(mii), 0);
++    mii.cbSize := sizeof(mii);
++    mii.fMask := MIIM_CHECKMARKS or MIIM_ID or MIIM_TYPE or MIIM_STATE or MIIM_DATA;
++    mii.wID := _Id;
++    mii.hSubMenu := _SubMenu;
++    mii.fType := MFT_STRING;
++    mii.fState := MFS_ENABLED;
++    mii.dwItemData := integer(mi);
++    mii.dwTypeData := PChar(mi.Caption);
++    InsertMenuItem(_SubMenu, i, LongBool(True), mii);
++    Inc(_Id);
++  end;
++
++end;
++
++class function Tdm_ContextMenu.IniFile: TMemIniFile;
++begin
++  Result := gblIni;
++end;
++
++initialization
++//  MessageBox(0, 'Attach debugger now!', 'Initialization', MB_ICONINFORMATION or MB_OK);
++  gblIni := TMemIniFile.Create(INI_FILE);
++finalization
++  FreeAndNil(gblIni);
++end.
++
+
+Added: utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,19 @@
++library dzcontextmenu;
++
++uses
++  ComServ,
++  u_ContextMenuHandler in 'u_ContextMenuHandler.pas',
++  d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule};
++
++exports
++  DllGetClassObject,
++  DllCanUnloadNow,
++  DllRegisterServer,
++  DllUnregisterServer;
++
++{$R *.RES}
++
++begin
++
++end.
++
+
+Added: utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,134 @@
++&#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++		&lt;PropertyGroup&gt;
++			&lt;ProjectGuid&gt;{360D7DF5-66F4-464B-B883-865ECD2DE195}&lt;/ProjectGuid&gt;
++			&lt;MainSource&gt;dzcontextmenu.dpr&lt;/MainSource&gt;
++			&lt;ProjectVersion&gt;12.2&lt;/ProjectVersion&gt;
++			&lt;Base&gt;True&lt;/Base&gt;
++			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
++			&lt;Platform&gt;Win32&lt;/Platform&gt;
++			&lt;AppType&gt;Library&lt;/AppType&gt;
++			&lt;FrameworkType&gt;None&lt;/FrameworkType&gt;
++			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Debug' or '$(Cfg_1)'!=''&quot;&gt;
++			&lt;Cfg_1&gt;true&lt;/Cfg_1&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Release' or '$(Cfg_2)'!=''&quot;&gt;
++			&lt;Cfg_2&gt;true&lt;/Cfg_2&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_UsePackage&gt;vcl;vclx;VclSmp;rtl;vclimg;svnui;svn;bdertl;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyProtocols;inet;vclie;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;soaprtl;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;dbexpress;dbxcds&lt;/DCC_UsePackage&gt;
++			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
++			&lt;DCC_UNIT_PLATFORM&gt;false&lt;/DCC_UNIT_PLATFORM&gt;
++			&lt;DCC_DcuOutput&gt;.\$(Config)\$(Platform)&lt;/DCC_DcuOutput&gt;
++			&lt;DCC_SYMBOL_PLATFORM&gt;false&lt;/DCC_SYMBOL_PLATFORM&gt;
++			&lt;DCC_UnitAlias&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;$(DCC_UnitAlias)&lt;/DCC_UnitAlias&gt;
++			&lt;DCC_ExeOutput&gt;.\$(Config)\$(Platform)&lt;/DCC_ExeOutput&gt;
++			&lt;DCC_N&gt;false&lt;/DCC_N&gt;
++			&lt;DCC_S&gt;false&lt;/DCC_S&gt;
++			&lt;GenDll&gt;true&lt;/GenDll&gt;
++			&lt;DCC_E&gt;false&lt;/DCC_E&gt;
++			&lt;DCC_F&gt;false&lt;/DCC_F&gt;
++			&lt;DCC_K&gt;false&lt;/DCC_K&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_1)'!=''&quot;&gt;
++			&lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++			&lt;DCC_Optimize&gt;false&lt;/DCC_Optimize&gt;
++			&lt;DCC_Define&gt;DEBUG;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_DcuOutput&gt;..\$(Config)\$(Platform)\dcu&lt;/DCC_DcuOutput&gt;
++			&lt;DCC_GenerateStackFrames&gt;true&lt;/DCC_GenerateStackFrames&gt;
++			&lt;DCC_DebugDCUs&gt;true&lt;/DCC_DebugDCUs&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_2)'!=''&quot;&gt;
++			&lt;DCC_LocalDebugSymbols&gt;false&lt;/DCC_LocalDebugSymbols&gt;
++			&lt;DCC_Define&gt;RELEASE;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++			&lt;DCC_DebugInformation&gt;false&lt;/DCC_DebugInformation&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;ItemGroup&gt;
++			&lt;DelphiCompile Include=&quot;dzcontextmenu.dpr&quot;&gt;
++				&lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++			&lt;/DelphiCompile&gt;
++			&lt;DCCReference Include=&quot;u_ContextMenuHandler.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;d_ContextMenu.pas&quot;&gt;
++				&lt;Form&gt;dm_ContextMenu&lt;/Form&gt;
++				&lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
++			&lt;/DCCReference&gt;
++			&lt;None Include=&quot;c:\dzcontextmenu.ini&quot;/&gt;
++			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
++				&lt;Key&gt;Cfg_2&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
++				&lt;Key&gt;Cfg_1&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++		&lt;/ItemGroup&gt;
++		&lt;Import Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot; Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot;/&gt;
++		&lt;Import Condition=&quot;Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj')&quot; Project=&quot;$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\8.0\UserTools.proj&quot;/&gt;
++		&lt;ProjectExtensions&gt;
++			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
++			&lt;Borland.ProjectType/&gt;
++			&lt;BorlandProject&gt;
++				&lt;Delphi.Personality&gt;
++					&lt;VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++					&lt;/VersionInfo&gt;
++					&lt;VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;CompanyName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileDescription&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;InternalName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;Comments&quot;/&gt;
++					&lt;/VersionInfoKeys&gt;
++					&lt;Source&gt;
++						&lt;Source Name=&quot;MainSource&quot;&gt;dzcontextmenu.dpr&lt;/Source&gt;
++					&lt;/Source&gt;
++					&lt;Parameters&gt;
++						&lt;Parameters Name=&quot;RunParams&quot;&gt;/n, /e, C:\src\test\contextmenu\src&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\WINDOWS\explorer.exe&lt;/Parameters&gt;
++					&lt;/Parameters&gt;
++					&lt;Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dcltee9150.bpl&quot;&gt;TeeChart Standard 9 Components&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dclIndyCore150.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dclIndyProtocols150.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dclIntraweb_110_150.bpl&quot;&gt;VCL for the Web 11.0 Design Package for Embarcadero RAD Studio XE&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;C:\Program Files\Raize\CS4\Bin\VCL\CodeSiteExpressVcl_Design150.bpl&quot;&gt;CodeSite Express 4.6.1&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dcloffice2k150.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDSBIN)\dclofficexp150.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++					&lt;/Excluded_Packages&gt;
++				&lt;/Delphi.Personality&gt;
++				&lt;Platforms&gt;
++					&lt;Platform value=&quot;Win32&quot;&gt;True&lt;/Platform&gt;
++				&lt;/Platforms&gt;
++			&lt;/BorlandProject&gt;
++			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
++		&lt;/ProjectExtensions&gt;
++	&lt;/Project&gt;
+
+Added: utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-09-29 09:23:49 UTC (rev 479)
+@@ -0,0 +1,263 @@
++unit u_ContextMenuHandler;
++
++interface
++
++uses
++  Windows,
++  Classes,
++  Menus,
++  ActiveX,
++  ComObj,
++  ShlObj,
++  d_ContextMenu;
++
++type
++  TContextMenu = class(TComObject, IShellExtInit, IContextMenu)
++  private
++  {(*}
++  const
++    GUID: TGUID = '{99D8B139-0855-4C5D-95E7-BC8EC6254B3D}';
++  {*)}
++  private
++    FCmdCount: LongWord;
++    FLog: TextFile;
++    FDm: Tdm_ContextMenu;
++  protected
++    function IShellExtInit.Initialize = IShellExtInit_Initialize;
++    function IShellExtInit_Initialize(_pidlFolder: PItemIDList; _lpdobj: IDataObject;
++      _HKeyProgID: HKEY): HResult; stdcall;
++    function QueryContextMenu(_Menu: HMENU; _indexMenu, _idCmdFirst, _idCmdLast, _UFlags: UINT): HResult; stdcall;
++    function InvokeCommand(var _ici: TCMInvokeCommandInfo): HResult; stdcall;
++    function GetCommandString(_idCmd, _uType: UINT; _pwReserved: PUINT; _PszName: LPSTR; _cchMax: UINT): HResult; stdcall;
++  public
++    procedure Initialize; override;
++    destructor Destroy; override;
++  end;
++
++implementation
++
++uses
++  ComServ,
++  SysUtils,
++  Shellapi,
++  Registry,
++  Dialogs,
++  IniFiles;
++
++procedure TContextMenu.Initialize;
++begin
++  inherited;
++  FCmdCount := $FFFFFFFF;
++  FDm := Tdm_ContextMenu.Create(nil);
++  AssignFile(FLog, 'c:\log.txt');
++  Rewrite(FLog);
++  WriteLn(FLog, 'TContextMenu.Initialize');
++end;
++
++destructor TContextMenu.Destroy;
++begin
++  WriteLn(FLog, 'TContextMenu.Destroy');
++  CloseFile(FLog);
++  FreeAndNil(FDm);
++  inherited;
++end;
++
++function TContextMenu.IShellExtInit_Initialize(_pidlFolder: PItemIDList; _lpdobj: IDataObject; _HKeyProgID: HKEY): HResult;
++var
++  StgMedium: TStgMedium;
++  FormatEtc: TFormatEtc;
++  Count: integer;
++  i: Integer;
++  Files: TStringList;
++  FileName: array[0..MAX_PATH] of Char;
++begin
++  WriteLn(FLog, 'enter TContextMenu.IShellExtInit_Initialize');
++
++  try
++    // if lpdobj is nil, fail
++    if (_lpdobj = nil) then begin
++      Result := E_INVALIDARG;
++      Exit;
++    end;
++
++    Files := FDm.Files;
++    Files.Clear;
++
++    // initialize clipboard format
++    FormatEtc.CfFormat := CF_HDROP;
++    FormatEtc.Ptd := nil;
++    FormatEtc.DwAspect := DVASPECT_CONTENT;
++    FormatEtc.Lindex := 1;
++    FormatEtc.Tymed := TYMED_HGLOBAL;
++    Result := _lpdobj.GetData(FormatEtc, StgMedium);
++    if Succeeded(Result) then begin
++      try
++        // get selected files count
++        Count := DragQueryFile(StgMedium.hGlobal, $FFFFFFFF, nil, 0);
++        // get selected files
++        for i := 0 to Count - 1 do begin
++          DragQueryFile(StgMedium.hGlobal, i, FileName, SizeOf(FileName));
++          Files.Add(FileName);
++        end;
++      finally
++        ReleaseStgMedium(StgMedium);
++      end;
++      Result := NOERROR;
++    end;
++  finally
++    WriteLn(FLog, 'exit TContextMenu.IShellExtInit_Initialize');
++  end;
++end;
++
++function TContextMenu.QueryContextMenu(_Menu: HMENU; _indexMenu, _idCmdFirst, _idCmdLast, _UFlags: UINT): HResult;
++var
++  Id: integer;
++  mii: TMenuItemInfo;
++  Submenu: HMENU;
++begin
++  WriteLn(FLog, 'enter TContextMenu.QueryContextMenu');
++  try
++    Result := 0;
++    if ((_UFlags and $0000000F) = CMF_NORMAL) or ((_UFlags and CMF_EXPLORE) &lt;&gt; 0) then begin
++      Id := Integer(_idCmdFirst);
++      Submenu := CreatePopupMenu;
++      FDm.UpdateSubmenu(Submenu, Id);
++      FillChar(mii, sizeof(mii), 0);
++      mii.cbSize := sizeof(mii);
++      mii.fMask := MIIM_SUBMENU or MIIM_ID or MIIM_TYPE or MIIM_STATE;
++      mii.wID := Id;
++      mii.hSubMenu := Submenu;
++      mii.fType := MFT_STRING;
++      mii.fState := MFS_ENABLED;
++      mii.dwTypeData := 'Submenu';
++      InsertMenuItem(_Menu, _indexMenu, LongBool(True), mii);
++      Inc(Id);
++
++      // Return value is number of items added to context menu
++      FCmdCount := Id - integer(_idCmdFirst);
++      Result := MakeResult(SEVERITY_SUCCESS, 0, FCmdCount);
++    end;
++  finally
++    WriteLn(FLog, 'exit TContextMenu.QueryContextMenu');
++  end;
++end;
++
++function TContextMenu.GetCommandString(_idCmd, _uType: UINT; _pwReserved: PUINT; _PszName: LPSTR;
++  _cchMax: UINT): HRESULT;
++var
++  szName: PWideChar absolute _PszName;
++begin
++  WriteLn(FLog, 'enter TContextMenu.GetCommandString(' + IntToStr(_idCmd) + ')');
++  try
++    Result := E_INVALIDARG;
++    if _idCmd &lt; FCmdCount then begin
++      case _uType of
++        GCS_HELPTEXTW: begin
++          // Return the menu item's help
++            StrLCopy(szName, PChar('execute some command'), _cchMax);
++            Result := S_OK;
++          end;
++      end;
++    end;
++  finally
++    WriteLn(FLog, 'exit TContextMenu.GetCommandString');
++  end;
++end;
++
++type
++  TCMInvokeCommandInfoHack = record
++    cbSize: DWORD;
++    fMask: DWORD;
++    hwnd: HWND;
++    VerbLo: Word;
++    VerbHi: Word;
++    lpParameters: LPCSTR;
++    lpDirectory: LPCSTR;
++    nShow: Integer;
++    dwHotKey: DWORD;
++    hIcon: THandle;
++  end;
++
++function TContextMenu.InvokeCommand(var _ici: TCMInvokeCommandInfo): HResult;
++var
++  ici: TCMInvokeCommandInfoHack absolute _ici;
++begin
++  WriteLn(FLog, 'enter TContextMenu.InvokeCommand');
++  try
++    Result := E_FAIL;
++    if ici.VerbHi = 0 then begin
++      FDm.DoCommand(ici.VerbLo);
++      Result := S_OK;
++    end;
++  finally
++    WriteLn(FLog, 'exit TContextMenu.InvokeCommand');
++  end;
++end;
++
++type
++  TContextMenuFactory = class(TComObjectFactory)
++  public
++    procedure UpdateRegistry(_Register: Boolean); override;
++  end;
++
++procedure TContextMenuFactory.UpdateRegistry(_Register: Boolean);
++var
++  ClassID: string;
++  Ini: TMemIniFile;
++  Sections: TStringList;
++  i: Integer;
++  FileType: string;
++begin
++  ClassID := GUIDToString(TContextMenu.GUID);
++  if _Register then begin
++    inherited UpdateRegistry(_Register);
++
++    Sections := nil;
++    Ini := Tdm_ContextMenu.IniFile;
++    Sections := TStringList.Create;
++    try
++      Ini.ReadSections(Sections);
++      for i := 0 to Sections.Count - 1 do begin
++        FileType := Sections[i];
++        CreateRegKey(FileType + '\shellex', '', '');
++        CreateRegKey(FileType + '\shellex\ContextMenuHandlers', '', '');
++        CreateRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu', '', ClassID);
++      end;
++
++    finally
++      FreeAndNil(Sections);
++    end;
++    if (Win32Platform = VER_PLATFORM_WIN32_NT) then
++      with TRegistry.Create do
++        try
++          RootKey := HKEY_LOCAL_MACHINE;
++          OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
++          OpenKey('Approved', True);
++          WriteString(ClassID, 'dzContextMenu');
++        finally
++          Free;
++        end;
++  end else begin
++    DeleteRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu');
++
++    if (Win32Platform = VER_PLATFORM_WIN32_NT) then
++      with TRegistry.Create do
++        try
++          RootKey := HKEY_LOCAL_MACHINE;
++          OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
++          OpenKey('Approved', True);
++          DeleteValue(ClassID);
++        finally
++          Free;
++        end;
++
++    inherited UpdateRegistry(_Register);
++  end;
++end;
++
++initialization
++  TContextMenuFactory.Create(ComServer, TContextMenu, TContextMenu.GUID,
++    '', 'Context Menu Shell Extension', ciMultiInstance, tmApartment);
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000337.html">[Dzchart-svncheckins] r478 - utilities
+</A></li>
+	<LI>Next message: <A HREF="000339.html">[Dzchart-svncheckins] r480 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#338">[ date ]</a>
+              <a href="thread.html#338">[ thread ]</a>
+              <a href="subject.html#338">[ subject ]</a>
+              <a href="author.html#338">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

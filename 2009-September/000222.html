@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r356 - utilities/dzLib/trunk/dbcreator
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r356%20-%20utilities/dzLib/trunk/dbcreator&In-Reply-To=%3C200909251523.n8PFNusk018872%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000221.html">
+   <LINK REL="Next"  HREF="000223.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r356 - utilities/dzLib/trunk/dbcreator</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r356%20-%20utilities/dzLib/trunk/dbcreator&In-Reply-To=%3C200909251523.n8PFNusk018872%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r356 - utilities/dzLib/trunk/dbcreator">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:23:56 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000221.html">[Dzchart-svncheckins] r355 - utilities/dzLib/trunk/lockfree
+</A></li>
+        <LI>Next message: <A HREF="000223.html">[Dzchart-svncheckins] r357 - utilities/dzLib/trunk/dbcreator
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#222">[ date ]</a>
+              <a href="thread.html#222">[ thread ]</a>
+              <a href="subject.html#222">[ subject ]</a>
+              <a href="author.html#222">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:23:55 +0200 (Fri, 25 Sep 2009)
+New Revision: 356
+
+Modified:
+   utilities/dzLib/trunk/dbcreator/u_dzDbCreatorCreateAccess.pas
+Log:
+* Support for GUID fields
+* constants DbLevelAccess97 and DbLevelAccess2000
+* makes sure that field names don't get longer than 50 chars
+* Bugfix: Tables were not inserted in topologial order
+
+Modified: utilities/dzLib/trunk/dbcreator/u_dzDbCreatorCreateAccess.pas
+===================================================================
+--- utilities/dzLib/trunk/dbcreator/u_dzDbCreatorCreateAccess.pas	2009-09-25 15:19:57 UTC (rev 355)
++++ utilities/dzLib/trunk/dbcreator/u_dzDbCreatorCreateAccess.pas	2009-09-25 15:23:55 UTC (rev 356)
+@@ -28,6 +28,10 @@
+     destructor Destroy; override;
+   end;
+ 
++const
++  DbLevelAccess97 = 4;
++  DbLevelAccess2000 = 5;
++
+ type
+   TAccessDbCreator = class(TInterfacedObject, IdzDbCreator)
+   private
+@@ -52,6 +56,7 @@
+   protected // implements IdzDbCreator
+     procedure WriteDbDesc(const _DbDescription: IdzDbDescription; const _Version: IdzDbVersionNTypeAncestor);
+   public
++     ///&lt;summary&gt; Level: 4 = Access 97, 5 = Access 2000 &lt;/summary&gt;
+     constructor Create(const _Filename: string; _Level: integer;
+       const _DbPassword: string = ''; _AutoAdddzSystemTable: boolean = false);
+     destructor Destroy; override;
+@@ -76,7 +81,7 @@
+ 
+ const
+   DATA_TYPE_MAPPING: TDataTypeMapping = (
+-    adInteger, adDouble, adVarWChar, adLongVarWChar, adDate);
++    adInteger, adDouble, adVarWChar, adLongVarWChar, adDate, adGUID);
+   SORT_ORDER_MAPPING: TSortOrderMapping = (adSortAscending, adSortDescending);
+ 
+ const
+@@ -221,7 +226,10 @@
+       ForTabName := Format('%s%s', [FPrefix, ForTable.Name]);
+       ForColName := Format('%s%s', [FPrefix, ForTable.PrimaryKey.Column[0].Name]);
+       dzAssert(Column.ForeignKeyColumn.DataType = Column.DataType, 'data type of foreign key and primary key of referenced table do not match');
+-      KeyName := Format('FK_%s%s_%s_%s', [FPrefix, _Table.Name, Column.Name, ForColName]);
++      KeyName := Format('%s%s_%s_%s', [FPrefix, _Table.Name, Column.Name, ForColName]);
++      if Length(KeyName) &gt; 50 - 4 then
++        KeyName := TailStr(KeyName, 50 - 4);
++      KeyName := 'FK_' + KeyName;
+ 
+       ComKey.Name := KeyName;
+       ComKey.Type_ := adKeyForeign;
+@@ -389,8 +397,10 @@
+             Row := _Table.Rows[RowIdx];
+             for FieldIdx := 0 to Row.Count - 1 do begin
+               if Row.IsNull(FieldIdx) then
+-                tbl.Fields[FieldIdx].Value := null
+-              else
++                // in theory it should be possible to set the field to NULL, but apparently
++                // Access distinguishes between NULL and not assigned
++//                tbl.Fields[FieldIdx].Value := null
++              else if not _Table.Columns[FieldIdx].AutoInc then
+                 tbl.Fields[FieldIdx].Value := Row.Value[FieldIdx];
+             end;
+             tbl.Post;
+@@ -457,7 +467,7 @@
+   finally
+     for i := 0 to _DbDescription.TableCount - 1 do begin
+       Table := _DbDescription.Tables[i];
+-        // free COM Object
++      // free COM Object
+       TInterfaceContainer(Table.Data).Free;
+       Table.Data := nil;
+     end;
+@@ -471,7 +481,7 @@
+   Sleep(1000);
+ 
+   for i := 0 to _DbDescription.TableCount - 1 do begin
+-    Table := _DbDescription.Tables[i];
++    Table := _DbDescription.TopologicalSortedTables[i];
+     InsertTableData(_DbDescription, Table);
+   end;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000221.html">[Dzchart-svncheckins] r355 - utilities/dzLib/trunk/lockfree
+</A></li>
+	<LI>Next message: <A HREF="000223.html">[Dzchart-svncheckins] r357 - utilities/dzLib/trunk/dbcreator
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#222">[ date ]</a>
+              <a href="thread.html#222">[ thread ]</a>
+              <a href="subject.html#222">[ subject ]</a>
+              <a href="author.html#222">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

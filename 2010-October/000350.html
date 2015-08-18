@@ -1,0 +1,441 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r491 - utilities/dzContextMenu/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r491%20-%20utilities/dzContextMenu/trunk/src&In-Reply-To=%3C20101001133311.A211D48108F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000349.html">
+   <LINK REL="Next"  HREF="000351.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r491 - utilities/dzContextMenu/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r491%20-%20utilities/dzContextMenu/trunk/src&In-Reply-To=%3C20101001133311.A211D48108F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r491 - utilities/dzContextMenu/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 15:33:11 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000349.html">[Dzchart-svncheckins] r490 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+        <LI>Next message: <A HREF="000351.html">[Dzchart-svncheckins] r492 - utilities/dzContextMenu/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#350">[ date ]</a>
+              <a href="thread.html#350">[ thread ]</a>
+              <a href="subject.html#350">[ subject ]</a>
+              <a href="author.html#350">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 15:33:11 +0200 (Fri, 01 Oct 2010)
+New Revision: 491
+
+Modified:
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+   utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+   utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+Log:
+* '-' entries are now actual separators
+* added exception handlers so explorer no longer crahes on an exception
+
+Modified: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-01 13:04:17 UTC (rev 490)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-01 13:33:11 UTC (rev 491)
+@@ -119,7 +119,7 @@
+     ItemIdx: Integer;
+     mi: TMenuItem;
+   begin
+-   Result := false;
++    Result := false;
+     for i := 0 to FFiles.Count - 1 do begin
+       Ext := ExtractFileExt(FFiles[i]);
+       SectExt := IniFile.ReadString(_Section, 'extension', '');
+@@ -172,7 +172,10 @@
+     mii.fMask := MIIM_CHECKMARKS or MIIM_ID or MIIM_TYPE or MIIM_STATE or MIIM_DATA;
+     mii.wID := _Id;
+     mii.hSubMenu := _SubMenu;
+-    mii.fType := MFT_STRING;
++    if mi.IsLine then
++      mii.fType := MFT_SEPARATOR
++    else
++      mii.fType := MFT_STRING;
+     mii.fState := MFS_ENABLED;
+     mii.dwItemData := integer(mi);
+     mii.dwTypeData := PChar(mi.Caption);
+
+Modified: utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-01 13:04:17 UTC (rev 490)
++++ utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-01 13:33:11 UTC (rev 491)
+@@ -1,12 +1,12 @@
+ [Version Info]
+ AutoIncBuild=0
+-Build=3
++Build=21
+ MajorVer=1
+ MinorVer=0
+ Release=0
+ 
+ [Version Info Keys]
+-FileVersion=1.0.0.3
++FileVersion=1.0.0.21
+ ProductVersion={today}
+ FileDescription=configurable context menu for windows explorer
+ OriginalFilename=dzContextMenu.dll
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-10-01 13:04:17 UTC (rev 490)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-10-01 13:33:11 UTC (rev 491)
+@@ -3,9 +3,7 @@
+ uses
+   ComServ,
+   u_ContextMenuHandler in 'u_ContextMenuHandler.pas',
+-  d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule},
+-  u_dzShellApiUtils in '..\libs\dzLib\src\u_dzShellApiUtils.pas',
+-  u_dzExecutor in '..\libs\dzLib\src\u_dzExecutor.pas';
++  d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule};
+ 
+ exports
+   DllGetClassObject,
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-10-01 13:04:17 UTC (rev 490)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-10-01 13:33:11 UTC (rev 491)
+@@ -64,8 +64,6 @@
+ 				&lt;Form&gt;dm_ContextMenu&lt;/Form&gt;
+ 				&lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+ 			&lt;/DCCReference&gt;
+-			&lt;DCCReference Include=&quot;..\libs\dzLib\src\u_dzShellApiUtils.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\libs\dzLib\src\u_dzExecutor.pas&quot;/&gt;
+ 			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
+ 				&lt;Key&gt;Cfg_2&lt;/Key&gt;
+ 				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
+@@ -120,7 +118,7 @@
+ 						&lt;Source Name=&quot;MainSource&quot;&gt;dzcontextmenu.dpr&lt;/Source&gt;
+ 					&lt;/Source&gt;
+ 					&lt;Parameters&gt;
+-						&lt;Parameters Name=&quot;RunParams&quot;&gt;/n, /e, C:\src\berlios.dzContextMenu&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;RunParams&quot;&gt;/n, /e, C:\src\berlios\dzContextMenu\src&lt;/Parameters&gt;
+ 						&lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\WINDOWS\explorer.exe&lt;/Parameters&gt;
+ 					&lt;/Parameters&gt;
+ 					&lt;Excluded_Packages&gt;
+
+Modified: utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-10-01 13:04:17 UTC (rev 490)
++++ utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-10-01 13:33:11 UTC (rev 491)
+@@ -4,6 +4,7 @@
+ 
+ uses
+   Windows,
++  SysUtils,
+   Classes,
+   Menus,
+   ActiveX,
+@@ -37,10 +38,8 @@
+ 
+ uses
+   ComServ,
+-  SysUtils,
+   Shellapi,
+   Registry,
+-  Dialogs,
+   IniFiles;
+ 
+ procedure TContextMenu.Initialize;
+@@ -65,35 +64,40 @@
+   Files: TStringList;
+   FileName: array[0..MAX_PATH] of Char;
+ begin
+-    // if lpdobj is nil, fail
+-  if (_lpdobj = nil) then begin
+-    Result := E_INVALIDARG;
+-    Exit;
+-  end;
++  Result := E_INVALIDARG;
++  try
++  // if lpdobj is nil, fail
++    if (_lpdobj = nil) then begin
++      Exit;
++    end;
+ 
+-  Files := FDm.Files;
+-  Files.Clear;
++    Files := FDm.Files;
++    Files.Clear;
+ 
+   // initialize clipboard format
+-  FormatEtc.CfFormat := CF_HDROP;
+-  FormatEtc.Ptd := nil;
+-  FormatEtc.DwAspect := DVASPECT_CONTENT;
+-  FormatEtc.Lindex := 1;
+-  FormatEtc.Tymed := TYMED_HGLOBAL;
+-  Result := _lpdobj.GetData(FormatEtc, StgMedium);
+-  if Succeeded(Result) then begin
+-    try
++    FormatEtc.CfFormat := CF_HDROP;
++    FormatEtc.Ptd := nil;
++    FormatEtc.DwAspect := DVASPECT_CONTENT;
++    FormatEtc.Lindex := 1;
++    FormatEtc.Tymed := TYMED_HGLOBAL;
++    Result := _lpdobj.GetData(FormatEtc, StgMedium);
++    if Succeeded(Result) then begin
++      try
+       // get selected files count
+-      Count := DragQueryFile(StgMedium.hGlobal, $FFFFFFFF, nil, 0);
++        Count := DragQueryFile(StgMedium.hGlobal, $FFFFFFFF, nil, 0);
+       // get selected files
+-      for i := 0 to Count - 1 do begin
+-        DragQueryFile(StgMedium.hGlobal, i, FileName, SizeOf(FileName));
+-        Files.Add(FileName);
++        for i := 0 to Count - 1 do begin
++          DragQueryFile(StgMedium.hGlobal, i, FileName, SizeOf(FileName));
++          Files.Add(FileName);
++        end;
++      finally
++        ReleaseStgMedium(StgMedium);
+       end;
+-    finally
+-      ReleaseStgMedium(StgMedium);
++      Result := NOERROR;
+     end;
+-    Result := NOERROR;
++  except
++    on e: Exception do
++      MessageBox(0, PChar(Format('Error: %s (%s)', [e.Message, e.ClassName])), 'dzContextMenu', MB_ICONERROR or MB_OK);
+   end;
+ end;
+ 
+@@ -105,25 +109,30 @@
+   MenuTitle: string;
+ begin
+   Result := 0;
+-  if ((_UFlags and $0000000F) = CMF_NORMAL) or ((_UFlags and CMF_EXPLORE) &lt;&gt; 0) then begin
+-    MenuTitle := FDm.IniFile.ReadString('global', 'caption', 'Submenu');
+-    Id := Integer(_idCmdFirst);
+-    Submenu := CreatePopupMenu;
+-    FDm.UpdateSubmenu(Submenu, Id);
+-    FillChar(mii, sizeof(mii), 0);
+-    mii.cbSize := sizeof(mii);
+-    mii.fMask := MIIM_SUBMENU or MIIM_ID or MIIM_TYPE or MIIM_STATE;
+-    mii.wID := Id;
+-    mii.hSubMenu := Submenu;
+-    mii.fType := MFT_STRING;
+-    mii.fState := MFS_ENABLED;
+-    mii.dwTypeData := PChar(MenuTitle);
+-    InsertMenuItem(_Menu, _indexMenu, LongBool(True), mii);
+-    Inc(Id);
++  try
++    if ((_UFlags and $0000000F) = CMF_NORMAL) or ((_UFlags and CMF_EXPLORE) &lt;&gt; 0) then begin
++      MenuTitle := FDm.IniFile.ReadString('global', 'caption', 'Submenu');
++      Id := Integer(_idCmdFirst);
++      Submenu := CreatePopupMenu;
++      FDm.UpdateSubmenu(Submenu, Id);
++      FillChar(mii, sizeof(mii), 0);
++      mii.cbSize := sizeof(mii);
++      mii.fMask := MIIM_SUBMENU or MIIM_ID or MIIM_TYPE or MIIM_STATE;
++      mii.wID := Id;
++      mii.hSubMenu := Submenu;
++      mii.fType := MFT_STRING;
++      mii.fState := MFS_ENABLED;
++      mii.dwTypeData := PChar(MenuTitle);
++      InsertMenuItem(_Menu, _indexMenu, LongBool(True), mii);
++      Inc(Id);
+ 
+     // Return value is number of items added to context menu
+-    FCmdCount := Id - integer(_idCmdFirst);
+-    Result := MakeResult(SEVERITY_SUCCESS, 0, FCmdCount);
++      FCmdCount := Id - integer(_idCmdFirst);
++      Result := MakeResult(SEVERITY_SUCCESS, 0, FCmdCount);
++    end;
++  except
++    on e: Exception do
++      MessageBox(0, PChar(Format('Error: %s (%s)', [e.Message, e.ClassName])), 'dzContextMenu', MB_ICONERROR or MB_OK);
+   end;
+ end;
+ 
+@@ -133,14 +142,19 @@
+   szName: PWideChar absolute _PszName;
+ begin
+   Result := E_INVALIDARG;
+-  if _idCmd &lt; FCmdCount then begin
+-    case _uType of
+-      GCS_HELPTEXTW: begin
++  try
++    if _idCmd &lt; FCmdCount then begin
++      case _uType of
++        GCS_HELPTEXTW: begin
+           // Return the menu item's help
+-          StrLCopy(szName, PChar('execute some command'), _cchMax);
+-          Result := S_OK;
+-        end;
++            StrLCopy(szName, PChar('execute some command'), _cchMax);
++            Result := S_OK;
++          end;
++      end;
+     end;
++  except
++    on e: Exception do
++      MessageBox(0, PChar(Format('Error: %s (%s)', [e.Message, e.ClassName])), 'dzContextMenu', MB_ICONERROR or MB_OK);
+   end;
+ end;
+ 
+@@ -163,9 +177,14 @@
+   ici: TCMInvokeCommandInfoHack absolute _ici;
+ begin
+   Result := E_FAIL;
+-  if ici.VerbHi = 0 then begin
+-    FDm.DoCommand(ici.VerbLo);
+-    Result := S_OK;
++  try
++    if ici.VerbHi = 0 then begin
++      FDm.DoCommand(ici.VerbLo);
++      Result := S_OK;
++    end;
++  except
++    on e: Exception do
++      MessageBox(0, PChar(Format('Error: %s (%s)', [e.Message, e.ClassName])), 'dzContextMenu', MB_ICONERROR or MB_OK);
+   end;
+ end;
+ 
+@@ -183,54 +202,59 @@
+   i: Integer;
+   FileType: string;
+ begin
+-  ClassID := GUIDToString(TContextMenu.GUID);
+-  if _Register then begin
+-    inherited UpdateRegistry(_Register);
++  try
++    ClassID := GUIDToString(TContextMenu.GUID);
++    if _Register then begin
++      inherited UpdateRegistry(_Register);
+ 
+-    Sections := nil;
+-    Ini := Tdm_ContextMenu.IniFile;
+-    Sections := TStringList.Create;
+-    try
+-      Ini.ReadSections(Sections);
+-      for i := 0 to Sections.Count - 1 do begin
+-        FileType := Sections[i];
+-        if SameText(FileType, 'Global') then begin
++      Sections := nil;
++      Ini := Tdm_ContextMenu.IniFile;
++      Sections := TStringList.Create;
++      try
++        Ini.ReadSections(Sections);
++        for i := 0 to Sections.Count - 1 do begin
++          FileType := Sections[i];
++          if SameText(FileType, 'Global') then begin
+           // maybe do something later on
+-        end else begin
+-          CreateRegKey(FileType + '\shellex', '', '');
+-          CreateRegKey(FileType + '\shellex\ContextMenuHandlers', '', '');
+-          CreateRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu', '', ClassID);
++          end else begin
++            CreateRegKey(FileType + '\shellex', '', '');
++            CreateRegKey(FileType + '\shellex\ContextMenuHandlers', '', '');
++            CreateRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu', '', ClassID);
++          end;
+         end;
++
++      finally
++        FreeAndNil(Sections);
+       end;
++      if (Win32Platform = VER_PLATFORM_WIN32_NT) then
++        with TRegistry.Create do
++          try
++            RootKey := HKEY_LOCAL_MACHINE;
++            OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
++            OpenKey('Approved', True);
++            WriteString(ClassID, 'dzContextMenu');
++          finally
++            Free;
++          end;
++    end else begin
++      DeleteRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu');
+ 
+-    finally
+-      FreeAndNil(Sections);
++      if (Win32Platform = VER_PLATFORM_WIN32_NT) then
++        with TRegistry.Create do
++          try
++            RootKey := HKEY_LOCAL_MACHINE;
++            OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
++            OpenKey('Approved', True);
++            DeleteValue(ClassID);
++          finally
++            Free;
++          end;
++
++      inherited UpdateRegistry(_Register);
+     end;
+-    if (Win32Platform = VER_PLATFORM_WIN32_NT) then
+-      with TRegistry.Create do
+-        try
+-          RootKey := HKEY_LOCAL_MACHINE;
+-          OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
+-          OpenKey('Approved', True);
+-          WriteString(ClassID, 'dzContextMenu');
+-        finally
+-          Free;
+-        end;
+-  end else begin
+-    DeleteRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu');
+-
+-    if (Win32Platform = VER_PLATFORM_WIN32_NT) then
+-      with TRegistry.Create do
+-        try
+-          RootKey := HKEY_LOCAL_MACHINE;
+-          OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
+-          OpenKey('Approved', True);
+-          DeleteValue(ClassID);
+-        finally
+-          Free;
+-        end;
+-
+-    inherited UpdateRegistry(_Register);
++  except
++    on e: Exception do
++      MessageBox(0, PChar(Format('Error: %s (%s)', [e.Message, e.ClassName])), 'dzContextMenu', MB_ICONERROR or MB_OK);
+   end;
+ end;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000349.html">[Dzchart-svncheckins] r490 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+	<LI>Next message: <A HREF="000351.html">[Dzchart-svncheckins] r492 - utilities/dzContextMenu/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#350">[ date ]</a>
+              <a href="thread.html#350">[ thread ]</a>
+              <a href="subject.html#350">[ subject ]</a>
+              <a href="author.html#350">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

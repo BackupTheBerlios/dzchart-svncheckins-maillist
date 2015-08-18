@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r561 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r561%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110309104725.4820548146F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000418.html">
+   <LINK REL="Next"  HREF="000420.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r561 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r561%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110309104725.4820548146F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r561 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Wed Mar  9 11:47:25 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000418.html">[Dzchart-svncheckins] r560 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000420.html">[Dzchart-svncheckins] r562 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#419">[ date ]</a>
+              <a href="thread.html#419">[ thread ]</a>
+              <a href="subject.html#419">[ subject ]</a>
+              <a href="author.html#419">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-03-09 11:47:25 +0100 (Wed, 09 Mar 2011)
+New Revision: 561
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+TGrid_SetRowNoClick has now a TCustomGrid rather than a TDrawGrid parameter
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-03-09 10:45:48 UTC (rev 560)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-03-09 10:47:25 UTC (rev 561)
+@@ -19,6 +19,7 @@
+   ExtCtrls,
+   CheckLst,
+   StdCtrls,
++  ExtCtrls,
+   Grids,
+   DbGrids,
+   Buttons,
+@@ -145,7 +146,7 @@
+ function TGrid_SetNonfixedColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
+ 
+ ///&lt;summary&gt; sets the grid's current row without triggering an OnClick event
+-procedure TGrid_SetRowNoClick(_Grid: TDrawGrid; _Row: integer);
++procedure TGrid_SetRowNoClick(_Grid: TCustomGrid; _Row: integer);
+ 
+ ///&lt;summary&gt; sets the row count to FixedRows + 1 and clears all non-fixed cells &lt;/summary&gt;
+ procedure TStringGrid_Clear(_Grid: TStringGrid);
+@@ -619,6 +620,7 @@
+ 
+ uses
+   Menus, // for StripHotKey function
++  Messages,
+   Consts,
+   JPEG,
+   StrUtils,
+@@ -793,16 +795,19 @@
+   TGrid_SetColCount(_Grid, _ColCount);
+ end;
+ 
+-procedure TGrid_SetRowNoClick(_Grid: TDrawGrid; _Row: integer);
++procedure TGrid_SetRowNoClick(_Grid: TCustomGrid; _Row: integer);
+ var
+   Event: TNotifyEvent;
++var
++  Grid: TGridHack;
+ begin
+-  Event := _Grid.OnClick;
++  Grid := TGridHack(_Grid);
++  Event := Grid.OnClick;
+   try
+-    _Grid.OnClick := nil;
+-    _Grid.Row := _Row;
++    Grid.OnClick := nil;
++    Grid.Row := _Row;
+   finally
+-    _Grid.OnClick := Event;
++    Grid.OnClick := Event;
+   end;
+ end;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000418.html">[Dzchart-svncheckins] r560 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000420.html">[Dzchart-svncheckins] r562 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#419">[ date ]</a>
+              <a href="thread.html#419">[ thread ]</a>
+              <a href="subject.html#419">[ subject ]</a>
+              <a href="author.html#419">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

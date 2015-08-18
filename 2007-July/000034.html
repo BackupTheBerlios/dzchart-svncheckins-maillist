@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r159 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r159%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707141049.l6EAnMHY014441%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000033.html">
+   <LINK REL="Next"  HREF="000035.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r159 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r159%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707141049.l6EAnMHY014441%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r159 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jul 14 12:49:22 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000033.html">[Dzchart-svncheckins] r158 - in utilities/dzPrepBuild/trunk: . src	testdata
+</A></li>
+        <LI>Next message: <A HREF="000035.html">[Dzchart-svncheckins] r160 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#34">[ date ]</a>
+              <a href="thread.html#34">[ thread ]</a>
+              <a href="subject.html#34">[ subject ]</a>
+              <a href="author.html#34">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-14 12:49:19 +0200 (Sat, 14 Jul 2007)
+New Revision: 159
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+Log:
+additional overloaded versions of Float2Str
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-07-11 21:58:48 UTC (rev 158)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-07-14 10:49:19 UTC (rev 159)
+@@ -167,8 +167,24 @@
+    @param(flt is an extended floating point value)
+    @param(DecSeparator is the decimal separator to use)
+    @returns(a string representation of the floating point value) }
+-function Float2Str(_flt: extended; _DecSeparator: char = '.'): string;
++function Float2Str(_flt: extended; _DecSeparator: char = '.'): string; overload;
+ 
++{: Converts a floating point number to a string using the given with, number of decimals
++   and a '.' as decimal separator, if width is too small the smallest representation possible
++   will be used (eg. Float2Str(5.24, 3, 2, '.') = '5.24')
++   @param flt is an extended floating point value
++   @param Width is the total number of digits (including the decimal separator
++   @param Decimals is the number of decimals to use
++   @returns a string representation of the floating point value }
++function Float2Str(_flt: extended; _Width, _Decimals: integer): string; overload;
++
++{: Converts a floating point number to a string using the given number of decimals
++   and a '.' as decimal separator.
++   @param flt is an extended floating point value
++   @param Decimals is the number of decimals to use
++   @returns a string representation of the floating point value }
++function Float2Str(_flt: extended; _Decimals: integer): string; overload;
++
+ implementation
+ 
+ uses
+@@ -398,6 +414,16 @@
+   Result := SysUtils.FloatToStr(_Flt, FormatSettings);
+ end;
+ 
++function Float2Str(_flt: extended; _Width, _Decimals: integer): string;
++begin
++  Str(_flt: _Width: _Decimals, Result);
++end;
++
++function Float2Str(_flt: extended; _Decimals: integer): string;
++begin
++  Str(_Flt: 0: _Decimals, Result);
++end;
++
+ function Str2Int(_s: string; _Default: integer): integer;
+ var
+   e: integer;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000033.html">[Dzchart-svncheckins] r158 - in utilities/dzPrepBuild/trunk: . src	testdata
+</A></li>
+	<LI>Next message: <A HREF="000035.html">[Dzchart-svncheckins] r160 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#34">[ date ]</a>
+              <a href="thread.html#34">[ thread ]</a>
+              <a href="subject.html#34">[ subject ]</a>
+              <a href="author.html#34">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

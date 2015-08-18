@@ -1,0 +1,776 @@
+From twm at mail.berlios.de  Sun Jun  3 16:04:19 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 3 Jun 2007 16:04:19 +0200
+Subject: [Dzchart-svncheckins] r154 - in utilities/dzLib/trunk: src
+	tests/dzfileutils
+Message-ID: <200706031404.l53E4JZs032444@sheep.berlios.de>
+
+Author: twm
+Date: 2007-06-03 16:04:17 +0200 (Sun, 03 Jun 2007)
+New Revision: 154
+
+Added:
+   utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.bdsproj
+Modified:
+   utilities/dzLib/trunk/src/
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* removed all deprecated functions from u_dzVclUtils
+* new function TRadioGroup_GetSelectedObject
+
+
+Property changes on: utilities/dzLib/trunk/src
+___________________________________________________________________
+Name: svn:ignore
+   + dxgettext.ini
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-05-28 14:42:41 UTC (rev 153)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-06-03 14:04:17 UTC (rev 154)
+@@ -129,7 +129,6 @@
+    @returns the cell's content as an integer
+    @raises EConvertError if the cell's content could not be converted }
+ function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
+-function StringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer; deprecated; // use TStringGrid_CellToInt instead
+ 
+ {: Deletes the top lines of the memo so it only contains Retain lines
+    @param Memo is the meme to work on
+@@ -147,7 +146,6 @@
+    @returns the controls content as a double
+    @raises EConvertError if the controls content could not be converted }
+ function TEdit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
+-function Edit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double; deprecated; // use TEdit_TextToDouble instead
+ 
+ {: Tries to convert the edit control text to an integer, if an error occurs, it raises
+    an exception and optionally focuses the control.
+@@ -157,22 +155,15 @@
+    @returns the controls content as an integer
+    @raises EConvertError if the controls content could not be converted }
+ function TEdit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer;
+-function Edit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer; deprecated; // use TEdit_TextToInt instead
+ 
+ {: returns the contents of the tree view as a string with indentations
+    @param Tree is the TTreeView to process
+    @param Indentation is the number of spaces for indentation
+    @param Marker is a marker character to use for each item #0 for no marker }
+ function TTreeView_GetAsText(_Tree: TTreeView; _Indentation: integer = 2; _Marker: char = #0): string;
+-function TreeView_GetAsText(_Tree: TTreeView; _Indentation: integer = 2; _Marker: char = #0): string; deprecated; // use TTreeView_GetAsText instead
+ 
+-{: Reverses a VclUtils.MergeForm (rxlib)
+-   @param Form is the TForm to unmerge }
+-procedure UnMergeForm(_Form: TCustomForm); deprecated; // use a frame instead
+-
+ {: adds a new TTabSheet to the given PageControl with the given Caption and returns it }
+ function TPageControl_AddTabSheet(_PageControl: TPageControl; const _Caption: string): TTabSheet;
+-function AddTabSheet(_PageControl: TPageControl; const _Caption: string): TTabSheet; deprecated; // use TPageControl_AddTabSheet instead
+ 
+ {: Draws the tab text for a TPageControl as horizontal text, useful, if you
+    want to have the tabs on the left or right but don't want vertical text.
+@@ -186,8 +177,6 @@
+    @param Active is a boolean that is true if the Tab is currently active }
+ procedure TPageControl_DrawTab(_PageControl: TPageControl; _TabIndex: integer;
+   const _Rect: TRect; _Active: boolean);
+-procedure DrawPageControlTab(_PageControl: TPageControl; _TabIndex: integer;
+-  const _Rect: TRect; _Active: boolean); deprecated; // use TPageControl_DrawTab instead
+ 
+ {: Draws the tab text for a TTabControl as horizontal text, useful, if you
+    want to have the tabs on the left or right but don't want vertical text.
+@@ -201,13 +190,10 @@
+    @param Active is a boolean that is true if the Tab is currently active }
+ procedure TTabControl_DrawTab(_TabControl: TTabControl; _TabIndex: integer;
+   const _Rect: TRect; _Active: boolean);
+-procedure DrawTabControlTab(_TabControl: TTabControl; _TabIndex: integer;
+-  const _Rect: TRect; _Active: boolean); deprecated; // use TTabControl_DrawTab instead
+ 
+ {: Sets a TTabControl's tab width based on the text it displays, usefull
+    to display horizontal text in tabs on the left or right hand side }
+ procedure TTabControl_AdjustTabWidth(_TabControl: TTabControl; _Form: TForm; _MinWidth: integer = 80);
+-procedure AdjustTabControlTabWidth(_Form: TForm; _TabControl: TTabControl; _MinWidth: integer = 80); // use TTabControl_AdjustTabWidth instead, note that the parameter order is different!
+ 
+ {: sets the control and all its child controls Enabled property and changes their
+    caption to reflect this
+@@ -220,7 +206,6 @@
+    @param Value is the desired object value
+    @returns true, if the value could be found, false otherwise }
+ function TComboBox_SelectByObject(_cmb: TCustomCombobox; _Value: pointer): boolean;
+-function ComboBox_SelectByObject(_cmb: TCustomCombobox; _Value: pointer): boolean; deprecated; // use TComboBox_SelectByObject instead
+ 
+ {: Gets the string of a combobox entry that has an object pointer matching Obj
+    @param cmb is the TCustomCombobox (descendant) to select
+@@ -228,7 +213,6 @@
+    @param s is the string of the combobox entry, only valid if the function returns true
+    @returns true, if the object could be found, false otherwise }
+ function TComboBox_GetObjectCaption(_cmb: TCustomCombobox; _Obj: pointer; out _s: string): boolean;
+-function ComboBox_GetObjectCaption(_cmb: TCustomCombobox; _Obj: pointer; out _s: string): boolean; deprecated; // use TComboBox_GetObjectCaption instead
+ 
+ {: Gets the object pointer of the selected combobox item
+    @param cmb is the TCustomCombobox (descendant) to read from
+@@ -240,8 +224,6 @@
+    @returns true, if these values are valid }
+ function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Idx: integer;
+   out _Obj: pointer; _FocusControl: boolean = false): boolean;
+-function ComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Idx: integer;
+-  out _Obj: pointer; _FocusControl: boolean = false): boolean; deprecated; // use TComboBox_GetSelectedObject instead
+ 
+ {: Gets the caption of the selected combobox item
+    @param cmb is the TCustomCombobox (descendant) to read from
+@@ -251,8 +233,6 @@
+    @returns true, if an item was selected }
+ function TComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+   _FocusControl: boolean = false): boolean;
+-function ComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean; deprecated; // use TComboBox_GetSelected instead
+ 
+ {: Selects the item if it is in the list and returns the new ItemIndex
+    @param cmb is the TCustomCombobox (descendant) to use
+@@ -260,7 +240,6 @@
+    @param DefaultIdx is the ItemIndex to use if no item matches.
+    @returns the index of the newly selected item or -1 if it doesn't exist }
+ function TComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+-function ComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer; deprecated; // use TComboBox_Select instead
+ 
+ {: Gets the object pointer of the selected listbox item
+    @param cmb is the TCustomListbox (descendant) to read from
+@@ -269,7 +248,6 @@
+           if the function returns true
+    @returns true, if these values are valid }
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+-function ListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean; deprecated; // use TListBox_GetSelectedObject instead
+ 
+ {: Gets the caption of the given or selected item in the RadioGroup
+    @param rg is the TCustomRadioGroup descendant to read
+@@ -280,26 +258,28 @@
+    @returns true, if the caption could be read }
+ function TRadioGroup_GetItemCaption(_rg: TCustomRadioGroup;
+   out _Caption: string; _Idx: integer = -1): boolean;
+-function RadioGroup_GetItemCaption(_rg: TCustomRadioGroup;
+-  out _Caption: string; _Idx: integer = -1): boolean; deprecated; // use TRadioGroup_GetItemCaption instead
+ 
++{: Gets the object pointer of the selected RadioGroup item
++   @param cmb is the TCustomListbox (descendant) to read from
++   @param Idx is the listbox's ItemIndex, only valid if the function returns true
++   @param Obj is the value of the object pointer of the selected item, only valid
++          if the function returns true
++   @returns true, if these values are valid }
++function TRadioGroup_GetSelectedObject(_rg: TCustomRadioGroup;out _Idx: integer; out _Obj: pointer): boolean;
++
+ {: Writes a TPicture object to a String. The Format is
+    <pictureformat>#26<picturedata> }
+ function TPicture_WriteToString(_Pic: TPicture): string;
+-function Picture_WriteToString(_Pic: TPicture): string; deprecated; // use TPicture_WriteToString instead
+ 
+ {: Reads a TPicture object from a String which was created using
+    Picture_WriteToString }
+ procedure TPicture_ReadFromString(_Pic: TPicture; const _S: string);
+-procedure Picture_ReadFromString(_Pic: TPicture; const _S: string); deprecated; // use TPicture_ReadFromString instead
+ 
+ {: Writes a TRichEdit to a string including all formatting }
+ function TRichEdit_WriteToString(_Re: TRichEdit): string;
+-function RichEdit_WriteToString(_Re: TRichEdit): string; deprecated; // use TRichEdit_WriteToString instead
+ 
+ {: Reads a TRichEdit from a string including all formatting }
+ procedure TRichEdit_ReadFromString(_Re: TRichEdit; const _S: string);
+-procedure RichEdit_ReadFromString(_Re: TRichEdit; const _S: string); deprecated; // use TRichEdit_ReadFromString instead
+ 
+ {: Returns the characater offset of the first character of the given row
+    example: RicheEdit1.SelStart := RichEdit_GetRowCharIndex(RichEdit1, 5);
+@@ -307,23 +287,18 @@
+    @param Row is the row number (0 based)
+    @returns the character offset (0 based) of the first character of the row }
+ function TRichEdit_RowToCharIndex(_Re: TRichEdit; _Row: integer): integer;
+-function RichEdit_RowToCharIndex(_Re: TRichEdit; _Row: integer): integer; deprecated; // use TRichEdit_RowToCharIndex instead
+ 
+ {: Returns the row which contains the given character index }
+ function TRichEdit_CharIndexToRow(_Re: TRichEdit; _Idx: integer): integer;
+-function RichEdit_CharIndexToRow(_Re: TRichEdit; _Idx: integer): integer; deprecated; // use TRichEdit_CharIndexToRow instead
+ 
+ {: Returns the current row number (0 based) of the RichEdit }
+ function TRichEdit_GetCurrentRow(_Re: TRichEdit): integer;
+-function RichEdit_GetCurrentRow(_Re: TRichEdit): integer; deprecated; // use TRichEdit_GetCurrentRow instead
+ 
+ {: Scrolls the rich edit to the current caret position }
+ procedure TRichEdit_ScrollToCaret(_Re: TRichEdit);
+-procedure RichEdit_ScrollToCaret(_Re: TRichEdit); deprecated; // use TRichEdit_ScrollToCaret instead
+ 
+ {: Write a line to a RichEdit, optionally specifying color and font style }
+ procedure TRichEdit_WriteLn(_Re: TRichEdit; const _s: string; _Color: TColor = clBlack; _Style: TFontStyles = []);
+-procedure RichEdit_WriteLn(_Re: TRichEdit; const _s: string; _Color: TColor = clBlack; _Style: TFontStyles = []); deprecated; // use TRichEdit_WriteLn instead
+ 
+ {: Fuegt ein Control und ein zugehoeriges Label ein, Zeilenabstand ist 24 Punkte
+    mit 16 Punkten Abstand vom oberen und 8 vom linken Rand. Es wird angenommen,
+@@ -337,14 +312,12 @@
+ {: I don't quite remember what this is supposed to do and where it is used,
+    Please, if you find a call to this function somewhere, tell me. -- twm }
+ function TStringGrid_IsScrollBarVisible(_Grid: TCustomGrid; _Code: integer): boolean;
+-function ScrollBarVisible(_Grid: TCustomGrid; _Code: integer): boolean; deprecated; // use TStringGrid_IsScrollBarVisible instead
+ 
+ {: Returns the path to the application's executable including the trailing backslash }
+ function GetApplicationPath: string;
+ 
+ {: Center the child on the parent}
+ procedure TControl_Center(_Child: TControl; _Parent: TControl);
+-procedure ControlCenter(_Child: TControl; _Parent: TControl); deprecated; // use TControl_Center instead;
+ 
+ {: switches off "Windows Ghosting" in Win 2000 and XP
+   This is a workaround for the bug that modal forms sometimes aren't modal in W2K and XP.
+@@ -389,11 +362,6 @@
+   end;
+ end;
+ 
+-function GetStringGridText(_Grid: TCustomGrid): string;
+-begin
+-  Result := TGrid_GetText(_Grid);
+-end;
+-
+ procedure TStringGrid_SetRowCount(_Grid: TStringGrid; _RowCount: integer);
+ begin
+   if _Grid.FixedRows >= _RowCount then
+@@ -419,11 +387,6 @@
+     _Grid.Cells[c, _Grid.FixedRows] := '';
+ end;
+ 
+-procedure StringGrid_Clear(_Grid: TStringGrid);
+-begin
+-  TStringGrid_Clear(_Grid);
+-end;
+-
+ function TStringGrid_DeleteRow(_Grid: TStringGrid; _Row: integer): boolean;
+ var
+   r: integer;
+@@ -492,11 +455,6 @@
+   end;
+ end;
+ 
+-function StringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): double;
+-begin
+-  Result := TStringGrid_CellToDouble(_grid, _Col, _Row, _FocusCell);
+-end;
+-
+ function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
+ var
+   s: string;
+@@ -512,11 +470,6 @@
+   end;
+ end;
+ 
+-function StringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
+-begin
+-  Result := TStringGrid_CellToInt(_grid, _Col, _Row, _FocusCell);
+-end;
+-
+ function TEdit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
+ var
+   s: string;
+@@ -530,11 +483,6 @@
+   end;
+ end;
+ 
+-function Edit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
+-begin
+-  Result := TEdit_TextToDouble(_ed, _FocusControl);
+-end;
+-
+ function TEdit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer;
+ var
+   s: string;
+@@ -548,11 +496,6 @@
+   end;
+ end;
+ 
+-function Edit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer;
+-begin
+-  Result := TEdit_TextToInt(_ed, _FocusControl);
+-end;
+-
+ function TTreeView_GetAsText(_Tree: TTreeView; _Indentation: integer = 2; _Marker: char = #0): string;
+ var
+   Level: integer;
+@@ -586,11 +529,6 @@
+   Result := GetSubnodes(_Tree.Items.GetFirstNode);
+ end;
+ 
+-function TreeView_GetAsText(_Tree: TTreeView; _Indentation: integer = 2; _Marker: char = #0): string;
+-begin
+-  Result := TTreeView_GetAsText(_Tree, _Indentation, _Marker);
+-end;
+-
+ function ArrayContains(_Element: integer; const _Arr: array of integer): boolean;
+ var
+   i: integer;
+@@ -767,21 +705,6 @@
+     Grid.Columns[Col].Width := ColWidths[Col];
+ end;
+ 
+-procedure ResizeDbGrid(_Grid: TCustomDbGrid; _Options: TResizeOptionSet = []);
+-begin
+-  TDbGrid_Resize(_Grid, _Options);
+-end;
+-
+-type
+-  THack = class(TCustomControl);
+-
+-procedure UnMergeForm(_Form: TCustomForm);
+-begin
+-  _Form.Hide;
+-  THack(_Form).DestroyHandle;
+-  _Form.Parent := nil;
+-end;
+-
+ function TPageControl_AddTabSheet(_PageControl: TPageControl; const _Caption: string): TTabSheet;
+ begin
+   Result := TTabSheet.Create(_PageControl);
+@@ -790,11 +713,6 @@
+   Result.Caption := _Caption;
+ end;
+ 
+-function AddTabSheet(_PageControl: TPageControl; const _Caption: string): TTabSheet;
+-begin
+-  Result := TPageControl_AddTabSheet(_PageControl, _Caption);
+-end;
+-
+ procedure DrawTab(_TabControl: TCustomTabControl; const _Caption: string;
+   const _Rect: TRect; _Active: boolean);
+ var
+@@ -813,24 +731,12 @@
+   DrawTab(_PageControl, _PageControl.Pages[_TabIndex].Caption, _Rect, _Active);
+ end;
+ 
+-procedure DrawPageControlTab(_PageControl: TPageControl; _TabIndex: integer;
+-  const _Rect: TRect; _Active: boolean);
+-begin
+-  DrawTab(_PageControl, _PageControl.Pages[_TabIndex].Caption, _Rect, _Active);
+-end;
+-
+ procedure TTabControl_DrawTab(_TabControl: TTabControl; _TabIndex: integer;
+   const _Rect: TRect; _Active: boolean);
+ begin
+   DrawTab(_TabControl, _TabControl.Tabs[_TabIndex], _Rect, _Active);
+ end;
+ 
+-procedure DrawTabControlTab(_TabControl: TTabControl; _TabIndex: integer;
+-  const _Rect: TRect; _Active: boolean); deprecated; // use TTabControl_DrawTab instead
+-begin
+-  DrawTab(_TabControl, _TabControl.Tabs[_TabIndex], _Rect, _Active);
+-end;
+-
+ procedure TTabControl_AdjustTabWidth(_TabControl: TTabControl; _Form: TForm; _MinWidth: integer = 80);
+ var
+   i: integer;
+@@ -854,11 +760,6 @@
+   end;
+ end;
+ 
+-procedure AdjustTabControlTabWidth(_Form: TForm; _TabControl: TTabControl; _MinWidth: integer = 80);
+-begin
+-  TTabControl_AdjustTabWidth(_TabControl, _Form, _MinWidth);
+-end;
+-
+ procedure SetControlEnabled(_Control: TControl; _Enabled: boolean);
+ var
+   i: integer;
+@@ -889,11 +790,6 @@
+   Result := false;
+ end;
+ 
+-function ComboBox_SelectByObject(_cmb: TCustomCombobox; _Value: pointer): boolean;
+-begin
+-  Result := TComboBox_SelectByObject(_cmb, _Value);
+-end;
+-
+ function TComboBox_GetObjectCaption(_cmb: TCustomCombobox; _Obj: pointer; out _s: string): boolean;
+ var
+   i: integer;
+@@ -908,11 +804,6 @@
+   Result := false;
+ end;
+ 
+-function ComboBox_GetObjectCaption(_cmb: TCustomCombobox; _Obj: pointer; out _s: string): boolean;
+-begin
+-  Result := TComboBox_GetObjectCaption(_cmb, _Obj, _s);
+-end;
+-
+ function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Idx: integer;
+   out _Obj: pointer; _FocusControl: boolean = false): boolean;
+ begin
+@@ -924,12 +815,6 @@
+     _cmb.SetFocus;
+ end;
+ 
+-function ComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Idx: integer;
+-  out _Obj: pointer; _FocusControl: boolean = false): boolean;
+-begin
+-  Result := TComboBox_GetSelectedObject(_cmb, _Idx, _Obj, _FocusControl);
+-end;
+-
+ function TComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+   _FocusControl: boolean = false): boolean;
+ var
+@@ -943,25 +828,14 @@
+     _cmb.SetFocus;
+ end;
+ 
+-function ComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean;
+-begin
+-  Result := TComboBox_GetSelected(_cmb, _Item, _FocusControl);
+-end;
+-
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ begin
+   _Idx := _lst.ItemIndex;
+   Result := _Idx <> -1;
+-  if REsult then
++  if Result then
+     _Obj := _lst.Items.Objects[_Idx];
+ end;
+ 
+-function ListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+-begin
+-  Result := TListBox_GetSelectedObject(_lst, _Idx, _Obj);
+-end;
+-
+ function TComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+ begin
+   Result := _Cmb.Items.IndexOf(_Item);
+@@ -970,11 +844,6 @@
+   _Cmb.ItemIndex := Result;
+ end;
+ 
+-function ComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+-begin
+-  Result := TComboBox_Select(_cmb, _Item, _DefaultIdx);
+-end;
+-
+ type
+   TRadioGroupHack = class(TCustomRadioGroup);
+ 
+@@ -991,10 +860,15 @@
+     _Caption := StripHotKey(Hack.Items[_Idx]);
+ end;
+ 
+-function RadioGroup_GetItemCaption(_rg: TCustomRadioGroup;
+-  out _Caption: string; _Idx: integer = -1): boolean;
++function TRadioGroup_GetSelectedObject(_rg: TCustomRadioGroup;out _Idx: integer; out _Obj: pointer): boolean;
++var
++  Hack: TRadioGroupHack;
+ begin
+-  Result := TRadioGroup_GetItemCaption(_rg, _Caption, _Idx);
++  Hack := TRadioGroupHack(_rg);
++  _Idx := Hack.ItemIndex;
++  Result := _Idx <> -1;
++  if Result then
++    _Obj := Hack.Items.Objects[_Idx];
+ end;
+ 
+ function TRichEdit_WriteToString(_Re: TRichEdit): string;
+@@ -1010,11 +884,6 @@
+   end;
+ end;
+ 
+-function RichEdit_WriteToString(_Re: TRichEdit): string;
+-begin
+-  Result := TRichEdit_WriteToString(_Re);
+-end;
+-
+ procedure TRichEdit_ReadFromString(_Re: TRichEdit; const _S: string);
+ var
+   st: TMemoryStream;
+@@ -1029,11 +898,6 @@
+   end;
+ end;
+ 
+-procedure RichEdit_ReadFromString(_Re: TRichEdit; const _S: string);
+-begin
+-  TRichEdit_ReadFromString(_Re, _S);
+-end;
+-
+ function TPicture_WriteToString(_Pic: TPicture): string;
+ var
+   st: TStringStream;
+@@ -1051,11 +915,6 @@
+   end;
+ end;
+ 
+-function Picture_WriteToString(_Pic: TPicture): string;
+-begin
+-  Result := TPicture_WriteToString(_Pic);
+-end;
+-
+ procedure TPicture_ReadFromString(_Pic: TPicture; const _S: string);
+ var
+   st: TStringStream;
+@@ -1086,11 +945,6 @@
+   end;
+ end;
+ 
+-procedure Picture_ReadFromString(_Pic: TPicture; const _S: string);
+-begin
+-  TPicture_ReadFromString(_Pic, _S);
+-end;
+-
+ function AddLabeledControl(_Idx: integer; const _Caption: string; _ctrl: TControl): TLabel;
+ begin
+   Result := TLabel.Create(_ctrl.Owner);
+@@ -1148,11 +1002,6 @@
+   end;
+ end;
+ 
+-function ScrollBarVisible(_Grid: TCustomGrid; _Code: integer): boolean;
+-begin
+-  Result := TStringGrid_IsScrollBarVisible(_Grid, _Code);
+-end;
+-
+ function GetApplicationPath: string;
+ begin
+   Result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName));
+@@ -1163,41 +1012,21 @@
+   Result := _Re.Perform(EM_LINEINDEX, _Row, 0);
+ end;
+ 
+-function RichEdit_RowToCharIndex(_Re: TRichEdit; _Row: integer): integer;
+-begin
+-  Result := TRichEdit_RowToCharIndex(_Re, _Row);
+-end;
+-
+ function TRichEdit_CharIndexToRow(_Re: TRichEdit; _Idx: integer): integer;
+ begin
+   Result := _Re.Perform(EM_LINEFROMCHAR, _Idx, 0);
+ end;
+ 
+-function RichEdit_CharIndexToRow(_Re: TRichEdit; _Idx: integer): integer;
+-begin
+-  Result := TRichEdit_CharIndexToRow(_Re, _Idx);
+-end;
+-
+ function TRichEdit_GetCurrentRow(_Re: TRichEdit): integer;
+ begin
+   Result := TRichEdit_CharIndexToRow(_Re, _Re.SelStart);
+ end;
+ 
+-function RichEdit_GetCurrentRow(_Re: TRichEdit): integer;
+-begin
+-  Result := TRichEdit_GetCurrentRow(_Re);
+-end;
+-
+ procedure TRichEdit_ScrollToCaret(_Re: TRichEdit);
+ begin
+   _Re.Perform(EM_SCROLLCARET, 0, 0);
+ end;
+ 
+-procedure RichEdit_ScrollToCaret(_Re: TRichEdit);
+-begin
+-  TRichEdit_ScrollToCaret(_Re);
+-end;
+-
+ procedure TRichEdit_WriteLn(_Re: TRichEdit; const _s: string; _Color: TColor = clBlack; _Style: TFontStyles = []);
+ begin
+   _Re.SelAttributes.Color := _Color;
+@@ -1207,22 +1036,12 @@
+   _Re.SelAttributes.Style := [];
+ end;
+ 
+-procedure RichEdit_WriteLn(_Re: TRichEdit; const _s: string; _Color: TColor = clBlack; _Style: TFontStyles = []);
+-begin
+-  TRichEdit_WriteLn(_Re, _s, _Color, _Style);
+-end;
+-
+ procedure TControl_Center(_Child: TControl; _Parent: TControl);
+ begin
+   _child.left := (_parent.width - _child.width) div 2;
+   _child.top := (_parent.height - _child.height) div 2;
+ end;
+ 
+-procedure ControlCenter(_Child: TControl; _Parent: TControl);
+-begin
+-  TControl_Center(_Child, _Parent);
+-end;
+-
+ procedure DisableProcessWindowsGhosting;
+ var
+   DisableProcessWindowsGhostingProc: procedure;
+
+Added: utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.bdsproj
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.bdsproj	2007-05-28 14:42:41 UTC (rev 153)
++++ utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.bdsproj	2007-06-03 14:04:17 UTC (rev 154)
+@@ -0,0 +1,175 @@
++?<?xml version="1.0" encoding="utf-8"?>
++<BorlandProject>
++	<PersonalityInfo>
++		<Option>
++			<Option Name="Personality">Delphi.Personality</Option>
++			<Option Name="ProjectType">VCLApplication</Option>
++			<Option Name="Version">1.0</Option>
++			<Option Name="GUID">{A2F53790-FB5A-413F-884F-44D82047A365}</Option>
++		</Option>
++	</PersonalityInfo>
++	<Delphi.Personality>
++		<Source>
++			<Source Name="MainSource">DUnitTest_dzFileUtils.dpr</Source>
++		</Source>
++		<FileVersion>
++			<FileVersion Name="Version">7.0</FileVersion>
++		</FileVersion>
++		<Compiler>
++			<Compiler Name="A">8</Compiler>
++			<Compiler Name="B">0</Compiler>
++			<Compiler Name="C">1</Compiler>
++			<Compiler Name="D">1</Compiler>
++			<Compiler Name="E">0</Compiler>
++			<Compiler Name="F">0</Compiler>
++			<Compiler Name="G">1</Compiler>
++			<Compiler Name="H">1</Compiler>
++			<Compiler Name="I">1</Compiler>
++			<Compiler Name="J">0</Compiler>
++			<Compiler Name="K">0</Compiler>
++			<Compiler Name="L">1</Compiler>
++			<Compiler Name="M">0</Compiler>
++			<Compiler Name="N">1</Compiler>
++			<Compiler Name="O">1</Compiler>
++			<Compiler Name="P">1</Compiler>
++			<Compiler Name="Q">0</Compiler>
++			<Compiler Name="R">0</Compiler>
++			<Compiler Name="S">0</Compiler>
++			<Compiler Name="T">0</Compiler>
++			<Compiler Name="U">0</Compiler>
++			<Compiler Name="V">1</Compiler>
++			<Compiler Name="W">0</Compiler>
++			<Compiler Name="X">1</Compiler>
++			<Compiler Name="Y">1</Compiler>
++			<Compiler Name="Z">1</Compiler>
++			<Compiler Name="ShowHints">True</Compiler>
++			<Compiler Name="ShowWarnings">True</Compiler>
++			<Compiler Name="UnitAliases">WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;</Compiler>
++			<Compiler Name="NamespacePrefix"></Compiler>
++			<Compiler Name="GenerateDocumentation">False</Compiler>
++			<Compiler Name="DefaultNamespace"></Compiler>
++			<Compiler Name="SymbolDeprecated">True</Compiler>
++			<Compiler Name="SymbolLibrary">True</Compiler>
++			<Compiler Name="SymbolPlatform">False</Compiler>
++			<Compiler Name="SymbolExperimental">True</Compiler>
++			<Compiler Name="UnitLibrary">True</Compiler>
++			<Compiler Name="UnitPlatform">False</Compiler>
++			<Compiler Name="UnitDeprecated">True</Compiler>
++			<Compiler Name="UnitExperimental">True</Compiler>
++			<Compiler Name="HResultCompat">True</Compiler>
++			<Compiler Name="HidingMember">True</Compiler>
++			<Compiler Name="HiddenVirtual">True</Compiler>
++			<Compiler Name="Garbage">True</Compiler>
++			<Compiler Name="BoundsError">True</Compiler>
++			<Compiler Name="ZeroNilCompat">True</Compiler>
++			<Compiler Name="StringConstTruncated">True</Compiler>
++			<Compiler Name="ForLoopVarVarPar">True</Compiler>
++			<Compiler Name="TypedConstVarPar">True</Compiler>
++			<Compiler Name="AsgToTypedConst">True</Compiler>
++			<Compiler Name="CaseLabelRange">True</Compiler>
++			<Compiler Name="ForVariable">True</Compiler>
++			<Compiler Name="ConstructingAbstract">True</Compiler>
++			<Compiler Name="ComparisonFalse">True</Compiler>
++			<Compiler Name="ComparisonTrue">True</Compiler>
++			<Compiler Name="ComparingSignedUnsigned">True</Compiler>
++			<Compiler Name="CombiningSignedUnsigned">True</Compiler>
++			<Compiler Name="UnsupportedConstruct">True</Compiler>
++			<Compiler Name="FileOpen">True</Compiler>
++			<Compiler Name="FileOpenUnitSrc">True</Compiler>
++			<Compiler Name="BadGlobalSymbol">True</Compiler>
++			<Compiler Name="DuplicateConstructorDestructor">True</Compiler>
++			<Compiler Name="InvalidDirective">True</Compiler>
++			<Compiler Name="PackageNoLink">True</Compiler>
++			<Compiler Name="PackageThreadVar">True</Compiler>
++			<Compiler Name="ImplicitImport">True</Compiler>
++			<Compiler Name="HPPEMITIgnored">True</Compiler>
++			<Compiler Name="NoRetVal">True</Compiler>
++			<Compiler Name="UseBeforeDef">True</Compiler>
++			<Compiler Name="ForLoopVarUndef">True</Compiler>
++			<Compiler Name="UnitNameMismatch">True</Compiler>
++			<Compiler Name="NoCFGFileFound">True</Compiler>
++			<Compiler Name="ImplicitVariants">True</Compiler>
++			<Compiler Name="UnicodeToLocale">True</Compiler>
++			<Compiler Name="LocaleToUnicode">True</Compiler>
++			<Compiler Name="ImagebaseMultiple">True</Compiler>
++			<Compiler Name="SuspiciousTypecast">True</Compiler>
++			<Compiler Name="PrivatePropAccessor">True</Compiler>
++			<Compiler Name="UnsafeType">False</Compiler>
++			<Compiler Name="UnsafeCode">False</Compiler>
++			<Compiler Name="UnsafeCast">False</Compiler>
++			<Compiler Name="OptionTruncated">True</Compiler>
++			<Compiler Name="WideCharReduced">True</Compiler>
++			<Compiler Name="DuplicatesIgnored">True</Compiler>
++			<Compiler Name="UnitInitSeq">True</Compiler>
++			<Compiler Name="LocalPInvoke">True</Compiler>
++			<Compiler Name="MessageDirective">True</Compiler>
++			<Compiler Name="CodePage"></Compiler>
++		</Compiler>
++		<Linker>
++			<Linker Name="MapFile">0</Linker>
++			<Linker Name="OutputObjs">0</Linker>
++			<Linker Name="GenerateHpps">False</Linker>
++			<Linker Name="ConsoleApp">1</Linker>
++			<Linker Name="DebugInfo">False</Linker>
++			<Linker Name="RemoteSymbols">False</Linker>
++			<Linker Name="GenerateDRC">False</Linker>
++			<Linker Name="MinStackSize">16384</Linker>
++			<Linker Name="MaxStackSize">1048576</Linker>
++			<Linker Name="ImageBase">4194304</Linker>
++			<Linker Name="ExeDescription"></Linker>
++		</Linker>
++		<Directories>
++			<Directories Name="OutputDir"></Directories>
++			<Directories Name="UnitOutputDir"></Directories>
++			<Directories Name="PackageDLLOutputDir"></Directories>
++			<Directories Name="PackageDCPOutputDir"></Directories>
++			<Directories Name="SearchPath">..\..\inc</Directories>
++			<Directories Name="Packages"></Directories>
++			<Directories Name="Conditionals">no_translation</Directories>
++			<Directories Name="DebugSourceDirs"></Directories>
++			<Directories Name="UsePackages">False</Directories>
++		</Directories>
++		<Parameters>
++			<Parameters Name="RunParams"></Parameters>
++			<Parameters Name="HostApplication"></Parameters>
++			<Parameters Name="Launcher"></Parameters>
++			<Parameters Name="UseLauncher">False</Parameters>
++			<Parameters Name="DebugCWD"></Parameters>
++			<Parameters Name="Debug Symbols Search Path"></Parameters>
++			<Parameters Name="LoadAllSymbols">True</Parameters>
++			<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++		</Parameters>
++		<Language>
++			<Language Name="ActiveLang"></Language>
++			<Language Name="ProjectLang">$00000000</Language>
++			<Language Name="RootDir"></Language>
++		</Language>
++		<VersionInfo>
++			<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++			<VersionInfo Name="AutoIncBuild">False</VersionInfo>
++			<VersionInfo Name="MajorVer">1</VersionInfo>
++			<VersionInfo Name="MinorVer">0</VersionInfo>
++			<VersionInfo Name="Release">0</VersionInfo>
++			<VersionInfo Name="Build">0</VersionInfo>
++			<VersionInfo Name="Debug">False</VersionInfo>
++			<VersionInfo Name="PreRelease">False</VersionInfo>
++			<VersionInfo Name="Special">False</VersionInfo>
++			<VersionInfo Name="Private">False</VersionInfo>
++			<VersionInfo Name="DLL">False</VersionInfo>
++			<VersionInfo Name="Locale">2057</VersionInfo>
++			<VersionInfo Name="CodePage">1252</VersionInfo>
++		</VersionInfo>
++		<VersionInfoKeys>
++			<VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
++			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
++			<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
++			<VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
++			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
++			<VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
++			<VersionInfoKeys Name="ProductName"></VersionInfoKeys>
++			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
++		</VersionInfoKeys>
++	</Delphi.Personality>
++</BorlandProject>
+
+
+

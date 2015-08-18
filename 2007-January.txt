@@ -1,0 +1,6124 @@
+From twm at mail.berlios.de  Mon Jan  1 15:24:21 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Mon, 1 Jan 2007 15:24:21 +0100
+Subject: [Dzchart-svncheckins] r124 - utilities
+Message-ID: <200701011424.l01EOLNf016333@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-01 15:24:21 +0100 (Mon, 01 Jan 2007)
+New Revision: 124
+
+Added:
+   utilities/dzAutoSave/
+Log:
+Created folder remotely
+
+
+
+From twm at mail.berlios.de  Mon Jan  1 15:27:34 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Mon, 1 Jan 2007 15:27:34 +0100
+Subject: [Dzchart-svncheckins] r125 - in utilities/dzAutoSave: . trunk
+	trunk/Delphi2006 trunk/Delphi5 trunk/Delphi6 trunk/source
+Message-ID: <200701011427.l01ERYRH016564@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-01 15:27:32 +0100 (Mon, 01 Jan 2007)
+New Revision: 125
+
+Added:
+   utilities/dzAutoSave/trunk/
+   utilities/dzAutoSave/trunk/Delphi2006/
+   utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj
+   utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk
+   utilities/dzAutoSave/trunk/Delphi5/
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk
+   utilities/dzAutoSave/trunk/Delphi6/
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk
+   utilities/dzAutoSave/trunk/Delphi7/
+   utilities/dzAutoSave/trunk/source/
+   utilities/dzAutoSave/trunk/source/delphiversions.inc
+   utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+   utilities/dzAutoSave/trunk/source/dzAutoConfig.pas
+   utilities/dzAutoSave/trunk/source/dzAutoSaveReg.pas
+   utilities/dzAutoSave/trunk/source/dzAutoUtil.pas
+   utilities/dzAutoSave/trunk/source/dzAutoWizard.pas
+Log:
+initial import of AutoSave wizard
+
+Added: utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,175 @@
++???<?xml version="1.0" encoding="utf-8"?>
++<BorlandProject>
++  <PersonalityInfo>
++    <Option>
++      <Option Name="Personality">Delphi.Personality</Option>
++      <Option Name="ProjectType">VCLApplication</Option>
++      <Option Name="Version">1.0</Option>
++      <Option Name="GUID">{9454CBDE-6D68-4F11-A030-22DC6BEB5018}</Option>
++    </Option>
++  </PersonalityInfo>
++  <Delphi.Personality>
++    <Source>
++      <Source Name="MainSource">dzAutoSave.dpk</Source>
++    </Source>
++    <FileVersion>
++      <FileVersion Name="Version">7.0</FileVersion>
++    </FileVersion>
++    <Compiler>
++      <Compiler Name="A">8</Compiler>
++      <Compiler Name="B">0</Compiler>
++      <Compiler Name="C">1</Compiler>
++      <Compiler Name="D">1</Compiler>
++      <Compiler Name="E">0</Compiler>
++      <Compiler Name="F">0</Compiler>
++      <Compiler Name="G">1</Compiler>
++      <Compiler Name="H">1</Compiler>
++      <Compiler Name="I">1</Compiler>
++      <Compiler Name="J">1</Compiler>
++      <Compiler Name="K">0</Compiler>
++      <Compiler Name="L">1</Compiler>
++      <Compiler Name="M">0</Compiler>
++      <Compiler Name="N">1</Compiler>
++      <Compiler Name="O">1</Compiler>
++      <Compiler Name="P">1</Compiler>
++      <Compiler Name="Q">1</Compiler>
++      <Compiler Name="R">1</Compiler>
++      <Compiler Name="S">0</Compiler>
++      <Compiler Name="T">1</Compiler>
++      <Compiler Name="U">0</Compiler>
++      <Compiler Name="V">1</Compiler>
++      <Compiler Name="W">0</Compiler>
++      <Compiler Name="X">1</Compiler>
++      <Compiler Name="Y">1</Compiler>
++      <Compiler Name="Z">1</Compiler>
++      <Compiler Name="ShowHints">True</Compiler>
++      <Compiler Name="ShowWarnings">True</Compiler>
++      <Compiler Name="UnitAliases">WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;</Compiler>
++      <Compiler Name="NamespacePrefix"></Compiler>
++      <Compiler Name="GenerateDocumentation">False</Compiler>
++      <Compiler Name="DefaultNamespace"></Compiler>
++      <Compiler Name="SymbolDeprecated">True</Compiler>
++      <Compiler Name="SymbolLibrary">True</Compiler>
++      <Compiler Name="SymbolPlatform">False</Compiler>
++      <Compiler Name="SymbolExperimental">True</Compiler>
++      <Compiler Name="UnitLibrary">True</Compiler>
++      <Compiler Name="UnitPlatform">False</Compiler>
++      <Compiler Name="UnitDeprecated">True</Compiler>
++      <Compiler Name="UnitExperimental">True</Compiler>
++      <Compiler Name="HResultCompat">True</Compiler>
++      <Compiler Name="HidingMember">True</Compiler>
++      <Compiler Name="HiddenVirtual">True</Compiler>
++      <Compiler Name="Garbage">True</Compiler>
++      <Compiler Name="BoundsError">True</Compiler>
++      <Compiler Name="ZeroNilCompat">True</Compiler>
++      <Compiler Name="StringConstTruncated">True</Compiler>
++      <Compiler Name="ForLoopVarVarPar">True</Compiler>
++      <Compiler Name="TypedConstVarPar">True</Compiler>
++      <Compiler Name="AsgToTypedConst">True</Compiler>
++      <Compiler Name="CaseLabelRange">True</Compiler>
++      <Compiler Name="ForVariable">True</Compiler>
++      <Compiler Name="ConstructingAbstract">True</Compiler>
++      <Compiler Name="ComparisonFalse">True</Compiler>
++      <Compiler Name="ComparisonTrue">True</Compiler>
++      <Compiler Name="ComparingSignedUnsigned">True</Compiler>
++      <Compiler Name="CombiningSignedUnsigned">True</Compiler>
++      <Compiler Name="UnsupportedConstruct">True</Compiler>
++      <Compiler Name="FileOpen">True</Compiler>
++      <Compiler Name="FileOpenUnitSrc">True</Compiler>
++      <Compiler Name="BadGlobalSymbol">True</Compiler>
++      <Compiler Name="DuplicateConstructorDestructor">True</Compiler>
++      <Compiler Name="InvalidDirective">True</Compiler>
++      <Compiler Name="PackageNoLink">True</Compiler>
++      <Compiler Name="PackageThreadVar">True</Compiler>
++      <Compiler Name="ImplicitImport">True</Compiler>
++      <Compiler Name="HPPEMITIgnored">True</Compiler>
++      <Compiler Name="NoRetVal">True</Compiler>
++      <Compiler Name="UseBeforeDef">True</Compiler>
++      <Compiler Name="ForLoopVarUndef">True</Compiler>
++      <Compiler Name="UnitNameMismatch">True</Compiler>
++      <Compiler Name="NoCFGFileFound">True</Compiler>
++      <Compiler Name="ImplicitVariants">True</Compiler>
++      <Compiler Name="UnicodeToLocale">True</Compiler>
++      <Compiler Name="LocaleToUnicode">True</Compiler>
++      <Compiler Name="ImagebaseMultiple">True</Compiler>
++      <Compiler Name="SuspiciousTypecast">True</Compiler>
++      <Compiler Name="PrivatePropAccessor">True</Compiler>
++      <Compiler Name="UnsafeType">False</Compiler>
++      <Compiler Name="UnsafeCode">False</Compiler>
++      <Compiler Name="UnsafeCast">False</Compiler>
++      <Compiler Name="OptionTruncated">True</Compiler>
++      <Compiler Name="WideCharReduced">True</Compiler>
++      <Compiler Name="DuplicatesIgnored">True</Compiler>
++      <Compiler Name="UnitInitSeq">True</Compiler>
++      <Compiler Name="LocalPInvoke">True</Compiler>
++      <Compiler Name="MessageDirective">True</Compiler>
++      <Compiler Name="CodePage"></Compiler>
++    </Compiler>
++    <Linker>
++      <Linker Name="MapFile">0</Linker>
++      <Linker Name="OutputObjs">0</Linker>
++      <Linker Name="GenerateHpps">False</Linker>
++      <Linker Name="ConsoleApp">1</Linker>
++      <Linker Name="DebugInfo">False</Linker>
++      <Linker Name="RemoteSymbols">False</Linker>
++      <Linker Name="GenerateDRC">False</Linker>
++      <Linker Name="MinStackSize">16384</Linker>
++      <Linker Name="MaxStackSize">1048576</Linker>
++      <Linker Name="ImageBase">253755392</Linker>
++      <Linker Name="ExeDescription">dummzeuch.de Auto Save Wizard</Linker>
++    </Linker>
++    <Directories>
++      <Directories Name="OutputDir"></Directories>
++      <Directories Name="UnitOutputDir"></Directories>
++      <Directories Name="PackageDLLOutputDir"></Directories>
++      <Directories Name="PackageDCPOutputDir"></Directories>
++      <Directories Name="SearchPath"></Directories>
++      <Directories Name="Packages"></Directories>
++      <Directories Name="Conditionals"></Directories>
++      <Directories Name="DebugSourceDirs"></Directories>
++      <Directories Name="UsePackages">False</Directories>
++    </Directories>
++    <Parameters>
++      <Parameters Name="RunParams"></Parameters>
++      <Parameters Name="HostApplication">$(BDS)\Bin\bds.exe</Parameters>
++      <Parameters Name="Launcher"></Parameters>
++      <Parameters Name="UseLauncher">False</Parameters>
++      <Parameters Name="DebugCWD"></Parameters>
++      <Parameters Name="Debug Symbols Search Path"></Parameters>
++      <Parameters Name="LoadAllSymbols">True</Parameters>
++      <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++    </Parameters>
++    <Language>
++      <Language Name="ActiveLang"></Language>
++      <Language Name="ProjectLang">$00000000</Language>
++      <Language Name="RootDir">D:\source\icd.autosave\</Language>
++    </Language>
++    <VersionInfo>
++      <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
++      <VersionInfo Name="AutoIncBuild">True</VersionInfo>
++      <VersionInfo Name="MajorVer">1</VersionInfo>
++      <VersionInfo Name="MinorVer">2</VersionInfo>
++      <VersionInfo Name="Release">1</VersionInfo>
++      <VersionInfo Name="Build">18</VersionInfo>
++      <VersionInfo Name="Debug">False</VersionInfo>
++      <VersionInfo Name="PreRelease">False</VersionInfo>
++      <VersionInfo Name="Special">False</VersionInfo>
++      <VersionInfo Name="Private">False</VersionInfo>
++      <VersionInfo Name="DLL">True</VersionInfo>
++      <VersionInfo Name="Locale">1033</VersionInfo>
++      <VersionInfo Name="CodePage">1252</VersionInfo>
++    </VersionInfo>
++    <VersionInfoKeys>
++      <VersionInfoKeys Name="CompanyName">Tempest Software, Inc.</VersionInfoKeys>
++      <VersionInfoKeys Name="FileDescription">Auto Save Wizard</VersionInfoKeys>
++      <VersionInfoKeys Name="FileVersion">1.2.1.18</VersionInfoKeys>
++      <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
++      <VersionInfoKeys Name="LegalCopyright">Copyright ?? 1999 Tempest Software,Inc.</VersionInfoKeys>
++      <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
++      <VersionInfoKeys Name="OriginalFilename">autosave60.bpl</VersionInfoKeys>
++      <VersionInfoKeys Name="ProductName">Auto Save Wizard</VersionInfoKeys>
++      <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++      <VersionInfoKeys Name="Comments"></VersionInfoKeys>
++    </VersionInfoKeys>
++  </Delphi.Personality>
++</BorlandProject>
+
+Added: utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,40 @@
++package dzAutoSave;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
++{$LIBSUFFIX '10'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl,
++  designide;
++
++contains
++  dzAutoSaveReg in '..\dzAutoSaveReg.pas',
++  dzAutoWizard in '..\dzAutoWizard.pas',
++  dzAutoConfig in '..\dzAutoConfig.pas' {TAutoSaveForm},
++  dzAutoUtil in '..\dzAutoUtil.pas';
++
++end.
+
+Added: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,22 @@
++#------------------------------------------------------------------------------
++VERSION = BWS.01
++#------------------------------------------------------------------------------
++!ifndef ROOT
++ROOT = $(MAKEDIR)\..
++!endif
++#------------------------------------------------------------------------------
++MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
++DCC = $(ROOT)\bin\dcc32.exe $**
++BRCC = $(ROOT)\bin\brcc32.exe $**
++#------------------------------------------------------------------------------
++PROJECTS = AutoSave5.bpl
++#------------------------------------------------------------------------------
++default: $(PROJECTS)
++#------------------------------------------------------------------------------
++
++
++
++AutoSave5.bpl: AutoSave5.dpk
++  $(DCC)
++
++
+
+Added: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,150 @@
++[FileVersion]
++Version=7.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++NamespacePrefix=
++SymbolDeprecated=1
++SymbolLibrary=1
++SymbolPlatform=1
++UnitLibrary=1
++UnitPlatform=1
++UnitDeprecated=1
++HResultCompat=1
++HidingMember=1
++HiddenVirtual=1
++Garbage=1
++BoundsError=1
++ZeroNilCompat=1
++StringConstTruncated=1
++ForLoopVarVarPar=1
++TypedConstVarPar=1
++AsgToTypedConst=1
++CaseLabelRange=1
++ForVariable=1
++ConstructingAbstract=1
++ComparisonFalse=1
++ComparisonTrue=1
++ComparingSignedUnsigned=1
++CombiningSignedUnsigned=1
++UnsupportedConstruct=1
++FileOpen=1
++FileOpenUnitSrc=1
++BadGlobalSymbol=1
++DuplicateConstructorDestructor=1
++InvalidDirective=1
++PackageNoLink=1
++PackageThreadVar=1
++ImplicitImport=1
++HPPEMITIgnored=1
++NoRetVal=1
++UseBeforeDef=1
++ForLoopVarUndef=1
++UnitNameMismatch=1
++NoCFGFileFound=1
++MessageDirective=1
++ImplicitVariants=1
++UnicodeToLocale=1
++LocaleToUnicode=1
++ImagebaseMultiple=1
++SuspiciousTypecast=1
++PrivatePropAccessor=1
++UnsafeType=1
++UnsafeCode=1
++UnsafeCast=1
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=Q:\bpl\dcu
++PackageDLLOutputDir=Q:\bpl
++PackageDCPOutputDir=Q:\bpl\dcp
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=
++[Language]
++ActiveLang=
++ProjectLang=
++RootDir=
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=1
++Release=0
++Build=2
++Debug=1
++PreRelease=1
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.1.0.2
++InternalName=
++LegalCopyright=Copyright ? 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[Excluded Packages]
++c:\program files\borland\delphi7\Bin\dclite50.bpl=Borland Integrated Translation Environment
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Added: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,38 @@
++package AutoSave5;
++
++{$R *.RES}
++{$ALIGN ON}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'Auto Save Wizard'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl50;
++
++contains
++  AutoSaveReg in 'AutoSaveReg.pas',
++  AutoWizard in 'AutoWizard.pas',
++  AutoConfig in 'AutoConfig.pas' {TAutoSaveForm},
++  AutoUtil in 'AutoUtil.pas';
++
++end.
+
+Added: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,21 @@
++#------------------------------------------------------------------------------
++VERSION = BWS.01
++#------------------------------------------------------------------------------
++!ifndef ROOT
++ROOT = $(MAKEDIR)\..
++!endif
++#------------------------------------------------------------------------------
++MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
++DCC = $(ROOT)\bin\dcc32.exe $**
++BRCC = $(ROOT)\bin\brcc32.exe $**
++#------------------------------------------------------------------------------
++PROJECTS = AutoSave6.bpl
++#------------------------------------------------------------------------------
++default: $(PROJECTS)
++#------------------------------------------------------------------------------
++
++
++AutoSave6.bpl: AutoSave6.dpk
++  $(DCC)
++
++
+
+Added: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,181 @@
++[FileVersion]
++Version=7.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++NamespacePrefix=
++SymbolDeprecated=1
++SymbolLibrary=1
++SymbolPlatform=0
++UnitLibrary=1
++UnitPlatform=0
++UnitDeprecated=1
++HResultCompat=1
++HidingMember=1
++HiddenVirtual=1
++Garbage=1
++BoundsError=1
++ZeroNilCompat=1
++StringConstTruncated=1
++ForLoopVarVarPar=1
++TypedConstVarPar=1
++AsgToTypedConst=1
++CaseLabelRange=1
++ForVariable=1
++ConstructingAbstract=1
++ComparisonFalse=1
++ComparisonTrue=1
++ComparingSignedUnsigned=1
++CombiningSignedUnsigned=1
++UnsupportedConstruct=1
++FileOpen=1
++FileOpenUnitSrc=1
++BadGlobalSymbol=1
++DuplicateConstructorDestructor=1
++InvalidDirective=1
++PackageNoLink=1
++PackageThreadVar=1
++ImplicitImport=1
++HPPEMITIgnored=1
++NoRetVal=1
++UseBeforeDef=1
++ForLoopVarUndef=1
++UnitNameMismatch=1
++NoCFGFileFound=1
++MessageDirective=1
++ImplicitVariants=1
++UnicodeToLocale=1
++LocaleToUnicode=1
++ImagebaseMultiple=1
++SuspiciousTypecast=1
++PrivatePropAccessor=1
++UnsafeType=0
++UnsafeCode=0
++UnsafeCast=0
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=dummzeuch.de Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=Q:\bpl\dcu
++PackageDLLOutputDir=Q:\bpl
++PackageDCPOutputDir=Q:\bpl\dcp
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=C:\Program Files\Borland\Delphi7\Projects
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=2
++Release=1
++Build=10
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.2.1.10
++InternalName=
++LegalCopyright=Copyright ? 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[Excluded Packages]
++q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
++c:\program files\borland\delphi7\Bin\dclado70.bpl=Borland ADO DB Components
++c:\program files\borland\delphi7\Bin\dclshlctrls70.bpl=Shell Control Property and Component Editors
++c:\program files\borland\delphi7\Bin\dclemacsedit70.bpl=Borland Editor Emacs Enhancements
++c:\program files\borland\delphi7\Bin\applet70.bpl=Borland Control Panel Applet Package
++C:\Program Files\Borland\Delphi7\Bin\dbx70.bpl=Borland SQL Explorer UI Package
++Q:\bpl\hkimportexport7.bpl=headwork Import/Export Wizard - desing and runtime (should be splitted)
++c:\program files\borland\delphi7\Bin\dclbde70.bpl=Borland BDE DB Components
++c:\program files\borland\delphi7\Bin\dclite70.bpl=Borland Integrated Translation Environment
++c:\program files\borland\delphi7\Bin\dclnet70.bpl=Borland Internet Components
++c:\program files\borland\delphi7\Bin\dclsoap70.bpl=Borland SOAP Components
++c:\program files\borland\delphi7\Bin\dclocx70.bpl=Borland Sample Imported ActiveX Controls
++c:\program files\borland\delphi7\Bin\dcldbx70.bpl=Borland dbExpress Components
++c:\program files\borland\delphi7\Bin\dcldbxcds70.bpl=Borland SimpleDataset Component (DBX)
++c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
++c:\program files\borland\delphi7\Bin\dclie70.bpl=Internet Explorer Components
++c:\program files\borland\delphi7\Bin\dcltee70.bpl=TeeChart Components
++c:\program files\borland\delphi7\Bin\dclib70.bpl=InterBase Data Access Components
++c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
++c:\program files\borland\delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
++c:\program files\borland\delphi7\Bin\dclmid70.bpl=Borland MyBase DataAccess Components
++C:\WINNT\System32\ibevnt70.bpl=Borland Interbase Event Alerter Component
++c:\program files\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
++Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.2
++Q:\bpl\dcldummzeuchchart.bpl=dummzeuch.de Charts - designtime package
++Q:\bpl\dclrxbd7.bpl=RX Library BDE Database Components
++Q:\bpl\olectra.bpl=Olectra Chart Components (Active X)
++Q:\bpl\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
++c:\program files\borland\delphi7\bin\dclRave70.bpl=Rave Reports BE 5.0 Package
++c:\program files\borland\delphi7\Bin\dclaxserver70.bpl=Microsoft Office 97 Sample Automation Server Wrapper Components
++Q:\bpl\JclDebugIde70.bpl=JCL Debug IDE extension for Delphi 7
++C:\Program Files\Castalia Free for Delphi\JacobsLadder7.bpl=Castalia for Delphi 7
++C:\Program Files\CompDiff\Delphi7\CompDiff.bpl=Component Diff Tool for Delphi
++C:\Program Files\Castalia for Delphi Trial\LadderFlyout7.bpl=Castalia Flyout Bar for Delphi 7
++C:\Program Files\Castalia for Delphi Trial\LadderForms7.bpl=Castalia Form Designer for Delphi 7
++C:\Program Files\Castalia for Delphi Trial\LadderStat7.bpl=Castalia Statistics for Delphi 7
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Added: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,39 @@
++package AutoSave6;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl,
++  designide;
++
++contains
++  AutoSaveReg in 'AutoSaveReg.pas',
++  AutoWizard in 'AutoWizard.pas',
++  AutoConfig in 'AutoConfig.pas' {TAutoSaveForm},
++  AutoUtil in 'AutoUtil.pas';
++
++end.
+
+Added: utilities/dzAutoSave/trunk/source/delphiversions.inc
+===================================================================
+--- utilities/dzAutoSave/trunk/source/delphiversions.inc	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/delphiversions.inc	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,41 @@
++// global defines und options
++// to be included in all source files
++
++// to make it easier to find out which version of Delphi we are using
++{$IFDEF VER130}
++{$DEFINE Delphi5up}
++{$ENDIF}
++
++{$IFDEF VER140}
++{$DEFINE Delphi5up}
++{$DEFINE Delphi6up}
++{$ENDIF}
++
++{$IFDEF VER150}
++{$DEFINE Delphi5up}
++{$DEFINE Delphi6up}
++{$DEFINE Delphi7up}
++{$ENDIF}
++
++{$IFDEF VER170}
++{$DEFINE Delphi5up}
++{$DEFINE Delphi6up}
++{$DEFINE Delphi7up}
++{$DEFINE Delphi2005up}
++{$ENDIF}
++
++
++{$IFDEF VER180}
++{$DEFINE Delphi5up}
++{$DEFINE Delphi6up}
++{$DEFINE Delphi7up}
++{$DEFINE Delphi2005up}
++{$DEFINE Delphi2006up}
++{$ENDIF}
++
++{$IFDEF Delphi6up}
++{$WARN unsafe_type off}
++{$WARN unsafe_code off}
++{$WARN unsafe_cast off}
++{$ENDIF}
++
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,255 @@
++object AutoSaveForm: TAutoSaveForm
++  Left = 322
++  Top = 214
++  BorderIcons = [biSystemMenu]
++  Caption = 'Auto Save Properties'
++  ClientHeight = 248
++  ClientWidth = 349
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -10
++  Font.Name = 'MS Sans Serif'
++  Font.Style = []
++  OldCreateOrder = True
++  Position = poScreenCenter
++  OnCreate = FormCreate
++  DesignSize = (
++    349
++    248)
++  PixelsPerInch = 96
++  TextHeight = 13
++  object b_Cancel: TButton
++    Left = 272
++    Top = 216
++    Width = 66
++    Height = 26
++    Anchors = [akRight, akBottom]
++    Cancel = True
++    Caption = 'Cancel'
++    ModalResult = 2
++    TabOrder = 2
++  end
++  object PageControl1: TPageControl
++    Left = 7
++    Top = 7
++    Width = 332
++    Height = 195
++    ActivePage = TabSheet1
++    Anchors = [akLeft, akTop, akRight, akBottom]
++    TabOrder = 0
++    object TabSheet1: TTabSheet
++      Caption = 'General'
++      DesignSize = (
++        324
++        167)
++      object Label2: TLabel
++        Left = 91
++        Top = 90
++        Width = 36
++        Height = 13
++        Caption = 'minutes'
++      end
++      object Icon: TImage
++        Left = 13
++        Top = 13
++        Width = 26
++        Height = 26
++        Picture.Data = {
++          055449636F6E0000010001002020100000000000E80200001600000028000000
++          2000000040000000010004000000000080020000000000000000000000000000
++          0000000000000000000080000080000000808000800000008000800080800000
++          C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000
++          FFFFFF0000000000000000000000000000000000000000000000000000000000
++          0000000000000000000000000000000000000000000000000000000008000000
++          08000000000000000000000CC077777FF0C00000000000000000000CC077777F
++          F0C00000000000000000000CC077777FF0C00000000000000000000CC0000000
++          00C00000000000000000000CCCCCCCCCCCC00000000000000000000C00000000
++          0CC00000000000000000000C0FFFFFFFF0C00000000000000FF00F0C0FFFFFFF
++          F0C0000000000000FFF00F0C0FFFFFFFF0C00000000000FF0FF00F0C0FFFFFFF
++          F0C0000000000FFFFFFFFF0C0FFFFFFFF0000000000008FFFFFFFF0C0FFFFFFF
++          F07000000000FF8FFFFFFF0000000000000000000000FFFFFFFFFFFFFFFF0000
++          000000000000000FFFF00FFFF0000000000000000000000FFFF00FFFF0000000
++          000000000000FFFFFF0F00FFFFFF0000000000000000FFFFF0FFF00FFFFF0000
++          0000000000000F8F0FFFFF00F8F000000000000000000777FFFFFFFFFF800000
++          00000000000000008FF00FF8FF0000000000000000000FFFFFF00FFF80000000
++          00000000000000000FF00FF00000000000000000000000000000000000000000
++          0000000000000000000000000000000000000000000000000000000000000000
++          0000000000000000000000000000000000000000000000000000000000000000
++          00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFE000FFFFC000FFFFC000FFFFC000F
++          FFFC000FFFFC000FFFFC000FFFFC000FFF80000FFE00000FFC00000FF800000F
++          F800000FF000000FF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF8001FFF
++          F8001FFFF8003FFFF8007FFFFF81FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++          FFFFFFFF}
++      end
++      object Label3: TLabel
++        Left = 65
++        Top = 12
++        Width = 157
++        Height = 16
++        AutoSize = False
++        Caption = 'Auto Save Wizard'
++      end
++      object Bevel1: TBevel
++        Left = 7
++        Top = 52
++        Width = 312
++        Height = 7
++        Anchors = [akLeft, akTop, akRight]
++        Shape = bsTopLine
++      end
++      object Label1: TLabel
++        Left = 184
++        Top = 64
++        Width = 107
++        Height = 13
++        Caption = 'Position in Tools Menu'
++      end
++      object l_Version: TLabel
++        Left = 64
++        Top = 26
++        Width = 69
++        Height = 13
++        Caption = '0.00.000.0000'
++      end
++      object ud_Interval: TUpDown
++        Left = 72
++        Top = 88
++        Width = 12
++        Height = 21
++        Associate = ed_Interval
++        Min = 1
++        Max = 60
++        Position = 5
++        TabOrder = 2
++      end
++      object ed_Interval: TEdit
++        Left = 32
++        Top = 88
++        Width = 40
++        Height = 21
++        TabOrder = 1
++        Text = '5'
++      end
++      object chk_SaveTimed: TCheckBox
++        Left = 16
++        Top = 64
++        Width = 153
++        Height = 16
++        Caption = '&Save Files Every'
++        Checked = True
++        State = cbChecked
++        TabOrder = 0
++      end
++      object chk_SaveOnCompile: TCheckBox
++        Left = 16
++        Top = 128
++        Width = 161
++        Height = 17
++        Caption = 'Save Before &Compile'
++        TabOrder = 3
++      end
++      object ud_ToolPosition: TUpDown
++        Left = 224
++        Top = 88
++        Width = 11
++        Height = 21
++        Associate = ed_ToolPosition
++        Min = 1
++        Max = 5
++        Position = 1
++        TabOrder = 4
++      end
++      object ed_ToolPosition: TEdit
++        Left = 184
++        Top = 88
++        Width = 40
++        Height = 21
++        TabOrder = 5
++        Text = '1'
++      end
++      object chk_ShowMessage: TCheckBox
++        Left = 184
++        Top = 128
++        Width = 137
++        Height = 17
++        Caption = 'Show Message View'
++        TabOrder = 6
++        Visible = False
++      end
++    end
++    object TabSheet2: TTabSheet
++      Caption = 'Help'
++      ExplicitLeft = 0
++      ExplicitTop = 0
++      ExplicitWidth = 0
++      ExplicitHeight = 0
++      object Memo1: TMemo
++        Left = 7
++        Top = 7
++        Width = 312
++        Height = 156
++        TabStop = False
++        BorderStyle = bsNone
++        Color = clBtnFace
++        Ctl3D = False
++        Lines.Strings = (
++          'The Auto Save Wizard can save your files at regular intervals, '
++          
++            'helping to ensure that you do not lose information if Delphi or ' +
++            'your '
++          'system were to crash.'
++          ''
++          
++            'At regular intervals, every modified file is saved into a tempor' +
++            'ary '
++          
++            'file, whose name is formed by inserting a tilde (~) at the start' +
++            ' of the '
++          
++            'file name and which is marked *hidden* so it won'#39't show up in th' +
++            'e '
++          'file listing.'
++          ''
++          'When you open a project, if there are any auto-saved files, you '
++          
++            'are asked if you want to restore the files as soon as you open t' +
++            'he'
++          'file in the editor.')
++        ParentCtl3D = False
++        ReadOnly = True
++        TabOrder = 0
++        WantReturns = False
++      end
++    end
++    object TabSheet3: TTabSheet
++      Caption = 'Files'
++      ImageIndex = 2
++      ExplicitLeft = 0
++      ExplicitTop = 0
++      ExplicitWidth = 0
++      ExplicitHeight = 0
++      object FileList: TListBox
++        Left = 0
++        Top = 0
++        Width = 324
++        Height = 167
++        Align = alClient
++        ItemHeight = 13
++        TabOrder = 0
++        OnDblClick = FileListDblClick
++      end
++    end
++  end
++  object b_Ok: TButton
++    Left = 200
++    Top = 216
++    Width = 66
++    Height = 26
++    Anchors = [akRight, akBottom]
++    Caption = 'OK'
++    Default = True
++    ModalResult = 1
++    TabOrder = 1
++  end
++end
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoConfig.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoConfig.pas	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoConfig.pas	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,175 @@
++unit dzAutoConfig;
++
++{$I delphiversions.inc}
++
++{ Properties for the auto-save expert. }
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  ExtCtrls,
++  StdCtrls,
++  ComCtrls;
++
++type
++  TAutoSaveForm = class(TForm)
++    b_Cancel: TButton;
++    PageControl1: TPageControl;
++    TabSheet1: TTabSheet;
++    TabSheet2: TTabSheet;
++    Label2: TLabel;
++    ud_Interval: TUpDown;
++    ed_Interval: TEdit;
++    chk_SaveTimed: TCheckBox;
++    b_Ok: TButton;
++    Icon: TImage;
++    Label3: TLabel;
++    Bevel1: TBevel;
++    Memo1: TMemo;
++    TabSheet3: TTabSheet;
++    FileList: TListBox;
++    chk_SaveOnCompile: TCheckBox;
++    ud_ToolPosition: TUpDown;
++    ed_ToolPosition: TEdit;
++    Label1: TLabel;
++    chk_ShowMessage: TCheckBox;
++    l_Version: TLabel;
++    procedure FileListDblClick(Sender: TObject);
++    procedure FormCreate(Sender: TObject);
++  private
++    function GetSaveInterval: integer;
++    function GetSaveOnCompile: boolean;
++    function GetSaveTimed: boolean;
++    procedure SetSaveInterval(const _SaveInterval: integer);
++    procedure SetSaveOncompile(const _SaveOnCompile: boolean);
++    procedure SetSaveTimed(const _SaveTimed: boolean);
++    function GetToolPosition: integer;
++    procedure SetToolPosition(const _ToolPosition: integer);
++    function GetShowMessageView: boolean;
++    procedure SetShowMessageView(const _ShowMessageView: boolean);
++  public
++    property SaveTimed: boolean read GetSaveTimed write SetSaveTimed;
++    property SaveOnCompile: boolean read GetSaveOnCompile write SetSaveOncompile;
++    property SaveInterval: integer read GetSaveInterval write SetSaveInterval;
++    property ToolPosition: integer read GetToolPosition write SetToolPosition;
++    property ShowMessageView: boolean read GetShowMessageView write SetShowMessageView;
++  end;
++
++implementation
++
++uses
++  ToolsAPI;
++
++{$R *.DFM}
++
++function GetModuleFilename: string;
++var
++  Buffer: array[0..260] of Char;
++begin
++  SetString(Result, Buffer, Windows.GetModuleFileName(HInstance, Buffer, SizeOf(Buffer)))
++end;
++
++function GetFileBuildInfo: string;
++var
++  VerInfoSize: DWORD;
++  VerInfo: Pointer;
++  VerValueSize: DWORD;
++  VerValue: PVSFixedFileInfo;
++  Dummy: DWORD;
++  Major, Minor, Revision, Build: integer;
++  Filename: string;
++begin
++  Filename := GetModuleFileName;
++  VerInfoSize := GetFileVersionInfoSize(PChar(Filename), Dummy);
++  Result := '';
++  if (VerInfoSize <> 0) then
++    begin
++      GetMem(VerInfo, VerInfoSize);
++      try
++        GetFileVersionInfo(PChar(Filename), 0, VerInfoSize, VerInfo);
++        VerQueryValue(VerInfo, '\', Pointer(VerValue), VerValueSize);
++        with VerValue^ do
++          begin
++            Major := dwFileVersionMS shr 16;
++            Minor := dwFileVersionMS and $FFFF;
++            Revision := dwFileVersionLS shr 16;
++            Build := dwFileVersionLS and $FFFF;
++            Result := Format('version %d.%.2d.%.3d build %d', [Major, Minor, Revision, Build]);
++          end;
++      finally
++        FreeMem(VerInfo, VerInfoSize);
++      end;
++    end;
++end;
++
++procedure TAutoSaveForm.FileListDblClick(Sender: TObject);
++begin
++  IOTAEditor(Pointer(FileList.Items.Objects[FileList.ItemIndex])).Show;
++end;
++
++function TAutoSaveForm.GetSaveInterval: integer;
++begin
++  result := ud_Interval.Position;
++end;
++
++procedure TAutoSaveForm.SetSaveInterval(const _SaveInterval: integer);
++begin
++  ud_Interval.Position := _SaveInterval;
++end;
++
++function TAutoSaveForm.GetSaveOnCompile: boolean;
++begin
++  Result := chk_SaveOnCompile.Checked;
++end;
++
++procedure TAutoSaveForm.SetSaveOncompile(const _SaveOnCompile: boolean);
++begin
++  chk_SaveOnCompile.Checked := _SaveOnCompile;
++end;
++
++function TAutoSaveForm.GetSaveTimed: boolean;
++begin
++  Result := chk_SaveTimed.Checked;
++end;
++
++procedure TAutoSaveForm.SetSaveTimed(const _SaveTimed: boolean);
++begin
++  chk_SaveTimed.Checked := _SaveTimed;
++end;
++
++function TAutoSaveForm.GetToolPosition: integer;
++begin
++  Result := ud_ToolPosition.Position - 1;
++end;
++
++procedure TAutoSaveForm.SetToolPosition(const _ToolPosition: integer);
++begin
++  ud_ToolPosition.Position := _ToolPosition + 1;
++end;
++
++function TAutoSaveForm.GetShowMessageView: boolean;
++begin
++  Result := chk_ShowMessage.Checked;
++end;
++
++procedure TAutoSaveForm.SetShowMessageView(const _ShowMessageView: boolean);
++begin
++  chk_ShowMessage.Checked := _ShowMessageView;
++end;
++
++procedure TAutoSaveForm.FormCreate(Sender: TObject);
++begin
++  l_Version.Caption := GetFileBuildInfo;
++{$ifdef delphi6up}
++  chk_ShowMessage.Visible := true
++{$endif}
++end;
++
++end.
++
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoSaveReg.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoSaveReg.pas	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoSaveReg.pas	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,36 @@
++unit dzAutoSaveReg;
++
++interface
++
++uses
++  Forms,
++  ToolsAPI,
++  dzAutoWizard;
++
++procedure Register;
++
++implementation
++
++// Register the wizard in a package.
++
++procedure Register;
++begin
++  RegisterPackageWizard(TAutoSaveWizard.Create);
++end;
++
++// Register the wizard in a DLL.
++
++function InitWizard(Services: IBorlandIDEServices;
++  RegisterProc: TWizardRegisterProc;
++  var Terminate: TWizardTerminateProc): Boolean; stdcall;
++begin
++  Application.Handle := (Services as IOTAServices).GetParentHandle;
++  RegisterProc(TAutoSaveWizard.Create);
++  Result := True;
++end;
++
++exports
++  InitWizard name WizardEntryPoint;
++
++end.
++
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoUtil.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoUtil.pas	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoUtil.pas	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,790 @@
++unit dzAutoUtil;
++
++{$I delphiversions.inc}
++
++interface
++
++uses
++  Windows,
++  ActiveX,
++  SysUtils,
++  Classes,
++  Dialogs,
++  ToolsAPI;
++
++type
++  TOnAutoSave = procedure(const _Filename: string) of object;
++  TOnError = procedure(const _Error: string) of object;
++
++var
++  OnAutoSave: TOnAutoSave = nil;
++  OnError: TOnError = nil;
++
++type
++{$IFNDEF delphi6up}
++  // Base class for all notifiers, wizards, etc.
++  // The base class does nothing for each method, but derived classes
++  // can override any or all of these methods. Note that any given notifier
++  // interface might not call some (or any) of these methods.
++  TNotifierObject = class(TInterfacedObject, IOTANotifier)
++  public
++    procedure AfterSave;
++    procedure BeforeSave;
++    procedure Destroyed;
++    procedure Modified;
++  end;
++{$ENDIF}
++
++  TFileList = class;
++  TIdeFile = class;
++  TModuleList = class;
++
++  // Each Delphi module has a corresponding TModule object in the wizard.
++  // The TModule object is a module notifier and it keeps track of the
++  // individual files that comprise a module.
++  TModule = class(TNotifierObject, IOTANotifier, IOTAModuleNotifier)
++  private
++    fFileList: TFileList; // list of editor notifiers (TIdeFile objects)
++    fModule: IOTAModule; // Tools API module interface
++    fModuleList: TModuleList; // parent that contains this module
++    fNotifierIndex: Integer;
++  protected
++    procedure AddNotifier;
++    procedure RemoveNotifier;
++    procedure GetFiles;
++    property NotifierIndex: Integer read fNotifierIndex;
++
++  public
++    constructor Create(const Module: IOTAModule; List: TModuleList);
++    destructor Destroy; override;
++    procedure AutoSave;
++
++    // When the user saves a file, Delphi calls the module's AfterSave,
++    // but not AfterSave for the individual editors.
++    procedure AfterSave;
++    procedure Destroyed;
++
++    procedure GetFileList(List: TStrings);
++    function CheckOverwrite: Boolean;
++    procedure ModuleRenamed(const NewName: string);
++
++    property Module: IOTAModule read fModule;
++    property FileList: TFileList read fFileList;
++  end;
++
++  // Keep a list of open modules.
++  TModuleList = class
++  private
++    fList: TList;
++    function GetCount: Integer;
++    function GetModules(Index: Integer): TModule;
++  public
++    constructor Create;
++    destructor Destroy; override;
++
++    procedure AutoSave;
++    procedure Add(const Module: IOTAModule);
++    procedure Clear;
++    procedure Delete(Index: Integer);
++    procedure GetFileList(List: TStrings);
++    procedure Remove(Module: TModule);
++
++    property Count: Integer read GetCount;
++    property Modules[Index: Integer]: TModule read GetModules; default;
++  end;
++
++  // Each file that is open in the IDE is represented by a TIdeFile object.
++  // Derived classes specialize for different kinds of files, which are
++  // auto-saved differently, but the basic notifier behavior is common to
++  // all the files. Note that each module can have multiple files.
++  TIdeFile = class
++  private
++    fEditor: IOTAEditor;
++    fFileName: string;
++  public
++    constructor Create(const Editor: IOTAEditor);
++    procedure doAutoSave; virtual;
++    procedure AutoSave;
++    procedure Renamed; virtual;
++    procedure Saved; virtual;
++
++    property Editor: IOTAEditor read fEditor;
++    property FileName: string read fFileName;
++  end;
++
++  TFormFile = class(TIdeFile)
++  public
++    procedure doAutoSave; override;
++  end;
++
++  TSourceFile = class(TIdeFile)
++  public
++    procedure doAutoSave; override;
++  end;
++
++  TResourceFile = class(TIdeFile)
++  public
++    procedure doAutoSave; override;
++  end;
++
++  // Keep a list of TIdeFile objects.
++  TFileList = class
++  private
++    fList: TList;
++    function GetCount: Integer;
++    function GetFiles(Index: Integer): TIdeFile;
++  public
++    constructor Create;
++    destructor Destroy; override;
++    procedure AutoSave;
++    procedure Add(const Editor: IOTAEditor);
++    procedure Clear;
++    procedure Delete(Index: Integer);
++    procedure GetFileList(List: TStrings);
++    procedure Remove(IdeFile: TIdeFile);
++    procedure Renamed;
++    procedure Saved;
++
++    property Count: Integer read GetCount;
++    property Files[Index: Integer]: TIdeFile read GetFiles; default;
++  end;
++
++  // A file stream that stores an auto-save file.
++  TAutoSaveStream = class(THandleStream)
++  public
++    constructor Create(const Filename: string);
++    destructor Destroy; override;
++  end;
++
++function MakeAutoSaveFilename(const FileName: string): string;
++
++implementation
++
++uses
++{$ifdef delphi6up}
++  RtlConsts;
++{$else}
++  Consts;
++{$endif}
++
++resourcestring
++  S_Error = 'Error auto-saving %s'#13#10'%s';
++
++{ Form the auto-save file name by prepending a tilde to the
++  real file name. For example, c:\dir\foo.pas becomes
++  c:\dir\~foo.pas. }
++
++function MakeAutoSaveFilename(const FileName: string): string;
++begin
++  Result := ExtractFilePath(FileName);
++  if (Length(Result) > 0) and (Result[Length(Result)] <> '\') then
++    Result := Result + '\';
++  Result := Result + '~' + ExtractFileName(FileName);
++end;
++
++{ TAutoSaveStream }
++
++{ Create an auto-save file, and open a stream to write that file.
++  TFileStream doesn't let you set the hidden file attribute when
++  creating the file, so inherit from THandleStream and open the
++  file by calling Windows' CreateFile API function. }
++
++constructor TAutoSaveStream.Create(const Filename: string);
++var
++  SaveFile: string;
++  Handle: THandle;
++begin
++  SaveFile := MakeAutoSaveFilename(Filename);
++  Handle := Windows.CreateFile(PChar(SaveFile), Generic_Write, 0, nil,
++    Create_Always, File_Attribute_Hidden, 0);
++
++  if Handle = Invalid_Handle_Value then
++    raise EFCreateError.CreateFmt(S_Error, [FileName]);
++
++  inherited Create(Handle);
++end;
++
++destructor TAutoSaveStream.Destroy;
++begin
++  CloseHandle(Handle);
++  inherited Destroy;
++end;
++
++{$IFNDEF delphi6up}
++{ TNotifierObject }
++
++procedure TNotifierObject.AfterSave;
++begin
++end;
++
++procedure TNotifierObject.BeforeSave;
++begin
++end;
++
++procedure TNotifierObject.Destroyed;
++begin
++end;
++
++procedure TNotifierObject.Modified;
++begin
++end;
++{$ENDIF}
++
++{ TIdeFile }
++// Remember the editor interface and register the notifier.
++
++constructor TIdeFile.Create(const Editor: IOTAEditor);
++begin
++  fEditor := Editor;
++  fFileName := Editor.FileName;
++  inherited Create;
++end;
++
++// Delete the auto-saved backup file.
++
++procedure TIdeFile.Saved;
++begin
++  DeleteFile(MakeAutoSaveFilename(Editor.FileName));
++end;
++
++// When the user renames a file, clean up the autosaved files, too.
++// Instead of messing around renaming the autosave files, it's easier
++// just to create new ones with the new name and delete the old
++// ones with the old name.
++//
++// At first, it seems safest to create the new files first, then
++// delete the old ones. That way, there is no window where a system
++// crash could occur after deleting the old autosaved files but before
++// the new ones were created. On the other hand, what if the file isn't
++// really renamed, but Delphi thinks it is? The IDE isn't always smart
++// about telling the difference between UNC names and drive letters,
++// for example. If the autosave wizard were to create the new files,
++// and then delete the old ones, that would be wrong if the old and
++// new files are the same.
++//
++// The best solution is to open the old and new files and see whether
++// they are the same. Win32 can return this information by comparing
++// the volume identifier and the file index number, but I'm too lazy.
++// The short cut is to delete the old file first, then create the new one.
++
++procedure TIdeFile.Renamed;
++begin
++  // Delete the old autosaved backup files.
++  DeleteFile(MakeAutoSaveFilename(FileName));
++  // Remember the new file name.
++  fFileName := Editor.FileName;
++  // Save under the new name.
++  AutoSave;
++end;
++
++{ TFormFile }
++// Auto-save a form file by writing its resource.
++
++procedure TFormFile.doAutoSave;
++var
++  Stream: TStream;
++  Adapter: IStream;
++begin
++  // The form editor interface needs an IStream, so create
++  // an adapter for the TAutoSaveStream.
++  Stream := TAutoSaveStream.Create(Editor.FileName);
++  try
++    Adapter := TStreamAdapter.Create(Stream);
++    try
++      (Editor as IOTAFormEditor).GetFormResource(Adapter);
++      inherited;
++    except
++      on Ex: Exception do
++      { Propagate the exception, but with the file name. }
++        raise Exception.CreateFmt(S_Error, [Editor.Filename, Ex.Message]);
++    end;
++  finally
++    Stream.Free;
++  end;
++end;
++
++{ TSourceFile }
++// Auto-save a file in the text editor.
++
++procedure TSourceFile.doAutoSave;
++const
++  BufSize = 8192;
++var
++  SourceEditor: IOTASourceEditor;
++  Reader: IOTAEditReader;
++  Buffer: PChar;
++  Count: Integer;
++  Stream: TStream;
++begin
++  Stream := nil;
++  SourceEditor := Editor as IOTASourceEditor;
++  Reader := SourceEditor.CreateReader;
++  GetMem(Buffer, BufSize);
++  try
++    Stream := TAutoSaveStream.Create(Editor.FileName);
++    try
++      repeat
++        Count := Reader.GetText(Stream.Position, Buffer, BufSize);
++        Stream.WriteBuffer(Buffer^, Count);
++      until Count <> BufSize;
++      inherited;
++    except
++      on Ex: Exception do
++      { Propagate the exception, but with the file name. }
++        raise Exception.CreateFmt(S_Error, [Editor.Filename, Ex.Message]);
++    end;
++  finally
++    Stream.Free;
++    FreeMem(Buffer);
++  end;
++end;
++
++{ TFileList }
++
++constructor TFileList.Create;
++begin
++  inherited;
++  fList := TList.Create;
++end;
++
++destructor TFileList.Destroy;
++begin
++  Clear;
++  fList.Free;
++  inherited;
++end;
++
++procedure TFileList.Add(const Editor: IOTAEditor);
++var
++  FormEditor: IOTAFormEditor;
++  SourceEditor: IOTASourceEditor;
++  ResourceFile: IOTAProjectResource;
++begin
++  if Succeeded(Editor.QueryInterface(IOTAFormEditor, FormEditor)) then
++    fList.Add(TFormFile.Create(Editor))
++  else
++    if Succeeded(Editor.QueryInterface(IOTASourceEditor, SourceEditor)) then
++      fList.Add(TSourceFile.Create(Editor))
++    else
++      if Succeeded(Editor.QueryInterface(IOTAProjectResource, ResourceFile)) then
++        fList.Add(TResourceFile.Create(Editor))
++      else
++        ShowMessage('Unknown file type. Cannot autosave ' + Editor.FileName);
++end;
++
++// Autosave all the modified files.
++
++procedure TFileList.AutoSave;
++var
++  I: Integer;
++  IdeFile: TIdeFile;
++begin
++  for I := 0 to fList.Count - 1 do
++    begin
++      IdeFile := Files[I];
++      if IdeFile.Editor.Modified then
++        begin
++          IdeFile.AutoSave;
++        end;
++    end;
++end;
++
++// Delete all the files in the list.
++
++procedure TFileList.Clear;
++var
++  I: Integer;
++begin
++  for I := fList.Count - 1 downto 0 do
++    Delete(I);
++end;
++
++// Delete and free a file in the list.
++
++procedure TFileList.Delete(Index: Integer);
++var
++  IdeFile: TIdeFile;
++begin
++  IdeFile := Files[Index];
++  fList.Delete(Index);
++  IdeFile.Free;
++end;
++
++// Get the list size.
++
++function TFileList.GetCount: Integer;
++begin
++  Result := fList.Count;
++end;
++
++// Get a file from the list.
++
++function TFileList.GetFiles(Index: Integer): TIdeFile;
++begin
++  Result := fList[Index];
++end;
++
++// When a notifier is destroyed, the notifier calls back to the list
++// and the list deletes the notifier.
++
++procedure TFileList.Remove(IdeFile: TIdeFile);
++begin
++  Delete(fList.IndexOf(IdeFile));
++end;
++
++// The module was renamed, so rename all the editor files.
++
++procedure TFileList.Renamed;
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    Files[I].Renamed;
++end;
++
++// The module was saved, so delete all the autosave files.
++
++procedure TFileList.Saved;
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    Files[I].Saved;
++end;
++
++// Copy all the file names in the list to "List".
++// This method is used for debugging.
++
++procedure TFileList.GetFileList(List: TStrings);
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    List.AddObject(Files[I].FileName, TObject(Files[I].Editor));
++end;
++
++{ TModule }
++
++constructor TModule.Create(const Module: IOTAModule; List: TModuleList);
++begin
++  inherited Create;
++  fModule := Module;
++  fFileList := TFileList.Create;
++  fModuleList := List;
++  GetFiles;
++  AddNotifier;
++end;
++
++destructor TModule.Destroy;
++begin
++  RemoveNotifier;
++  fFileList.Free;
++  fFileList := nil;
++  inherited;
++end;
++
++// Autosave all the modified files for this module.
++
++procedure TModule.AutoSave;
++begin
++  FileList.AutoSave;
++end;
++
++// Module notifier method. Always return True because the autosave wizard does't care.
++
++function TModule.CheckOverwrite: Boolean;
++begin
++  Result := True;
++end;
++
++// When the module is destroyed, free the TModule object.
++// Also, free the autosaved files as though the user saved the file.
++// If the user deliberately abandons modified files that means the
++// user wants to discard those changes. The IDE prompts the user for
++// confirmation, so it's safe to abandon the autosave files, too.
++
++procedure TModule.Destroyed;
++begin
++  AfterSave; // Pretend the user saved the module.
++  RemoveNotifier;
++  fModuleList.Remove(Self); // Get rid of this module notifier.
++end;
++
++procedure TModule.ModuleRenamed(const NewName: string);
++begin
++  FileList.Renamed;
++end;
++
++// Get a list of all the files associated with this module, for debugging.
++
++procedure TModule.GetFileList(List: TStrings);
++begin
++  FileList.GetFileList(List);
++end;
++
++// Initialize the module with all of its editor files.
++
++procedure TModule.GetFiles;
++var
++  I: Integer;
++begin
++  for I := 0 to Module.GetModuleFileCount - 1 do
++    FileList.Add(Module.GetModuleFileEditor(I));
++end;
++
++// After the user saves a file, delete all the autosave files.
++
++procedure TModule.AfterSave;
++begin
++  FileList.Saved;
++end;
++
++procedure TModule.AddNotifier;
++begin
++  fNotifierIndex := Module.AddNotifier(Self);
++end;
++
++procedure TModule.RemoveNotifier;
++begin
++  if NotifierIndex >= 0 then
++    begin
++      Module.RemoveNotifier(NotifierIndex);
++      fNotifierIndex := -1;
++    end;
++end;
++
++{ TModuleList }
++
++constructor TModuleList.Create;
++begin
++  inherited;
++  fList := TList.Create;
++end;
++
++destructor TModuleList.Destroy;
++begin
++  Clear;
++  fList.Free;
++  inherited;
++end;
++
++// Add a module to the list.
++
++procedure TModuleList.Add(const Module: IOTAModule);
++begin
++  fList.Add(TModule.Create(Module, Self));
++end;
++
++// Autosave all the modules and all their files.
++
++procedure TModuleList.AutoSave;
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    Modules[I].AutoSave;
++end;
++
++// Clear all the modules from the list.
++
++procedure TModuleList.Clear;
++var
++  I: Integer;
++begin
++  for I := fList.Count - 1 downto 0 do
++    Delete(I);
++end;
++
++// Return the size of the list.
++
++function TModuleList.GetCount: Integer;
++begin
++  Result := fList.Count;
++end;
++
++// Get a module, conveniently type cast to TModule.
++
++function TModuleList.GetModules(Index: Integer): TModule;
++begin
++  Result := fList[Index];
++end;
++
++// Remove a module from the list.
++
++procedure TModuleList.Remove(Module: TModule);
++begin
++  Delete(fList.IndexOf(Module));
++end;
++
++// Delete a module from an index in the list. Automatically free
++// the module, which also unregisters the notifier.
++
++procedure TModuleList.Delete(Index: Integer);
++var
++  Module: TModule;
++begin
++  Module := Modules[Index];
++  fList.Delete(Index);
++  Module.RemoveNotifier;
++end;
++
++// Get a list of all the files in all the modules, for debugging.
++
++procedure TModuleList.GetFileList(List: TStrings);
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    Modules[I].GetFileList(List);
++end;
++
++// Return the number of bytes occupied by a resource type or name.
++// If the value is numeric, the size is 4 bytes; otherwise, it is
++// the number of bytes occupied by the name, including the trailing
++// zero word. The resource file uses Unicode, so the actual number
++// of bytes is twice the size of the string (plus trailing #0).
++
++function ResTypeSize(ResType: PChar): Integer;
++begin
++  if LongRec(ResType).Hi = 0 then
++    Result := SizeOf(LongInt)
++  else
++    Result := SizeOf(WideChar) * (StrLen(ResType) + 2);
++end;
++
++// Add zero bytes to a stream until its size is an integral
++// multiple of PadAmount.
++
++procedure PadStream(Stream: TStream; PadAmount: Integer);
++var
++  Zero: Integer;
++  PadSize: Integer;
++begin
++  Zero := 0;
++  PadSize := PadAmount - Stream.Size mod PadAmount;
++  if PadSize <> PadAmount then
++    Stream.WriteBuffer(Zero, PadSize);
++end;
++
++// Write the resource type or name to the stream.
++
++procedure WriteResType(Stream: TStream; ResType: PChar);
++var
++  I: Integer;
++  C: WideChar;
++  W: Word;
++begin
++  if LongRec(ResType).Hi = 0 then
++    begin
++    // The Delphi format uses a high word of 0 for a numeric resource
++    // type or name, but the .RES file format uses $FFFF.
++      W := $FFFF;
++      Stream.WriteBuffer(W, SizeOf(W));
++      W := LongRec(ResType).Lo;
++      Stream.WriteBuffer(W, SizeOf(W));
++    end
++  else
++    begin
++    // Write the name, converting each ANSI character to Unicode.
++    // Include the trailing #0 character, then pad to a LongWord boundary.
++      I := 0;
++      repeat
++        C := WideChar(ResType[I]);
++        Stream.WriteBuffer(C, SizeOf(C));
++        Inc(I);
++      until ResType[I - 1] = #0;
++      PadStream(Stream, SizeOf(LongInt));
++    end;
++end;
++
++procedure WriteResource(Stream: TStream; DataSize: LongInt; Data: PChar;
++  ResType: PChar; ResName: PChar; DataVersion: LongInt; Flags, Language: Word;
++  Version, Characteristics: LongInt);
++var
++  HeaderSize: LongInt;
++  HeaderStream: TMemoryStream;
++begin
++  // Use an in-memory stream for the resource header, to buffer
++  // the header and write it to the auto-save file in a single operation.
++  HeaderSize := SizeOf(DataSize) + SizeOf(HeaderSize) +
++    SizeOf(DataVersion) + SizeOf(Flags) + SizeOf(Language) +
++    SizeOf(Version) + SizeOf(Characteristics) +
++    ResTypeSize(ResType) + ResTypeSize(ResName);
++  HeaderStream := TMemoryStream.Create;
++  try
++    HeaderStream.WriteBuffer(DataSize, SizeOf(DataSize));
++    HeaderStream.WriteBuffer(HeaderSize, SizeOf(HeaderSize));
++    WriteResType(HeaderStream, ResType);
++    WriteResType(HeaderStream, ResName);
++    HeaderStream.WriteBuffer(DataVersion, SizeOf(DataVersion));
++    HeaderStream.WriteBuffer(Flags, SizeOf(Flags));
++    HeaderStream.WriteBuffer(Language, SizeOf(Language));
++    HeaderStream.WriteBuffer(Version, SizeOf(Version));
++    HeaderStream.WriteBuffer(Characteristics, SizeOf(Characteristics));
++    PadStream(HeaderStream, SizeOf(LongInt));
++    Stream.CopyFrom(HeaderStream, 0);
++  finally
++    HeaderStream.Free;
++  end;
++  if DataSize > 0 then
++    begin
++      Stream.WriteBuffer(Data^, DataSize);
++      PadStream(Stream, SizeOf(LongInt));
++    end;
++end;
++
++{ TResourceFile }
++
++procedure TResourceFile.doAutoSave;
++var
++  ResourceFile: IOTAProjectResource;
++  Resource: IOTAResourceEntry;
++  Stream: TAutoSaveStream;
++  I: Integer;
++  Characteristics, DataVersion, Flags, Language, Version: LongInt;
++begin
++  ResourceFile := Editor as IOTAProjectResource;
++  Stream := TAutoSaveStream.Create(Editor.FileName);
++  try
++    // Every .RES file starts with an empty resource entry.
++    WriteResource(Stream, 0, nil, nil, nil, 0, 0, 0, 0, 0);
++    for I := 0 to ResourceFile.GetEntryCount - 1 do
++      begin
++        Resource := ResourceFile.GetEntry(I);
++        Resource.GetHeaderValue(hvFlags, Flags);
++        Resource.GetHeaderValue(hvLanguage, Language);
++        Resource.GetHeaderValue(hvCharacteristics, Characteristics);
++        Resource.GetHeaderValue(hvDataVersion, DataVersion);
++        Resource.GetHeaderValue(hvVersion, Version);
++        WriteResource(Stream, Resource.DataSize, Resource.GetData,
++          Resource.GetResourceType, Resource.GetResourceName,
++          DataVersion, Flags, Language, Version, Characteristics);
++      end;
++    inherited;
++  finally
++    Stream.Free;
++  end;
++end;
++
++{ TIdeFile }
++
++procedure TIdeFile.AutoSave;
++begin
++  try
++    doAutoSave;
++    if Assigned(OnAutoSave) then
++      OnAutoSave(fFileName);
++  except
++    on e: exception do
++      if Assigned(OnError) then
++        OnError(e.Message);
++  end;
++end;
++
++procedure TIdeFile.doAutoSave;
++begin
++// does nothing
++end;
++
++end.
++
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoWizard.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoWizard.pas	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoWizard.pas	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,675 @@
++unit dzAutoWizard;
++
++{$I delphiversions.inc}
++
++interface
++
++{ Auto save expert. Automatically save modified files and forms.
++  If Delphi exits unexpectedly (due to a crash, power failure, etc.),
++  you lose only the work done since the last auto-save.
++  When opening a file that had been auto-saved, you can restore
++  the auto-saved file, or ignore it and revert to the original file.
++
++  The user turns auto-save on and off and can change the interval
++  at which files are automatically saved.
++
++  Copyright ? 1999 Tempest Software, Inc.
++
++  Changes copyright 2003-2006 Thomas Mueller
++}
++
++uses
++  Windows,
++  ActiveX,
++  SysUtils,
++  Classes,
++  Forms,
++  Dialogs,
++  Controls,
++  Menus,
++  ExtCtrls,
++  ToolsApi,
++  Registry,
++  dzAutoUtil,
++  dzAutoConfig;
++
++type
++  TAutoSaveWizard = class;
++
++  TAutoSaveNotifier = class(TNotifierObject)
++  private
++    fNotifierIndex: Integer;
++    fWizard: TAutoSaveWizard;
++  protected
++    function RegisterNotifier: Integer; virtual;
++    procedure UnregisterNotifier(_Index: Integer); overload; virtual; abstract;
++  public
++    constructor Create(Wizard: TAutoSaveWizard);
++    destructor Destroy; override;
++    procedure UnregisterNotifier; overload;
++  end;
++
++  TIdeNotifier = class(TAutoSaveNotifier, IOTAIdeNotifier)
++  private
++    // IOTAIdeNotifier
++    procedure FileNotification(NotifyCode: TOTAFileNotification;
++      const FileName: string; var Cancel: Boolean);
++    procedure BeforeCompile(const Project: IOTAProject; var Cancel: Boolean);
++    procedure AfterCompile(Succeeded: Boolean);
++  protected
++    function RegisterNotifier: Integer; override;
++    procedure UnregisterNotifier(_Index: Integer); override;
++  public
++  end;
++
++{$IFDEF delphi6up}
++  TMessageNotifier = class(TAutoSaveNotifier, IOTAMessageNotifier)
++  private
++    fShowMessageView: Boolean;
++    fMessageGroup: IOTAMessageGroup;
++    procedure MessageGroupAdded(const Group: IOTAMessageGroup);
++    procedure MessageGroupDeleted(const Group: IOTAMessageGroup);
++    procedure AutoSaveCallback(const _Filename: string);
++    procedure ErrorCallback(const _Error: string);
++  protected
++    function RegisterNotifier: Integer; override;
++    procedure UnregisterNotifier(_Index: Integer); override;
++  public
++    constructor Create(_Wizard: TAutoSaveWizard);
++    destructor Destroy; override;
++    procedure ClearMessageView(_Show: Boolean);
++  end;
++{$ENDIF}
++
++  // Here is the actual wizard.
++  TAutoSaveWizard = class(TNotifierObject, IOTAWizard)
++  private
++    fModuleList: TModuleList; // List of modules open in the IDE.
++    fTimer: TTimer; // Timer for periodic auto-saving.
++    fMenuItem: TMenuItem; // Tools menu item for Auto Save Properties.
++    fIdeNotifier: TIdeNotifier;
++{$IFDEF delphi6up}
++    fMessageNotifier: TMessageNotifier;
++{$ENDIF}
++    fSaveOnCompile: Boolean;
++    fToolPosition: Integer;
++    fShowMessageView: Boolean;
++    procedure RestoreAutoSave(const SavedFile, CurrentFile: string);
++    procedure OnClick(Sender: TObject);
++    procedure OnTimer(Sender: TObject);
++    function GetEnabled: Boolean;
++    procedure SetEnabled(_Enabled: Boolean);
++    function GetInterval: Integer;
++    procedure SetInterval(Value: Integer);
++    procedure SetToolPosition(const _ToolPosition: Integer);
++    procedure SetSaveOnCompile(const _SaveOnCompile: Boolean);
++    procedure UpdateMenuChecked;
++  protected
++    procedure EditProperties;
++    procedure GetRegInfo;
++    procedure SetRegInfo;
++    procedure AutoSaveFiles;
++    procedure BeforeCompile;
++    function MakeMenuItem: TMenuItem;
++    procedure GetOpenModules;
++    procedure AddNotifiers(const FileName: string); overload;
++    procedure AddNotifiers(const Module: IOTAModule); overload;
++    property ModuleList: TModuleList read fModuleList;
++  public
++    constructor Create;
++    destructor Destroy; override;
++    function FileOpening(const FileName: string): Boolean;
++
++    // IOTAWizard
++    procedure Execute;
++    function GetName: string;
++    function GetState: TWizardState;
++    function GetIDString: string;
++
++    property Enabled: Boolean read GetEnabled write SetEnabled;
++    property SaveOnCompile: Boolean read fSaveOnCompile write SetSaveOnCompile;
++    property Interval: Integer read GetInterval write SetInterval;
++    property Timer: TTimer read fTimer;
++    property ToolPosition: Integer read fToolPosition write SetToolPosition;
++    property MenuItem: TMenuItem read fMenuItem;
++    property ShowMessageView: Boolean read fShowMessageView write fShowMessageView;
++  end;
++
++implementation
++
++resourcestring
++  S_CantFindTools = 'Cannot locate Tools menu';
++  S_Label = '&Auto Save...';
++  S_Name = 'Auto Save Expert';
++  S_CantRestore = 'Cannot restore auto-saved file';
++  S_LoadPrompt = 'File was auto-saved when Delphi terminated unexpectedly:' +
++    #13#10'%s'#13#10'Load from the auto-saved file?';
++
++  { TAutoSaveWizard }
++
++  { When the expert is created,it installs a menu item on Delphi's Tools menu,
++    to invoke the Auto Save Properties dialog. The constructor also
++    creates the auto-save timer. }
++
++constructor TAutoSaveWizard.Create;
++begin
++  inherited;
++  fShowMessageView := True;
++
++  fModuleList := TModuleList.Create;
++  fTimer := TTimer.Create(nil);
++  Timer.OnTimer := OnTimer;
++
++  // Register the IDE notifier so the wizard knows when the user opens a file.
++  fIdeNotifier := TIdeNotifier.Create(Self);
++{$IFDEF delphi6up}
++  fMessageNotifier := TMessageNotifier.Create(Self);
++{$ENDIF}
++  // Add the Auto Save menu item to the Tools menu.
++  fMenuItem := MakeMenuItem;
++
++  // Get the configuration data from the registry.
++  GetRegInfo;
++
++  // Add notifiers for all files currently open.
++  GetOpenModules;
++end;
++
++destructor TAutoSaveWizard.Destroy;
++begin
++  if Assigned(fIdeNotifier) then
++    fIdeNotifier.UnregisterNotifier; // Delphi frees the notifier when its ref count = 0
++{$IFDEF delphi6up}
++  if Assigned(fMessageNotifier) then
++    fMessageNotifier.UnregisterNotifier; // Delphi frees the notifier when its ref count = 0
++{$ENDIF}
++  MenuItem.Free;
++  fMenuItem := nil;
++  Timer.Free;
++  fTimer := nil;
++  ModuleList.Free;
++  fModuleList := nil;
++
++  inherited;
++end;
++
++{ Store the auto-save configuration in the registry. }
++const
++  REG_KEY = '\Software\dummzeuch.de';
++  REG_SECTION = 'Auto Save Expert';
++  REG_ENABLED = 'Enabled';
++  REG_INTERVAL = 'Interval';
++  DEFAULT_INTERVAL = 2 * 60 * 1000; // 2 minutes, in milliseconds
++  REG_SAVE_ON_COMPILE = 'SaveOnCompile';
++  REG_TOOL_POSITION = 'ToolPosition';
++  REG_SHOW_MESSAGE_VIEW = 'ShowMessageView';
++
++procedure TAutoSaveWizard.GetRegInfo;
++var
++  Reg: TRegIniFile;
++begin
++  Reg := TRegIniFile.Create(REG_KEY);
++  try
++    Enabled := Reg.ReadBool(REG_SECTION, REG_ENABLED, True);
++    Interval := Reg.ReadInteger(REG_SECTION, REG_INTERVAL, DEFAULT_INTERVAL);
++    SaveOnCompile := Reg.ReadBool(REG_SECTION, REG_SAVE_ON_COMPILE, False);
++    ToolPosition := Reg.ReadInteger(REG_SECTION, REG_TOOL_POSITION, 0);
++    ShowMessageView := Reg.ReadBool(REG_SECTION, REG_SHOW_MESSAGE_VIEW, True);
++  finally
++    Reg.Free;
++  end;
++end;
++
++{ Store the configuration after it changes. }
++
++procedure TAutoSaveWizard.SetRegInfo;
++var
++  Reg: TRegIniFile;
++begin
++  Reg := TRegIniFile.Create(REG_KEY);
++  try
++    Reg.WriteBool(REG_SECTION, REG_ENABLED, Enabled);
++    Reg.WriteInteger(REG_SECTION, REG_INTERVAL, Interval);
++    Reg.WriteBool(REG_SECTION, REG_SAVE_ON_COMPILE, SaveOnCompile);
++    Reg.WriteInteger(REG_SECTION, REG_TOOL_POSITION, ToolPosition);
++    Reg.WriteBool(REG_SECTION, REG_SHOW_MESSAGE_VIEW, ShowMessageView);
++  finally
++    Reg.Free;
++  end;
++end;
++
++{ Perform the automatic save by checking all the modules,
++  and saving any that have been modified. }
++
++procedure TAutoSaveWizard.AutoSaveFiles;
++begin
++{$IFDEF delphi6up}
++  if Assigned(fMessageNotifier) then
++    fMessageNotifier.ClearMessageView(ShowMessageView);
++{$ENDIF}
++  ModuleList.AutoSave;
++end;
++
++{ Restore an auto-saved file. Delete the original, and rename
++  the auto-save file to have the name of the original. If the
++  Delete succeeds and the rename fails, then the user needs to
++  patch things up by hand. }
++
++procedure TAutoSaveWizard.RestoreAutoSave(const SavedFile, CurrentFile: string);
++begin
++  if not DeleteFile(CurrentFile) or not RenameFile(SavedFile, CurrentFile) then
++    MessageDlg(S_CantRestore, mtWarning, [mbOK], 0);
++end;
++
++{ A file notifier has been notified that a file is about to be
++  opened. Before allowing Delphi to open the file, check for
++  an auto-saved file. In most cases, there won't be one, so
++  just return False, to allow the open to proceed normally.
++  If there is an auto-save file, then ask the user whether
++  he or she wants to load the auto-saved file, or stick with
++  the original. The user can also choose Cancel, which returns
++  True, to cancel the open action. If the user choose Yes, to
++  use the auto-save file, then delete the original and rename
++  the auto-saved file in its stead. }
++
++function TAutoSaveWizard.FileOpening(const FileName: string): Boolean;
++var
++  SaveFile: string;
++  st: TFileStream;
++begin
++  Result := False;
++  SaveFile := MakeAutoSaveFileName(FileName);
++  if not FileExists(SaveFile) then
++    Exit;
++
++  try
++    st := TFileStream.Create(SaveFile, fmOpenRead);
++    try
++      if st.Size = 0 then begin
++        FreeAndNil(st);
++        DeleteFile(SaveFile);
++        Exit; // don't restore empty files
++      end;
++    finally
++      FreeAndNil(st);
++    end;
++  except
++    Exit; // if we can't open it, it doesn't make sense to try to restore it
++  end;
++
++  MessageBeep(Mb_IconQuestion);
++  case MessageDlg(Format(S_LoadPrompt, [FileName]), mtConfirmation, mbYesNoCancel, 0) of
++    mrYes:
++      RestoreAutoSave(SaveFile, FileName);
++    mrNo:
++      DeleteFile(SaveFile);
++    mrCancel:
++      Result := True;
++  end;
++end;
++
++// Create notifiers for all the files that are open when the wizard starts.
++
++procedure TAutoSaveWizard.GetOpenModules;
++var
++  i: Integer;
++  Services: IOTAModuleServices;
++begin
++  Services := BorlandIDEServices as IOTAModuleServices;
++  for i := 0 to Services.ModuleCount - 1 do
++    AddNotifiers(Services.Modules[i]);
++end;
++
++{ The user has chosen the Auto Save menu item, to edit the
++  auto-save properties. If the user clicks the OK button, then
++  save the new configuration values, and store them in the registry. }
++
++procedure TAutoSaveWizard.EditProperties;
++const
++  MillisecPerMinute = 60 * 1000;
++var
++  Form: TAutoSaveForm;
++begin
++  Form := TAutoSaveForm.Create(Application);
++  try
++    { Initialize the form with the current values. }
++    Form.SaveInterval := Interval div MillisecPerMinute;
++    Form.SaveTimed := Enabled;
++    Form.SaveOnCompile := SaveOnCompile;
++    Form.ToolPosition := ToolPosition;
++    Form.ShowMessageView := ShowMessageView;
++    ModuleList.GetFileList(Form.FileList.Items);
++
++    if Form.ShowModal = mrOk then begin
++        { Extract the new values from the form. }
++      Enabled := Form.SaveTimed;
++      Interval := Form.SaveInterval * MillisecPerMinute;
++      SaveOnCompile := Form.SaveOnCompile;
++      ToolPosition := Form.ToolPosition;
++      ShowMessageView := Form.ShowMessageView;
++        { Save the new values in the registry. }
++      SetRegInfo;
++    end;
++  finally
++    Form.Free;
++  end;
++end;
++
++// Find a menu item whose component name is Name. Search recursively
++// in all submenus, starting at Item. Return a reference to the menu item
++// or nil if not found.
++
++function FindMenuItem(Item: TMenuItem; const Name: string): TMenuItem;
++var
++  i: Integer;
++begin
++  Result := nil;
++  if CompareText(Item.Name, Name) = 0 then
++    Result := Item
++  else
++    for i := 0 to Item.Count - 1 do begin
++      Result := FindMenuItem(Item.Items[i], Name);
++      if Result <> nil then
++        Exit;
++    end;
++end;
++
++{ Create and return a menu item to invoke the configuration dialog box. }
++
++function TAutoSaveWizard.MakeMenuItem: TMenuItem;
++var
++  MainMenu: TMainMenu;
++  ToolsMenu: TMenuItem;
++begin
++  // Add a menu item to the Tools menu.
++  MainMenu := (BorlandIDEServices as INTAServices).MainMenu;
++  ToolsMenu := FindMenuItem(MainMenu.Items, 'ToolsMenu');
++  if ToolsMenu = nil then
++    raise Exception.Create(S_CantFindTools);
++
++  { Insert as first menu item. Appending as last Tools menu
++    item does not work because when the user adds tools,
++    they overwrite the added item. }
++  Result := NewItem(S_Label, 0, Enabled, True, OnClick, 0, 'mi_AutoSaveWizard');
++  ToolsMenu.Insert(ToolPosition, Result);
++end;
++
++// After the IDE opens a file, create a notifier for each editor.
++
++procedure TAutoSaveWizard.AddNotifiers(const FileName: string);
++var
++  Module: IOTAModule;
++begin
++  Module := (BorlandIDEServices as IOTAModuleServices).FindModule(FileName);
++  if Module <> nil then
++    AddNotifiers(Module);
++end;
++
++// Modules with file systems are not usually files. Even if the file
++// system is file-based, the "file" might be part of an OLE structured storage
++// file or anything else--without knowing what the real file is, the
++// auto-save wizard can't do anything useful. Thus it is best to let the
++// file system itself handle the auto-saving.
++
++procedure TAutoSaveWizard.AddNotifiers(const Module: IOTAModule);
++begin
++  if Module.FileSystem = '' then
++    ModuleList.Add(Module);
++end;
++
++function TAutoSaveWizard.GetEnabled: Boolean;
++begin
++  Result := Timer.Enabled;
++end;
++
++function TAutoSaveWizard.GetInterval: Integer;
++begin
++  Result := Timer.Interval;
++end;
++
++procedure TAutoSaveWizard.SetEnabled(_Enabled: Boolean);
++begin
++  Timer.Enabled := _Enabled;
++  UpdateMenuChecked;
++end;
++
++procedure TAutoSaveWizard.SetSaveOnCompile(const _SaveOnCompile: Boolean);
++begin
++  fSaveOnCompile := _SaveOnCompile;
++  UpdateMenuChecked;
++end;
++
++procedure TAutoSaveWizard.SetToolPosition(const _ToolPosition: Integer);
++begin
++  fToolPosition := _ToolPosition;
++  fMenuItem.Free;
++  fMenuItem := MakeMenuItem;
++  UpdateMenuChecked;
++end;
++
++procedure TAutoSaveWizard.UpdateMenuChecked;
++begin
++  if not Assigned(fMenuItem) then
++    Exit;
++  { Set the menu item to reflect whether auto-saving is enabled. }
++  MenuItem.Checked := Enabled or SaveOnCompile;
++end;
++
++procedure TAutoSaveWizard.SetInterval(Value: Integer);
++begin
++  Timer.Interval := Value;
++end;
++
++{ Implement the expert interface. }
++
++function TAutoSaveWizard.GetName: string;
++begin
++  Result := S_Name;
++end;
++
++// Delphi doesn't use GetState except for menu wizard, but in case a future
++// version pays attention, return something meaningful.
++
++function TAutoSaveWizard.GetState: TWizardState;
++begin
++  Result := [wsEnabled];
++end;
++
++function TAutoSaveWizard.GetIDString: string;
++begin
++  Result := 'Tempest.AutoSaveWizard';
++end;
++
++{ OnClick menu handler, for the menu item add-in. When the user
++  clicks the Auto Save menu item, pop up the properties dialog. }
++
++procedure TAutoSaveWizard.OnClick(Sender: TObject);
++begin
++  EditProperties;
++end;
++
++{ Timer event: when the timer expires, auto-save files. }
++
++procedure TAutoSaveWizard.OnTimer(Sender: TObject);
++begin
++  AutoSaveFiles;
++end;
++
++procedure TAutoSaveWizard.BeforeCompile;
++begin
++  if SaveOnCompile then
++    AutoSaveFiles;
++end;
++
++// Not called for an add-in wizard.
++
++procedure TAutoSaveWizard.Execute;
++begin
++end;
++
++{ TAutoSaveNotifier }
++
++constructor TAutoSaveNotifier.Create(Wizard: TAutoSaveWizard);
++begin
++  inherited Create;
++  fWizard := Wizard;
++  fNotifierIndex := Self.RegisterNotifier;
++end;
++
++destructor TAutoSaveNotifier.Destroy;
++begin
++  if fNotifierIndex >= 0 then
++    UnregisterNotifier;
++  inherited;
++end;
++
++function TAutoSaveNotifier.RegisterNotifier: Integer;
++begin
++  Result := -1;
++end;
++
++procedure TAutoSaveNotifier.UnregisterNotifier;
++var
++  Idx: Integer;
++begin
++  Idx := fNotifierIndex;
++  fNotifierIndex := -1;
++  UnregisterNotifier(Idx);
++end;
++
++{ TIdeNotifier }
++
++// Ignore compilation notification.
++
++procedure TIdeNotifier.AfterCompile(Succeeded: Boolean);
++begin
++end;
++
++procedure TIdeNotifier.BeforeCompile(const Project: IOTAProject;
++  var Cancel: Boolean);
++begin
++  fWizard.BeforeCompile;
++end;
++
++// If the user is about to open a file, see if an auto-save file
++// exists. After opening a file, create the necessary notifiers.
++
++procedure TIdeNotifier.FileNotification(
++  NotifyCode: TOTAFileNotification; const FileName: string;
++  var Cancel: Boolean);
++begin
++  case NotifyCode of
++    ofnFileOpening:
++      Cancel := fWizard.FileOpening(FileName);
++    ofnFileOpened:
++      fWizard.AddNotifiers(FileName);
++  else
++    ; { ignore other notifications }
++  end;
++end;
++
++function TIdeNotifier.RegisterNotifier: Integer;
++var
++  Services: IOTAServices;
++begin
++  // Register the notifier.
++  if Supports(BorlandIDEServices, IOTAServices, Services) then
++    Result := Services.AddNotifier(Self)
++  else
++    Result := -1;
++end;
++
++procedure TIdeNotifier.UnregisterNotifier(_Index: Integer);
++begin
++  if _Index <> -1 then
++    (BorlandIDEServices as IOTAServices).RemoveNotifier(_Index);
++end;
++
++{$IFDEF delphi6up}
++{ TMessageNotifier }
++
++constructor TMessageNotifier.Create(_Wizard: TAutoSaveWizard);
++begin
++  inherited Create(_Wizard);
++  OnAutoSave := Self.AutoSaveCallback;
++  OnError := Self.ErrorCallback;
++end;
++
++destructor TMessageNotifier.Destroy;
++begin
++  OnAutoSave := nil;
++  OnError := nil;
++  inherited;
++end;
++
++function TMessageNotifier.RegisterNotifier: Integer;
++var
++  MessageView: IOTAMessageServices;
++begin
++  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++    Result := MessageView.AddNotifier(Self);
++    fMessageGroup := MessageView.AddMessageGroup('AutoSave');
++  end else
++    Result := -1;
++end;
++
++procedure TMessageNotifier.UnregisterNotifier(_Index: Integer);
++begin
++  if Assigned(fMessageGroup) then
++    (BorlandIDEServices as IOTAMessageServices).RemoveMessageGroup(fMessageGroup);
++  if _Index <> -1 then
++    (BorlandIDEServices as IOTAMessageServices).RemoveNotifier(_Index);
++end;
++
++procedure TMessageNotifier.MessageGroupAdded(const Group: IOTAMessageGroup);
++begin
++  // ignore
++end;
++
++procedure TMessageNotifier.MessageGroupDeleted(const Group: IOTAMessageGroup);
++begin
++  if Group = fMessageGroup then begin
++    fMessageGroup := nil;
++  end;
++end;
++
++procedure TMessageNotifier.AutoSaveCallback(const _Filename: string);
++var
++  MessageView: IOTAMessageServices;
++  LineRef: pointer;
++begin
++  if Assigned(fMessageGroup) then
++    if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++      MessageView.AddToolMessage(_Filename, 'autosaved', DateTimeToStr(Now),
++        0, 0, nil, LineRef, fMessageGroup);
++      if fShowMessageView then
++        MessageView.ShowMessageView(fMessageGroup);
++    end;
++end;
++
++procedure TMessageNotifier.ErrorCallback(const _Error: string);
++var
++  MessageView: IOTAMessageServices;
++  //   LineRef: pointer;
++begin
++  if Assigned(fMessageGroup) then
++    if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++      MessageView.AddTitleMessage(_Error, fMessageGroup);
++      if fShowMessageView then
++        MessageView.ShowMessageView(fMessageGroup);
++    end;
++end;
++
++procedure TMessageNotifier.ClearMessageView(_Show: Boolean);
++var
++  MessageView: IOTAMessageServices;
++begin
++  fShowMessageView := _Show;
++  if Assigned(fMessageGroup) then
++    if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then
++      MessageView.ClearMessageGroup(fMessageGroup);
++end;
++{$ENDIF}
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Mon Jan  1 15:58:57 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Mon, 1 Jan 2007 15:58:57 +0100
+Subject: [Dzchart-svncheckins] r126 - utilities/dzAutoSave/trunk/Delphi2006
+Message-ID: <200701011458.l01EwvQg021912@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-01 15:58:56 +0100 (Mon, 01 Jan 2007)
+New Revision: 126
+
+Modified:
+   utilities/dzAutoSave/trunk/Delphi2006/
+   utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj
+   utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk
+Log:
+* adapted to new directory structure
+* lib-suffix set to 100
+
+
+Property changes on: utilities/dzAutoSave/trunk/Delphi2006
+___________________________________________________________________
+Name: svn:ignore
+   + dzAutoSave.cfg
+dzAutoSave.res
+
+
+Modified: utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj	2007-01-01 14:27:32 UTC (rev 125)
++++ utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj	2007-01-01 14:58:56 UTC (rev 126)
+@@ -1,175 +1,175 @@
+ ?<?xml version="1.0" encoding="utf-8"?>
+ <BorlandProject>
+-  <PersonalityInfo>
+-    <Option>
+-      <Option Name="Personality">Delphi.Personality</Option>
+-      <Option Name="ProjectType">VCLApplication</Option>
+-      <Option Name="Version">1.0</Option>
+-      <Option Name="GUID">{9454CBDE-6D68-4F11-A030-22DC6BEB5018}</Option>
+-    </Option>
+-  </PersonalityInfo>
+-  <Delphi.Personality>
+-    <Source>
+-      <Source Name="MainSource">dzAutoSave.dpk</Source>
+-    </Source>
+-    <FileVersion>
+-      <FileVersion Name="Version">7.0</FileVersion>
+-    </FileVersion>
+-    <Compiler>
+-      <Compiler Name="A">8</Compiler>
+-      <Compiler Name="B">0</Compiler>
+-      <Compiler Name="C">1</Compiler>
+-      <Compiler Name="D">1</Compiler>
+-      <Compiler Name="E">0</Compiler>
+-      <Compiler Name="F">0</Compiler>
+-      <Compiler Name="G">1</Compiler>
+-      <Compiler Name="H">1</Compiler>
+-      <Compiler Name="I">1</Compiler>
+-      <Compiler Name="J">1</Compiler>
+-      <Compiler Name="K">0</Compiler>
+-      <Compiler Name="L">1</Compiler>
+-      <Compiler Name="M">0</Compiler>
+-      <Compiler Name="N">1</Compiler>
+-      <Compiler Name="O">1</Compiler>
+-      <Compiler Name="P">1</Compiler>
+-      <Compiler Name="Q">1</Compiler>
+-      <Compiler Name="R">1</Compiler>
+-      <Compiler Name="S">0</Compiler>
+-      <Compiler Name="T">1</Compiler>
+-      <Compiler Name="U">0</Compiler>
+-      <Compiler Name="V">1</Compiler>
+-      <Compiler Name="W">0</Compiler>
+-      <Compiler Name="X">1</Compiler>
+-      <Compiler Name="Y">1</Compiler>
+-      <Compiler Name="Z">1</Compiler>
+-      <Compiler Name="ShowHints">True</Compiler>
+-      <Compiler Name="ShowWarnings">True</Compiler>
+-      <Compiler Name="UnitAliases">WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;</Compiler>
+-      <Compiler Name="NamespacePrefix"></Compiler>
+-      <Compiler Name="GenerateDocumentation">False</Compiler>
+-      <Compiler Name="DefaultNamespace"></Compiler>
+-      <Compiler Name="SymbolDeprecated">True</Compiler>
+-      <Compiler Name="SymbolLibrary">True</Compiler>
+-      <Compiler Name="SymbolPlatform">False</Compiler>
+-      <Compiler Name="SymbolExperimental">True</Compiler>
+-      <Compiler Name="UnitLibrary">True</Compiler>
+-      <Compiler Name="UnitPlatform">False</Compiler>
+-      <Compiler Name="UnitDeprecated">True</Compiler>
+-      <Compiler Name="UnitExperimental">True</Compiler>
+-      <Compiler Name="HResultCompat">True</Compiler>
+-      <Compiler Name="HidingMember">True</Compiler>
+-      <Compiler Name="HiddenVirtual">True</Compiler>
+-      <Compiler Name="Garbage">True</Compiler>
+-      <Compiler Name="BoundsError">True</Compiler>
+-      <Compiler Name="ZeroNilCompat">True</Compiler>
+-      <Compiler Name="StringConstTruncated">True</Compiler>
+-      <Compiler Name="ForLoopVarVarPar">True</Compiler>
+-      <Compiler Name="TypedConstVarPar">True</Compiler>
+-      <Compiler Name="AsgToTypedConst">True</Compiler>
+-      <Compiler Name="CaseLabelRange">True</Compiler>
+-      <Compiler Name="ForVariable">True</Compiler>
+-      <Compiler Name="ConstructingAbstract">True</Compiler>
+-      <Compiler Name="ComparisonFalse">True</Compiler>
+-      <Compiler Name="ComparisonTrue">True</Compiler>
+-      <Compiler Name="ComparingSignedUnsigned">True</Compiler>
+-      <Compiler Name="CombiningSignedUnsigned">True</Compiler>
+-      <Compiler Name="UnsupportedConstruct">True</Compiler>
+-      <Compiler Name="FileOpen">True</Compiler>
+-      <Compiler Name="FileOpenUnitSrc">True</Compiler>
+-      <Compiler Name="BadGlobalSymbol">True</Compiler>
+-      <Compiler Name="DuplicateConstructorDestructor">True</Compiler>
+-      <Compiler Name="InvalidDirective">True</Compiler>
+-      <Compiler Name="PackageNoLink">True</Compiler>
+-      <Compiler Name="PackageThreadVar">True</Compiler>
+-      <Compiler Name="ImplicitImport">True</Compiler>
+-      <Compiler Name="HPPEMITIgnored">True</Compiler>
+-      <Compiler Name="NoRetVal">True</Compiler>
+-      <Compiler Name="UseBeforeDef">True</Compiler>
+-      <Compiler Name="ForLoopVarUndef">True</Compiler>
+-      <Compiler Name="UnitNameMismatch">True</Compiler>
+-      <Compiler Name="NoCFGFileFound">True</Compiler>
+-      <Compiler Name="ImplicitVariants">True</Compiler>
+-      <Compiler Name="UnicodeToLocale">True</Compiler>
+-      <Compiler Name="LocaleToUnicode">True</Compiler>
+-      <Compiler Name="ImagebaseMultiple">True</Compiler>
+-      <Compiler Name="SuspiciousTypecast">True</Compiler>
+-      <Compiler Name="PrivatePropAccessor">True</Compiler>
+-      <Compiler Name="UnsafeType">False</Compiler>
+-      <Compiler Name="UnsafeCode">False</Compiler>
+-      <Compiler Name="UnsafeCast">False</Compiler>
+-      <Compiler Name="OptionTruncated">True</Compiler>
+-      <Compiler Name="WideCharReduced">True</Compiler>
+-      <Compiler Name="DuplicatesIgnored">True</Compiler>
+-      <Compiler Name="UnitInitSeq">True</Compiler>
+-      <Compiler Name="LocalPInvoke">True</Compiler>
+-      <Compiler Name="MessageDirective">True</Compiler>
+-      <Compiler Name="CodePage"></Compiler>
+-    </Compiler>
+-    <Linker>
+-      <Linker Name="MapFile">0</Linker>
+-      <Linker Name="OutputObjs">0</Linker>
+-      <Linker Name="GenerateHpps">False</Linker>
+-      <Linker Name="ConsoleApp">1</Linker>
+-      <Linker Name="DebugInfo">False</Linker>
+-      <Linker Name="RemoteSymbols">False</Linker>
+-      <Linker Name="GenerateDRC">False</Linker>
+-      <Linker Name="MinStackSize">16384</Linker>
+-      <Linker Name="MaxStackSize">1048576</Linker>
+-      <Linker Name="ImageBase">253755392</Linker>
+-      <Linker Name="ExeDescription">dummzeuch.de Auto Save Wizard</Linker>
+-    </Linker>
+-    <Directories>
+-      <Directories Name="OutputDir"></Directories>
+-      <Directories Name="UnitOutputDir"></Directories>
+-      <Directories Name="PackageDLLOutputDir"></Directories>
+-      <Directories Name="PackageDCPOutputDir"></Directories>
+-      <Directories Name="SearchPath"></Directories>
+-      <Directories Name="Packages"></Directories>
+-      <Directories Name="Conditionals"></Directories>
+-      <Directories Name="DebugSourceDirs"></Directories>
+-      <Directories Name="UsePackages">False</Directories>
+-    </Directories>
+-    <Parameters>
+-      <Parameters Name="RunParams"></Parameters>
+-      <Parameters Name="HostApplication">$(BDS)\Bin\bds.exe</Parameters>
+-      <Parameters Name="Launcher"></Parameters>
+-      <Parameters Name="UseLauncher">False</Parameters>
+-      <Parameters Name="DebugCWD"></Parameters>
+-      <Parameters Name="Debug Symbols Search Path"></Parameters>
+-      <Parameters Name="LoadAllSymbols">True</Parameters>
+-      <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+-    </Parameters>
+-    <Language>
+-      <Language Name="ActiveLang"></Language>
+-      <Language Name="ProjectLang">$00000000</Language>
+-      <Language Name="RootDir">D:\source\icd.autosave\</Language>
+-    </Language>
+-    <VersionInfo>
+-      <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+-      <VersionInfo Name="AutoIncBuild">True</VersionInfo>
+-      <VersionInfo Name="MajorVer">1</VersionInfo>
+-      <VersionInfo Name="MinorVer">2</VersionInfo>
+-      <VersionInfo Name="Release">1</VersionInfo>
+-      <VersionInfo Name="Build">18</VersionInfo>
+-      <VersionInfo Name="Debug">False</VersionInfo>
+-      <VersionInfo Name="PreRelease">False</VersionInfo>
+-      <VersionInfo Name="Special">False</VersionInfo>
+-      <VersionInfo Name="Private">False</VersionInfo>
+-      <VersionInfo Name="DLL">True</VersionInfo>
+-      <VersionInfo Name="Locale">1033</VersionInfo>
+-      <VersionInfo Name="CodePage">1252</VersionInfo>
+-    </VersionInfo>
+-    <VersionInfoKeys>
+-      <VersionInfoKeys Name="CompanyName">Tempest Software, Inc.</VersionInfoKeys>
+-      <VersionInfoKeys Name="FileDescription">Auto Save Wizard</VersionInfoKeys>
+-      <VersionInfoKeys Name="FileVersion">1.2.1.18</VersionInfoKeys>
+-      <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
+-      <VersionInfoKeys Name="LegalCopyright">Copyright ? 1999 Tempest Software,Inc.</VersionInfoKeys>
+-      <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
+-      <VersionInfoKeys Name="OriginalFilename">autosave60.bpl</VersionInfoKeys>
+-      <VersionInfoKeys Name="ProductName">Auto Save Wizard</VersionInfoKeys>
+-      <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+-      <VersionInfoKeys Name="Comments"></VersionInfoKeys>
+-    </VersionInfoKeys>
+-  </Delphi.Personality>
++	<PersonalityInfo>
++		<Option>
++			<Option Name="Personality">Delphi.Personality</Option>
++			<Option Name="ProjectType">VCLApplication</Option>
++			<Option Name="Version">1.0</Option>
++			<Option Name="GUID">{9454CBDE-6D68-4F11-A030-22DC6BEB5018}</Option>
++		</Option>
++	</PersonalityInfo>
++	<Delphi.Personality>
++		<Source>
++			<Source Name="MainSource">dzAutoSave.dpk</Source>
++		</Source>
++		<FileVersion>
++			<FileVersion Name="Version">7.0</FileVersion>
++		</FileVersion>
++		<Compiler>
++			<Compiler Name="A">8</Compiler>
++			<Compiler Name="B">0</Compiler>
++			<Compiler Name="C">1</Compiler>
++			<Compiler Name="D">1</Compiler>
++			<Compiler Name="E">0</Compiler>
++			<Compiler Name="F">0</Compiler>
++			<Compiler Name="G">1</Compiler>
++			<Compiler Name="H">1</Compiler>
++			<Compiler Name="I">1</Compiler>
++			<Compiler Name="J">1</Compiler>
++			<Compiler Name="K">0</Compiler>
++			<Compiler Name="L">1</Compiler>
++			<Compiler Name="M">0</Compiler>
++			<Compiler Name="N">1</Compiler>
++			<Compiler Name="O">1</Compiler>
++			<Compiler Name="P">1</Compiler>
++			<Compiler Name="Q">1</Compiler>
++			<Compiler Name="R">1</Compiler>
++			<Compiler Name="S">0</Compiler>
++			<Compiler Name="T">1</Compiler>
++			<Compiler Name="U">0</Compiler>
++			<Compiler Name="V">1</Compiler>
++			<Compiler Name="W">0</Compiler>
++			<Compiler Name="X">1</Compiler>
++			<Compiler Name="Y">1</Compiler>
++			<Compiler Name="Z">1</Compiler>
++			<Compiler Name="ShowHints">True</Compiler>
++			<Compiler Name="ShowWarnings">True</Compiler>
++			<Compiler Name="UnitAliases">WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;</Compiler>
++			<Compiler Name="NamespacePrefix"></Compiler>
++			<Compiler Name="GenerateDocumentation">False</Compiler>
++			<Compiler Name="DefaultNamespace"></Compiler>
++			<Compiler Name="SymbolDeprecated">True</Compiler>
++			<Compiler Name="SymbolLibrary">True</Compiler>
++			<Compiler Name="SymbolPlatform">False</Compiler>
++			<Compiler Name="SymbolExperimental">True</Compiler>
++			<Compiler Name="UnitLibrary">True</Compiler>
++			<Compiler Name="UnitPlatform">False</Compiler>
++			<Compiler Name="UnitDeprecated">True</Compiler>
++			<Compiler Name="UnitExperimental">True</Compiler>
++			<Compiler Name="HResultCompat">True</Compiler>
++			<Compiler Name="HidingMember">True</Compiler>
++			<Compiler Name="HiddenVirtual">True</Compiler>
++			<Compiler Name="Garbage">True</Compiler>
++			<Compiler Name="BoundsError">True</Compiler>
++			<Compiler Name="ZeroNilCompat">True</Compiler>
++			<Compiler Name="StringConstTruncated">True</Compiler>
++			<Compiler Name="ForLoopVarVarPar">True</Compiler>
++			<Compiler Name="TypedConstVarPar">True</Compiler>
++			<Compiler Name="AsgToTypedConst">True</Compiler>
++			<Compiler Name="CaseLabelRange">True</Compiler>
++			<Compiler Name="ForVariable">True</Compiler>
++			<Compiler Name="ConstructingAbstract">True</Compiler>
++			<Compiler Name="ComparisonFalse">True</Compiler>
++			<Compiler Name="ComparisonTrue">True</Compiler>
++			<Compiler Name="ComparingSignedUnsigned">True</Compiler>
++			<Compiler Name="CombiningSignedUnsigned">True</Compiler>
++			<Compiler Name="UnsupportedConstruct">True</Compiler>
++			<Compiler Name="FileOpen">True</Compiler>
++			<Compiler Name="FileOpenUnitSrc">True</Compiler>
++			<Compiler Name="BadGlobalSymbol">True</Compiler>
++			<Compiler Name="DuplicateConstructorDestructor">True</Compiler>
++			<Compiler Name="InvalidDirective">True</Compiler>
++			<Compiler Name="PackageNoLink">True</Compiler>
++			<Compiler Name="PackageThreadVar">True</Compiler>
++			<Compiler Name="ImplicitImport">True</Compiler>
++			<Compiler Name="HPPEMITIgnored">True</Compiler>
++			<Compiler Name="NoRetVal">True</Compiler>
++			<Compiler Name="UseBeforeDef">True</Compiler>
++			<Compiler Name="ForLoopVarUndef">True</Compiler>
++			<Compiler Name="UnitNameMismatch">True</Compiler>
++			<Compiler Name="NoCFGFileFound">True</Compiler>
++			<Compiler Name="ImplicitVariants">True</Compiler>
++			<Compiler Name="UnicodeToLocale">True</Compiler>
++			<Compiler Name="LocaleToUnicode">True</Compiler>
++			<Compiler Name="ImagebaseMultiple">True</Compiler>
++			<Compiler Name="SuspiciousTypecast">True</Compiler>
++			<Compiler Name="PrivatePropAccessor">True</Compiler>
++			<Compiler Name="UnsafeType">False</Compiler>
++			<Compiler Name="UnsafeCode">False</Compiler>
++			<Compiler Name="UnsafeCast">False</Compiler>
++			<Compiler Name="OptionTruncated">True</Compiler>
++			<Compiler Name="WideCharReduced">True</Compiler>
++			<Compiler Name="DuplicatesIgnored">True</Compiler>
++			<Compiler Name="UnitInitSeq">True</Compiler>
++			<Compiler Name="LocalPInvoke">True</Compiler>
++			<Compiler Name="MessageDirective">True</Compiler>
++			<Compiler Name="CodePage"></Compiler>
++		</Compiler>
++		<Linker>
++			<Linker Name="MapFile">0</Linker>
++			<Linker Name="OutputObjs">0</Linker>
++			<Linker Name="GenerateHpps">False</Linker>
++			<Linker Name="ConsoleApp">1</Linker>
++			<Linker Name="DebugInfo">False</Linker>
++			<Linker Name="RemoteSymbols">False</Linker>
++			<Linker Name="GenerateDRC">False</Linker>
++			<Linker Name="MinStackSize">16384</Linker>
++			<Linker Name="MaxStackSize">1048576</Linker>
++			<Linker Name="ImageBase">253755392</Linker>
++			<Linker Name="ExeDescription">dummzeuch.de Auto Save Wizard</Linker>
++		</Linker>
++		<Directories>
++			<Directories Name="OutputDir"></Directories>
++			<Directories Name="UnitOutputDir"></Directories>
++			<Directories Name="PackageDLLOutputDir"></Directories>
++			<Directories Name="PackageDCPOutputDir"></Directories>
++			<Directories Name="SearchPath"></Directories>
++			<Directories Name="Packages"></Directories>
++			<Directories Name="Conditionals"></Directories>
++			<Directories Name="DebugSourceDirs"></Directories>
++			<Directories Name="UsePackages">False</Directories>
++		</Directories>
++		<Parameters>
++			<Parameters Name="RunParams"></Parameters>
++			<Parameters Name="HostApplication">$(BDS)\Bin\bds.exe</Parameters>
++			<Parameters Name="Launcher"></Parameters>
++			<Parameters Name="UseLauncher">False</Parameters>
++			<Parameters Name="DebugCWD"></Parameters>
++			<Parameters Name="Debug Symbols Search Path"></Parameters>
++			<Parameters Name="LoadAllSymbols">True</Parameters>
++			<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++		</Parameters>
++		<Language>
++			<Language Name="ActiveLang"></Language>
++			<Language Name="ProjectLang">$00000000</Language>
++			<Language Name="RootDir">D:\source\icd.autosave\</Language>
++		</Language>
++		<VersionInfo>
++			<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
++			<VersionInfo Name="AutoIncBuild">True</VersionInfo>
++			<VersionInfo Name="MajorVer">1</VersionInfo>
++			<VersionInfo Name="MinorVer">2</VersionInfo>
++			<VersionInfo Name="Release">1</VersionInfo>
++			<VersionInfo Name="Build">21</VersionInfo>
++			<VersionInfo Name="Debug">False</VersionInfo>
++			<VersionInfo Name="PreRelease">False</VersionInfo>
++			<VersionInfo Name="Special">False</VersionInfo>
++			<VersionInfo Name="Private">False</VersionInfo>
++			<VersionInfo Name="DLL">True</VersionInfo>
++			<VersionInfo Name="Locale">1033</VersionInfo>
++			<VersionInfo Name="CodePage">1252</VersionInfo>
++		</VersionInfo>
++		<VersionInfoKeys>
++			<VersionInfoKeys Name="CompanyName">Tempest Software, Inc.</VersionInfoKeys>
++			<VersionInfoKeys Name="FileDescription">Auto Save Wizard</VersionInfoKeys>
++			<VersionInfoKeys Name="FileVersion">1.2.1.21</VersionInfoKeys>
++			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
++			<VersionInfoKeys Name="LegalCopyright">Copyright ? 1999 Tempest Software,Inc.</VersionInfoKeys>
++			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
++			<VersionInfoKeys Name="OriginalFilename">autosave60.bpl</VersionInfoKeys>
++			<VersionInfoKeys Name="ProductName">Auto Save Wizard</VersionInfoKeys>
++			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
++		</VersionInfoKeys>
++	</Delphi.Personality>
+ </BorlandProject>
+
+Modified: utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk	2007-01-01 14:27:32 UTC (rev 125)
++++ utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk	2007-01-01 14:58:56 UTC (rev 126)
+@@ -23,7 +23,7 @@
+ {$MINENUMSIZE 1}
+ {$IMAGEBASE $F200000}
+ {$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
+-{$LIBSUFFIX '10'}
++{$LIBSUFFIX '100'}
+ {$DESIGNONLY}
+ {$IMPLICITBUILD OFF}
+ 
+@@ -32,9 +32,9 @@
+   designide;
+ 
+ contains
+-  dzAutoSaveReg in '..\dzAutoSaveReg.pas',
+-  dzAutoWizard in '..\dzAutoWizard.pas',
+-  dzAutoConfig in '..\dzAutoConfig.pas' {TAutoSaveForm},
+-  dzAutoUtil in '..\dzAutoUtil.pas';
++  dzAutoSaveReg in '..\source\dzAutoSaveReg.pas',
++  dzAutoWizard in '..\source\dzAutoWizard.pas',
++  dzAutoConfig in '..\source\dzAutoConfig.pas' {TAutoSaveForm},
++  dzAutoUtil in '..\source\dzAutoUtil.pas';
+ 
+ end.
+
+
+
+From twm at mail.berlios.de  Mon Jan  1 16:24:18 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Mon, 1 Jan 2007 16:24:18 +0100
+Subject: [Dzchart-svncheckins] r127 - in utilities/dzAutoSave/trunk: Delphi6
+	source
+Message-ID: <200701011524.l01FOIp9025042@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-01 16:24:17 +0100 (Mon, 01 Jan 2007)
+New Revision: 127
+
+Added:
+   utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dof
+   utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dpk
+Removed:
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk
+Modified:
+   utilities/dzAutoSave/trunk/Delphi6/
+   utilities/dzAutoSave/trunk/source/delphiversions.inc
+   utilities/dzAutoSave/trunk/source/dzAutoUtil.pas
+   utilities/dzAutoSave/trunk/source/dzAutoWizard.pas
+Log:
+* fixed several ifdef errors re Delphi 6
+* renamed project to dzAutoSave and added lib suffix 60
+
+
+
+Property changes on: utilities/dzAutoSave/trunk/Delphi6
+___________________________________________________________________
+Name: svn:ignore
+   + dzAutoSave.cfg
+dzAutoSave.res
+
+
+Deleted: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg	2007-01-01 14:58:56 UTC (rev 126)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg	2007-01-01 15:24:17 UTC (rev 127)
+@@ -1,21 +0,0 @@
+-#------------------------------------------------------------------------------
+-VERSION = BWS.01
+-#------------------------------------------------------------------------------
+-!ifndef ROOT
+-ROOT = $(MAKEDIR)\..
+-!endif
+-#------------------------------------------------------------------------------
+-MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+-DCC = $(ROOT)\bin\dcc32.exe $**
+-BRCC = $(ROOT)\bin\brcc32.exe $**
+-#------------------------------------------------------------------------------
+-PROJECTS = AutoSave6.bpl
+-#------------------------------------------------------------------------------
+-default: $(PROJECTS)
+-#------------------------------------------------------------------------------
+-
+-
+-AutoSave6.bpl: AutoSave6.dpk
+-  $(DCC)
+-
+-
+
+Deleted: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof	2007-01-01 14:58:56 UTC (rev 126)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof	2007-01-01 15:24:17 UTC (rev 127)
+@@ -1,181 +0,0 @@
+-[FileVersion]
+-Version=7.0
+-[Compiler]
+-A=8
+-B=0
+-C=1
+-D=1
+-E=0
+-F=0
+-G=1
+-H=1
+-I=1
+-J=1
+-K=0
+-L=1
+-M=0
+-N=1
+-O=1
+-P=1
+-Q=1
+-R=1
+-S=0
+-T=1
+-U=0
+-V=1
+-W=0
+-X=1
+-Y=1
+-Z=1
+-ShowHints=1
+-ShowWarnings=1
+-UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-NamespacePrefix=
+-SymbolDeprecated=1
+-SymbolLibrary=1
+-SymbolPlatform=0
+-UnitLibrary=1
+-UnitPlatform=0
+-UnitDeprecated=1
+-HResultCompat=1
+-HidingMember=1
+-HiddenVirtual=1
+-Garbage=1
+-BoundsError=1
+-ZeroNilCompat=1
+-StringConstTruncated=1
+-ForLoopVarVarPar=1
+-TypedConstVarPar=1
+-AsgToTypedConst=1
+-CaseLabelRange=1
+-ForVariable=1
+-ConstructingAbstract=1
+-ComparisonFalse=1
+-ComparisonTrue=1
+-ComparingSignedUnsigned=1
+-CombiningSignedUnsigned=1
+-UnsupportedConstruct=1
+-FileOpen=1
+-FileOpenUnitSrc=1
+-BadGlobalSymbol=1
+-DuplicateConstructorDestructor=1
+-InvalidDirective=1
+-PackageNoLink=1
+-PackageThreadVar=1
+-ImplicitImport=1
+-HPPEMITIgnored=1
+-NoRetVal=1
+-UseBeforeDef=1
+-ForLoopVarUndef=1
+-UnitNameMismatch=1
+-NoCFGFileFound=1
+-MessageDirective=1
+-ImplicitVariants=1
+-UnicodeToLocale=1
+-LocaleToUnicode=1
+-ImagebaseMultiple=1
+-SuspiciousTypecast=1
+-PrivatePropAccessor=1
+-UnsafeType=0
+-UnsafeCode=0
+-UnsafeCast=0
+-[Linker]
+-MapFile=0
+-OutputObjs=0
+-ConsoleApp=1
+-DebugInfo=0
+-RemoteSymbols=0
+-MinStackSize=16384
+-MaxStackSize=1048576
+-ImageBase=253755392
+-ExeDescription=dummzeuch.de Auto Save Wizard
+-[Directories]
+-OutputDir=
+-UnitOutputDir=Q:\bpl\dcu
+-PackageDLLOutputDir=Q:\bpl
+-PackageDCPOutputDir=Q:\bpl\dcp
+-SearchPath=
+-Packages=
+-Conditionals=
+-DebugSourceDirs=
+-UsePackages=0
+-[Parameters]
+-RunParams=
+-HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+-Launcher=
+-UseLauncher=0
+-DebugCWD=C:\Program Files\Borland\Delphi7\Projects
+-[Version Info]
+-IncludeVerInfo=1
+-AutoIncBuild=1
+-MajorVer=1
+-MinorVer=2
+-Release=1
+-Build=10
+-Debug=0
+-PreRelease=0
+-Special=0
+-Private=0
+-DLL=1
+-Locale=1033
+-CodePage=1252
+-[Version Info Keys]
+-CompanyName=Tempest Software, Inc.
+-FileDescription=Auto Save Wizard
+-FileVersion=1.2.1.10
+-InternalName=
+-LegalCopyright=Copyright ? 1999 Tempest Software,Inc.
+-LegalTrademarks=
+-OriginalFilename=autosave60.bpl
+-ProductName=Auto Save Wizard
+-ProductVersion=1.0.0.0
+-Comments=
+-[Excluded Packages]
+-q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
+-c:\program files\borland\delphi7\Bin\dclado70.bpl=Borland ADO DB Components
+-c:\program files\borland\delphi7\Bin\dclshlctrls70.bpl=Shell Control Property and Component Editors
+-c:\program files\borland\delphi7\Bin\dclemacsedit70.bpl=Borland Editor Emacs Enhancements
+-c:\program files\borland\delphi7\Bin\applet70.bpl=Borland Control Panel Applet Package
+-C:\Program Files\Borland\Delphi7\Bin\dbx70.bpl=Borland SQL Explorer UI Package
+-Q:\bpl\hkimportexport7.bpl=headwork Import/Export Wizard - desing and runtime (should be splitted)
+-c:\program files\borland\delphi7\Bin\dclbde70.bpl=Borland BDE DB Components
+-c:\program files\borland\delphi7\Bin\dclite70.bpl=Borland Integrated Translation Environment
+-c:\program files\borland\delphi7\Bin\dclnet70.bpl=Borland Internet Components
+-c:\program files\borland\delphi7\Bin\dclsoap70.bpl=Borland SOAP Components
+-c:\program files\borland\delphi7\Bin\dclocx70.bpl=Borland Sample Imported ActiveX Controls
+-c:\program files\borland\delphi7\Bin\dcldbx70.bpl=Borland dbExpress Components
+-c:\program files\borland\delphi7\Bin\dcldbxcds70.bpl=Borland SimpleDataset Component (DBX)
+-c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+-c:\program files\borland\delphi7\Bin\dclie70.bpl=Internet Explorer Components
+-c:\program files\borland\delphi7\Bin\dcltee70.bpl=TeeChart Components
+-c:\program files\borland\delphi7\Bin\dclib70.bpl=InterBase Data Access Components
+-c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
+-c:\program files\borland\delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
+-c:\program files\borland\delphi7\Bin\dclmid70.bpl=Borland MyBase DataAccess Components
+-C:\WINNT\System32\ibevnt70.bpl=Borland Interbase Event Alerter Component
+-c:\program files\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
+-Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.2
+-Q:\bpl\dcldummzeuchchart.bpl=dummzeuch.de Charts - designtime package
+-Q:\bpl\dclrxbd7.bpl=RX Library BDE Database Components
+-Q:\bpl\olectra.bpl=Olectra Chart Components (Active X)
+-Q:\bpl\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
+-c:\program files\borland\delphi7\bin\dclRave70.bpl=Rave Reports BE 5.0 Package
+-c:\program files\borland\delphi7\Bin\dclaxserver70.bpl=Microsoft Office 97 Sample Automation Server Wrapper Components
+-Q:\bpl\JclDebugIde70.bpl=JCL Debug IDE extension for Delphi 7
+-C:\Program Files\Castalia Free for Delphi\JacobsLadder7.bpl=Castalia for Delphi 7
+-C:\Program Files\CompDiff\Delphi7\CompDiff.bpl=Component Diff Tool for Delphi
+-C:\Program Files\Castalia for Delphi Trial\LadderFlyout7.bpl=Castalia Flyout Bar for Delphi 7
+-C:\Program Files\Castalia for Delphi Trial\LadderForms7.bpl=Castalia Form Designer for Delphi 7
+-C:\Program Files\Castalia for Delphi Trial\LadderStat7.bpl=Castalia Statistics for Delphi 7
+-[HistoryLists\hlUnitAliases]
+-Count=1
+-Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-[HistoryLists\hlUnitOutputDirectory]
+-Count=1
+-Item0=Q:\bpl\dcu
+-[HistoryLists\hlBPLOutput]
+-Count=1
+-Item0=Q:\bpl
+-[HistoryLists\hlDCPOutput]
+-Count=1
+-Item0=Q:\bpl\dcp
+
+Deleted: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk	2007-01-01 14:58:56 UTC (rev 126)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk	2007-01-01 15:24:17 UTC (rev 127)
+@@ -1,39 +0,0 @@
+-package AutoSave6;
+-
+-{$R *.res}
+-{$ALIGN 8}
+-{$ASSERTIONS ON}
+-{$BOOLEVAL OFF}
+-{$DEBUGINFO ON}
+-{$EXTENDEDSYNTAX ON}
+-{$IMPORTEDDATA ON}
+-{$IOCHECKS ON}
+-{$LOCALSYMBOLS ON}
+-{$LONGSTRINGS ON}
+-{$OPENSTRINGS ON}
+-{$OPTIMIZATION ON}
+-{$OVERFLOWCHECKS ON}
+-{$RANGECHECKS ON}
+-{$REFERENCEINFO ON}
+-{$SAFEDIVIDE OFF}
+-{$STACKFRAMES OFF}
+-{$TYPEDADDRESS ON}
+-{$VARSTRINGCHECKS ON}
+-{$WRITEABLECONST ON}
+-{$MINENUMSIZE 1}
+-{$IMAGEBASE $F200000}
+-{$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
+-{$DESIGNONLY}
+-{$IMPLICITBUILD OFF}
+-
+-requires
+-  vcl,
+-  designide;
+-
+-contains
+-  AutoSaveReg in 'AutoSaveReg.pas',
+-  AutoWizard in 'AutoWizard.pas',
+-  AutoConfig in 'AutoConfig.pas' {TAutoSaveForm},
+-  AutoUtil in 'AutoUtil.pas';
+-
+-end.
+
+Copied: utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dof (from rev 126, utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof	2007-01-01 14:58:56 UTC (rev 126)
++++ utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dof	2007-01-01 15:24:17 UTC (rev 127)
+@@ -0,0 +1,99 @@
++[FileVersion]
++Version=6.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=dummzeuch.de Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=
++PackageDLLOutputDir=
++PackageDCPOutputDir=
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=C:\Program Files\Borland\Delphi7\Projects
++[Language]
++ActiveLang=
++ProjectLang=
++RootDir=
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=2
++Release=1
++Build=11
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.2.1.11
++InternalName=
++LegalCopyright=Copyright ? 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Copied: utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dpk (from rev 126, utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk	2007-01-01 14:58:56 UTC (rev 126)
++++ utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dpk	2007-01-01 15:24:17 UTC (rev 127)
+@@ -0,0 +1,40 @@
++package dzAutoSave;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
++{$LIBSUFFIX '60'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl,
++  designide;
++
++contains
++  dzAutoSaveReg in '..\source\dzAutoSaveReg.pas',
++  dzAutoWizard in '..\source\dzAutoWizard.pas',
++  dzAutoConfig in '..\source\dzAutoConfig.pas' {TAutoSaveForm},
++  dzAutoUtil in '..\source\dzAutoUtil.pas';
++
++end.
+
+Modified: utilities/dzAutoSave/trunk/source/delphiversions.inc
+===================================================================
+--- utilities/dzAutoSave/trunk/source/delphiversions.inc	2007-01-01 14:58:56 UTC (rev 126)
++++ utilities/dzAutoSave/trunk/source/delphiversions.inc	2007-01-01 15:24:17 UTC (rev 127)
+@@ -33,7 +33,7 @@
+ {$DEFINE Delphi2006up}
+ {$ENDIF}
+ 
+-{$IFDEF Delphi6up}
++{$IFDEF Delphi7up}
+ {$WARN unsafe_type off}
+ {$WARN unsafe_code off}
+ {$WARN unsafe_cast off}
+
+Modified: utilities/dzAutoSave/trunk/source/dzAutoUtil.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoUtil.pas	2007-01-01 14:58:56 UTC (rev 126)
++++ utilities/dzAutoSave/trunk/source/dzAutoUtil.pas	2007-01-01 15:24:17 UTC (rev 127)
+@@ -788,3 +788,4 @@
+ 
+ end.
+ 
++
+
+Modified: utilities/dzAutoSave/trunk/source/dzAutoWizard.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoWizard.pas	2007-01-01 14:58:56 UTC (rev 126)
++++ utilities/dzAutoSave/trunk/source/dzAutoWizard.pas	2007-01-01 15:24:17 UTC (rev 127)
+@@ -62,7 +62,7 @@
+   public
+   end;
+ 
+-{$IFDEF delphi6up}
++{$IFDEF delphi7up}
+   TMessageNotifier = class(TAutoSaveNotifier, IOTAMessageNotifier)
+   private
+     fShowMessageView: Boolean;
+@@ -88,7 +88,7 @@
+     fTimer: TTimer; // Timer for periodic auto-saving.
+     fMenuItem: TMenuItem; // Tools menu item for Auto Save Properties.
+     fIdeNotifier: TIdeNotifier;
+-{$IFDEF delphi6up}
++{$IFDEF delphi7up}
+     fMessageNotifier: TMessageNotifier;
+ {$ENDIF}
+     fSaveOnCompile: Boolean;
+@@ -162,7 +162,7 @@
+ 
+   // Register the IDE notifier so the wizard knows when the user opens a file.
+   fIdeNotifier := TIdeNotifier.Create(Self);
+-{$IFDEF delphi6up}
++{$IFDEF delphi7up}
+   fMessageNotifier := TMessageNotifier.Create(Self);
+ {$ENDIF}
+   // Add the Auto Save menu item to the Tools menu.
+@@ -179,7 +179,7 @@
+ begin
+   if Assigned(fIdeNotifier) then
+     fIdeNotifier.UnregisterNotifier; // Delphi frees the notifier when its ref count = 0
+-{$IFDEF delphi6up}
++{$IFDEF delphi7up}
+   if Assigned(fMessageNotifier) then
+     fMessageNotifier.UnregisterNotifier; // Delphi frees the notifier when its ref count = 0
+ {$ENDIF}
+@@ -243,7 +243,7 @@
+ 
+ procedure TAutoSaveWizard.AutoSaveFiles;
+ begin
+-{$IFDEF delphi6up}
++{$IFDEF delphi7up}
+   if Assigned(fMessageNotifier) then
+     fMessageNotifier.ClearMessageView(ShowMessageView);
+ {$ENDIF}
+@@ -585,7 +585,7 @@
+     (BorlandIDEServices as IOTAServices).RemoveNotifier(_Index);
+ end;
+ 
+-{$IFDEF delphi6up}
++{$IFDEF delphi7up}
+ { TMessageNotifier }
+ 
+ constructor TMessageNotifier.Create(_Wizard: TAutoSaveWizard);
+
+
+
+From twm at mail.berlios.de  Mon Jan  1 16:39:01 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Mon, 1 Jan 2007 16:39:01 +0100
+Subject: [Dzchart-svncheckins] r128 - in utilities/dzAutoSave/trunk: Delphi7
+	source
+Message-ID: <200701011539.l01Fd1Rv026533@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-01 16:39:00 +0100 (Mon, 01 Jan 2007)
+New Revision: 128
+
+Added:
+   utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dof
+   utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dpk
+Modified:
+   utilities/dzAutoSave/trunk/Delphi7/
+   utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+Log:
+* Bugfix: Removed Delphi2006 properties from .dfm
+* added Delphi7 packages with lib suffix 70
+
+
+Property changes on: utilities/dzAutoSave/trunk/Delphi7
+___________________________________________________________________
+Name: svn:ignore
+   + dzAutoSave.cfg
+dzAutoSave.res
+
+
+Copied: utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dof (from rev 127, utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dof)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dof	2007-01-01 15:24:17 UTC (rev 127)
++++ utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dof	2007-01-01 15:39:00 UTC (rev 128)
+@@ -0,0 +1,161 @@
++[FileVersion]
++Version=7.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++NamespacePrefix=
++SymbolDeprecated=1
++SymbolLibrary=1
++SymbolPlatform=1
++UnitLibrary=1
++UnitPlatform=1
++UnitDeprecated=1
++HResultCompat=1
++HidingMember=1
++HiddenVirtual=1
++Garbage=1
++BoundsError=1
++ZeroNilCompat=1
++StringConstTruncated=1
++ForLoopVarVarPar=1
++TypedConstVarPar=1
++AsgToTypedConst=1
++CaseLabelRange=1
++ForVariable=1
++ConstructingAbstract=1
++ComparisonFalse=1
++ComparisonTrue=1
++ComparingSignedUnsigned=1
++CombiningSignedUnsigned=1
++UnsupportedConstruct=1
++FileOpen=1
++FileOpenUnitSrc=1
++BadGlobalSymbol=1
++DuplicateConstructorDestructor=1
++InvalidDirective=1
++PackageNoLink=1
++PackageThreadVar=1
++ImplicitImport=1
++HPPEMITIgnored=1
++NoRetVal=1
++UseBeforeDef=1
++ForLoopVarUndef=1
++UnitNameMismatch=1
++NoCFGFileFound=1
++MessageDirective=1
++ImplicitVariants=1
++UnicodeToLocale=1
++LocaleToUnicode=1
++ImagebaseMultiple=1
++SuspiciousTypecast=1
++PrivatePropAccessor=1
++UnsafeType=1
++UnsafeCode=1
++UnsafeCast=1
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=dummzeuch.de Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=
++PackageDLLOutputDir=
++PackageDCPOutputDir=
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=C:\Program Files\Borland\Delphi7\Projects
++[Language]
++ActiveLang=
++ProjectLang=
++RootDir=
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=2
++Release=1
++Build=12
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.2.1.12
++InternalName=
++LegalCopyright=Copyright ? 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[Excluded Packages]
++q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
++Q:\bpl\AutoSave6.bpl=Auto Save Wizard
++Q:\bpl\Xdom_3_1Delphi7.bpl=Extended Document Object Model (XDOM 3.1)
++Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.4
++Q:\bpl\keyboardmakro7.bpl=Keyboard Makro Manager for Delphi 7
++Q:\bpl\dclusr70.bpl=Borland User Components
++D:\out\bpl\dclrx70.bpl=RX Library Controls and Tools
++D:\out\bpl\dclrxdb70.bpl=RX Library Database Components
++D:\out\bpl\dclrxbd70.bpl=RX Library BDE Database Components
++Q:\bpl\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
++Q:\bpl\dclRB77.bpl=ReportBuilder Standard
++Q:\bpl\JclDebugIde70.bpl=JCL Debug IDE extension for Delphi 7
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Copied: utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dpk (from rev 127, utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dpk)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dpk	2007-01-01 15:24:17 UTC (rev 127)
++++ utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dpk	2007-01-01 15:39:00 UTC (rev 128)
+@@ -0,0 +1,40 @@
++package dzAutoSave;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
++{$LIBSUFFIX '70'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl,
++  designide;
++
++contains
++  dzAutoSaveReg in '..\source\dzAutoSaveReg.pas',
++  dzAutoWizard in '..\source\dzAutoWizard.pas',
++  dzAutoConfig in '..\source\dzAutoConfig.pas' {TAutoSaveForm},
++  dzAutoUtil in '..\source\dzAutoUtil.pas';
++
++end.
+
+Modified: utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 15:24:17 UTC (rev 127)
++++ utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 15:39:00 UTC (rev 128)
+@@ -1,6 +1,7 @@
+ object AutoSaveForm: TAutoSaveForm
+   Left = 322
+   Top = 214
++  AutoScroll = False
+   BorderIcons = [biSystemMenu]
+   Caption = 'Auto Save Properties'
+   ClientHeight = 248
+@@ -180,10 +181,6 @@
+     end
+     object TabSheet2: TTabSheet
+       Caption = 'Help'
+-      ExplicitLeft = 0
+-      ExplicitTop = 0
+-      ExplicitWidth = 0
+-      ExplicitHeight = 0
+       object Memo1: TMemo
+         Left = 7
+         Top = 7
+@@ -225,10 +222,6 @@
+     object TabSheet3: TTabSheet
+       Caption = 'Files'
+       ImageIndex = 2
+-      ExplicitLeft = 0
+-      ExplicitTop = 0
+-      ExplicitWidth = 0
+-      ExplicitHeight = 0
+       object FileList: TListBox
+         Left = 0
+         Top = 0
+
+
+
+From twm at mail.berlios.de  Mon Jan  1 19:27:42 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Mon, 1 Jan 2007 19:27:42 +0100
+Subject: [Dzchart-svncheckins] r129 - in utilities/dzAutoSave/trunk: Delphi5
+	source
+Message-ID: <200701011827.l01IRg50026052@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-01 19:27:42 +0100 (Mon, 01 Jan 2007)
+New Revision: 129
+
+Added:
+   utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dof
+   utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dpk
+Removed:
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk
+Modified:
+   utilities/dzAutoSave/trunk/Delphi5/
+   utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+Log:
+* renamed packages to dzAutoSave50, since Delphi5 does not support lib suffixes
+* removed some more unsupported properties from the .dfm file
+
+
+Property changes on: utilities/dzAutoSave/trunk/Delphi5
+___________________________________________________________________
+Name: svn:ignore
+   + dzAutoSave50.cfg
+dzAutoSave50.res
+
+
+Deleted: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg	2007-01-01 18:27:42 UTC (rev 129)
+@@ -1,22 +0,0 @@
+-#------------------------------------------------------------------------------
+-VERSION = BWS.01
+-#------------------------------------------------------------------------------
+-!ifndef ROOT
+-ROOT = $(MAKEDIR)\..
+-!endif
+-#------------------------------------------------------------------------------
+-MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+-DCC = $(ROOT)\bin\dcc32.exe $**
+-BRCC = $(ROOT)\bin\brcc32.exe $**
+-#------------------------------------------------------------------------------
+-PROJECTS = AutoSave5.bpl
+-#------------------------------------------------------------------------------
+-default: $(PROJECTS)
+-#------------------------------------------------------------------------------
+-
+-
+-
+-AutoSave5.bpl: AutoSave5.dpk
+-  $(DCC)
+-
+-
+
+Deleted: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 18:27:42 UTC (rev 129)
+@@ -1,150 +0,0 @@
+-[FileVersion]
+-Version=7.0
+-[Compiler]
+-A=8
+-B=0
+-C=1
+-D=1
+-E=0
+-F=0
+-G=1
+-H=1
+-I=1
+-J=1
+-K=0
+-L=1
+-M=0
+-N=1
+-O=1
+-P=1
+-Q=1
+-R=1
+-S=0
+-T=1
+-U=0
+-V=1
+-W=0
+-X=1
+-Y=1
+-Z=1
+-ShowHints=1
+-ShowWarnings=1
+-UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-NamespacePrefix=
+-SymbolDeprecated=1
+-SymbolLibrary=1
+-SymbolPlatform=1
+-UnitLibrary=1
+-UnitPlatform=1
+-UnitDeprecated=1
+-HResultCompat=1
+-HidingMember=1
+-HiddenVirtual=1
+-Garbage=1
+-BoundsError=1
+-ZeroNilCompat=1
+-StringConstTruncated=1
+-ForLoopVarVarPar=1
+-TypedConstVarPar=1
+-AsgToTypedConst=1
+-CaseLabelRange=1
+-ForVariable=1
+-ConstructingAbstract=1
+-ComparisonFalse=1
+-ComparisonTrue=1
+-ComparingSignedUnsigned=1
+-CombiningSignedUnsigned=1
+-UnsupportedConstruct=1
+-FileOpen=1
+-FileOpenUnitSrc=1
+-BadGlobalSymbol=1
+-DuplicateConstructorDestructor=1
+-InvalidDirective=1
+-PackageNoLink=1
+-PackageThreadVar=1
+-ImplicitImport=1
+-HPPEMITIgnored=1
+-NoRetVal=1
+-UseBeforeDef=1
+-ForLoopVarUndef=1
+-UnitNameMismatch=1
+-NoCFGFileFound=1
+-MessageDirective=1
+-ImplicitVariants=1
+-UnicodeToLocale=1
+-LocaleToUnicode=1
+-ImagebaseMultiple=1
+-SuspiciousTypecast=1
+-PrivatePropAccessor=1
+-UnsafeType=1
+-UnsafeCode=1
+-UnsafeCast=1
+-[Linker]
+-MapFile=0
+-OutputObjs=0
+-ConsoleApp=1
+-DebugInfo=0
+-RemoteSymbols=0
+-MinStackSize=16384
+-MaxStackSize=1048576
+-ImageBase=253755392
+-ExeDescription=Auto Save Wizard
+-[Directories]
+-OutputDir=
+-UnitOutputDir=Q:\bpl\dcu
+-PackageDLLOutputDir=Q:\bpl
+-PackageDCPOutputDir=Q:\bpl\dcp
+-SearchPath=
+-Packages=
+-Conditionals=
+-DebugSourceDirs=
+-UsePackages=0
+-[Parameters]
+-RunParams=
+-HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+-Launcher=
+-UseLauncher=0
+-DebugCWD=
+-[Language]
+-ActiveLang=
+-ProjectLang=
+-RootDir=
+-[Version Info]
+-IncludeVerInfo=1
+-AutoIncBuild=1
+-MajorVer=1
+-MinorVer=1
+-Release=0
+-Build=2
+-Debug=1
+-PreRelease=1
+-Special=0
+-Private=0
+-DLL=1
+-Locale=1033
+-CodePage=1252
+-[Version Info Keys]
+-CompanyName=Tempest Software, Inc.
+-FileDescription=Auto Save Wizard
+-FileVersion=1.1.0.2
+-InternalName=
+-LegalCopyright=Copyright ? 1999 Tempest Software,Inc.
+-LegalTrademarks=
+-OriginalFilename=autosave60.bpl
+-ProductName=Auto Save Wizard
+-ProductVersion=1.0.0.0
+-Comments=
+-[Excluded Packages]
+-c:\program files\borland\delphi7\Bin\dclite50.bpl=Borland Integrated Translation Environment
+-[HistoryLists\hlUnitAliases]
+-Count=1
+-Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-[HistoryLists\hlUnitOutputDirectory]
+-Count=1
+-Item0=Q:\bpl\dcu
+-[HistoryLists\hlBPLOutput]
+-Count=1
+-Item0=Q:\bpl
+-[HistoryLists\hlDCPOutput]
+-Count=1
+-Item0=Q:\bpl\dcp
+
+Deleted: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 18:27:42 UTC (rev 129)
+@@ -1,38 +0,0 @@
+-package AutoSave5;
+-
+-{$R *.RES}
+-{$ALIGN ON}
+-{$ASSERTIONS ON}
+-{$BOOLEVAL OFF}
+-{$DEBUGINFO ON}
+-{$EXTENDEDSYNTAX ON}
+-{$IMPORTEDDATA ON}
+-{$IOCHECKS ON}
+-{$LOCALSYMBOLS ON}
+-{$LONGSTRINGS ON}
+-{$OPENSTRINGS ON}
+-{$OPTIMIZATION ON}
+-{$OVERFLOWCHECKS ON}
+-{$RANGECHECKS ON}
+-{$REFERENCEINFO ON}
+-{$SAFEDIVIDE OFF}
+-{$STACKFRAMES OFF}
+-{$TYPEDADDRESS ON}
+-{$VARSTRINGCHECKS ON}
+-{$WRITEABLECONST ON}
+-{$MINENUMSIZE 1}
+-{$IMAGEBASE $F200000}
+-{$DESCRIPTION 'Auto Save Wizard'}
+-{$DESIGNONLY}
+-{$IMPLICITBUILD OFF}
+-
+-requires
+-  vcl50;
+-
+-contains
+-  AutoSaveReg in 'AutoSaveReg.pas',
+-  AutoWizard in 'AutoWizard.pas',
+-  AutoConfig in 'AutoConfig.pas' {TAutoSaveForm},
+-  AutoUtil in 'AutoUtil.pas';
+-
+-end.
+
+Copied: utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dof (from rev 128, utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dof	2007-01-01 18:27:42 UTC (rev 129)
+@@ -0,0 +1,90 @@
++[Compiler]
++A=1
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=
++PackageDLLOutputDir=
++PackageDCPOutputDir=
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=1
++Release=0
++Build=3
++Debug=1
++PreRelease=1
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.1.0.3
++InternalName=
++LegalCopyright=Copyright ? 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Copied: utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dpk (from rev 128, utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dpk	2007-01-01 18:27:42 UTC (rev 129)
+@@ -0,0 +1,38 @@
++package dzAutoSave50;
++
++{$R *.RES}
++{$ALIGN ON}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'Auto Save Wizard'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl50;
++
++contains
++  dzAutoSaveReg in '..\source\dzAutoSaveReg.pas',
++  dzAutoWizard in '..\source\dzAutoWizard.pas',
++  dzAutoConfig in '..\source\dzAutoConfig.pas' {TAutoSaveForm},
++  dzAutoUtil in '..\source\dzAutoUtil.pas';
++
++end.
+
+Modified: utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 18:27:42 UTC (rev 129)
+@@ -15,9 +15,6 @@
+   OldCreateOrder = True
+   Position = poScreenCenter
+   OnCreate = FormCreate
+-  DesignSize = (
+-    349
+-    248)
+   PixelsPerInch = 96
+   TextHeight = 13
+   object b_Cancel: TButton
+@@ -41,9 +38,6 @@
+     TabOrder = 0
+     object TabSheet1: TTabSheet
+       Caption = 'General'
+-      DesignSize = (
+-        324
+-        167)
+       object Label2: TLabel
+         Left = 91
+         Top = 90
+
+
+
+From twm at mail.berlios.de  Thu Jan  4 17:18:21 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Thu, 4 Jan 2007 17:18:21 +0100
+Subject: [Dzchart-svncheckins] r130 - utilities/dzBdsIdeScript/trunk
+Message-ID: <200701041618.l04GIL6U013880@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-04 17:18:21 +0100 (Thu, 04 Jan 2007)
+New Revision: 130
+
+Added:
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas
+Removed:
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.dfm
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.pas
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.utils.IdeExpert.pas
+Modified:
+   utilities/dzBdsIdeScript/trunk/
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk
+Log:
+* no longer registers as expert but rather instantiates itself on package load and free's itself on unload
+* removes the Script menu on unload
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk
+___________________________________________________________________
+Name: svn:ignore
+   - dzBdsIdeScript.cfg
+dzBdsIdeScript.res
+
+   + dzBdsIdeScript.cfg
+dzBdsIdeScript.res
+ModelSupport_dzBdsIdeScript
+
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.dfm	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.dfm	2007-01-04 16:18:21 UTC (rev 130)
+@@ -1,52 +0,0 @@
+-object dm_BdsIdeScript: Tdm_BdsIdeScript
+-  OldCreateOrder = False
+-  OnCreate = DataModuleCreate
+-  OnDestroy = DataModuleDestroy
+-  Height = 479
+-  Width = 741
+-  object TheTimer: TTimer
+-    Enabled = False
+-    Interval = 5000
+-    OnTimer = TheTimerTimer
+-    Left = 32
+-    Top = 120
+-  end
+-  object dws2Unit: Tdws2Unit
+-    Script = dws_Main
+-    Arrays = <>
+-    Classes = <>
+-    Constants = <>
+-    Dependencies.Strings = (
+-      'Classes')
+-    Enumerations = <>
+-    Forwards = <>
+-    Functions = <>
+-    Instances = <>
+-    Records = <>
+-    Synonyms = <>
+-    UnitName = 'dzIdeEditor'
+-    Variables = <>
+-    StaticSymbols = False
+-    Left = 152
+-    Top = 280
+-  end
+-  object dws_Main: TDelphiWebScriptII
+-    Config.CompilerOptions = []
+-    Config.MaxDataSize = 0
+-    Config.Timeout = 0
+-    Left = 88
+-    Top = 280
+-  end
+-  object dws2ClassesLib: Tdws2ClassesLib
+-    OldCreateOrder = False
+-    Script = dws_Main
+-    Left = 232
+-    Top = 344
+-    Height = 0
+-    Width = 0
+-  end
+-  object dws2FileFunctions: Tdws2FileFunctions
+-    Left = 368
+-    Top = 312
+-  end
+-end
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.pas	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.pas	2007-01-04 16:18:21 UTC (rev 130)
+@@ -1,365 +0,0 @@
+-unit de.dummzeuch.dm_BdsIdeScriptWizard;
+-
+-interface
+-
+-uses
+-  Windows,
+-  Messages,
+-  SysUtils,
+-  Classes,
+-  Graphics,
+-  Controls,
+-  Forms,
+-  Dialogs,
+-  Menus,
+-  ExtCtrls,
+-  ToolsAPI,
+-  dws2Comp,
+-  dws2Exprs,
+-  dws2StringFunctions,
+-  dws2FileFunctions, dws2ClassesLibModule;
+-
+-type
+-  Tdm_BdsIdeScript = class(TDataModule)
+-    TheTimer: TTimer;
+-    dws2Unit: Tdws2Unit;
+-    dws_Main: TDelphiWebScriptII;
+-    dws2ClassesLib: Tdws2ClassesLib;
+-    dws2FileFunctions: Tdws2FileFunctions;
+-    procedure DataModuleCreate(Sender: TObject);
+-    procedure DataModuleDestroy(Sender: TObject);
+-    procedure RunScriptSubItemClick(Sender: TObject);
+-    procedure RunScriptExplainClick(Sender: TObject);
+-    procedure TheTimerTimer(Sender: TObject);
+-  private
+-    FScriptItems: TList;
+-    FScripts: TStringList;
+-    FMessageGroup: IOTAMessageGroup;
+-
+-    procedure ClearMenuItems(_List: TList);
+-    procedure ClearScriptMenuItems;
+-    procedure LoadScripts;
+-    procedure RefreshMenuItems;
+-    procedure RefreshScriptMenuItems;
+-    procedure SetTimerRefreshing;
+-    procedure RegisterOTAFunctions;
+-  private // Eval functions for the TIdeEditor class and IdeEditor global variable
+-  private
+-    function Compile(const _Source: string): TProgram;
+-    procedure ExecuteScript(_Code: TStrings);
+-    procedure WriteToMessages(const _Msg: string; _Show: Boolean = False);
+-    procedure ClearMessages;
+-    procedure OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-    procedure OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-    procedure OnIdeEditorInsertTextEval(_Info: TProgramInfo;
+-      _ExtObject: TObject);
+-  public
+-  end;
+-
+-var
+-  dm_BdsIdeScript: Tdm_BdsIdeScript;
+-
+-implementation
+-
+-{$R *.DFM}
+-
+-uses
+-  Registry,
+-  ShellAPI,
+-  dws2Symbols,
+-  dws2Compiler,
+-  de.dummzeuch.utils.IdeExpert;
+-
+-procedure Tdm_BdsIdeScript.ExecuteScript(_Code: TStrings);
+-var
+-  i: Integer;
+-  Prog: TProgram;
+-begin
+-  WriteToMessages('Compiling script.');
+-  try
+-    Prog := Compile(_Code.Text);
+-  except
+-    on e: Exception do begin
+-      WriteToMessages('Error compiling script:'#13#10 + e.Message, True);
+-      Exit;
+-    end;
+-  end;
+-
+-  WriteToMessages('Running script.');
+-  try
+-//    Prog.BeginProgram();
+-    Prog.Execute;
+-//    Prog.EndProgram;
+-
+-    for i := 0 to Prog.Msgs.Count - 1 do
+-      WriteToMessages(Prog.Msgs[i].asInfo);
+-    WriteToMessages(Tdws2DefaultResult(Prog.Result).Text);
+-
+-  finally
+-    Prog.Free;
+-  end;
+-  WriteToMessages('Done.');
+-end;
+-
+-procedure Tdm_BdsIdeScript.ClearMessages;
+-var
+-  MessageView: IOTAMessageServices;
+-begin
+-  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
+-    FMessageGroup := MessageView.AddMessageGroup('BdsIdeScript');
+-    MessageView.ClearMessageGroup(FMessageGroup);
+-  end;
+-end;
+-
+-procedure Tdm_BdsIdeScript.WriteToMessages(const _Msg: string; _Show: Boolean = False);
+-var
+-  MessageView: IOTAMessageServices;
+-  st: TStringList;
+-  i: Integer;
+-begin
+-  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
+-    st := TStringList.Create;
+-    try
+-      st.Text := _Msg;
+-      FMessageGroup := MessageView.AddMessageGroup('BdsIdeScript');
+-      if _Show then
+-        MessageView.ShowMessageView(FMessageGroup);
+-      for i := 0 to st.Count - 1 do
+-        MessageView.AddTitleMessage(st[i], FMessageGroup);
+-    finally
+-      st.Free;
+-    end;
+-  end;
+-end;
+-
+-function Tdm_BdsIdeScript.Compile(const _Source: string): TProgram;
+-var
+-  i: Integer;
+-  err: string;
+-begin
+-  Result := dws_Main.Compile(_Source);
+-  if Result.Msgs.HasCompilerErrors then begin
+-    err := '';
+-    for i := 0 to Result.Msgs.Count - 1 do begin
+-      if err <> '' then
+-        err := err + #13#10;
+-      err := err + Result.Msgs[i].asInfo;
+-    end;
+-    Result.Free;
+-    raise Exception.Create(err);
+-  end;
+-end;
+-
+-procedure Tdm_BdsIdeScript.DataModuleCreate(Sender: TObject);
+-begin
+-  FScriptItems := TList.Create;
+-  FScripts := TStringList.Create;
+-
+-  RefreshMenuItems;
+-
+-  RegisterOTAFunctions;
+-end;
+-
+-procedure Tdm_BdsIdeScript.DataModuleDestroy(Sender: TObject);
+-begin
+-  ClearScriptMenuItems;
+-  FScripts.Free;
+-  FScriptItems.Free;
+-end;
+-
+-procedure Tdm_BdsIdeScript.OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  _Info.Result := GetSelectedText;
+-end;
+-
+-procedure Tdm_BdsIdeScript.OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  SetSelectedText(_Info.Value['_Text']);
+-end;
+-
+-procedure Tdm_BdsIdeScript.OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  InsertText(_Info.Value['_Text']);
+-end;
+-
+-procedure Tdm_BdsIdeScript.RegisterOTAFunctions;
+-var
+-  Item: Tdws2Class;
+-  Meth: Tdws2Method;
+-  Param: Tdws2Parameter;
+-begin
+-  Item := dws2Unit.Classes.Add as Tdws2Class;
+-  Item.Name := 'TIdeEditor';
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'GetSelectedText';
+-  Meth.Kind := mkClassFunction;
+-  Meth.ResultType := 'String';
+-  Meth.OnEval := OnIdeEditorGetSelectedTextEval;
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'SetSelectedText';
+-  Meth.Kind := mkClassProcedure;
+-  Param := Meth.Parameters.Add as Tdws2Parameter;
+-  Param.Name := '_Text';
+-  Param.DataType := 'String';
+-  Meth.OnEval := OnIdeEditorSetSelectedTextEval;
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'InsertText';
+-  Meth.Kind := mkClassProcedure;
+-  Param := Meth.Parameters.Add as Tdws2Parameter;
+-  Param.Name := '_Text';
+-  Param.DataType := 'String';
+-  Meth.OnEval := OnIdeEditorInsertTextEval;
+-end;
+-
+-procedure ListFiles(const Path: string; Strings: TStrings);
+-var
+-  Found: Integer;
+-  SearchRec: TSearchRec;
+-begin
+-  Found := FindFirst(Path, faAnyFile, SearchRec);
+-  while Found = 0 do begin
+-    if (SearchRec.Attr and faDirectory) <> faDirectory then
+-      Strings.Add(SearchRec.Name);
+-    Found := FindNext(SearchRec);
+-  end;
+-  FindClose(SearchRec);
+-end;
+-
+-procedure Tdm_BdsIdeScript.LoadScripts;
+-var
+-  Folder: string;
+-  i: Integer;
+-  Reg: TRegistry;
+-begin
+-  Reg := TRegistry.Create;
+-  try
+-    Reg.OpenKey(GetBaseRegistryKey + '\dzBdsIdeScript', True);
+-    if not Reg.ValueExists('ScriptFolder') then
+-      { Add the IDE's folder. }
+-      Reg.WriteString('ScriptFolder',
+-        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Scripts')
+-    else
+-      Folder := Reg.ReadString('ScriptFolder');
+-  finally
+-    Reg.Free;
+-  end;
+-  Folder := IncludeTrailingPathDelimiter(Folder);
+-  FScripts.Clear;
+-  ListFiles(Folder + '*.dws', FScripts);
+-  for i := 0 to FScripts.Count - 1 do
+-    FScripts[i] := Folder + FScripts[i];
+-end;
+-
+-procedure Tdm_BdsIdeScript.RunScriptExplainClick(Sender: TObject);
+-begin
+-  ShowMessage(
+-    'Scripts should be placed in the folder pointed by '#13 +
+-    'the registry value at:'#13#13 +
+-    'HKCU\' + GetBaseRegistryKey + '\dzBdsIdeScript' +
+-    #13#13'The value should be assigned to "ScriptFolder".' +
+-    #13#13'You can always refresh the script list by clicking this item.'
+-    );
+-  RefreshMenuItems;
+-end;
+-
+-procedure Tdm_BdsIdeScript.TheTimerTimer(Sender: TObject);
+-begin
+-  RefreshMenuItems;
+-end;
+-
+-procedure Tdm_BdsIdeScript.RefreshMenuItems;
+-begin
+-  RefreshScriptMenuItems;
+-end;
+-
+-procedure Tdm_BdsIdeScript.RefreshScriptMenuItems;
+-var
+-  i: Integer;
+-  Item, ScriptMenu: TMenuItem;
+-begin
+-  ScriptMenu := GetDelphiCustomMenu('Scripts');
+-  if ScriptMenu = nil then begin { The menu may not exist yet. }
+-    TheTimer.Enabled := True;
+-    Exit;
+-  end;
+-
+-  LoadScripts;
+-  ClearScriptMenuItems;
+-
+-  for i := 0 to FScripts.Count - 1 do begin
+-    Item := TMenuItem.Create(nil);
+-    FScriptItems.Add(Item);
+-    Item.Caption := ChangeFileExt(ExtractFileName(FScripts[i]), '');
+-    Item.Tag := i;
+-    Item.OnClick := RunScriptSubItemClick;
+-    ScriptMenu.Add(Item);
+-  end;
+-
+-  Item := TMenuItem.Create(nil);
+-  FScriptItems.Add(Item);
+-  Item.Caption := '(customize)';
+-  Item.OnClick := RunScriptExplainClick;
+-  ScriptMenu.Add(Item);
+-  SetTimerRefreshing;
+-
+-  ScriptMenu.Visible := FScripts.Count > 0;
+-end;
+-
+-procedure Tdm_BdsIdeScript.ClearMenuItems(_List: TList);
+-var
+-  i: Integer;
+-begin
+-  if (not Assigned(_List)) or (_List.Count = 0) then
+-    Exit;
+-  for i := 0 to _List.Count - 1 do
+-    TMenuItem(_List[i]).Free;
+-  _List.Clear;
+-end;
+-
+-procedure Tdm_BdsIdeScript.ClearScriptMenuItems;
+-begin
+-  ClearMenuItems(FScriptItems);
+-end;
+-
+-procedure Tdm_BdsIdeScript.SetTimerRefreshing;
+-var
+-  Reg: TRegistry;
+-begin
+-  Reg := TRegistry.Create;
+-  try
+-    Reg.OpenKey(GetBaseRegistryKey + '\dzBdsIdeScript\Options', True);
+-    if Reg.ValueExists('Refresh') then begin
+-      TheTimer.Enabled := Reg.ReadBool('Refresh');
+-    end else begin
+-      Reg.WriteBool('Refresh', True);
+-      TheTimer.Enabled := True;
+-    end;
+-  finally
+-    Reg.Free;
+-  end;
+-end;
+-
+-procedure Tdm_BdsIdeScript.RunScriptSubItemClick(Sender: TObject);
+-var
+-  Code: TStringList;
+-  FileName: string;
+-  Idx: Integer;
+-begin
+-  Idx := (Sender as TComponent).Tag;
+-  FileName := FScripts[Idx];
+-  ClearMessages;
+-  WriteToMessages('Loading script ' + FileName);
+-  Code := TStringList.Create;
+-  try
+-    Code.LoadFromFile(FileName);
+-    ExecuteScript(Code);
+-  finally
+-    Code.Free;
+-  end;
+-end;
+-
+-end.
+-
+
+Added: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm	2007-01-04 16:18:21 UTC (rev 130)
+@@ -0,0 +1,5 @@
++object dm_DzBaseExpert: Tdm_DzBaseExpert
++  OldCreateOrder = False
++  Height = 150
++  Width = 215
++end
+
+Added: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas	2007-01-04 16:18:21 UTC (rev 130)
+@@ -0,0 +1,245 @@
++unit de.dummzeuch.experts.BaseExpert;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  Forms,
++  Graphics,
++  Menus,
++  ToolsAPI;
++
++type
++  IMsgWindow = interface ['{94A55B0E-1185-4469-85F6-28A2A433A609}']
++    procedure Write(const _Msg: string; _Show: Boolean = False);
++    procedure Clear;
++  end;
++
++type
++  Tdm_DzBaseExpert = class(TDataModule)
++  protected // helper methods
++    function GetMsgWindow(_Title: string): IMsgWindow;
++    function GetBaseRegistryKey: string;
++    function GetDelphiCustomMenu(const _Caption: string): TMenuItem;
++    function TryGetDelphiCustomMenu(const _Caption: string; out _Item: TMenuItem): Boolean;
++    procedure DeleteDelphiCustomMenu(const _Caption: string);
++    function GetSelectedText: string;
++    function GetSourceEditor: IOTASourceEditor;
++    procedure InsertText(const _Text: string);
++    procedure SetSelectedText(const _Text: string);
++  end;
++
++implementation
++
++{$R *.dfm}
++
++type
++  TMsgWindow = class(TInterfacedObject, IMsgWindow)
++  private
++    FTitle: string;
++  public
++    constructor Create(const _Title: string = '');
++    procedure Write(const _Msg: string; _Show: Boolean = False);
++    procedure Clear;
++  end;
++
++{ Tdm_DzBaseExpert }
++
++procedure Tdm_DzBaseExpert.DeleteDelphiCustomMenu(const _Caption: string);
++var
++  Item: TMenuItem;
++begin
++  if TryGetDelphiCustomMenu(_Caption, Item) then
++    Item.Free;
++end;
++
++function Tdm_DzBaseExpert.GetBaseRegistryKey: string;
++begin
++  Result := (BorlandIDEServices as IOTAServices).GetBaseRegistryKey;
++end;
++
++function Tdm_DzBaseExpert.GetDelphiCustomMenu(const _Caption: string): TMenuItem;
++var
++  MainMenu: TMenuItem;
++  NTAServices: INTAServices;
++begin
++  Result := nil;
++  if not Supports(BorlandIDEServices, INTAServices, NTAServices) then
++    Exit;
++
++  MainMenu := NTAServices.MainMenu.Items;
++  if not Assigned(MainMenu) then
++    Exit;
++
++  Result := MainMenu.Find(_Caption);
++  if Result = nil then begin
++    Result := TMenuItem.Create(MainMenu);
++    Result.Caption := _Caption;
++    MainMenu.Add(Result);
++  end;
++end;
++
++function Tdm_DzBaseExpert.GetMsgWindow(_Title: string): IMsgWindow;
++begin
++  Result := TMsgWindow.Create(_Title);
++end;
++
++function Tdm_DzBaseExpert.GetSelectedText: string;
++var
++  Block: IOTAEditBlock;
++  CurrMod: IOTAModule;
++  i: Integer;
++  Editor: IOTASourceEditor;
++  View: IOTAEditView;
++begin
++  Result := '';
++  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
++  if not Assigned(CurrMod) then
++    Exit;
++  for i := 0 to CurrMod.GetModuleFileCount - 1 do
++    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor, Editor) = S_OK then begin
++      if Editor.GetEditViewCount = 0 then
++        continue;
++      View := Editor.EditViews[0];
++      if View = nil then
++        continue;
++      Block := View.GetBlock;
++      if Block = nil then
++        continue;
++      Result := Block.Text;
++      Exit;
++    end;
++end;
++
++function Tdm_DzBaseExpert.GetSourceEditor: IOTASourceEditor;
++var
++  CurrMod: IOTAModule;
++  i: Integer;
++begin
++  Result := nil;
++  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
++  if not Assigned(CurrMod) then Exit;
++  for i := 0 to CurrMod.GetModuleFileCount - 1 do
++    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor, Result) = S_OK then
++      Exit;
++end;
++
++procedure Tdm_DzBaseExpert.InsertText(const _Text: string);
++var
++  OldAutoIndent: Boolean;
++  Buffer: IOTAEditBuffer;
++  Editor: IOTASourceEditor;
++  View: IOTAEditView;
++begin
++  Editor := GetSourceEditor;
++  if (Editor = nil) or (Editor.GetEditViewCount = 0) then
++    Exit;
++
++  View := Editor.GetEditView(0);
++  if View = nil then
++    Exit;
++
++  Buffer := View.GetBuffer;
++  if Buffer = nil then
++    Exit;
++
++  OldAutoIndent := Buffer.BufferOptions.AutoIndent;
++  try
++    Buffer.BufferOptions.AutoIndent := False;
++    View.Position.InsertText(_Text);
++    View.Paint;
++  finally
++    Buffer.BufferOptions.AutoIndent := OldAutoIndent;
++  end;
++end;
++
++procedure Tdm_DzBaseExpert.SetSelectedText(const _Text: string);
++var
++  OldAutoIndent: Boolean;
++  Buffer: IOTAEditBuffer;
++  Block: IOTAEditBlock;
++  Editor: IOTASourceEditor;
++  i: Integer;
++  View: IOTAEditView;
++begin
++  Editor := GetSourceEditor;
++  if Editor = nil then
++    Exit;
++  for i := 0 to Editor.GetEditViewCount - 1 do begin
++    View := Editor.GetEditView(i);
++    if View = nil then
++      continue;
++    Block := View.GetBlock;
++    if Block.Text <> '' then begin
++      Buffer := View.GetBuffer;
++      OldAutoIndent := Buffer.BufferOptions.AutoIndent;
++      try
++        Buffer.BufferOptions.AutoIndent := False;
++        View.Position.InsertText(_Text);
++        View.Paint;
++      finally
++        Buffer.BufferOptions.AutoIndent := OldAutoIndent;
++      end;
++      Exit;
++    end;
++  end;
++end;
++
++function Tdm_DzBaseExpert.TryGetDelphiCustomMenu(const _Caption: string; out _Item: TMenuItem): Boolean;
++var
++  NTAServices: INTAServices;
++  MainMenu: TMenuItem;
++begin
++  Result := Supports(BorlandIDEServices, INTAServices, NTAServices);
++  if not Result then
++    Exit;
++
++  MainMenu := NTAServices.MainMenu.Items;
++  _Item := MainMenu.Find(_Caption);
++  Result := Assigned(_Item);
++end;
++
++{ TMsgWindow }
++
++procedure TMsgWindow.Clear;
++var
++  MessageView: IOTAMessageServices;
++  MessageGroup: IOTAMessageGroup;
++begin
++  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++    MessageGroup := MessageView.AddMessageGroup(FTitle);
++    MessageView.ClearMessageGroup(MessageGroup);
++  end;
++end;
++
++constructor TMsgWindow.Create(const _Title: string);
++begin
++  inherited Create;
++  FTitle := _Title;
++end;
++
++procedure TMsgWindow.Write(const _Msg: string; _Show: Boolean);
++var
++  MessageView: IOTAMessageServices;
++  MessageGroup: IOTAMessageGroup;
++  st: TStringList;
++  i: Integer;
++begin
++  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++    st := TStringList.Create;
++    try
++      st.Text := _Msg;
++      MessageGroup := MessageView.AddMessageGroup(FTitle);
++      if _Show then
++        MessageView.ShowMessageView(MessageGroup);
++      for i := 0 to st.Count - 1 do
++        MessageView.AddTitleMessage(st[i], MessageGroup);
++    finally
++      st.Free;
++    end;
++  end;
++end;
++
++end.
++
+
+Added: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm	2007-01-04 16:18:21 UTC (rev 130)
+@@ -0,0 +1,52 @@
++inherited dm_dzBdsIdeScriptExpert: Tdm_dzBdsIdeScriptExpert
++  OldCreateOrder = True
++  OnCreate = DataModuleCreate
++  OnDestroy = DataModuleDestroy
++  Height = 219
++  Width = 217
++  object TheTimer: TTimer
++    Enabled = False
++    Interval = 5000
++    OnTimer = TheTimerTimer
++    Left = 24
++    Top = 16
++  end
++  object dws2Unit: Tdws2Unit
++    Script = dws_Main
++    Arrays = <>
++    Classes = <>
++    Constants = <>
++    Dependencies.Strings = (
++      'Classes')
++    Enumerations = <>
++    Forwards = <>
++    Functions = <>
++    Instances = <>
++    Records = <>
++    Synonyms = <>
++    UnitName = 'dzIdeEditor'
++    Variables = <>
++    StaticSymbols = False
++    Left = 112
++    Top = 88
++  end
++  object dws_Main: TDelphiWebScriptII
++    Config.CompilerOptions = []
++    Config.MaxDataSize = 0
++    Config.Timeout = 0
++    Left = 24
++    Top = 88
++  end
++  inline dws2ClassesLib: Tdws2ClassesLib
++    OldCreateOrder = False
++    Script = dws_Main
++    Left = 24
++    Top = 144
++    Height = 0
++    Width = 0
++  end
++  object dws2FileFunctions: Tdws2FileFunctions
++    Left = 112
++    Top = 144
++  end
++end
+
+Added: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas	2007-01-04 16:18:21 UTC (rev 130)
+@@ -0,0 +1,343 @@
++unit de.dummzeuch.experts.BdsIdeScriptExpert;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  Menus,
++  ExtCtrls,
++  ToolsAPI,
++  dws2Comp,
++  dws2Exprs,
++  dws2StringFunctions,
++  dws2FileFunctions,
++  dws2ClassesLibModule,
++  de.dummzeuch.experts.BaseExpert;
++
++type
++  Tdm_dzBdsIdeScriptExpert = class(Tdm_DzBaseExpert)
++    TheTimer: TTimer;
++    dws2Unit: Tdws2Unit;
++    dws_Main: TDelphiWebScriptII;
++    dws2ClassesLib: Tdws2ClassesLib;
++    dws2FileFunctions: Tdws2FileFunctions;
++    procedure DataModuleCreate(Sender: TObject);
++    procedure DataModuleDestroy(Sender: TObject);
++    procedure RunScriptSubItemClick(Sender: TObject);
++    procedure RunScriptExplainClick(Sender: TObject);
++    procedure TheTimerTimer(Sender: TObject);
++  private
++    FScriptItems: TList;
++    FScripts: TStringList;
++
++    procedure ClearMenuItems(_List: TList);
++    procedure ClearScriptMenuItems;
++    procedure LoadScripts;
++    procedure RefreshMenuItems;
++    procedure RefreshScriptMenuItems;
++    procedure SetTimerRefreshing;
++  private
++    function Compile(const _Source: string): TProgram;
++    procedure ExecuteScript(_Code: TStrings);
++    procedure OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++    procedure OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++    procedure OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++    procedure RegisterOTAFunctions;
++  end;
++
++implementation
++
++{$R *.DFM}
++
++uses
++  Registry,
++  ShellAPI,
++  dws2Symbols,
++  dws2Compiler;
++
++const
++  MESSAGE_WINDOW_TITLE = 'BdsIdeScript';
++  CUSTOM_MENU_CAPTION = 'Scripts';
++  REGISTRY_BRANCH = 'dzBdsIdeScript';
++
++procedure Tdm_dzBdsIdeScriptExpert.ExecuteScript(_Code: TStrings);
++var
++  i: Integer;
++  Prog: TProgram;
++  Msg: IMsgWindow;
++begin
++  Msg := GetMsgWindow(MESSAGE_WINDOW_TITLE);
++  Msg.Write('Compiling script.');
++  try
++    Prog := Compile(_Code.Text);
++  except
++    on e: Exception do begin
++      Msg.Write('Error compiling script:'#13#10 + e.Message, True);
++      Exit;
++    end;
++  end;
++
++  Msg.Write('Running script.');
++  try
++//    Prog.BeginProgram();
++    Prog.Execute;
++//    Prog.EndProgram;
++
++    for i := 0 to Prog.Msgs.Count - 1 do
++      Msg.Write(Prog.Msgs[i].asInfo);
++    Msg.Write(Tdws2DefaultResult(Prog.Result).Text);
++
++  finally
++    Prog.Free;
++  end;
++  Msg.Write('Done.');
++end;
++
++function Tdm_dzBdsIdeScriptExpert.Compile(const _Source: string): TProgram;
++var
++  i: Integer;
++  err: string;
++begin
++  Result := dws_Main.Compile(_Source);
++  if Result.Msgs.HasCompilerErrors then begin
++    err := '';
++    for i := 0 to Result.Msgs.Count - 1 do begin
++      if err <> '' then
++        err := err + #13#10;
++      err := err + Result.Msgs[i].asInfo;
++    end;
++    Result.Free;
++    raise Exception.Create(err);
++  end;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.DataModuleCreate(Sender: TObject);
++begin
++  FScriptItems := TList.Create;
++  FScripts := TStringList.Create;
++
++  RefreshMenuItems;
++
++  RegisterOTAFunctions;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.DataModuleDestroy(Sender: TObject);
++begin
++  ClearScriptMenuItems;
++  DeleteDelphiCustomMenu(CUSTOM_MENU_CAPTION);
++  FScripts.Free;
++  FScriptItems.Free;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  _Info.Result := GetSelectedText;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  SetSelectedText(_Info.Value['_Text']);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  InsertText(_Info.Value['_Text']);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RegisterOTAFunctions;
++var
++  Item: Tdws2Class;
++  Meth: Tdws2Method;
++  Param: Tdws2Parameter;
++begin
++  Item := dws2Unit.Classes.Add as Tdws2Class;
++  Item.Name := 'TIdeEditor';
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'GetSelectedText';
++  Meth.Kind := mkClassFunction;
++  Meth.ResultType := 'String';
++  Meth.OnEval := OnIdeEditorGetSelectedTextEval;
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'SetSelectedText';
++  Meth.Kind := mkClassProcedure;
++  Param := Meth.Parameters.Add as Tdws2Parameter;
++  Param.Name := '_Text';
++  Param.DataType := 'String';
++  Meth.OnEval := OnIdeEditorSetSelectedTextEval;
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'InsertText';
++  Meth.Kind := mkClassProcedure;
++  Param := Meth.Parameters.Add as Tdws2Parameter;
++  Param.Name := '_Text';
++  Param.DataType := 'String';
++  Meth.OnEval := OnIdeEditorInsertTextEval;
++end;
++
++procedure ListFiles(const Path: string; Strings: TStrings);
++var
++  Found: Integer;
++  SearchRec: TSearchRec;
++begin
++  Found := FindFirst(Path, faAnyFile, SearchRec);
++  while Found = 0 do begin
++    if (SearchRec.Attr and faDirectory) <> faDirectory then
++      Strings.Add(SearchRec.Name);
++    Found := FindNext(SearchRec);
++  end;
++  FindClose(SearchRec);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.LoadScripts;
++var
++  Folder: string;
++  i: Integer;
++  Reg: TRegistry;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH, True);
++    if not Reg.ValueExists('ScriptFolder') then
++      { Add the IDE's folder. }
++      Reg.WriteString('ScriptFolder',
++        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Scripts')
++    else
++      Folder := Reg.ReadString('ScriptFolder');
++  finally
++    Reg.Free;
++  end;
++  Folder := IncludeTrailingPathDelimiter(Folder);
++  FScripts.Clear;
++  ListFiles(Folder + '*.dws', FScripts);
++  for i := 0 to FScripts.Count - 1 do
++    FScripts[i] := Folder + FScripts[i];
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RunScriptExplainClick(Sender: TObject);
++begin
++  ShowMessage(
++    'Scripts should be placed in the folder pointed by '#13 +
++    'the registry value at:'#13#13 +
++    'HKCU\' + GetBaseRegistryKey + '\' + REGISTRY_BRANCH +
++    #13#13'The value should be assigned to "ScriptFolder".' +
++    #13#13'You can always refresh the script list by clicking this item.'
++    );
++  RefreshMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.TheTimerTimer(Sender: TObject);
++begin
++  RefreshMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RefreshMenuItems;
++begin
++  RefreshScriptMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RefreshScriptMenuItems;
++var
++  i: Integer;
++  Item, ScriptMenu: TMenuItem;
++begin
++  ScriptMenu := GetDelphiCustomMenu(CUSTOM_MENU_CAPTION);
++  if ScriptMenu = nil then begin { The menu may not exist yet. }
++    TheTimer.Enabled := True;
++    Exit;
++  end;
++
++  LoadScripts;
++  ClearScriptMenuItems;
++
++  for i := 0 to FScripts.Count - 1 do begin
++    Item := TMenuItem.Create(nil);
++    FScriptItems.Add(Item);
++    Item.Caption := ChangeFileExt(ExtractFileName(FScripts[i]), '');
++    Item.Tag := i;
++    Item.OnClick := RunScriptSubItemClick;
++    ScriptMenu.Add(Item);
++  end;
++
++  Item := TMenuItem.Create(nil);
++  FScriptItems.Add(Item);
++  Item.Caption := '(customize)';
++  Item.OnClick := RunScriptExplainClick;
++  ScriptMenu.Add(Item);
++  SetTimerRefreshing;
++
++  ScriptMenu.Visible := FScripts.Count > 0;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.ClearMenuItems(_List: TList);
++var
++  i: Integer;
++begin
++  if (not Assigned(_List)) or (_List.Count = 0) then
++    Exit;
++  for i := 0 to _List.Count - 1 do
++    TMenuItem(_List[i]).Free;
++  _List.Clear;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.ClearScriptMenuItems;
++begin
++  ClearMenuItems(FScriptItems);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.SetTimerRefreshing;
++var
++  Reg: TRegistry;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH + '\Options', True);
++    if Reg.ValueExists('Refresh') then begin
++      TheTimer.Enabled := Reg.ReadBool('Refresh');
++    end else begin
++      Reg.WriteBool('Refresh', True);
++      TheTimer.Enabled := True;
++    end;
++  finally
++    Reg.Free;
++  end;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RunScriptSubItemClick(Sender: TObject);
++var
++  Code: TStringList;
++  FileName: string;
++  Idx: Integer;
++  Msg: IMsgWindow;
++begin
++  Idx := (Sender as TComponent).Tag;
++  FileName := FScripts[Idx];
++  Msg := GetMsgWindow(MESSAGE_WINDOW_TITLE);
++  Msg.Clear;
++  Msg.Write('Loading script ' + FileName);
++  Code := TStringList.Create;
++  try
++    Code.LoadFromFile(FileName);
++    ExecuteScript(Code);
++  finally
++    Code.Free;
++  end;
++end;
++
++var
++  Expert: Tdm_dzBdsIdeScriptExpert;
++
++initialization
++  Expert := Tdm_dzBdsIdeScriptExpert.Create(nil);
++finalization
++  Expert.Free;
++end.
++
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.utils.IdeExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.utils.IdeExpert.pas	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.utils.IdeExpert.pas	2007-01-04 16:18:21 UTC (rev 130)
+@@ -1,353 +0,0 @@
+-unit de.dummzeuch.utils.IdeExpert;
+-
+-interface
+-
+-uses
+-  Classes,
+-  Forms,
+-  Graphics,
+-  Menus,
+-  ToolsAPI;
+-
+-type
+-  { We use just one expert, even if it's named after the first expert it
+-    sets up. }
+-  TMLRActionsToMenuExpert = class(TInterfacedObject, IOTAWizard, IOTANotifier)
+-  private // IOTANotifier implementation.
+-    procedure AfterSave;
+-    procedure BeforeSave;
+-    procedure Destroyed;
+-    procedure Modified;
+-  private // IOTAWizard implementation.
+-    function GetIDString: string;
+-    function GetName: string;
+-    function GetState: TWizardState;
+-    procedure Execute;
+-  public // Object-specific.
+-    constructor Create;
+-    destructor Destroy; override;
+-  end;
+-
+-function AddDelphiImage(Bitmap: TBitmap; MaskColor: TColor = clWindow): Integer;
+-function CreateCurrentFormComponent(const TypeName: string; X, Y, w, H: Integer): TComponent;
+-function CurrentForm: TCustomForm;
+-function GetBaseRegistryKey: string;
+-function GetDelphiCustomMenu(const Caption: string): TMenuItem;
+-function GetDelphiDataMenu: TMenuItem;
+-function GetDelphiHelpMenu: TMenuItem;
+-function GetSelectedComponent: TComponent;
+-function GetSelectedText: string;
+-procedure InsertText(const _Text: string);
+-procedure SetSelectedText(const _Text: string);
+-
+-procedure Register;
+-
+-implementation
+-
+-uses
+-  Windows,
+-  Registry,
+-  de.dummzeuch.dm_BdsIdeScriptWizard;
+-
+-function GetEditView: IOTAEditView; forward;
+-function GetFormEditor: IOTAFormEditor; forward;
+-function GetSourceEditor: IOTASourceEditor; forward;
+-
+-function AddDelphiImage(Bitmap: Graphics.TBitmap; MaskColor: TColor): Integer;
+-begin
+-  Result := (BorlandIDEServices as INTAServices).AddMasked(Bitmap, MaskColor);
+-end;
+-
+-function CreateCurrentFormComponent(const TypeName: string;
+-  X, Y, w, H: Integer): TComponent;
+-var
+-  FormEditor: IOTAFormEditor;
+-  NTAComponent: INTAComponent;
+-  OTAComponent: IOTAComponent;
+-begin
+-  Result := nil;
+-  FormEditor := GetFormEditor;
+-  OTAComponent := FormEditor.CreateComponent(FormEditor.GetRootComponent,
+-    TypeName, X, Y, w, H);
+-  if Assigned(OTAComponent) and
+-    (OTAComponent.QueryInterface(INTAComponent, NTAComponent) = S_OK) then
+-    Result := NTAComponent.GetComponent;
+-end;
+-
+-function CurrentForm: TCustomForm;
+-var
+-  Component: TComponent;
+-  CurrentComponent: INTAComponent;
+-  FormEditor: IOTAFormEditor;
+-  OTAComponent: IOTAComponent;
+-begin
+-  Result := nil;
+-  FormEditor := GetFormEditor;
+-  if Assigned(FormEditor) then begin
+-    OTAComponent := FormEditor.GetRootComponent;
+-    if OTAComponent <> nil then
+-      if OTAComponent.QueryInterface(INTAComponent, CurrentComponent)
+-        = S_OK then begin
+-        Component := CurrentComponent.GetComponent;
+-        if Component is TCustomForm then
+-          Result := TCustomForm(Component);
+-        Exit;
+-      end;
+-  end;
+-end;
+-
+-function GetBaseRegistryKey: string;
+-begin
+-  Result := (BorlandIDEServices as IOTAServices).GetBaseRegistryKey;
+-end;
+-
+-function GetDelphiCustomMenu(const Caption: string): TMenuItem;
+-var
+-  MainMenu: TMenuItem;
+-begin
+-  MainMenu := (BorlandIDEServices as INTAServices).MainMenu.Items;
+-  Result := MainMenu.Find(Caption);
+-  if Result = nil then begin
+-    Result := TMenuItem.Create(MainMenu);
+-    Result.Caption := Caption;
+-    MainMenu.Add(Result);
+-  end;
+-end;
+-
+-function GetDelphiDataMenu: TMenuItem;
+-begin
+-  Result := (BorlandIDEServices as INTAServices).MainMenu.Items[7];
+-end;
+-
+-function GetDelphiHelpMenu: TMenuItem;
+-var
+-  NTAServices: INTAServices;
+-begin
+-  Result := nil;
+-  NTAServices := BorlandIDEServices as INTAServices;
+-  if NTAServices = nil then Exit;
+-  if NTAServices.MainMenu.Items.Count >= 10 then
+-    Result := NTAServices.MainMenu.Items[9];
+-end;
+-
+-function GetEditView: IOTAEditView;
+-var
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  Editor: IOTASourceEditor;
+-begin
+-  Result := nil;
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then Exit;
+-  for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor,
+-      Editor) = S_OK then begin
+-      if Editor.GetEditViewCount = 0 then
+-        continue;
+-      Result := Editor.EditViews[0];
+-      if Result <> nil then
+-        Exit;
+-    end;
+-end;
+-
+-function GetFormEditor: IOTAFormEditor;
+-var
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  FormEditor: IOTAFormEditor;
+-begin
+-  Result := nil;
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if Assigned(CurrMod) then
+-    for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-      if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTAFormEditor,
+-        FormEditor) = S_OK then begin
+-        Result := FormEditor;
+-        Exit;
+-      end;
+-end;
+-
+-function GetSelectedComponent: TComponent;
+-var
+-  CurrentComponent: INTAComponent;
+-  Editor: IOTAFormEditor;
+-  OTAComponent: IOTAComponent;
+-begin
+-  Result := nil;
+-  Editor := GetFormEditor;
+-  if Assigned(Editor) then begin
+-    if Editor.GetSelCount >= 1 then begin
+-      OTAComponent := Editor.GetSelComponent(0);
+-      if Assigned(OTAComponent) and
+-        (OTAComponent.QueryInterface(INTAComponent,
+-        CurrentComponent) = S_OK) then
+-        Result := CurrentComponent.GetComponent;
+-    end;
+-  end;
+-end;
+-
+-function GetSelectedText: string;
+-var
+-  Block: IOTAEditBlock;
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  Editor: IOTASourceEditor;
+-  View: IOTAEditView;
+-begin
+-  Result := '';
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then
+-    Exit;
+-  for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor,
+-      Editor) = S_OK then begin
+-      if Editor.GetEditViewCount = 0 then
+-        continue;
+-      View := Editor.EditViews[0];
+-      if View = nil then
+-        continue;
+-      Block := View.GetBlock;
+-      if Block = nil then
+-        continue;
+-      Result := Block.Text;
+-      Exit;
+-    end;
+-end;
+-
+-function GetSourceEditor: IOTASourceEditor;
+-var
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  Editor: IOTASourceEditor;
+-begin
+-  Result := nil;
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then Exit;
+-  for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor,
+-      Editor) = S_OK then begin
+-      Result := Editor;
+-      Exit;
+-    end;
+-end;
+-
+-procedure Register;
+-begin
+-  RegisterPackageWizard(TMLRActionsToMenuExpert.Create as IOTAWizard);
+-end;
+-
+-procedure InsertText(const _Text: string);
+-var
+-  OldAutoIndent: Boolean;
+-  Buffer: IOTAEditBuffer;
+-  Editor: IOTASourceEditor;
+-  View: IOTAEditView;
+-begin
+-  Editor := GetSourceEditor;
+-  if (Editor = nil) or (Editor.GetEditViewCount = 0) then
+-    Exit;
+-
+-  View := Editor.GetEditView(0);
+-  if View = nil then
+-    Exit;
+-
+-  Buffer := View.GetBuffer;
+-  if Buffer = nil then
+-    Exit;
+-
+-  OldAutoIndent := Buffer.BufferOptions.AutoIndent;
+-  try
+-    Buffer.BufferOptions.AutoIndent := False;
+-    View.Position.InsertText(_Text);
+-    View.Paint;
+-  finally
+-    Buffer.BufferOptions.AutoIndent := OldAutoIndent;
+-  end;
+-end;
+-
+-procedure SetSelectedText(const _Text: string);
+-var
+-  OldAutoIndent: Boolean;
+-  Buffer: IOTAEditBuffer;
+-  Block: IOTAEditBlock;
+-  Editor: IOTASourceEditor;
+-  i: Integer;
+-  View: IOTAEditView;
+-begin
+-  Editor := GetSourceEditor;
+-  if Editor = nil then
+-    Exit;
+-  for i := 0 to Editor.GetEditViewCount - 1 do begin
+-    View := Editor.GetEditView(i);
+-    if View = nil then
+-      continue;
+-    Block := View.GetBlock;
+-    if Block.Text <> '' then begin
+-      Buffer := View.GetBuffer;
+-      OldAutoIndent := Buffer.BufferOptions.AutoIndent;
+-      try
+-        Buffer.BufferOptions.AutoIndent := False;
+-        View.Position.InsertText(_Text);
+-        View.Paint;
+-      finally
+-        Buffer.BufferOptions.AutoIndent := OldAutoIndent;
+-      end;
+-      Exit;
+-    end;
+-  end;
+-end;
+-
+-{ TMLRActionsToMenuExpert }
+-
+-procedure TMLRActionsToMenuExpert.AfterSave;
+-begin
+-
+-end;
+-
+-procedure TMLRActionsToMenuExpert.BeforeSave;
+-begin
+-
+-end;
+-
+-constructor TMLRActionsToMenuExpert.Create;
+-begin
+-  dm_BdsIdeScript := Tdm_BdsIdeScript.Create(nil);
+-end;
+-
+-destructor TMLRActionsToMenuExpert.Destroy;
+-begin
+-  dm_BdsIdeScript.Free;
+-end;
+-
+-procedure TMLRActionsToMenuExpert.Destroyed;
+-begin
+-
+-end;
+-
+-procedure TMLRActionsToMenuExpert.Execute;
+-begin
+-
+-end;
+-
+-function TMLRActionsToMenuExpert.GetIDString: string;
+-begin
+-  Result := 'de.dummzeuch.BdsIdeScript';
+-end;
+-
+-function TMLRActionsToMenuExpert.GetName: string;
+-begin
+-  Result := 'Actions to menu.';
+-end;
+-
+-function TMLRActionsToMenuExpert.GetState: TWizardState;
+-begin
+-  Result := [wsEnabled];
+-end;
+-
+-procedure TMLRActionsToMenuExpert.Modified;
+-begin
+-
+-end;
+-
+-end.
+-
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj	2007-01-04 16:18:21 UTC (rev 130)
+@@ -170,7 +170,12 @@
+ 			<VersionInfoKeys Name="ProductName"></VersionInfoKeys>
+ 			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+ 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
+-		</VersionInfoKeys>  <Excluded_Packages>
++		</VersionInfoKeys>  
++    
++    
++    
++    <Excluded_Packages>
++      <Excluded_Packages Name="C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\dzBdsIdeScript100.bpl.1.0">BDS IDE Scripting using Delphi Web Script II</Excluded_Packages>
+       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclie100.bpl">Internet Explorer Components</Excluded_Packages>
+       <Excluded_Packages Name="C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl">JVCL Application and Form Components</Excluded_Packages>
+       <Excluded_Packages Name="C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl">JVCL BDE Components</Excluded_Packages>
+@@ -196,4 +201,5 @@
+       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl">Indy 10 Protocols Design Time</Excluded_Packages>
+     </Excluded_Packages>
+   </Delphi.Personality>
++	<ModelSupport>True</ModelSupport>
+ </BorlandProject>
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk	2007-01-04 16:18:21 UTC (rev 130)
+@@ -27,6 +27,11 @@
+ {$LIBVERSION '1.0'}
+ {$DESIGNONLY}
+ {$IMPLICITBUILD OFF}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\default.txaPackage'}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\de\default.txaPackage'}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\de\dummzeuch\default.txaPackage'}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\de\dummzeuch\experts\default.txaPackage'}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\de\dummzeuch\experts\BaseExpert\default.txaPackage'}
+ 
+ requires
+   vcl,
+@@ -36,7 +41,7 @@
+   dws2ClassesLibrary;
+ 
+ contains
+-  de.dummzeuch.utils.IdeExpert in 'de.dummzeuch.utils.IdeExpert.pas',
+-  de.dummzeuch.dm_BdsIdeScriptWizard in 'de.dummzeuch.dm_BdsIdeScriptWizard.pas' {dm_BdsIdeScript: TDataModule};
++  de.dummzeuch.experts.BdsIdeScriptExpert in 'de.dummzeuch.experts.BdsIdeScriptExpert.pas' {dm_dzBdsIdeScriptExpert: TDataModule},
++  de.dummzeuch.experts.BaseExpert in 'de.dummzeuch.experts.BaseExpert.pas' {dm_DzBaseExpert: TDataModule};
+ 
+ end.
+
+
+
+From twm at mail.berlios.de  Thu Jan 25 22:01:48 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Thu, 25 Jan 2007 22:01:48 +0100
+Subject: [Dzchart-svncheckins] r131 -
+	utilities/dzFeedReader/trunk/SimpleRss/Source
+Message-ID: <200701252101.l0PL1mWq008590@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-25 22:01:48 +0100 (Thu, 25 Jan 2007)
+New Revision: 131
+
+Modified:
+   utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleParserBase.pas
+   utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleRSS.pas
+Log:
+made it independed of a particular DOM vendor
+
+Modified: utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleParserBase.pas
+===================================================================
+--- utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleParserBase.pas	2007-01-04 16:18:21 UTC (rev 130)
++++ utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleParserBase.pas	2007-01-25 21:01:48 UTC (rev 131)
+@@ -37,6 +37,7 @@
+ type
+   TSimpleParserBase = class(TObject)
+   private
++    function CheckTextNode(_Node: IXmlNode): variant;
+   protected
+     FSimpleRSS: TSimpleRSS;
+     function ContainsNode(_ChildNodes: IXMLNodeList; const _NodeName: string;
+@@ -55,7 +56,9 @@
+ implementation
+ 
+ uses
+-  Variants;
++  Variants,
++  xmldom,
++  XMLConst;
+ 
+ constructor TSimpleParserBase.Create(SimpleRSS: TSimpleRSS);
+ begin
+@@ -63,12 +66,33 @@
+   FSimpleRSS := SimpleRSS;
+ end;
+ 
++function TSimpleParserBase.CheckTextNode(_Node: IXmlNode): variant;
++var
++  i: integer;
++  Node: IXMLNode;
++begin
++  if not _Node.DOMNode.hasChildNodes then begin
++    Result := null
++  end else begin
++    Result := '';
++    for i := 0 to _Node.ChildNodes.Count - 1 do begin
++      Node := _Node.ChildNodes[i];
++      if not (Node.DOMNode.NodeType in [ELEMENT_NODE, TEXT_NODE, CDATA_SECTION_NODE, ENTITY_REFERENCE_NODE]) then
++        raise EXMLDocError.CreateFmt(SNotSingleTextNode, [_Node.DOMNode.nodeName]);
++      Result := Result + GetNodeValue(Node, '');
++    end;
++  end;
++end;
++
+ function TSimpleParserBase.GetNodeValue(_Node: IXmlNode; const _Default: string = ''): string;
+ begin
+   try
+-    if Assigned(_Node) then
+-      Result := VarToStrDef(_Node.NodeValue, _Default)
+-    else
++    if Assigned(_Node) then begin
++      if _Node.NodeType = ntElement then begin
++        Result := VarToStrDef(CheckTextNode(_Node), _Default);
++      end else
++        Result := VarToStrDef(_Node.NodeValue, _Default)
++    end else
+       Result := _Default;
+   except
+     Result := 'error parsing NodeValue'
+
+Modified: utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleRSS.pas
+===================================================================
+--- utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleRSS.pas	2007-01-04 16:18:21 UTC (rev 130)
++++ utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleRSS.pas	2007-01-25 21:01:48 UTC (rev 131)
+@@ -115,6 +115,7 @@
+   FXMLFile.Active := False;
+   FXMLFile.Free;
+   FXMLFile := TXMLDocument.Create(Self);
++//  FXMLFile.DOMVendor := GetDOMVendor('Open XML 3.2');
+   FXMLFile.DOMVendor := GetDOMVendor('Open XML');
+   FXMLFile.Active := True;
+ end;
+@@ -125,6 +126,7 @@
+   FChannel := TRSSChannel.Create;
+   FItems := TRSSItems.Create(Self, TRSSItem);
+   FXMLFile := TXMLDocument.Create(Self);
++//  FXMLFile.DOMVendor := GetDOMVendor('Open XML 3.2');
+   FXMLFile.DOMVendor := GetDOMVendor('Open XML');
+   FXMLFile.Active := True;
+   FVersion := strRSSVersion;
+
+
+
+From twm at mail.berlios.de  Thu Jan 25 22:19:06 2007
+From: twm at mail.berlios.de (twm at BerliOS)
+Date: Thu, 25 Jan 2007 22:19:06 +0100
+Subject: [Dzchart-svncheckins] r132 -
+	utilities/dzFeedReader/trunk/dzFeedReader
+Message-ID: <200701252119.l0PLJ6wX009492@sheep.berlios.de>
+
+Author: twm
+Date: 2007-01-25 22:19:05 +0100 (Thu, 25 Jan 2007)
+New Revision: 132
+
+Modified:
+   utilities/dzFeedReader/trunk/dzFeedReader/dzFeedReader.bdsproj
+Log:
+adapted search path
+
+Modified: utilities/dzFeedReader/trunk/dzFeedReader/dzFeedReader.bdsproj
+===================================================================
+--- utilities/dzFeedReader/trunk/dzFeedReader/dzFeedReader.bdsproj	2007-01-25 21:01:48 UTC (rev 131)
++++ utilities/dzFeedReader/trunk/dzFeedReader/dzFeedReader.bdsproj	2007-01-25 21:19:05 UTC (rev 132)
+@@ -123,7 +123,7 @@
+ 			<Directories Name="UnitOutputDir"></Directories>
+ 			<Directories Name="PackageDLLOutputDir"></Directories>
+ 			<Directories Name="PackageDCPOutputDir"></Directories>
+-			<Directories Name="SearchPath">$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\SimpleRss\Source;..\..\dztemplates\templates;..\..\dztemplates\units</Directories>
++			<Directories Name="SearchPath">$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\SimpleRss\Source;..\..\berlios.dztemplates\templates;..\..\berlios.dztemplates\units</Directories>
+ 			<Directories Name="Packages">rtl;vcl;vclx;xmlrtl;vclactnband;VclSmp;dummzeuchchartd2006;dbrtl;vcldb;dbxcds;dbexpress;vclie;inet;inetdbbde;inetdbxpress;IndyCore;IndySystem;dsnap;bdertl;vcldbx;IndyProtocols;SimpleRSS_D2k6_Win32</Directories>
+ 			<Directories Name="Conditionals"></Directories>
+ 			<Directories Name="DebugSourceDirs">$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10</Directories>
+@@ -150,7 +150,7 @@
+ 			<VersionInfo Name="MajorVer">1</VersionInfo>
+ 			<VersionInfo Name="MinorVer">0</VersionInfo>
+ 			<VersionInfo Name="Release">0</VersionInfo>
+-			<VersionInfo Name="Build">2</VersionInfo>
++			<VersionInfo Name="Build">3</VersionInfo>
+ 			<VersionInfo Name="Debug">False</VersionInfo>
+ 			<VersionInfo Name="PreRelease">False</VersionInfo>
+ 			<VersionInfo Name="Special">False</VersionInfo>
+@@ -162,7 +162,7 @@
+ 		<VersionInfoKeys>
+ 			<VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys>
+ 			<VersionInfoKeys Name="FileDescription">a simple RSS feed reader</VersionInfoKeys>
+-			<VersionInfoKeys Name="FileVersion">1.0.0.2</VersionInfoKeys>
++			<VersionInfoKeys Name="FileVersion">1.0.0.3</VersionInfoKeys>
+ 			<VersionInfoKeys Name="InternalName">dzFeedReader</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalCopyright">copyright 2006 by Thomas Mueller</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
+
+
+

@@ -1,0 +1,2504 @@
+From twm at mail.berlios.de  Sat May 30 13:00:36 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 13:00:36 +0200
+Subject: [Dzchart-svncheckins] r326 - in utilities: . gtdnotes
+	gtdnotes/trunk gtdnotes/trunk/src
+Message-ID: <200905301100.n4UB0a1o018293@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 12:59:48 +0200 (Sat, 30 May 2009)
+New Revision: 326
+
+Added:
+   utilities/gtdnotes/
+   utilities/gtdnotes/trunk/
+   utilities/gtdnotes/trunk/dcu/
+   utilities/gtdnotes/trunk/src/
+   utilities/gtdnotes/trunk/src/GtdNotes.dpr
+   utilities/gtdnotes/trunk/src/GtdNotes.dproj
+   utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+
+
+Added: utilities/gtdnotes/trunk/src/GtdNotes.dpr
+===================================================================
+--- utilities/gtdnotes/trunk/src/GtdNotes.dpr	2008-09-05 17:02:01 UTC (rev 325)
++++ utilities/gtdnotes/trunk/src/GtdNotes.dpr	2009-05-30 10:59:48 UTC (rev 326)
+@@ -0,0 +1,14 @@
++program GtdNotes;
++
++uses
++  Forms,
++  w_gtdNotes in 'w_gtdNotes.pas' {f_gtdNotes};
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.MainFormOnTaskbar := True;
++  Application.CreateForm(Tf_gtdNotes, f_gtdNotes);
++  Application.Run;
++end.
+
+Added: utilities/gtdnotes/trunk/src/GtdNotes.dproj
+===================================================================
+--- utilities/gtdnotes/trunk/src/GtdNotes.dproj	2008-09-05 17:02:01 UTC (rev 325)
++++ utilities/gtdnotes/trunk/src/GtdNotes.dproj	2009-05-30 10:59:48 UTC (rev 326)
+@@ -0,0 +1,110 @@
++?	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++		<PropertyGroup>
++			<ProjectGuid>{3B4926B7-B5C5-4FF0-9BB3-D0E7BB062836}</ProjectGuid>
++			<ProjectVersion>12.0</ProjectVersion>
++			<MainSource>GtdNotes.dpr</MainSource>
++			<Config Condition="'$(Config)'==''">Debug</Config>
++			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
++			<Cfg_1>true</Cfg_1>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
++			<Cfg_2>true</Cfg_2>
++			<CfgParent>Base</CfgParent>
++			<Base>true</Base>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Base)'!=''">
++			<DCC_DcuOutput>..\dcu</DCC_DcuOutput>
++			<DCC_ExeOutput>..</DCC_ExeOutput>
++			<DCC_UnitSearchPath>..\libs\virtualtreeview\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_DependencyCheckOutputName>..\GtdNotes.exe</DCC_DependencyCheckOutputName>
++			<DCC_ImageBase>00400000</DCC_ImageBase>
++			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
++			<DCC_Platform>x86</DCC_Platform>
++			<DCC_E>false</DCC_E>
++			<DCC_N>false</DCC_N>
++			<DCC_S>false</DCC_S>
++			<DCC_F>false</DCC_F>
++			<DCC_K>false</DCC_K>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_1)'!=''">
++			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
++			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
++			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++			<DCC_DebugInformation>false</DCC_DebugInformation>
++		</PropertyGroup>
++		<PropertyGroup Condition="'$(Cfg_2)'!=''">
++			<DCC_Optimize>false</DCC_Optimize>
++			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
++		</PropertyGroup>
++		<ItemGroup>
++			<DelphiCompile Include="GtdNotes.dpr">
++				<MainSource>MainSource</MainSource>
++			</DelphiCompile>
++			<DCCReference Include="w_gtdNotes.pas">
++				<Form>f_gtdNotes</Form>
++			</DCCReference>
++			<BuildConfiguration Include="Base">
++				<Key>Base</Key>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Debug">
++				<Key>Cfg_2</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++			<BuildConfiguration Include="Release">
++				<Key>Cfg_1</Key>
++				<CfgParent>Base</CfgParent>
++			</BuildConfiguration>
++		</ItemGroup>
++		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
++		<ProjectExtensions>
++			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
++			<Borland.ProjectType/>
++			<BorlandProject>
++				<Delphi.Personality>
++					<Source>
++						<Source Name="MainSource">GtdNotes.dpr</Source>
++					</Source>
++					<Parameters>
++						<Parameters Name="UseLauncher">False</Parameters>
++						<Parameters Name="LoadAllSymbols">True</Parameters>
++						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++					</Parameters>
++					<VersionInfo>
++						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
++						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
++						<VersionInfo Name="MajorVer">1</VersionInfo>
++						<VersionInfo Name="MinorVer">0</VersionInfo>
++						<VersionInfo Name="Release">0</VersionInfo>
++						<VersionInfo Name="Build">0</VersionInfo>
++						<VersionInfo Name="Debug">False</VersionInfo>
++						<VersionInfo Name="PreRelease">False</VersionInfo>
++						<VersionInfo Name="Special">False</VersionInfo>
++						<VersionInfo Name="Private">False</VersionInfo>
++						<VersionInfo Name="DLL">False</VersionInfo>
++						<VersionInfo Name="Locale">1031</VersionInfo>
++						<VersionInfo Name="CodePage">1252</VersionInfo>
++					</VersionInfo>
++					<VersionInfoKeys>
++						<VersionInfoKeys Name="CompanyName"/>
++						<VersionInfoKeys Name="FileDescription"/>
++						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="InternalName"/>
++						<VersionInfoKeys Name="LegalCopyright"/>
++						<VersionInfoKeys Name="LegalTrademarks"/>
++						<VersionInfoKeys Name="OriginalFilename"/>
++						<VersionInfoKeys Name="ProductName"/>
++						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++						<VersionInfoKeys Name="Comments"/>
++					</VersionInfoKeys>
++				</Delphi.Personality>
++			</BorlandProject>
++			<ProjectFileVersion>12</ProjectFileVersion>
++		</ProjectExtensions>
++	</Project>
+
+Added: utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2008-09-05 17:02:01 UTC (rev 325)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2009-05-30 10:59:48 UTC (rev 326)
+@@ -0,0 +1,159 @@
++object f_gtdNotes: Tf_gtdNotes
++  Left = 410
++  Top = 184
++  BiDiMode = bdLeftToRight
++  Caption = 'GTD Notes'
++  ClientHeight = 449
++  ClientWidth = 532
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'MS Sans Serif'
++  Font.Style = []
++  OldCreateOrder = False
++  ParentBiDiMode = False
++  PixelsPerInch = 96
++  TextHeight = 13
++  object VST: TVirtualStringTree
++    Left = 0
++    Top = 19
++    Width = 532
++    Height = 430
++    Align = alClient
++    BiDiMode = bdLeftToRight
++    Colors.BorderColor = clWindowText
++    Colors.HotColor = clBlack
++    Header.AutoSizeIndex = 0
++    Header.DefaultHeight = 17
++    Header.Font.Charset = DEFAULT_CHARSET
++    Header.Font.Color = clWindowText
++    Header.Font.Height = -11
++    Header.Font.Name = 'Tahoma'
++    Header.Font.Style = []
++    Header.MainColumn = -1
++    HintAnimation = hatNone
++    IncrementalSearch = isAll
++    ParentBiDiMode = False
++    TabOrder = 0
++    TreeOptions.AutoOptions = [toAutoDropExpand, toAutoTristateTracking]
++    TreeOptions.MiscOptions = [toCheckSupport, toInitOnSave, toToggleOnDblClick, toWheelPanning]
++    TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages]
++    TreeOptions.SelectionOptions = [toFullRowSelect, toMultiSelect, toCenterScrollIntoView]
++    OnChange = VSTChange
++    OnChecked = VSTChecked
++    OnDblClick = VSTDblClick
++    OnFreeNode = VSTFreeNode
++    OnGetText = VSTGetText
++    OnPaintText = VSTPaintText
++    OnInitNode = VSTInitNode
++    OnKeyPress = VSTKeyPress
++    ExplicitWidth = 456
++    Columns = <>
++  end
++  object tb_Main: TToolBar
++    Left = 0
++    Top = 0
++    Width = 532
++    Height = 19
++    ButtonHeight = 19
++    ButtonWidth = 86
++    Caption = 'GTD Notes Toolbar'
++    List = True
++    ShowCaptions = True
++    AllowTextButtons = True
++    TabOrder = 1
++    ExplicitWidth = 456
++    object tb_Load: TToolButton
++      Left = 0
++      Top = 0
++      Action = act_Load
++      Style = tbsTextButton
++    end
++    object tb_Save: TToolButton
++      Left = 35
++      Top = 0
++      Action = act_Save
++      Style = tbsTextButton
++    end
++    object tb_SaveAs: TToolButton
++      Left = 71
++      Top = 0
++      Action = act_SaveAs
++      Style = tbsTextButton
++    end
++    object ToolButton3: TToolButton
++      Left = 133
++      Top = 0
++      Width = 8
++      Caption = 'ToolButton3'
++      ImageIndex = 2
++      Style = tbsSeparator
++    end
++    object tb_SetNextAction: TToolButton
++      Left = 141
++      Top = 0
++      Action = act_SetNextAction
++      Style = tbsTextButton
++    end
++    object tb_AddAction: TToolButton
++      Left = 226
++      Top = 0
++      Action = act_AddAction
++      Style = tbsTextButton
++    end
++    object tb_DeleteAction: TToolButton
++      Left = 289
++      Top = 0
++      Action = act_DeleteAction
++      Style = tbsTextButton
++    end
++    object ToolButton7: TToolButton
++      Left = 364
++      Top = 0
++      Width = 8
++      Caption = 'ToolButton7'
++      ImageIndex = 0
++      Style = tbsSeparator
++    end
++    object tb_ShowDone: TToolButton
++      Left = 372
++      Top = 0
++      Action = act_ShowDone
++      AllowAllUp = True
++      Grouped = True
++      Style = tbsTextButton
++    end
++  end
++  object TheActionList: TActionList
++    Left = 224
++    Top = 88
++    object act_Load: TAction
++      Caption = 'Load'
++      OnExecute = act_LoadExecute
++    end
++    object act_Save: TAction
++      Caption = 'Save'
++      OnExecute = act_SaveExecute
++    end
++    object act_SaveAs: TAction
++      Caption = 'Save as ...'
++      OnExecute = act_SaveAsExecute
++    end
++    object act_ShowDone: TAction
++      Caption = 'Show done'
++      GroupIndex = 1
++      OnExecute = act_ShowDoneExecute
++    end
++    object act_SetNextAction: TAction
++      Caption = 'Set Next Action'
++      OnExecute = act_SetNextActionExecute
++    end
++    object act_AddAction: TAction
++      Caption = 'Add Action'
++    end
++    object act_DeleteAction: TAction
++      Caption = 'Delete Action'
++    end
++  end
++end
+
+Added: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2008-09-05 17:02:01 UTC (rev 325)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 10:59:48 UTC (rev 326)
+@@ -0,0 +1,575 @@
++unit w_gtdNotes;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  VirtualTrees,
++  StdCtrls,
++  ExtCtrls,
++  Contnrs,
++  ActnList,
++  ComCtrls,
++  ToolWin;
++
++type
++  TGtdNode = class
++  strict private
++    FName: string;
++  strict protected
++    function GetIsNextAction: boolean; virtual;
++    procedure SetIsNextAction(const Value: boolean); virtual;
++    function GetIsDone: boolean; virtual;
++    procedure SetIsDone(const Value: boolean); virtual;
++    function GetCount: integer; virtual;
++    function GetItems(_Idx: integer): TGtdNode; virtual;
++  public
++    constructor Create(const _Name: string);
++    property Name: string read FName;
++    property IsDone: boolean read GetIsDone write SetIsDone;
++    property Count: integer read GetCount;
++    property IsNextAction: boolean read GetisNextAction write SetisNextAction;
++    property Items[_Idx: integer]: TGtdNode read GetItems;
++  end;
++
++  TGtdMiddleNode = class(TGtdNode)
++  public
++    function Add(_Node: TGtdNode): integer; virtual; abstract;
++    property Items[_Idx: integer]: TGtdNode read GetItems;
++  end;
++
++  TGtdContainer = class(TGtdMiddleNode)
++  strict private
++    FItems: TObjectList;
++  strict protected
++    function GetItems(_Idx: integer): TGtdNode; override;
++    function GetCount: integer; override;
++  public
++    constructor Create(const _Name: string);
++    destructor Destroy; override;
++    function Add(_Node: TGtdNode): integer; override;
++  end;
++
++  TGtdFilter = class(TGtdMiddleNode)
++  strict private
++    FItems: TList;
++  strict protected
++    function GetItems(_Idx: integer): TGtdNode; override;
++    function GetCount: integer; override;
++  public
++    constructor Create(const _Name: string);
++    destructor Destroy; override;
++    function Add(_Node: TGtdNode): integer; override;
++  end;
++
++  TGtdAction = class(TGtdNode)
++  strict private
++    FIsDone: boolean;
++    FIsNextAction: boolean;
++  strict protected
++    procedure SetIsDone(const _Value: boolean); override;
++    function GetIsDone: boolean; override;
++    function GetIsNextAction: boolean; override;
++    procedure SetIsNextAction(const _Value: boolean); override;
++  end;
++
++  TGtdProject = class(TGtdContainer)
++  end;
++
++  TGtdPlace = class(TGtdFilter)
++  end;
++
++  TGtdLabel = class(TGtdFilter)
++  end;
++
++  TGtdPlaces = class(TGtdContainer)
++  public
++    constructor Create;
++  end;
++
++  TGtdProjects = class(TGtdContainer)
++  public
++    constructor Create;
++  end;
++
++  TGtdLabels = class(TGtdContainer)
++  public
++    constructor Create;
++  end;
++
++type
++  Tf_gtdNotes = class(TForm)
++    VST: TVirtualStringTree;
++    tb_Main: TToolBar;
++    tb_Load: TToolButton;
++    tb_Save: TToolButton;
++    ToolButton3: TToolButton;
++    tb_ShowDone: TToolButton;
++    TheActionList: TActionList;
++    act_Load: TAction;
++    act_Save: TAction;
++    act_SaveAs: TAction;
++    act_ShowDone: TAction;
++    tb_SaveAs: TToolButton;
++    tb_SetNextAction: TToolButton;
++    act_SetNextAction: TAction;
++    ToolButton7: TToolButton;
++    tb_AddAction: TToolButton;
++    act_AddAction: TAction;
++    tb_DeleteAction: TToolButton;
++    act_DeleteAction: TAction;
++    procedure VSTFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
++    procedure VSTInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
++      var InitialStates: TVirtualNodeInitStates);
++    procedure VSTGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
++      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
++    procedure VSTChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
++    procedure act_LoadExecute(Sender: TObject);
++    procedure act_SaveExecute(Sender: TObject);
++    procedure act_SaveAsExecute(Sender: TObject);
++    procedure act_ShowDoneExecute(Sender: TObject);
++    procedure VSTPaintText(Sender: TBaseVirtualTree;
++      const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
++      TextType: TVSTTextType);
++    procedure VSTDblClick(Sender: TObject);
++    procedure VSTKeyPress(Sender: TObject; var Key: Char);
++    procedure act_SetNextActionExecute(Sender: TObject);
++    procedure VSTChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
++  private
++    FPlaces: TGtdPlaces;
++    FProjects: TGtdProjects;
++    FLabels: TGtdLabels;
++    procedure SetDoneVisible(_Visible: boolean);
++    procedure HideNodes(_Sender: TBaseVirtualTree; _Node: PVirtualNode;
++      _Data: Pointer; var _Abort: Boolean);
++    procedure UnsetNextAction(_Sender: TBaseVirtualTree; _Node: PVirtualNode;
++      _Data: Pointer; var _Abort: Boolean);
++    procedure MakeFocusedActionNext;
++    function GetFocusedNode(out _Node: PVirtualNode;
++      out _GtdNode: TGtdNode): boolean;
++    function GetFocusedProjectAction(out _Node: PVirtualNode;
++      out _GtdNode: TGtdNode): boolean;
++  public
++    constructor Create(_Owner: TComponent); override;
++    destructor Destroy; override;
++  end;
++
++var
++  f_gtdNotes: Tf_gtdNotes;
++
++implementation
++
++{$R *.DFM}
++
++type
++  PGtdLabelRec = ^TGtdLabelRec;
++  TGtdLabelRec = record
++    GtdNode: TGtdNode;
++  end;
++
++{ Tf_gtdNotes }
++
++constructor Tf_gtdNotes.Create(_Owner: TComponent);
++var
++  AtWork: TGtdPlace;
++  Project: TGtdProject;
++  Action: TGtdAction;
++begin
++  inherited;
++
++  FPlaces := TGtdPlaces.Create;
++  FPlaces.Add(TGtdPlace.Create('atHome'));
++  AtWork := TGtdPlace.Create('atWork');
++  FPlaces.Add(AtWork);
++  FPlaces.Add(TGtdPlace.Create('onTheRoad'));
++
++  FProjects := TGtdProjects.Create;
++  Project := TGtdProject.Create('get used to GTD');
++  FProjects.Add(Project);
++
++  Action := TGtdAction.Create('set up gtdnotes');
++  Action.isNextAction := true;
++  Project.Add(Action);
++  AtWork.Add(Action);
++
++  Action := TGtdAction.Create('Enter projects');
++  Project.Add(Action);
++  AtWork.Add(Action);
++
++  Action := TGtdAction.Create('Enter project actions');
++  Project.Add(Action);
++  AtWork.Add(Action);
++
++  Action := TGtdAction.Create('Decide on next action for each project');
++  Project.Add(Action);
++  AtWork.Add(Action);
++
++  FLabels := TGtdLabels.Create;
++
++  VST.NodeDataSize := SizeOf(TGtdLabelRec);
++
++  // Places / Projects / Labels
++  VST.RootNodeCount := 3;
++end;
++
++destructor Tf_gtdNotes.Destroy;
++begin
++  FLabels.Free;
++  FPlaces.Free;
++  FProjects.Free;
++  inherited;
++end;
++
++function Tf_gtdNotes.GetFocusedProjectAction(out _Node: PVirtualNode; out _GtdNode: TGtdNode): boolean;
++var
++  Data: PGtdLabelRec;
++begin
++  Result := GetFocusedNode(_Node, _GtdNode);
++  if Result then begin
++    if not Assigned(_Node.Parent) then
++      Result := false
++    else begin
++      Data := VST.GetNodeData(_Node.Parent);
++      Result := Assigned(Data) and Assigned(Data.GtdNode) and (Data.GtdNode is TGtdProject);
++    end;
++  end;
++end;
++
++function Tf_gtdNotes.GetFocusedNode(out _Node: PVirtualNode; out _GtdNode: TGtdNode): boolean;
++var
++  Data: PGtdLabelRec;
++begin
++  Result := false;
++  _Node := VST.FocusedNode;
++  if not Assigned(_Node) or not Assigned(_Node.Parent) then
++    exit;
++  Data := VST.GetNodeData(_Node);
++  Assert(Assigned(Data.GtdNode));
++  _GtdNode := Data.GtdNode;
++  Result := true;
++end;
++
++procedure Tf_gtdNotes.MakeFocusedActionNext;
++var
++  Node: PVirtualNode;
++  GtdNode: TGtdNode;
++begin
++  if not GetFocusedProjectAction(Node, GtdNode) then
++    exit;
++  VST.BeginUpdate;
++  try
++    GtdNode.IsNextAction := not GtdNode.IsNextAction;
++    VST.IterateSubtree(Node.Parent, UnsetNextAction, GtdNode);
++  finally
++    VST.EndUpdate;
++  end;
++end;
++
++procedure Tf_gtdNotes.VSTGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
++  Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
++var
++  Data: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  if not Assigned(Data) then
++    CellText := 'Data not assigned'
++  else if not Assigned(Data.GtdNode) then
++    CellText := 'Data.GtdNode not assigned'
++  else begin
++    CellText := Data.GtdNode.Name;
++  end;
++end;
++
++procedure Tf_gtdNotes.VSTChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
++var
++  GtdNode: TGtdNode;
++  TreeNode: PVirtualNode;
++  IsProjectAction: boolean;
++begin
++  if not Assigned(Node) then
++    exit;
++  IsProjectAction := GetFocusedProjectAction(TreeNode, GtdNode);
++  act_SetNextAction.Enabled := IsProjectAction;
++end;
++
++procedure Tf_gtdNotes.VSTChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
++var
++  Data: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  Assert(Assigned(Data));
++  Data.GtdNode.IsDone := (Node.CheckState = csCheckedNormal);
++end;
++
++procedure Tf_gtdNotes.UnsetNextAction(_Sender: TBaseVirtualTree; _Node: PVirtualNode; _Data: Pointer; var _Abort: Boolean);
++var
++  NodeData: PGtdLabelRec;
++begin
++  NodeData := VST.GetNodeData(_Node);
++  Assert(Assigned(NodeData.GtdNode));
++  if NodeData.GtdNode <> _Data then
++    NodeData.GtdNode.IsNextAction := false;
++end;
++
++procedure Tf_gtdNotes.VSTDblClick(Sender: TObject);
++begin
++  MakeFocusedActionNext;
++end;
++
++procedure Tf_gtdNotes.VSTFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
++var
++  Data: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  if Assigned(Data) then
++    Finalize(Data^);
++end;
++
++procedure Tf_gtdNotes.VSTInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
++  var InitialStates: TVirtualNodeInitStates);
++var
++  Level: integer;
++  Data: PGtdLabelRec;
++  Index: integer;
++  ParentData: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  Level := Sender.GetNodeLevel(Node);
++  Index := Node.Index;
++  if Level = 0 then begin
++    case Index of
++      0: Data.GtdNode := FPlaces;
++      1: Data.GtdNode := FProjects;
++      2: Data.GtdNode := FLabels;
++    end;
++  end else begin
++    ParentData := Sender.GetNodeData(ParentNode);
++    if Index >= ParentData.GtdNode.Count then
++      raise Exception.Create('Programmer Error: Node index must not be greater or equal item count.');
++    Data.GtdNode := ParentData.GtdNode.Items[Index] as TGtdNode;
++  end;
++  VST.ChildCount[Node] := Data.GtdNode.Count;
++  VST.Expanded[Node] := (Data.GtdNode.Count > 0);
++  if Level = 2 then
++    VST.CheckType[Node] := ctCheckBox;
++end;
++
++procedure Tf_gtdNotes.VSTKeyPress(Sender: TObject; var Key: Char);
++begin
++  if Key = #13 then
++    MakeFocusedActionNext;
++end;
++
++procedure Tf_gtdNotes.VSTPaintText(Sender: TBaseVirtualTree;
++  const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
++  TextType: TVSTTextType);
++var
++  Data: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  if Data.GtdNode.isNextAction then
++    TargetCanvas.Font.Style := Canvas.Font.Style + [fsBold]
++  else
++    TargetCanvas.Font.Style := Canvas.Font.Style - [fsBold];
++end;
++
++procedure Tf_gtdNotes.HideNodes(_Sender: TBaseVirtualTree; _Node: PVirtualNode; _Data: Pointer; var _Abort: Boolean);
++var
++  NodeData: PGtdLabelRec;
++begin
++  NodeData := _Sender.GetNodeData(_Node);
++  Assert(Assigned(NodeData));
++  Assert(Assigned(NodeData.GtdNode));
++
++  if Boolean(Integer(_Data)) then
++    _Sender.IsVisible[_Node] := True
++  else
++    _Sender.IsVisible[_Node] := not NodeData.GtdNode.IsDone;
++end;
++
++procedure Tf_gtdNotes.SetDoneVisible(_Visible: boolean);
++begin
++  act_ShowDone.Checked := _Visible;
++  VST.BeginUpdate;
++  try
++    VST.IterateSubtree(nil, HideNodes, Pointer(Ord(_Visible)), [], True);
++  finally
++    VST.EndUpdate;
++  end;
++end;
++
++procedure Tf_gtdNotes.act_LoadExecute(Sender: TObject);
++begin
++//
++end;
++
++procedure Tf_gtdNotes.act_SaveAsExecute(Sender: TObject);
++begin
++//
++end;
++
++procedure Tf_gtdNotes.act_SaveExecute(Sender: TObject);
++begin
++//
++end;
++
++procedure Tf_gtdNotes.act_SetNextActionExecute(Sender: TObject);
++begin
++  MakeFocusedActionNext;
++end;
++
++procedure Tf_gtdNotes.act_ShowDoneExecute(Sender: TObject);
++begin
++  SetDoneVisible(not act_ShowDone.Checked);
++end;
++
++{ TGtdNode }
++
++constructor TGtdNode.Create(const _Name: string);
++begin
++  inherited Create;
++  FName := _Name;
++end;
++
++function TGtdNode.GetIsDone: boolean;
++begin
++  Result := false;
++end;
++
++function TGtdNode.GetisNextAction: boolean;
++begin
++  Result := false;
++end;
++
++function TGtdNode.GetCount: integer;
++begin
++  Result := 0;
++end;
++
++function TGtdNode.GetItems(_Idx: integer): TGtdNode;
++begin
++  raise Exception.Create('Programmer error: A leaf node does not have any items.');
++end;
++
++procedure TGtdNode.SetIsDone(const Value: boolean);
++begin
++  // do nothing
++end;
++
++procedure TGtdNode.SetisNextAction(const Value: boolean);
++begin
++  // ignore
++end;
++
++{ TGtdFilter }
++
++constructor TGtdFilter.Create(const _Name: string);
++begin
++  inherited Create(_Name);
++  FItems := TList.Create;
++end;
++
++destructor TGtdFilter.Destroy;
++begin
++  FItems.Free;
++  inherited;
++end;
++
++function TGtdFilter.Add(_Node: TGtdNode): integer;
++begin
++  Result := FItems.Count;
++  FItems.Add(_Node);
++end;
++
++function TGtdFilter.GetCount: integer;
++begin
++  Result := FItems.Count;
++end;
++
++function TGtdFilter.GetItems(_Idx: integer): TGtdNode;
++begin
++  Result := TGtdNode(FItems[_Idx]);
++end;
++
++{ TGtdContainer }
++
++constructor TGtdContainer.Create(const _Name: string);
++begin
++  inherited Create(_Name);
++  FItems := TObjectList.Create;
++end;
++
++destructor TGtdContainer.Destroy;
++begin
++  FItems.Free;
++  inherited;
++end;
++
++function TGtdContainer.Add(_Node: TGtdNode): integer;
++begin
++  Result := FItems.Count;
++  FItems.Add(_Node)
++end;
++
++function TGtdContainer.GetCount: integer;
++begin
++  Result := FItems.Count;
++end;
++
++function TGtdContainer.GetItems(_Idx: integer): TGtdNode;
++begin
++  Result := FItems[_Idx] as TGtdNode;
++end;
++
++{ TPlaces }
++
++constructor TGtdPlaces.Create;
++begin
++  inherited Create('Places');
++end;
++
++{ TLabels }
++
++constructor TGtdLabels.Create;
++begin
++  inherited Create('Labels');
++end;
++
++{ TProjects }
++
++constructor TGtdProjects.Create;
++begin
++  inherited Create('Projects');
++end;
++
++{ TGtdAction }
++
++function TGtdAction.GetIsDone: boolean;
++begin
++  Result := FIsDone;
++end;
++
++function TGtdAction.GetIsNextAction: boolean;
++begin
++  Result := FIsNextAction;
++end;
++
++procedure TGtdAction.SetIsDone(const _Value: boolean);
++begin
++  FIsDone := _Value;
++end;
++
++procedure TGtdAction.SetIsNextAction(const _Value: boolean);
++begin
++  FIsNextAction := _Value;
++end;
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Sat May 30 13:18:27 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 13:18:27 +0200
+Subject: [Dzchart-svncheckins] r328 - 3rd/virtualtreeview/4.8.5
+Message-ID: <200905301118.n4UBIRSb007340@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 13:18:20 +0200 (Sat, 30 May 2009)
+New Revision: 328
+
+Added:
+   3rd/virtualtreeview/4.8.5/trunk/
+Log:
+
+
+Copied: 3rd/virtualtreeview/4.8.5/trunk (from rev 327, 3rd/virtualtreeview/4.8.5/tags/2009-05-30)
+
+
+
+From twm at mail.berlios.de  Sat May 30 13:24:15 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 13:24:15 +0200
+Subject: [Dzchart-svncheckins] r329 - utilities/gtdnotes/trunk
+Message-ID: <200905301124.n4UBOFgb014893@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 13:24:13 +0200 (Sat, 30 May 2009)
+New Revision: 329
+
+Modified:
+   utilities/gtdnotes/trunk/
+Log:
+
+
+
+Property changes on: utilities/gtdnotes/trunk
+___________________________________________________________________
+Name: svn:externals
+   + libs/virtualtreeview https://twm at svn.berlios.de/svnroot/repos/dzchart/3rd/virtualtreeview/4.8.5/tags/2009-05-30
+
+
+
+
+From twm at mail.berlios.de  Sat May 30 15:55:54 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 15:55:54 +0200
+Subject: [Dzchart-svncheckins] r330 - in utilities/gtdnotes/trunk: . dcu src
+Message-ID: <200905301355.n4UDtsCj019028@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 15:55:52 +0200 (Sat, 30 May 2009)
+New Revision: 330
+
+Added:
+   utilities/gtdnotes/trunk/data.gtdnotes
+Modified:
+   utilities/gtdnotes/trunk/
+   utilities/gtdnotes/trunk/dcu/
+   utilities/gtdnotes/trunk/src/GtdNotes.dproj
+   utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+can now read data from xml file
+
+
+Property changes on: utilities/gtdnotes/trunk
+___________________________________________________________________
+Name: svn:ignore
+   + GtdNotes.exe
+
+
+Added: utilities/gtdnotes/trunk/data.gtdnotes
+===================================================================
+--- utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 11:24:13 UTC (rev 329)
++++ utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 13:55:52 UTC (rev 330)
+@@ -0,0 +1,28 @@
++<gtdnotes>
++<places>
++  <place name="atHome" id="1"/>
++  <place name="atWork" id="2"/>
++  <place name="onTheRoad" id="3"/>
++</places>
++<labels>
++  <label name="custom Label" id="1"/>
++</labels>
++<projects>
++  <project name="get used to GTD">
++    <action name="set up gtdnotes">
++      <place id="2"/>
++    </action>
++    <action name="enter projects">
++      <place id="2"/>
++    </action>
++    <action name="enter project actions">
++      <place id="2"/>
++    </action>
++    <action name="decide on next action for each project">
++      <place id="2"/>
++      <label id="1"/>
++      <place id="3"/>
++    </action>
++  </project>
++</projects>
++</gtdnotes>
+
+
+Property changes on: utilities/gtdnotes/trunk/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Modified: utilities/gtdnotes/trunk/src/GtdNotes.dproj
+===================================================================
+--- utilities/gtdnotes/trunk/src/GtdNotes.dproj	2009-05-30 11:24:13 UTC (rev 329)
++++ utilities/gtdnotes/trunk/src/GtdNotes.dproj	2009-05-30 13:55:52 UTC (rev 330)
+@@ -20,6 +20,7 @@
+ 			<Base>true</Base>
+ 		</PropertyGroup>
+ 		<PropertyGroup Condition="'$(Base)'!=''">
++			<DCC_ConsoleTarget>true</DCC_ConsoleTarget>
+ 			<DCC_DcuOutput>..\dcu</DCC_DcuOutput>
+ 			<DCC_ExeOutput>..</DCC_ExeOutput>
+ 			<DCC_UnitSearchPath>..\libs\virtualtreeview\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2009-05-30 11:24:13 UTC (rev 329)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2009-05-30 13:55:52 UTC (rev 330)
+@@ -48,7 +48,6 @@
+     OnPaintText = VSTPaintText
+     OnInitNode = VSTInitNode
+     OnKeyPress = VSTKeyPress
+-    ExplicitWidth = 456
+     Columns = <>
+   end
+   object tb_Main: TToolBar
+@@ -56,6 +55,7 @@
+     Top = 0
+     Width = 532
+     Height = 19
++    AutoSize = True
+     ButtonHeight = 19
+     ButtonWidth = 86
+     Caption = 'GTD Notes Toolbar'
+@@ -63,7 +63,6 @@
+     ShowCaptions = True
+     AllowTextButtons = True
+     TabOrder = 1
+-    ExplicitWidth = 456
+     object tb_Load: TToolButton
+       Left = 0
+       Top = 0
+@@ -156,4 +155,9 @@
+       Caption = 'Delete Action'
+     end
+   end
++  object TheXmlDocument: TXMLDocument
++    Left = 176
++    Top = 224
++    DOMVendorDesc = 'MSXML'
++  end
+ end
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 11:24:13 UTC (rev 329)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 13:55:52 UTC (rev 330)
+@@ -17,7 +17,11 @@
+   Contnrs,
+   ActnList,
+   ComCtrls,
+-  ToolWin;
++  ToolWin,
++  xmldom,
++  XMLIntf,
++  msxmldom,
++  XMLDoc;
+ 
+ type
+   TGtdNode = class
+@@ -60,13 +64,16 @@
+   TGtdFilter = class(TGtdMiddleNode)
+   strict private
+     FItems: TList;
++    FId: string;
+   strict protected
+     function GetItems(_Idx: integer): TGtdNode; override;
+     function GetCount: integer; override;
+   public
+-    constructor Create(const _Name: string);
++    constructor Create(const _Name: string; _Id: string); overload;
++    constructor Create(_Node: IDOMNode); overload;
+     destructor Destroy; override;
+     function Add(_Node: TGtdNode): integer; override;
++    property Id: string read FId write FId;
+   end;
+ 
+   TGtdAction = class(TGtdNode)
+@@ -78,30 +85,40 @@
+     function GetIsDone: boolean; override;
+     function GetIsNextAction: boolean; override;
+     procedure SetIsNextAction(const _Value: boolean); override;
++  public
++    constructor Create(_Node: IDOMNode); overload;
+   end;
+ 
+-  TGtdProject = class(TGtdContainer)
+-  end;
+-
+   TGtdPlace = class(TGtdFilter)
+   end;
+ 
+   TGtdLabel = class(TGtdFilter)
+   end;
+ 
+-  TGtdPlaces = class(TGtdContainer)
++  TGtdFilterContainer = class(TGtdContainer)
+   public
++    function FindId(const _Id: string; out _Filter: TGtdFilter): boolean;
++  end;
++
++  TGtdPlaces = class(TGtdFilterContainer)
++  public
+     constructor Create;
+   end;
+ 
+-  TGtdProjects = class(TGtdContainer)
++  TGtdLabels = class(TGtdFilterContainer)
+   public
+     constructor Create;
+   end;
+ 
+-  TGtdLabels = class(TGtdContainer)
++  TGtdProject = class(TGtdContainer)
+   public
++    constructor Create(_Node: IDOMNode; _Places: TGtdPlaces; _Labels: TGtdLabels); overload;
++  end;
++
++  TGtdProjects = class(TGtdContainer)
++  public
+     constructor Create;
++    function FindName(const _Name: string; out _Project: TGtdProject): boolean;
+   end;
+ 
+ type
+@@ -125,6 +142,7 @@
+     act_AddAction: TAction;
+     tb_DeleteAction: TToolButton;
+     act_DeleteAction: TAction;
++    TheXmlDocument: TXMLDocument;
+     procedure VSTFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+     procedure VSTInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
+       var InitialStates: TVirtualNodeInitStates);
+@@ -156,6 +174,7 @@
+       out _GtdNode: TGtdNode): boolean;
+     function GetFocusedProjectAction(out _Node: PVirtualNode;
+       out _GtdNode: TGtdNode): boolean;
++    procedure LoadXml(const _Filename: string);
+   public
+     constructor Create(_Owner: TComponent); override;
+     destructor Destroy; override;
+@@ -177,42 +196,15 @@
+ { Tf_gtdNotes }
+ 
+ constructor Tf_gtdNotes.Create(_Owner: TComponent);
+-var
+-  AtWork: TGtdPlace;
+-  Project: TGtdProject;
+-  Action: TGtdAction;
+ begin
+   inherited;
+ 
+   FPlaces := TGtdPlaces.Create;
+-  FPlaces.Add(TGtdPlace.Create('atHome'));
+-  AtWork := TGtdPlace.Create('atWork');
+-  FPlaces.Add(AtWork);
+-  FPlaces.Add(TGtdPlace.Create('onTheRoad'));
+-
+   FProjects := TGtdProjects.Create;
+-  Project := TGtdProject.Create('get used to GTD');
+-  FProjects.Add(Project);
++  FLabels := TGtdLabels.Create;
+ 
+-  Action := TGtdAction.Create('set up gtdnotes');
+-  Action.isNextAction := true;
+-  Project.Add(Action);
+-  AtWork.Add(Action);
++  LoadXml('data.gtdnotes');
+ 
+-  Action := TGtdAction.Create('Enter projects');
+-  Project.Add(Action);
+-  AtWork.Add(Action);
+-
+-  Action := TGtdAction.Create('Enter project actions');
+-  Project.Add(Action);
+-  AtWork.Add(Action);
+-
+-  Action := TGtdAction.Create('Decide on next action for each project');
+-  Project.Add(Action);
+-  AtWork.Add(Action);
+-
+-  FLabels := TGtdLabels.Create;
+-
+   VST.NodeDataSize := SizeOf(TGtdLabelRec);
+ 
+   // Places / Projects / Labels
+@@ -227,6 +219,55 @@
+   inherited;
+ end;
+ 
++procedure Tf_gtdNotes.LoadXml(const _Filename: string);
++var
++  LabelNode: IDOMNode;
++  RootNode: IDOMNode;
++  PlaceNode: IDOMNode;
++  ProjectNode: IDOMNode;
++  Node: IDOMNode;
++  doc: IDOMDocument;
++  Project: TGtdProject;
++begin
++  TheXmlDocument.LoadFromFile('data.gtdnotes');
++  doc := TheXmlDocument.DOMDocument;
++  if doc.childNodes.length <> 1 then
++    raise Exception.Create('Document must contain one child node.');
++  RootNode := doc.firstChild;
++  if RootNode.nodeName <> 'gtdnotes' then
++    raise Exception.Create('no "gtdnotes" node found');
++  Node := RootNode.firstChild;
++  while Assigned(Node) do begin
++    if Node.nodeName = 'places' then begin
++      PlaceNode := Node.firstChild;
++      while Assigned(PlaceNode) do begin
++        if PlaceNode.nodeName = 'place' then begin
++          FPlaces.Add(TGtdPlace.Create(PlaceNode));
++        end;
++        PlaceNode := PlaceNode.nextSibling;
++      end;
++    end else if Node.nodeName = 'labels' then begin
++      LabelNode := Node.firstChild;
++      while Assigned(LabelNode) do begin
++        if LabelNode.nodeName = 'label' then begin
++          FLabels.Add(TGtdLabel.Create(LabelNode));
++        end;
++        LabelNode := LabelNode.nextSibling;
++      end;
++    end else if Node.nodeName = 'projects' then begin
++      ProjectNode := Node.firstChild;
++      while Assigned(ProjectNode) do begin
++        if ProjectNode.nodeName = 'project' then begin
++          Project := TGtdProject.Create(ProjectNode, FPlaces, FLabels);
++          FProjects.Add(Project);
++        end;
++        ProjectNode := ProjectNode.nextSibling;
++      end;
++    end;
++    Node := Node.nextSibling;
++  end;
++end;
++
+ function Tf_gtdNotes.GetFocusedProjectAction(out _Node: PVirtualNode; out _GtdNode: TGtdNode): boolean;
+ var
+   Data: PGtdLabelRec;
+@@ -470,12 +511,19 @@
+ 
+ { TGtdFilter }
+ 
+-constructor TGtdFilter.Create(const _Name: string);
++constructor TGtdFilter.Create(const _Name: string; _Id: string);
+ begin
+   inherited Create(_Name);
++  FId := _Id;
+   FItems := TList.Create;
+ end;
+ 
++constructor TGtdFilter.Create(_Node: IDOMNode);
++begin
++  Create(_Node.attributes.getNamedItem('name').nodeValue,
++    _Node.attributes.getNamedItem('id').nodeValue);
++end;
++
+ destructor TGtdFilter.Destroy;
+ begin
+   FItems.Free;
+@@ -551,6 +599,11 @@
+ 
+ { TGtdAction }
+ 
++constructor TGtdAction.Create(_Node: IDOMNode);
++begin
++  Create(_Node.attributes.getNamedItem('name').nodeValue);
++end;
++
+ function TGtdAction.GetIsDone: boolean;
+ begin
+   Result := FIsDone;
+@@ -571,5 +624,67 @@
+   FIsNextAction := _Value;
+ end;
+ 
++function TGtdProjects.FindName(const _Name: string; out _Project: TGtdProject): boolean;
++var
++  i: Integer;
++begin
++  for i := 0 to Count - 1 do begin
++    _Project := Items[i] as TGtdProject;
++    Result := (_Project.Name = _Name);
++    if Result then
++      exit;
++  end;
++  Result := false;
++end;
++
++{ TGtdProject }
++
++constructor TGtdProject.Create(_Node: IDOMNode; _Places: TGtdPlaces; _Labels: TGtdLabels);
++var
++  ActionNode: IDOMNode;
++  Action: TGtdAction;
++  FilterNode: IDOMNode;
++  Filter: TGtdFilter;
++  FilterId: string;
++begin
++  Create(_Node.attributes.getNamedItem('name').nodeValue);
++
++  ActionNode := _Node.firstChild;
++  while Assigned(ActionNode) do begin
++    if ActionNode.nodeName = 'action' then begin
++      Action := TGtdAction.Create(ActionNode);
++      Add(Action);
++      FilterNode := ActionNode.firstChild;
++      while Assigned(FilterNode) do begin
++        FilterId := FilterNode.attributes.getNamedItem('id').nodeValue;
++        if FilterNode.nodeName = 'label' then begin
++          if _Labels.FindId(FilterId, Filter) then
++            Filter.Add(Action);
++        end else if FilterNode.nodeName = 'place' then begin
++          if _Places.FindId(FilterId, Filter) then
++            Filter.Add(Action);
++        end;
++        FilterNode := FilterNode.nextSibling;
++      end;
++    end;
++    ActionNode := ActionNode.nextSibling;
++  end;
++end;
++
++{ TGtdFilterContainer }
++
++function TGtdFilterContainer.FindId(const _Id: string; out _Filter: TGtdFilter): boolean;
++var
++  i: Integer;
++begin
++  for i := 0 to Count - 1 do begin
++    _Filter := Items[i] as TGtdFilter;
++    Result := (_Filter.Id = _Id);
++    if Result then
++      exit;
++  end;
++  Result := false;
++end;
++
+ end.
+ 
+
+
+
+From twm at mail.berlios.de  Sat May 30 16:14:32 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 16:14:32 +0200
+Subject: [Dzchart-svncheckins] r331 - in utilities/gtdnotes/trunk: . src
+Message-ID: <200905301414.n4UEEVan021953@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 16:14:30 +0200 (Sat, 30 May 2009)
+New Revision: 331
+
+Modified:
+   utilities/gtdnotes/trunk/data.gtdnotes
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+* checking an action now also checks it in all filters
+* also reads the isdone and isnext attributes from the xml file
+
+Modified: utilities/gtdnotes/trunk/data.gtdnotes
+===================================================================
+--- utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 13:55:52 UTC (rev 330)
++++ utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 14:14:30 UTC (rev 331)
+@@ -15,10 +15,10 @@
+     <action name="enter projects">
+       <place id="2"/>
+     </action>
+-    <action name="enter project actions">
++    <action name="enter project actions" isdone="1">
+       <place id="2"/>
+     </action>
+-    <action name="decide on next action for each project">
++    <action name="decide on next action for each project" isnext="1">
+       <place id="2"/>
+       <label id="1"/>
+       <place id="3"/>
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 13:55:52 UTC (rev 330)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 14:14:30 UTC (rev 331)
+@@ -343,10 +343,26 @@
+ procedure Tf_gtdNotes.VSTChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
+ var
+   Data: PGtdLabelRec;
++  vn: PVirtualNode;
+ begin
+   Data := Sender.GetNodeData(Node);
+   Assert(Assigned(Data));
+-  Data.GtdNode.IsDone := (Node.CheckState = csCheckedNormal);
++  VST.BeginUpdate;
++  try
++    Data.GtdNode.IsDone := (Node.CheckState = csCheckedNormal);
++    vn := VST.GetFirstChild(nil);
++    while assigned(vn) do begin
++      Data := Sender.GetNodeData(vn);
++      Assert(Assigned(Data));
++      if Data.GtdNode.IsDone then
++        vn.CheckState := csCheckedNormal
++      else
++        vn.CheckState := csUncheckedNormal;
++      vn := VST.GetNext(vn);
++    end;
++  finally
++    VST.EndUpdate;
++  end;
+ end;
+ 
+ procedure Tf_gtdNotes.UnsetNextAction(_Sender: TBaseVirtualTree; _Node: PVirtualNode; _Data: Pointer; var _Abort: Boolean);
+@@ -398,8 +414,11 @@
+   end;
+   VST.ChildCount[Node] := Data.GtdNode.Count;
+   VST.Expanded[Node] := (Data.GtdNode.Count > 0);
+-  if Level = 2 then
++  if Level = 2 then begin
+     VST.CheckType[Node] := ctCheckBox;
++    if Data.GtdNode.IsDone then
++      VST.CheckState[Node] := csCheckedNormal;
++  end;
+ end;
+ 
+ procedure Tf_gtdNotes.VSTKeyPress(Sender: TObject; var Key: Char);
+@@ -600,8 +619,16 @@
+ { TGtdAction }
+ 
+ constructor TGtdAction.Create(_Node: IDOMNode);
++var
++  AttrNode: IDOMNode;
+ begin
+   Create(_Node.attributes.getNamedItem('name').nodeValue);
++  AttrNode := _Node.attributes.getNamedItem('isnext');
++  if Assigned(AttrNode) and (AttrNode.nodeValue = '1') then
++    IsNextAction := true;
++  AttrNode := _Node.attributes.getNamedItem('isdone');
++  if Assigned(AttrNode) and (AttrNode.nodeValue = '1') then
++    IsDone := true;
+ end;
+ 
+ function TGtdAction.GetIsDone: boolean;
+
+
+
+From twm at mail.berlios.de  Sat May 30 17:52:15 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 17:52:15 +0200
+Subject: [Dzchart-svncheckins] r332 - in utilities/gtdnotes/trunk: . src
+Message-ID: <200905301552.n4UFqFw6029446@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 17:52:13 +0200 (Sat, 30 May 2009)
+New Revision: 332
+
+Added:
+   utilities/gtdnotes/trunk/data.gtdnote
+Removed:
+   utilities/gtdnotes/trunk/data.gtdnotes
+Modified:
+   utilities/gtdnotes/trunk/src/GtdNotes.dproj
+   utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+* reading code changed to use IXmlNode rather than IDomNode
+* can now save the data to an xml file
+
+Copied: utilities/gtdnotes/trunk/data.gtdnote (from rev 331, utilities/gtdnotes/trunk/data.gtdnotes)
+===================================================================
+--- utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 14:14:30 UTC (rev 331)
++++ utilities/gtdnotes/trunk/data.gtdnote	2009-05-30 15:52:13 UTC (rev 332)
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="UTF-8" standalone="no"?>
++<gtdnotes>
++<places>
++  <place name="atHome" id="1"/>
++  <place name="atWork" id="2"/>
++  <place name="onTheRoad" id="3"/>
++</places>
++<labels>
++  <label name="custom Label" id="1"/>
++</labels>
++<projects>
++  <project name="get used to GTD">
++    <action name="set up gtdnotes">
++      <place id="2"/>
++    </action>
++    <action name="enter projects">
++      <place id="2"/>
++    </action>
++    <action name="enter project actions" isdone="1">
++      <place id="2"/>
++    </action>
++    <action name="decide on next action for each project" isnext="1">
++      <place id="2"/>
++      <place id="3"/>
++      <label id="1"/>
++    </action>
++  </project>
++</projects>
++</gtdnotes>
+
+Deleted: utilities/gtdnotes/trunk/data.gtdnotes
+===================================================================
+--- utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 14:14:30 UTC (rev 331)
++++ utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 15:52:13 UTC (rev 332)
+@@ -1,28 +0,0 @@
+-<gtdnotes>
+-<places>
+-  <place name="atHome" id="1"/>
+-  <place name="atWork" id="2"/>
+-  <place name="onTheRoad" id="3"/>
+-</places>
+-<labels>
+-  <label name="custom Label" id="1"/>
+-</labels>
+-<projects>
+-  <project name="get used to GTD">
+-    <action name="set up gtdnotes">
+-      <place id="2"/>
+-    </action>
+-    <action name="enter projects">
+-      <place id="2"/>
+-    </action>
+-    <action name="enter project actions" isdone="1">
+-      <place id="2"/>
+-    </action>
+-    <action name="decide on next action for each project" isnext="1">
+-      <place id="2"/>
+-      <label id="1"/>
+-      <place id="3"/>
+-    </action>
+-  </project>
+-</projects>
+-</gtdnotes>
+
+Modified: utilities/gtdnotes/trunk/src/GtdNotes.dproj
+===================================================================
+--- utilities/gtdnotes/trunk/src/GtdNotes.dproj	2009-05-30 14:14:30 UTC (rev 331)
++++ utilities/gtdnotes/trunk/src/GtdNotes.dproj	2009-05-30 15:52:13 UTC (rev 332)
+@@ -20,7 +20,6 @@
+ 			<Base>true</Base>
+ 		</PropertyGroup>
+ 		<PropertyGroup Condition="'$(Base)'!=''">
+-			<DCC_ConsoleTarget>true</DCC_ConsoleTarget>
+ 			<DCC_DcuOutput>..\dcu</DCC_DcuOutput>
+ 			<DCC_ExeOutput>..</DCC_ExeOutput>
+ 			<DCC_UnitSearchPath>..\libs\virtualtreeview\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+@@ -41,6 +40,8 @@
+ 			<DCC_DebugInformation>false</DCC_DebugInformation>
+ 		</PropertyGroup>
+ 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
++			<DCC_DebugDCUs>true</DCC_DebugDCUs>
++			<DCC_ConsoleTarget>false</DCC_ConsoleTarget>
+ 			<DCC_Optimize>false</DCC_Optimize>
+ 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+ 		</PropertyGroup>
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2009-05-30 14:14:30 UTC (rev 331)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2009-05-30 15:52:13 UTC (rev 332)
+@@ -155,9 +155,4 @@
+       Caption = 'Delete Action'
+     end
+   end
+-  object TheXmlDocument: TXMLDocument
+-    Left = 176
+-    Top = 224
+-    DOMVendorDesc = 'MSXML'
+-  end
+ end
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 14:14:30 UTC (rev 331)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 15:52:13 UTC (rev 332)
+@@ -70,9 +70,10 @@
+     function GetCount: integer; override;
+   public
+     constructor Create(const _Name: string; _Id: string); overload;
+-    constructor Create(_Node: IDOMNode); overload;
++    constructor Create(_Node: IXMLNode); overload;
+     destructor Destroy; override;
+     function Add(_Node: TGtdNode): integer; override;
++    function Find(_Node: TGtdNode): boolean;
+     property Id: string read FId write FId;
+   end;
+ 
+@@ -86,7 +87,7 @@
+     function GetIsNextAction: boolean; override;
+     procedure SetIsNextAction(const _Value: boolean); override;
+   public
+-    constructor Create(_Node: IDOMNode); overload;
++    constructor Create(_Node: IXMLNode); overload;
+   end;
+ 
+   TGtdPlace = class(TGtdFilter)
+@@ -112,7 +113,7 @@
+ 
+   TGtdProject = class(TGtdContainer)
+   public
+-    constructor Create(_Node: IDOMNode; _Places: TGtdPlaces; _Labels: TGtdLabels); overload;
++    constructor Create(_Node: IXMLNode; _Places: TGtdPlaces; _Labels: TGtdLabels); overload;
+   end;
+ 
+   TGtdProjects = class(TGtdContainer)
+@@ -142,7 +143,6 @@
+     act_AddAction: TAction;
+     tb_DeleteAction: TToolButton;
+     act_DeleteAction: TAction;
+-    TheXmlDocument: TXMLDocument;
+     procedure VSTFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+     procedure VSTInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
+       var InitialStates: TVirtualNodeInitStates);
+@@ -175,6 +175,7 @@
+     function GetFocusedProjectAction(out _Node: PVirtualNode;
+       out _GtdNode: TGtdNode): boolean;
+     procedure LoadXml(const _Filename: string);
++    procedure SaveXml(const _Filename: string);
+   public
+     constructor Create(_Owner: TComponent); override;
+     destructor Destroy; override;
+@@ -203,7 +204,7 @@
+   FProjects := TGtdProjects.Create;
+   FLabels := TGtdLabels.Create;
+ 
+-  LoadXml('data.gtdnotes');
++  LoadXml('data.gtdnote');
+ 
+   VST.NodeDataSize := SizeOf(TGtdLabelRec);
+ 
+@@ -220,51 +221,214 @@
+ end;
+ 
+ procedure Tf_gtdNotes.LoadXml(const _Filename: string);
++
++  function FindRootNode(_XmlDoc: TXMLDocument; const _Name: string): IXMLNode;
++  begin
++    Result := _XmlDoc.ChildNodes.First;
++    while Assigned(Result) do begin
++      if Result.NodeName = 'gtdnotes' then
++        exit;
++      Result := Result.NextSibling;
++    end;
++    raise Exception.Create('no "gtdnotes" node found');
++  end;
++
+ var
+-  LabelNode: IDOMNode;
+-  RootNode: IDOMNode;
+-  PlaceNode: IDOMNode;
+-  ProjectNode: IDOMNode;
+-  Node: IDOMNode;
+-  doc: IDOMDocument;
++  XmlDoc: TXMLDocument;
++  LabelNode: IXMLNode;
++  RootNode: IXMLNode;
++  PlaceNode: IXMLNode;
++  ProjectNode: IXMLNode;
++  Node: IXMLNode;
+   Project: TGtdProject;
+ begin
+-  TheXmlDocument.LoadFromFile('data.gtdnotes');
+-  doc := TheXmlDocument.DOMDocument;
+-  if doc.childNodes.length <> 1 then
+-    raise Exception.Create('Document must contain one child node.');
+-  RootNode := doc.firstChild;
+-  if RootNode.nodeName <> 'gtdnotes' then
+-    raise Exception.Create('no "gtdnotes" node found');
+-  Node := RootNode.firstChild;
+-  while Assigned(Node) do begin
+-    if Node.nodeName = 'places' then begin
+-      PlaceNode := Node.firstChild;
+-      while Assigned(PlaceNode) do begin
+-        if PlaceNode.nodeName = 'place' then begin
+-          FPlaces.Add(TGtdPlace.Create(PlaceNode));
++  // Owner must NOT be nil, otherwise we get an access violation when accessing
++  // the ChildNodes collection.
++  XmlDoc := TXMLDocument.Create(self);
++  try
++    XmlDoc.DOMVendor := GetDOMVendor('MSXML');
++    XmlDoc.Options := XmlDoc.Options - [doAttrNull];
++    XmlDoc.LoadFromFile(_Filename);
++    XmlDoc.Active := true;
++
++    RootNode := FindRootNode(XmlDoc, 'gtdnotes');
++
++    Node := RootNode.ChildNodes.First;
++    while Assigned(Node) do begin
++      if Node.NodeName = 'places' then begin
++        PlaceNode := Node.ChildNodes.First;
++        while Assigned(PlaceNode) do begin
++          if PlaceNode.NodeName = 'place' then begin
++            FPlaces.Add(TGtdPlace.Create(PlaceNode));
++          end;
++          PlaceNode := PlaceNode.NextSibling;
+         end;
+-        PlaceNode := PlaceNode.nextSibling;
+-      end;
+-    end else if Node.nodeName = 'labels' then begin
+-      LabelNode := Node.firstChild;
+-      while Assigned(LabelNode) do begin
+-        if LabelNode.nodeName = 'label' then begin
+-          FLabels.Add(TGtdLabel.Create(LabelNode));
++      end else if Node.nodeName = 'labels' then begin
++        LabelNode := Node.ChildNodes.First;
++        while Assigned(LabelNode) do begin
++          if LabelNode.NodeName = 'label' then begin
++            FLabels.Add(TGtdLabel.Create(LabelNode));
++          end;
++          LabelNode := LabelNode.NextSibling;
+         end;
+-        LabelNode := LabelNode.nextSibling;
++      end else if Node.nodeName = 'projects' then begin
++        ProjectNode := Node.ChildNodes.First;
++        while Assigned(ProjectNode) do begin
++          if ProjectNode.NodeName = 'project' then begin
++            Project := TGtdProject.Create(ProjectNode, FPlaces, FLabels);
++            FProjects.Add(Project);
++          end;
++          ProjectNode := ProjectNode.nextSibling;
++        end;
+       end;
+-    end else if Node.nodeName = 'projects' then begin
+-      ProjectNode := Node.firstChild;
+-      while Assigned(ProjectNode) do begin
+-        if ProjectNode.nodeName = 'project' then begin
+-          Project := TGtdProject.Create(ProjectNode, FPlaces, FLabels);
+-          FProjects.Add(Project);
++      Node := Node.nextSibling;
++    end;
++  finally
++    FreeAndNil(XmlDoc);
++  end;
++end;
++//procedure Tf_gtdNotes.LoadXml(const _Filename: string);
++//var
++//  XmlDoc: TXMLDocument;
++//  LabelNode: IDOMNode;
++//  RootNode: IDOMNode;
++//  PlaceNode: IDOMNode;
++//  ProjectNode: IDOMNode;
++//  Node: IDOMNode;
++//  doc: IDOMDocument;
++//  Project: TGtdProject;
++//  xmlnode: IXMLNode;
++//begin
++//  // owner must NOT be nil, otherwise we get an access violation
++//  XmlDoc := TXMLDocument.Create(self);
++//  try
++//    XmlDoc.Active := false;
++//    XmlDoc.DOMVendor := GetDOMVendor('MSXML');
++//    XmlDoc.LoadFromFile(_Filename);
++//    XmlDoc.Active := true;
++//
++//    if XmlDoc.ChildNodes.Count < 1 then
++//      raise Exception.Create('Document must contain at least one child node.');
++//    xmlnode := XmlDoc.ChildNodes[0];
++//    WriteLn(xmlnode.NodeName);
++//
++//    doc := XmlDoc.DOMDocument;
++//    if doc.childNodes.length <> 1 then
++//      raise Exception.Create('Document must contain one child node.');
++//    RootNode := doc.firstChild;
++//    if RootNode.nodeName <> 'gtdnotes' then
++//      raise Exception.Create('no "gtdnotes" node found');
++//    Node := RootNode.firstChild;
++//    while Assigned(Node) do begin
++//      if Node.nodeName = 'places' then begin
++//        PlaceNode := Node.firstChild;
++//        while Assigned(PlaceNode) do begin
++//          if PlaceNode.nodeName = 'place' then begin
++//            FPlaces.Add(TGtdPlace.Create(PlaceNode));
++//          end;
++//          PlaceNode := PlaceNode.nextSibling;
++//        end;
++//      end else if Node.nodeName = 'labels' then begin
++//        LabelNode := Node.firstChild;
++//        while Assigned(LabelNode) do begin
++//          if LabelNode.nodeName = 'label' then begin
++//            FLabels.Add(TGtdLabel.Create(LabelNode));
++//          end;
++//          LabelNode := LabelNode.nextSibling;
++//        end;
++//      end else if Node.nodeName = 'projects' then begin
++//        ProjectNode := Node.firstChild;
++//        while Assigned(ProjectNode) do begin
++//          if ProjectNode.nodeName = 'project' then begin
++//            Project := TGtdProject.Create(ProjectNode, FPlaces, FLabels);
++//            FProjects.Add(Project);
++//          end;
++//          ProjectNode := ProjectNode.nextSibling;
++//        end;
++//      end;
++//      Node := Node.nextSibling;
++//    end;
++//  finally
++//    FreeAndNil(XmlDoc);
++//  end;
++//end;
++
++procedure Tf_gtdNotes.SaveXml(const _Filename: string);
++var
++  XmlDoc: TXMLDocument;
++  RootNode: IXMLNode;
++  PlacesNode: IXMLNode;
++  i: Integer;
++  PlaceNode: IXMLNode;
++  Place: TGtdPlace;
++  LabelsNode: IXMLNode;
++  LabelNode: IXMLNode;
++  GtdLabel: TGtdLabel;
++  ProjectsNode: IXMLNode;
++  ProjectNode: IXMLNode;
++  Project: TGtdProject;
++  ProjIdx: Integer;
++  ActIdx: Integer;
++  ActionNode: IXMLNode;
++  Action: TGtdAction;
++begin
++  XmlDoc := TXMLDocument.Create(nil);
++  try
++    XmlDoc.Active := true;
++    XmlDoc.Version := '1.0';
++    XmlDoc.Encoding := 'UTF-8';
++    XmlDoc.StandAlone := 'no';
++    XmlDoc.Options := XmlDoc.Options + [doNodeAutoIndent];
++
++    RootNode := XmlDoc.AddChild('gtdnotes');
++    PlacesNode := RootNode.AddChild('places');
++    for i := 0 to FPlaces.Count - 1 do begin
++      PlaceNode := PlacesNode.AddChild('place');
++      Place := FPlaces.Items[i] as TGtdPlace;
++      PlaceNode.Attributes['name'] := Place.Name;
++      PlaceNode.Attributes['id'] := Place.Id;
++    end;
++
++    LabelsNode := RootNode.AddChild('labels');
++    for i := 0 to FLabels.Count - 1 do begin
++      LabelNode := LabelsNode.AddChild('label');
++      GtdLabel := FLabels.Items[i] as TGtdLabel;
++      LabelNode.Attributes['name'] := GtdLabel.Name;
++      LabelNode.Attributes['id'] := GtdLabel.Id;
++    end;
++
++    ProjectsNode := RootNode.AddChild('projects');
++    for ProjIdx := 0 to FProjects.Count - 1 do begin
++      Project := FProjects.Items[ProjIdx] as TGtdProject;
++      ProjectNode := ProjectsNode.AddChild('project');
++      ProjectNode.Attributes['name'] := Project.Name;
++      for ActIdx := 0 to Project.Count - 1 do begin
++        Action := Project.Items[ActIdx] as TGtdAction;
++        ActionNode := ProjectNode.AddChild('action');
++        ActionNode.Attributes['name'] := Action.Name;
++        if Action.IsDone then
++          ActionNode.Attributes['isdone'] := '1';
++        if Action.IsNextAction then
++          ActionNode.Attributes['isnext'] := '1';
++        for i := 0 to FPlaces.Count - 1 do begin
++          Place := FPlaces.Items[i] as TGtdPlace;
++          if Place.Find(Action) then begin
++            PlaceNode := ActionNode.AddChild('place');
++            PlaceNode.Attributes['id'] := Place.Id;
++          end;
+         end;
+-        ProjectNode := ProjectNode.nextSibling;
++        for i := 0 to FLabels.Count - 1 do begin
++          GtdLabel := FLabels.Items[i] as TGtdLabel;
++          if GtdLabel.Find(Action) then begin
++            LabelNode := ActionNode.AddChild('label');
++            LabelNode.Attributes['id'] := GtdLabel.Id;
++          end;
++        end;
+       end;
+     end;
+-    Node := Node.nextSibling;
++    XmlDoc.SaveToFile(_Filename);
++  finally
++    FreeAndNil(XmlDoc);
+   end;
+ end;
+ 
+@@ -477,7 +641,7 @@
+ 
+ procedure Tf_gtdNotes.act_SaveExecute(Sender: TObject);
+ begin
+-//
++  SaveXml('test.gtdnote');
+ end;
+ 
+ procedure Tf_gtdNotes.act_SetNextActionExecute(Sender: TObject);
+@@ -495,6 +659,8 @@
+ constructor TGtdNode.Create(const _Name: string);
+ begin
+   inherited Create;
++  if _Name = '' then
++    raise Exception.Create('Name must not be empty.');
+   FName := _Name;
+ end;
+ 
+@@ -533,14 +699,15 @@
+ constructor TGtdFilter.Create(const _Name: string; _Id: string);
+ begin
+   inherited Create(_Name);
++  if _Id = '' then
++    raise Exception.Create('Id must not be empty.');
+   FId := _Id;
+   FItems := TList.Create;
+ end;
+ 
+-constructor TGtdFilter.Create(_Node: IDOMNode);
++constructor TGtdFilter.Create(_Node: IXMLNode);
+ begin
+-  Create(_Node.attributes.getNamedItem('name').nodeValue,
+-    _Node.attributes.getNamedItem('id').nodeValue);
++  Create(_Node.Attributes['name'], _Node.Attributes['id']);
+ end;
+ 
+ destructor TGtdFilter.Destroy;
+@@ -549,6 +716,11 @@
+   inherited;
+ end;
+ 
++function TGtdFilter.Find(_Node: TGtdNode): boolean;
++begin
++  Result := (FItems.IndexOf(_Node) <> -1);
++end;
++
+ function TGtdFilter.Add(_Node: TGtdNode): integer;
+ begin
+   Result := FItems.Count;
+@@ -618,16 +790,12 @@
+ 
+ { TGtdAction }
+ 
+-constructor TGtdAction.Create(_Node: IDOMNode);
+-var
+-  AttrNode: IDOMNode;
++constructor TGtdAction.Create(_Node: IXMLNode);
+ begin
+-  Create(_Node.attributes.getNamedItem('name').nodeValue);
+-  AttrNode := _Node.attributes.getNamedItem('isnext');
+-  if Assigned(AttrNode) and (AttrNode.nodeValue = '1') then
++  Create(_Node.Attributes['name']);
++  if _Node.Attributes['isnext'] = '1' then
+     IsNextAction := true;
+-  AttrNode := _Node.attributes.getNamedItem('isdone');
+-  if Assigned(AttrNode) and (AttrNode.nodeValue = '1') then
++  if _Node.Attributes['isdone'] = '1' then
+     IsDone := true;
+ end;
+ 
+@@ -666,28 +834,28 @@
+ 
+ { TGtdProject }
+ 
+-constructor TGtdProject.Create(_Node: IDOMNode; _Places: TGtdPlaces; _Labels: TGtdLabels);
++constructor TGtdProject.Create(_Node: IXMLNode; _Places: TGtdPlaces; _Labels: TGtdLabels);
+ var
+-  ActionNode: IDOMNode;
++  ActionNode: IXMLNode;
+   Action: TGtdAction;
+-  FilterNode: IDOMNode;
++  FilterNode: IXMLNode;
+   Filter: TGtdFilter;
+   FilterId: string;
+ begin
+-  Create(_Node.attributes.getNamedItem('name').nodeValue);
++  Create(_Node.Attributes['name']);
+ 
+-  ActionNode := _Node.firstChild;
++  ActionNode := _Node.ChildNodes.First;
+   while Assigned(ActionNode) do begin
+     if ActionNode.nodeName = 'action' then begin
+       Action := TGtdAction.Create(ActionNode);
+       Add(Action);
+-      FilterNode := ActionNode.firstChild;
++      FilterNode := ActionNode.ChildNodes.First;
+       while Assigned(FilterNode) do begin
+-        FilterId := FilterNode.attributes.getNamedItem('id').nodeValue;
+-        if FilterNode.nodeName = 'label' then begin
++        FilterId := FilterNode.Attributes['id'];
++        if FilterNode.NodeName = 'label' then begin
+           if _Labels.FindId(FilterId, Filter) then
+             Filter.Add(Action);
+-        end else if FilterNode.nodeName = 'place' then begin
++        end else if FilterNode.NodeName = 'place' then begin
+           if _Places.FindId(FilterId, Filter) then
+             Filter.Add(Action);
+         end;
+
+
+
+From twm at mail.berlios.de  Sat May 30 17:52:49 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 17:52:49 +0200
+Subject: [Dzchart-svncheckins] r333 - utilities/gtdnotes/trunk
+Message-ID: <200905301552.n4UFqnST029475@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 17:52:48 +0200 (Sat, 30 May 2009)
+New Revision: 333
+
+Added:
+   utilities/gtdnotes/trunk/gtdnotes.gtdnote
+Removed:
+   utilities/gtdnotes/trunk/data.gtdnote
+Log:
+
+
+Deleted: utilities/gtdnotes/trunk/data.gtdnote
+===================================================================
+--- utilities/gtdnotes/trunk/data.gtdnote	2009-05-30 15:52:13 UTC (rev 332)
++++ utilities/gtdnotes/trunk/data.gtdnote	2009-05-30 15:52:48 UTC (rev 333)
+@@ -1,29 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+-<gtdnotes>
+-<places>
+-  <place name="atHome" id="1"/>
+-  <place name="atWork" id="2"/>
+-  <place name="onTheRoad" id="3"/>
+-</places>
+-<labels>
+-  <label name="custom Label" id="1"/>
+-</labels>
+-<projects>
+-  <project name="get used to GTD">
+-    <action name="set up gtdnotes">
+-      <place id="2"/>
+-    </action>
+-    <action name="enter projects">
+-      <place id="2"/>
+-    </action>
+-    <action name="enter project actions" isdone="1">
+-      <place id="2"/>
+-    </action>
+-    <action name="decide on next action for each project" isnext="1">
+-      <place id="2"/>
+-      <place id="3"/>
+-      <label id="1"/>
+-    </action>
+-  </project>
+-</projects>
+-</gtdnotes>
+
+Copied: utilities/gtdnotes/trunk/gtdnotes.gtdnote (from rev 332, utilities/gtdnotes/trunk/data.gtdnote)
+
+
+
+From twm at mail.berlios.de  Sat May 30 17:57:39 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 17:57:39 +0200
+Subject: [Dzchart-svncheckins] r334 - utilities/gtdnotes/trunk/src
+Message-ID: <200905301557.n4UFvdd7029722@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 17:57:38 +0200 (Sat, 30 May 2009)
+New Revision: 334
+
+Modified:
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+automatically load <exename>.gtdnote 
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 15:52:48 UTC (rev 333)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 15:57:38 UTC (rev 334)
+@@ -164,6 +164,7 @@
+     FPlaces: TGtdPlaces;
+     FProjects: TGtdProjects;
+     FLabels: TGtdLabels;
++    FFilename: string;
+     procedure SetDoneVisible(_Visible: boolean);
+     procedure HideNodes(_Sender: TBaseVirtualTree; _Node: PVirtualNode;
+       _Data: Pointer; var _Abort: Boolean);
+@@ -204,7 +205,9 @@
+   FProjects := TGtdProjects.Create;
+   FLabels := TGtdLabels.Create;
+ 
+-  LoadXml('data.gtdnote');
++  FFilename := ChangeFileExt(Application.ExeName, '.gtdnote');
++  if FileExists(FFilename) then
++    LoadXml(FFilename);
+ 
+   VST.NodeDataSize := SizeOf(TGtdLabelRec);
+ 
+@@ -286,72 +289,9 @@
+   finally
+     FreeAndNil(XmlDoc);
+   end;
++
++  Caption := ChangeFileExt(ExtractFileName(_Filename), '') + ' - GTD Notes'
+ end;
+-//procedure Tf_gtdNotes.LoadXml(const _Filename: string);
+-//var
+-//  XmlDoc: TXMLDocument;
+-//  LabelNode: IDOMNode;
+-//  RootNode: IDOMNode;
+-//  PlaceNode: IDOMNode;
+-//  ProjectNode: IDOMNode;
+-//  Node: IDOMNode;
+-//  doc: IDOMDocument;
+-//  Project: TGtdProject;
+-//  xmlnode: IXMLNode;
+-//begin
+-//  // owner must NOT be nil, otherwise we get an access violation
+-//  XmlDoc := TXMLDocument.Create(self);
+-//  try
+-//    XmlDoc.Active := false;
+-//    XmlDoc.DOMVendor := GetDOMVendor('MSXML');
+-//    XmlDoc.LoadFromFile(_Filename);
+-//    XmlDoc.Active := true;
+-//
+-//    if XmlDoc.ChildNodes.Count < 1 then
+-//      raise Exception.Create('Document must contain at least one child node.');
+-//    xmlnode := XmlDoc.ChildNodes[0];
+-//    WriteLn(xmlnode.NodeName);
+-//
+-//    doc := XmlDoc.DOMDocument;
+-//    if doc.childNodes.length <> 1 then
+-//      raise Exception.Create('Document must contain one child node.');
+-//    RootNode := doc.firstChild;
+-//    if RootNode.nodeName <> 'gtdnotes' then
+-//      raise Exception.Create('no "gtdnotes" node found');
+-//    Node := RootNode.firstChild;
+-//    while Assigned(Node) do begin
+-//      if Node.nodeName = 'places' then begin
+-//        PlaceNode := Node.firstChild;
+-//        while Assigned(PlaceNode) do begin
+-//          if PlaceNode.nodeName = 'place' then begin
+-//            FPlaces.Add(TGtdPlace.Create(PlaceNode));
+-//          end;
+-//          PlaceNode := PlaceNode.nextSibling;
+-//        end;
+-//      end else if Node.nodeName = 'labels' then begin
+-//        LabelNode := Node.firstChild;
+-//        while Assigned(LabelNode) do begin
+-//          if LabelNode.nodeName = 'label' then begin
+-//            FLabels.Add(TGtdLabel.Create(LabelNode));
+-//          end;
+-//          LabelNode := LabelNode.nextSibling;
+-//        end;
+-//      end else if Node.nodeName = 'projects' then begin
+-//        ProjectNode := Node.firstChild;
+-//        while Assigned(ProjectNode) do begin
+-//          if ProjectNode.nodeName = 'project' then begin
+-//            Project := TGtdProject.Create(ProjectNode, FPlaces, FLabels);
+-//            FProjects.Add(Project);
+-//          end;
+-//          ProjectNode := ProjectNode.nextSibling;
+-//        end;
+-//      end;
+-//      Node := Node.nextSibling;
+-//    end;
+-//  finally
+-//    FreeAndNil(XmlDoc);
+-//  end;
+-//end;
+ 
+ procedure Tf_gtdNotes.SaveXml(const _Filename: string);
+ var
+
+
+
+From twm at mail.berlios.de  Sat May 30 19:24:18 2009
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 30 May 2009 19:24:18 +0200
+Subject: [Dzchart-svncheckins] r335 - utilities/gtdnotes/trunk/src
+Message-ID: <200905301724.n4UHOIWD018492@sheep.berlios.de>
+
+Author: twm
+Date: 2009-05-30 19:24:16 +0200 (Sat, 30 May 2009)
+New Revision: 335
+
+Modified:
+   utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+started drag and drop support
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2009-05-30 15:57:38 UTC (rev 334)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2009-05-30 17:24:16 UTC (rev 335)
+@@ -24,6 +24,7 @@
+     BiDiMode = bdLeftToRight
+     Colors.BorderColor = clWindowText
+     Colors.HotColor = clBlack
++    DragType = dtVCL
+     Header.AutoSizeIndex = 0
+     Header.DefaultHeight = 17
+     Header.Font.Charset = DEFAULT_CHARSET
+@@ -43,6 +44,9 @@
+     OnChange = VSTChange
+     OnChecked = VSTChecked
+     OnDblClick = VSTDblClick
++    OnDragAllowed = VSTDragAllowed
++    OnDragOver = VSTDragOver
++    OnDragDrop = VSTDragDrop
+     OnFreeNode = VSTFreeNode
+     OnGetText = VSTGetText
+     OnPaintText = VSTPaintText
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 15:57:38 UTC (rev 334)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 17:24:16 UTC (rev 335)
+@@ -11,6 +11,7 @@
+   Controls,
+   Forms,
+   Dialogs,
++  ActiveX,
+   VirtualTrees,
+   StdCtrls,
+   ExtCtrls,
+@@ -59,6 +60,7 @@
+     constructor Create(const _Name: string);
+     destructor Destroy; override;
+     function Add(_Node: TGtdNode): integer; override;
++    procedure Extract(_Node: TGtdNode);
+   end;
+ 
+   TGtdFilter = class(TGtdMiddleNode)
+@@ -73,6 +75,7 @@
+     constructor Create(_Node: IXMLNode); overload;
+     destructor Destroy; override;
+     function Add(_Node: TGtdNode): integer; override;
++    procedure Extract(_Node: TGtdNode);
+     function Find(_Node: TGtdNode): boolean;
+     property Id: string read FId write FId;
+   end;
+@@ -160,11 +163,21 @@
+     procedure VSTKeyPress(Sender: TObject; var Key: Char);
+     procedure act_SetNextActionExecute(Sender: TObject);
+     procedure VSTChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
++    procedure VSTDragOver(Sender: TBaseVirtualTree; Source: TObject;
++      Shift: TShiftState; State: TDragState; Pt: TPoint; Mode: TDropMode;
++      var Effect: Integer; var Accept: Boolean);
++    procedure VSTDragAllowed(Sender: TBaseVirtualTree; Node: PVirtualNode;
++      Column: TColumnIndex; var Allowed: Boolean);
++    procedure VSTDragDrop(Sender: TBaseVirtualTree; Source: TObject;
++      DataObject: IDataObject; Formats: TFormatArray; Shift: TShiftState;
++      Pt: TPoint; var Effect: Integer; Mode: TDropMode);
+   private
+     FPlaces: TGtdPlaces;
+     FProjects: TGtdProjects;
+     FLabels: TGtdLabels;
+     FFilename: string;
++    FDraggedAction: TGtdNode;
++    FDragSource: TGtdNode;
+     procedure SetDoneVisible(_Visible: boolean);
+     procedure HideNodes(_Sender: TBaseVirtualTree; _Node: PVirtualNode;
+       _Data: Pointer; var _Abort: Boolean);
+@@ -190,8 +203,8 @@
+ {$R *.DFM}
+ 
+ type
+-  PGtdLabelRec = ^TGtdLabelRec;
+-  TGtdLabelRec = record
++  PGtdDataRec = ^TGtdDataRec;
++  TGtdDataRec = record
+     GtdNode: TGtdNode;
+   end;
+ 
+@@ -209,7 +222,7 @@
+   if FileExists(FFilename) then
+     LoadXml(FFilename);
+ 
+-  VST.NodeDataSize := SizeOf(TGtdLabelRec);
++  VST.NodeDataSize := SizeOf(TGtdDataRec);
+ 
+   // Places / Projects / Labels
+   VST.RootNodeCount := 3;
+@@ -317,7 +330,7 @@
+     XmlDoc.Active := true;
+     XmlDoc.Version := '1.0';
+     XmlDoc.Encoding := 'UTF-8';
+-    XmlDoc.StandAlone := 'no';
++    XmlDoc.StandAlone := 'yes';
+     XmlDoc.Options := XmlDoc.Options + [doNodeAutoIndent];
+ 
+     RootNode := XmlDoc.AddChild('gtdnotes');
+@@ -374,7 +387,7 @@
+ 
+ function Tf_gtdNotes.GetFocusedProjectAction(out _Node: PVirtualNode; out _GtdNode: TGtdNode): boolean;
+ var
+-  Data: PGtdLabelRec;
++  Data: PGtdDataRec;
+ begin
+   Result := GetFocusedNode(_Node, _GtdNode);
+   if Result then begin
+@@ -389,7 +402,7 @@
+ 
+ function Tf_gtdNotes.GetFocusedNode(out _Node: PVirtualNode; out _GtdNode: TGtdNode): boolean;
+ var
+-  Data: PGtdLabelRec;
++  Data: PGtdDataRec;
+ begin
+   Result := false;
+   _Node := VST.FocusedNode;
+@@ -420,7 +433,7 @@
+ procedure Tf_gtdNotes.VSTGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
+   Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
+ var
+-  Data: PGtdLabelRec;
++  Data: PGtdDataRec;
+ begin
+   Data := Sender.GetNodeData(Node);
+   if not Assigned(Data) then
+@@ -446,7 +459,7 @@
+ 
+ procedure Tf_gtdNotes.VSTChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
+ var
+-  Data: PGtdLabelRec;
++  Data: PGtdDataRec;
+   vn: PVirtualNode;
+ begin
+   Data := Sender.GetNodeData(Node);
+@@ -471,7 +484,7 @@
+ 
+ procedure Tf_gtdNotes.UnsetNextAction(_Sender: TBaseVirtualTree; _Node: PVirtualNode; _Data: Pointer; var _Abort: Boolean);
+ var
+-  NodeData: PGtdLabelRec;
++  NodeData: PGtdDataRec;
+ begin
+   NodeData := VST.GetNodeData(_Node);
+   Assert(Assigned(NodeData.GtdNode));
+@@ -484,9 +497,94 @@
+   MakeFocusedActionNext;
+ end;
+ 
++procedure Tf_gtdNotes.VSTDragAllowed(Sender: TBaseVirtualTree;
++  Node: PVirtualNode; Column: TColumnIndex; var Allowed: Boolean);
++var
++  Data: PGtdDataRec;
++begin
++  if not Assigned(Node.Parent) then
++    Allowed := false
++  else begin
++    Data := Sender.GetNodeData(Node);
++    Assert(Assigned(Data));
++    Assert(Assigned(Data.GtdNode));
++    if Data.GtdNode is TGtdAction then begin
++      FDraggedAction := Data.GtdNode;
++      Data := Sender.GetNodeData(Node.Parent);
++      Assert(Assigned(Data));
++      Assert(Assigned(Data.GtdNode));
++      FDragSource := Data.GtdNode;
++      Allowed := true;
++    end else begin
++      FDraggedAction := nil;
++      Allowed := false;
++    end;
++  end;
++end;
++
++procedure Tf_gtdNotes.VSTDragDrop(Sender: TBaseVirtualTree; Source: TObject;
++  DataObject: IDataObject; Formats: TFormatArray; Shift: TShiftState;
++  Pt: TPoint; var Effect: Integer; Mode: TDropMode);
++var
++  Node: PVirtualNode;
++  Data: PGtdDataRec;
++  GtdNode: TGtdNode;
++begin
++  Node := Sender.DropTargetNode;
++  if Assigned(Node) and Assigned(FDraggedAction) and Assigned(FDragSource) then begin
++    Data := Sender.GetNodeData(Node);
++    Assert(Assigned(Data));
++    Assert(Assigned(Data.GtdNode));
++    GtdNode := Data.GtdNode;
++    if GtdNode is TGtdFilter then begin
++      if FDragSource is TGtdFilter then begin
++        if Shift * [ssShift, ssCtrl] = [] then begin
++          (FDragSource as TGtdFilter).Extract(FDraggedAction);
++          'den Node ebenfalls loeschen
++        end;
++        (GtdNode as TGtdFilter).Add(FDraggedAction);
++        ' einen neuen Node einfuegen
++
++      end;
++    end else if GtdNode is TGtdProject then begin
++      if FDragSource is TGtdProject then begin
++                                    'fertigstellen
++      end;
++    end;
++  end;
++end;
++
++procedure Tf_gtdNotes.VSTDragOver(Sender: TBaseVirtualTree; Source: TObject;
++  Shift: TShiftState; State: TDragState; Pt: TPoint; Mode: TDropMode;
++  var Effect: Integer; var Accept: Boolean);
++var
++  Data: PGtdDataRec;
++  Node: PVirtualNode;
++  GtdNode: TGtdNode;
++begin
++  Node := Sender.DropTargetNode;
++  if Assigned(Node) then begin
++    Data := Sender.GetNodeData(Node);
++    Assert(Assigned(Data));
++    Assert(Assigned(Data.GtdNode));
++    GtdNode := Data.GtdNode;
++    if GtdNode is TGtdProject then begin
++      if FDragSource is TGtdProject then begin
++        Effect := DROPEFFECT_MOVE;
++        Accept := true;
++      end else
++        Accept := false;
++    end else if GtdNode is TGtdFilter then begin
++      Effect := DROPEFFECT_LINK;
++      Accept := true;
++    end;
++  end else
++    Accept := false;
++end;
++
+ procedure Tf_gtdNotes.VSTFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+ var
+-  Data: PGtdLabelRec;
++  Data: PGtdDataRec;
+ begin
+   Data := Sender.GetNodeData(Node);
+   if Assigned(Data) then
+@@ -497,9 +595,9 @@
+   var InitialStates: TVirtualNodeInitStates);
+ var
+   Level: integer;
+-  Data: PGtdLabelRec;
++  Data: PGtdDataRec;
+   Index: integer;
+-  ParentData: PGtdLabelRec;
++  ParentData: PGtdDataRec;
+ begin
+   Data := Sender.GetNodeData(Node);
+   Level := Sender.GetNodeLevel(Node);
+@@ -516,12 +614,12 @@
+       raise Exception.Create('Programmer Error: Node index must not be greater or equal item count.');
+     Data.GtdNode := ParentData.GtdNode.Items[Index] as TGtdNode;
+   end;
+-  VST.ChildCount[Node] := Data.GtdNode.Count;
+-  VST.Expanded[Node] := (Data.GtdNode.Count > 0);
++  Sender.ChildCount[Node] := Data.GtdNode.Count;
++  Sender.Expanded[Node] := (Data.GtdNode.Count > 0);
+   if Level = 2 then begin
+-    VST.CheckType[Node] := ctCheckBox;
++    Sender.CheckType[Node] := ctCheckBox;
+     if Data.GtdNode.IsDone then
+-      VST.CheckState[Node] := csCheckedNormal;
++      Sender.CheckState[Node] := csCheckedNormal;
+   end;
+ end;
+ 
+@@ -535,7 +633,7 @@
+   const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
+   TextType: TVSTTextType);
+ var
+-  Data: PGtdLabelRec;
++  Data: PGtdDataRec;
+ begin
+   Data := Sender.GetNodeData(Node);
+   if Data.GtdNode.isNextAction then
+@@ -546,7 +644,7 @@
+ 
+ procedure Tf_gtdNotes.HideNodes(_Sender: TBaseVirtualTree; _Node: PVirtualNode; _Data: Pointer; var _Abort: Boolean);
+ var
+-  NodeData: PGtdLabelRec;
++  NodeData: PGtdDataRec;
+ begin
+   NodeData := _Sender.GetNodeData(_Node);
+   Assert(Assigned(NodeData));
+
+
+

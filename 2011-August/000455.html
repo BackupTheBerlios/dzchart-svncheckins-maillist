@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r598 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r598%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110827111733.EFE0C481160%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000454.html">
+   <LINK REL="Next"  HREF="000456.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r598 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r598%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110827111733.EFE0C481160%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r598 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Aug 27 13:17:33 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000454.html">[Dzchart-svncheckins] r597 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000456.html">[Dzchart-svncheckins] r599 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#455">[ date ]</a>
+              <a href="thread.html#455">[ thread ]</a>
+              <a href="subject.html#455">[ subject ]</a>
+              <a href="author.html#455">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-08-27 13:17:33 +0200 (Sat, 27 Aug 2011)
+New Revision: 598
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzShellApiUtils.pas
+Log:
+new methods GetProfile and GetProfileDir
+
+Modified: utilities/dzLib/trunk/src/u_dzShellApiUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzShellApiUtils.pas	2011-08-27 11:17:05 UTC (rev 597)
++++ utilities/dzLib/trunk/src/u_dzShellApiUtils.pas	2011-08-27 11:17:33 UTC (rev 598)
+@@ -48,12 +48,15 @@
+     function LoadSHFolder(var _SHGetFolderPath: TSHGetFolderPath): Integer;
+   protected
+     FAppHandle: THandle;
+-    function GetSpecialFolder(_CSIDL: integer): string;
++    function GetSpecialFolder(_CSIDL: Integer): string;
+   public
+     ///&lt;summary&gt; Creates a TWindowsShell object,
+     ///   @param ApplicationHandle is the application's handle (Application.Handle) &lt;/summary&gt;
+     constructor Create(_ApplicationHandle: THandle = 0);
+     destructor Destroy; override;
++    ///&lt;summary&gt; returns the path to the user's profile folder (c:\documents and settings\&lt;username&gt;) &lt;/summary&gt;
++    function GetProfile: string;
++    class function GetProfileDir(_ApplicationHandle: THandle = 0): string;
+     ///&lt;summary&gt; returns the path to the 'My Documents' folder &lt;/summary&gt;
+     function GetMyDocuments: string;
+     class function GetMyDocumentsDir(_ApplicationHandle: THandle = 0): string;
+@@ -87,9 +90,9 @@
+     class function GetSystemWindowsDir: string;
+ 
+     // Warning: These functions will display System dialogs if there is a problem!
+-    class function CopyDir(const fromDir, toDir: string): boolean;
+-    class function DelDir(dir: string): boolean;
+-    class function MoveDir(const fromDir, toDir: string): boolean;
++    class function CopyDir(const fromDir, toDir: string): Boolean;
++    class function DelDir(dir: string): Boolean;
++    class function MoveDir(const fromDir, toDir: string): Boolean;
+   end;
+ 
+ implementation
+@@ -245,6 +248,21 @@
+     end;
+ end;
+ 
++function TWindowsShell.GetProfile: string;
++begin
++  Result := GetSpecialFolder(CSIDL_PROFILE);
++end;
++
++class function TWindowsShell.GetProfileDir(_ApplicationHandle: THandle): string;
++begin
++  with TWindowsShell.Create(_ApplicationHandle) do
++    try
++      Result := GetProfile;
++    finally
++      Free;
++    end;
++end;
++
+ function TWindowsShell.GetProgramFiles: string;
+ begin
+   Result := GetSpecialFolder(CSIDL_PROGRAM_FILES);
+@@ -330,7 +348,7 @@
+   Result := PChar(Result);
+ end;
+ 
+-class function TWindowsShell.CopyDir(const fromDir, toDir: string): boolean;
++class function TWindowsShell.CopyDir(const fromDir, toDir: string): Boolean;
+ var
+   fos: TSHFileOpStruct;
+ begin
+@@ -342,7 +360,7 @@
+   Result := (0 = ShFileOperation(fos));
+ end;
+ 
+-class function TWindowsShell.DelDir(dir: string): boolean;
++class function TWindowsShell.DelDir(dir: string): Boolean;
+ var
+   fos: TSHFileOpStruct;
+ begin
+@@ -353,7 +371,7 @@
+   Result := (0 = ShFileOperation(fos));
+ end;
+ 
+-class function TWindowsShell.MoveDir(const fromDir, toDir: string): boolean;
++class function TWindowsShell.MoveDir(const fromDir, toDir: string): Boolean;
+ var
+   fos: TSHFileOpStruct;
+ begin
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000454.html">[Dzchart-svncheckins] r597 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000456.html">[Dzchart-svncheckins] r599 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#455">[ date ]</a>
+              <a href="thread.html#455">[ thread ]</a>
+              <a href="subject.html#455">[ subject ]</a>
+              <a href="author.html#455">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

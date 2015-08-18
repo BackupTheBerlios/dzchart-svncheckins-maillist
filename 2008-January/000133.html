@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r264 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r264%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200801141127.m0EBRGmT017222%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000132.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r264 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r264%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200801141127.m0EBRGmT017222%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r264 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Jan 14 12:27:16 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000132.html">[Dzchart-svncheckins] r263 - utilities/dzLib/trunk/src
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#133">[ date ]</a>
+              <a href="thread.html#133">[ thread ]</a>
+              <a href="subject.html#133">[ subject ]</a>
+              <a href="author.html#133">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-01-14 12:27:14 +0100 (Mon, 14 Jan 2008)
+New Revision: 264
+
+Added:
+   utilities/dzLib/trunk/src/u_dzTextFile.pas
+Log:
+OO wrapper for TextFile that allows reading and writing strings (for now)
+
+Added: utilities/dzLib/trunk/src/u_dzTextFile.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTextFile.pas	2008-01-08 15:15:19 UTC (rev 263)
++++ utilities/dzLib/trunk/src/u_dzTextFile.pas	2008-01-14 11:27:14 UTC (rev 264)
+@@ -0,0 +1,86 @@
++unit u_dzTextFile;
++
++interface
++
++uses
++  SysUtils;
++
++type
++  ///&lt;summary&gt; defined the file access for TTextFile&lt;/summary&gt;
++  TTextFileAccess = (tfaRead, tfaWrite, tfaAppend);
++  ///&lt;summary&gt; a wrapper class for System.TextFile&lt;/summary&gt;
++  TTextFile = class
++  private
++    FFile: TextFile;
++    FIsFileOpen: boolean;
++    FFilename: string;
++  public
++    ///&lt;summary&gt; Creates a new TTextFile instance with the given filename and file access &lt;/summary&gt;
++    constructor Create(const _Filename: string; _Access: TTextFileAccess); overload;
++    ///&lt;summary&gt; Destroys the TTextFile instance and closes the file &lt;/summary&gt;
++    destructor Destroy; override;
++    ///&lt;summary&gt; Writes a string to the file &lt;/summary&gt;
++    procedure Write(const _s: string);
++    ///&lt;summary&gt; Writes a string followed by CR/LF to the file &lt;/summary&gt;
++    procedure WriteLn(const _s: string);
++    ///&lt;summary&gt; Reads from the file up to the next CR/LF and returns the string &lt;/summary&gt;
++    function ReadLn: string;
++    property Filename: string read FFilename;
++  end;
++
++implementation
++
++uses
++  u_dzTranslator;
++
++{ TTextFile }
++
++constructor TTextFile.Create(const _Filename: string; _Access: TTextFileAccess);
++var
++  EInOut: EInOutError;
++begin
++{$I+}
++  inherited Create;
++  AssignFile(FFile, _Filename);
++  try
++    case _Access of
++      tfaRead: Reset(FFile);
++      tfaWrite: Rewrite(FFile);
++      tfaAppend: Append(FFile);
++    else
++      raise Exception.CreateFmt(_('Invalid file access value (%d)'), [Ord(_Access)]);
++    end;
++  except
++    on e: EInOutError do begin
++      EInOut := EInOutError.Create(e.Message + ' Accessing file ' + _Filename);
++      EInOut.ErrorCode := e.ErrorCode;
++      raise EInOut;
++    end;
++  end;
++  FIsFileOpen := true;
++end;
++
++destructor TTextFile.Destroy;
++begin
++  if FIsFileOpen then
++    Close(FFile);
++  inherited;
++end;
++
++function TTextFile.ReadLn: string;
++begin
++  System.ReadLn(FFile, Result);
++end;
++
++procedure TTextFile.Write(const _s: string);
++begin
++  System.Write(FFile, _s);
++end;
++
++procedure TTextFile.WriteLn(const _s: string);
++begin
++  System.WriteLn(FFile, _s);
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000132.html">[Dzchart-svncheckins] r263 - utilities/dzLib/trunk/src
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#133">[ date ]</a>
+              <a href="thread.html#133">[ thread ]</a>
+              <a href="subject.html#133">[ subject ]</a>
+              <a href="author.html#133">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

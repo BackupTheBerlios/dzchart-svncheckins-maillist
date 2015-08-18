@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r272 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r272%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200802050759.m157xai4031585%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000140.html">
+   <LINK REL="Next"  HREF="000142.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r272 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r272%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200802050759.m157xai4031585%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r272 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Tue Feb  5 08:59:36 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000140.html">[Dzchart-svncheckins] r271 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000142.html">[Dzchart-svncheckins] r273 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#141">[ date ]</a>
+              <a href="thread.html#141">[ thread ]</a>
+              <a href="subject.html#141">[ subject ]</a>
+              <a href="author.html#141">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-02-05 08:59:35 +0100 (Tue, 05 Feb 2008)
+New Revision: 272
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* added TWinControl_SetFocus function for setting the focus to a control and capturing any errors
+* new function TApplication_GetExePath
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-02-05 07:58:28 UTC (rev 271)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-02-05 07:59:35 UTC (rev 272)
+@@ -357,6 +357,13 @@
+ {: centers a form on the given component, but makes sure the form is fully visible }
+ procedure TForm_CenterOn(_frm: TForm; _Center: TWinControl); overload;
+ 
++{: tries to focus the given control, returns false if that's not possible }
++function TWinControl_SetFocus(_Ctrl: TWinControl): boolean;
++
++{: returns the full path of the executable (without the filename but including
++   a backslash }
++function TApplication_GetExePath: string;
++
+ {: switches off &quot;Windows Ghosting&quot; in Win 2000 and XP
+   This is a workaround for the bug that modal forms sometimes aren't modal in W2K and XP.
+   Call in application startup. }
+@@ -1255,6 +1262,17 @@
+   TForm_CenterOn(_frm, _Center.ClientToScreen(Point(_Center.Width div 2, _Center.Height div 2)));
+ end;
+ 
++function TWinControl_SetFocus(_Ctrl: TWinControl): boolean;
++begin
++  Result := _Ctrl.CanFocus;
++  if Result then
++    try
++      _Ctrl.SetFocus;
++    except
++      Result := False;
++    end;
++end;
++
+ procedure DisableProcessWindowsGhosting;
+ var
+   DisableProcessWindowsGhostingProc: procedure;
+@@ -1426,5 +1444,10 @@
+   SendMessage(_Memo.Handle, EM_LINESCROLL, 0, cnt);
+ end;
+ 
++function TApplication_GetExePath: string;
++begin
++  Result := ExtractFilePath(Application.ExeName);
++end;
++
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000140.html">[Dzchart-svncheckins] r271 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000142.html">[Dzchart-svncheckins] r273 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#141">[ date ]</a>
+              <a href="thread.html#141">[ thread ]</a>
+              <a href="subject.html#141">[ subject ]</a>
+              <a href="author.html#141">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

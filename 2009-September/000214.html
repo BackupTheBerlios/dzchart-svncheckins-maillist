@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r348 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r348%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251458.n8PEwYoH015612%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000213.html">
+   <LINK REL="Next"  HREF="000215.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r348 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r348%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251458.n8PEwYoH015612%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r348 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 16:58:34 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000213.html">[Dzchart-svncheckins] r347 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000215.html">[Dzchart-svncheckins] r349 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#214">[ date ]</a>
+              <a href="thread.html#214">[ thread ]</a>
+              <a href="subject.html#214">[ subject ]</a>
+              <a href="author.html#214">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 16:58:33 +0200 (Fri, 25 Sep 2009)
+New Revision: 348
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzTranslator.pas
+Log:
+* new function dzGetText to avoid warnings in GetText utility
+* new internal function TP_TryGlobalIgnoreClass which does not raise an exception if the class is already being ignored
+
+Modified: utilities/dzLib/trunk/src/u_dzTranslator.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTranslator.pas	2009-09-25 14:56:20 UTC (rev 347)
++++ utilities/dzLib/trunk/src/u_dzTranslator.pas	2009-09-25 14:58:33 UTC (rev 348)
+@@ -24,7 +24,8 @@
+   Classes;
+ 
+ function _(const _s: string): string;
+-function GetText(const _s: string): string;
++function GetText(const _s: string): string; inline;
++function dzGetText(const _s: string): string; inline;
+ function DGetText(const _s: string; const _TextDomain: string = ''): string;
+ ///&lt;summary&gt; use this if you pass variables rather than constants to avoid warnings in the dxgettext tool &lt;/summary&gt;
+ function dzDGetText(const _s: string; const _TextDomain: string = ''): string; inline;
+@@ -52,7 +53,8 @@
+ uses
+   Controls,
+   ActnList,
+-  Graphics;
++  Graphics,
++  ExtCtrls;
+ 
+ function _(const _s: string): string;
+ begin
+@@ -68,6 +70,11 @@
+   Result := u_dzTranslator._(_s);
+ end;
+ 
++function dzGetText(const _s: string): string;
++begin
++  Result := u_dzTranslator._(_s);
++end;
++
+ function DGetText(const _s: string; const _TextDomain: string = ''): string;
+ begin
+ {$IFDEF gnugettext}
+@@ -117,6 +124,15 @@
+ {$ENDIF}
+ end;
+ 
++function TP_TryGlobalIgnoreClass(_IgnClass: TClass): boolean;
++begin
++{$IFDEF gnugettext}
++  Result := gnugettext.TP_TryGlobalIgnoreClass(_IgnClass);
++{$ELSE}
++  Result := true;
++{$ENDIF}
++end;
++
+ procedure TP_GlobalIgnoreClassProperty(_IgnClass: TClass; const _PropertyName: string);
+ begin
+ {$IFDEF gnugettext}
+@@ -212,10 +228,11 @@
+   AddDomainForResourceString('dzlib');
+ 
+   // ignore these VCL properties / classes
++  TP_GlobalIgnoreClassProperty(TAction, 'Category');
+   TP_GlobalIgnoreClassProperty(TControl, 'ImeName');
+   TP_GlobalIgnoreClassProperty(TControl, 'HelpKeyword');
+-  TP_GlobalIgnoreClassProperty(TAction, 'Category');
+-  TP_GlobalIgnoreClass(TFont);
++  TP_TryGlobalIgnoreClass(TFont);
++  TP_GlobalIgnoreClassProperty(TNotebook, 'Pages');
+ 
+ {$IFDEF TranslateReporting}
+   { TODO -otwm -ccheck : This should not always be called because it links in all ReportBuilder units. }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000213.html">[Dzchart-svncheckins] r347 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000215.html">[Dzchart-svncheckins] r349 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#214">[ date ]</a>
+              <a href="thread.html#214">[ thread ]</a>
+              <a href="subject.html#214">[ subject ]</a>
+              <a href="author.html#214">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r550 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r550%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110220155646.8E3E0480E5C%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000407.html">
+   <LINK REL="Next"  HREF="000409.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r550 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r550%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110220155646.8E3E0480E5C%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r550 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Feb 20 16:56:46 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000407.html">[Dzchart-svncheckins] r549 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000409.html">[Dzchart-svncheckins] r551 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#408">[ date ]</a>
+              <a href="thread.html#408">[ thread ]</a>
+              <a href="subject.html#408">[ subject ]</a>
+              <a href="author.html#408">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-02-20 16:56:46 +0100 (Sun, 20 Feb 2011)
+New Revision: 550
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzRingBuffer.pas
+Log:
+new methods TdzRingQueue.TryExtractFront and .TryGetFirst
+
+Modified: utilities/dzLib/trunk/src/u_dzRingBuffer.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzRingBuffer.pas	2011-02-20 15:55:48 UTC (rev 549)
++++ utilities/dzLib/trunk/src/u_dzRingBuffer.pas	2011-02-20 15:56:46 UTC (rev 550)
+@@ -141,6 +141,7 @@
+     procedure InsertEnd(const _Element); override;
+     ///&lt;summary&gt; extracts the first Element from the buffer &lt;/summary&gt;
+     procedure ExtractFront(var _Element); override;
++    function TryExtractFront(var _Element): boolean;
+     ///&lt;summary&gt; gets the Element with the index Idx &lt;/summary&gt;
+     procedure GetElement(_Idx: integer; var _Element); override;
+     ///&lt;summary&gt; sets the Element with the index Idx, note: No finalization is done
+@@ -148,6 +149,7 @@
+     procedure SetElement(_Idx: integer; const _Element); override;
+     ///&lt;summary&gt; gets the first Element from the buffer &lt;/summary&gt;
+     procedure GetFirst(var _Element); override;
++    function TryGetFirst(var _Element): boolean;
+     ///&lt;summary&gt; returns true, if the buffer is full &lt;/summary&gt;
+     function IsFull: boolean; override;
+     ///&lt;summary&gt; returns true, if the buffer is empty &lt;/summary&gt;
+@@ -452,6 +454,20 @@
+   inherited;
+ end;
+ 
++function TdzRingQueue.TryExtractFront(var _Element): boolean;
++begin
++  Result := not IsEmpty;
++  if Result then
++    ExtractFront(_Element);
++end;
++
++function TdzRingQueue.TryGetFirst(var _Element): boolean;
++begin
++  Result := not IsEmpty;
++  if Result then
++    GetFirst(_Element);
++end;
++
+ procedure TdzRingQueue.InsertEnd(const _Element);
+ begin
+   inherited;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000407.html">[Dzchart-svncheckins] r549 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000409.html">[Dzchart-svncheckins] r551 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#408">[ date ]</a>
+              <a href="thread.html#408">[ thread ]</a>
+              <a href="subject.html#408">[ subject ]</a>
+              <a href="author.html#408">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

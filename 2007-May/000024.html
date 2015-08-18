@@ -1,0 +1,759 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r149 - in utilities/dzLib/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r149%20-%20in%20utilities/dzLib/trunk%3A%20.%20src&In-Reply-To=%3C200705281436.l4SEapwW021853%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000023.html">
+   <LINK REL="Next"  HREF="000025.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r149 - in utilities/dzLib/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r149%20-%20in%20utilities/dzLib/trunk%3A%20.%20src&In-Reply-To=%3C200705281436.l4SEapwW021853%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r149 - in utilities/dzLib/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon May 28 16:36:51 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000023.html">[Dzchart-svncheckins] r148 - in utilities/dzLiveTemplates: . trunk
+</A></li>
+        <LI>Next message: <A HREF="000025.html">[Dzchart-svncheckins] r150 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-05-28 16:36:45 +0200 (Mon, 28 May 2007)
+New Revision: 149
+
+Modified:
+   utilities/dzLib/trunk/default_de.po
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+Log:
+* added MinInt64 and MaxInt64 constants to ConvertUtils
+* moved Str2Int, Str2Int64, GuessDecimalSeparator, Str2Float, TryStr2Float from MiscUtils to ConvertUtils
+
+
+Modified: utilities/dzLib/trunk/default_de.po
+===================================================================
+--- utilities/dzLib/trunk/default_de.po	2007-05-19 17:52:04 UTC (rev 148)
++++ utilities/dzLib/trunk/default_de.po	2007-05-28 14:36:45 UTC (rev 149)
+@@ -6,167 +6,176 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2007-03-19 15:29\n&quot;
+-&quot;PO-Revision-Date: 2007-03-19 15:41+0100\n&quot;
++&quot;POT-Creation-Date: 2007-05-23 17:05\n&quot;
++&quot;PO-Revision-Date: 2007-05-23 17:10+0100\n&quot;
+ &quot;Last-Translator: Schniering Ingenieursgesellschaft &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
++&quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+ &quot;Content-Type: text/plain; charset=UTF-8\n&quot;
+ &quot;Content-Transfer-Encoding: 8bit\n&quot;
+ &quot;X-Generator: dxgettext 1.2.1\n&quot;
+-&quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;X-Poedit-Language: German\n&quot;
+ &quot;X-Poedit-Country: GERMANY\n&quot;
+ 
+-#: u_dzConvertUtils.pas:126
++#. &quot;%s&quot; ist kein g&#195;&#188;ltiger Flie&#195;&#159;komma Wert: %s
++#. Programmer's name for it: STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS
++#: u_dzConvertUtils.pas:182
++msgid &quot;\&quot;%s\&quot; is not a valid floating point value: %s&quot;
++msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger Flie&#195;&#159;kommawert: %s&quot;
++
++#. &quot;%s&quot; ist kein g&#195;&#188;ltiger %s Wert: %s
++#. Programmer's name for it: STR_X_IS_NOT_A_VALID_Y_VALUE_SSS
++#: u_dzConvertUtils.pas:184
++msgid &quot;\&quot;%s\&quot; is not a valid %s value: %s&quot;
++msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger %s Wert: %s&quot;
++
++#: u_dzConvertUtils.pas:215
+ msgid &quot;Digit out of range %s&quot;
+ msgstr &quot;ung&#195;&#188;ltige Ziffer %s&quot;
+ 
+-#: u_dzConvertUtils.pas:139
++#: u_dzConvertUtils.pas:228
+ msgid &quot;Digit #%d (%s) out of range&quot;
+ msgstr &quot;Ung&#195;&#188;ltige Ziffer #%d (%s)&quot;
+ 
+-#: u_dzDefaultMain.pas:113
++#: u_dzDefaultMain.pas:114
+ msgid &quot;Error: %s&quot;
+ msgstr &quot;Fehler: %s&quot;
+ 
+ #. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
+-#: u_dzFileUtils.pas:244
++#: u_dzFileUtils.pas:450
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath&quot;
+ 
+ #. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
+-#: u_dzFileUtils.pas:245
++#: u_dzFileUtils.pas:451
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath (zweiter)&quot;
+ 
+ #. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
+-#: u_dzFileUtils.pas:246
++#: u_dzFileUtils.pas:452
+ msgid &quot;could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ msgstr &quot;Konnte keinen eindeutigen Verzeichnisnamen basierend auf \&quot;%s\&quot; finden.&quot;
+ 
+ #. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
+-#: u_dzFileUtils.pas:247
++#: u_dzFileUtils.pas:453
+ msgid &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ msgstr &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von Windows.GetTempFileName&quot;
+ 
+ #. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
+-#: u_dzFileUtils.pas:248
++#: u_dzFileUtils.pas:454
+ msgid &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ msgstr &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von Windows.GetShortPathname&quot;
+ 
+ #. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
+-#: u_dzFileUtils.pas:249
++#: u_dzFileUtils.pas:455
+ msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ msgstr &quot;Kurzer Pfad ist l&#195;&#164;nger als MAX_PATH (%d) Zeichen&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_MOVEFILE_ERROR_SS
+-#: u_dzFileUtils.pas:251
++#: u_dzFileUtils.pas:457
+ msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Verschieben von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_SETREADONLY_ERROR_S
+-#: u_dzFileUtils.pas:253
++#: u_dzFileUtils.pas:459
+ msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim &#195;&#132;ndern des Schreibschutz-Flags von \&quot;%s\&quot;&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_COPYFILE_ERROR_SS
+-#: u_dzFileUtils.pas:255
++#: u_dzFileUtils.pas:461
+ msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Kopieren von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_DELETEFILE_ERROR_S
+-#: u_dzFileUtils.pas:257
++#: u_dzFileUtils.pas:463
+ msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim L&#195;&#182;schen der Datei \&quot;%s\&quot;&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_REMOVEDIR_ERROR_S
+-#: u_dzFileUtils.pas:259
++#: u_dzFileUtils.pas:465
+ msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim L&#195;&#182;schen des Verzeichnisses \&quot;%s\&quot;&quot;
+ 
+ #. Programmer's name for it: STR_DELTREE_ERROR_S
+-#: u_dzFileUtils.pas:260
++#: u_dzFileUtils.pas:466
+ msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ msgstr &quot;\&quot;%s\&quot; existiert nicht oder ist kein Verzeichnis&quot;
+ 
+ #. doppelte % zum Durchreichen in Prozedur
+ #. Programmer's name for it: STR_CREATEDIR_ERROR_S
+-#: u_dzFileUtils.pas:262
++#: u_dzFileUtils.pas:468
+ msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses \&quot;%s\&quot;&quot;
+ 
+ #. Variant ist Null, sollte %s sein: %s
+ #. Programmer's name for it: STR_VARIANT_IS_NULL_SHOULD_BE_SS
+-#: u_dzMiscUtils.pas:427
++#. Variant ist Null, sollte %s sein: %s
++#. Programmer's name for it: STR_VARIANT_IS_NULL_SHOULD_BE_SS
++#: u_dzMiscUtils.pas:350
+ msgid &quot;Variant is Null, should be %s: %s&quot;
+ msgstr &quot;Variant ist Null, sollte %s sein: %s&quot;
+ 
+ #. Variant ist Empty, sollte %s sein: %s
+ #. Programmer's name for it: STR_VARIANT_IS_EMPTY_SHOULD_BE_SS
+-#: u_dzMiscUtils.pas:429
++#. Variant ist Empty, sollte %s sein: %s
++#. Programmer's name for it: STR_VARIANT_IS_EMPTY_SHOULD_BE_SS
++#: u_dzMiscUtils.pas:352
+ msgid &quot;Variant is Empty, should be %s: %s&quot;
+ msgstr &quot;Variant ist leer, sollte %s sein: %s&quot;
+ 
+ #. Variant kann nicht nach %s konvertiert werden: %s
+ #. Programmer's name for it: STR_VARAINT_CAN_NOT_BE_CONVERTED_TO_SS
+-#: u_dzMiscUtils.pas:431
++#. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS
++#: u_dzMiscUtils.pas:354
+ msgid &quot;Variant can not be converted to %s: %s&quot;
+ msgstr &quot;Variant kann nicht nach %s konvertiert werden: %s&quot;
+ 
+ #. Unbekannter Betriebssystem Fehler
+ #. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
+-#: u_dzMiscUtils.pas:434
++#: u_dzMiscUtils.pas:357
+ msgid &quot;unknown OS error&quot;
+ msgstr &quot;Unbekannter Betriebssystemfehler&quot;
+ 
+ #. Unbekannter Win32 Fehler
+ #. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
+-#: u_dzMiscUtils.pas:437
++#: u_dzMiscUtils.pas:360
+ msgid &quot;unknown Win32 error&quot;
+ msgstr &quot;Unbekannter Windows Fehler&quot;
+ 
+-#. &quot;%s&quot; ist kein g&#195;&#188;ltiger Flie&#195;&#159;komma Wert: %s
+-#. Programmer's name for it: STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS
+-#: u_dzMiscUtils.pas:440
+-msgid &quot;\&quot;%s\&quot; is not a valid floating point value: %s&quot;
+-msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger Flie&#195;&#159;kommawert: %s&quot;
+-
+-#. &quot;%s&quot; ist kein g&#195;&#188;ltiger %s Wert: %s
+-#. Programmer's name for it: STR_X_IS_NOT_A_VALID_Y_VALUE_SSS
+-#: u_dzMiscUtils.pas:442
+-msgid &quot;\&quot;%s\&quot; is not a valid %s value: %s&quot;
+-msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger %s Wert: %s&quot;
+-
+ #. nthWord: Nulltes Wort nicht verf&#195;&#188;gbar
+ #. Programmer's name for it: STR_NO_0TH_WORD
+-#: u_dzStringUtils.pas:242
++#: u_dzStringUtils.pas:262
+ msgid &quot;nthWord: 0th word not available&quot;
+ msgstr &quot;nthWord: 0tes Wort ist nicht verf&#195;&#188;gbar&quot;
+ 
+ #. Zu zentrierender String ist l&#195;&#164;nger als die Maximall&#195;&#164;nge und kann nicht zentriert werden.
+ #. Programmer's name for it: STR_STRING_TOO_LONG_TO_CENTER
+-#: u_dzStringUtils.pas:245
++#: u_dzStringUtils.pas:265
+ msgid &quot;Cannot center string that is larger than the maximum length.&quot;
+ msgstr &quot;Kann keinen String zentrieren, der l&#195;&#164;nger als die maximale L&#195;&#164;nge ist.&quot;
+ 
+ #. Strings haben kein nulltes Zeichen.
+ #. Programmer's name for it: STR_CHAR_INDEX_OUT_OF_RANGE
+-#: u_dzStringUtils.pas:248
++#: u_dzStringUtils.pas:268
+ msgid &quot;Strings do not have a 0th character.&quot;
+ msgstr &quot;Strings haben kein 0tes Zeichen.&quot;
+ 
+-#: u_dzVclUtils.pas:483
+-#: u_dzVclUtils.pas:521
++#. Variant kann nicht nach %s konvertiert werden: %s
++#. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S
++#: u_dzVariantUtils.pas:159
++msgid &quot;Variant can not be converted to %s&quot;
++msgstr &quot;Variant kann nicht nach %s konvertiert werden&quot;
++
++#: u_dzVclUtils.pas:491
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger Flie&#195;&#159;kommawert.&quot;
+ 
+-#: u_dzVclUtils.pas:503
+-#: u_dzVclUtils.pas:539
++#: u_dzVclUtils.pas:511
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#195;&#188;ltiger Integerwert.&quot;
+ 
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-05-19 17:52:04 UTC (rev 148)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-05-28 14:36:45 UTC (rev 149)
+@@ -4,7 +4,7 @@
+    which originally was a Delphi conversion of TwmStringFunc. }
+ unit u_dzConvertUtils;
+ 
+-{$i jedi.inc}
++{$I jedi.inc}
+ 
+ interface
+ 
+@@ -20,6 +20,8 @@
+      given base. }
+   EdzConvert = class(Exception);
+   EDigitOutOfRange = class(EdzConvert);
++  {: raised if there is a conversion error in one of the Str2XxxEx functions }
++  EStringConvertError = class(EdzConvert);
+ 
+ type
+   ULong = LongWord;
+@@ -28,6 +30,10 @@
+   TBaseN = 2..36;
+ 
+ const
++  MinInt64 = $8000000000000000;
++  MaxInt64 = $7FFFFFFFFFFFFFFF;
++
++const
+   {: String containing all characters that can be used as digits }
+   DIGIT_CHARS: string[36] = '0123456789ABCDEFGHIJKlMNOPQRSTUVWXYZ';
+ 
+@@ -90,6 +96,72 @@
+ function TimeToSeconds(_Zeit: TDateTime): integer; deprecated;
+ {$ENDIF}
+ 
++{: Converts a string to an integer.
++   If s can not be converted, it returns the Default.
++   @param(s string to convert)
++   @param(Default value to return if s can not be converted)
++   @returns(the integer value of s or Default, if s can not be converted) }
++
++function Str2Int(_s: string; _Default: integer): integer; overload;
++
++{: Converts a string to an integer.
++   If s can not be converted, it raises an exception EStringConvertError.
++   @param(s string to convert)
++   @param(Source string to include in the exception message)
++   @returns(the integer value of s)
++   @raises(EStringConvertError if s can not be converted) }
++
++function Str2Int(_s: string; const _Source: string): integer; overload;
++
++{: Converts a string to an int64.
++   If s can not be converted, it returns the Default.
++   @param(s string to convert)
++   @param(Default value to return if s can not be converted)
++   @returns(the int64 value of s or Default, if s can not be converted) }
++
++function Str2Int64(_s: string; _Default: Int64): Int64; overload;
++
++{: Converts a string to an int64.
++   If s can not be converted, it raises an exception EStringConvertError.
++   @param(s string to convert)
++   @param(Source string to include in the exception message)
++   @returns(the integer value of s)
++   @raises(EStringConvertError if s can not be converted) }
++
++function Str2Int64(_s: string; const _Source: string): Int64; overload;
++
++{: tries to guess the decimal separator }
++function GuessDecimalSeparator(const _s: string): char;
++
++{: Converts a string to a float.
++   If s can not be converted, it returns the Default.
++   @param s string to convert
++   @param Default value to return if s can not be converted
++   @param DecSeparator is the decimal separator, defaults to '.'
++          if passed as #0, GuessDecimalSeparator is called to guess it
++   @returns the float value of s or Default, if s can not be converted }
++function Str2Float(_s: string; _Default: extended; _DecSeparator: char = '.'): extended; overload;
++
++{: Converts a string to a float.
++   If s can not be converted, it raises an exception EStringConvertError.
++   @param(s string to convert)
++   @param(Source string to include in the exception message)
++   @param DecSeparator is the decimal separator, defaults to '.'
++          if passed as #0, GuessDecimalSeparator is called to guess it
++   @returns(the float value of s)
++   @raises(EStringConvertError if s can not be converted) }
++
++function Str2Float(_s: string; const _Source: string; _DecSeparator: char = '.'): extended; overload;
++
++{: tries to convert a string to a float, returns false if it fails
++   @param s is the string to convert
++   @param flt is the float, only valid if the function returns true
++   @param DecSeparator is the decimal separator to use, defaults to '.',
++          if passed as #0, GuessDecimalSeparator is called to guess it
++   @returns true, if s could be converted, false otherwise }
++function TryStr2Float(_s: string; out _flt: extended; _DecSeparator: char = '.'): boolean; overload;
++function TryStr2Float(_s: string; out _flt: double; _DecSeparator: char = '.'): boolean; overload;
++
+ {: Converts a floating point number to a string using the given decimal separator
+    in &quot;General number format&quot; with 15 significant digits
+    @param(flt is an extended floating point value)
+@@ -105,6 +177,12 @@
+   u_dzTranslator,
+   u_dzStringUtils;
+ 
++resourcestring
++  // &quot;%s&quot; ist kein g&#252;ltiger Flie&#223;komma Wert: %s
++  STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS = '&quot;%s&quot; is not a valid floating point value: %s';
++  // &quot;%s&quot; ist kein g&#252;ltiger %s Wert: %s
++  STR_X_IS_NOT_A_VALID_Y_VALUE_SSS = '&quot;%s&quot; is not a valid %s value: %s';
++
+ function isDigit(_a: char; _Base: TBaseN): boolean;
+ begin
+   Result := (Pos(UpCase(_a), LeftStr(DIGIT_CHARS, _Base)) &lt;&gt; 0);
+@@ -320,6 +398,104 @@
+   Result := SysUtils.FloatToStr(_Flt, FormatSettings);
+ end;
+ 
++function Str2Int(_s: string; _Default: integer): integer;
++var
++  e: integer;
++begin
++  Val(_s, Result, e);
++  if e &lt;&gt; 0 then
++    Result := _Default
++end;
++
++function Str2Int(_s: string; const _Source: string): integer;
++var
++  e: integer;
++begin
++  Val(_s, Result, e);
++  if e &lt;&gt; 0 then
++    raise EStringConvertError.CreateFmt(STR_X_IS_NOT_A_VALID_Y_VALUE_SSS, [_s, 'Integer', _Source]);
++end;
++
++function Str2Int64(_s: string; _Default: Int64): Int64;
++var
++  e: integer;
++begin
++  Val(_s, Result, e);
++  if e &lt;&gt; 0 then
++    Result := _Default
++end;
++
++function Str2Int64(_s: string; const _Source: string): Int64;
++var
++  e: integer;
++begin
++  Val(_s, Result, e);
++  if e &lt;&gt; 0 then
++    raise EStringConvertError.CreateFmt(STR_X_IS_NOT_A_VALID_Y_VALUE_SSS, [_s, 'Int64', _Source]);
++end;
++
++function GuessDecimalSeparator(const _s: string): char;
++var
++  i: integer;
++  //  DotCnt: integer;
++  CommaCnt: integer;
++begin
++  //  DotCnt := 0;
++  CommaCnt := 0;
++  Result := '.';
++  for i := 1 to length(_s) do begin
++    case _s[i] of
++      '.': begin
++            //            Inc(DotCnt);
++          Result := '.';
++        end;
++      ',': begin
++          Inc(CommaCnt);
++          Result := ',';
++        end;
++    end;
++  end;
++  if (Result = ',') and (CommaCnt = 1) then
++    exit;
++  Result := '.';
++end;
++
++function TryStr2Float(_s: string; out _flt: extended; _DecSeparator: char = '.'): boolean;
++var
++  TmpDecSeparator: char;
++begin
++  if _DecSeparator = #0 then
++    _DecSeparator := GuessDecimalSeparator(_s);
++  TmpDecSeparator := DecimalSeparator;
++  DecimalSeparator := _DecSeparator;
++  try
++    Result := TextToFloat(PChar(_s), _flt, fvExtended);
++  finally
++    DecimalSeparator := TmpDecSeparator;
++  end;
++end;
++
++function TryStr2Float(_s: string; out _flt: double; _DecSeparator: char = '.'): boolean; overload;
++var
++  flt: extended;
++begin
++  Result := TryStr2Float(_s, flt, _DecSeparator);
++  if Result then
++    _flt := flt;
++end;
++
++function Str2Float(_s: string; _Default: extended; _DecSeparator: char = '.'): extended; overload;
++begin
++  if not TryStr2Float(_s, Result, _DecSeparator) then
++    Result := _Default
++end;
++
++function Str2Float(_s: string; const _Source: string; _DecSeparator: char = '.'): extended; overload;
++begin
++  if not TryStr2Float(_s, Result, _DecSeparator) then
++    raise EStringConvertError.CreateFmt(STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS, [_s, _Source]);
++end;
++
+ initialization
+   DZ_FORMAT_DECIMAL_POINT := GetUserDefaultLocaleSettings;
+   DZ_FORMAT_DECIMAL_POINT.DecimalSeparator := '.';
+
+Modified: utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2007-05-19 17:52:04 UTC (rev 148)
++++ utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2007-05-28 14:36:45 UTC (rev 149)
+@@ -15,7 +15,6 @@
+ {$I jedi.inc}
+ 
+ { TODO -otwm : Move variant functions to u_dzVariants }
+-{ TODO -otwm : Move float functions to u_dzConvertUtils }
+ 
+ {$WARN SYMBOL_PLATFORM off}
+ 
+@@ -40,9 +39,6 @@
+   {: raised if the variant passed to one of the Var2XxxEx functions is empty }
+   EVarIsEmpty = class(EVariantConvertError);
+ 
+-  {: raised if there is a conversion error in one of the Str2XxxEx functions }
+-  EStringConvertError = class(EConvertError);
+-
+   {: raised by Max([array of const]) and Min([array of const]) if the passed
+      paramter is empty }
+   EEmptyArray = class(Exception);
+@@ -80,7 +76,7 @@
+ {: returns a hex dump of the buffer (no spaces added)
+    @param(Buffer is the memory block to dump)
+    @param(Len is the length of the block)
+-   @returns(a string containting the hex dump of the buffer) }
++   @returns(a string containing the hex dump of the buffer) }
+ 
+ function HexDump(const _Buffer; _Len: integer): string;
+ 
+@@ -225,79 +221,6 @@
+ 
+ function Var2StrEx(_v: variant; const _Source: string): string;
+ 
+-{: Converts a string to an integer.
+-   If s can not be converted, it returns the Default.
+-   @param(s string to convert)
+-   @param(Default value to return if s can not be converted)
+-   @returns(the integer value of s or Default, if s can not be converted) }
+-
+-function Str2Int(_s: string; _Default: integer): integer; overload;
+-
+-{: Converts a string to an integer.
+-   If s can not be converted, it raises an exception EStringConvertError.
+-   @param(s string to convert)
+-   @param(Source string to include in the exception message)
+-   @returns(the integer value of s)
+-   @raises(EStringConvertError if s can not be converted) }
+-
+-function Str2Int(_s: string; const _Source: string): integer; overload;
+-
+-{: Converts a string to an int64.
+-   If s can not be converted, it returns the Default.
+-   @param(s string to convert)
+-   @param(Default value to return if s can not be converted)
+-   @returns(the int64 value of s or Default, if s can not be converted) }
+-
+-function Str2Int64(_s: string; _Default: Int64): Int64; overload;
+-
+-{: Converts a string to an int64.
+-   If s can not be converted, it raises an exception EStringConvertError.
+-   @param(s string to convert)
+-   @param(Source string to include in the exception message)
+-   @returns(the integer value of s)
+-   @raises(EStringConvertError if s can not be converted) }
+-
+-function Str2Int64(_s: string; const _Source: string): Int64; overload;
+-
+-{: tries to guess the decimal separator }
+-function GuessDecimalSeparator(const _s: string): char;
+-
+-{: Converts a string to a float.
+-   If s can not be converted, it returns the Default.
+-   @param s string to convert
+-   @param Default value to return if s can not be converted
+-   @param DecSeparator is the decimal separator, defaults to '.'
+-          if passed as #0, GuessDecimalSeparator is called to guess it
+-   @returns the float value of s or Default, if s can not be converted }
+-function Str2Float(_s: string; _Default: extended; _DecSeparator: char = '.'): extended; overload;
+-
+-{: Converts a string to a float.
+-   If s can not be converted, it raises an exception EStringConvertError.
+-   @param(s string to convert)
+-   @param(Source string to include in the exception message)
+-   @param DecSeparator is the decimal separator, defaults to '.'
+-          if passed as #0, GuessDecimalSeparator is called to guess it
+-   @returns(the float value of s)
+-   @raises(EStringConvertError if s can not be converted) }
+-
+-function Str2Float(_s: string; const _Source: string; _DecSeparator: char = '.'): extended; overload;
+-
+-{: tries to convert a string to a float, returns false if it fails
+-   @param s is the string to convert
+-   @param flt is the float, only valid if the function returns true
+-   @param DecSeparator is the decimal separator to use, defaults to '.',
+-          if passed as #0, GuessDecimalSeparator is called to guess it
+-   @returns true, if s could be converted, false otherwise }
+-function TryStr2Float(_s: string; out _flt: extended; _DecSeparator: char = '.'): boolean; overload;
+-function TryStr2Float(_s: string; out _flt: double; _DecSeparator: char = '.'): boolean; overload;
+-
+-{: Converts a floating point number to a string using the given decimal separator
+-   in &quot;General number format&quot; with 15 significant digits
+-   @param(flt is an extended floating point value)
+-   @param(DecSeparator is the decimal separator to use)
+-   @returns(a string representation of the floating point value) }
+-function Float2Str(_flt: extended; _DecSeparator: char = '.'): string;
+-
+ {: Uses GetLastError to get the last WinAPI error code, then
+    calls SysErrorMessage to get the corresponding error string,
+    optionally takes a format string.
+@@ -436,10 +359,6 @@
+   // Unbekannter Win32 Fehler
+   STR_UNKNOWN_WIN32_ERROR = 'unknown Win32 error';
+ {$ENDIF delphi7up}
+-  // &quot;%s&quot; ist kein g&#252;ltiger Flie&#223;komma Wert: %s
+-  STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS = '&quot;%s&quot; is not a valid floating point value: %s';
+-  // &quot;%s&quot; ist kein g&#252;ltiger %s Wert: %s
+-  STR_X_IS_NOT_A_VALID_Y_VALUE_SSS = '&quot;%s&quot; is not a valid %s value: %s';
+ 
+ {$IFDEF debug}
+ 
+@@ -579,111 +498,6 @@
+     end;
+ end;
+ 
+-function Str2Int(_s: string; _Default: integer): integer;
+-var
+-  e: integer;
+-begin
+-  Val(_s, Result, e);
+-  if e &lt;&gt; 0 then
+-    Result := _Default
+-end;
+-
+-function Str2Int(_s: string; const _Source: string): integer;
+-var
+-  e: integer;
+-begin
+-  Val(_s, Result, e);
+-  if e &lt;&gt; 0 then
+-    raise EStringConvertError.CreateFmt(STR_X_IS_NOT_A_VALID_Y_VALUE_SSS, [_s, 'Integer', _Source]);
+-end;
+-
+-function Str2Int64(_s: string; _Default: Int64): Int64;
+-var
+-  e: integer;
+-begin
+-  Val(_s, Result, e);
+-  if e &lt;&gt; 0 then
+-    Result := _Default
+-end;
+-
+-function Str2Int64(_s: string; const _Source: string): Int64;
+-var
+-  e: integer;
+-begin
+-  Val(_s, Result, e);
+-  if e &lt;&gt; 0 then
+-    raise EStringConvertError.CreateFmt(STR_X_IS_NOT_A_VALID_Y_VALUE_SSS, [_s, 'Int64', _Source]);
+-end;
+-
+-function GuessDecimalSeparator(const _s: string): char;
+-var
+-  i: integer;
+-  //  DotCnt: integer;
+-  CommaCnt: integer;
+-begin
+-  //  DotCnt := 0;
+-  CommaCnt := 0;
+-  Result := '.';
+-  for i := 1 to length(_s) do begin
+-    case _s[i] of
+-      '.': begin
+-            //            Inc(DotCnt);
+-          Result := '.';
+-        end;
+-      ',': begin
+-          Inc(CommaCnt);
+-          Result := ',';
+-        end;
+-    end;
+-  end;
+-  if (Result = ',') and (CommaCnt = 1) then
+-    exit;
+-  Result := '.';
+-end;
+-
+-function TryStr2Float(_s: string; out _flt: extended; _DecSeparator: char = '.'): boolean;
+-var
+-  TmpDecSeparator: char;
+-begin
+-  if _DecSeparator = #0 then
+-    _DecSeparator := GuessDecimalSeparator(_s);
+-  TmpDecSeparator := DecimalSeparator;
+-  DecimalSeparator := _DecSeparator;
+-  try
+-    Result := TextToFloat(PChar(_s), _flt, fvExtended);
+-  finally
+-    DecimalSeparator := TmpDecSeparator;
+-  end;
+-end;
+-
+-function TryStr2Float(_s: string; out _flt: double; _DecSeparator: char = '.'): boolean; overload;
+-var
+-  flt: extended;
+-begin
+-  Result := TryStr2Float(_s, flt, _DecSeparator);
+-  if Result then
+-    _flt := flt;
+-end;
+-
+-function Str2Float(_s: string; _Default: extended; _DecSeparator: char = '.'): extended; overload;
+-begin
+-  if not TryStr2Float(_s, Result, _DecSeparator) then
+-    Result := _Default
+-end;
+-
+-function Str2Float(_s: string; const _Source: string; _DecSeparator: char = '.'): extended; overload;
+-begin
+-  if not TryStr2Float(_s, Result, _DecSeparator) then
+-    raise EStringConvertError.CreateFmt(STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS, [_s, _Source]);
+-end;
+-
+-function Float2Str(_flt: extended; _DecSeparator: char = '.'): string;
+-begin
+-  Result := SysUtils.FloatToStr(_Flt);
+-  if _DecSeparator &lt;&gt; SysUtils.DecimalSeparator then
+-    Result := StringReplace(Result, SysUtils.DecimalSeparator, _DecSeparator, [rfReplaceAll]);
+-end;
+-
+ function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
+ begin
+   Result := not VarIsNull(_v) and not VarIsEmpty(_v);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000023.html">[Dzchart-svncheckins] r148 - in utilities/dzLiveTemplates: . trunk
+</A></li>
+	<LI>Next message: <A HREF="000025.html">[Dzchart-svncheckins] r150 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

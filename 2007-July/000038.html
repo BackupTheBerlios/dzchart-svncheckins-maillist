@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r163 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r163%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707141052.l6EAqx2b016490%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000037.html">
+   <LINK REL="Next"  HREF="000039.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r163 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r163%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707141052.l6EAqx2b016490%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r163 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jul 14 12:52:59 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000037.html">[Dzchart-svncheckins] r162 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000039.html">[Dzchart-svncheckins] r164 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#38">[ date ]</a>
+              <a href="thread.html#38">[ thread ]</a>
+              <a href="subject.html#38">[ subject ]</a>
+              <a href="author.html#38">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-14 12:52:57 +0200 (Sat, 14 Jul 2007)
+New Revision: 163
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+Log:
+* changed implementation of VarIsXxxx functions
+* added Var2DateStr function
+
+Modified: utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2007-07-14 10:51:57 UTC (rev 162)
++++ utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2007-07-14 10:52:57 UTC (rev 163)
+@@ -120,6 +120,12 @@
+    @returns(an ISO format DateTime string of v or NullValue if v can not be converted) }
+ function Var2DateTimeStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ 
++{: Converts a variant to an ISO format Date string (yyyy-mm-dd)
++   @param(v Variant value to convert)
++   @param(NullValue String value to return if v is empty or null)
++   @returns(an ISO format Date string of v or NullValue if v can not be converted) }
++function Var2DateStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++
+ {: Converts a variant to a string
+    If v is null or empty, it returns false.
+    @param(v Variant value to convert)
+@@ -199,19 +205,17 @@
+ 
+ function VarIsInteger(_v: variant): boolean;
+ begin
+-  Result := FindVarData(_V)^.VType in [varSmallInt, varInteger, varShortInt,
+-    varByte, varWord];
++  Result := VarIsType(_V, [varSmallInt, varInteger, varShortInt, varByte, varWord]);
+ end;
+ 
+ function VarIsLongWord(_v: variant): boolean;
+ begin
+-  Result := FindVarData(_V)^.VType in [varByte, varWord, varLongWord];
++  Result := VarIsType(_V, [varByte, varWord, varLongWord]);
+ end;
+ 
+ function VarIsInt64(_v: variant): boolean;
+ begin
+-  Result := FindVarData(_V)^.VType in [varSmallInt, varInteger, varShortInt,
+-    varByte, varWord, varLongWord, varInt64];
++  Result := VarIsType(_V, [varSmallInt, varInteger, varShortInt, varByte, varWord, varLongWord, varInt64]);
+ end;
+ 
+ function TryVar2Int(const _v: variant; out _Value: integer): boolean;
+@@ -285,6 +289,21 @@
+     end;
+ end;
+ 
++function Var2DateStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
++var
++  Value: TDateTime;
++begin
++  if VarIsNull(_v) or VarIsEmpty(_v) then
++    Result := _NullValue
++  else
++    try
++      Value := _v;
++      Result := FormatDateTime('yyyy-mm-dd', Value);
++    except
++      Result := _NullValue;
++    end;
++end;
++
+ function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
+ begin
+   Result := not VarIsNull(_v) and not VarIsEmpty(_v);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000037.html">[Dzchart-svncheckins] r162 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000039.html">[Dzchart-svncheckins] r164 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#38">[ date ]</a>
+              <a href="thread.html#38">[ thread ]</a>
+              <a href="subject.html#38">[ subject ]</a>
+              <a href="author.html#38">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

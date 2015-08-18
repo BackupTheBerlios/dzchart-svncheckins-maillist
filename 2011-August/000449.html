@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r592 - utilities/buildtools/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r592%20-%20utilities/buildtools/trunk&In-Reply-To=%3C20110827105615.4529C481162%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000448.html">
+   <LINK REL="Next"  HREF="000450.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r592 - utilities/buildtools/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r592%20-%20utilities/buildtools/trunk&In-Reply-To=%3C20110827105615.4529C481162%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r592 - utilities/buildtools/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Aug 27 12:56:15 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000448.html">[Dzchart-svncheckins] r591 - in	utilities/dzLib/trunk/tests/dzICalendarTest: . src
+</A></li>
+        <LI>Next message: <A HREF="000450.html">[Dzchart-svncheckins] r593 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#449">[ date ]</a>
+              <a href="thread.html#449">[ thread ]</a>
+              <a href="subject.html#449">[ subject ]</a>
+              <a href="author.html#449">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-08-27 12:56:14 +0200 (Sat, 27 Aug 2011)
+New Revision: 592
+
+Modified:
+   utilities/buildtools/trunk/AppendTranslations.cmd
+   utilities/buildtools/trunk/assemble.exe
+   utilities/buildtools/trunk/gorm.exe
+Log:
+* Update gorm.exe and assemble.exe (new assemble also needs new gnugettext.pas!)
+* AppendTranslations will no longer create subdirs for languages
+
+Modified: utilities/buildtools/trunk/AppendTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/AppendTranslations.cmd	2011-08-06 16:47:13 UTC (rev 591)
++++ utilities/buildtools/trunk/AppendTranslations.cmd	2011-08-27 10:56:14 UTC (rev 592)
+@@ -32,7 +32,7 @@
+ @call :HandLng
+ 
+ @echo bind all translations to the executable
+-%~dp0\assemble --dxgettext %1.exe
++%~dp0assemble %1.exe --dxgettext
+ echo off
+ 
+ echo * %0 exiting
+@@ -43,7 +43,8 @@
+ 
+ @echo ** handling language %LNG% **
+ if exist locale\%LNG%\lc_messages goto lcmsgexists
+-mkdir locale\%LNG%\lc_messages
++echo *** subdir locale\%LNG%\lc_messages does not exist skipping language %LNG% ***
++goto :eof
+ :lcmsgexists
+ 
+ if not exist %ProjectDir%\libs\dspack\translations\%LNG%\dspack.po goto nodspack
+@@ -66,6 +67,11 @@
+ %~dp0\msgfmt %ProjectDir%\libs\dxgettext\translations\%LNG%\delphi2007.po -o locale\%LNG%\lc_messages\delphi2007.mo
+ :nodelphi
+ 
++if not exist %ProjectDir%\libs\comport\locale\%LNG%\LC_MESSAGES\cport.po goto nocomport
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile %LNG% cport.po
++%~dp0\msgfmt %ProjectDir%\libs\comport\locale\%LNG%\LC_MESSAGES\cport.po -o locale\%LNG%\lc_messages\cport.mo
++:nocomport
++
+ @echo compile %LNG% default.po
+ %~dp0\msgfmt %ProjectDir%\locale\%LNG%\lc_messages\default.po -o locale\%LNG%\lc_messages\default.mo
+ 
+
+Modified: utilities/buildtools/trunk/assemble.exe
+===================================================================
+(Binary files differ)
+
+Modified: utilities/buildtools/trunk/gorm.exe
+===================================================================
+(Binary files differ)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000448.html">[Dzchart-svncheckins] r591 - in	utilities/dzLib/trunk/tests/dzICalendarTest: . src
+</A></li>
+	<LI>Next message: <A HREF="000450.html">[Dzchart-svncheckins] r593 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#449">[ date ]</a>
+              <a href="thread.html#449">[ thread ]</a>
+              <a href="subject.html#449">[ subject ]</a>
+              <a href="author.html#449">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

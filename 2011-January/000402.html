@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r544 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r544%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110129113055.2CF944812C3%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000401.html">
+   <LINK REL="Next"  HREF="000403.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r544 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r544%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110129113055.2CF944812C3%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r544 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jan 29 12:30:55 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000401.html">[Dzchart-svncheckins] r543 - in utilities/dzLib/trunk: forms src
+</A></li>
+        <LI>Next message: <A HREF="000403.html">[Dzchart-svncheckins] r545 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#402">[ date ]</a>
+              <a href="thread.html#402">[ thread ]</a>
+              <a href="subject.html#402">[ subject ]</a>
+              <a href="author.html#402">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-01-29 12:30:54 +0100 (Sat, 29 Jan 2011)
+New Revision: 544
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileStreams.pas
+Log:
+Filename property is now readonly
+
+Modified: utilities/dzLib/trunk/src/u_dzFileStreams.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileStreams.pas	2011-01-29 11:30:23 UTC (rev 543)
++++ utilities/dzLib/trunk/src/u_dzFileStreams.pas	2011-01-29 11:30:54 UTC (rev 544)
+@@ -82,8 +82,6 @@
+     procedure SetFileAttributes(_FileAttributes: DWORD);
+     ///&lt;summary&gt; Set method for FileFlags property &lt;/summary&gt;
+     procedure SetFileFlags(_FileFlags: DWORD);
+-    ///&lt;summary&gt; Set method for Filename property &lt;/summary&gt;
+-    procedure SetFilename(const _Filename: string);
+   public
+     ///&lt;summary&gt; Creates a TdzFile object.
+     ///          @param Filename is a string containing the name of the file to open &lt;/summary&gt;
+@@ -107,7 +105,7 @@
+     ///&lt;summary&gt; returns true if Position = Size &lt;/summary&gt;
+     function EOF: boolean;
+     ///&lt;summary&gt; The file's name as passed to the Create constructor. &lt;/summary&gt;
+-    property Filename: string read FFilename write SetFilename;
++    property Filename: string read FFilename;
+     ///&lt;summary&gt; The file's access mode.
+     ///          Can be set to [faRead], [faWrite] or [faRead, faWrite]. &lt;/summary&gt;
+     property AccessMode: TFileAccessModeSet read FAccessMode write FAccessMode;
+@@ -320,6 +318,11 @@
+   FFileFlags := _FileFlags;
+ end;
+ 
++function TdzFile.EOF: boolean;
++begin
++  Result := Position = Size;
++end;
++
+ { TdzTempFile }
+ 
+ constructor TdzTempFile.Create(_Directory: string; const _Prefix: string; _Unique: word);
+@@ -332,17 +335,5 @@
+   FileFlags := FILE_FLAG_DELETE_ON_CLOSE;
+ end;
+ 
+-procedure TdzFile.SetFilename(const _Filename: string);
+-begin
+-  if Int64(Self.Handle) &lt;&gt; Int64(INVALID_HANDLE_VALUE) then
+-    raise EdzFile.Create(_('Cannot change filename when file is open.'));
+-  FFilename := _Filename;
+-end;
+-
+-function TdzFile.EOF: boolean;
+-begin
+-  Result := Position = Size;
+-end;
+-
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000401.html">[Dzchart-svncheckins] r543 - in utilities/dzLib/trunk: forms src
+</A></li>
+	<LI>Next message: <A HREF="000403.html">[Dzchart-svncheckins] r545 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#402">[ date ]</a>
+              <a href="thread.html#402">[ thread ]</a>
+              <a href="subject.html#402">[ subject ]</a>
+              <a href="author.html#402">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,479 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r212 -	utilities/PhoneSpell/trunk/PhoneSpell-Delphi
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r212%20-%0A%09utilities/PhoneSpell/trunk/PhoneSpell-Delphi&In-Reply-To=%3C200709021530.l82FU8pe027380%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000083.html">
+   <LINK REL="Next"  HREF="000085.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r212 -	utilities/PhoneSpell/trunk/PhoneSpell-Delphi</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r212%20-%0A%09utilities/PhoneSpell/trunk/PhoneSpell-Delphi&In-Reply-To=%3C200709021530.l82FU8pe027380%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r212 -	utilities/PhoneSpell/trunk/PhoneSpell-Delphi">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep  2 17:30:08 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000083.html">[Dzchart-svncheckins] r210 - utilities/dzPrepBuild/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000085.html">[Dzchart-svncheckins] r214 - utilities/ccpack
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-09-02 17:30:04 +0200 (Sun, 02 Sep 2007)
+New Revision: 212
+
+Modified:
+   utilities/PhoneSpell/trunk/PhoneSpell-Delphi/
+   utilities/PhoneSpell/trunk/PhoneSpell-Delphi/PhoneSpell.bdsproj
+   utilities/PhoneSpell/trunk/PhoneSpell-Delphi/PhoneSpell.exe
+   utilities/PhoneSpell/trunk/PhoneSpell-Delphi/w_PhoneSpell.dfm
+Log:
+form is now centered and resizable
+
+
+Property changes on: utilities/PhoneSpell/trunk/PhoneSpell-Delphi
+___________________________________________________________________
+Name: svn:ignore
+   + PhoneSpell.cfg
+PhoneSpell.res
+
+
+Modified: utilities/PhoneSpell/trunk/PhoneSpell-Delphi/PhoneSpell.bdsproj
+===================================================================
+--- utilities/PhoneSpell/trunk/PhoneSpell-Delphi/PhoneSpell.bdsproj	2007-09-02 15:01:19 UTC (rev 211)
++++ utilities/PhoneSpell/trunk/PhoneSpell-Delphi/PhoneSpell.bdsproj	2007-09-02 15:30:04 UTC (rev 212)
+@@ -1,177 +1,176 @@
+ &#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+ &lt;BorlandProject&gt;
+-  &lt;PersonalityInfo&gt;
+-    &lt;Option&gt;
+-      &lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
+-      &lt;Option Name=&quot;ProjectType&quot;&gt;&lt;/Option&gt;
+-      &lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
+-      &lt;Option Name=&quot;GUID&quot;&gt;{30E14A2B-4B44-43F7-BD01-DB50F6FCFB45}&lt;/Option&gt;
+-    &lt;/Option&gt;
+-  &lt;/PersonalityInfo&gt;
+-  &lt;Delphi.Personality&gt;
+-    &lt;Source&gt;
+-      &lt;Source Name=&quot;MainSource&quot;&gt;PhoneSpell.dpr&lt;/Source&gt;
+-    &lt;/Source&gt;
+-    &lt;FileVersion&gt;
+-      &lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
+-    &lt;/FileVersion&gt;
+-    &lt;Compiler&gt;
+-      &lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;J&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;Q&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;R&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;T&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnitPlatform&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
+-    &lt;/Compiler&gt;
+-    &lt;Linker&gt;
+-      &lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
+-      &lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;
+-    &lt;/Linker&gt;
+-    &lt;Directories&gt;
+-      &lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
+-      &lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
+-      &lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
+-      &lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
+-      &lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
+-      &lt;Directories Name=&quot;Packages&quot;&gt;rtl;vclx;vcl;dbrtl;vcldb;dbxcds;dbexpress;xmlrtl;vclie;inet;inetdbbde;inetdbxpress;dsnap;vclactnband;bdertl;VclSmp;adortl;vclib;ibxpress;JclVcl;Jcl;JvCoreD10R;JvStdCtrlsD10R;JvSystemD10R;JvCtrlsD10R;JvCmpD10R;JvCustomD10R;JvDlgsD10R;JvCryptD10R;JvMMD10R;JvNetD10R;JvAppFrmD10R;JvDBD10R;JvBDED10R;JvInterpreterD10R;JvBandsD10R;JvPluginD10R;JvJansD10R;JvGlobusD10R;JvPrintPreviewD10R;JvPageCompsD10R;JvValidatorsD10R;JvUIBD10R;JvWizardD10R;JvTimeFrameworkD10R;JvHMID10R;JvManagedThreadsD10R;JvXPCtrlsD10R;JvDockingD10R;JvDotNetCtrlsD10R;JvEDID10R;JvRuntimeDesignD10R&lt;/Directories&gt;
+-      &lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
+-      &lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;&lt;/Directories&gt;
+-      &lt;Directories Name=&quot;UsePackages&quot;&gt;False&lt;/Directories&gt;
+-    &lt;/Directories&gt;
+-    &lt;Parameters&gt;
+-      &lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;HostApplication&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
+-    &lt;/Parameters&gt;
+-    &lt;Language&gt;
+-      &lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
+-      &lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
+-      &lt;Language Name=&quot;RootDir&quot;&gt;&lt;/Language&gt;
+-    &lt;/Language&gt;
+-    &lt;VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
+-    &lt;/VersionInfo&gt;
+-    &lt;VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
+-    &lt;/VersionInfoKeys&gt;
+-    &lt;Excluded_Packages&gt;
++	&lt;PersonalityInfo&gt;
++		&lt;Option&gt;
++			&lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
++			&lt;Option Name=&quot;ProjectType&quot;&gt;&lt;/Option&gt;
++			&lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
++			&lt;Option Name=&quot;GUID&quot;&gt;{30E14A2B-4B44-43F7-BD01-DB50F6FCFB45}&lt;/Option&gt;
++		&lt;/Option&gt;
++	&lt;/PersonalityInfo&gt;
++	&lt;Delphi.Personality&gt;
++		&lt;Source&gt;
++			&lt;Source Name=&quot;MainSource&quot;&gt;PhoneSpell.dpr&lt;/Source&gt;
++		&lt;/Source&gt;
++		&lt;FileVersion&gt;
++			&lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
++		&lt;/FileVersion&gt;
++		&lt;Compiler&gt;
++			&lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;J&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Q&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;R&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;T&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitPlatform&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
++		&lt;/Compiler&gt;
++		&lt;Linker&gt;
++			&lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
++			&lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
++			&lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
++			&lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
++			&lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;
++		&lt;/Linker&gt;
++		&lt;Directories&gt;
++			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;Packages&quot;&gt;rtl;vclx;vcl;dbrtl;vcldb;dbxcds;dbexpress;xmlrtl;vclie;inet;inetdbbde;inetdbxpress;dsnap;vclactnband;bdertl;VclSmp;adortl;vclib;ibxpress;JclVcl;Jcl;JvCoreD10R;JvStdCtrlsD10R;JvSystemD10R;JvCtrlsD10R;JvCmpD10R;JvCustomD10R;JvDlgsD10R;JvCryptD10R;JvMMD10R;JvNetD10R;JvAppFrmD10R;JvDBD10R;JvBDED10R;JvInterpreterD10R;JvBandsD10R;JvPluginD10R;JvJansD10R;JvGlobusD10R;JvPrintPreviewD10R;JvPageCompsD10R;JvValidatorsD10R;JvUIBD10R;JvWizardD10R;JvTimeFrameworkD10R;JvHMID10R;JvManagedThreadsD10R;JvXPCtrlsD10R;JvDockingD10R;JvDotNetCtrlsD10R;JvEDID10R;JvRuntimeDesignD10R&lt;/Directories&gt;
++			&lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UsePackages&quot;&gt;False&lt;/Directories&gt;
++		&lt;/Directories&gt;
++		&lt;Parameters&gt;
++			&lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;HostApplication&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++		&lt;/Parameters&gt;
++		&lt;Language&gt;
++			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
++			&lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
++			&lt;Language Name=&quot;RootDir&quot;&gt;&lt;/Language&gt;
++		&lt;/Language&gt;
++		&lt;VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++		&lt;/VersionInfo&gt;
++		&lt;VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++		&lt;/VersionInfoKeys&gt;  &lt;Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCoreD10D.bpl&quot;&gt;JVCL Core Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
+
+Modified: utilities/PhoneSpell/trunk/PhoneSpell-Delphi/PhoneSpell.exe
+===================================================================
+(Binary files differ)
+
+Modified: utilities/PhoneSpell/trunk/PhoneSpell-Delphi/w_PhoneSpell.dfm
+===================================================================
+--- utilities/PhoneSpell/trunk/PhoneSpell-Delphi/w_PhoneSpell.dfm	2007-09-02 15:01:19 UTC (rev 211)
++++ utilities/PhoneSpell/trunk/PhoneSpell-Delphi/w_PhoneSpell.dfm	2007-09-02 15:30:04 UTC (rev 212)
+@@ -11,6 +11,10 @@
+   Font.Name = 'Tahoma'
+   Font.Style = []
+   OldCreateOrder = False
++  Position = poScreenCenter
++  DesignSize = (
++    209
++    273)
+   PixelsPerInch = 96
+   TextHeight = 13
+   object l_What: TLabel
+@@ -32,6 +36,7 @@
+     Top = 24
+     Width = 193
+     Height = 21
++    Anchors = [akLeft, akTop, akRight]
+     TabOrder = 0
+     Text = 'type it here ...'
+     OnChange = ed_WhatChange
+@@ -42,6 +47,7 @@
+     Width = 193
+     Height = 21
+     Style = csDropDownList
++    Anchors = [akLeft, akTop, akRight]
+     ItemHeight = 13
+     TabOrder = 1
+     OnChange = cmb_WhichChange
+@@ -51,6 +57,7 @@
+     Top = 112
+     Width = 193
+     Height = 153
++    Anchors = [akLeft, akTop, akRight, akBottom]
+     ItemHeight = 13
+     TabOrder = 2
+   end
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000083.html">[Dzchart-svncheckins] r210 - utilities/dzPrepBuild/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000085.html">[Dzchart-svncheckins] r214 - utilities/ccpack
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,799 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r226 - in utilities/ccpack/trunk: Delphi7	examples/CustomBox examples/CustomBox/Delphi7	examples/CustomBox/src examples/CustomFrame	examples/CustomFrame/Delphi7
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r226%20-%20in%20utilities/ccpack/trunk%3A%20Delphi7%0A%09examples/CustomBox%20examples/CustomBox/Delphi7%0A%09examples/CustomBox/src%20examples/CustomFrame%0A%09examples/CustomFrame/Delphi7&In-Reply-To=%3C200709301445.l8UEjnRe006077%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000095.html">
+   <LINK REL="Next"  HREF="000097.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r226 - in utilities/ccpack/trunk: Delphi7	examples/CustomBox examples/CustomBox/Delphi7	examples/CustomBox/src examples/CustomFrame	examples/CustomFrame/Delphi7</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r226%20-%20in%20utilities/ccpack/trunk%3A%20Delphi7%0A%09examples/CustomBox%20examples/CustomBox/Delphi7%0A%09examples/CustomBox/src%20examples/CustomFrame%0A%09examples/CustomFrame/Delphi7&In-Reply-To=%3C200709301445.l8UEjnRe006077%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r226 - in utilities/ccpack/trunk: Delphi7	examples/CustomBox examples/CustomBox/Delphi7	examples/CustomBox/src examples/CustomFrame	examples/CustomFrame/Delphi7">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep 30 16:45:49 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000095.html">[Dzchart-svncheckins] r225 - in utilities/ccpack/trunk: Delphi2007	src
+</A></li>
+        <LI>Next message: <A HREF="000097.html">[Dzchart-svncheckins] r227 - in utilities/ccpack/trunk: Delphi6	examples/CustomBox examples/CustomBox/Delphi6	examples/CustomFrame/Delphi6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#96">[ date ]</a>
+              <a href="thread.html#96">[ thread ]</a>
+              <a href="subject.html#96">[ subject ]</a>
+              <a href="author.html#96">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-09-30 16:43:46 +0200 (Sun, 30 Sep 2007)
+New Revision: 226
+
+Added:
+   utilities/ccpack/trunk/examples/CustomBox/Delphi7/
+   utilities/ccpack/trunk/examples/CustomBox/Delphi7/CCCustomBoxPackage.dof
+   utilities/ccpack/trunk/examples/CustomBox/Delphi7/CCCustomBoxPackage.dpk
+   utilities/ccpack/trunk/examples/CustomBox/Delphi7/FourLists.dof
+   utilities/ccpack/trunk/examples/CustomBox/Delphi7/FourLists.dpr
+Modified:
+   utilities/ccpack/trunk/Delphi7/
+   utilities/ccpack/trunk/Delphi7/ccpack.dof
+   utilities/ccpack/trunk/Delphi7/ccpack.dpk
+   utilities/ccpack/trunk/Delphi7/ccpackdsg.dof
+   utilities/ccpack/trunk/Delphi7/ccpackdsg.dpk
+   utilities/ccpack/trunk/examples/CustomBox/
+   utilities/ccpack/trunk/examples/CustomBox/src/CCCustomBox.dfm
+   utilities/ccpack/trunk/examples/CustomBox/src/w_FourLists.dfm
+   utilities/ccpack/trunk/examples/CustomFrame/
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi7/
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi7/CCCustomFrameExample.dof
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi7/CCCustomFrameExample.dpk
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi7/FamilyData.dof
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi7/FamilyData.dpr
+Log:
+created Delphi7 projects / adapted to new paths
+
+
+Property changes on: utilities/ccpack/trunk/Delphi7
+___________________________________________________________________
+Name: svn:ignore
+   + ccpack.cfg
+ccpack.res
+ccpackdsg.cfg
+ccpackdsg.res
+
+
+Modified: utilities/ccpack/trunk/Delphi7/ccpack.dof
+===================================================================
+--- utilities/ccpack/trunk/Delphi7/ccpack.dof	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/Delphi7/ccpack.dof	2007-09-30 14:43:46 UTC (rev 226)
+@@ -91,7 +91,7 @@
+ ExeDescription=Custom Container Pack - runtime
+ [Directories]
+ OutputDir=
+-UnitOutputDir=
++UnitOutputDir=..\dcu
+ PackageDLLOutputDir=
+ PackageDCPOutputDir=
+ SearchPath=
+@@ -147,6 +147,11 @@
+ c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+ C:\Program Files\Borland\Delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
+ c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
++D:\out\bpl\HkIdeExpert7.bpl=iCD. IDE Expert
++D:\out\bpl\ccpackdsg70.bpl=Custom Container Pack - designtime
++D:\out\bpl\CCCustomFrameExample70.bpl=(untitled)
++D:\out\bpl\dcldummzeuchchart70.bpl=dummzeuch.de Charts - designtime package
++D:\out\bpl\dzAutoSave70.bpl=dummzeuch.de Auto Save Wizard
+ q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
+ Q:\bpl\AutoSave6.bpl=Auto Save Wizard
+ Q:\bpl\Xdom_3_1Delphi7.bpl=Extended Document Object Model (XDOM 3.1)
+@@ -163,12 +168,14 @@
+ Count=1
+ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+ [HistoryLists\hlUnitOutputDirectory]
++Count=3
++Item0=..\dcu
++Item1=Q:\bpl\dcu\ccpack\dcl
++Item2=Q:\bpl\dcu\ccpack\rtl
++[HistoryLists\hlBPLOutput]
+ Count=2
+-Item0=Q:\bpl\dcu\ccpack\dcl
+-Item1=Q:\bpl\dcu\ccpack\rtl
+-[HistoryLists\hlBPLOutput]
+-Count=1
+-Item0=Q:\bpl
++Item0=..
++Item1=Q:\bpl
+ [HistoryLists\hlDCPOutput]
+ Count=1
+ Item0=Q:\bpl\dcp
+
+Modified: utilities/ccpack/trunk/Delphi7/ccpack.dpk
+===================================================================
+--- utilities/ccpack/trunk/Delphi7/ccpack.dpk	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/Delphi7/ccpack.dpk	2007-09-30 14:43:46 UTC (rev 226)
+@@ -32,7 +32,7 @@
+   rtl;
+ 
+ contains
+-  ccBoxes in '..\ccBoxes.pas',
+-  ccreg in '..\ccreg.pas';
++  ccBoxes in '..\src\ccBoxes.pas',
++  ccreg in '..\src\ccreg.pas';
+ 
+ end.
+
+Modified: utilities/ccpack/trunk/Delphi7/ccpackdsg.dof
+===================================================================
+--- utilities/ccpack/trunk/Delphi7/ccpackdsg.dof	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/Delphi7/ccpackdsg.dof	2007-09-30 14:43:46 UTC (rev 226)
+@@ -91,7 +91,7 @@
+ ExeDescription=Custom Container Pack - designtime
+ [Directories]
+ OutputDir=
+-UnitOutputDir=
++UnitOutputDir=..\dcu
+ PackageDLLOutputDir=
+ PackageDCPOutputDir=
+ SearchPath=
+@@ -147,6 +147,11 @@
+ c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+ C:\Program Files\Borland\Delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
+ c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
++D:\out\bpl\HkIdeExpert7.bpl=iCD. IDE Expert
++D:\out\bpl\ccpackdsg70.bpl=Custom Container Pack - designtime
++D:\out\bpl\CCCustomFrameExample70.bpl=(untitled)
++D:\out\bpl\dcldummzeuchchart70.bpl=dummzeuch.de Charts - designtime package
++D:\out\bpl\dzAutoSave70.bpl=dummzeuch.de Auto Save Wizard
+ q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
+ Q:\bpl\AutoSave6.bpl=Auto Save Wizard
+ Q:\bpl\Xdom_3_1Delphi7.bpl=Extended Document Object Model (XDOM 3.1)
+@@ -163,12 +168,14 @@
+ Count=1
+ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+ [HistoryLists\hlUnitOutputDirectory]
++Count=3
++Item0=..\dcu
++Item1=Q:\bpl\dcu\ccpack\dcl
++Item2=Q:\bpl\dcu\ccpack\rtl
++[HistoryLists\hlBPLOutput]
+ Count=2
+-Item0=Q:\bpl\dcu\ccpack\dcl
+-Item1=Q:\bpl\dcu\ccpack\rtl
+-[HistoryLists\hlBPLOutput]
+-Count=1
+-Item0=Q:\bpl
++Item0=..
++Item1=Q:\bpl
+ [HistoryLists\hlDCPOutput]
+ Count=1
+ Item0=Q:\bpl\dcp
+
+Modified: utilities/ccpack/trunk/Delphi7/ccpackdsg.dpk
+===================================================================
+--- utilities/ccpack/trunk/Delphi7/ccpackdsg.dpk	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/Delphi7/ccpackdsg.dpk	2007-09-30 14:43:46 UTC (rev 226)
+@@ -34,9 +34,9 @@
+   designide;
+ 
+ contains
+-  ccwizres in '..\ccwizres.pas',
+-  ccwdlg in '..\ccwdlg.pas' {CCWDialog},
+-  ccwiz in '..\ccwiz.pas',
+-  ccregprc in '..\ccregprc.pas';
++  ccwizres in '..\src\ccwizres.pas',
++  ccwdlg in '..\src\ccwdlg.pas' {CCWDialog},
++  ccwiz in '..\src\ccwiz.pas',
++  ccregprc in '..\src\ccregprc.pas';
+ 
+ end.
+
+
+Property changes on: utilities/ccpack/trunk/examples/CustomBox
+___________________________________________________________________
+Name: svn:ignore
+   - FourLists.exe
+
+   + FourLists.exe
+FourLists.map
+
+
+
+Property changes on: utilities/ccpack/trunk/examples/CustomBox/Delphi7
+___________________________________________________________________
+Name: svn:ignore
+   + CCCustomBoxPackage.cfg
+CCCustomBoxPackage.res
+FourLists.cfg
+FourLists.res
+
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi7/CCCustomBoxPackage.dof
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi7/CCCustomBoxPackage.dof	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi7/CCCustomBoxPackage.dof	2007-09-30 14:43:46 UTC (rev 226)
+@@ -0,0 +1,165 @@
++[FileVersion]
++Version=7.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=0
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=0
++R=0
++S=0
++T=0
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++NamespacePrefix=
++SymbolDeprecated=1
++SymbolLibrary=1
++SymbolPlatform=0
++UnitLibrary=1
++UnitPlatform=0
++UnitDeprecated=1
++HResultCompat=1
++HidingMember=1
++HiddenVirtual=1
++Garbage=1
++BoundsError=1
++ZeroNilCompat=1
++StringConstTruncated=1
++ForLoopVarVarPar=1
++TypedConstVarPar=1
++AsgToTypedConst=1
++CaseLabelRange=1
++ForVariable=1
++ConstructingAbstract=1
++ComparisonFalse=1
++ComparisonTrue=1
++ComparingSignedUnsigned=1
++CombiningSignedUnsigned=1
++UnsupportedConstruct=1
++FileOpen=1
++FileOpenUnitSrc=1
++BadGlobalSymbol=1
++DuplicateConstructorDestructor=1
++InvalidDirective=1
++PackageNoLink=1
++PackageThreadVar=1
++ImplicitImport=1
++HPPEMITIgnored=1
++NoRetVal=1
++UseBeforeDef=1
++ForLoopVarUndef=1
++UnitNameMismatch=1
++NoCFGFileFound=1
++MessageDirective=1
++ImplicitVariants=1
++UnicodeToLocale=1
++LocaleToUnicode=1
++ImagebaseMultiple=1
++SuspiciousTypecast=1
++PrivatePropAccessor=1
++UnsafeType=0
++UnsafeCode=0
++UnsafeCast=0
++[Linker]
++MapFile=3
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=4194304
++ExeDescription=Custom Box example
++[Directories]
++OutputDir=..
++UnitOutputDir=..\dcu
++PackageDLLOutputDir=
++PackageDCPOutputDir=
++SearchPath=
++Packages=Vcl50;Vclx50;VclSmp50;Vcldb50;RxCtl5;RxDB5;RxBDE5;dclocx50;rbRCL55;rbBDE55;rbTDBC55;rbUSER55;headwork;vcl;rtl;vclx;vcldb;dbrtl;bdertl;vcldbx;vclactnband
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=
++RemoteHost=cerity
++RemotePath=q:\software\makroedittest.exe
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=0
++MajorVer=1
++MinorVer=0
++Release=4
++Build=0
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=0
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=
++FileDescription=
++FileVersion=1.0.4.0
++InternalName=
++LegalCopyright=
++LegalTrademarks=
++OriginalFilename=
++ProductName=
++ProductVersion=1.0.0.0
++Comments=
++Compilation Time=19/05/2002 00:22:43
++[Excluded Packages]
++C:\Program Files\Borland\Delphi7\Bin\dcldbx70.bpl=Borland dbExpress Components
++c:\program files\borland\delphi7\Bin\dclib70.bpl=InterBase Data Access Components
++c:\program files\borland\delphi7\Bin\dcldbxcds70.bpl=Borland SimpleDataset Component (DBX)
++C:\Program Files\Borland\Delphi7\Bin\dclmid70.bpl=Borland MyBase DataAccess Components
++c:\program files\borland\delphi7\Bin\dclie70.bpl=Internet Explorer Components
++c:\program files\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
++c:\program files\borland\delphi7\Bin\dclite70.bpl=Borland Integrated Translation Environment
++c:\program files\borland\delphi7\Bin\dcltee70.bpl=TeeChart Components
++c:\program files\borland\delphi7\Bin\dclnet70.bpl=Borland Internet Components
++c:\program files\borland\delphi7\Bin\dclsoap70.bpl=Borland SOAP Components
++c:\program files\borland\delphi7\Bin\dclocx70.bpl=Borland Sample Imported ActiveX Controls
++C:\WINNT\System32\ibevnt70.bpl=Borland Interbase Event Alerter Component
++c:\program files\borland\delphi7\Bin\dclaxserver70.bpl=Microsoft Office 97 Sample Automation Server Wrapper Components
++c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
++C:\Program Files\Borland\Delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
++c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
++D:\out\bpl\HkIdeExpert7.bpl=iCD. IDE Expert
++D:\out\bpl\dcldummzeuchchart70.bpl=dummzeuch.de Charts - designtime package
++D:\out\bpl\dzAutoSave70.bpl=dummzeuch.de Auto Save Wizard
++q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
++Q:\bpl\Xdom_3_1Delphi7.bpl=Extended Document Object Model (XDOM 3.1)
++Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.4
++Q:\bpl\dclusr70.bpl=Borland User Components
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=..\dcu
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi7/CCCustomBoxPackage.dpk
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi7/CCCustomBoxPackage.dpk	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi7/CCCustomBoxPackage.dpk	2007-09-30 14:43:46 UTC (rev 226)
+@@ -0,0 +1,36 @@
++package CCCustomBoxPackage;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'Custom Box example'}
++{$IMPLICITBUILD ON}
++
++requires
++  rtl,
++  vcl,
++  ccpack;
++
++contains
++  CCCustomBox in '..\src\CCCustomBox.pas' {CustomBox};
++
++end.
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi7/FourLists.dof
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi7/FourLists.dof	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi7/FourLists.dof	2007-09-30 14:43:46 UTC (rev 226)
+@@ -0,0 +1,168 @@
++[FileVersion]
++Version=7.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=0
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=0
++R=0
++S=0
++T=0
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++NamespacePrefix=
++SymbolDeprecated=1
++SymbolLibrary=1
++SymbolPlatform=0
++UnitLibrary=1
++UnitPlatform=0
++UnitDeprecated=1
++HResultCompat=1
++HidingMember=1
++HiddenVirtual=1
++Garbage=1
++BoundsError=1
++ZeroNilCompat=1
++StringConstTruncated=1
++ForLoopVarVarPar=1
++TypedConstVarPar=1
++AsgToTypedConst=1
++CaseLabelRange=1
++ForVariable=1
++ConstructingAbstract=1
++ComparisonFalse=1
++ComparisonTrue=1
++ComparingSignedUnsigned=1
++CombiningSignedUnsigned=1
++UnsupportedConstruct=1
++FileOpen=1
++FileOpenUnitSrc=1
++BadGlobalSymbol=1
++DuplicateConstructorDestructor=1
++InvalidDirective=1
++PackageNoLink=1
++PackageThreadVar=1
++ImplicitImport=1
++HPPEMITIgnored=1
++NoRetVal=1
++UseBeforeDef=1
++ForLoopVarUndef=1
++UnitNameMismatch=1
++NoCFGFileFound=1
++MessageDirective=1
++ImplicitVariants=1
++UnicodeToLocale=1
++LocaleToUnicode=1
++ImagebaseMultiple=1
++SuspiciousTypecast=1
++PrivatePropAccessor=1
++UnsafeType=0
++UnsafeCode=0
++UnsafeCast=0
++[Linker]
++MapFile=3
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=4194304
++ExeDescription=
++[Directories]
++OutputDir=..
++UnitOutputDir=..\dcu
++PackageDLLOutputDir=
++PackageDCPOutputDir=
++SearchPath=
++Packages=vcl;rtl;vclx;vcldb;dbrtl;bdertl;vcldbx;vclactnband;ccpack;CCCustomBoxPackage
++Conditionals=
++DebugSourceDirs=
++UsePackages=1
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=
++RemoteHost=cerity
++RemotePath=q:\software\makroedittest.exe
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=0
++MajorVer=1
++MinorVer=0
++Release=4
++Build=0
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=0
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=
++FileDescription=
++FileVersion=1.0.4.0
++InternalName=
++LegalCopyright=
++LegalTrademarks=
++OriginalFilename=
++ProductName=
++ProductVersion=1.0.0.0
++Comments=
++Compilation Time=19/05/2002 00:22:43
++[Excluded Packages]
++C:\Program Files\Borland\Delphi7\Bin\dcldbx70.bpl=Borland dbExpress Components
++c:\program files\borland\delphi7\Bin\dclib70.bpl=InterBase Data Access Components
++c:\program files\borland\delphi7\Bin\dcldbxcds70.bpl=Borland SimpleDataset Component (DBX)
++C:\Program Files\Borland\Delphi7\Bin\dclmid70.bpl=Borland MyBase DataAccess Components
++c:\program files\borland\delphi7\Bin\dclie70.bpl=Internet Explorer Components
++c:\program files\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
++c:\program files\borland\delphi7\Bin\dclite70.bpl=Borland Integrated Translation Environment
++c:\program files\borland\delphi7\Bin\dcltee70.bpl=TeeChart Components
++c:\program files\borland\delphi7\Bin\dclnet70.bpl=Borland Internet Components
++c:\program files\borland\delphi7\Bin\dclsoap70.bpl=Borland SOAP Components
++c:\program files\borland\delphi7\Bin\dclocx70.bpl=Borland Sample Imported ActiveX Controls
++C:\WINNT\System32\ibevnt70.bpl=Borland Interbase Event Alerter Component
++c:\program files\borland\delphi7\Bin\dclaxserver70.bpl=Microsoft Office 97 Sample Automation Server Wrapper Components
++c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
++C:\Program Files\Borland\Delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
++c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
++D:\out\bpl\HkIdeExpert7.bpl=iCD. IDE Expert
++D:\out\bpl\dcldummzeuchchart70.bpl=dummzeuch.de Charts - designtime package
++D:\out\bpl\dzAutoSave70.bpl=dummzeuch.de Auto Save Wizard
++q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
++Q:\bpl\Xdom_3_1Delphi7.bpl=Extended Document Object Model (XDOM 3.1)
++Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.4
++Q:\bpl\dclusr70.bpl=Borland User Components
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=..\dcu
++[HistoryLists\hlOutputDirectorry]
++Count=1
++Item0=..
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi7/FourLists.dpr
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi7/FourLists.dpr	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi7/FourLists.dpr	2007-09-30 14:43:46 UTC (rev 226)
+@@ -0,0 +1,13 @@
++program FourLists;
++
++uses
++  Forms,
++  w_FourLists in '..\src\w_FourLists.pas' {Form1};
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.CreateForm(TForm1, Form1);
++  Application.Run;
++end.
+
+Modified: utilities/ccpack/trunk/examples/CustomBox/src/CCCustomBox.dfm
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/src/CCCustomBox.dfm	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomBox/src/CCCustomBox.dfm	2007-09-30 14:43:46 UTC (rev 226)
+@@ -9,10 +9,8 @@
+     Top = 1
+     Width = 318
+     Height = 13
+-    Margins.Bottom = 0
+     Align = alTop
+     Caption = 'TheLabelCtrl'
+-    ExplicitWidth = 60
+   end
+   object TheListBoxCtrl: TListBox
+     Left = 1
+
+Modified: utilities/ccpack/trunk/examples/CustomBox/src/w_FourLists.dfm
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/src/w_FourLists.dfm	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomBox/src/w_FourLists.dfm	2007-09-30 14:43:46 UTC (rev 226)
+@@ -1,9 +1,9 @@
+ object Form1: TForm1
+-  Left = 0
+-  Top = 0
++  Left = 142
++  Top = 266
++  Width = 660
++  Height = 507
+   Caption = 'Form1'
+-  ClientHeight = 483
+-  ClientWidth = 640
+   Color = clBtnFace
+   Font.Charset = DEFAULT_CHARSET
+   Font.Color = clWindowText
+
+
+Property changes on: utilities/ccpack/trunk/examples/CustomFrame
+___________________________________________________________________
+Name: svn:ignore
+   + FamilyData.exe
+
+
+
+Property changes on: utilities/ccpack/trunk/examples/CustomFrame/Delphi7
+___________________________________________________________________
+Name: svn:ignore
+   + CCCustomFrameExample.cfg
+CCCustomFrameExample.res
+FamilyData.cfg
+FamilyData.res
+
+
+Modified: utilities/ccpack/trunk/examples/CustomFrame/Delphi7/CCCustomFrameExample.dof
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomFrame/Delphi7/CCCustomFrameExample.dof	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomFrame/Delphi7/CCCustomFrameExample.dof	2007-09-30 14:43:46 UTC (rev 226)
+@@ -91,7 +91,7 @@
+ ExeDescription=
+ [Directories]
+ OutputDir=
+-UnitOutputDir=
++UnitOutputDir=..\dcu
+ PackageDLLOutputDir=
+ PackageDCPOutputDir=
+ SearchPath=
+@@ -134,3 +134,17 @@
+ ProductName=
+ ProductVersion=1.0.0.0
+ Comments=
++[Excluded Packages]
++D:\out\bpl\HkIdeExpert7.bpl=iCD. IDE Expert
++D:\out\bpl\dcldummzeuchchart70.bpl=dummzeuch.de Charts - designtime package
++D:\out\bpl\dzAutoSave70.bpl=dummzeuch.de Auto Save Wizard
++q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
++Q:\bpl\Xdom_3_1Delphi7.bpl=Extended Document Object Model (XDOM 3.1)
++Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.4
++Q:\bpl\dclusr70.bpl=Borland User Components
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=..\dcu
+
+Modified: utilities/ccpack/trunk/examples/CustomFrame/Delphi7/CCCustomFrameExample.dpk
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomFrame/Delphi7/CCCustomFrameExample.dpk	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomFrame/Delphi7/CCCustomFrameExample.dpk	2007-09-30 14:43:46 UTC (rev 226)
+@@ -31,6 +31,6 @@
+   ccpack;
+ 
+ contains
+-  CustomFrameExample in '..\CustomFrameExample.pas';
++  CustomFrameExample in '..\src\CustomFrameExample.pas';
+ 
+ end.
+
+Modified: utilities/ccpack/trunk/examples/CustomFrame/Delphi7/FamilyData.dof
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomFrame/Delphi7/FamilyData.dof	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomFrame/Delphi7/FamilyData.dof	2007-09-30 14:43:46 UTC (rev 226)
+@@ -90,8 +90,8 @@
+ ImageBase=4194304
+ ExeDescription=
+ [Directories]
+-OutputDir=
+-UnitOutputDir=
++OutputDir=..
++UnitOutputDir=..\dcu
+ PackageDLLOutputDir=
+ PackageDCPOutputDir=
+ SearchPath=
+@@ -134,3 +134,20 @@
+ ProductName=
+ ProductVersion=1.0.0.0
+ Comments=
++[Excluded Packages]
++D:\out\bpl\HkIdeExpert7.bpl=iCD. IDE Expert
++D:\out\bpl\dcldummzeuchchart70.bpl=dummzeuch.de Charts - designtime package
++D:\out\bpl\dzAutoSave70.bpl=dummzeuch.de Auto Save Wizard
++q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
++Q:\bpl\Xdom_3_1Delphi7.bpl=Extended Document Object Model (XDOM 3.1)
++Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.4
++Q:\bpl\dclusr70.bpl=Borland User Components
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=..\dcu
++[HistoryLists\hlOutputDirectorry]
++Count=1
++Item0=..
+
+Modified: utilities/ccpack/trunk/examples/CustomFrame/Delphi7/FamilyData.dpr
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomFrame/Delphi7/FamilyData.dpr	2007-09-30 13:46:29 UTC (rev 225)
++++ utilities/ccpack/trunk/examples/CustomFrame/Delphi7/FamilyData.dpr	2007-09-30 14:43:46 UTC (rev 226)
+@@ -2,7 +2,7 @@
+ 
+ uses
+   Forms,
+-  w_Family in '..\w_Family.pas' {f_Family};
++  w_Family in '..\src\w_Family.pas' {f_Family};
+ 
+ {$R *.res}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000095.html">[Dzchart-svncheckins] r225 - in utilities/ccpack/trunk: Delphi2007	src
+</A></li>
+	<LI>Next message: <A HREF="000097.html">[Dzchart-svncheckins] r227 - in utilities/ccpack/trunk: Delphi6	examples/CustomBox examples/CustomBox/Delphi6	examples/CustomFrame/Delphi6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#96">[ date ]</a>
+              <a href="thread.html#96">[ thread ]</a>
+              <a href="subject.html#96">[ subject ]</a>
+              <a href="author.html#96">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

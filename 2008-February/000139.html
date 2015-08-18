@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r270 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r270%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200802050751.m157pEWM031341%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000138.html">
+   <LINK REL="Next"  HREF="000140.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r270 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r270%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200802050751.m157pEWM031341%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r270 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Tue Feb  5 08:51:14 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000138.html">[Dzchart-svncheckins] r269 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000140.html">[Dzchart-svncheckins] r271 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#139">[ date ]</a>
+              <a href="thread.html#139">[ thread ]</a>
+              <a href="subject.html#139">[ subject ]</a>
+              <a href="author.html#139">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-02-05 08:51:13 +0100 (Tue, 05 Feb 2008)
+New Revision: 270
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+Log:
+new IntToHex functions for converting an integer and an Int64 to a full length hex string
+
+Modified: utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2008-02-05 07:50:02 UTC (rev 269)
++++ utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2008-02-05 07:51:13 UTC (rev 270)
+@@ -90,6 +90,12 @@
+ {: converts a hexdump of an extended back to an extended value }
+ procedure HexDumpToExtended(const _s: string; var _Value: Extended);
+ 
++///&lt;summary&gt; converts an integer to a 8 digit hex string &lt;/summary&gt;
++function IntToHex(_Value: integer): string; overload;
++
++///&lt;summary&gt; converts an In64 to a 16 digit hex string &lt;/summary&gt;
++function IntToHex(_Value: Int64): string; overload;
++
+ {: Converts an integer to a boolean.
+    @param(Int is the integer to convert)
+    @returns(false, if the integer is 0, true otherwise) }
+@@ -805,6 +811,16 @@
+   end;
+ end;
+ 
++function IntToHex(_Value: integer): string;
++begin
++  Result := IntToHex(_Value, SizeOf(_Value) * 2);
++end;
++
++function IntToHex(_Value: Int64): string;
++begin
++  Result := IntToHex(_Value, SizeOf(_Value) * 2);
++end;
++
+ type
+   PStringDescriptor = ^TStringDescriptor;
+   TStringDescriptor = record
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000138.html">[Dzchart-svncheckins] r269 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000140.html">[Dzchart-svncheckins] r271 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#139">[ date ]</a>
+              <a href="thread.html#139">[ thread ]</a>
+              <a href="subject.html#139">[ subject ]</a>
+              <a href="author.html#139">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

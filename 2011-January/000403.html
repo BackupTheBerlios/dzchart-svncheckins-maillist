@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r545 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r545%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110129113131.30BD94812C3%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000402.html">
+   <LINK REL="Next"  HREF="000404.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r545 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r545%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110129113131.30BD94812C3%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r545 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jan 29 12:31:31 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000402.html">[Dzchart-svncheckins] r544 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000404.html">[Dzchart-svncheckins] r546 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#403">[ date ]</a>
+              <a href="thread.html#403">[ thread ]</a>
+              <a href="subject.html#403">[ subject ]</a>
+              <a href="author.html#403">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-01-29 12:31:30 +0100 (Sat, 29 Jan 2011)
+New Revision: 545
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+new procedure TGrid_SetNonfixedRowCount
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-01-29 11:30:54 UTC (rev 544)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-01-29 11:31:30 UTC (rev 545)
+@@ -3,7 +3,7 @@
+ ///          @author        twm &lt;/summary&gt;
+ unit u_dzVclUtils;
+ 
+-{$include jedi.inc}
++{$INCLUDE jedi.inc}
+ 
+ interface
+ 
+@@ -130,6 +130,10 @@
+ ///          @returns the new RowCount &lt;/summary&gt;
+ function TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer): integer;
+ 
++///&lt;summary&gt; sets the nonfixd row count
++///          @returns the new RowCount &lt;/summary&gt;
++function TGrid_SetNonfixedRowCount(_Grid: TCustomGrid; _RowCount: integer): integer;
++
+ ///&lt;summary&gt; sets the column count, taking the fixed columns into account
+ ///          @returns the new ColCount &lt;/summary&gt;
+ function TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
+@@ -753,6 +757,15 @@
+   Grid.ColCount := Result;
+ end;
+ 
++function TGrid_SetNonfixedRowCount(_Grid: TCustomGrid; _RowCount: integer): integer;
++var
++  Grid: TGridHack;
++begin
++  Grid := TGridHack(_Grid);
++  Result := Grid.FixedRows + _RowCount;
++  Grid.RowCount := Result;
++end;
++
+ procedure TStringGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer);
+ begin
+   TGrid_SetRowCount(_Grid, _RowCount);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000402.html">[Dzchart-svncheckins] r544 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000404.html">[Dzchart-svncheckins] r546 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#403">[ date ]</a>
+              <a href="thread.html#403">[ thread ]</a>
+              <a href="subject.html#403">[ subject ]</a>
+              <a href="author.html#403">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

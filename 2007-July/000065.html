@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r191 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r191%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707270855.l6R8tpTP003590%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000064.html">
+   <LINK REL="Next"  HREF="000066.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r191 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r191%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707270855.l6R8tpTP003590%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r191 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Jul 27 10:55:51 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000064.html">[Dzchart-svncheckins] r190 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000066.html">[Dzchart-svncheckins] r192 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#65">[ date ]</a>
+              <a href="thread.html#65">[ thread ]</a>
+              <a href="subject.html#65">[ subject ]</a>
+              <a href="author.html#65">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-27 10:55:48 +0200 (Fri, 27 Jul 2007)
+New Revision: 191
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+* TDirectorySync.SyncOneWay now uses TFileSystem.CopyFileWithProgress so it will no longer freeze the application while copying huge files
+* New option FlattenHierarchy for TDirectorySync
+* OnSyncingFile callback has now a different signature which also passes the total and done file size
+* CheckOneWay now also descends into directories that do not exist in the destination tree
+
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-07-27 08:51:47 UTC (rev 190)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-07-27 08:55:48 UTC (rev 191)
+@@ -154,21 +154,25 @@
+   {: defines the action to take if a file already exists but has a different content }
+   TFileExistsAction = (feaIgnore, feaOverwrite);
+   TOnSyncing = procedure(_Sender: TObject; const _SrcDir, _DstDir: string) of object;
++  TOnSyncingFile = procedure(_Sender: TObject; const _SrcDir, _DstDir: string; _Total, _Done: Int64) of object;
+   {: called if a destination file already exists
+      @param Action is the action to take, default is feaIgnore }
+   TOnFileExists = procedure(_Sender: TObject; const _SrcFile, _DstFile: TFileInfoRec; var _Action: TFileExistsAction) of object;
+   {: Synchronizes two directories }
+   TDirectorySync = class
+   private
++    FCurrentSource: string;
++    FCurrentDest: string;
+     FOnSyncingDir: TOnSyncing;
+-    FOnSyncingFile: TOnSyncing;
++    FOnSyncingFile: TOnSyncingFile;
+     FOnFileExists: TOnFileExists;
+ //    FOnDifferentFileExists: TOnDifferentFileExists;
+ //    FCheckContent: boolean;
+ //    procedure doOnDifferentFileExists(const _Filename: string; var _Action: TFileExistsAction);
+     procedure doOnSyncingDir(const _SrcDir, _DstDir: string);
+-    procedure doOnSyncingFile(const _SrcFile, _DstFile: string);
++    procedure doOnSyncingFile(const _SrcFile, _DstFile: string; _Total, _Done: Int64);
+     function doOnFileExists(const _SrcDir, _DstDir, _Filename: string): TFileExistsAction;
++    procedure ProgressStatusCallback(_Status: TCopyProgressStatus; var _Continue: TCopyProgressStatus.TProgressResult);
+   public
+     {: Checks if there are files in the source directory that are already in
+        the destination directory, for each file that exists, the OnFileExists
+@@ -176,8 +180,11 @@
+     procedure CheckOneWay(const _SrcDir, _DstDir: string);
+     {: copies all files from DirA to DirB if they don't already exists
+        (not implemented: if CheckContent=true, the content existing files will be checked and if
+-                         it doesn't match, OnDifferentFileExists is called ) }
+-    procedure SyncOneWay(const _SrcDir, _DstDir: string);
++                         it doesn't match, OnDifferentFileExists is called )
++       @param FlattenDirHierarchy determines whether all files should be copied
++                                  directly DstDir or if subdirectories should
++                                  be created, default is false }
++    procedure SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
+     {: calls SyncOneWay(DirA, DirB) and SyncOneWay(DirB, DirA)
+        (not implemented: if CheckContent=true, the content existing files will be checked and if
+                          it doesn't match, OnDifferentFileExists is called ) }
+@@ -191,7 +198,7 @@
+     property OnSyncingDir: TOnSyncing read FOnSyncingDir write FOnSyncingDir;
+     {: called when a file is being copied, to abort synchronization,
+       raise an exception (e.g. SysUtils.Abort), and catch it in the calling method }
+-    property OnSyncingFile: TOnSyncing read FOnSyncingFile write FOnSyncingFile;
++    property OnSyncingFile: TOnSyncingFile read FOnSyncingFile write FOnSyncingFile;
+     {: called from CheckOneWay if a destination file already exists }
+     property OnFileExists: TOnFileExists read FOnFileExists write FOnFileExists;
+   end;
+@@ -1305,12 +1312,23 @@
+     FOnSyncingDir(Self, _SrcDir, _DstDir);
+ end;
+ 
+-procedure TDirectorySync.doOnSyncingFile(const _SrcFile, _DstFile: string);
++procedure TDirectorySync.doOnSyncingFile(const _SrcFile, _DstFile: string; _Total, _Done: Int64);
+ begin
+   if Assigned(FOnSyncingFile) then
+-    FOnSyncingFile(self, _SrcFile, _DstFile);
++    FOnSyncingFile(self, _SrcFile, _DstFile, _Total, _Done);
+ end;
+ 
++procedure TDirectorySync.ProgressStatusCallback(_Status: TCopyProgressStatus;
++  var _Continue: TCopyProgressStatus.TProgressResult);
++begin
++  try
++    doOnSyncingFile(FCurrentSource, FCurrentDest, _Status.TotalFileSize.QuadPart, _Status.TotalBytesTransferred.QuadPart);
++  except
++    on e: EAbort do
++      _Continue := prCancel;
++  end;
++end;
++
+ procedure TDirectorySync.CheckOneWay(const _SrcDir, _DstDir: string);
+ var
+   Filename: string;
+@@ -1325,12 +1343,11 @@
+   try
+     while EnumA.FindNext(Filename) do begin
+       if (EnumA.Sr.Attr and SysUtils.faDirectory) &lt;&gt; 0 then begin
+-        if DirectoryExists(DstDirBS + Filename) then
+-          CheckOneWay(SrcDirBS + Filename, DstDirBS + Filename);
++        CheckOneWay(SrcDirBS + Filename, DstDirBS + Filename);
+       end else if FileExists(DstDirBS + Filename) then begin
+         doOnFileExists(SrcDirBS, DstDirBS, Filename);
+       end else begin
+-        doOnSyncingFile(SrcDirBS + Filename, DstDirBS + Filename);
++        doOnSyncingFile(SrcDirBS + Filename, DstDirBS + Filename, EnumA.Sr.Size, 0);
+       end;
+     end;
+   finally
+@@ -1338,7 +1355,7 @@
+   end;
+ end;
+ 
+-procedure TDirectorySync.SyncOneWay(const _SrcDir, _DstDir: string);
++procedure TDirectorySync.SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
+ var
+   Filename: string;
+   EnumA: TSimpleDirEnumerator;
+@@ -1351,18 +1368,27 @@
+   EnumA := TSimpleDirEnumerator.Create(SrcDirBS + '*.*');
+   try
+     while EnumA.FindNext(Filename) do begin
++      FCurrentSource := SrcDirBS + Filename;
+       if (EnumA.Sr.Attr and SysUtils.faDirectory) &lt;&gt; 0 then begin
+-        if not DirectoryExists(DstDirBS + Filename) then
+-          TFileSystem.CreateDir(DstDirBS + Filename);
+-        SyncOneWay(SrcDirBS + Filename, DstDirBS + Filename);
+-      end else if FileExists(DstDirBS + Filename) then begin
+-        if doOnFileExists(SrcDirBS, DstDirBS, Filename) = feaOverwrite then begin
+-          doOnSyncingFile(SrcDirBS + Filename, DstDirBS + Filename);
+-          TFileSystem.CopyFile(SrcDirBS + Filename, DstDirBS + Filename, false, true);
++        if _FlattenDirHierarchy then
++          FCurrentDest := _DstDir
++        else begin
++          FCurrentDest := DstDirBS + Filename;
++          if not DirectoryExists(FCurrentDest) then
++            TFileSystem.CreateDir(FCurrentDest);
+         end;
++        SyncOneWay(FCurrentSource, FCurrentDest, _FlattenDirHierarchy);
+       end else begin
+-        doOnSyncingFile(SrcDirBS + Filename, DstDirBS + Filename);
+-        TFileSystem.CopyFile(SrcDirBS + Filename, DstDirBS + Filename, true, true);
++        FCurrentDest := DstDirBS + Filename;
++        if FileExists(FCurrentDest) then begin
++          if doOnFileExists(SrcDirBS, DstDirBS, Filename) = feaOverwrite then begin
++            if cfwOK &lt;&gt; TFileSystem.CopyFileWithProgress(FCurrentSource, FCurrentDest, ProgressStatusCallback, [cfwRaiseException]) then
++              SysUtils.Abort;
++          end;
++        end else begin
++          if cfwOK &lt;&gt; TFileSystem.CopyFileWithProgress(FCurrentSource, FCurrentDest, ProgressStatusCallback, [cfwRaiseException, cfwFailIfExists]) then
++            SysUtils.Abort;
++        end;
+       end;
+     end;
+   finally
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000064.html">[Dzchart-svncheckins] r190 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000066.html">[Dzchart-svncheckins] r192 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#65">[ date ]</a>
+              <a href="thread.html#65">[ thread ]</a>
+              <a href="subject.html#65">[ subject ]</a>
+              <a href="author.html#65">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

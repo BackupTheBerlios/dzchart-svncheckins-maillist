@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r317 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r317%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809051317.m85DHjS4009929%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000183.html">
+   <LINK REL="Next"  HREF="000185.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r317 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r317%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809051317.m85DHjS4009929%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r317 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep  5 15:17:45 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000183.html">[Dzchart-svncheckins] r316 - in utilities/dzCmdLineParser/trunk: .	translations/de
+</A></li>
+        <LI>Next message: <A HREF="000185.html">[Dzchart-svncheckins] r318 - in utilities/dzCmdLineParser/trunk: .	src translations/de
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#184">[ date ]</a>
+              <a href="thread.html#184">[ thread ]</a>
+              <a href="subject.html#184">[ subject ]</a>
+              <a href="author.html#184">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-05 15:17:42 +0200 (Fri, 05 Sep 2008)
+New Revision: 317
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzTranslator.pas
+Log:
+added new dzDGetText function (inline call to DGetText) to avoid warnings in dxgettext tool if the function is called with a variable
+
+Modified: utilities/dzLib/trunk/src/u_dzTranslator.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTranslator.pas	2008-09-05 13:03:58 UTC (rev 316)
++++ utilities/dzLib/trunk/src/u_dzTranslator.pas	2008-09-05 13:17:42 UTC (rev 317)
+@@ -26,6 +26,8 @@
+ function _(const _s: string): string;
+ function GetText(const _s: string): string;
+ function DGetText(const _s: string; const _TextDomain: string = ''): string;
++///&lt;summary&gt; use this if you pass variables rather than constants to avoid warnings in the dxgettext tool &lt;/summary&gt;
++function dzDGetText(const _s: string; const _TextDomain: string = ''): string; inline;
+ procedure TranslateComponent(_Object: TComponent; const _TextDomain: string = '');
+ procedure RetranslateComponent(_Object: TComponent; const _TextDomain: string = '');
+ procedure AddDomainForResourceString(const _Domain: string);
+@@ -75,6 +77,11 @@
+ {$ENDIF}
+ end;
+ 
++function dzDGetText(const _s: string; const _TextDomain: string = ''): string; inline;
++begin
++  Result := DGetText(_s, _TextDomain);
++end;
++
+ procedure TranslateComponent(_Object: TComponent; const _TextDomain: string = '');
+ begin
+ {$IFDEF gnugettext}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000183.html">[Dzchart-svncheckins] r316 - in utilities/dzCmdLineParser/trunk: .	translations/de
+</A></li>
+	<LI>Next message: <A HREF="000185.html">[Dzchart-svncheckins] r318 - in utilities/dzCmdLineParser/trunk: .	src translations/de
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#184">[ date ]</a>
+              <a href="thread.html#184">[ thread ]</a>
+              <a href="subject.html#184">[ subject ]</a>
+              <a href="author.html#184">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

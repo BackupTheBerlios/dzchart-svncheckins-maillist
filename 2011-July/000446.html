@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r588 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r588%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110703175605.E79654828D6%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000445.html">
+   <LINK REL="Next"  HREF="000447.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r588 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r588%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110703175605.E79654828D6%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r588 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Jul  3 19:56:05 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000445.html">[Dzchart-svncheckins] r587 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000447.html">[Dzchart-svncheckins] r589 - in utilities/dzLib/trunk: src tests	tests/dzICalendarTest tests/dzICalendarTest/dcu	tests/dzICalendarTest/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#446">[ date ]</a>
+              <a href="thread.html#446">[ thread ]</a>
+              <a href="subject.html#446">[ subject ]</a>
+              <a href="author.html#446">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-07-03 19:56:05 +0200 (Sun, 03 Jul 2011)
+New Revision: 588
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+char -&gt; AnsiChar so it compiles with Delhi 2009 and up
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-07-03 17:55:34 UTC (rev 587)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-07-03 17:56:05 UTC (rev 588)
+@@ -1037,7 +1037,7 @@
+     DriveChar := Char(DriveNum + Ord('a'));
+     DriveType := TDriveType(Windows.GetDriveType(PChar(DriveChar + ':\')));
+     if not _HdOnly or (DriveType = dtFixed) then begin
+-      s := GetVolumeName(DriveChar);
++      s := GetVolumeName(AnsiChar(DriveChar));
+       if s &lt;&gt; '' then begin
+         _sl.AddObject(s, Pointer(DriveNum));
+       end else begin
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000445.html">[Dzchart-svncheckins] r587 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000447.html">[Dzchart-svncheckins] r589 - in utilities/dzLib/trunk: src tests	tests/dzICalendarTest tests/dzICalendarTest/dcu	tests/dzICalendarTest/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#446">[ date ]</a>
+              <a href="thread.html#446">[ thread ]</a>
+              <a href="subject.html#446">[ subject ]</a>
+              <a href="author.html#446">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

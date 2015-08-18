@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r499 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r499%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101001173944.26E3C48109B%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000357.html">
+   <LINK REL="Next"  HREF="000359.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r499 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r499%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101001173944.26E3C48109B%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r499 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 19:39:44 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000357.html">[Dzchart-svncheckins] r498 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000359.html">[Dzchart-svncheckins] r500 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#358">[ date ]</a>
+              <a href="thread.html#358">[ thread ]</a>
+              <a href="subject.html#358">[ subject ]</a>
+              <a href="author.html#358">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 19:39:43 +0200 (Fri, 01 Oct 2010)
+New Revision: 499
+
+Added:
+   utilities/dzLib/trunk/src/u_dzConfigUtils.pas
+Log:
+new utility class TdzConfig for determining the configuration file names for user and common configuration based on
+<A HREF="http://msdn.microsoft.com/en-us/library/ms995853.aspx">http://msdn.microsoft.com/en-us/library/ms995853.aspx</A>
+(Application Specification for Microsoft Windows 2000 for Desktop Applications, Chapter 4: Data and Settings Management)
+and the version information in the executable
+
+Added: utilities/dzLib/trunk/src/u_dzConfigUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConfigUtils.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzConfigUtils.pas	2010-10-01 17:39:43 UTC (rev 499)
+@@ -0,0 +1,183 @@
++unit u_dzConfigUtils;
++
++interface
++
++uses
++  SysUtils;
++
++type
++  TdzConfig = class
++  private
++    FCompany: string;
++    FProductName: string;
++    FVersion: string;
++    FExeName: string;
++    FExtension: string;
++    FForcedUserCfg: string;
++    FForcedCommonCfg: string;
++    function BuildCfgFilename(const _Base: string): string;
++    procedure GetCompanyAndProductFromPath(_ModuleName: string);
++  public
++    ///&lt;summary&gt; @param HModule is the module handle of the file to use for version information
++    ///                         and for the default RedirIni filename, defaults to 0 (the
++    ///                         main executable), set to HInstance if you want to use a dll rather
++    ///                         than the executable that loaded the dll.
++    ///          @param RedirIni is the name of an .ini file to read ForcedUserCfg and ForcedCommonCfg
++    ///                          from. Defaults to ChangeFileExt(GetModuleName(HModule), '.ini').
++    ///          @param RedirSection is the name of the section in the RedirIni file to read.
++    ///                              defaults to 'global', set to '' if you do not want redirection. &lt;/summary&gt;
++    constructor Create(_HModule: Cardinal = 0; _RedirIni: string = ''; _RedirSection: string = 'global');
++    ///&lt;summary&gt; Determine the name of the User-Config file
++    ///          @param Roaming determines whether to use 'Application Data' (true) or
++    ///                         'Local Application Data' (false), defaults to true.
++    ///          @returns the User-Ini file built from
++    ///          &lt;ApplicationData&gt;\&lt;Company&gt;\&lt;ProductName&gt;\&lt;Version&gt;\&lt;ExeName&gt;.&lt;Extension&gt;
++    ///          where &lt;ApplicationData&gt; is either the value for CSIDL_APPDATA
++    ///          (e.g. C:\Documents and Settings\&lt;user&gt;\Application Data) or CSIDL_LOCAL_APPDATA
++    ///          (e.g. C:\Documents and Settings\&lt;user&gt;\Local Settings\Application Data)
++    ///          depending on the value passed for the Roaming parameter
++    ///&lt;/summary&gt;
++    function GetUserCfgFile(_Roaming: boolean = true): string;
++    ///&lt;summary&gt; Determine the name of the Common-Ini file
++    ///          @returns the User-Ini file built from
++    ///          &lt;ApplicationData&gt;\&lt;Company&gt;\&lt;ProductName&gt;\&lt;Version&gt;\&lt;ExeName&gt;.&lt;Extension&gt;
++    ///          where &lt;ApplicationData&gt; is the value for CSIDL_COMMON_APPDATA
++    ///          (e.g. C:\Documents and Settings\All Users\Application Data) or CSIDL_LOCAL_APPDATA
++    ///          Note that this file usually is read only to non admin users.
++    ///&lt;/summary&gt;
++    function GetCommonCfgFile: string;
++    ///&lt;summary&gt; Company is taken from the version information, if it exists.
++    ///          Otherwise we try to guess it from the executable's directory, assuming
++    ///          &lt;ProgramFiles&gt;\&lt;Company&gt;\&lt;ProductName&gt;.
++    ///          If that fails (e.g. there is only one level below &lt;ProgramFiles&gt;) it will
++    ///          be empty. &lt;/summary&gt;
++    property Company: string read FCompany write FCompany;
++    ///&lt;summary&gt; ProductName is taken from the version information, if it exists.
++    ///          Otherwise we try to guess them from the executable's directory, assuming
++    ///          &lt;ProgramFiles&gt;\&lt;Company&gt;\&lt;ProductName&gt;.
++    ///          If that fails (e.g. there is only one level below &lt;ProgramFiles&gt;) it will
++    ///          be set to the parent directory of the executable. &lt;/summary&gt;
++    property ProductName: string read FProductName write FProductName;
++    ///&lt;summary&gt; Version is generated from &lt;FileVersionMajor&gt; and &lt;FileVersionMinor) taken from
++    ///          the version information, if it exists. &lt;FileVersionMinor&gt; will always be
++    ///          two digits long, prepended with a zero if necessary
++    ///          (e.g. Major = 2 and Minor = 1 will become '2.01')
++    ///          If no version information exists it will be empty. &lt;/summary&gt;
++    property Version: string read FVersion write FVersion;
++    ///&lt;summary&gt; ExeName is the InternalName taken from the version information, failing that
++    ///          the filename of the executable (without path and extension) is used. &lt;/summary&gt;
++    property ExeName: string read FExeName write FExeName;
++    ///&lt;summary&gt; Extension defaults to '.ini'
++    property Extension: string read FExtension write FExtension;
++    ///&lt;summary&gt; if set, this will always be returned by GetUserCfgFile,
++    ///          Initialized from &lt;ExeNameBase&gt;.ini [global]usercfg &lt;/summary&gt;
++    property ForcedUserCfg: string read FForcedUserCfg write FForcedUserCfg;
++    ///&lt;summary&gt; if set, this will always be returned by GetCommonCfgFile &lt;/summary&gt;
++    property ForcedCommonCfg: string read FForcedCommonCfg write FForcedCommonCfg;
++
++  end;
++
++implementation
++
++uses
++  u_dzOsUtils,
++  u_dzFileUtils,
++  u_dzClassutils,
++  u_dzShellApiUtils,
++  u_dzVersionInfo;
++
++{ TdzConfig }
++
++constructor TdzConfig.Create(_HModule: Cardinal = 0; _RedirIni: string = ''; _RedirSection: string = 'global');
++var
++  VerInfo: IFileInfo;
++  ModuleName: string;
++begin
++  inherited Create;
++  ModuleName := GetModuleFilename(_HModule);
++  if _RedirIni = '' then
++    _RedirIni := ChangeFileExt(ModuleName, '.ini');
++  if _RedirSection &lt;&gt; '' then begin
++    if TFileSystem.FileExists(_RedirIni) then begin
++      FForcedUserCfg := TIniFile_ReadString(_RedirIni, _RedirSection, 'usercfg', '');
++      FForcedCommonCfg := TIniFile_ReadString(_RedirIni, _RedirSection, 'commoncfg', '')
++    end;
++  end;
++
++  VerInfo := TFileInfo.Create(ModuleName);
++  VerInfo.AllowExceptions := false;
++  FCompany := VerInfo.Company;
++  FProductName := VerInfo.ProductName;
++  if VerInfo.FileVersionRec.IsValid then begin
++    FVersion := Format('%d.%.2d', [VerInfo.FileVersionRec.Major, VerInfo.FileVersionRec.Minor]);
++  end;
++  FExeName := VerInfo.InternalName;
++  FExtension := '.ini';
++
++  if (FCompany = '') and (FProductName = '') then
++    GetCompanyAndProductFromPath(ModuleName);
++
++  if FExeName = '' then
++    FExeName := ChangeFileExt(ExtractFileName(ModuleName), '');
++end;
++
++procedure TdzConfig.GetCompanyAndProductFromPath(_ModuleName: string);
++var
++  Programfiles: string;
++  Path: string;
++begin
++  FCompany := '';
++  FProductName := '';
++  Path := etpd(ExtractFileDir(_ModuleName));
++  Programfiles := etpd(TWindowsShell.GetProgramFilesDir);
++  if SameText(Path, Programfiles) or (Length(Path) = 2) and (Path[2] = ':') then
++    exit;
++  FProductName := ExtractFileName(Path);
++  Path := etpd(ExtractFileDir(Path));
++  if SameText(Path, Programfiles) or (Length(Path) = 2) and (Path[2] = ':') then
++    exit;
++  FCompany := ExtractFileName(Path);
++end;
++
++function TdzConfig.BuildCfgFilename(const _Base: string): string;
++
++  procedure AppendIfGiven(const _Value: string);
++  begin
++    if _Value &lt;&gt; '' then
++      Result := Result + itpd(_Value);
++  end;
++
++begin
++  Result := '';
++  AppendIfGiven(_Base);
++  AppendIfGiven(FCompany);
++  AppendIfGiven(FProductName);
++  AppendIfGiven(FVersion);
++  Result := Result + ChangeFileExt(FExeName, FExtension);
++end;
++
++function TdzConfig.GetCommonCfgFile: string;
++begin
++  if FForcedCommonCfg &lt;&gt; '' then
++    Result := FForcedCommonCfg
++  else
++    Result := BuildCfgFilename(TWindowsShell.GetCommonAppDataDir);
++end;
++
++function TdzConfig.GetUserCfgFile(_Roaming: boolean = true): string;
++var
++  Base: string;
++begin
++  if FForcedUserCfg &lt;&gt; '' then
++    Result := FForcedUserCfg
++  else begin
++    if _Roaming then
++      Base := TWindowsShell.GetAppDataDir
++    else
++      Base := TWindowsShell.GetLocalAppDataDir;
++    Result := BuildCfgFilename(Base);
++  end;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000357.html">[Dzchart-svncheckins] r498 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000359.html">[Dzchart-svncheckins] r500 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#358">[ date ]</a>
+              <a href="thread.html#358">[ thread ]</a>
+              <a href="subject.html#358">[ subject ]</a>
+              <a href="author.html#358">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

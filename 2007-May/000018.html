@@ -1,0 +1,1887 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r143 - in	utilities/dzBdsIdeScript/trunk/dws2: . Libraries	Libraries/ClassesLib Libraries/delphi2007 Source bds4	delphi2007 design
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r143%20-%20in%0A%09utilities/dzBdsIdeScript/trunk/dws2%3A%20.%20Libraries%0A%09Libraries/ClassesLib%20Libraries/delphi2007%20Source%20bds4%0A%09delphi2007%20design&In-Reply-To=%3C200705052101.l45L1h1r014880%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000017.html">
+   <LINK REL="Next"  HREF="000019.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r143 - in	utilities/dzBdsIdeScript/trunk/dws2: . Libraries	Libraries/ClassesLib Libraries/delphi2007 Source bds4	delphi2007 design</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r143%20-%20in%0A%09utilities/dzBdsIdeScript/trunk/dws2%3A%20.%20Libraries%0A%09Libraries/ClassesLib%20Libraries/delphi2007%20Source%20bds4%0A%09delphi2007%20design&In-Reply-To=%3C200705052101.l45L1h1r014880%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r143 - in	utilities/dzBdsIdeScript/trunk/dws2: . Libraries	Libraries/ClassesLib Libraries/delphi2007 Source bds4	delphi2007 design">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat May  5 23:01:43 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000017.html">[Dzchart-svncheckins] r142 - utilities/dzCmdLineParser/trunk
+</A></li>
+        <LI>Next message: <A HREF="000019.html">[Dzchart-svncheckins] r144 - utilities/dzBdsIdeScript/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#18">[ date ]</a>
+              <a href="thread.html#18">[ thread ]</a>
+              <a href="subject.html#18">[ subject ]</a>
+              <a href="author.html#18">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-05-05 23:01:36 +0200 (Sat, 05 May 2007)
+New Revision: 143
+
+Added:
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2ClassesLibrary.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2ClassesLibrary.dproj
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2DbIsamLibrary.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2DbLibrary.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2IniLibrary.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2MFLibrary.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2SMTPLib.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2SymbolsLibrary.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2WebLib.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2hhIbo3Lib.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2hhIboLib.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007.groupproj
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dcldws2.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dcldws2.dproj
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2Runtime.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2Runtime.dproj
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2SynEditUtilsRuntime.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2SynEditUtilsRuntime.dproj
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2VCLRuntime.dpk
+   utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2VCLRuntime.dproj
+   utilities/dzBdsIdeScript/trunk/dws2/design/
+   utilities/dzBdsIdeScript/trunk/dws2/design/dws2Register.pas
+Removed:
+   utilities/dzBdsIdeScript/trunk/dws2/bds4/dws2Register.pas
+Modified:
+   utilities/dzBdsIdeScript/trunk/dws2/Libraries/ClassesLib/
+   utilities/dzBdsIdeScript/trunk/dws2/Source/
+Log:
+* moved dws2register to new subdirectory design
+* started to add Delphi 2007 support
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk/dws2/Libraries/ClassesLib
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007
+___________________________________________________________________
+Name: svn:ignore
+   + dws2ClassesLibrary.dcu
+dws2ClassesLibrary.res
+
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2ClassesLibrary.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2ClassesLibrary.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2ClassesLibrary.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,40 @@
++package dws2ClassesLibrary;
++
++{$R *.res}
++{$R '..\ClassesLib\dws2ClassesLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION OFF}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES ON}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - Lists and Hashtables Library'}
++{$LIBSUFFIX '100'}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2Runtime,
++  vcl,
++  rtl;
++
++contains
++  dws2ClassesLibModule in '..\ClassesLib\dws2ClassesLibModule.pas' {dws2ClassesLib: TDataModule},
++  dws2Hashtables in '..\ClassesLib\dws2Hashtables.pas',
++  dws2Classes in '..\ClassesLib\dws2Classes.pas';
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2ClassesLibrary.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2ClassesLibrary.dproj	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2ClassesLibrary.dproj	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,222 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{ab496b45-f336-4d36-b799-6f98af5de8e0}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;dws2ClassesLibrary.dpk&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dws2ClassesLibrary100.bpl&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_IntegerOverflowCheck&gt;True&lt;/DCC_IntegerOverflowCheck&gt;
++    &lt;DCC_RangeChecking&gt;True&lt;/DCC_RangeChecking&gt;
++    &lt;DCC_StrictVarStrings&gt;False&lt;/DCC_StrictVarStrings&gt;
++    &lt;DCC_GenerateStackFrames&gt;True&lt;/DCC_GenerateStackFrames&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_UnitSearchPath&gt;..\..\source&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;..\..\source&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;..\..\source&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;..\..\source&lt;/DCC_IncludePath&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_IntegerOverflowCheck&gt;True&lt;/DCC_IntegerOverflowCheck&gt;
++    &lt;DCC_RangeChecking&gt;True&lt;/DCC_RangeChecking&gt;
++    &lt;DCC_StrictVarStrings&gt;False&lt;/DCC_StrictVarStrings&gt;
++    &lt;DCC_GenerateStackFrames&gt;True&lt;/DCC_GenerateStackFrames&gt;
++    &lt;DCC_UnitSearchPath&gt;..\..\source&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;..\..\source&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;..\..\source&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;..\..\source&lt;/DCC_IncludePath&gt;
++    &lt;DCC_Define&gt;DEBUG&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject xmlns=&quot;&quot;&gt; &lt;Delphi.Personality&gt;   &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;Package_Options&gt;
++      &lt;Package_Options Name=&quot;PackageDescription&quot;&gt;DelphiWebScript II - Lists and Hashtables Library&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;False&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;
++    &lt;/Package_Options&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;2055&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++    &lt;/VersionInfoKeys&gt;
++    &lt;Excluded_Packages&gt;
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CivEvoButtons.bpl&quot;&gt;(untitled)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBandsD10D.bpl&quot;&gt;JVCL Band Objects&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCtrlsD10D.bpl&quot;&gt;JVCL Visual Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDlgsD10D.bpl&quot;&gt;JVCL Dialog Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvMMD10D.bpl&quot;&gt;JVCL Multimedia and Image Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPageCompsD10D.bpl&quot;&gt;JVCL Page Style Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPluginD10D.bpl&quot;&gt;JVCL Plugin Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;dws2ClassesLibrary.dpk&lt;/Source&gt;
++    &lt;/Source&gt;
++  &lt;/Delphi.Personality&gt; &lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;ItemGroup /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dws2ClassesLibrary.dpk&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\ClassesLib\dws2Classes.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\ClassesLib\dws2ClassesLib.dcr&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\ClassesLib\dws2ClassesLibModule.pas&quot;&gt;
++      &lt;Form&gt;dws2ClassesLib&lt;/Form&gt;
++    &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;..\ClassesLib\dws2Hashtables.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;dws2Runtime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;rtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;vcl.dcp&quot; /&gt;
++  &lt;/ItemGroup&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2DbIsamLibrary.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2DbIsamLibrary.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2DbIsamLibrary.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,41 @@
++package dws2DbIsamLibrary;
++
++{$R *.res}
++{$R '..\DbIsamLib\dws2DbIsamLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION OFF}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES ON}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - DbISAM Support'}
++{$LIBSUFFIX '70'}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2Runtime,
++  vcl,
++  dbrtl,
++  bdertl,
++  vcldb,
++  db319d7r;
++
++contains
++  dws2DbIsamLibModule in '..\DbIsamLib\dws2DbIsamLibModule.pas' {dws2DbIsamLib: TDataModule};
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2DbLibrary.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2DbLibrary.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2DbLibrary.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,39 @@
++package dws2DbLibrary;
++
++{$R *.res}
++{$R '..\DbLib\dws2DbLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION OFF}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES ON}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - Simple Database Library'}
++{$LIBSUFFIX '70'}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2Runtime,
++  vcl,
++  dbrtl,
++  bdertl;
++
++contains
++  dws2DbLibModule in '..\DbLib\dws2DbLibModule.pas' {dws2DbLib: TDataModule};
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2IniLibrary.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2IniLibrary.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2IniLibrary.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,37 @@
++package dws2IniLibrary;
++
++{$R *.res}
++{$R '..\IniLib\dws2IniLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION OFF}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES ON}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - Ini-File Library'}
++{$LIBSUFFIX '70'}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2Runtime,
++  vcl;
++
++contains
++  dws2IniModule in '..\IniLib\dws2IniModule.pas' {dws2Ini: TDataModule};
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2MFLibrary.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2MFLibrary.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2MFLibrary.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,45 @@
++package dws2MFLibrary;
++
++{$R *.res}
++{$R '..\MFLib\dws2MFLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - MFLib'}
++{$LIBSUFFIX '70'}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl,
++  vcl,
++  dws2Runtime;
++
++contains
++  RegExpr in '..\MFLib\RegExpr.pas',
++  ProcessViewer in '..\MFLib\ProcessViewer.pas',
++  dws2MFLoader in '..\MFLib\dws2MFLoader.pas',
++  dws2MFLibFuncs in '..\MFLib\dws2MFLibFuncs.pas',
++  dws2MFLibUtils in '..\MFLib\dws2MFLibUtils.pas',
++  dws2MFLibModule in '..\MFLib\dws2MFLibModule.pas' {dws2MFLib: TDataModule},
++  ZipUnzip in '..\MFLib\ZipUnzip.pas',
++  dws2MFZipLibModule in '..\MFLib\dws2MFZipLibModule.pas' {dws2MFZipLib: TDataModule};
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2SMTPLib.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2SMTPLib.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2SMTPLib.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,37 @@
++package dws2SMTPLib;
++
++{$R *.res}
++{$R '..\SmtpLib\dws2SMTPLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION OFF}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES ON}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - SMTP Library'}
++{$LIBSUFFIX '70'}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2Runtime,
++  NMFAST;
++
++contains
++  dws2SMTPmodule in '..\SmtpLib\dws2SMTPmodule.pas' {dws2SMTPlib: TDataModule};
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2SymbolsLibrary.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2SymbolsLibrary.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2SymbolsLibrary.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,37 @@
++package dws2SymbolsLibrary;
++
++{$R *.res}
++{$R '..\SymbolsLib\dws2SymbolsLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION OFF}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES ON}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - Symboltable Access '}
++{$LIBSUFFIX '70'}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2Runtime,
++  vcl;
++
++contains
++  dws2SymbolsLibModule in '..\SymbolsLib\dws2SymbolsLibModule.pas' {dws2SymbolsLib: TDataModule};
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2WebLib.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2WebLib.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2WebLib.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,45 @@
++package dws2WebLib;
++
++{$R *.res}
++{$R '..\WebLib\dws2WebLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION OFF}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES ON}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - Web Library'}
++{$LIBSUFFIX '70'}
++{$IMPLICITBUILD OFF}
++
++requires
++  inet,
++  dws2Runtime,
++  indy;
++
++contains
++  dws2WebLibModule in '..\WebLib\dws2WebLibModule.pas' {dws2WebLib: TDataModule},
++  dws2WebBasics in '..\WebLib\dws2WebBasics.pas',
++  dws2SessionLibModule in '..\WebLib\dws2SessionLibModule.pas' {dws2SessionLib: TDataModule},
++  MatlusMultipartParser in '..\WebLib\MatlusMultipartParser.pas',
++  dws2SessionGlobals in '..\WebLib\dws2SessionGlobals.pas',
++  dws2PageProducer in '..\WebLib\dws2PageProducer.pas',
++  dws2PageloaderModule in '..\WebLib\dws2PageloaderModule.pas' {dws2Pageloader: TDataModule},
++  dws2SessionBasics in '..\WebLib\dws2SessionBasics.pas';
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2hhIbo3Lib.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2hhIbo3Lib.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2hhIbo3Lib.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,38 @@
++package dws2hhIbo3Lib;
++
++{$R *.res}
++{$R '..\IboLib\dws2IboLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - IBO Library (hh)'}
++{$LIBSUFFIX '60'}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2Runtime,
++  IBO_D6;
++
++contains
++  dws2IboModule in '..\IboLib\dws2IboModule.pas' {dws2IboLib: TDataModule},
++  dws2IboDataSrc in '..\IboLib\dws2IboDataSrc.pas';
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2hhIboLib.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2hhIboLib.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/Libraries/delphi2007/dws2hhIboLib.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,38 @@
++package dws2hhIboLib;
++
++{$R *.res}
++{$R '..\IboLib\dws2IboLib.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - IBO Library (hh)'}
++{$LIBSUFFIX '60'}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2Runtime,
++  IBO40ADT;
++
++contains
++  dws2IboModule in '..\IboLib\dws2IboModule.pas' {dws2IboLib: TDataModule},
++  dws2IboDataSrc in '..\IboLib\dws2IboDataSrc.pas';
++
++end.
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk/dws2/Source
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Deleted: utilities/dzBdsIdeScript/trunk/dws2/bds4/dws2Register.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/bds4/dws2Register.pas	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/bds4/dws2Register.pas	2007-05-05 21:01:36 UTC (rev 143)
+@@ -1,69 +0,0 @@
+-{**********************************************************************}
+-{                                                                      }
+-{    &quot;The contents of this file are subject to the Mozilla Public      }
+-{    License Version 1.1 (the &quot;License&quot;); you may not use this         }
+-{    file except in compliance with the License. You may obtain        }
+-{    a copy of the License at                                          }
+-{                                                                      }
+-{    <A HREF="http://www.mozilla.org/MPL/">http://www.mozilla.org/MPL/</A>                                       }
+-{                                                                      }
+-{    Software distributed under the License is distributed on an       }
+-{    &quot;AS IS&quot; basis, WITHOUT WARRANTY OF ANY KIND, either express       }
+-{    or implied. See the License for the specific language             }
+-{    governing rights and limitations under the License.               }
+-{                                                                      }
+-{    The Original Code is DelphiWebScriptII source code, released      }
+-{    January 1, 2001                                                   }
+-{                                                                      }
+-{    The Initial Developer of the Original Code is Matthias            }
+-{    Ackermann. Portions created by Matthias Ackermann are             }
+-{    Copyright (C) 2000 Matthias Ackermann, Switzerland. All           }
+-{    Rights Reserved.                                                  }
+-{                                                                      }
+-{    Contributor(s): Willibald Krenn                                   }
+-{                                                                      }
+-{**********************************************************************}
+-
+-{$I ..\source\dws2.inc}
+-
+-// Design-Time only, do NOT include this unit in runtime packages.
+-//
+-unit dws2Register;
+-
+-interface
+-
+-procedure Register;
+-
+-implementation
+-
+-uses
+-  Classes, Controls, dws2Comp,
+-  dws2HtmlFilter, dws2ComConnector, dws2Debugger,
+-  dws2FileFunctions,
+-  dws2VCLGUIFunctions, dws2GlobalVarsFunctions,
+-  dws2StringResult;
+-
+-procedure Register;
+-begin
+-  GroupDescendentsWith(dws2VCLGUIFunctions.Tdws2GUIFunctions,
+-    Controls.TControl);
+-  GroupDescendentsWith(Tdws2ComConnector,
+-    Controls.TControl);
+-//  GroupDescendentsWith(dws2CLXGUIFunctions.Tdws2GUIFunctions,
+-//    QControls.TControl);
+-
+-  RegisterClass(dws2VCLGUIFunctions.Tdws2GUIFunctions);
+-  RegisterClass(Tdws2ComConnector);
+-//  RegisterClass(dws2CLXGUIFunctions.Tdws2GUIFunctions);
+-
+-  RegisterComponents('DWS2', [TDelphiWebScriptII,
+-    Tdws2ComConnector, Tdws2HtmlFilter,  Tdws2SimpleDebugger,
+-      Tdws2FileFunctions,
+-      dws2VCLGUIFunctions.Tdws2GUIFunctions,
+-//      dws2CLXGUIFunctions.Tdws2GUIFunctions,
+-      Tdws2GlobalVarsFunctions, Tdws2StringResultType, Tdws2Unit, Tdws2HTMLUnit, 
+-      Tdws2StringsUnit]);
+-end;
+-
+-end.
+-
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk/dws2/delphi2007
+___________________________________________________________________
+Name: svn:ignore
+   + dcldws2.dcu
+dws2SynEditUtilsRuntime.res
+dws2VCLRuntime.dcu
+dws2VCLRuntime.res
+dcldws2.res
+dws2Runtime.dcu
+dws2Runtime.res
+
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dcldws2.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dcldws2.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dcldws2.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,40 @@
++package dcldws2;
++
++{$R *.res}
++{$R '..\source\dws2.dcr'}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II - Designtime Package'}
++{$LIBSUFFIX '100'}
++{$LIBVERSION '20'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  dws2VCLRuntime,
++  designide;
++
++contains
++  dws2Register in '..\design\dws2Register.pas',
++  dws2Experts in '..\source\dws2Experts.pas';
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dcldws2.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dcldws2.dproj	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dcldws2.dproj	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,87 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{fefb6414-97ce-45eb-b761-2d8ed8ba3d54}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;dcldws2.dpk&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dcldws2100.bpl.20&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;DelphiWebScript II - Designtime Package&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;20&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;2&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;Versi!
+ onInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;DelphiWebScript OpenSource Project&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;DWSII components&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;2.0.0.1&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;dcldws2.dpk&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;see <A HREF="http://www.dwscript.com">http://www.dwscript.com</A> for list&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;dcldws2.bpl&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;DelphiWebScript II&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;2.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;<A HREF="http://ww!">http://ww!</A>
+ w.dwscript.com&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Pa!
+ ckages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CivEvoButtons.bpl&quot;&gt;(untitled)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBandsD10D.bpl&quot;&gt;JVCL Band Objects&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCtrlsD10D.bpl&quot;&gt;JVCL Visual Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDlgsD10D.bpl&quot;&gt;JVCL Dialog Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvMMD10D.bpl&quot;&gt;JVCL Multimedia and Image Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPageCompsD10D.bpl&quot;&gt;JVCL Page Style Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPluginD10D.bpl&quot;&gt;JVCL Plugin Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dcldws2.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dcldws2.dpk&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\Delphi7\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\design\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\desig\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\desi\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\desugb\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\desug\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\desu\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\des\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\de\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\d\dws2Register.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2.dcr&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2.dcr&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Experts.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\designide.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2VCLRuntime.dcp&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2Runtime.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2Runtime.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2Runtime.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,57 @@
++package dws2Runtime;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION OFF}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES ON}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II'}
++{$LIBSUFFIX '100'}
++{$LIBVERSION '20'}
++{$RUNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl;
++
++contains
++  dws2Errors in '..\source\dws2Errors.pas',
++  dws2Strings in '..\source\dws2Strings.pas',
++  dws2Tokenizer in '..\source\dws2Tokenizer.pas',
++  dws2Functions in '..\source\dws2Functions.pas',
++  dws2Symbols in '..\source\dws2Symbols.pas',
++  dws2Exprs in '..\source\dws2Exprs.pas',
++  dws2Comp in '..\source\dws2Comp.pas',
++  dws2Compiler in '..\source\dws2Compiler.pas',
++  dws2Debugger in '..\source\dws2Debugger.pas',
++  dws2Stack in '..\source\dws2Stack.pas',
++  dws2MathFunctions in '..\source\dws2MathFunctions.pas',
++  dws2TimeFunctions in '..\source\dws2TimeFunctions.pas',
++  dws2FileFunctions in '..\source\dws2FileFunctions.pas',
++  dws2CompStrings in '..\source\dws2CompStrings.pas',
++  dws2HtmlFilter in '..\source\dws2HtmlFilter.pas',
++  dws2GlobalVarsFunctions in '..\source\dws2GlobalVarsFunctions.pas',
++  dws2StringResult in '..\Source\dws2StringResult.pas',
++  dws2StringFunctions in '..\Source\dws2StringFunctions.pas',
++  dws2VariantFunctions in '..\Source\dws2VariantFunctions.pas',
++  dws2IDEUtils in '..\Source\dws2IDEUtils.pas',
++  dws2UnitUtils in '..\Source\dws2UnitUtils.pas';
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2Runtime.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2Runtime.dproj	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2Runtime.dproj	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,263 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{0ed76341-caae-4037-aa69-3ae5698bdd64}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;dws2Runtime.dpk&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dws2Runtime100.bpl.20&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_StrictVarStrings&gt;False&lt;/DCC_StrictVarStrings&gt;
++    &lt;DCC_GenerateStackFrames&gt;True&lt;/DCC_GenerateStackFrames&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_StrictVarStrings&gt;False&lt;/DCC_StrictVarStrings&gt;
++    &lt;DCC_GenerateStackFrames&gt;True&lt;/DCC_GenerateStackFrames&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject xmlns=&quot;&quot;&gt; &lt;Delphi.Personality&gt;   &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;Package_Options&gt;
++      &lt;Package_Options Name=&quot;PackageDescription&quot;&gt;DelphiWebScript II&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;False&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;True&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;LibVersion&quot;&gt;20&lt;/Package_Options&gt;
++    &lt;/Package_Options&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;2&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;DelphiWebScript OpenSource Project&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;DWSII runtime interpreter core&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;2.0.0.1&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;dws2Runtime.dpk&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;see <A HREF="http://www.dwscript.com">http://www.dwscript.com</A> for list&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;dws2Runtime.bpl&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;DelphiWebScriptII&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;2.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;see <A HREF="http://www.dwscript.com&lt;/VersionInfoKeys">http://www.dwscript.com&lt;/VersionInfoKeys</A>&gt;
++    &lt;/VersionInfoKeys&gt;
++    &lt;Excluded_Packages&gt;
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CivEvoButtons.bpl&quot;&gt;(untitled)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBandsD10D.bpl&quot;&gt;JVCL Band Objects&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCtrlsD10D.bpl&quot;&gt;JVCL Visual Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDlgsD10D.bpl&quot;&gt;JVCL Dialog Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvMMD10D.bpl&quot;&gt;JVCL Multimedia and Image Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPageCompsD10D.bpl&quot;&gt;JVCL Page Style Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPluginD10D.bpl&quot;&gt;JVCL Plugin Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;dws2Runtime.dpk&lt;/Source&gt;
++    &lt;/Source&gt;
++  &lt;/Delphi.Personality&gt; &lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;ItemGroup /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dws2Runtime.dpk&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Comp.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Compiler.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2CompStrings.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Debugger.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Errors.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Exprs.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2FileFunctions.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Functions.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2GlobalVarsFunctions.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2HtmlFilter.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2IDEUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2MathFunctions.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Stack.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2StringFunctions.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2StringResult.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Strings.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Symbols.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2TimeFunctions.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2Tokenizer.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2UnitUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2VariantFunctions.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;rtl.dcp&quot; /&gt;
++    &lt;None Include=&quot;..\source\dws2.inc&quot; /&gt;
++  &lt;/ItemGroup&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2SynEditUtilsRuntime.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2SynEditUtilsRuntime.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2SynEditUtilsRuntime.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,44 @@
++package dws2SynEditUtilsRuntime;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphWebScript II - SynEdit IDE Utility runtime'}
++{$LIBSUFFIX '100'}
++{$LIBVERSION '20'}
++{$RUNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl,
++  vcl,
++  SynEdit_D2007,
++  vclx,
++  vcldb,
++  dbrtl,
++  dws2Runtime,
++  dws2VCLRuntime;
++
++contains
++  dws2SynEditUtils in '..\Source\dws2SynEditUtils.pas';
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2SynEditUtilsRuntime.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2SynEditUtilsRuntime.dproj	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2SynEditUtilsRuntime.dproj	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,83 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{6ba3ab1e-9f31-46c5-9712-d997fd8c8074}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;dws2SynEditUtilsRuntime.dpk&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dws2SynEditUtilsRuntime100.bpl.20&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;DelphWebScript II - SynEdit IDE Utility runtime&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;20&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInf!
+ o&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;3079&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CivEvoButtons.bpl&quot;&gt;(untitled)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBandsD10D.bpl&quot;&gt;JVCL Band Objects&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCtrlsD10D.bpl&quot;&gt;JVCL Visual Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDlgsD10D.bpl&quot;&gt;JVCL Dialog Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvMMD10D.bpl&quot;&gt;JVCL Multimedia and Image Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPageCompsD10D.bpl&quot;&gt;JVCL Page Style Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPluginD10D.bpl&quot;&gt;JVCL Plugin Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dws2SynEditUtilsRuntime.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dws2SynEditUtilsRuntime.dpk&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2SynEditUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dbrtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2Runtime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2VCLRuntime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\rtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\SynEdit_D2.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\SynEdit_D20.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\SynEdit_D200.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\vcl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\vcldb.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\vclx.dcp&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2VCLRuntime.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2VCLRuntime.dpk	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2VCLRuntime.dpk	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,43 @@
++package dws2VCLRuntime;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS OFF}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'DelphiWebScript II'}
++{$LIBSUFFIX '100'}
++{$LIBVERSION '20'}
++{$RUNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  VCL,
++  dws2Runtime,
++  rtl;
++
++contains
++  dws2VCLGUIFunctions in '..\source\dws2VCLGUIFunctions.pas',
++  dws2ComConnector in '..\Source\dws2ComConnector.pas',
++  dws_VCLmwPasToRtf in '..\Source\dws_VCLmwPasToRtf.pas',
++  dws2VCLIDEUtils in '..\Source\dws2VCLIDEUtils.pas',
++  dws2VCLSymbolsToTree in '..\Source\dws2VCLSymbolsToTree.pas';
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2VCLRuntime.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2VCLRuntime.dproj	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007/dws2VCLRuntime.dproj	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,245 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{8da558fe-6640-460e-958b-463532a85777}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;dws2VCLRuntime.dpk&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dws2VCLRuntime100.bpl.20&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_StrictVarStrings&gt;False&lt;/DCC_StrictVarStrings&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_StrictVarStrings&gt;False&lt;/DCC_StrictVarStrings&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject xmlns=&quot;&quot;&gt; &lt;Delphi.Personality&gt;   &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;Package_Options&gt;
++      &lt;Package_Options Name=&quot;PackageDescription&quot;&gt;DelphiWebScript II&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;False&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;True&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;
++      &lt;Package_Options Name=&quot;LibVersion&quot;&gt;20&lt;/Package_Options&gt;
++    &lt;/Package_Options&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;2&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;DelphiWebScript OpenSource Project&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;DWSII internal VCL functions&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;2.0.0.1&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;dws2VCLRuntime.dpk&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;see <A HREF="http://www.dwscript.com">http://www.dwscript.com</A> for list&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;dws2VCLRuntime.bpl&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;DelphiWebScriptII&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;2.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;see <A HREF="http://www.dwscript.com&lt;/VersionInfoKeys">http://www.dwscript.com&lt;/VersionInfoKeys</A>&gt;
++    &lt;/VersionInfoKeys&gt;
++    &lt;Excluded_Packages&gt;
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CivEvoButtons.bpl&quot;&gt;(untitled)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBandsD10D.bpl&quot;&gt;JVCL Band Objects&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCtrlsD10D.bpl&quot;&gt;JVCL Visual Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDlgsD10D.bpl&quot;&gt;JVCL Dialog Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvMMD10D.bpl&quot;&gt;JVCL Multimedia and Image Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPageCompsD10D.bpl&quot;&gt;JVCL Page Style Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPluginD10D.bpl&quot;&gt;JVCL Plugin Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;dws2VCLRuntime.dpk&lt;/Source&gt;
++    &lt;/Source&gt;
++  &lt;/Delphi.Personality&gt; &lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;ItemGroup /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dws2VCLRuntime.dpk&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2ComConnector.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\source\dws2VCLGUIFunctions.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2VCLIDEUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws2VCLSymbolsToTree.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\Source\dws_VCLmwPasToRtf.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;dws2Runtime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;rtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;VCL.dcp&quot; /&gt;
++    &lt;None Include=&quot;..\source\dws2.inc&quot; /&gt;
++  &lt;/ItemGroup&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzBdsIdeScript/trunk/dws2/delphi2007.groupproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dws2/delphi2007.groupproj	2007-05-05 20:35:47 UTC (rev 142)
++++ utilities/dzBdsIdeScript/trunk/dws2/delphi2007.groupproj	2007-05-05 21:01:36 UTC (rev 143)
+@@ -0,0 +1,58 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{b1972940-0cf4-4cb2-a722-27bd9fa1ed2c}&lt;/ProjectGuid&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ItemGroup /&gt;
++  &lt;ItemGroup /&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Default.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType /&gt;
++    &lt;BorlandProject&gt;
++  &lt;BorlandProject xmlns=&quot;&quot;&gt; &lt;Default.Personality&gt; &lt;/Default.Personality&gt; &lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Target Name=&quot;dws2Runtime&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2Runtime.dproj&quot; Targets=&quot;&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dws2Runtime:Clean&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2Runtime.dproj&quot; Targets=&quot;Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dws2Runtime:Make&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2Runtime.dproj&quot; Targets=&quot;Make&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dws2VCLRuntime&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2VCLRuntime.dproj&quot; Targets=&quot;&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dws2VCLRuntime:Clean&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2VCLRuntime.dproj&quot; Targets=&quot;Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dws2VCLRuntime:Make&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2VCLRuntime.dproj&quot; Targets=&quot;Make&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dcldws2&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dcldws2.dproj&quot; Targets=&quot;&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dcldws2:Clean&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dcldws2.dproj&quot; Targets=&quot;Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dcldws2:Make&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dcldws2.dproj&quot; Targets=&quot;Make&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dws2SynEditUtilsRuntime&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2SynEditUtilsRuntime.dproj&quot; Targets=&quot;&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dws2SynEditUtilsRuntime:Clean&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2SynEditUtilsRuntime.dproj&quot; Targets=&quot;Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dws2SynEditUtilsRuntime:Make&quot;&gt;
++    &lt;MSBuild Projects=&quot;delphi2007\dws2SynEditUtilsRuntime.dproj&quot; Targets=&quot;Make&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;Build&quot;&gt;
++    &lt;CallTarget Targets=&quot;dws2Runtime;dws2VCLRuntime;dcldws2;dws2SynEditUtilsRuntime&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;Clean&quot;&gt;
++    &lt;CallTarget Targets=&quot;dws2Runtime:Clean;dws2VCLRuntime:Clean;dcldws2:Clean;dws2SynEditUtilsRuntime:Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;Make&quot;&gt;
++    &lt;CallTarget Targets=&quot;dws2Runtime:Make;dws2VCLRuntime:Make;dcldws2:Make;dws2SynEditUtilsRuntime:Make&quot; /&gt;
++  &lt;/Target&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk/dws2/design
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Copied: utilities/dzBdsIdeScript/trunk/dws2/design/dws2Register.pas (from rev 139, utilities/dzBdsIdeScript/trunk/dws2/bds4/dws2Register.pas)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000017.html">[Dzchart-svncheckins] r142 - utilities/dzCmdLineParser/trunk
+</A></li>
+	<LI>Next message: <A HREF="000019.html">[Dzchart-svncheckins] r144 - utilities/dzBdsIdeScript/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#18">[ date ]</a>
+              <a href="thread.html#18">[ thread ]</a>
+              <a href="subject.html#18">[ subject ]</a>
+              <a href="author.html#18">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

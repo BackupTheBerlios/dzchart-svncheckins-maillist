@@ -1,0 +1,389 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r577 - in utilities/dzLib/trunk: forms src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-June/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r577%20-%20in%20utilities/dzLib/trunk%3A%20forms%20src&In-Reply-To=%3C20110602185414.AE2CD480C67%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000434.html">
+   <LINK REL="Next"  HREF="000436.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r577 - in utilities/dzLib/trunk: forms src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r577%20-%20in%20utilities/dzLib/trunk%3A%20forms%20src&In-Reply-To=%3C20110602185414.AE2CD480C67%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r577 - in utilities/dzLib/trunk: forms src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Jun  2 20:54:14 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000434.html">[Dzchart-svncheckins] r576 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000436.html">[Dzchart-svncheckins] r578 - in utilities/buildtools/trunk: .	templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#435">[ date ]</a>
+              <a href="thread.html#435">[ thread ]</a>
+              <a href="subject.html#435">[ subject ]</a>
+              <a href="author.html#435">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-06-02 20:54:14 +0200 (Thu, 02 Jun 2011)
+New Revision: 577
+
+Added:
+   utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas
+Modified:
+   utilities/dzLib/trunk/forms/w_dzProgress.pas
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+   utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+updated to latest changes
+
+Modified: utilities/dzLib/trunk/forms/w_dzProgress.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzProgress.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/forms/w_dzProgress.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -87,6 +87,7 @@
+ constructor Tf_dzProgress.Create(_Owner: tComponent);
+ begin
+   inherited;
++  TranslateComponent(Self, 'dzlib');
+   FProgressTimeInterval := 200;
+   FLastTickCount := 0;
+   pb_Progress.Position := 0;
+@@ -97,8 +98,6 @@
+   PopupMode := pmExplicit;
+   if _Owner is TCustomForm then
+     PopupParent := _Owner as TCustomForm;
+-
+-  TranslateComponent(Self, 'dzlib');
+ end;
+ 
+ procedure Tf_dzProgress.b_CancelClick(Sender: TObject);
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -179,6 +179,11 @@
+ /// &lt;/summary&gt;
+ function Str2Int(_s: string; const _Source: string): integer; overload;
+ 
++///&lt;summary&gt;
++/// Does the same as TryStrToInt but does not change Value if the string cannot be converted.
++///&lt;/summary&gt;
++function TryStr2Int(_s: string; var _Value: integer): boolean;
++
+ /// &lt;summary&gt;
+ /// Converts a string to an int64.
+ /// If s can not be converted, it returns the Default.
+@@ -618,6 +623,17 @@
+     raise EStringConvertError.CreateFmt(_('&quot;%s&quot; is not a valid integer value: %s'), [_s, _Source]);
+ end;
+ 
++function TryStr2Int(_s: string; var _Value: integer): boolean;
++var
++  e: integer;
++  v: integer;
++begin
++  Val(_s, v, e);
++  Result := (e = 0);
++  if Result then
++    _Value := v;
++end;
++
+ function Str2Int64(_s: string; _Default: Int64): Int64;
+ var
+   e: integer;
+@@ -738,20 +754,20 @@
+ 
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ begin
+-{$ifdef RTL220_UP}
++{$IFDEF RTL220_UP}
+   Result := TFormatSettings.Create(GetSystemDefaultLCID);
+-{$else}
++{$ELSE}
+   GetLocaleFormatSettings(GetSystemDefaultLCID, Result);
+-{$endif}
++{$ENDIF}
+ end;
+ 
+ function GetUserDefaultLocaleSettings: TFormatSettings;
+ begin
+-{$ifdef RTL220_UP}
++{$IFDEF RTL220_UP}
+   Result := TFormatSettings.Create(GetUserDefaultLCID);
+-{$else}
++{$ELSE}
+   GetLocaleFormatSettings(GetUserDefaultLCID, Result);
+-{$endif}
++{$ENDIF}
+ end;
+ 
+ function LongWord2ByteArr(_Value: LongWord; _MsbFirst: boolean = false): TBytes;
+@@ -791,7 +807,6 @@
+   bswap eax
+ end;
+ 
+-
+ initialization
+   DZ_FORMAT_DECIMAL_POINT := u_dzStringUtils.GetUserDefaultLocaleSettings;
+   DZ_FORMAT_DECIMAL_POINT.DecimalSeparator := '.';
+
+Added: utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -0,0 +1,26 @@
++unit u_dzDatasetHelpersTdbf;
++
++interface
++
++uses
++  u_dzDatasetHelpers,
++  dbf;
++
++type
++  TDataSetHelperTdbf = class(TDatasetHelper, IDatasetHelper)
++  public
++    constructor Create(_Table: TDBF); overload;
++  end;
++
++implementation
++
++{ TDataSetHelperTdbf }
++
++constructor TDataSetHelperTdbf.Create(_Table: TDBF);
++begin
++  inherited Create;
++  FDataset := _Table;
++  FTableName := _Table.TableName;
++end;
++
++end.
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -40,8 +40,21 @@
+ ///          'yyyy-mm-dd hh:mm:ss'
+ /// &lt;/summary&gt;
+ function DateTime2Iso(_dt: TDateTime; _IncludeTime: boolean = false): string; inline;
+-function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true): string; inline;
++
+ /// &lt;summary&gt;
++/// Converts the time part of a TDateTime value to a string in ISO 8601 format
++/// @param dt is the TDateTime value to convert
++/// @param IncludeSeconds is a boolean that determines whether the time should be
++///                    included, defaults to true
++/// @param IncludeMilliseconds is a boolean that determines whether the milliseconds
++///                            should be incluced,
++///                            only used if IncludeSeconds is true, defaults to false
++/// @returns a string with the time in the format
++///          'hh:mm:ss.nnn'
++/// &lt;/summary&gt;
++function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true;
++  _IncludeMilliSeconds: boolean = false): string; inline;
++/// &lt;summary&gt;
+ /// converts a string that contains a time in ISO 8601 format to a TDateTime value
+ /// @param s is the string to convert, it must be in the form 'hh:mm:ss' or 'hh:mm'
+ /// @returns a TDateTime value with the time
+@@ -163,13 +176,17 @@
+   Result := StrToDate(_s, Settings);
+ end;
+ 
+-function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true): string;
++function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true;
++  _IncludeMilliSeconds: boolean = false): string; inline;
+ var
+   fmt: string;
+ begin
+   fmt := 'hh:nn'; // do not translate
+-  if _IncludeSeconds then
+-    fmt := fmt + ':ss'; // do not translate
++  if _IncludeSeconds then begin
++    fmt := fmt + ':ss';
++    if _IncludeMilliSeconds then
++      fmt := fmt + '.zzz'; // do not translate
++  end;
+   DateTimeToString(Result, fmt, _dt);
+ end;
+ 
+
+Modified: utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -12,7 +12,7 @@
+ 
+ uses
+   u_dzTranslator,
+-  JvFormPlacement;
++  JvFormPlacement; // SIG: Wenn hier ein Compile-Error kommt, cond. Define no_jvcl ins Projekt schreiben
+ 
+ initialization
+ 
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -247,6 +247,17 @@
+ function TEdit_TryTextToDouble(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ function TEdit_TryTextToDouble(_ed: TEdit; out _Value: double; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ 
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: extended;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: double;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: single;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++
++function TEdit_IsTextFloat(_ed: TEdit; _MinValue, _MaxValue: extended;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++function TEdit_IsTextFloat(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++
+ ///&lt;summary&gt; Tries to convert the edit control text to an integer, if an error occurs, it raises
+ ///          an exception and optionally focuses the control.
+ ///          @param ed is the edit control
+@@ -385,6 +396,8 @@
+   _FocusControl: boolean = false): boolean; overload;
+ function TComboBox_GetSelected(_cmb: TCustomComboBox): string; overload;
+ 
++function TComboBox_IsSelected(_cmb: TComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++
+ ///&lt;summary&gt; Selects the item if it is in the list and returns the new ItemIndex
+ ///          @param cmb is the TCustomCombobox (descendant) to use
+ ///          @param Item is the item to select
+@@ -651,6 +664,8 @@
+   Consts,
+   JPEG,
+   StrUtils,
++  Types,
++  Math,
+ {$IFDEF SUPPORTS_UNICODE_STRING}
+   AnsiStrings,
+ {$ENDIF SUPPORTS_UNICODE_STRING}
+@@ -1040,6 +1055,68 @@
+   Result := TEdit_TryTextToDouble(_ed, Value, _OkColor, _ErrColor);
+ end;
+ 
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: extended;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  s: string;
++begin
++  s := _ed.Text;
++  Result := TryStr2Float(s, _Value, #0);
++  if Result then
++    _ed.Color := _OkColor
++  else
++    _ed.Color := _ErrColor;
++end;
++
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: double;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  s: string;
++begin
++  s := _ed.Text;
++  Result := TryStr2Float(s, _Value, #0);
++  if Result then
++    _ed.Color := _OkColor
++  else
++    _ed.Color := _ErrColor;
++end;
++
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: single;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  s: string;
++begin
++  s := _ed.Text;
++  Result := TryStr2Float(s, _Value, #0);
++  if Result then
++    _ed.Color := _OkColor
++  else
++    _ed.Color := _ErrColor;
++end;
++
++function TEdit_IsTextFloat(_ed: TEdit; _MinValue, _MaxValue: extended;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  Value: Extended;
++begin
++  Result := TEdit_TryTextToFloat(_ed, Value, _OkColor, _ErrColor);
++  if not Result then
++    exit;
++  Result := (CompareValue(_MinValue, Value) &lt;&gt; GreaterThanValue)
++    and (CompareValue(_MaxValue, Value) &lt;&gt; LessThanValue);
++  if Result then
++    _ed.Color := _OkColor
++  else
++    _ed.Color := _ErrColor;
++end;
++
++function TEdit_IsTextFloat(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  Value: Extended;
++begin
++  Result := TEdit_TryTextToFloat(_ed, Value, _OkColor, _ErrColor);
++end;
++
+ function TEdit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer;
+ var
+   s: string;
+@@ -1506,6 +1583,15 @@
+   end;
+ end;
+ 
++function TComboBox_IsSelected(_cmb: TComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++begin
++  Result := (_cmb.ItemIndex &lt;&gt; -1);
++  if Result then
++    _cmb.Color := _OkColor
++  else
++    _cmb.Color := _ErrColor;
++end;
++
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ begin
+   _Idx := _lst.ItemIndex;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000434.html">[Dzchart-svncheckins] r576 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000436.html">[Dzchart-svncheckins] r578 - in utilities/buildtools/trunk: .	templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#435">[ date ]</a>
+              <a href="thread.html#435">[ thread ]</a>
+              <a href="subject.html#435">[ subject ]</a>
+              <a href="author.html#435">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

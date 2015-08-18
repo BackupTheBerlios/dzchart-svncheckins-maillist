@@ -1,0 +1,930 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r254 - in utilities/dzLib/trunk: src tests	tests/dzconvertutils tests/dzfileutils
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r254%20-%20in%20utilities/dzLib/trunk%3A%20src%20tests%0A%09tests/dzconvertutils%20tests/dzfileutils&In-Reply-To=%3C200712161359.lBGDxFRO026489%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000122.html">
+   <LINK REL="Next"  HREF="000124.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r254 - in utilities/dzLib/trunk: src tests	tests/dzconvertutils tests/dzfileutils</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r254%20-%20in%20utilities/dzLib/trunk%3A%20src%20tests%0A%09tests/dzconvertutils%20tests/dzfileutils&In-Reply-To=%3C200712161359.lBGDxFRO026489%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r254 - in utilities/dzLib/trunk: src tests	tests/dzconvertutils tests/dzfileutils">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Dec 16 14:59:15 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000122.html">[Dzchart-svncheckins] r253 - in utilities/dzLib/trunk/tests: .	dzfileutils
+</A></li>
+        <LI>Next message: <A HREF="000124.html">[Dzchart-svncheckins] r255 - utilities/dzLib/trunk/tests/dzfileutils
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#123">[ date ]</a>
+              <a href="thread.html#123">[ thread ]</a>
+              <a href="subject.html#123">[ subject ]</a>
+              <a href="author.html#123">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-12-16 14:59:07 +0100 (Sun, 16 Dec 2007)
+New Revision: 254
+
+Added:
+   utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr
+   utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj
+   utilities/dzLib/trunk/tests/dcu/
+   utilities/dzLib/trunk/tests/dzconvertutils/
+   utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas
+Removed:
+   utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dpr
+   utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dproj
+   utilities/dzLib/trunk/tests/dzfileutils/dcu/
+Modified:
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzUnitTestUtils.pas
+Log:
+started a test unit for u_dzConvertUtils
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-12-16 13:57:16 UTC (rev 253)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-12-16 13:59:07 UTC (rev 254)
+@@ -1,7 +1,9 @@
+ {GXFormatter.config=twm}
+-{: Integer to string and string to integer conversion functions for decimal
+-   hexadecimal and custom number bases. This was taken from u_dzStringUtils
+-   which originally was a Delphi conversion of TwmStringFunc. }
++/// &lt;summary&gt;
++/// Integer to string and string to integer conversion functions for decimal
++/// hexadecimal and custom number bases. This was taken from u_dzStringUtils
++/// which originally was a Delphi conversion of TwmStringFunc.
++/// &lt;/summary&gt;
+ unit u_dzConvertUtils;
+ 
+ {$I jedi.inc}
+@@ -12,15 +14,21 @@
+   SysUtils;
+ 
+ var
+-  {: contains the User's format setting, but with decimal separator = '.' and no thousands separator }
++  /// &lt;summary&gt;
++  /// contains the User's format setting, but with decimal separator = '.' and no thousands separator
++  /// &lt;/summary&gt;
+   DZ_FORMAT_DECIMAL_POINT: TFormatSettings;
+ 
+ type
+-  {: Raised by the number conversion functions if a digit is invalid for the
+-     given base. }
++  /// &lt;summary&gt;
++  /// Raised by the number conversion functions if a digit is invalid for the
++  /// given base.
++  /// &lt;/summary&gt;
+   EdzConvert = class(Exception);
+   EDigitOutOfRange = class(EdzConvert);
+-  {: raised if there is a conversion error in one of the Str2XxxEx functions }
++  /// &lt;summary&gt;
++  /// raised if there is a conversion error in one of the Str2XxxEx functions
++  /// &lt;/summary&gt;
+   EStringConvertError = class(EdzConvert);
+ 
+ type
+@@ -30,63 +38,105 @@
+   TBaseN = 2..36;
+ 
+ const
+-  MinInt64 = $8000000000000000;
+-  MaxInt64 = $7FFFFFFFFFFFFFFF;
++  MinInt64 = Int64($8000000000000000);
++  MaxInt64 = Int64($7FFFFFFFFFFFFFFF);
+ 
+ const
+-  {: String containing all characters that can be used as digits }
++  /// &lt;summary&gt;
++  /// String containing all characters that can be used as digits
++  /// &lt;/summary&gt;
+   DIGIT_CHARS: string[36] = '0123456789ABCDEFGHIJKlMNOPQRSTUVWXYZ';
+ 
+ // Str &lt;-&gt; Decimal conversion
+-{: Returns true if A is a valid decimal digit }
++/// &lt;summary&gt;
++/// Returns true if A is a valid decimal digit
++/// &lt;/summary&gt;
+ function isDecDigit(_a: char): boolean;
+-{: Returns true if S is a valid decimal number }
++/// &lt;summary&gt;
++/// Returns true if S is a valid positive decimal number
++/// &lt;/summary&gt;
+ function isDec(const _s: string): boolean;
+-{: Converts a decimal digit to its number equivalent
+-   Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;summary&gt;
++/// Converts a decimal digit to its number equivalent
++/// Raises EDigitOutOfRange if there is an invalid digit.
++/// &lt;/summary&gt;
+ function DecDigit2Long(_a: char): LongInt;
+-{: Converts a string representing a decimal number to a number
+-   Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;summary&gt;
++/// Converts a string representing a positive decimal number to a number
++///   Raises EDigitOutOfRange if there is an invalid digit.
++/// &lt;/summary&gt;
+ function Dec2Long(const _s: string): ULong;
+-{: Converts a number to its 2 digit decimal representation (left pads with '0') }
++/// &lt;summary&gt;
++/// Converts a positive number to its 2 digit decimal representation (left pads with '0')
++/// &lt;/summary&gt;
+ function Long2Dec2(_l: ULong): string;
+-{: Converts a number to its 4 digit decimal representation (left pads with '0') }
++/// &lt;summary&gt;
++/// Converts a positive number to its 4 digit decimal representation (left pads with '0')
++/// &lt;/summary&gt;
+ function Long2Dec4(_l: ULong): string;
+-{: Converts a number to its N digit decimal representation (left pads with '0') }
++/// &lt;summary&gt;
++/// Converts a positive number to its N digit decimal representation (left pads with '0')
++/// &lt;/summary&gt;
+ function Long2DecN(_l: ULong; _n: ULong): string;
+-{: Converts a number to its decimal representation }
++/// &lt;summary&gt;
++/// Converts a positive number to its decimal representation
++/// &lt;/summary&gt;
+ function Long2Dec(_l: ULong): string;
+ 
+ // Str &lt;-&gt; Hex conversion
+-{: Returns true if A is a valid hexadecimal (base 16) digit }
++/// &lt;summary&gt;
++/// Returns true if A is a valid hexadecimal (base 16) digit 
++/// &lt;/summary&gt;
+ function isHexDigit(_a: char): boolean;
+-{: Returns true if S is a valid hexadecimal (base 16) number }
++/// &lt;summary&gt;
++/// Returns true if S is a valid hexadecimal (base 16) number
++/// &lt;/summary&gt;
+ function isHex(const _s: string): boolean;
+-{: Converts a hexadecimal digit to its number equivalent
+-   Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;summary&gt;
++/// Converts a hexadecimal digit to its number equivalent
++/// Raises EDigitOutOfRange if there is an invalid digit.
++/// &lt;/summary&gt;
+ function HexDigit2Long(_a: char): LongInt;
+-{: Converts a string representing a hexadecimal number to a number
+-   Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;summary&gt;
++/// Converts a string representing a hexadecimal number to a number
++/// @Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;/summary&gt;
+ function Hex2Long(const _s: string): ULong;
+-{: Converts a number to its hexadecimal representation }
++/// &lt;summary&gt;
++/// Converts a number to its hexadecimal representation }
++/// &lt;/summary&gt;
+ function Long2Hex(_l: ULong): string;
+-{: converts a number to its hexadecimal representation left padding with 0 to a length of 2 }
++/// &lt;summary&gt;
++/// converts a number to its hexadecimal representation left padding with 0 to a length of 2 }
++/// &lt;/summary&gt;
+ function Long2Hex2(_l: ULong): string;
+ 
+ // Str &lt;-&gt; any numeric system conversion
+-{: Returns true if A is a valid digit in the given Base. }
++/// &lt;summary&gt;
++/// Returns true if A is a valid digit in the given Base. }
++/// &lt;/summary&gt;
+ function isDigit(_a: char; _Base: TBaseN): boolean;
+-{: Returns true if S is a valid number in the given Base. }
++/// &lt;summary&gt;
++/// Returns true if S is a valid number in the given Base. }
++/// &lt;/summary&gt;
+ function isNumber(const _s: string; _Base: TBaseN): boolean;
+-{: Converts a Base digit to its number equivalent.
+-   Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;summary&gt;
++/// Converts a Base digit to its number equivalent.
++/// @Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;/summary&gt;
+ function Digit2Long(_a: char; _Base: TBaseN): LongInt;
+-{: Converts a string representing a number in Base to a number.
+-   Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;summary&gt;
++/// Converts a string representing a number in Base to a number.
++/// @Raises EDigitOutOfRange if there is an invalid digit. }
++/// &lt;/summary&gt;
+ function Num2Long(const _s: string; _Base: TBaseN): ULong;
+-{: Converts a number to its Base representation. }
++/// &lt;summary&gt;
++/// Converts a number to its Base representation. }
++/// &lt;/summary&gt;
+ function Long2Num(_l: ULong; _Base: byte): string;
+-{: Returns the number of characters in S that are valid digits in the given Base. }
++/// &lt;summary&gt;
++/// Returns the number of characters in S that are valid digits in the given Base. }
++/// &lt;/summary&gt;
+ function isNumberN(const _s: string; _Base: TBaseN): integer;
+ 
+ function TimeStrToSeconds(const _Zeit: string): integer;
+@@ -96,100 +146,119 @@
+ function TimeToSeconds(_Zeit: TDateTime): integer; deprecated;
+ {$ENDIF}
+ 
+-{: Converts a string to an integer.
+-   If s can not be converted, it returns the Default.
+-   @param(s string to convert)
+-   @param(Default value to return if s can not be converted)
+-   @returns(the integer value of s or Default, if s can not be converted) }
+-
++/// &lt;summary&gt;
++/// Converts a string to an integer.
++/// If s can not be converted, it returns the Default.
++/// @param(s string to convert)
++/// @param(Default value to return if s can not be converted)
++/// @returns(the integer value of s or Default, if s can not be converted) }
++/// &lt;/summary&gt;
+ function Str2Int(_s: string; _Default: integer): integer; overload;
+ 
+-{: Converts a string to an integer.
+-   If s can not be converted, it raises an exception EStringConvertError.
+-   @param(s string to convert)
+-   @param(Source string to include in the exception message)
+-   @returns(the integer value of s)
+-   @raises(EStringConvertError if s can not be converted) }
+-
++/// &lt;summary&gt;
++/// Converts a string to an integer.
++/// If s can not be converted, it raises an exception EStringConvertError.
++/// @param(s string to convert)
++/// @param(Source string to include in the exception message)
++/// @returns(the integer value of s)
++/// @raises(EStringConvertError if s can not be converted) }
++/// &lt;/summary&gt;
+ function Str2Int(_s: string; const _Source: string): integer; overload;
+ 
+-{: Converts a string to an int64.
+-   If s can not be converted, it returns the Default.
+-   @param(s string to convert)
+-   @param(Default value to return if s can not be converted)
+-   @returns(the int64 value of s or Default, if s can not be converted) }
+-
++/// &lt;summary&gt;
++/// Converts a string to an int64.
++/// If s can not be converted, it returns the Default.
++/// @param(s string to convert)
++/// @param(Default value to return if s can not be converted)
++/// @returns(the int64 value of s or Default, if s can not be converted) }
++/// &lt;/summary&gt;
+ function Str2Int64(_s: string; _Default: Int64): Int64; overload;
+ 
+-{: Converts a string to an int64.
+-   If s can not be converted, it raises an exception EStringConvertError.
+-   @param(s string to convert)
+-   @param(Source string to include in the exception message)
+-   @returns(the integer value of s)
+-   @raises(EStringConvertError if s can not be converted) }
+-
++/// &lt;summary&gt;
++/// Converts a string to an int64.
++/// If s can not be converted, it raises an exception EStringConvertError.
++/// @param(s string to convert)
++/// @param(Source string to include in the exception message)
++/// @returns(the integer value of s)
++/// @raises(EStringConvertError if s can not be converted) }
++/// &lt;/summary&gt;
+ function Str2Int64(_s: string; const _Source: string): Int64; overload;
+ 
+-{: tries to guess the decimal separator }
++/// &lt;summary&gt;
++/// tries to guess the decimal separator }
++/// &lt;/summary&gt;
+ function GuessDecimalSeparator(const _s: string): char;
+ 
+-{: Converts a string to a float.
+-   If s can not be converted, it returns the Default.
+-   @param s string to convert
+-   @param Default value to return if s can not be converted
+-   @param DecSeparator is the decimal separator, defaults to '.'
+-          if passed as #0, GuessDecimalSeparator is called to guess it
+-   @returns the float value of s or Default, if s can not be converted }
++/// &lt;summary&gt;
++/// Converts a string to a float.
++/// If s can not be converted, it returns the Default.
++/// @param s string to convert
++/// @param Default value to return if s can not be converted
++/// @param DecSeparator is the decimal separator, defaults to '.'
++///        if passed as #0, GuessDecimalSeparator is called to guess it
++/// @returns the float value of s or Default, if s can not be converted }
++/// &lt;/summary&gt;
+ function Str2Float(_s: string; _Default: extended; _DecSeparator: char = '.'): extended; overload;
+ 
+-{: Converts a string to a float.
+-   If s can not be converted, it raises an exception EStringConvertError.
+-   @param(s string to convert)
+-   @param(Source string to include in the exception message)
+-   @param DecSeparator is the decimal separator, defaults to '.'
+-          if passed as #0, GuessDecimalSeparator is called to guess it
+-   @returns(the float value of s)
+-   @raises(EStringConvertError if s can not be converted) }
+-
++/// &lt;summary&gt;
++/// Converts a string to a float.
++/// If s can not be converted, it raises an exception EStringConvertError.
++/// @param(s string to convert)
++/// @param(Source string to include in the exception message)
++/// @param DecSeparator is the decimal separator, defaults to '.'
++///        if passed as #0, GuessDecimalSeparator is called to guess it
++/// @returns(the float value of s)
++/// @raises(EStringConvertError if s can not be converted) }
++/// &lt;/summary&gt;
+ function Str2Float(_s: string; const _Source: string; _DecSeparator: char = '.'): extended; overload;
+ 
+-{: tries to convert a string to a float, returns false if it fails
+-   @param s is the string to convert
+-   @param flt is the float, only valid if the function returns true
+-   @param DecSeparator is the decimal separator to use, defaults to '.',
+-          if passed as #0, GuessDecimalSeparator is called to guess it
+-   @returns true, if s could be converted, false otherwise }
++/// &lt;summary&gt;
++/// tries to convert a string to a float, returns false if it fails
++/// @param s is the string to convert
++/// @param flt is the float, only valid if the function returns true
++/// @param DecSeparator is the decimal separator to use, defaults to '.',
++///        if passed as #0, GuessDecimalSeparator is called to guess it
++/// @returns true, if s could be converted, false otherwise }
++/// &lt;/summary&gt;
+ function TryStr2Float(_s: string; out _flt: extended; _DecSeparator: char = '.'): boolean; overload;
+ function TryStr2Float(_s: string; out _flt: double; _DecSeparator: char = '.'): boolean; overload;
+ 
+-{: Converts a floating point number to a string using the given decimal separator
+-   in &quot;General number format&quot; with 15 significant digits
+-   @param(flt is an extended floating point value)
+-   @param(DecSeparator is the decimal separator to use)
+-   @returns(a string representation of the floating point value) }
++/// &lt;summary&gt;
++/// Converts a floating point number to a string using the given decimal separator
++/// in &quot;General number format&quot; with 15 significant digits
++/// @param(flt is an extended floating point value)
++/// @param(DecSeparator is the decimal separator to use)
++/// @returns(a string representation of the floating point value) }
++/// &lt;/summary&gt;
+ function Float2Str(_flt: extended; _DecSeparator: char = '.'): string; overload;
+ 
+-{: Converts a floating point number to a string using the given with, number of decimals
+-   and a '.' as decimal separator, if width is too small the smallest representation possible
+-   will be used (eg. Float2Str(5.24, 3, 2, '.') = '5.24')
+-   @param flt is an extended floating point value
+-   @param Width is the total number of digits (including the decimal separator
+-   @param Decimals is the number of decimals to use
+-   @returns a string representation of the floating point value }
++/// &lt;summary&gt;
++/// Converts a floating point number to a string using the given with, number of decimals
++/// and a '.' as decimal separator, if width is too small the smallest representation possible
++/// will be used (eg. Float2Str(5.24, 3, 2, '.') = '5.24')
++/// @param flt is an extended floating point value
++/// @param Width is the total number of digits (including the decimal separator
++/// @param Decimals is the number of decimals to use
++/// @returns a string representation of the floating point value }
++/// &lt;/summary&gt;
+ function Float2Str(_flt: extended; _Width, _Decimals: integer): string; overload;
+ 
+-{: Converts a floating point number to a string using the given number of decimals
+-   and a '.' as decimal separator.
+-   @param flt is an extended floating point value
+-   @param Decimals is the number of decimals to use
+-   @returns a string representation of the floating point value }
++/// &lt;summary&gt;
++/// Converts a floating point number to a string using the given number of decimals
++/// and a '.' as decimal separator.
++/// @param flt is an extended floating point value
++/// @param Decimals is the number of decimals to use
++/// @returns a string representation of the floating point value }
++/// &lt;/summary&gt;
+ function Float2Str(_flt: extended; _Decimals: integer): string; overload;
+ 
+ function TryRound(_flt: extended; out _wrd: word): boolean;
+ 
+-// these contants refer to the &quot;Xx binary byte&quot; units as defined by the
+-// International Electronical Commission (IEC) and endorsed by the
+-// IEE and CiPM
++/// &lt;summary&gt;
++/// these contants refer to the &quot;Xx binary byte&quot; units as defined by the
++/// International Electronical Commission (IEC) and endorsed by the
++/// IEE and CiPM
++/// &lt;/summary&gt;
+ const
+   OneKibiByte = Int64(1024);
+   OneMebiByte = Int64(1024) * OneKibiByte;
+@@ -198,7 +267,9 @@
+   OnePebiByte = Int64(1024) * OneTebiByte;
+   OneExbiByte = Int64(1024) * OnePebiByte;
+ 
+-{: Converts a file size to a human readable string, e.g. 536870912000 = 5.00 GiB (gibibyte) }
++/// &lt;summary&gt;
++/// Converts a file size to a human readable string, e.g. 536870912000 = 5.00 GiB (gibibyte) }
++/// &lt;/summary&gt;
+ function FileSizeToHumanReadableString(_FileSize: Int64): string;
+ 
+ const
+@@ -209,10 +280,14 @@
+   MinutesPerDay = HoursPerDay * MinutesPerHour;
+   SecondsPerDay = MinutesPerDay * SecondsPerMinute;
+ 
+-{: returns a human readable string of the form '5d 23h' or '25h 15m' or '20m 21s' }
++/// &lt;summary&gt;
++/// returns a human readable string of the form '5d 23h' or '25h 15m' or '20m 21s' }
++/// &lt;/summary&gt;
+ function SecondsToHumanReadableString(_Seconds: Int64): string;
+ 
+-{: returns the default locale settings as read from the system's regional settings }
++/// &lt;summary&gt;
++/// returns the default locale settings as read from the system's regional settings }
++/// &lt;/summary&gt;
+ function GetUserDefaultLocaleSettings: TFormatSettings;
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ 
+@@ -586,13 +661,17 @@
+ function SecondsToHumanReadableString(_Seconds: Int64): string;
+ begin
+   if _Seconds &gt; SecondsPerDay then
+-    Result := Format('%dd %dh', [_Seconds div SecondsPerDay, (_Seconds div SecondsPerHour) mod HoursPerDay])
++    // Days and hours, ignore minutes and seconds
++    Result := Format(_('%dd %dh'), [_Seconds div SecondsPerDay, (_Seconds div SecondsPerHour) mod HoursPerDay])
+   else if _Seconds &gt; Round(1.5 * SecondsPerHour) then
+-    Result := Format('%dh %dm', [_Seconds div SecondsPerHour, (_Seconds div SecondsPerMinute) mod MinutesPerHour])
++    // Hours and minutes, ignore seconds
++    Result := Format(_('%dh %dm'), [_Seconds div SecondsPerHour, (_Seconds div SecondsPerMinute) mod MinutesPerHour])
+   else if _Seconds &gt; Round(1.5 * SecondsPerMinute) then
+-    Result := Format('%dm %ds', [_Seconds div SecondsPerMinute, _Seconds mod SecondsPerMinute])
++    // Minutes and seconds
++    Result := Format(_('%dm %ds'), [_Seconds div SecondsPerMinute, _Seconds mod SecondsPerMinute])
+   else
+-    Result := Format('%ds', [_Seconds]);
++    // Seconds only
++    Result := Format(_('%ds'), [_Seconds]);
+ end;
+ 
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+
+Modified: utilities/dzLib/trunk/src/u_dzUnitTestUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzUnitTestUtils.pas	2007-12-16 13:57:16 UTC (rev 253)
++++ utilities/dzLib/trunk/src/u_dzUnitTestUtils.pas	2007-12-16 13:59:07 UTC (rev 254)
+@@ -1,3 +1,6 @@
++/// &lt;summary&gt;
++/// implements an extended TTextCase class
++/// &lt;/summary&gt;
+ unit u_dzUnitTestUtils;
+ 
+ interface
+@@ -9,39 +12,71 @@
+ 
+ {$M+}
+ type
+-  {: implements some additional CheckXxx procedures, for now mainly for checking variants }
++  /// &lt;summary&gt;
++  /// implements some additional CheckXxx procedures
++  /// &lt;/summary&gt;
+   TdzTestCase = class(TTestcase)
+   protected
+   public
+-    {: Checks whether the value is a variant of a floating point type (includes integer) }
++    /// &lt;summary&gt;
++    /// Checks whether the value is a variant of a floating point type (includes integer)
++    /// &lt;/summary&gt;
+     procedure CheckVariantIsFloat(_Value: variant; _Msg: string);
+-    {: Checks whether the value is a variant of an (signed) integer type (excludes LongWord and Int64) }
++    /// &lt;summary&gt;
++    /// Checks whether the value is a variant of an (signed) integer type (excludes LongWord and Int64)
++    /// &lt;/summary&gt;
+     procedure CheckVariantIsInteger(_Value: variant; _Msg: string);
+-    {: Checks whether the value is a variant of an (signed) int64 type (includes LongWord and Int64) }
++    /// &lt;summary&gt;
++    /// Checks whether the value is a variant of an (signed) int64 type (includes LongWord and Int64)
++    /// &lt;/summary&gt;
+     procedure CheckVariantIsInt64(_Value: variant; _Msg: string);
+-    {: Checks whether the value is a variant of an (unsigned) integer type (excludes all signed integer types) }
++    /// &lt;summary&gt;
++    /// Checks whether the value is a variant of an (unsigned) integer type (excludes all signed integer types)
++    /// &lt;/summary&gt;
+     procedure CheckVariantIsLongWord(_Value: variant; _Msg: string);
+-    {: Checks whether the value is a non Null variant }
++    /// &lt;summary&gt;
++    /// Checks whether the value is a non Null variant
++    /// &lt;/summary&gt;
+     procedure CheckVariantIsNotNull(_Value: variant; _Msg: string); overload;
+-    {: Checks whether the value is a Null variant }
++    /// &lt;summary&gt;
++    /// Checks whether the value is a Null variant
++    /// &lt;/summary&gt;
+     procedure CheckVariantIsNull(_Value: variant; _Msg: string); overload;
+-    {: Checks whether the value is a variant of a string type }
++    /// &lt;summary&gt;
++    /// Checks whether the value is a variant of a string type
++    /// &lt;/summary&gt;
+     procedure CheckVariantIsString(_Value: variant; _Msg: string); overload;
+-    {: Called by the CheckVAriantIsXxxx functions to show errors }
++    /// &lt;summary&gt;
++    /// Called by the CheckVAriantIsXxxx functions to show errors
++    /// &lt;/summary&gt;
+     procedure FailNotVarType(const _Expected, _Actual, _Msg: string; _ErrorAddr: pointer);
+-    {: Called by the FailNotVarType function to generate the error message }
++    /// &lt;summary&gt;
++    /// Called by the FailNotVarType function to generate the error message
++    /// &lt;/summary&gt;
+     function NotVarTypeErrorMessage(const _Expected: string; const _Actual: string; _Msg: string): string;
+-    {: Checks whether the date part of two TDateTime values is equal }
++    /// &lt;summary&gt;
++    /// Checks whether the date part of two TDateTime values is equal
++    /// &lt;/summary&gt;
+     procedure CheckEqualsDate(_Expected, _Actual: TDateTime; const _Message: string);
+-    {: Checks whether two TDateTime values are equal }
++    /// &lt;summary&gt;
++    /// Checks whether two TDateTime values are equal
++    /// &lt;/summary&gt;
+     procedure CheckEqualsDateTime(_Expected, _Actual: TDateTime; const _Message: string);
+-    {: Checks whether the time part of two TDateTime values is equal }
++    /// &lt;summary&gt;
++    /// Checks whether the time part of two TDateTime values is equal
++    /// &lt;/summary&gt;
+     procedure CheckEqualsTime(_Expected, _Actual: TDateTime; const _Message: string);
+-    {: Checks multiline strings for equality }
++    /// &lt;summary&gt;
++    /// Checks multiline strings for equality
++    /// &lt;/summary&gt;
+     procedure CheckEqualsMultiline(_Expected, _Actual: string; const _Message: string = '');
+-    {: Checks a multiline string against the content of a file }
++    /// &lt;summary&gt;
++    /// Checks a multiline string against the content of a file
++    /// &lt;/summary&gt;
+     procedure CheckEqualsFile(const _Filename: string; _Actual: string; const _Message: string = '');
+-    {: checks whether two files have got the same contents, content is treated as a multiline string }
++    /// &lt;summary&gt;
++    /// checks whether two files have got the same contents, content is treated as a multiline string
++    /// &lt;/summary&gt;
+     procedure CheckEqualsFiles(const _ExpectedFile, _ActualFile: string; const _Message: string = '');
+   end;
+ 
+
+Deleted: utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dpr	2007-12-16 13:57:16 UTC (rev 253)
++++ utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dpr	2007-12-16 13:59:07 UTC (rev 254)
+@@ -1,41 +0,0 @@
+-program DUnitTest_dzFileUtils;
+-{
+-
+-  Delphi DUnit Test Project
+-  -------------------------
+-  This project contains the DUnit test framework and the GUI/Console test runners.
+-  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
+-  to use the console test runner.  Otherwise the GUI test runner will be used by 
+-  default.
+-
+-}
+-
+-{$IFDEF CONSOLE_TESTRUNNER}
+-{$APPTYPE CONSOLE}
+-{$ENDIF}
+-
+-uses
+-  Forms,
+-  TestFramework,
+-  GUITestRunner,
+-  TextTestRunner,
+-  u_dzFileUtils in '..\..\src\u_dzFileUtils.pas',
+-  Testu_dzFileUtils in 'Testu_dzFileUtils.pas',
+-  u_dzMiscUtils in '..\..\src\u_dzMiscUtils.pas',
+-  u_dzStringUtils in '..\..\src\u_dzStringUtils.pas',
+-  u_dzConvertUtils in '..\..\src\u_dzConvertUtils.pas',
+-  u_dzTranslator in '..\..\src\u_dzTranslator.pas',
+-  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
+-  u_dzUnitTestUtils in '..\..\src\u_dzUnitTestUtils.pas',
+-  u_dzVariantUtils in '..\..\src\u_dzVariantUtils.pas';
+-
+-{$R *.RES}
+-
+-begin
+-  Application.Initialize;
+-  if IsConsole then
+-    TextTestRunner.RunRegisteredTests
+-  else
+-    GUITestRunner.RunRegisteredTests;
+-end.
+-
+
+Deleted: utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dproj	2007-12-16 13:57:16 UTC (rev 253)
++++ utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dproj	2007-12-16 13:59:07 UTC (rev 254)
+@@ -1,54 +0,0 @@
+-&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;ProjectGuid&gt;{9732bdc0-39a6-4dbb-817c-3fb77772e288}&lt;/ProjectGuid&gt;
+-    &lt;MainSource&gt;DUnitTest_dzFileUtils.dpr&lt;/MainSource&gt;
+-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+-    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;DUnitTest_dzFileUtils.exe&lt;/DCC_DependencyCheckOutputName&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
+-    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
+-    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
+-    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_Define&gt;DEBUG;_CONSOLE_TESTRUNNER;no_translation&lt;/DCC_Define&gt;
+-    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_IncludePath&gt;
+-    &lt;DCC_DcuOutput&gt;dcu&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;dcu&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;dcu&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+-    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+-    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+-    &lt;DCC_IntegerOverflowCheck&gt;True&lt;/DCC_IntegerOverflowCheck&gt;
+-    &lt;DCC_RangeChecking&gt;True&lt;/DCC_RangeChecking&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ProjectExtensions&gt;
+-    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+-    &lt;Borland.ProjectType /&gt;
+-    &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionI!
+ nfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;DUnitTest_dzFileUtils.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;UnitTesting&gt;&lt;TestFramework&gt;DUnit / Delphi Win32&lt;/TestFramework&gt;&lt;TestRunner&gt;GUI&lt;/TestRunner&gt;&lt;/UnitTesting&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+-  &lt;/ProjectExtensions&gt;
+-  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+-  &lt;ItemGroup&gt;
+-    &lt;DelphiCompile Include=&quot;DUnitTest_dzFileUtils.dpr&quot;&gt;
+-      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+-    &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzConvertUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzDateUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzFileUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzMiscUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzStringUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzTranslator.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzUnitTestUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzVariantUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;Testu_dzFileUtils.pas&quot; /&gt;
+-  &lt;/ItemGroup&gt;
+-&lt;/Project&gt;
+\ No newline at end of file
+
+Copied: utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr (from rev 253, utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dpr)
+===================================================================
+--- utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dpr	2007-12-16 13:57:16 UTC (rev 253)
++++ utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr	2007-12-16 13:59:07 UTC (rev 254)
+@@ -0,0 +1,42 @@
++program DUnitTests_dzLib;
++{
++
++  Delphi DUnit Test Project
++  -------------------------
++  This project contains the DUnit test framework and the GUI/Console test runners.
++  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
++  to use the console test runner.  Otherwise the GUI test runner will be used by 
++  default.
++
++}
++
++{$IFDEF CONSOLE_TESTRUNNER}
++{$APPTYPE CONSOLE}
++{$ENDIF}
++
++uses
++  Forms,
++  TestFramework,
++  GUITestRunner,
++  TextTestRunner,
++  u_dzFileUtils in '..\src\u_dzFileUtils.pas',
++  Testu_dzFileUtils in 'dzfileutils\Testu_dzFileUtils.pas',
++  u_dzMiscUtils in '..\src\u_dzMiscUtils.pas',
++  u_dzStringUtils in '..\src\u_dzStringUtils.pas',
++  u_dzConvertUtils in '..\src\u_dzConvertUtils.pas',
++  u_dzTranslator in '..\src\u_dzTranslator.pas',
++  u_dzDateUtils in '..\src\u_dzDateUtils.pas',
++  u_dzUnitTestUtils in '..\src\u_dzUnitTestUtils.pas',
++  u_dzVariantUtils in '..\src\u_dzVariantUtils.pas',
++  Testu_dzConvertUtils in 'dzconvertutils\Testu_dzConvertUtils.pas';
++
++{$R *.RES}
++
++begin
++  Application.Initialize;
++  if IsConsole then
++    TextTestRunner.RunRegisteredTests
++  else
++    GUITestRunner.RunRegisteredTests;
++end.
++
+
+Copied: utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj (from rev 253, utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dproj)
+===================================================================
+--- utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dproj	2007-12-16 13:57:16 UTC (rev 253)
++++ utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj	2007-12-16 13:59:07 UTC (rev 254)
+@@ -0,0 +1,55 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{9732bdc0-39a6-4dbb-817c-3fb77772e288}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;DUnitTests_dzLib.dpr&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;DUnitTests_dzLib.exe&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_Define&gt;DEBUG;_CONSOLE_TESTRUNNER;no_translation&lt;/DCC_Define&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\jedi_inc&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\jedi_inc&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\jedi_inc&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\jedi_inc&lt;/DCC_IncludePath&gt;
++    &lt;DCC_DcuOutput&gt;dcu&lt;/DCC_DcuOutput&gt;
++    &lt;DCC_ObjOutput&gt;dcu&lt;/DCC_ObjOutput&gt;
++    &lt;DCC_HppOutput&gt;dcu&lt;/DCC_HppOutput&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_IntegerOverflowCheck&gt;True&lt;/DCC_IntegerOverflowCheck&gt;
++    &lt;DCC_RangeChecking&gt;True&lt;/DCC_RangeChecking&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType /&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionI!
+ nfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;DUnitTests_dzLib.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;UnitTesting&gt;&lt;TestFramework&gt;DUnit / Delphi Win32&lt;/TestFramework&gt;&lt;TestRunner&gt;GUI&lt;/TestRunner&gt;&lt;/UnitTesting&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;DUnitTests_dzLib.dpr&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzConvertUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzDateUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzFileUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzMiscUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzStringUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzTranslator.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzUnitTestUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\src\u_dzVariantUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;dzconvertutils\Testu_dzConvertUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;dzfileutils\Testu_dzFileUtils.pas&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas	2007-12-16 13:57:16 UTC (rev 253)
++++ utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas	2007-12-16 13:59:07 UTC (rev 254)
+@@ -0,0 +1,105 @@
++unit Testu_dzConvertUtils;
++
++interface
++
++uses
++  Windows,
++  Classes,
++  SysUtils,
++  TestFramework,
++  u_dzConvertUtils,
++  u_dzUnitTestUtils;
++
++type
++  TestDecimalConversion = class(TdzTestCase)
++  protected
++    FDecDigit2LongOutOfRangeValue: char;
++    procedure DecDigit2LongOutOfRange;
++  published
++    procedure TestIsDecDigit;
++    procedure TestisDec(const _s: string);
++    procedure TestDecDigit2Long(_a: char);
++    procedure TestDec2Long(const _s: string);
++    procedure TestLong2Dec2(_l: ULong);
++    procedure TestLong2Dec4(_l: ULong);
++    procedure TestLong2DecN(_l: ULong; _n: ULong);
++    procedure TestLong2Dec(_l: ULong);
++  end;
++
++implementation
++
++{ TestDecimalConversion }
++
++procedure TestDecimalConversion.TestDec2Long(const _s: string);
++begin
++end;
++
++procedure TestDecimalConversion.DecDigit2LongOutOfRange;
++begin
++  CheckEquals(0, DecDigit2Long(FDecDigit2LongOutOfRangeValue));
++end;
++
++procedure TestDecimalConversion.TestDecDigit2Long(_a: char);
++var
++  c: char;
++begin
++  for c := chr(0) to chr(255) do begin
++    if c in ['0'..'9'] then
++      CheckEquals(Ord(c) - Ord('0'), DecDigit2Long(c))
++    else begin
++      FDecDigit2LongOutOfRangeValue := c;
++      CheckException(DecDigit2LongOutOfRange, EDigitOutOfRange);
++    end;
++  end;
++end;
++
++procedure TestDecimalConversion.TestisDec(const _s: string);
++begin
++  CheckTrue(isDec('0'));
++  CheckTrue(isDec('1'));
++  CheckTrue(isDec('12'));
++  CheckTrue(isDec('18945'));
++  CheckTrue(isDec('0845'));
++  CheckTrue(isDec('000000'));
++  CheckTrue(isDec('90894514908'));
++  CheckFalse(isDec('a'));
++  CheckFalse(isDec('1a425'));
++  CheckFalse(isDec('-2345'));
++  CheckFalse(isDec('0000001a'));
++end;
++
++procedure TestDecimalConversion.TestIsDecDigit;
++var
++  c: char;
++begin
++  for c := chr(0) to chr(255) do
++    if c in ['0'..'9'] then
++      CheckTrue(isDecDigit(c))
++    else
++      CheckFalse(isDecDigit(c));
++end;
++
++procedure TestDecimalConversion.TestLong2Dec(_l: ULong);
++begin
++
++end;
++
++procedure TestDecimalConversion.TestLong2Dec2(_l: ULong);
++begin
++
++end;
++
++procedure TestDecimalConversion.TestLong2Dec4(_l: ULong);
++begin
++
++end;
++
++procedure TestDecimalConversion.TestLong2DecN(_l, _n: ULong);
++begin
++
++end;
++
++initialization
++  RegisterTest(TestDecimalConversion.Suite);
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000122.html">[Dzchart-svncheckins] r253 - in utilities/dzLib/trunk/tests: .	dzfileutils
+</A></li>
+	<LI>Next message: <A HREF="000124.html">[Dzchart-svncheckins] r255 - utilities/dzLib/trunk/tests/dzfileutils
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#123">[ date ]</a>
+              <a href="thread.html#123">[ thread ]</a>
+              <a href="subject.html#123">[ subject ]</a>
+              <a href="author.html#123">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

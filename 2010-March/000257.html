@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r396 - in utilities/IniFileFormatter/trunk: .	dcu src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r396%20-%20in%20utilities/IniFileFormatter/trunk%3A%20.%0A%09dcu%20src&In-Reply-To=%3C201003131106.o2DB6KeK025396%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000256.html">
+   <LINK REL="Next"  HREF="000258.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r396 - in utilities/IniFileFormatter/trunk: .	dcu src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r396%20-%20in%20utilities/IniFileFormatter/trunk%3A%20.%0A%09dcu%20src&In-Reply-To=%3C201003131106.o2DB6KeK025396%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r396 - in utilities/IniFileFormatter/trunk: .	dcu src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 13 12:06:20 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000256.html">[Dzchart-svncheckins] r395 - in 3rd/jcl/2.000/trunk/docs: .	cps_files
+</A></li>
+        <LI>Next message: <A HREF="000258.html">[Dzchart-svncheckins] r397 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#257">[ date ]</a>
+              <a href="thread.html#257">[ thread ]</a>
+              <a href="subject.html#257">[ subject ]</a>
+              <a href="author.html#257">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-13 12:06:18 +0100 (Sat, 13 Mar 2010)
+New Revision: 396
+
+Modified:
+   utilities/IniFileFormatter/trunk/
+   utilities/IniFileFormatter/trunk/dcu/
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+   utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas
+   utilities/IniFileFormatter/trunk/src/w_IniFileFormatter.pas
+Log:
+* added externals
+* improved parameter help
+
+
+Property changes on: utilities/IniFileFormatter/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs/dztemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+
+   + libs/dztemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk</A>
+
+Name: svn:ignore
+   + IniFileFormatter.exe
+
+
+
+Property changes on: utilities/IniFileFormatter/trunk/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr	2010-03-13 10:54:44 UTC (rev 395)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr	2010-03-13 11:06:18 UTC (rev 396)
+@@ -3,18 +3,20 @@
+ uses
+   Forms,
+   w_IniFileFormatter in 'w_IniFileFormatter.pas' {f_IniFileFormatter},
+-  u_dzIniFileFormatter in '..\..\..\IniFileFormatter\u_dzIniFileFormatter.pas',
+-  u_dzIniSections in '..\..\..\IniFileFormatter\u_dzIniSections.pas',
+-  u_dzIniEntryList in '..\..\..\IniFileFormatter\u_dzIniEntryList.pas',
+   u_IniFileFormatterMain in 'u_IniFileFormatterMain.pas',
+-  u_dzDefaultMain in '..\..\..\..\dzcmdlineparser\src\u_dzDefaultMain.pas',
+-  u_dzGetOpt in '..\..\..\..\dzcmdlineparser\src\u_dzGetOpt.pas',
+-  u_dzOptionDescList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionDescList.pas',
+-  u_dzOptionFoundList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionFoundList.pas',
+-  u_dzOptionNameList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionNameList.pas',
+-  u_dzParamDescList in '..\..\..\..\dzcmdlineparser\src\u_dzParamDescList.pas',
+-  u_dzParamFoundList in '..\..\..\..\dzcmdlineparser\src\u_dzParamFoundList.pas',
+-  w_dzDialog in '..\..\..\forms\w_dzDialog.pas' {f_dzDialog};
++  w_dzDialog in '..\libs\dzLib\forms\w_dzDialog.pas' {f_dzDialog},
++  u_dzIniFileFormatter in '..\libs\dzLib\IniFileFormatter\u_dzIniFileFormatter.pas',
++  u_dzIniSections in '..\libs\dzLib\IniFileFormatter\u_dzIniSections.pas',
++  u_dzIniEntryList in '..\libs\dzLib\IniFileFormatter\u_dzIniEntryList.pas',
++  u_dzDefaultMain in '..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas',
++  u_dzCmdLineParser in '..\libs\dzCmdLineParser\src\u_dzCmdLineParser.pas',
++  u_dzCmdLineParserStates in '..\libs\dzCmdLineParser\src\u_dzCmdLineParserStates.pas',
++  u_dzGetOpt in '..\libs\dzCmdLineParser\src\u_dzGetOpt.pas',
++  u_dzOptionDescList in '..\libs\dzCmdLineParser\src\u_dzOptionDescList.pas',
++  u_dzOptionFoundList in '..\libs\dzCmdLineParser\src\u_dzOptionFoundList.pas',
++  u_dzOptionNameList in '..\libs\dzCmdLineParser\src\u_dzOptionNameList.pas',
++  u_dzParamDescList in '..\libs\dzCmdLineParser\src\u_dzParamDescList.pas',
++  u_dzParamFoundList in '..\libs\dzCmdLineParser\src\u_dzParamFoundList.pas';
+ 
+ {$R *.res}
+ 
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-03-13 10:54:44 UTC (rev 395)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-03-13 11:06:18 UTC (rev 396)
+@@ -22,11 +22,11 @@
+ 		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
+ 			&lt;DCC_UNIT_PLATFORM&gt;false&lt;/DCC_UNIT_PLATFORM&gt;
+ 			&lt;DCC_SYMBOL_PLATFORM&gt;false&lt;/DCC_SYMBOL_PLATFORM&gt;
+-			&lt;DCC_Define&gt;no_translation;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_Define&gt;no_translation;no_jcl;$(DCC_Define)&lt;/DCC_Define&gt;
+ 			&lt;DCC_DebugDCUs&gt;true&lt;/DCC_DebugDCUs&gt;
+ 			&lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+ 			&lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
+-			&lt;DCC_UnitSearchPath&gt;..\..\..\..\dztemplates\Units;..\..\..\..\dztemplates\templates;..\..\..\jedi_inc;..\..\..\src;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
++			&lt;DCC_UnitSearchPath&gt;..\libs\dztemplates\Units;..\libs\dztemplates\templates;..\libs\dzlib\jedi_inc;..\libs\dzlib\src;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
+ 			&lt;DCC_DependencyCheckOutputName&gt;..\IniFileFormatter.exe&lt;/DCC_DependencyCheckOutputName&gt;
+ 			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
+ 			&lt;DCC_UnitAlias&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)&lt;/DCC_UnitAlias&gt;
+@@ -54,20 +54,22 @@
+ 			&lt;DCCReference Include=&quot;w_IniFileFormatter.pas&quot;&gt;
+ 				&lt;Form&gt;f_IniFileFormatter&lt;/Form&gt;
+ 			&lt;/DCCReference&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\IniFileFormatter\u_dzIniFileFormatter.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\IniFileFormatter\u_dzIniSections.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\IniFileFormatter\u_dzIniEntryList.pas&quot;/&gt;
+ 			&lt;DCCReference Include=&quot;u_IniFileFormatterMain.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzDefaultMain.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzGetOpt.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzOptionDescList.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzOptionFoundList.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzOptionNameList.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzParamDescList.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\..\dzcmdlineparser\src\u_dzParamFoundList.pas&quot;/&gt;
+-			&lt;DCCReference Include=&quot;..\..\..\forms\w_dzDialog.pas&quot;&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzLib\forms\w_dzDialog.pas&quot;&gt;
+ 				&lt;Form&gt;f_dzDialog&lt;/Form&gt;
+ 			&lt;/DCCReference&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzLib\IniFileFormatter\u_dzIniFileFormatter.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzLib\IniFileFormatter\u_dzIniSections.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzLib\IniFileFormatter\u_dzIniEntryList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzCmdLineParser.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzCmdLineParserStates.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzGetOpt.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzOptionDescList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzOptionFoundList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzOptionNameList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzParamDescList.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzParamFoundList.pas&quot;/&gt;
+ 			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
+ 				&lt;Key&gt;Base&lt;/Key&gt;
+ 			&lt;/BuildConfiguration&gt;
+@@ -93,7 +95,6 @@
+ 						&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
+ 						&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+ 						&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
+-						&lt;Parameters Name=&quot;RunParams&quot;&gt;--help&lt;/Parameters&gt;
+ 					&lt;/Parameters&gt;
+ 					&lt;VersionInfo&gt;
+ 						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
+
+Modified: utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas	2010-03-13 10:54:44 UTC (rev 395)
++++ utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas	2010-03-13 11:06:18 UTC (rev 396)
+@@ -26,9 +26,9 @@
+ begin
+   inherited;
+   FGetOpt.RegisterOption('SortSections', _(
+-    'Sort sections. Possible values: no, alpha, template'), true);
++    'Sort sections. Possible values: no, alpha, template (default: alpha)'), true);
+   FGetOpt.RegisterOption('SortItems', _(
+-    'Sort items. Possible values: no, alpha, template'), true);
++    'Sort items. Possible values: no, alpha, template (default: alpha'), true);
+   FGetOpt.RegisterOption('template', _('Template file for sorting by template')
+     , true);
+   FGetOpt.RegisterParam('SrcFile', _('Source INI file to read and format'), 0, 1);
+
+Modified: utilities/IniFileFormatter/trunk/src/w_IniFileFormatter.pas
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/w_IniFileFormatter.pas	2010-03-13 10:54:44 UTC (rev 395)
++++ utilities/IniFileFormatter/trunk/src/w_IniFileFormatter.pas	2010-03-13 11:06:18 UTC (rev 396)
+@@ -106,7 +106,8 @@
+   case _Idx of
+     0: rb_ItemsUnsorted.Checked := true;
+     2: rb_ItemsByTemplate.Checked := true;
+-  // else: alpha-sort
++  else
++    rb_ItemsAlpha.Checked := true;
+   end;
+ end;
+ 
+@@ -115,7 +116,8 @@
+   case _Idx of
+     0: rb_SectionsUnsorted.Checked := true;
+     2: rb_SectionsByTemplate.Checked := true;
+-  // else: alpha-sort
++  else
++    rb_SectionsAlpha.Checked := true;
+   end;
+ end;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000256.html">[Dzchart-svncheckins] r395 - in 3rd/jcl/2.000/trunk/docs: .	cps_files
+</A></li>
+	<LI>Next message: <A HREF="000258.html">[Dzchart-svncheckins] r397 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#257">[ date ]</a>
+              <a href="thread.html#257">[ thread ]</a>
+              <a href="subject.html#257">[ subject ]</a>
+              <a href="author.html#257">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

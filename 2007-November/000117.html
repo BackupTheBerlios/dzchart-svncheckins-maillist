@@ -1,0 +1,1664 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r248 - in utilities/dzLib/trunk: forms src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r248%20-%20in%20utilities/dzLib/trunk%3A%20forms%20src&In-Reply-To=%3C200711150953.lAF9rudq023928%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000116.html">
+   <LINK REL="Next"  HREF="000118.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r248 - in utilities/dzLib/trunk: forms src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r248%20-%20in%20utilities/dzLib/trunk%3A%20forms%20src&In-Reply-To=%3C200711150953.lAF9rudq023928%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r248 - in utilities/dzLib/trunk: forms src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Nov 15 10:53:56 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000116.html">[Dzchart-svncheckins] r247 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000118.html">[Dzchart-svncheckins] r249 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#117">[ date ]</a>
+              <a href="thread.html#117">[ thread ]</a>
+              <a href="subject.html#117">[ subject ]</a>
+              <a href="author.html#117">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-11-15 10:53:50 +0100 (Thu, 15 Nov 2007)
+New Revision: 248
+
+Added:
+   utilities/dzLib/trunk/src/u_dzRingBuffer.pas
+Modified:
+   utilities/dzLib/trunk/forms/w_dzDialog.pas
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+   utilities/dzLib/trunk/src/u_dzNamedThread.pas
+   utilities/dzLib/trunk/src/u_dzStringUtils.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+some incompatible changes
+
+Modified: utilities/dzLib/trunk/forms/w_dzDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzDialog.pas	2007-11-03 10:45:06 UTC (rev 247)
++++ utilities/dzLib/trunk/forms/w_dzDialog.pas	2007-11-15 09:53:50 UTC (rev 248)
+@@ -221,6 +221,8 @@
+     class function ShowException(_e: Exception; const _Message: string;
+       const _Buttons: array of TDialogButtonEnum; const _OptionDesc: string = '';
+       _Parent: TComponent = nil): integer; overload;
++    class function ShowError(const _ErrorMsg, _Details: string; const _Buttons: array of TDialogButtonEnum;
++      const _OptionDesc: string = ''; _Parent: TComponent = nil): integer;
+     {: Simple function to display a message.
+        This will display a dialog with the icon indicated by DialogType, the
+        Message given, containing the Buttons specified and optionally an
+@@ -229,14 +231,14 @@
+        @param Message is the message text to display
+        @param Buttons is an array of buttons to show (Note: This is an array of
+                       buttons, not a set, so the order is important!)
++       @param Owner is the owner component to be used in the constructor, defaults
++                     to nil
+        @param OptionDesc gives the description for the Buttons, if not given,
+                          defaults to an empty string
+-       @param Parent is the parent component to be used in the constructor, defaults
+-                     to nil
+        @returns one of the mrXxxx values }
+     class function ShowMessage(_DialogType: TMsgDlgType; const _Message: string;
+-      const _Buttons: array of TDialogButtonEnum; const _OptionDesc: string = '';
+-      _Parent: TComponent = nil): integer; overload;
++      const _Buttons: array of TDialogButtonEnum; _Owner: TComponent = nil;
++      const _OptionDesc: string = ''): integer; overload;
+     {: Complex function to display a message.
+        This will display a dialog with the icon indicated by DialogType, the
+        Message given, containing the Buttons specified and optionally an
+@@ -252,15 +254,16 @@
+                            the custom buttons, the number of entries must
+                            correspond to the number of dbeCustom entries in the
+                            Buttons array
++       @param Owner is the owner component to be used in the constructor, defaults
++                     to nil
+        @param OptionDesc gives the description for the Buttons, if not given,
+                          defaults to an empty string
+-       @param Parent is the parent component to be used in the constructor, defaults
+-                     to nil
+        @returns one of the mrXxxx values }
+     class function ShowMessage(_DialogType: TMsgDlgType; const _Message: string;
+       const _Buttons: array of TDialogButtonEnum; const _CustomButtons: array of string;
+       const _CustomResults: array of integer;
+-      const _OptionDesc: string = ''; _Parent: TComponent = nil): integer; overload;
++      _Owner: TComponent = nil;
++      const _OptionDesc: string = ''): integer; overload;
+     {: Creates a Tf_dzDialog instance, shows it and returns it. The created
+        dialog instance must be freed by the caller
+        @param DialogType gives the icon to display
+@@ -313,12 +316,12 @@
+ class function Tf_dzDialog.ShowMessage(_DialogType: TMsgDlgType;
+   const _Message: string; const _Buttons: array of TDialogButtonEnum;
+   const _CustomButtons: array of string; const _CustomResults: array of integer;
+-  const _OptionDesc: string; _Parent: TComponent): integer;
++  _Owner: TComponent = nil;  const _OptionDesc: string=''): integer;
+ var
+   frm: Tf_dzDialog;
+   i: Integer;
+ begin
+-  frm := Tf_dzDialog.Create(_Parent);
++  frm := Tf_dzDialog.Create(_Owner);
+   try
+     frm.ShowDetailButton := false;
+     frm.SetVisibleButtons(_Buttons);
+@@ -338,11 +341,11 @@
+ end;
+ 
+ class function Tf_dzDialog.ShowMessage(_DialogType: TMsgDlgType; const _Message: string;
+-  const _Buttons: array of TDialogButtonEnum; const _OptionDesc: string = ''; _Parent: TComponent = nil): integer;
++  const _Buttons: array of TDialogButtonEnum; _Owner: TComponent = nil; const _OptionDesc: string = ''): integer;
+ var
+   frm: Tf_dzDialog;
+ begin
+-  frm := Tf_dzDialog.Create(_Parent);
++  frm := Tf_dzDialog.Create(_Owner);
+   try
+     frm.ShowDetailButton := false;
+     frm.SetVisibleButtons(_Buttons);
+@@ -417,6 +420,24 @@
+   Result := ShowException(_e, '', [dbeOk], '', _Parent);
+ end;
+ 
++class function Tf_dzDialog.ShowError(const _ErrorMsg, _Details: string; const _Buttons: array of TDialogButtonEnum;
++  const _OptionDesc: string = ''; _Parent: TComponent = nil): integer;
++var
++  frm: Tf_dzDialog;
++begin
++  frm := Tf_dzDialog.Create(_Parent);
++  try
++    frm.UserMessage := _ErrorMsg;
++    frm.Details := _Details;
++    frm.ShowDetailButton := true;
++    frm.SetVisibleButtons(_Buttons);
++    frm.OptionDescription := _OptionDesc;
++    Result := frm.ShowModal;
++  finally
++    frm.Free;
++  end;
++end;
++
+ { Copied from Dialogs.pas }
+ 
+ function GetAveCharSize(Canvas: TCanvas): TPoint;
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-11-03 10:45:06 UTC (rev 247)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-11-15 09:53:50 UTC (rev 248)
+@@ -185,6 +185,8 @@
+    @returns a string representation of the floating point value }
+ function Float2Str(_flt: extended; _Decimals: integer): string; overload;
+ 
++function TryRound(_flt: extended; out _wrd: word): boolean;
++
+ // these contants refer to the &quot;Xx binary byte&quot; units as defined by the
+ // International Electronical Commission (IEC) and endorsed by the
+ // IEE and CiPM
+@@ -449,6 +451,17 @@
+   Str(_Flt: 0: _Decimals, Result);
+ end;
+ 
++function TryRound(_flt: extended; out _wrd: word): boolean;
++begin
++  Result := (_flt &gt;= 0) and (_flt &lt;= $FFFF);
++  if Result then
++    try
++      _wrd := Round(_flt);
++    except
++      Result := false;
++    end;
++end;
++
+ function Str2Int(_s: string; _Default: integer): integer;
+ var
+   e: integer;
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-11-03 10:45:06 UTC (rev 247)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-11-15 09:53:50 UTC (rev 248)
+@@ -1,5 +1,5 @@
+ {GXFormatter.config=twm}
+-{: implements utility functions for file accesss }
++{! implements utility functions for file accesss }
+ unit u_dzFileUtils;
+ 
+ {$I jedi.inc}
+@@ -14,7 +14,7 @@
+ type
+   EFileUtils = class(Exception);
+   ECreateUniqueDir = class(EFileUtils);
+-  {: raised by DelTree if the DirName parameter is not a valid directory name }
++  {! raised by DelTree if the DirName parameter is not a valid directory name }
+   EDirNotFound = class(EFileUtils);
+   EPathTooLong = class(EFileUtils);
+   EInvalidPropertyCombination = class(EFileUtils);
+@@ -40,86 +40,86 @@
+   end;
+ 
+ type
+-  {: a simple wrapper around FindFirst/FindNext which allows to search for
++  {! a simple wrapper around FindFirst/FindNext which allows to search for
+      specified attributes only (e.g. only directories), it automatically
+      ignores the special '.' and '..' directories. }
+   TSimpleDirEnumerator = class
+   protected
+-    {: stores the search mask ('c:\windows\*.exe') }
++    {! stores the search mask ('c:\windows\*.exe') }
+     FMask: string;
+-    {: set of attributes a file must match }
++    {! set of attributes a file must match }
+     FMustHaveAttr: TFileAttributeSet;
+-    {: set of attributes a file may have }
++    {! set of attributes a file may have }
+     FMayHaveAttr: TFileAttributeSet;
+-    {: internally used TSearchRec structure }
++    {! internally used TSearchRec structure }
+     FSr: TSearchRec;
+-    {: true if FindFirst was called and returned no error code }
++    {! true if FindFirst was called and returned no error code }
+     FActive: boolean;
+-    {: number of matching files found }
++    {! number of matching files found }
+     FMatchCount: integer;
+   public
+-    {: creates a TSimpleDirEnumerator, sets the Mask, MustHaveAttr and MayHaveAttr
++    {! creates a TSimpleDirEnumerator, sets the Mask, MustHaveAttr and MayHaveAttr
+        properties.
+        MustHaveAttr is set to [] and MayHaveAttr is set to include all possible
+        attributes, so calling FindNext will find any files or subdirectories,
+        but the special '.' and '..' directories
+        @param(Mask is the file search mask) }
+     constructor Create(const _Mask: string);
+-    {: Destructor, will call FindClose if necessary }
++    {! Destructor, will call FindClose if necessary }
+     destructor Destroy; override;
+-    {: creates a TSimpleDirEnumerator, calls its FindAll method and frees it }
++    {! creates a TSimpleDirEnumerator, calls its FindAll method and frees it }
+     class function Execute(const _Mask: string; _List: TStrings): integer;
+-    {: Calls SysUtils.FindFirst on first call and SysUtls.FindNext in later
++    {! Calls SysUtils.FindFirst on first call and SysUtls.FindNext in later
+        calls.
+        @param Filename is the name of the file found, if result is true, if you need
+               more information about it, use the SR property
+        @Returns true, if a matching file was found, false otherwise }
+     function FindNext(out _Filename: string): boolean; overload;
+-    {: Calls SysUtils.FindFirst on first call and SysUtls.FindNext in later
++    {! Calls SysUtils.FindFirst on first call and SysUtls.FindNext in later
+        calls. If it returns true, use the SR property to get information about
+        the file. See the overloaded @link(FindNext) version if you need only
+        the filename.
+        @Returns(true, if a matching file was found, false otherwise) }
+     function FindNext: boolean; overload;
+-    {: Calls FindNext until it returns false, stores all filenames in List and
++    {! Calls FindNext until it returns false, stores all filenames in List and
+        returns the number of files found.
+        @param List is a TStrings object which will be filled with the filenames
+               of matching files, may be nil.
+        @returns the number of mathing files }
+     function FindAll(_List: TStrings = nil): integer;
+-    {: Calls FindClose so FindNext will start again. Reset does not change any
++    {! Calls FindClose so FindNext will start again. Reset does not change any
+        properties (e.g. Mask, MustHaveAttr, MayHaveAttr) }
+     procedure Reset;
+-    {: Returns the number of matches so far, that is the number of successful
++    {! Returns the number of matches so far, that is the number of successful
+        calls to FindNext }
+     property MatchCount: integer read FMatchCount;
+-    {: Returns the search mask }
++    {! Returns the search mask }
+     property Mask: string read FMask; // write fMask;
+-    {: the set of attributes a file must have to be found by FindNext }
++    {! the set of attributes a file must have to be found by FindNext }
+     property MustHaveAttr: TFileAttributeSet read FMustHaveAttr write FMustHaveAttr;
+-    {: the set of allowed attributes for a file to be found by FindNext }
++    {! the set of allowed attributes for a file to be found by FindNext }
+     property MayHaveAttr: TFileAttributeSet read FMayHaveAttr write FMayHaveAttr;
+-    {: the search rec containing additional information about the file }
++    {! the search rec containing additional information about the file }
+     property Sr: TSearchRec read FSr;
+   end;
+ 
+ type
+-  {: represents the status of a CopyFile/MoveFileWithProgress operation, passed
++  {! represents the status of a CopyFile/MoveFileWithProgress operation, passed
+      as parameter to the callback function. }
+   TCopyProgressStatus = class
+   public
+   {(*}
+   type
+-    {: possible return values for the callback function }
++    {! possible return values for the callback function }
+     TProgressResult = (
+-      prContinue, {:&lt; continue with the copy/move operation }
+-      prCancel,   {:&lt; cancel the operation, cannot be resumed }
+-      prStop,     {:&lt; stop the operation, can be resumed, if cfwRestartable was passed }
+-      prQuiet);   {:&lt; continue the operation, do not call the callback }
+-    {: reason for calling the callback function }
++      prContinue, {!&lt; continue with the copy/move operation }
++      prCancel,   {!&lt; cancel the operation, cannot be resumed }
++      prStop,     {!&lt; stop the operation, can be resumed, if cfwRestartable was passed }
++      prQuiet);   {!&lt; continue the operation, do not call the callback }
++    {! reason for calling the callback function }
+     TProgressReason = (
+-      prChunkFinished, {:&lt; a chunk of the file has been copied }
+-      prStreamSwitch); {:&lt; started to copy a new stream (set in the first callback) }
++      prChunkFinished, {!&lt; a chunk of the file has been copied }
++      prStreamSwitch); {!&lt; started to copy a new stream (set in the first callback) }
+   {*)}
+   protected
+     FTotalFileSize: LARGE_INTEGER;
+@@ -131,34 +131,34 @@
+     FSourceFile: THandle;
+     FDestinationFile: THandle;
+   public
+-    {: total size of the file }
++    {! total size of the file }
+     property TotalFileSize: LARGE_INTEGER read FTotalFileSize;
+-    {: total bytes that have been transferred so far }
++    {! total bytes that have been transferred so far }
+     property TotalBytesTransferred: LARGE_INTEGER read FTotalBytesTransferred;
+-    {: size of the stream that is currently being transferred }
++    {! size of the stream that is currently being transferred }
+     property StreamSize: LARGE_INTEGER read FStreamSize;
+-    {: bytes of the current stream taht have been transferred so far }
++    {! bytes of the current stream taht have been transferred so far }
+     property StreamBytesTransferred: LARGE_INTEGER read FStreamBytesTransferred;
+-    {: Number of the current stream, starts with 1 (usually always 1) }
++    {! Number of the current stream, starts with 1 (usually always 1) }
+     property StreamNumber: LongWord read FStreamNumber;
+-    {: reason for callback }
++    {! reason for callback }
+     property CallbackReason: TProgressReason read FCallbackReason;
+-    {: Handle of source file }
++    {! Handle of source file }
+     property SourceFile: THandle read FSourceFile;
+-    {: Handle of destination file }
++    {! Handle of destination file }
+     property DestinationFile: THandle read FDestinationFile;
+   end;
+   TCopyFileProgressEvt = procedure(_Status: TCopyProgressStatus;
+     var _Continue: TCopyProgressStatus.TProgressResult) of object;
+ 
+-  {: defines the action to take if a file already exists but has a different content }
++  {! defines the action to take if a file already exists but has a different content }
+   TFileExistsAction = (feaIgnore, feaOverwrite);
+   TOnSyncing = procedure(_Sender: TObject; const _SrcDir, _DstDir: string) of object;
+   TOnSyncingFile = procedure(_Sender: TObject; const _SrcDir, _DstDir: string; _Total, _Done: Int64) of object;
+-  {: called if a destination file already exists
++  {! called if a destination file already exists
+      @param Action is the action to take, default is feaIgnore }
+   TOnFileExists = procedure(_Sender: TObject; const _SrcFile, _DstFile: TFileInfoRec; var _Action: TFileExistsAction) of object;
+-  {: Synchronizes two directories }
++  {! Synchronizes two directories }
+   TDirectorySync = class
+   private
+     FCurrentSource: string;
+@@ -174,36 +174,36 @@
+     function doOnFileExists(const _SrcDir, _DstDir, _Filename: string): TFileExistsAction;
+     procedure ProgressStatusCallback(_Status: TCopyProgressStatus; var _Continue: TCopyProgressStatus.TProgressResult);
+   public
+-    {: Checks if there are files in the source directory that are already in
++    {! Checks if there are files in the source directory that are already in
+        the destination directory, for each file that exists, the OnFileExists
+        event is called. }
+     procedure CheckOneWay(const _SrcDir, _DstDir: string);
+-    {: copies all files from DirA to DirB if they don't already exists
++    {! copies all files from DirA to DirB if they don't already exists
+        (not implemented: if CheckContent=true, the content existing files will be checked and if
+                          it doesn't match, OnDifferentFileExists is called )
+        @param FlattenDirHierarchy determines whether all files should be copied
+                                   directly DstDir or if subdirectories should
+                                   be created, default is false }
+     procedure SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
+-    {: calls SyncOneWay(DirA, DirB) and SyncOneWay(DirB, DirA)
++    {! calls SyncOneWay(DirA, DirB) and SyncOneWay(DirB, DirA)
+        (not implemented: if CheckContent=true, the content existing files will be checked and if
+                          it doesn't match, OnDifferentFileExists is called ) }
+     procedure SyncBothWays(const _DirA, _DirB: string);
+-//    {: Not implemented: Called, if the content of an existing file is different }
++//    {! Not implemented: Called, if the content of an existing file is different }
+ //    property OnDifferentFileExists: TOnDifferentFileExists read FOnDifferentFileExists write FOnDifferentFileExists;
+-//    {: Not implemented: if true, OnDifferentFileExists will be called }
++//    {! Not implemented: if true, OnDifferentFileExists will be called }
+ //    property CheckContent: boolean read FCheckContent write FCheckContent default false;
+-    {: called when a new directory is entered, to abort synchronization,
++    {! called when a new directory is entered, to abort synchronization,
+        raise an exception (e.g. SysUtils.Abort), and catch it in the calling method }
+     property OnSyncingDir: TOnSyncing read FOnSyncingDir write FOnSyncingDir;
+-    {: called when a file is being copied, to abort synchronization,
++    {! called when a file is being copied, to abort synchronization,
+       raise an exception (e.g. SysUtils.Abort), and catch it in the calling method }
+     property OnSyncingFile: TOnSyncingFile read FOnSyncingFile write FOnSyncingFile;
+-    {: called from CheckOneWay if a destination file already exists }
++    {! called from CheckOneWay if a destination file already exists }
+     property OnFileExists: TOnFileExists read FOnFileExists write FOnFileExists;
+   end;
+ 
+-  {: This class owns all utility functions as class methods so they don't pollute the name space }
++  {! This class owns all utility functions as class methods so they don't pollute the name space }
+   TFileSystem = class
+   public
+   {(*}
+@@ -215,18 +215,18 @@
+     TCopyFileWithProgressFlagSet = set of TCopyFileWithProgressFlags;
+     TCopyFileWithProgressResult = (cfwOK, cfwAborted, cfwError);
+     TMoveFileWithProgressFlags = (
+-      mfwFailIfExists, {:&lt; fail if the destination file already exists }
+-      mfwAllowCopy,    {:&lt; allow using copy and delete if necessary }
+-      mfwDelayUntilReboot, {:&lt; wait until next reboot for moving the file }
+-      mfwWriteThrough, {:&lt; Setting this value guarantees that a move performed as a copy and delete operation is flushed to disk before the function returns. }
+-      mfwFailIfNotTrackable, {:&lt; The function fails if the source file is a link source, but the file cannot be tracked after the move. }
+-      mfwRaiseException); {:&lt; raise an exception if there is an error }
++      mfwFailIfExists, {!&lt; fail if the destination file already exists }
++      mfwAllowCopy,    {!&lt; allow using copy and delete if necessary }
++      mfwDelayUntilReboot, {!&lt; wait until next reboot for moving the file }
++      mfwWriteThrough, {!&lt; Setting this value guarantees that a move performed as a copy and delete operation is flushed to disk before the function returns. }
++      mfwFailIfNotTrackable, {!&lt; The function fails if the source file is a link source, but the file cannot be tracked after the move. }
++      mfwRaiseException); {!&lt; raise an exception if there is an error }
+     TMoveFileWithProgressFlagSet = set of TMoveFileWithProgressFlags;
+   const
+-  {: set of char constant containing all characters that are invalid in a filename }
++  {! set of char constant containing all characters that are invalid in a filename }
+     INVALID_FILENAME_CHARS: set of Char = ['\', '/', ':', '*', '?', '&quot;', '&lt;', '&gt;', '|'];
+   {*)}
+-    {: Returns a temporary filename.
++    {! Returns a temporary filename.
+        @param Directory is a string with the directory to create the file in, defaults
+                         to the TEMP directory.
+        @param Prefix is a string with a prefix for the filename, defaults to 'dz'.)
+@@ -242,24 +242,24 @@
+              values until it finds a unique filename, and then it creates the file
+              in the &lt;b&gt;Directory&lt;/b&gt;.&lt;/li&gt;
+        &lt;/ul&gt;
+-       @returns(a filename to use for a temporary file.)}
++       @returns a filename to use for a temporary file. }
+     class function GetTempFileName(_Directory: string = ''; const _Prefix: string = 'dz';
+       _Unique: word = 0): string;
+ 
+-    {: Calls the corresponding Windows function and returns the short path name
++    {! Calls the corresponding Windows function and returns the short path name
+        for an *existing* file or directory. }
+     class function GetShortPathname(const _LongName: string): string;
+ 
+-    {: Creates a unique subdirectory under BaseDir with the given Prefix
++    {! Creates a unique subdirectory under BaseDir with the given Prefix
+        if Basedir is an empty string the system's %TEMP% directory is used.
+        @returns the name of the created directory }
+     class function CreateUniqueDirectory(_BaseDir: string = ''; const _Prefix: string = 'dz'): string;
+ 
+-    {: Calls the Win32Api function GetTempPath but returns a string rather than
++    {! Calls the Win32Api function GetTempPath but returns a string rather than
+        a PChar.
+        @returns(a string with the TEMP directory) }
+     class function GetTempPath: string;
+-    {: Moves the file Source to Dest using the Windows MoveFile function.
++    {! Moves the file Source to Dest using the Windows MoveFile function.
+        @param Source is a string containing the name of the existing file
+        @param Dest is a string containing the destination file name
+        @param RaiseException is a boolean which controls whether the function
+@@ -268,7 +268,7 @@
+               but just return false if moving the file fails.
+        @returns true, if the file could be moved, false otherwise. }
+     class function MoveFile(const _Source, _Dest: string; _RaiseException: boolean = true): boolean;
+-    {: Copies the file Source to Dest using the Windows CopyFile function.
++    {! Copies the file Source to Dest using the Windows CopyFile function.
+        @param Source is a string containing the name of the existing file
+        @param Dest is a string containing the destination file name
+        @param FailIfExists is a boolean specifying whether the copy operation
+@@ -282,7 +282,7 @@
+        @returns true, if the file could be copied, false otherwise. }
+     class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+       _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean; overload;
+-    {: Copies the file Source to Dest using the Windows CopyFile function.
++    {! Copies the file Source to Dest using the Windows CopyFile function.
+        @param(Source is a string containing the name of the existing file)
+        @param(Dest is a string containing the destination file name)
+        @param(Flags is a set of TCopyFileFlags specifying whether the copy operation
+@@ -294,7 +294,7 @@
+        @returns(true, if the file could be copied, false otherwise.) }
+     class function CopyFile(const _Source, _Dest: string;
+       _Flags: TCopyFileFlagSet = [cfRaiseException]): boolean; overload;
+-    {: Copies the file Source to Dest using the Windows CopyFileEx function which
++    {! Copies the file Source to Dest using the Windows CopyFileEx function which
+        allows for a progress callback
+        @param(Source is a string containing the name of the existing file)
+        @param(Dest is a string containing the destination file name)
+@@ -310,7 +310,7 @@
+        @raises  EOSError if an error occurs and cfwRaiseException was passed }
+     class function CopyFileWithProgress(const _Source, _Dest: string; _Progress: TCopyFileProgressEvt;
+       _Flags: TCopyFileWithProgressFlagSet = [cfwRaiseException]): TCopyFileWithProgressResult;
+-    {: Copies the file Source to Dest using the Windows MoveFileWithProgress function which
++    {! Copies the file Source to Dest using the Windows MoveFileWithProgress function which
+        allows for a progress callback
+        NOTE: If the file can be moved rather than copied, no call to the callback
+              function will occur!
+@@ -328,23 +328,23 @@
+        @raises  EOSError if an error occurs and cfwRaiseException was passed }
+     class function MoveFileWithProgress(const _Source, _Dest: string; _Progress: TCopyFileProgressEvt;
+       _Flags: TMoveFileWithProgressFlagSet = [mfwRaiseException]): TCopyFileWithProgressResult;
+-    {: Creates a directory (parent directories must already exist)
++    {! Creates a directory (parent directories must already exist)
+        @param DirectoryName is the name for the new directory
+        @param RaiseException determines whether an exception is raised on error, default = true
+        @returns true, if the directory was created
+        @raises EOSError if there was an error and RaiseException was true }
+     class function CreateDir(const _DirectoryName: string; _RaiseException: boolean = true): boolean;
+-    {: Creates a new directory, including the creation of parent directories as needed.
++    {! Creates a new directory, including the creation of parent directories as needed.
+        @param DirectoryPath is the name for the new directory
+        @param RaiseException determines whether an exception is raised on error, default = true
+        @returns true, if the directory was created
+        @raises EOSError if there was an error and RaiseException was true }
+     class function ForceDir(const _DirectoryPath: string; _RaiseException: boolean = true): boolean;
+-    {: Sets a file's readonly flag
++    {! Sets a file's readonly flag
+        @param Filename is the file to change
+        @param Set determines whether to set or clear the flag }
+     class function SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
+-    {: Deletes the file using the SysUtils.DeleteFile function.
++    {! Deletes the file using the SysUtils.DeleteFile function.
+        @param(Filename is a string containing the name of the file)
+        @param(RaiseException is a boolean which controls whether the function
+               retrieves the Windows error and raises an exception
+@@ -355,7 +355,7 @@
+               readonly attribut and try to delete the file again.)
+        @returns(true, if the file could be deleted, false otherwise.) }
+     class function DeleteFile(const _Filename: string; _RaiseException: boolean = true; _Force: boolean = false): boolean;
+-    {: Deletes all files in a directory matching a given filemask (non-recursive)
++    {! Deletes all files in a directory matching a given filemask (non-recursive)
+        @param Dir is a string containting the directory in which the files are to be
+                   deleted, must NOT be empty
+        @param Mask is a string containting the file search mask, all files matching
+@@ -370,7 +370,7 @@
+        @returns the number of files that could not be deleted. }
+     class function DeleteMatchingFiles(const _Dir, _Mask: string;
+       _RaiseException: boolean = true; _Force: boolean = false): integer;
+-    {: tries to find a matching file
++    {! tries to find a matching file
+        @param Mask is the filename mask to match
+        @param Filename is the name of the file which has been found, only valid if result &lt;&gt; mfNotFound
+        @returns mfNotFound, if no file was found, or mfDirectory, mfFile or mfSpecial
+@@ -378,40 +378,40 @@
+     class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
+     class function RemoveDir(const _Dirname: string; _RaiseException: boolean = true;
+       _Force: boolean = false): boolean;
+-    {: Deletes a directory with all files and subdirectories.
++    {! Deletes a directory with all files and subdirectories.
+        @param(Dirname is the name of the directory to delete)
+        @param(Force specifies whether it should also delete readonly files) }
+     class function DelTree(const _Dirname: string; _Force: boolean = false; _RaiseException: boolean = true): boolean;
+-    {: reads a text file and returns its content as a string
++    {! reads a text file and returns its content as a string
+        @param Filename is the name of the file to read
+        @returns the file's content as a string }
+     class function ReadTextFile(const _Filename: string): string;
+ 
+-    {: checks whether the given string is a valid filename (without path), that is
++    {! checks whether the given string is a valid filename (without path), that is
+        does not contain one of the characters defined in INVALID_FILENAME_CHARS
+        @param s is the string to check
+        @returns true, if the string is a valid filename, false otherwise }
+     class function IsValidFilename(const _s: string): boolean; overload;
+-    {: checks whether the given string is a valid filename (without path), that is
++    {! checks whether the given string is a valid filename (without path), that is
+        does not contain one of the characters defined in INVALID_FILENAME_CHARS and
+        returns the first error position.
+        @param s is the string to check
+        @param ErrPos is the first error position, only valid it result = false
+        @returns true, if the string is a valid filename, false otherwise }
+     class function IsValidFilename(const _s: string; out _ErrPos: integer): boolean; overload;
+-    {: creates a backup of the file appending the current date and time to the base
++    {! creates a backup of the file appending the current date and time to the base
+        file name.
+        @param Filename is the name of the file to back up
+        @param BackupDir is a directory in which to create the backup file, if empty
+                         the same directory as the original file is used }
+     class procedure BackupFile(const _Filename: string; _BackupDir: string = '');
+     class function GetFileInfo(const _Filename: string): TFileInfoRec;
+-    {: Returns the free space (in bytes) on the disk with the given drive letter }
++    {! Returns the free space (in bytes) on the disk with the given drive letter }
+     class function DiskFree(_DriveLetter: char): Int64;
+   end;
+ 
+ type
+-  {: callback event for generating a filename for the given generation }
++  {! callback event for generating a filename for the given generation }
+   TOnGenerateFilename = procedure(_Sender: TObject; _Generation: integer; var _Filename: string) of object;
+ type
+   TFileGenerationHandler = class
+@@ -425,28 +425,28 @@
+     FPrependZeros: integer;
+     function GenerateFilename(_Generation: integer): string;
+   public
+-    {: @param BaseName is the base filename to which by default _&lt;n&gt; followed by
++    {! @param BaseName is the base filename to which by default _&lt;n&gt; followed by
+                        the Suffix will be appended
+        @param Suffix is the suffix for the filename, usually an extension which
+                      must include the dot (.) }
+     constructor Create(const _BaseName, _Suffix: string);
+-    {: generates the filename and returns it }
++    {! generates the filename and returns it }
+     function Execute(_KeepOriginal: boolean): string;
+-    {: the maximum of file generations that should be kept }
++    {! the maximum of file generations that should be kept }
+     property MaxGenerations: integer read FMaxGenerations write FMaxGenerations default 5;
+-    {: should the resulting filename contain a number? }
++    {! should the resulting filename contain a number? }
+     property ResultContainsNumber: boolean read FResultContainsNumber write FResultContainsNumber default false;
+-    {: does the oldest file have the highest number? }
++    {! does the oldest file have the highest number? }
+     property OldestIsHighest: boolean read FOldestIsHighest write FOldestIsHighest default true;
+     property PrependZeros: integer read FPrependZeros write FPrependZeros default 0;
+-    {: allows read access to the file's base name as passed to the constructor }
++    {! allows read access to the file's base name as passed to the constructor }
+     property BaseName: string read FBaseName;
+     property Suffix: string read FSuffix;
+-    {: callback event for generating a filename for the given generation }
++    {! callback event for generating a filename for the given generation }
+     property OnGenerateFilename: TOnGenerateFilename read FOnGenerateFilename write FOnGenerateFilename;
+   end;
+ 
+-{: This is an abbreviation for IncludeTrailingPathDelimiter }
++{! This is an abbreviation for IncludeTrailingPathDelimiter }
+ function itpd(const _Dirname: string): string; inline;
+ 
+ implementation
+
+Modified: utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2007-11-03 10:45:06 UTC (rev 247)
++++ utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2007-11-15 09:53:50 UTC (rev 248)
+@@ -57,47 +57,47 @@
+ 
+ {: Emulates this infamous Visual Basic function of which nobody actually knows
+    what it does.}
+-
+ function TwipsPerPixelX(_Handle: hdc): Extended;
+ 
+ {: Emulates this infamous Visual Basic function of which nobody actually knows
+    what it does.}
+-
+ function TwipsPerPixelY(_Handle: hdc): Extended;
+ 
+ {: Returns the name for the HKey constant. }
+-
+ function HKeyToString(_HKey: HKey): string;
+ 
+ {: Returns the name for the TRegDataType Value. }
+-
+ function RegDataTypeToString(_DataType: TRegDataType): string;
+ 
+ {: returns a hex dump of the buffer (no spaces added)
+    @param(Buffer is the memory block to dump)
+    @param(Len is the length of the block)
+    @returns(a string containing the hex dump of the buffer) }
+-
+ function HexDump(const _Buffer; _Len: integer): string;
+ 
++{: hex dumps a double value }
++function HexDumpDouble(const _dbl: Double): string;
++
++{: hex dumps an extended value }
++function HexDumpExtended(const _ext: Extended): string;
++
+ {: returns a hex dump of the zero terminated string s }
+-
+ function HexDumpString(const _s: string): string;
+ 
+ {: converts a hexdump of a double back to a double value }
+-
+ procedure HexDumpToDbl(const _s: string; var _Value: double);
+ 
++{: converts a hexdump of an extended back to an extended value }
++procedure HexDumpToExtended(const _s: string; var _Value: Extended);
++
+ {: Converts an integer to a boolean.
+    @param(Int is the integer to convert)
+    @returns(false, if the integer is 0, true otherwise) }
+-
+ function IntToBool(_Int: integer): boolean;
+ 
+ {: Converts a boolean to an integer.
+    @param(B is the boolean to convert)
+    @returns(0 if the boolean is false, 1 if it is true) }
+-
+ function BoolToInt(_B: boolean): integer;
+ 
+ // Variant to other type conversion functions
+@@ -114,7 +114,6 @@
+    @param(Value is the variants integer value, only valid if the function
+           returns true.)
+    @returns(true, if the variant could be converted to integer, false if not.) }
+-
+ function Var2IntConditional(const _v: variant; out _Value: integer): boolean;
+ 
+ {: Converts a variant to an integer.
+@@ -122,7 +121,6 @@
+    @param(v Variant value to convert)
+    @param(Default Value to return if v is empty or null)
+    @returns(the integer value of v or the Default if v can not be converted) }
+-
+ function Var2Int(const _v: variant; _Default: integer): integer;
+ 
+ {: Converts a variant to an integer.
+@@ -133,7 +131,6 @@
+    @raises(EVarIsNull if v is null)
+    @raises(EVarIsEmpty if v is empty)
+    @raises(EVariantConvertError if there is some other conversion error) }
+-
+ function Var2IntEx(const _v: variant; const _Source: string): integer;
+ 
+ {: Converts a variant to the string representation of an integer.
+@@ -142,7 +139,6 @@
+    @param(NullValue String value to return if v is empty or null)
+    @returns(the string representation of the integer value of v or the
+             NullValue if v can not be converted) }
+-
+ function Var2IntStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ 
+ {: Converts a variant to a double.
+@@ -151,7 +147,6 @@
+    @param(Value is the variant's double value, only valid if the function
+                 returns true.)
+    @returns(true, if the varian could be converted to double, false if not) }
+-
+ function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
+ function Var2DblConditional(const _v: variant; out _Value: double): boolean; deprecated; // use TryVar2Dbl
+ 
+@@ -160,7 +155,6 @@
+    @param(v Variant value to convert)
+    @param(Default Value to return if v is empty or null)
+    @returns(the double value of v or the Default if v can not be converted) }
+-
+ function Var2Dbl(const _v: variant; const _Default: double): double;
+ 
+ {: Converts a variant to a double.
+@@ -171,7 +165,6 @@
+    @raises(EVarIsNull if v is null)
+    @raises(EVarIsEmpty if v is empty)
+    @raises(EVariantConvertError if there is some other conversion error) }
+-
+ function Var2DblEx(const _v: variant; const _Source: string): double;
+ 
+ {: Converts a variant to the string representation of a double.
+@@ -181,7 +174,6 @@
+    @param(NullValue String value to return if v is empty or null)
+    @returns(the string representation of the double value of v or the
+             NullValue if v can not be converted) }
+-
+ function Var2DblStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ 
+ {: Converts a variant to a TDateTime.
+@@ -192,14 +184,12 @@
+    @raises(EVarIsNull if v is null)
+    @raises(EVarIsEmpty if v is empty)
+    @raises(EVariantConvertError if there is some other conversion error) }
+-
+ function Var2DateTimeEx(const _v: variant; const _Source: string): TDateTime;
+ 
+ {: Converts a variant to an ISO format DateTime string (yyyy-mm-dd hh:mm:ss)
+    @param(v Variant value to convert)
+    @param(NullValue String value to return if v is empty or null)
+    @returns(an ISO format DateTime string of v or NullValue if v can not be converted) }
+-
+ function Var2DateTimeStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ 
+ {: Converts a variant to a string.
+@@ -207,7 +197,6 @@
+    @param(v Variant value to convert)
+    @param(Default Value to return if v is empty or null)
+    @returns(the string value of v or the Default if v can not be converted) }
+-
+ function Var2Str(const _v: variant; const _Default: string = '*NULL*'): string;
+ 
+ {: Converts a variant to a string.
+@@ -218,7 +207,6 @@
+    @raises(EVarIsNull if v is null)
+    @raises(EVarIsEmpty if v is empty)
+    @raises(EVariantConvertError if there is some other conversion error) }
+-
+ function Var2StrEx(_v: variant; const _Source: string): string;
+ 
+ {: Uses GetLastError to get the last WinAPI error code, then
+@@ -775,23 +763,49 @@
+   end;
+ end;
+ 
++function HexDumpDouble(const _dbl: Double): string;
++begin
++  Result := HexDump(_dbl, SizeOf(Double));
++end;
++
++function HexDumpExtended(const _ext: Extended): string;
++begin
++  Result := HexDump(_Ext, SizeOf(Extended));
++end;
++
+ procedure HexDumpToDbl(const _s: string; var _Value: double);
+ type
+-  TDblMem = array[0..SizeOf(double)] of byte;
++  TBuffer = array[0..SizeOf(_Value)] of byte;
+ var
+   i: integer;
+   dec: LongWord;
+-  p: ^TDblMem;
++  p: ^TBuffer;
+ begin
+-  Assert(Length(_s) = SizeOf(double) * 2);
++  Assert(Length(_s) = SizeOf(_Value) * 2);
+   p := @_Value;
+-  for i := 0 to SizeOf(Double) - 1 do begin
++  for i := 0 to SizeOf(_Value) - 1 do begin
+     Dec := Hex2Long(Copy(_s, i * 2 + 1, 2));
+     p^[i] := Dec;
+   end;
+ end;
+ 
++procedure HexDumpToExtended(const _s: string; var _Value: Extended);
+ type
++  TBuffer = array[0..SizeOf(_Value)] of byte;
++var
++  i: integer;
++  dec: LongWord;
++  p: ^TBuffer;
++begin
++  Assert(Length(_s) = SizeOf(_Value) * 2);
++  p := @_Value;
++  for i := 0 to SizeOf(_Value) - 1 do begin
++    Dec := Hex2Long(Copy(_s, i * 2 + 1, 2));
++    p^[i] := Dec;
++  end;
++end;
++
++type
+   PStringDescriptor = ^TStringDescriptor;
+   TStringDescriptor = record
+     RefCount: integer;
+
+Modified: utilities/dzLib/trunk/src/u_dzNamedThread.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNamedThread.pas	2007-11-03 10:45:06 UTC (rev 247)
++++ utilities/dzLib/trunk/src/u_dzNamedThread.pas	2007-11-15 09:53:50 UTC (rev 248)
+@@ -16,10 +16,10 @@
+ type
+   {: This record must be filled to set the name of a thread }
+   TThreadNameInfo = record
+-    FType: LongWord;     // must be 0x1000
+-    FName: PChar;        // pointer to name (in user address space)
++    FType: LongWord; // must be 0x1000
++    FName: PChar; // pointer to name (in user address space)
+     FThreadID: LongWord; // thread ID (-1 indicates caller thread)
+-    FFlags: LongWord;    // reserved for future use, must be zero
++    FFlags: LongWord; // reserved for future use, must be zero
+   end;
+ 
+ {: Set the name for the current thread to
+@@ -31,11 +31,13 @@
+      inherited Execute in descendants! }
+   TNamedThread = class(TThread)
+   protected
++    FThreadName: string;
+     {: Calls SetThreadName with the given name or the class name if empty
+        @param Name is the name to use, if empty, the class name will be used }
+-    procedure SetName(_Name: string = ''); virtual;
++    procedure SetName(const _Name: string = ''); virtual;
+     {: Calls SetName }
+     procedure Execute; override;
++    function GetThreadName: string;
+   end;
+ 
+ implementation
+@@ -44,12 +46,12 @@
+ var
+   ThreadNameInfo: TThreadNameInfo;
+ begin
+-  ThreadNameInfo.FType:= $1000;
+-  ThreadNameInfo.FName:= PChar(_Name);
+-  ThreadNameInfo.FThreadID:= $FFFFFFFF;
+-  ThreadNameInfo.FFlags:= 0;
++  ThreadNameInfo.FType := $1000;
++  ThreadNameInfo.FName := PChar(_Name);
++  ThreadNameInfo.FThreadID := $FFFFFFFF;
++  ThreadNameInfo.FFlags := 0;
+   try
+-    RaiseException($406D1388, 0, SizeOf(ThreadNameInfo) div SizeOf(LongWord), @ThreadNameInfo );
++    RaiseException($406D1388, 0, SizeOf(ThreadNameInfo) div SizeOf(LongWord), @ThreadNameInfo);
+   except
+     // ignore
+   end;
+@@ -62,11 +64,18 @@
+   SetName();
+ end;
+ 
+-procedure TNamedThread.SetName(_Name: string = '');
++function TNamedThread.GetThreadName: string;
+ begin
++  Result := FThreadName;
++end;
++
++procedure TNamedThread.SetName(const _Name: string = '');
++begin
+   if _Name = '' then
+-    _Name := ClassName;
+-  SetThreadName(_Name);
++    FThreadName := ClassName
++  else
++    FThreadName := _Name;
++  SetThreadName(FThreadName);
+ end;
+ 
+ initialization
+
+Added: utilities/dzLib/trunk/src/u_dzRingBuffer.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzRingBuffer.pas	2007-11-03 10:45:06 UTC (rev 247)
++++ utilities/dzLib/trunk/src/u_dzRingBuffer.pas	2007-11-15 09:53:50 UTC (rev 248)
+@@ -0,0 +1,468 @@
++unit u_dzRingBuffer;
++
++{$I globaldef.inc}
++
++interface
++
++uses
++  Windows;
++
++type
++  EdzRingBuffer = class(Exception);
++  EBufferFull = class(EdzRingBuffer);
++  EBufferEmpty = class(EdzRingBuffer);
++  EIndexOutOfBounds = class(EdzRingBuffer);
++
++type
++  TdzCustomRingBuffer = class
++  protected
++    {: size of one element stored in this buffer }
++    fElementSize: integer;
++    {: length of the buffer }
++    fLength: integer;
++    {: pointer to a memory block that stores the buffer }
++    fBuffer: PByte;
++    {: position of the first element stored in the buffer,
++       if fFirstUsed = fFirstFree the buffer is empty }
++    fFirstUsed: integer;
++    {: position of the next element bo be stored in the buffer
++       if fFirstUsed = fFirstFree the buffer is empty }
++    fFirstFree: integer;
++    {: number of elements stored in the buffer }
++    fElementCount: integer;
++    {: is called by the destructor to do any finalization that might be
++       necessary for the elements stored in the buffer. Does nothing here. }
++    procedure FinalizeElements; virtual;
++    {: inserts the given Element in front of the buffer }
++    procedure InsertFront(const _Element); virtual;
++    {: inserts the given Element at the end of the buffer }
++    procedure InsertEnd(const _Element); virtual;
++    {: extracts the first Element from the buffer }
++    procedure ExtractFront(var _Element); virtual;
++    {: extracts the last Element from the buffer }
++    procedure ExtractEnd(var _Element); virtual;
++    {: gets the Element with the index Idx }
++    procedure GetElement(_Idx: integer; var _Element); virtual;
++    {: sets the Element with the index Idx, note: No finalization is done
++       for the element previously stored at Idx. }
++    procedure SetElement(_Idx: integer; const _Element); virtual;
++    {: gets the first Element from the buffer }
++    procedure GetFirst(var _Element); virtual;
++    {: gets the last Element from the buffer }
++    procedure GetLast(var _Element); virtual;
++    {: checks whether there is enough space for another element in the buffer }
++    procedure CheckFull; virtual;
++    {: checks whether there are any elements in the buffer }
++    procedure CheckEmpty; virtual;
++    {: returns true, if the buffer is full }
++    function IsFull: boolean; virtual;
++    {: returns true, if the buffer is empty }
++    function IsEmpty: boolean; virtual;
++    {: returns the number of elements stored in the buffer }
++    function GetCount: integer; virtual;
++    {: deletes all elements from the buffer }
++    procedure Clear; virtual;
++  public
++    {: creates a ringbuffer with enough space to store Length elements of
++       ElementSize bytes size }
++    constructor Create(_ElementSize: integer; _Length: integer);
++    {: calls FinalizeElements and frees the memory allocated for the buffer }
++    destructor Destroy; override;
++  end;
++
++type
++  {: publishes all methods of TdzCustomRingBuffer }
++  TdzRingBuffer = class(TdzCustomRingbuffer)
++  public
++    {: inserts the given Element in front of the buffer }
++    procedure InsertFront(const _Element); override;
++    {: inserts the given Element at the end of the buffer }
++    procedure InsertEnd(const _Element); override;
++    {: extracts the first Element from the buffer }
++    procedure ExtractFront(var _Element); override;
++    {: extracts the last Element from the buffer }
++    procedure ExtractEnd(var _Element); override;
++    {: gets the Element with the index Idx }
++    procedure GetElement(_Idx: integer; var _Element); override;
++    {: sets the Element with the index Idx, note: No finalization is done
++       for the element previously stored at Idx. }
++    procedure SetElement(_Idx: integer; const _Element); override;
++    {: gets the first Element from the buffer }
++    procedure GetFirst(var _Element); override;
++    {: gets the last Element from the buffer }
++    procedure GetLast(var _Element); override;
++    {: checks whether there is enough space for another element in the buffer }
++    procedure CheckFull; override;
++    {: checks whether there are any elements in the buffer }
++    procedure CheckEmpty; override;
++    {: returns true, if the buffer is full }
++    function IsFull: boolean; override;
++    {: returns true, if the buffer is empty }
++    function IsEmpty: boolean; override;
++    {: returns the number of elements stored in the buffer }
++    function GetCount: integer; override;
++    {: deletes all elements from the buffer }
++    procedure Clear; override;
++  end;
++
++type
++  {: makes only those methods public that are useful for a stack }
++  TdzRingStack = class(TdzCustomRingbuffer)
++  public
++    {: inserts the given Element at the end of the buffer }
++    procedure InsertEnd(const _Element); override;
++    {: extracts the last Element from the buffer }
++    procedure ExtractEnd(var _Element); override;
++    {: gets the Element with the index Idx }
++    procedure GetElement(_Idx: integer; var _Element); override;
++    {: sets the Element with the index Idx, note: No finalization is done
++       for the element previously stored at Idx. }
++    procedure SetElement(_Idx: integer; const _Element); override;
++    {: gets the last Element from the buffer }
++    procedure GetLast(var _Element); override;
++    {: returns true, if the buffer is full }
++    function IsFull: boolean; override;
++    {: returns true, if the buffer is empty }
++    function IsEmpty: boolean; override;
++    {: returns the number of elements stored in the buffer }
++    function GetCount: integer; override;
++    {: deletes all elements from the buffer }
++    procedure Clear; override;
++  end;
++
++type
++  {: makes only those methods public that are usefull for a queue }
++  TdzRingQueue = class(TdzCustomRingbuffer)
++    {: inserts the given Element at the end of the buffer }
++    procedure InsertEnd(const _Element); override;
++    {: extracts the first Element from the buffer }
++    procedure ExtractFront(var _Element); override;
++    {: gets the Element with the index Idx }
++    procedure GetElement(_Idx: integer; var _Element); override;
++    {: sets the Element with the index Idx, note: No finalization is done
++       for the element previously stored at Idx. }
++    procedure SetElement(_Idx: integer; const _Element); override;
++    {: gets the first Element from the buffer }
++    procedure GetFirst(var _Element); override;
++    {: returns true, if the buffer is full }
++    function IsFull: boolean; override;
++    {: returns true, if the buffer is empty }
++    function IsEmpty: boolean; override;
++    {: returns the number of elements stored in the buffer }
++    function GetCount: integer; override;
++    {: deletes all elements from the buffer }
++    procedure Clear; override;
++  end;
++
++implementation
++
++{ TdzCustomRingBuffer }
++
++constructor TdzCustomRingBuffer.Create(_ElementSize, _Length: integer);
++begin
++  inherited Create;
++  fLength := _Length;
++  fElementSize := _ElementSize;
++  fFirstUsed := 0;
++  fFirstFree := 0;
++  GetMem(fBuffer, fLength * fElementSize);
++end;
++
++destructor TdzCustomRingBuffer.Destroy;
++begin
++  if Assigned(fBuffer) and (fLength &gt; 0) then
++    begin
++      FinalizeElements;
++      FreeMem(fBuffer);
++    end;
++  inherited;
++end;
++
++procedure TdzCustomRingBuffer.FinalizeElements;
++begin
++  // does nothing, override if elements need finalization
++end;
++
++procedure TdzCustomRingBuffer.InsertFront(const _Element);
++var
++  p: PByte;
++begin
++  CheckFull;
++  fFirstUsed := (fFirstUsed - 1) mod fLength;
++  p := fBuffer;
++  Inc(p, fFirstUsed * fElementSize);
++  Move(_Element, p^, fElementSize);
++  Inc(fElementCount);
++end;
++
++procedure TdzCustomRingBuffer.InsertEnd(const _Element);
++var
++  p: PByte;
++begin
++  CheckFull;
++  p := fBuffer;
++  Inc(p, fFirstFree * fElementSize);
++  Move(_Element, p^, fElementSize);
++  fFirstFree := (fFirstFree + 1) mod fLength;
++  Inc(fElementCount);
++end;
++
++procedure TdzCustomRingBuffer.ExtractFront(var _Element);
++var
++  p: PByte;
++begin
++  CheckEmpty;
++  p := fBuffer;
++  Inc(p, fFirstUsed * fElementSize);
++  Move(p^, _Element, fElementSize);
++  fFirstUsed := (fFirstUsed + 1) mod fLength;
++  Dec(fElementCount);
++end;
++
++procedure TdzCustomRingBuffer.ExtractEnd(var _Element);
++var
++  p: PByte;
++begin
++  CheckEmpty;
++  fFirstFree := (fFirstFree - 1) mod fLength;
++  p := fBuffer;
++  Inc(p, fFirstFree * fElementSize);
++  Move(p^, _Element, fElementSize);
++  Dec(fElementCount);
++end;
++
++procedure TdzCustomRingBuffer.GetElement(_Idx: integer; var _Element);
++var
++  p: PByte;
++begin
++  if (fFirstUsed + _Idx) mod fLength &gt;= fFirstFree then
++    raise EIndexOutOfBounds.CreateFmt('Index %d out of bounds.', [_Idx]);
++  p := fBuffer;
++  Inc(p, (fFirstUsed + _Idx) * fElementSize);
++  Move(p^, _Element, fElementSize);
++end;
++
++procedure TdzCustomRingBuffer.SetElement(_Idx: integer; const _Element);
++var
++  p: PByte;
++begin
++  if (fFirstUsed + _Idx) mod fLength &gt;= fFirstFree then
++    raise EIndexOutOfBounds.CreateFmt('Index %d out of bounds.', [_Idx]);
++  p := fBuffer;
++  Inc(p, (fFirstUsed + _Idx) * fElementSize);
++  Move(_Element, p^, fElementSize);
++end;
++
++procedure TdzCustomRingBuffer.GetFirst(var _Element);
++begin
++  GetElement(0, _Element);
++end;
++
++procedure TdzCustomRingBuffer.GetLast(var _Element);
++begin
++  GetElement(GetCount - 1, _Element);
++end;
++
++function TdzCustomRingBuffer.IsFull: boolean;
++begin
++  Result := fElementCount &gt;= fLength;
++end;
++
++procedure TdzCustomRingBuffer.CheckFull;
++begin
++  if IsFull then
++    raise EBufferFull.Create('Buffer is full');
++end;
++
++function TdzCustomRingBuffer.IsEmpty: boolean;
++begin
++  Result := fElementCount = 0;
++end;
++
++procedure TdzCustomRingBuffer.CheckEmpty;
++begin
++  if IsEmpty then
++    raise EBufferEmpty.Create('Buffer is empty');
++end;
++
++function TdzCustomRingBuffer.GetCount: integer;
++begin
++  Result := fElementCount;
++end;
++
++procedure TdzCustomRingBuffer.Clear;
++begin
++  FinalizeElements;
++  fFirstUsed := 0;
++  fFirstFree := 0;
++  fElementCount := 0;
++end;
++
++{ TdzRingBuffer }
++
++procedure TdzRingBuffer.CheckEmpty;
++begin
++  inherited;
++end;
++
++procedure TdzRingBuffer.CheckFull;
++begin
++  inherited;
++end;
++
++procedure TdzRingBuffer.Clear;
++begin
++  inherited;
++end;
++
++procedure TdzRingBuffer.ExtractEnd(var _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingBuffer.ExtractFront(var _Element);
++begin
++  inherited;
++end;
++
++function TdzRingBuffer.GetCount: integer;
++begin
++  Result := inherited GetCount;
++end;
++
++procedure TdzRingBuffer.GetElement(_Idx: integer; var _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingBuffer.GetFirst(var _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingBuffer.GetLast(var _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingBuffer.InsertEnd(const _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingBuffer.InsertFront(const _Element);
++begin
++  inherited;
++end;
++
++function TdzRingBuffer.IsEmpty: boolean;
++begin
++  Result := inherited IsEmpty;
++end;
++
++function TdzRingBuffer.IsFull: boolean;
++begin
++  Result := inherited IsFull;
++end;
++
++procedure TdzRingBuffer.SetElement(_Idx: integer; const _Element);
++begin
++  inherited;
++end;
++
++{ TdzRingStack }
++
++procedure TdzRingStack.Clear;
++begin
++  inherited;
++end;
++
++procedure TdzRingStack.ExtractEnd(var _Element);
++begin
++  inherited;
++end;
++
++function TdzRingStack.GetCount: integer;
++begin
++  Result := inherited GetCount;
++end;
++
++procedure TdzRingStack.GetElement(_Idx: integer; var _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingStack.GetLast(var _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingStack.InsertEnd(const _Element);
++begin
++  inherited;
++end;
++
++function TdzRingStack.IsEmpty: boolean;
++begin
++  Result := inherited IsEmpty;
++end;
++
++function TdzRingStack.IsFull: boolean;
++begin
++  Result := inherited IsFull;
++end;
++
++procedure TdzRingStack.SetElement(_Idx: integer; const _Element);
++begin
++  inherited;
++end;
++
++{ TdzRingQueue }
++
++procedure TdzRingQueue.Clear;
++begin
++  inherited;
++end;
++
++procedure TdzRingQueue.ExtractFront(var _Element);
++begin
++  inherited;
++end;
++
++function TdzRingQueue.GetCount: integer;
++begin
++  Result := inherited GetCount;
++end;
++
++procedure TdzRingQueue.GetElement(_Idx: integer; var _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingQueue.GetFirst(var _Element);
++begin
++  inherited;
++end;
++
++procedure TdzRingQueue.InsertEnd(const _Element);
++begin
++  inherited;
++end;
++
++function TdzRingQueue.IsEmpty: boolean;
++begin
++  Result := inherited IsEmpty;
++end;
++
++function TdzRingQueue.IsFull: boolean;
++begin
++  Result := inherited IsFull;
++end;
++
++procedure TdzRingQueue.SetElement(_Idx: integer; const _Element);
++begin
++  inherited;
++end;
++
++end.
++
+
+Modified: utilities/dzLib/trunk/src/u_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringUtils.pas	2007-11-03 10:45:06 UTC (rev 247)
++++ utilities/dzLib/trunk/src/u_dzStringUtils.pas	2007-11-15 09:53:50 UTC (rev 248)
+@@ -255,6 +255,40 @@
+ function GetUserDefaultLocaleSettings: TFormatSettings;
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ 
++type
++  {: Helper class for building a text line }
++  TLineBuilder = class
++  private
++    FSeparator: string;
++    FContent: string;
++  public
++    {: Creates a TLineBuilder instance with the given separator
++       @param Separator is the separator string to use, defaults to TAB (#9) }
++    constructor Create(const _Separator: string = #9);
++    {: Assigns the contents of another TLineBuilder instance }
++    procedure Assign(_Source: TLineBuilder);
++    {: Adds a string column }
++    procedure Add(const _Column: string); overload;
++    {: Adds an integer value column }
++    procedure Add(_IntValue: integer); overload;
++    {: Adds a floating point value column with the given number of decimals }
++    procedure Add(_FloatValue: extended; _Decimals: integer); overload;
++    {: Adds a column with a time in hh:mm:ss format }
++    procedure Add(_Hours, _Minutes, _Seconds: integer); overload;
++    {: Adds a boolean column, with 'Y' for true and 'N' for false }
++    procedure Add(_b: Boolean); overload;
++    {: Clears the line }
++    procedure Clear;
++    {: Appends the contents of the given line }
++    procedure Append(_Line: TLineBuilder);
++    {: Prepends the contents of the given line }
++    procedure Prepend(_Line: TLineBuilder);
++    {: Extracts the first column from the line, returns false when empty }
++    function ExtractFirst(out _Column: string): boolean;
++    {: allows read access to the content that has been built }
++    property Content: string read FContent;
++  end;
++
+ implementation
+ 
+ uses
+@@ -952,5 +986,96 @@
+   GetLocaleFormatSettings(GetUserDefaultLCID, Result);
+ end;
+ 
++{ TLineBuilder }
++
++constructor TLineBuilder.Create(const _Separator: string);
++begin
++  inherited Create;
++  FSeparator := _Separator;
++end;
++
++procedure TLineBuilder.Add(_IntValue: integer);
++begin
++  Add(IntToStr(_IntValue));
++end;
++
++procedure TLineBuilder.Add(_FloatValue: extended; _Decimals: integer);
++begin
++  Add(Float2Str(_FloatValue, _Decimals));
++end;
++
++procedure TLineBuilder.Add(const _Column: string);
++begin
++  if FContent &lt;&gt; '' then
++    FContent := FContent + FSeparator;
++  FContent := FContent + _Column;
++end;
++
++procedure TLineBuilder.Add(_Hours, _Minutes, _Seconds: integer);
++
++  function ZeroPadLeft(_Value: Integer; _Len: Integer): string;
++  begin
++    Str(_Value, Result);
++    while Length(Result) &lt; _Len do
++      Result := '0' + Result;
++  end;
++
++begin
++  Add(ZeroPadLeft(_Hours, 2) + ':' + ZeroPadLeft(_Minutes, 2) + ':' + ZeroPadLeft(_Seconds, 2));
++end;
++
++procedure TLineBuilder.Add(_b: Boolean);
++begin
++  Add(IfThen(_B, 'Y', 'N'));
++end;
++
++procedure TLineBuilder.Append(_Line: TLineBuilder);
++var
++  s: string;
++begin
++  s := _Line.Content;
++  if s = '' then
++    exit;
++  if FContent &lt;&gt; '' then
++    FContent := FContent + FSeparator + s
++  else
++    FContent := s;
++end;
++
++procedure TLineBuilder.Assign(_Source: TLineBuilder);
++begin
++  FContent := _Source.Content;
++end;
++
++procedure TLineBuilder.Clear;
++begin
++  FContent := '';
++end;
++
++function TLineBuilder.ExtractFirst(out _Column: string): boolean;
++var
++  p: Integer;
++begin
++  p := Pos(FSeparator, FContent);
++  Result := p &lt;&gt; 0;
++  if Result then begin
++    _Column := LeftStr(FContent, p - 1);
++    FContent := Copy(FContent, p + 1);
++  end;
++end;
++
++procedure TLineBuilder.Prepend(_Line: TLineBuilder);
++var
++  s: string;
++begin
++  s := _Line.Content;
++  if s = '' then
++    exit;
++  if FContent &lt;&gt; '' then
++    FContent := s + FSeparator + FContent
++  else
++    FContent := s;
++end;
++
+ end.
+ 
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-11-03 10:45:06 UTC (rev 247)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-11-15 09:53:50 UTC (rev 248)
+@@ -90,6 +90,19 @@
+ {: sets the row count to FixedRows + 1 and clears all non-fixed cells }
+ procedure TStringGrid_Clear(_Grid: TStringGrid);
+ 
++function TStringGrid_AddColumn(_Grid: TStringGrid; const _Caption: string): integer;
++
++{: exports the contents of the string grid to a tab separated text file
++   @param Grid is the string grid to export
++   @param Filename is the name of the text file to create }
++procedure TStringGrid_ExportToFile(_Grid: TStringGrid; const _Filename: string);
++
++{: scrolls up the lines of a string grid
++   @param Grid is the TStringGrid to scroll
++   @param Top is the topmost row to scroll, if passed as -1 defaults to the first non-fixed row
++   @param Bottom is the bottommost row to scroll, if passed as -1 defaults to RowCount-1 }
++procedure TStringGrid_ScrollUp(_Grid: TStringGrid; _Top: integer = -1; _Bottom: integer = -1);
++
+ {: sets the row count, taking the fixed rows into account }
+ procedure TStringGrid_SetRowCount(_Grid: TStringGrid; _RowCount: integer);
+ 
+@@ -399,6 +412,67 @@
+     _Grid.Cells[c, _Grid.FixedRows] := '';
+ end;
+ 
++function TStringGrid_AddColumn(_Grid: TStringGrid; const _Caption: string): integer;
++var
++  i: Integer;
++begin
++  Result := _Grid.ColCount;
++  for i := _Grid.ColCount - 1 downto 0 do begin
++    if _Grid.Cells[i, 0] = '' then begin
++      Result := i;
++    end;
++  end;
++
++  if Result &gt;= _Grid.ColCount then
++    TStringGrid_SetColCount(_Grid, Result + 1);
++  _Grid.Cells[Result, 0] := _Caption;
++end;
++
++procedure TStringGrid_ExportToFile(_Grid: TStringGrid; const _Filename: string);
++var
++  Line: TLineBuilder;
++  r: Integer;
++  t: Text;
++  c: Integer;
++begin
++  AssignFile(t, _FileName);
++  Rewrite(t);
++  try
++    Line := TLineBuilder.Create;
++    try
++      for r := 0 to _Grid.RowCount - 1 do begin
++        Line.Clear;
++        for c := 0 to _Grid.ColCount - 1 do begin
++          Line.Add(_Grid.Cells[c, r]);
++        end;
++        WriteLn(t, Line.Content);
++      end;
++    finally
++      Line.Free;
++    end;
++  finally
++    CloseFile(t);
++  end;
++end;
++
++procedure TStringGrid_ScrollUp(_Grid: TStringGrid; _Top: integer = -1; _Bottom: integer = -1);
++var
++  r: Integer;
++  c: Integer;
++begin
++  if _Top = -1 then
++    _Top := _Grid.FixedRows;
++  if _Bottom = -1 then
++    _Bottom := _Grid.RowCount - 1;
++  for r := _Top to _Bottom - 1 do begin
++    for c := _Grid.FixedCols to _Grid.ColCount - 1 do
++      _Grid.Cells[c, r] := _Grid.Cells[c, r + 1];
++  end;
++  if _Bottom &gt; _Top then
++    for c := _Grid.FixedCols to _Grid.ColCount - 1 do
++      _Grid.Cells[c, _Bottom] := '';
++end;
++
+ function TStringGrid_DeleteRow(_Grid: TStringGrid; _Row: integer): boolean;
+ var
+   r: integer;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000116.html">[Dzchart-svncheckins] r247 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000118.html">[Dzchart-svncheckins] r249 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#117">[ date ]</a>
+              <a href="thread.html#117">[ thread ]</a>
+              <a href="subject.html#117">[ subject ]</a>
+              <a href="author.html#117">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

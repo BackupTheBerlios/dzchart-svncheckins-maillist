@@ -1,0 +1,2232 @@
+From twm at mail.berlios.de  Tue Mar 25 11:39:55 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 25 Mar 2008 11:39:55 +0100
+Subject: [Dzchart-svncheckins] r275 - in utilities/dzPrepBuild/trunk: dcu src
+Message-ID: <200803251039.m2PAdtQ1029041@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-25 11:39:53 +0100 (Tue, 25 Mar 2008)
+New Revision: 275
+
+Modified:
+   utilities/dzPrepBuild/trunk/dcu/
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas
+Log:
+changed GetDelStr to ExtractStr
+
+
+Property changes on: utilities/dzPrepBuild/trunk/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2008-02-05 08:37:48 UTC (rev 274)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2008-03-25 10:39:53 UTC (rev 275)
+@@ -40,6 +40,8 @@
+ <BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters><Parameters Name="RunParams">--incbuild --readini=src\prepbuild --exec=prep.cmd</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">False</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">2057</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><Excluded_Packages>
+       
+       
++      
++      
+       <Excluded_Packages Name="$(BDS)\bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+       <Excluded_Packages Name="$(BDS)\bin\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+     </Excluded_Packages><Source><Source Name="MainSource">PrepBuild.dpr</Source></Source><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys></Delphi.Personality><ModelSupport>False</ModelSupport></BorlandProject></BorlandProject>
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2008-02-05 08:37:48 UTC (rev 274)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2008-03-25 10:39:53 UTC (rev 275)
+@@ -1,3 +1,3 @@
+ [Version Info]
+-Build=109
++Build=111
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2008-02-05 08:37:48 UTC (rev 274)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2008-03-25 10:39:53 UTC (rev 275)
+@@ -16,12 +16,12 @@
+ [Version Info Keys]
+ CompanyName=dummzeuch.de
+ FileDescription=commandline and IDE prebuild tool
+-FileVersion=1.1.0.109
++FileVersion=1.1.0.111
+ InternalName=PrepBuild
+ LegalCopyright=Copyright 2002-2007 by Thomas Mueller
+ LegalTrademarks=
+ OriginalFilename=PrepBuild.exe
+ ProductName=PrepBuild
+-ProductVersion=2007-11-01
++ProductVersion=2008-03-25
+ Comments=Use at your own risk
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas	2008-02-05 08:37:48 UTC (rev 274)
++++ utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas	2008-03-25 10:39:53 UTC (rev 275)
+@@ -75,7 +75,7 @@
+ 
+ procedure TCentralVersionInfo.GetRedirSectionInfo(_Redir: string; out _Filename, _Section: string);
+ begin
+-  _Filename := GetDelStr(_Redir, ',');
++  _Filename := ExtractStr(_Redir, ',');
+   _Section := _Redir;
+   AdjustFilename(_Filename);
+ end;
+@@ -86,8 +86,8 @@
+   Redir: string;
+ begin
+   Redir := Copy(_RedirString, Length('redirect:') + 1);
+-  _Filename := GetDelStr(Redir, ',');
+-  _Section := GetDelStr(Redir, ',');
++  _Filename := ExtractStr(Redir, ',');
++  _Section := ExtractStr(Redir, ',');
+   _Ident := Redir;
+   AdjustFilename(_Filename);
+ end;
+
+
+
+From twm at mail.berlios.de  Tue Mar 25 11:42:44 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 25 Mar 2008 11:42:44 +0100
+Subject: [Dzchart-svncheckins] r276 - utilities/dzPrepBuild/trunk
+Message-ID: <200803251042.m2PAgif8029843@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-25 11:42:43 +0100 (Tue, 25 Mar 2008)
+New Revision: 276
+
+Modified:
+   utilities/dzPrepBuild/trunk/ReadMe.txt
+Log:
+fixed typo
+
+Modified: utilities/dzPrepBuild/trunk/ReadMe.txt
+===================================================================
+--- utilities/dzPrepBuild/trunk/ReadMe.txt	2008-03-25 10:39:53 UTC (rev 275)
++++ utilities/dzPrepBuild/trunk/ReadMe.txt	2008-03-25 10:42:43 UTC (rev 276)
+@@ -14,7 +14,7 @@
+ If you call the programm with the --help or -? option, it will display
+ usage information.
+ 
+-EXample 1:
++Example 1:
+ 
+ Let's assume you are using Delphi 7, so you probably store the version
+ in the <projectname>.dof file and let the IDE autoincrement the build
+@@ -55,7 +55,7 @@
+ PrepBuild to the rescue. It does any of the following for you:
+ 1. Read the .dof file
+ 2. increment the build number
+-3. call a batch file that again call prepbuild to
++3. call a batch file that again calls prepbuild to
+   3.1 change the .dof file
+   3.2 create a .rc file containing the version info
+   3.3 add a .ico file to the .rc file so the icon is back
+
+
+
+From twm at mail.berlios.de  Tue Mar 25 11:46:33 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 25 Mar 2008 11:46:33 +0100
+Subject: [Dzchart-svncheckins] r277 - utilities/dzCmdLineParser/trunk/src
+Message-ID: <200803251046.m2PAkXMN030222@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-25 11:46:32 +0100 (Tue, 25 Mar 2008)
+New Revision: 277
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+Log:
+added ProgName property
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-03-25 10:42:43 UTC (rev 276)
++++ utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-03-25 10:46:32 UTC (rev 277)
+@@ -25,6 +25,8 @@
+      * InitCmdLineParser
+      * doExecute }
+   TDefaultMain = class
++  private
++    function GetProgName: string;
+   protected
+     {: stores the exit code }
+     FExitCode: integer;
+@@ -48,6 +50,7 @@
+        the parameters are OK.
+        @returns the exit code for the program }
+     function doExecute: integer; virtual;
++  published
+   public
+     {: Creates a TDefaultMain instance, sets the exit code to 1 (=error) and
+        initializes logging }
+@@ -62,6 +65,7 @@
+        it uses the result as exit code.
+        @returns the exit code for the program }
+     function Execute: integer;
++    property ProgName: string read GetProgName;
+   end;
+ 
+ type
+@@ -175,6 +179,11 @@
+   Result := FExitCode;
+ end;
+ 
++function TDefaultMain.GetProgName: string;
++begin
++  FGetOpt.ProgName;
++end;
++
+ function Main: integer;
+ var
+   MainObj: TDefaultMain;
+
+
+
+From twm at mail.berlios.de  Tue Mar 25 11:49:00 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 25 Mar 2008 11:49:00 +0100
+Subject: [Dzchart-svncheckins] r278 - utilities/dzCmdLineParser/trunk/src
+Message-ID: <200803251049.m2PAn0FU030622@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-25 11:48:58 +0100 (Tue, 25 Mar 2008)
+New Revision: 278
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+Log:
+bugfix: forgot to assign the GetProgName result :-(
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-03-25 10:46:32 UTC (rev 277)
++++ utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-03-25 10:48:58 UTC (rev 278)
+@@ -181,7 +181,7 @@
+ 
+ function TDefaultMain.GetProgName: string;
+ begin
+-  FGetOpt.ProgName;
++  Result := FGetOpt.ProgName;
+ end;
+ 
+ function Main: integer;
+
+
+
+From twm at mail.berlios.de  Tue Mar 25 12:02:02 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 25 Mar 2008 12:02:02 +0100
+Subject: [Dzchart-svncheckins] r279 - utilities/dzCmdLineParser/trunk/src
+Message-ID: <200803251102.m2PB22dw032764@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-25 12:02:00 +0100 (Tue, 25 Mar 2008)
+New Revision: 279
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+Log:
+* ProgName returns only ParamStr(0) which is not necessarily the full executable name
+* added ExeName that returns the full executable name
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-03-25 10:48:58 UTC (rev 278)
++++ utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-03-25 11:02:00 UTC (rev 279)
+@@ -27,6 +27,7 @@
+   TDefaultMain = class
+   private
+     function GetProgName: string;
++    function GetExeName: string;
+   protected
+     {: stores the exit code }
+     FExitCode: integer;
+@@ -50,7 +51,6 @@
+        the parameters are OK.
+        @returns the exit code for the program }
+     function doExecute: integer; virtual;
+-  published
+   public
+     {: Creates a TDefaultMain instance, sets the exit code to 1 (=error) and
+        initializes logging }
+@@ -66,6 +66,7 @@
+        @returns the exit code for the program }
+     function Execute: integer;
+     property ProgName: string read GetProgName;
++    property ExeName: string read GetExeName;
+   end;
+ 
+ type
+@@ -179,6 +180,16 @@
+   Result := FExitCode;
+ end;
+ 
++function TDefaultMain.GetExeName: string;
++var
++  ModuleName: AnsiString;
++begin
++  SetLength(ModuleName, 255);
++  GetModuleFileNameA(MainInstance, PChar(ModuleName), Length(ModuleName));
++  OemToAnsi(PChar(ModuleName), PChar(ModuleName));
++  Result := Pchar(ModuleName);
++end;
++
+ function TDefaultMain.GetProgName: string;
+ begin
+   Result := FGetOpt.ProgName;
+
+
+
+From twm at mail.berlios.de  Tue Mar 25 12:02:20 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 25 Mar 2008 12:02:20 +0100
+Subject: [Dzchart-svncheckins] r280 - in utilities/dzPrepBuild/trunk: . src
+Message-ID: <200803251102.m2PB2Kb9000077@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-25 12:02:17 +0100 (Tue, 25 Mar 2008)
+New Revision: 280
+
+Modified:
+   utilities/dzPrepBuild/trunk/prep.cmd
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Log:
+now also adds its own executable name to the environment (%dzPrepBuild%)
+
+Modified: utilities/dzPrepBuild/trunk/prep.cmd
+===================================================================
+--- utilities/dzPrepBuild/trunk/prep.cmd	2008-03-25 11:02:00 UTC (rev 279)
++++ utilities/dzPrepBuild/trunk/prep.cmd	2008-03-25 11:02:17 UTC (rev 280)
+@@ -3,6 +3,7 @@
+ echo dzTime=%dzTime%
+ echo dzDateTime=%dzDateTime%
+ echo dzMyDocuments=%dzMyDocuments%
++echo dzPrepBuild=%dzPrepBuild%
+ 
+ echo dzProject=%dzProject%
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2008-03-25 11:02:00 UTC (rev 279)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2008-03-25 11:02:17 UTC (rev 280)
+@@ -1,3 +1,3 @@
+ [Version Info]
+-Build=111
++Build=122
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2008-03-25 11:02:00 UTC (rev 279)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2008-03-25 11:02:17 UTC (rev 280)
+@@ -16,7 +16,7 @@
+ [Version Info Keys]
+ CompanyName=dummzeuch.de
+ FileDescription=commandline and IDE prebuild tool
+-FileVersion=1.1.0.111
++FileVersion=1.1.0.122
+ InternalName=PrepBuild
+ LegalCopyright=Copyright 2002-2007 by Thomas Mueller
+ LegalTrademarks=
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2008-03-25 11:02:00 UTC (rev 279)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2008-03-25 11:02:17 UTC (rev 280)
+@@ -97,6 +97,7 @@
+   DZ_DATE_TIME = 'dzDateTime';
+   DZ_VERSION = 'dzVersion.';
+   DZ_PROJECT = 'dzProject';
++  DZ_PREPBUILD = 'dzPrepBuild';
+ var
+   MyDoc: string;
+   Executor: TExecutor;
+@@ -113,6 +114,7 @@
+     Executor.Environment.Values[DZ_DATE] := DateTimeToString('yyyy-mm-dd', dt);
+     Executor.Environment.Values[DZ_TIME] := DateTimeToString('hh-nn-ss', dt);
+     Executor.Environment.Values[DZ_DATE_TIME] := DateTimeToString('yyyy-mm-dd_hh-nn-ss', dt);
++    Executor.Environment.Values[DZ_PREPBUILD] := ExeName;
+ 
+     if _Project <> '' then
+       Executor.Environment.Values[DZ_PROJECT] := ChangeFileExt(_Project, '');
+
+
+
+From twm at mail.berlios.de  Sun Mar 30 14:14:09 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 30 Mar 2008 14:14:09 +0200
+Subject: [Dzchart-svncheckins] r281 - utilities/dzLib/trunk/src
+Message-ID: <200803301214.m2UCE9jd001449@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-30 14:14:08 +0200 (Sun, 30 Mar 2008)
+New Revision: 281
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+Log:
+* added IncludeSeconds parameter to Time2Iso
+* new functions: TryIso2Time, TryIso2Date, Iso2DateTime, TryIso2DateTime, Date2ddmmyyyy, ddmmyyyy2Date and Tryddmmyyyy2Date
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2008-03-25 11:02:17 UTC (rev 280)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2008-03-30 12:14:08 UTC (rev 281)
+@@ -17,22 +17,35 @@
+ ///          'yyyy-mm-dd hh:mm:ss'
+ /// </summary>
+ function DateTime2Iso(_dt: TDateTime; _IncludeTime: boolean = false): string; inline;
+-function Time2Iso(_dt: TDateTime): string;
++function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true): string; inline;
+ /// <summary>
+ /// converts a string that contains a time in ISO 8601 format to a TDateTime value
+ /// @param s is the string to convert, it must be in the form 'hh:mm:ss' or 'hh:mm'
+ /// @returns a TDateTime value with the time
+ /// </summary>
+ function Iso2Time(_s: string): TDateTime;
+-
++function TryIso2Time(_s: string; out _Time: TDateTime): boolean;
+ /// <summary>
+ /// converts a string that contains a date in ISO 8601 format to a TDateTime value
+ /// @param s is the string to convert, it must be in the form 'yyyy-mm-dd', it must
+ ///          not contain a time
+ /// @returns a TDateTime value with the date
+ /// </summary>
+-function Iso2Date(_s: string): TDateTime;
++function Iso2Date(const _s: string): TDateTime;
++function TryIso2Date(const _s: string; out _Date: TDateTime): boolean;
+ 
++/// <summary>
++/// converts a string that contains a date and time in ISO 8601 format to a TDateTime value
++/// @param s is the string to convert, it must be in the form 'yyyy-mm-dd hh:mm[:ss]'
++/// @returns a TDateTime value with the date
++/// </summary>
++function Iso2DateTime(const _s: string): TDateTime;
++function TryIso2DateTime(const _s: string; out _DateTime: TDateTime): boolean;
++
++function Date2ddmmyyyy(_Date: TDateTime): string;
++function ddmmyyyy2Date(const _s: string): TDateTime;
++function Tryddmmyyyy2Date(const _s: string; out _Date: TDateTime): boolean;
++
+ implementation
+ 
+ uses
+@@ -47,46 +60,103 @@
+     DateTimeToString(Result, 'yyyy-mm-dd', _dt);
+ end;
+ 
+-function Time2Iso(_dt: TDateTime): string;
++function Date2ddmmyyyy(_Date: TDateTime): string;
+ begin
+-  DateTimeToString(Result, 'hh:nn:ss', _dt)
++  DateTimeToString(Result, 'dd.mm.yyyy', _Date);
+ end;
+ 
++function Tryddmmyyyy2Date(const _s: string; out _Date: TDateTime): boolean;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '.';
++  Settings.ShortDateFormat := 'dd.mm.yyyy';
++  Result := TryStrToDate(_s, _Date, Settings); 
++end;
++
++function ddmmyyyy2Date(const _s: string): TDateTime;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '.';
++  Settings.ShortDateFormat := 'dd.mm.yyyy';
++  Result := StrToDate(_s, Settings);
++end;
++
++function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true): string;
++var
++  fmt: string;
++begin
++  fmt := 'hh:nn';
++  if _IncludeSeconds then
++    fmt := fmt + ':ss';
++  DateTimeToString(Result, fmt, _dt);
++end;
++
++function TryIso2Time(_s: string; out _Time: TDateTime): boolean;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.TimeSeparator := ':';
++  Settings.ShortTimeFormat := 'hh:nn:ss';
++  Result := TryStrToTime(_s, _Time, Settings);
++end;
++
+ function Iso2Time(_s: string): TDateTime;
+ var
+-  s: string;
+-  h, m, sec: integer;
++  Settings: TFormatSettings;
+ begin
+-  s := ExtractFirstWord(_s, ':');
+-  h := StrToInt(s);
+-  s := ExtractFirstWord(_s, ':');
+-  m := StrToInt(s);
+-  if _s = '' then
+-    sec := 0
+-  else
+-    sec := StrToInt(_s);
+-  Result := EncodeTime(h, m, sec, 0);
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.TimeSeparator := ':';
++  Settings.ShortTimeFormat := 'hh:nn:ss';
++  Result := StrToTime(_s, Settings);
+ end;
+ 
+-function Iso2Date(_s: string): TDateTime;
++function TryIso2Date(const _s: string; out _Date: TDateTime): boolean;
+ var
+-  s: string;
+-  y, m, d: integer;
++  Settings: TFormatSettings;
+ begin
+-  s := ExtractFirstWord(_s, '-');
+-  y := StrToInt(s);
+-  s := ExtractFirstWord(_s, '-');
+-  m := StrToInt(s);
+-  d := StrToInt(_s);
+-  Result := EncodeDate(y, m, d);
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '-';
++  Settings.ShortDateFormat := 'yyyy-mm-dd';
++  Result := TryStrToDate(_s, _Date, Settings);
+ end;
+ 
+-function Iso2DateTime(_s: string): TDateTime;
++function Iso2Date(const _s: string): TDateTime;
+ var
+-  Date: string;
++  Settings: TFormatSettings;
+ begin
+-  Date := ExtractFirstWord(_s, ' ');
+-  Result := Iso2Date(Date) + Iso2Time(_s)
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '-';
++  Settings.ShortDateFormat := 'yyyy-mm-dd';
++  Result := StrToDate(_s, Settings);
+ end;
+ 
++function TryIso2DateTime(const _s: string; out _DateTime: TDateTime): boolean;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '-';
++  Settings.ShortDateFormat := 'yyyy-mm-dd';
++  Settings.TimeSeparator := ':';
++  Settings.ShortTimeFormat := 'hh:nn:ss';
++  Result := TryStrToDateTime(_s, _DateTime, Settings);
++end;
++
++function Iso2DateTime(const _s: string): TDateTime;
++var
++  Settings: TFormatSettings;
++begin
++  Settings := GetUserDefaultLocaleSettings;
++  Settings.DateSeparator := '-';
++  Settings.ShortDateFormat := 'yyyy-mm-dd';
++  Settings.TimeSeparator := ':';
++  Settings.ShortTimeFormat := 'hh:nn:ss';
++  Result := StrToDateTime(_s, Settings);
++end;
++
+ end.
+
+
+
+From twm at mail.berlios.de  Sun Mar 30 14:18:56 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 30 Mar 2008 14:18:56 +0200
+Subject: [Dzchart-svncheckins] r282 - utilities/dzLib/trunk/src
+Message-ID: <200803301218.m2UCIuR7001886@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-30 14:18:55 +0200 (Sun, 30 Mar 2008)
+New Revision: 282
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+* clarified some xml docs
+* added AllowDot parameter to IsValidFilename, defaulting to true
+* improved error handling of ForceDirectories method since ForceDir can raise an exception with a rather unhelpful error message.
+* new methods CopyMatchingFiles, TryGetFileInfo and TryGetFileSize
+
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2008-03-30 12:14:08 UTC (rev 281)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2008-03-30 12:18:55 UTC (rev 282)
+@@ -1,4 +1,4 @@
+-{GXFormatter.config=twm}
++{.GXFormatter.config=twm}
+ /// <summary>
+ /// implements utility functions for file accesss
+ /// </summary>
+@@ -70,7 +70,7 @@
+     /// MustHaveAttr is set to [] and MayHaveAttr is set to include all possible
+     /// attributes, so calling FindNext will find any files or subdirectories,
+     /// but the special '.' and '..' directories
+-    /// @param Mask is the file search mask
++    /// @param Mask is the file search mask and should include a path
+     /// </summary>
+     constructor Create(const _Mask: string);
+     /// <summary>
+@@ -85,7 +85,8 @@
+     /// Calls SysUtils.FindFirst on first call and SysUtls.FindNext in later
+     /// calls.
+     /// @param Filename is the name of the file found, if result is true, if you need
+-    ///       more information about it, use the SR property
++    ///       more information about it, use the SR property, note that it
++    ///       does not include the path
+     /// @Returns true, if a matching file was found, false otherwise
+     /// </summary>
+     function FindNext(out _Filename: string): boolean; overload;
+@@ -416,6 +417,24 @@
+     class function CopyFileWithProgress(const _Source, _Dest: string; _Progress: TCopyFileProgressEvt;
+       _Flags: TCopyFileWithProgressFlagSet = [cfwRaiseException]): TCopyFileWithProgressResult;
+ 
++    ///<summary>
++    /// Copies all files that match the given Mask from SrcDir to DestDir and
++    /// returns the number of files that were copied.
++    /// If cfRaiseException is set in Flags, any error will raise an EOsError exception
++    /// and the copying process will be aborted, otherwise errors will be silently
++    /// ignored.
++    /// If a destination file exists depending on the other Flag values the following
++    /// happens:
++    /// * If cfFailIfExists is set, the file is skipped or an exception is raised
++    /// * If cfFailIfExists is not set, the file will be overwritten. If that fails
++    ///   the file is skipped or an exception is raised
++    /// * If cfFailIfExists is not set and cfForceOverwrite is set, the function
++    ///   will also try to overwrite readonly files.
++    /// if FilesSkipped is given, all skipped files will be added to that list
++    ///</summary>
++    class function CopyMatchingFiles(const _Mask, _SrcDir, _DestDir: string; _Flags: TCopyFileFlagset;
++      _FilesSkipped: TStrings): integer;
++
+     /// <summary>
+     /// Copies the file Source to Dest using the Windows MoveFileWithProgress function which
+     /// allows for a progress callback
+@@ -558,18 +577,22 @@
+     /// checks whether the given string is a valid filename (without path), that is
+     /// does not contain one of the characters defined in INVALID_FILENAME_CHARS
+     /// @param s is the string to check
++    /// @param AllowDot determines whether a dot ('.') is allowed in the filename
++    ///        the default is true, but you might not want that
+     /// @returns true, if the string is a valid filename, false otherwise
+     /// </summary>
+-    class function IsValidFilename(const _s: string): boolean; overload;
++    class function IsValidFilename(const _s: string; _AllowDot: boolean = true): boolean; overload;
+     /// <summary>
+     /// checks whether the given string is a valid filename (without path), that is
+     /// does not contain one of the characters defined in INVALID_FILENAME_CHARS and
+     /// returns the first error position.
+     /// @param s is the string to check
+     /// @param ErrPos is the first error position, only valid it result = false
++    /// @param AllowDot determines whether a dot ('.') is allowed in the filename
++    ///        the default is true, but you might not want that
+     /// @returns true, if the string is a valid filename, false otherwise
+     /// </summary>
+-    class function IsValidFilename(const _s: string; out _ErrPos: integer): boolean; overload;
++    class function IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean; overload;
+ 
+     /// <summary>
+     /// creates a backup of the file appending the current date and time to the base
+@@ -586,6 +609,12 @@
+     ///          timestamp of the file
+     /// </summary>
+     class function GetFileInfo(const _Filename: string): TFileInfoRec;
++    /// <summary> tries to get the file information containing filename, filesize
++    ///           and last access timestamp of the file.
++    ///           @param Info will contain these values, only valid if result = true
++    /// </summary>
++    class function TryGetFileInfo(const _Filename: string; out _Info: TFileInfoRec): boolean;
++    class function TryGetFileSize(const _Filename: string; out _Size: Int64): boolean;
+ 
+     /// <summary>
+     /// Returns the free space (in bytes) on the disk with the given drive letter
+@@ -658,7 +687,6 @@
+ implementation
+ 
+ uses
+-  FileCtrl,
+   u_dzMiscUtils,
+   u_dzStringUtils,
+   u_dzDateUtils;
+@@ -683,6 +711,7 @@
+   STR_DELTREE_ERROR_S = '"%s" does not exist or is not a directory';
+   // duplicate % so they get passed through the format function
+   STR_CREATEDIR_ERROR_S = 'Error %%1:s (%%0:d) creating directory "%s"';
++  STR_CREATEDIR_EXCEPTION_SSS = 'Error creating directory "%s": %s (%s)';
+ 
+ function itpd(const _Dirname: string): string; inline;
+ begin
+@@ -884,23 +913,41 @@
+   Result := PChar(Result); // remove trailing characters
+ end;
+ 
+-class function TFileSystem.GetFileInfo(const _Filename: string): TFileInfoRec;
++class function TFileSystem.TryGetFileInfo(const _Filename: string;
++  out _Info: TFileInfoRec): boolean;
+ var
+   sr: TSearchRec;
+   Res: integer;
+ begin
+   Res := FindFirst(_Filename, faAnyFile, sr);
+-  if Res <> 0 then
+-    raise EFileNotFound.CreateFmt('File not found: "%s"', [_Filename]);
+-  try
+-    Result.Filename := _Filename;
+-    Result.Size := sr.Size;
+-    Result.Timestamp := FileDateToDateTime(sr.Time);
+-  finally
+-    FindClose(sr);
++  Result := (Res = 0);
++  if Result then begin
++    try
++      _Info.Filename := _Filename;
++      _Info.Size := sr.Size;
++      _Info.Timestamp := FileDateToDateTime(sr.Time);
++    finally
++      FindClose(sr);
++    end;
+   end;
+ end;
+ 
++class function TFileSystem.GetFileInfo(const _Filename: string): TFileInfoRec;
++begin
++  if not TryGetFileInfo(_Filename, Result) then
++    raise EFileNotFound.CreateFmt('File not found: "%s"', [_Filename]);
++end;
++
++class function TFileSystem.TryGetFileSize(const _Filename: string;
++  out _Size: Int64): boolean;
++var
++  Info: TFileInfoRec;
++begin
++  Result := TryGetFileInfo(_Filename, Info);
++  if Result then
++    _Size := Info.Size;
++end;
++
+ class function TFileSystem.DiskFree(_DriveLetter: char): Int64;
+ var
+   ErrorMode: Cardinal;
+@@ -1098,6 +1145,33 @@
+   end;
+ end;
+ 
++class function TFileSystem.CopyMatchingFiles(const _Mask, _SrcDir, _DestDir: string;
++  _Flags: TCopyFileFlagset; _FilesSkipped: TStrings): integer;
++var
++  Files: TStringList;
++  s: string;
++  SrcDirBs: string;
++  DestDirBs: string;
++begin
++  Result := 0;
++  SrcDirBs := itpd(_SrcDir);
++  DestDirBs := itpd(_DestDir);
++  Files := TStringList.Create;
++  try
++    TSimpleDirEnumerator.Execute(SrcDirBs + _Mask, Files);
++    for s in Files do begin
++      if CopyFile(SrcDirBs + s, DestDirBs + s, _Flags) then
++        Inc(Result)
++      else begin
++        if Assigned(_FilesSkipped) then
++          _FilesSkipped.Add(s);
++      end;
++    end;
++  finally
++    Files.Free;
++  end;
++end;
++
+ //  MOVEFILE_REPLACE_EXISTING       = $00000001;
+ //  MOVEFILE_COPY_ALLOWED           = $00000002;
+ //  MOVEFILE_DELAY_UNTIL_REBOOT     = $00000004;
+@@ -1215,7 +1289,17 @@
+ var
+   LastError: Cardinal;
+ begin
+-  Result := ForceDirectories(_DirectoryPath);
++  try
++    Result := SysUtils.ForceDirectories(_DirectoryPath);
++  except
++    on e: Exception do begin
++      // ForceDirectories can raise EInOutError if the directory path contains empty parts
++      if _RaiseException then
++        raise Exception.CreateFmt(STR_CREATEDIR_EXCEPTION_SSS, [_DirectoryPath, e.Message, e.ClassName]);
++      Result := false;
++      exit;
++    end;
++  end;
+   if not Result and _RaiseException then begin
+     LastError := GetLastError;
+     RaiseLastOsErrorEx(LastError, Format(STR_CREATEDIR_ERROR_S, [_DirectoryPath]));
+@@ -1294,9 +1378,10 @@
+   end;
+ end;
+ 
+-class function TFileSystem.IsValidFilename(const _s: string; out _ErrPos: integer): boolean;
++class function TFileSystem.IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean;
+ var
+   i: Integer;
++  NotAllowed: TCharSet;
+ begin
+   Result := False;
+ 
+@@ -1310,8 +1395,11 @@
+     exit;
+   end;
+ 
++  NotAllowed := INVALID_FILENAME_CHARS;
++  if not _AllowDot then
++    Include(NotAllowed, '.');
+   for i := 1 to Length(_s) do begin
+-    if _s[i] in INVALID_FILENAME_CHARS then begin
++    if _s[i] in NotAllowed then begin
+       _ErrPos := i;
+       Exit;
+     end;
+@@ -1319,11 +1407,11 @@
+   Result := True;
+ end;
+ 
+-class function TFileSystem.IsValidFilename(const _s: string): boolean;
++class function TFileSystem.IsValidFilename(const _s: string; _AllowDot: boolean = true): boolean;
+ var
+   ErrPos: integer;
+ begin
+-  Result := IsValidFilename(_s, ErrPos);
++  Result := IsValidFilename(_s, ErrPos, _AllowDot);
+ end;
+ 
+ { TProgressRedir }
+
+
+
+From twm at mail.berlios.de  Sun Mar 30 14:19:39 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 30 Mar 2008 14:19:39 +0200
+Subject: [Dzchart-svncheckins] r283 - utilities/dzLib/trunk/src
+Message-ID: <200803301219.m2UCJdZW001939@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-30 14:19:39 +0200 (Sun, 30 Mar 2008)
+New Revision: 283
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzTranslator.pas
+Log:
+Bugfix: Did not compile if DXGETTEXTDEBUG was set
+
+Modified: utilities/dzLib/trunk/src/u_dzTranslator.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTranslator.pas	2008-03-30 12:18:55 UTC (rev 282)
++++ utilities/dzLib/trunk/src/u_dzTranslator.pas	2008-03-30 12:19:39 UTC (rev 283)
+@@ -183,7 +183,7 @@
+ {$ENDIF TranslateReporting}
+ 
+ {$IFDEF DXGETTEXTDEBUG}
+-  gnugettext.DefaultInstance.DebugLogToFile(ExtractFilePath(GetModuleFilename) + 'dxgettext.log');
++  gnugettext.DefaultInstance.DebugLogToFile(ExtractFilePath(GetModuleName(HInstance)) + 'dxgettext.log');
+ {$ENDIF DXGETTEXTDEBUG}
+ 
+ {$ENDIF gnugettext}
+
+
+
+From twm at mail.berlios.de  Sun Mar 30 14:22:59 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 30 Mar 2008 14:22:59 +0200
+Subject: [Dzchart-svncheckins] r284 - utilities/dzLib/trunk/src
+Message-ID: <200803301222.m2UCMxdM002236@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-30 14:22:58 +0200 (Sun, 30 Mar 2008)
+New Revision: 284
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* added TEdit_SetTextNoChange to change the text of a TEdit without triggering an OnChange event
+* added overloaded TComboBox_GetSelected that directly returns the selected string and raises an exception if none is selected
+* added TListBox_GetSelected function
+* added TRadioGroup_Select to select an item by its caption
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-03-30 12:19:39 UTC (rev 283)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-03-30 12:22:58 UTC (rev 284)
+@@ -1,4 +1,4 @@
+-{GXFormatter.config=twm}
++{.GXFormatter.config=twm}
+ {: Implements functions which work on components but are not methods.
+    @author        twm }
+ unit u_dzVclUtils;
+@@ -29,6 +29,9 @@
+   {: raised if the Listbox passed to SetOwnerDrawListboxItemCount is not ownder drawn. }
+   EdzListBoxNotOwnerDraw = class(EdzVclUtils);
+ 
++  EdzComboBoxNoSelection = class(EdzVclUtils);
++  EdzListBoxNoSelection = class(EdzVclUtils);
++
+ type
+   {: This is a copy of the TFileFormatsList class from Graphics which
+      is unfortunately only declaread in the implementation section }
+@@ -152,6 +155,9 @@
+ {: Scrolls the memo to the end }
+ procedure TMemo_ScrollToEnd(_Memo: TMemo);
+ 
++///<summary> sets the Text property of a TEdit without triggering an OnChange event </summary>
++procedure TEdit_SetTextNoChange(_ed: TCustomEdit; const _Text: string);
++
+ {: Tries to convert the edit control text to a double, if an error occurs, it raises
+    an exception and optionally focuses the control.
+    @param ed is the edit control
+@@ -246,7 +252,8 @@
+           if it does not contain a valid value or not, default = false
+    @returns true, if an item was selected }
+ function TComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean;
++  _FocusControl: boolean = false): boolean; overload;
++function TComboBox_GetSelected(_cmb: TCustomComboBox): string; overload;
+ 
+ {: Selects the item if it is in the list and returns the new ItemIndex
+    @param cmb is the TCustomCombobox (descendant) to use
+@@ -263,6 +270,16 @@
+    @returns true, if these values are valid }
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ 
++{: Gets the caption of the selected listbox item
++   @param cmb is the TCustomListbox (descendant) to read from
++   @param Item is the selected item, only valid if the function returns true
++   @param FocusControl is a boolean which determines whether to focus the control
++          if it does not contain a valid value or not, default = false
++   @returns true, if an item was selected }
++function TListBox_GetSelected(_lb: TCustomListBox; out _Item: string;
++  _FocusControl: boolean = false): boolean; overload;
++function TListBox_GetSelected(_lb: TCustomListBox): string; overload;
++
+ {: Deletes the selected listbox item
+    @param lst is the TCustomListbox (descendant) to read from
+    @param Idx is the listbox's ItemIndex, only valid if the function returns true
+@@ -289,6 +306,11 @@
+ function TRadioGroup_GetItemCaption(_rg: TCustomRadioGroup;
+   out _Caption: string; _Idx: integer = -1): boolean;
+ 
++///<summary> Selects the item in the radio group with the given caption,
++///          returns the item's index or -1 if no item matched.
++///          Comparison is case insensitive </summary>
++function TRadioGroup_Select(_rg: TCustomRadioGroup; const _Item: string; _DefaultIdx: integer = -1): integer;
++
+ {: Gets the object pointer of the selected RadioGroup item
+    @param cmb is the TCustomListbox (descendant) to read from
+    @param Idx is the listbox's ItemIndex, only valid if the function returns true
+@@ -576,6 +598,25 @@
+   end;
+ end;
+ 
++type
++  THackEdit = class(TCustomEdit)
++  end;
++
++procedure TEdit_SetTextNoChange(_ed: TCustomEdit; const _Text: string);
++var
++  Event: TNotifyEvent;
++  ed: THackEdit;
++begin
++  ed := THackEdit(_ed);
++  Event := ed.OnChange;
++  ed.OnChange := nil;
++  try
++    ed.Text := _Text;
++  finally
++    ed.OnChange := Event;
++  end;
++end;
++
+ function TEdit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
+ var
+   s: string;
+@@ -934,6 +975,31 @@
+     _cmb.SetFocus;
+ end;
+ 
++function TComboBox_GetSelected(_cmb: TCustomComboBox): string; overload;
++begin
++  if not TComboBox_GetSelected(_cmb, Result) then
++    raise EdzComboBoxNoSelection.Create(_('No item selected in combobox'));
++end;
++
++function TListBox_GetSelected(_lb: TCustomListBox; out _Item: string;
++  _FocusControl: boolean = false): boolean;
++var
++  Idx: integer;
++begin
++  Idx := _lb.ItemIndex;
++  Result := Idx <> -1;
++  if Result then
++    _Item := _lb.Items[Idx]
++  else if _FocusControl then
++    _lb.SetFocus;
++end;
++
++function TListBox_GetSelected(_lb: TCustomListBox): string;
++begin
++  if not TListBox_GetSelected(_lb, Result) then
++    raise EdzListBoxNoSelection(_('No item selected in listbox'));
++end;
++
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ begin
+   _Idx := _lst.ItemIndex;
+@@ -1046,6 +1112,22 @@
+     _Caption := StripHotKey(Hack.Items[_Idx]);
+ end;
+ 
++function TRadioGroup_Select(_rg: TCustomRadioGroup; const _Item: string; _DefaultIdx: integer = -1): integer;
++var
++  Hack: TRadioGroupHack;
++  i: Integer;
++begin
++  Hack := TRadioGroupHack(_rg);
++  for i := 0 to Hack.Items.Count - 1 do
++    if AnsiSameText(Hack.Items[i], _Item) then begin
++      Hack.ItemIndex := i;
++      Result := Hack.ItemIndex;
++      exit;
++    end;
++  Hack.ItemIndex := _DefaultIdx;
++  Result := Hack.ItemIndex;
++end;
++
+ function TRadioGroup_GetSelectedObject(_rg: TCustomRadioGroup; out _Idx: integer; out _Obj: pointer): boolean;
+ var
+   Hack: TRadioGroupHack;
+@@ -1229,14 +1311,14 @@
+ end;
+ 
+ type
+-  TCheckBox = class(TCustomCheckBox)
++  THackCheckBox = class(TCustomCheckBox)
+   end;
+ 
+ procedure TCheckBox_SetCheckedNoOnClick(_Chk: TCustomCheckBox; _Checked: boolean);
+ var
+-  Chk: TCheckBox;
++  Chk: THackCheckBox;
+ begin
+-  Chk := TCheckBox(_Chk);
++  Chk := THackCheckBox(_Chk);
+   Chk.ClicksDisabled := true;
+   try
+     Chk.Checked := _Checked;
+
+
+
+From twm at mail.berlios.de  Sun Mar 30 14:24:50 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 30 Mar 2008 14:24:50 +0200
+Subject: [Dzchart-svncheckins] r285 - utilities/dzLib/trunk/tests/src
+Message-ID: <200803301224.m2UCOokq002381@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-30 14:24:49 +0200 (Sun, 30 Mar 2008)
+New Revision: 285
+
+Modified:
+   utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas
+Log:
+added Warnings On/off define to TestMisc.TestStringOf to suppress the deprecated warnings (I know it's deprecated, I did that myself)
+
+Modified: utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas	2008-03-30 12:22:58 UTC (rev 284)
++++ utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas	2008-03-30 12:24:49 UTC (rev 285)
+@@ -339,12 +339,15 @@
+   CheckEquals('     ', SpaceStr(5));
+ end;
+ 
++{$WARNINGS off}
++
+ procedure TestMisc.TestStringOf;
+ begin
+   CheckEquals('', StringOf(' ', 0));
+   CheckEquals(' ', StringOf(' ', 1));
+   CheckEquals('     ', StringOf(' ', 5));
+ end;
++{$WARNINGS on}
+ 
+ { TestFileExt }
+ 
+
+
+
+From twm at mail.berlios.de  Sun Mar 30 14:25:56 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 30 Mar 2008 14:25:56 +0200
+Subject: [Dzchart-svncheckins] r286 - utilities/dzLib/trunk/forms
+Message-ID: <200803301225.m2UCPugJ002435@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-30 14:25:55 +0200 (Sun, 30 Mar 2008)
+New Revision: 286
+
+Added:
+   utilities/dzLib/trunk/forms/w_dzProgress.dfm
+   utilities/dzLib/trunk/forms/w_dzProgress.pas
+Log:
+added a generic progress form
+
+Added: utilities/dzLib/trunk/forms/w_dzProgress.dfm
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzProgress.dfm	2008-03-30 12:24:49 UTC (rev 285)
++++ utilities/dzLib/trunk/forms/w_dzProgress.dfm	2008-03-30 12:25:55 UTC (rev 286)
+@@ -0,0 +1,46 @@
++object f_dzProgress: Tf_dzProgress
++  Left = 402
++  Top = 269
++  BorderIcons = []
++  BorderStyle = bsSingle
++  Caption = 'Progress'
++  ClientHeight = 49
++  ClientWidth = 393
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'MS Sans Serif'
++  Font.Style = []
++  FormStyle = fsStayOnTop
++  OldCreateOrder = False
++  Position = poOwnerFormCenter
++  PixelsPerInch = 96
++  TextHeight = 13
++  object l_Action: TLabel
++    Left = 8
++    Top = 0
++    Width = 30
++    Height = 13
++    Caption = 'Action'
++    Layout = tlCenter
++  end
++  object pb_Progress: TProgressBar
++    Left = 8
++    Top = 24
++    Width = 297
++    Height = 16
++    Position = 30
++    TabOrder = 0
++  end
++  object b_Cancel: TButton
++    Left = 312
++    Top = 20
++    Width = 75
++    Height = 25
++    Cancel = True
++    Caption = 'Abort'
++    TabOrder = 1
++    OnClick = b_CancelClick
++  end
++end
+
+Added: utilities/dzLib/trunk/forms/w_dzProgress.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzProgress.pas	2008-03-30 12:24:49 UTC (rev 285)
++++ utilities/dzLib/trunk/forms/w_dzProgress.pas	2008-03-30 12:25:55 UTC (rev 286)
+@@ -0,0 +1,251 @@
++{GXFormatter.config=twm}
++{: generic progress form
++   This unit implements a generic progress form.
++   Create it, set FormCaption, optionally set Max, show the form.
++   Every now and then call Progress.
++   Free after you are done.
++   Note: You can use up to two %d and %% in FormCaption, examples:
++     FormCaption := 'progress %d of %d';
++     FormCaption := '%d%% done'; // display percentage
++     FormCaption := 'Progress - Line %d';
++   @author twm
++}
++unit w_dzProgress;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls,
++  ComCtrls;
++
++type
++  EdzProgress = class(Exception);
++
++type
++  Tf_dzProgress = class(TForm)
++    l_Action: TLabel;
++    pb_Progress: TProgressBar;
++    b_Cancel: TButton;
++    procedure b_CancelClick(Sender: TObject);
++  private
++    fCancelVisible: boolean;
++    fCancelPressed: boolean;
++    fProgressPos: integer;
++    fMax: integer;
++    fAction: string;
++    fActionVisible: boolean;
++    fPercent: integer;
++    fFormCaption: string;
++    fFormCaptionParams: integer;
++    fFormCaptionPercent: boolean;
++    procedure SetFormCaption(const _FormCaption: string);
++    procedure InternalSetCaption;
++    procedure SetProgressPos(_ProgressPos: integer);
++    procedure SetMax(_Max: integer);
++    procedure SetAction(const _Action: string);
++    procedure SetCancelVisible(_Visible: boolean);
++    procedure SetActionVisible(_Visible: boolean);
++    function AnalyseCaption(const _Caption: string;
++      var _ParamCount: integer; var _Percent: boolean;
++      var _Error: string): boolean;
++  public
++    constructor Create(_Owner: TComponent); overload; override;
++    property FormCaption: string read fFormCaption write SetFormCaption;
++    property ProgressPos: integer read fProgressPos write SetProgressPos;
++    property Max: integer read fMax write SetMax;
++    property Action: string read fAction write SetAction;
++    property CancelVisible: boolean read fCancelVisible write SetCancelVisible;
++    property ActionVisible: boolean read fActionVisible write SetActionVisible;
++    procedure Progress(_Position: integer; const _Action: string;
++      var _Abort: boolean); overload;
++    procedure Progress(_Position: integer; var _Abort: boolean); overload;
++  end;
++
++implementation
++
++{$R *.DFM}
++
++uses
++  StrUtils,
++  u_dzTranslator,
++  w_dzDialog;
++
++resourcestring
++  // Wirklich abbrechen?
++  QuestionAbort = 'Do you really want to abort?';
++  // Fortschritt (%d%%)
++  FormCaptionD = 'Progress (%d%%)';
++  // Tf_HkProgress.SetFormCaption: Ung?ltige FormCaption, %s.
++  InvalidFormCaptionS = 'Tf_HkProgress.SetFormCaption: Invalid FormCaption, %s';
++  // darf kein "%" am Ende haben
++  PercentAtEnd = 'must not contain a % at the end';
++  // auf "%" mu? "d" oder "%" folgen
++  InvalidFormatChar = '"%" must be followed by "d" or "%".';
++  // zuviele Parameter
++  TooManyParameters = 'too many parameters';
++
++constructor Tf_dzProgress.Create(_Owner: tComponent);
++begin
++  inherited;
++  pb_Progress.Position := 0;
++  fMax := 100;
++  l_Action.Caption := '';
++  FormCaption := FormCaptionD;
++
++  TranslateComponent(Self);
++end;
++
++procedure Tf_dzProgress.b_CancelClick(Sender: TObject);
++begin
++  fCancelPressed := (mrYes = Tf_dzDialog.ShowMessage(mtConfirmation, QuestionAbort, [dbeYes, dbeNo], Self));
++end;
++
++procedure Tf_dzProgress.InternalSetCaption;
++var
++  OldPercent: integer;
++begin
++  if fFormCaptionPercent then
++  begin
++    OldPercent := fPercent;
++    fPercent := (fProgressPos * 100) div fMax;
++    if OldPercent = fPercent then
++      exit;
++  end;
++  case fFormCaptionParams of
++    0: Caption := fFormCaption;
++    1:
++      if fFormCaptionPercent then
++        Caption := Format(fFormCaption, [fPercent])
++      else
++        Caption := Format(fFormCaption, [fProgressPos]);
++    2: Caption := Format(fFormCaption, [fProgressPos, fMax]);
++  end;
++end;
++
++procedure Tf_dzProgress.Progress(_Position: integer; var _Abort: boolean);
++begin
++  fProgressPos := _Position;
++  pb_Progress.Position := _Position;
++  InternalSetCaption;
++  Application.ProcessMessages;
++  _Abort := fCancelPressed;
++end;
++
++procedure Tf_dzProgress.Progress(_Position: integer; const _Action: string;
++  var _Abort: boolean);
++begin
++  fAction := _Action;
++  l_Action.Caption := _Action;
++  Progress(_Position, _Abort);
++end;
++
++function Tf_dzProgress.AnalyseCaption(const _Caption: string; var _ParamCount: integer;
++  var _Percent: boolean; var _Error: string): boolean;
++var
++  p: integer;
++begin
++  Result := false;
++  _Percent := false;
++  _ParamCount := 0;
++  p := PosEx('%', _Caption, 1);
++  while p <> 0 do
++  begin
++    if (p >= Length(_Caption)) then
++    begin
++      _Error := PercentAtEnd;
++      exit;
++    end;
++    if _Caption[p + 1] = 'd' then
++      Inc(_ParamCount)
++    else if _Caption[p + 1] = '%' then
++    begin
++      _Percent := true;
++      Inc(p)
++    end
++    else
++    begin
++      _Error := InvalidFormatChar;
++      exit;
++    end;
++    p := PosEx('%', _Caption, p + 1);
++  end;
++  if _ParamCount > 2 then
++    _Error := TooManyParameters
++  else
++    Result := true;
++end;
++
++procedure Tf_dzProgress.SetFormCaption(const _FormCaption: string);
++var
++  Error: string;
++  Percent: boolean;
++  Params: integer;
++begin
++  if not AnalyseCaption(_FormCaption, Params, Percent, Error) then
++    raise EdzProgress.CreateFmt(InvalidFormCaptionS, [Error]);
++  fFormCaption := _FormCaption;
++  fFormCaptionParams := Params;
++  fFormCaptionPercent := Percent;
++  InternalSetCaption;
++end;
++
++procedure Tf_dzProgress.SetProgressPos(_ProgressPos: integer);
++begin
++  fProgressPos := _ProgressPos;
++  pb_Progress.Position := _ProgressPos;
++  InternalSetCaption;
++end;
++
++procedure Tf_dzProgress.SetMax(_Max: integer);
++begin
++  fMax := _Max;
++  pb_Progress.Max := _Max;
++  InternalSetCaption;
++end;
++
++procedure Tf_dzProgress.SetAction(const _Action: string);
++begin
++  fAction := _Action;
++  l_Action.Caption := _Action;
++  l_Action.Layout := tlCenter;
++end;
++
++procedure Tf_dzProgress.SetCancelVisible(_Visible: boolean);
++begin
++  fCancelVisible := _Visible;
++  b_Cancel.Visible := fCancelVisible;
++  if not fCancelVisible then
++    pb_Progress.Width := ClientWidth - 2 * pb_Progress.Left
++  else
++    pb_Progress.Width := b_Cancel.Left - 2 * pb_Progress.Left;
++end;
++
++procedure Tf_dzProgress.SetActionVisible(_Visible: boolean);
++begin
++  fActionVisible := _Visible;
++  l_Action.Visible := fActionVisible;
++  if not fActionVisible then
++  begin
++    ClientHeight := 2 * 5 + b_Cancel.Height;
++    b_Cancel.Top := (ClientHeight - b_Cancel.Height) div 2;
++    pb_Progress.Top := (ClientHeight - pb_Progress.Height) div 2;
++  end
++  else
++  begin
++    // as designed
++    b_Cancel.Top := 20;
++    pb_Progress.Top := 24;
++    Height := 76;
++  end;
++end;
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Sun Mar 30 14:27:24 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 30 Mar 2008 14:27:24 +0200
+Subject: [Dzchart-svncheckins] r287 - utilities/dzLib/trunk/src
+Message-ID: <200803301227.m2UCROOA002630@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-30 14:27:24 +0200 (Sun, 30 Mar 2008)
+New Revision: 287
+
+Added:
+   utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+Log:
+added IDatasetHelper/TDatasetHelper for typesafe access to the fields of a TDataset (or rather: Meaningfull error messages when errors occur accessing those fields)
+
+Added: utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2008-03-30 12:25:55 UTC (rev 286)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2008-03-30 12:27:24 UTC (rev 287)
+@@ -0,0 +1,271 @@
++{GXFormatter.config=twm}
++///<summary> declares the IDatssetHelper unterface and the TDatasetHelper implementation
++///          for typesafe access to database fields </summary>
++unit u_dzDatasetHelpers;
++
++interface
++
++uses
++  SysUtils,
++  AdoDb,
++  DB;
++
++type
++  ///<summary> Interface definition for the Dataset-Helper, the idea is to have simplified
++  ///          methods for reading field values, converting them to the appropriate data
++  ///          type and generate standardized error messages if something goes wrong
++  ///          that contain the table and field name rather than just saying
++  ///          "Variant conversion error". </summary>
++  IDatasetHelper = interface ['{756CC74A-1623-4FC4-A347-4CA3D90B4D69}']
++    ///<summary> return the field value as a string, raise an exception if it cannot be converted </summary>
++    function FieldAsString(const _Fieldname: string): string; overload;
++    ///<summary> return the field value as a string, return the default if it cannot be converted </summary>
++    function FieldAsString(const _Fieldname, _Default: string): string; overload;
++    ///<summary> sets the field as a string, if the value is empty set it to NULL </summary>
++    procedure SetFieldStringNotEmpty(const _Fieldname: string; const _Value: string);
++
++    ///<summary> return the field value as an integer, raise an exception if it cannot be converted </summary>
++    function FieldAsInteger(const _Fieldname: string): integer; overload;
++    ///<summary> return the field value as an integer, return the default if it cannot be converted </summary>
++    function FieldAsInteger(const _Fieldname: string; _Default: integer): integer; overload;
++    ///<summary> return the field value as an integer, raise an exception with the given error message if it cannot be converted </summary>
++    function FieldAsInteger(const _Fieldname: string; const _Error: string): integer; overload;
++
++    ///<summary> return the field value as a double, raise an exception if it cannot be converted </summary>
++    function FieldAsDouble(const _Fieldname: string): double; overload;
++    ///<summary> return the field value as a double, return the default if it cannot be converted </summary>
++    function FieldAsDouble(const _Fieldname: string; const _Default: double): double; overload;
++    ///<summary> return the field value as a double, raise an exception with the given error message if it cannot be converted </summary>
++    function FieldAsDouble(const _Fieldname: string; const _Error: string): double; overload;
++
++    ///<summary> return the field value as a TDateTime, raise an exception if it cannot be converted </summary>
++    function FieldAsDate(const _Fieldname: string): TDateTime;
++
++    ///<summary> return the field value as a boolean, raise an exception if it cannot be converted </summary>
++    function FieldAsBoolean(const _FieldName: string): boolean; overload;
++    ///<summary> return the field value as a boolean, return the default if it cannot be converted </summary>
++    function FieldAsBoolean(const _FieldName: string; _Default: boolean): boolean; overload;
++
++    ///<summary> Open the dataset </summary>
++    procedure Open;
++    ///<summary> Close the dataset </summary>
++    procedure Close;
++
++    ///<summary> Move to the next record of the dataset </summary>
++    procedure Next;
++    ///<summary> True if at the end of the dataset </summary>
++    function Eof: boolean;
++    ///<summary> True if at the beginning of the dataset </summary>
++    function Bof: boolean;
++
++    ///<summary> insert a new record into the dataset </summary>
++    procedure Insert;
++    ///<summary> put the current record into edit mode </summary>
++    procedure Edit;
++
++    ///<summary> post changes to the current record (must call Insert or Edit first </summary>
++    procedure Post;
++    ///<summary> cancel changes to the current record (must call Insert or Edit first </summary>
++    procedure Cancel;
++
++    ///<summary> returns the field value as variant (getter method for FieldValues property) </summary>
++    function GetFieldValue(const _FieldName: string): Variant;
++    ///<summary> sets the field value as variant (setter method for FieldValues property) </summary>
++    procedure SetFieldValue(const _FieldName: string; const _Value: Variant);
++    ///<summary> allows access to field values as variants </summary>
++    property FieldValues[const _FieldName: string]: Variant read GetFieldValue write SetFieldValue; default;
++  end;
++
++type
++  ///<summary> implements the IDatasetHelper interface </summary>
++  TDatasetHelper = class(TInterfacedObject, IDatasetHelper)
++  protected
++    FDataset: TDataset;
++    FTableName: string;
++  public
++    ///<summary> creates a TDatasetHelper for accessing a TAdoTable or TAdoQuery </summary>
++    constructor Create(_Table: TAdoTable); overload;
++    ///<summary> creates a TDatasetHelper for accessing a query
++    ///          @param Query is the TAdoQuery to access
++    ///          @param Tablename is the table name to use for automatically
++    ///                           generated error messages </summary>
++    constructor Create(_Query: TAdoQuery; const _Tablename: string); overload;
++
++  public // implementation of IDatasetHelper, see there for a description
++    function FieldAsString(const _Fieldname: string): string; overload;
++    function FieldAsString(const _Fieldname, _Default: string): string; overload;
++    procedure SetFieldStringNotEmpty(const _Fieldname: string; const _Value: string);
++
++    function FieldAsInteger(const _Fieldname: string): integer; overload;
++    function FieldAsInteger(const _Fieldname: string; _Default: integer): integer; overload;
++    function FieldAsInteger(const _Fieldname: string; const _Error: string): integer; overload;
++
++    function FieldAsDouble(const _Fieldname: string): double; overload;
++    function FieldAsDouble(const _Fieldname: string; const _Default: double): double; overload;
++    function FieldAsDouble(const _Fieldname: string; const _Error: string): double; overload;
++
++    function FieldAsDate(const _Fieldname: string): TDateTime;
++
++    function FieldAsBoolean(const _FieldName: string): boolean; overload;
++    function FieldAsBoolean(const _FieldName: string; _Default: boolean): boolean; overload;
++
++    procedure Open;
++    procedure Close;
++
++    procedure Next;
++    function Eof: boolean;
++    function Bof: boolean;
++
++    procedure Insert;
++    procedure Edit;
++
++    procedure Post;
++    procedure Cancel;
++
++    function GetFieldValue(const _FieldName: string): Variant;
++    procedure SetFieldValue(const _FieldName: string; const _Value: Variant);
++    property FieldValues[const _FieldName: string]: Variant read GetFieldValue write SetFieldValue; default;
++  end;
++
++implementation
++
++uses
++  u_dzVariantUtils,
++  u_dzMiscUtils;
++
++{ TDatasetHelper }
++
++constructor TDatasetHelper.Create(_Table: TAdoTable);
++begin
++  inherited Create;
++  FDataset := _Table;
++  FTableName := _Table.TableName;
++end;
++
++constructor TDatasetHelper.Create(_Query: TAdoQuery; const _Tablename: string);
++begin
++  inherited Create;
++  FDataset := _Query;
++  FTableName := _Tablename;
++end;
++
++function TDatasetHelper.FieldAsDate(const _Fieldname: string): TDateTime;
++begin
++  Result := Var2DateTimeEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname);
++end;
++
++function TDatasetHelper.FieldAsDouble(const _Fieldname: string): double;
++begin
++  Result := Var2DblEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname);
++end;
++
++function TDatasetHelper.FieldAsDouble(const _Fieldname, _Error: string): double;
++begin
++  Result := Var2DblEx(FDataset[_Fieldname], _Error);
++end;
++
++function TDatasetHelper.FieldAsInteger(const _Fieldname: string): integer;
++begin
++  Result := Var2IntEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname);
++end;
++
++function TDatasetHelper.FieldAsInteger(const _Fieldname, _Error: string): integer;
++begin
++  Result := Var2IntEx(FDataset[_Fieldname], _Error);
++end;
++
++function TDatasetHelper.FieldAsString(const _Fieldname: string): string;
++begin
++  Result := Var2StrEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname);
++end;
++
++function TDatasetHelper.FieldAsBoolean(const _FieldName: string): boolean;
++begin
++  Result := FieldAsInteger(_FieldName) <> 0;
++end;
++
++function TDatasetHelper.FieldAsDouble(const _Fieldname: string; const _Default: double): double;
++begin
++  Result := Var2Dbl(FDataset[_Fieldname], _Default);
++end;
++
++function TDatasetHelper.FieldAsInteger(const _Fieldname: string; _Default: integer): integer;
++begin
++  Result := Var2Int(FDataset[_Fieldname], _Default);
++end;
++
++function TDatasetHelper.FieldAsString(const _Fieldname, _Default: string): string;
++begin
++  Result := Var2Str(FDataset[_Fieldname], _Default);
++end;
++
++function TDatasetHelper.FieldAsBoolean(const _FieldName: string; _Default: boolean): boolean;
++begin
++  Result := FieldAsInteger(_FieldName, BoolToInt(_Default)) <> 0;
++end;
++
++procedure TDatasetHelper.SetFieldStringNotEmpty(const _Fieldname, _Value: string);
++begin
++  if _Value = '' then
++    FDataset.Fields.FieldByName(_Fieldname).Clear
++  else
++    FDataset[_Fieldname] := _Value;
++end;
++
++procedure TDatasetHelper.Close;
++begin
++  FDataset.Close;
++end;
++
++function TDatasetHelper.Eof: boolean;
++begin
++  Result := FDataset.Eof;
++end;
++
++function TDatasetHelper.Bof: boolean;
++begin
++  Result := FDataset.Bof;
++end;
++
++procedure TDatasetHelper.Next;
++begin
++  FDataset.Next;
++end;
++
++procedure TDatasetHelper.Open;
++begin
++  FDataset.Open;
++end;
++
++function TDatasetHelper.GetFieldValue(const _FieldName: string): Variant;
++begin
++  Result := FDataset[_FieldName];
++end;
++
++procedure TDatasetHelper.SetFieldValue(const _FieldName: string; const _Value: Variant);
++begin
++  FDataset[_FieldName] := _Value;
++end;
++
++procedure TDatasetHelper.Cancel;
++begin
++  FDataset.Cancel;
++end;
++
++procedure TDatasetHelper.Edit;
++begin
++  FDataset.Edit;
++end;
++
++procedure TDatasetHelper.Insert;
++begin
++  FDataset.Insert;
++end;
++
++procedure TDatasetHelper.Post;
++begin
++  FDataset.Post;
++end;
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Sun Mar 30 14:29:12 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 30 Mar 2008 14:29:12 +0200
+Subject: [Dzchart-svncheckins] r288 - in utilities/dzLib/trunk: . lockfree
+	tests/src
+Message-ID: <200803301229.m2UCTClh002734@sheep.berlios.de>
+
+Author: twm
+Date: 2008-03-30 14:29:11 +0200 (Sun, 30 Mar 2008)
+New Revision: 288
+
+Added:
+   utilities/dzLib/trunk/lockfree/
+   utilities/dzLib/trunk/lockfree/u_dzMultiWriteSingleReadLockFreeQueue.pas
+   utilities/dzLib/trunk/tests/src/Testu_dzMultiWriteSingleReadLockFreeQueue.pas
+Modified:
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+Log:
+added a multi write, single read, lock free queue (previously posted to the delphi forum) with test code. The tests work on a single, dual and quadcore box.
+
+Added: utilities/dzLib/trunk/lockfree/u_dzMultiWriteSingleReadLockFreeQueue.pas
+===================================================================
+--- utilities/dzLib/trunk/lockfree/u_dzMultiWriteSingleReadLockFreeQueue.pas	2008-03-30 12:27:24 UTC (rev 287)
++++ utilities/dzLib/trunk/lockfree/u_dzMultiWriteSingleReadLockFreeQueue.pas	2008-03-30 12:29:11 UTC (rev 288)
+@@ -0,0 +1,196 @@
++unit u_dzMultiWriteSingleReadLockFreeQueue;
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  SyncObjs;
++
++type
++  TIntObj = class(TObject)
++  public
++    Value: Integer;
++    constructor Create(_Value: integer);
++  end;
++
++type
++  _ItemType_ = TIntObj;
++
++type
++  TMultiWriteSingleReadLockFreeQueue = class
++  private
++  {(*}
++  type
++    TInternalQueue = class
++    private
++      FReadIdx: integer;
++      FWriteIdx: integer;
++      FItems: array of _ItemType_;
++    public
++      constructor Create(_Length: integer);
++      function Enqueue(_Item: _ItemType_): boolean;
++      function Dequeue(out _Item: _ItemType_): boolean;
++    end;
++  {*)}
++  private
++    FWriteQueue: TInternalQueue;
++    FReadQueue: TInternalQueue;
++    FActiveWriters: integer;
++    FActiveWritersZeroEvent: TEvent;
++    FLength: integer;
++    FQueueChanged: integer;
++  public
++    constructor Create(_Length: integer);
++    destructor Destroy; override;
++    function Enqueue(_Item: _ItemType_): boolean;
++    function Dequeue(out _Item: _ItemType_): boolean;
++    property QueueChanged: integer read FQueueChanged;
++  end;
++
++implementation
++
++{ TIntObj }
++
++constructor TIntObj.Create(_Value: integer);
++begin
++  inherited Create;
++  Value := _Value;
++end;
++
++{ TInternalQueue }
++
++constructor TMultiWriteSingleReadLockFreeQueue.TInternalQueue.Create(_Length: integer);
++begin
++  inherited Create;
++  SetLength(FItems, _Length);
++  FWriteIdx := -1;
++  Assert(integer(@FWriteIdx) mod 4 = 0, 'FWriteIdx is not doubleword aligned');
++end;
++
++function TMultiWriteSingleReadLockFreeQueue.TInternalQueue.Enqueue(_Item: _ItemType_): boolean;
++var
++  Idx: integer;
++begin
++  Assert(Assigned(_Item), 'trying to insert NIL');
++
++  // InterlockedIncrement increments FWriteIdx and returns the
++  // new value. Only one thread at a time can execute this function
++  // so we can be sure that the returned Idx is unique within all
++  // threads that call Enqueue.
++  Idx := InterlockedIncrement(FWriteIdx);
++  // Here is the catch: We cannot increase the length of the array
++  // in a thread safe manner without locking it, so it is possible
++  // that Enqueue fails.
++  Assert(Idx >= Low(FItems), 'Idx invalid');
++  Result := Idx <= High(FItems);
++  if Result then begin
++    FItems[Idx] := _Item;
++    // detect race condition
++    Assert(FItems[Idx] = _Item, 'FItems[Idx] has been overwritten');
++  end;
++end;
++
++function TMultiWriteSingleReadLockFreeQueue.TInternalQueue.Dequeue(out _Item: _ItemType_): boolean;
++begin
++  // We assume that we are the owner of this instance,
++  // all write operations have finished and no more write
++  // operations are possible, so we just read until we reach
++  // FWriteIdx. No synchronization is necessary.
++  Result := (FReadIdx <= FWriteIdx) and (FReadIdx < Length(FItems));
++  if Result then begin
++    _Item := FItems[FReadIdx];
++    Inc(FReadIdx);
++  end;
++end;
++
++{ TMultiWriteSingleReadLockFreeQueue }
++
++constructor TMultiWriteSingleReadLockFreeQueue.Create(_Length: integer);
++begin
++  inherited Create;
++  FActiveWritersZeroEvent := TEvent.Create;
++  FLength := _Length;
++  FWriteQueue := TInternalQueue.Create(_Length);
++  FReadQueue := nil;
++  Assert(integer(@FWriteQueue) mod 4 = 0, 'FWriteQueue is not doubleword aligned');
++end;
++
++destructor TMultiWriteSingleReadLockFreeQueue.Destroy;
++var
++  Item: _ItemType_;
++begin
++  // If you get any unexplicable access violations or invalid pointer exceptions
++  // in the reader thread, check, whether you are freeing the queue while the
++  // reader is still running.
++  while Dequeue(Item) do
++    Item.Free;
++  FReadQueue.Free;
++  FWriteQueue.Free;
++  FActiveWritersZeroEvent.Free;
++  inherited;
++end;
++
++function TMultiWriteSingleReadLockFreeQueue.Enqueue(_Item: _ItemType_): boolean;
++var
++  Queue: TInternalQueue;
++begin
++  // this is the simple case: The WriteQueue can be written to
++  // by any number of threads in parallel, no locking is required
++  // In addition we count the number of threads that are executing
++  // this method and therefore hold a reference to the WriteQueue.
++  // This is so the reader thread knows when it can safely
++  // use its copy.
++  InterlockedIncrement(FActiveWriters);
++  try
++    // First, we get our local reference of the WriteQueue,
++    // this is probably not necessary but just to be sure.
++    Queue := FWriteQueue;
++    // Then we enqueue our item to it
++    Result := Queue.Enqueue(_Item);
++  finally
++    // decrement the ActiveWriters, if we reach zero,
++    // notify the reading thread that it now owns he
++    // reading queue, in case it is waiting for it.
++    if InterlockedDecrement(FActiveWriters) = 0 then
++      FActiveWritersZeroEvent.SetEvent;
++  end;
++end;
++
++function TMultiWriteSingleReadLockFreeQueue.Dequeue(out _Item: _ItemType_): boolean;
++begin
++  if not Assigned(FReadQueue) then begin
++    // we create a new queue for all the writer threads to use
++    // and assign it as the new WriteQueue, the old one is assigned
++    // to ReadQueue. Since writing a doubleword aligned 32 bit integer
++    // is an atomic operation, we don't need InterlockedExchange here.
++    FReadQueue := FWriteQueue;
++    FWriteQueue := TInternalQueue.Create(FLength);
++    Inc(FQueueChanged);
++
++    // Unfortunately it is possible that other threads still hold a
++    // reference to the old queue.
++    // To be 100% sure we need to wait until the ActiveWriters count
++    // drops to 0 (once is enough, because all new calls to Enqueue
++    // will use the new WriteQueue)
++    // We reset the event, just in case we need it
++    FActiveWritersZeroEvent.ResetEvent;
++    // If there currently are writers, we wait for the event
++    // which will be set by the first writer that decrements
++    // ActiveWriters to 0. If there aren't, no need to wait.
++    if FActiveWriters <> 0 then
++      FActiveWritersZeroEvent.WaitFor(INFINITE);
++  end;
++
++  // OK, now we own the read queue, just Dequeue from it
++  Result := FReadQueue.Dequeue(_Item);
++  // If the ReadQueue is empty, free it
++  { TODO -otwm -ccheck : 
++    Maybe keep the queue around for using it as the next "new" queue?
++    Could save a bit on memory allocation overhead. }
++  if not Result then
++    FreeAndNil(FReadQueue);
++end;
++
++end.
++
+
+Modified: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2008-03-30 12:27:24 UTC (rev 287)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2008-03-30 12:29:11 UTC (rev 288)
+@@ -31,11 +31,14 @@
+   Testu_dzDateUtils in 'Testu_dzDateUtils.pas',
+   u_dzClassUtils in '..\..\src\u_dzClassUtils.pas',
+   u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
+-  Testu_dzStringUtils in 'Testu_dzStringUtils.pas';
++  Testu_dzStringUtils in 'Testu_dzStringUtils.pas',
++  Testu_dzMultiWriteSingleReadLockFreeQueue in 'Testu_dzMultiWriteSingleReadLockFreeQueue.pas',
++  u_dzMultiWriteSingleReadLockFreeQueue in '..\..\lockfree\u_dzMultiWriteSingleReadLockFreeQueue.pas';
+ 
+ {$R *.RES}
+ 
+ begin
++  IsMultithread := true;
+   Application.Initialize;
+   if IsConsole then
+     TextTestRunner.RunRegisteredTests
+
+Modified: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2008-03-30 12:27:24 UTC (rev 287)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2008-03-30 12:29:11 UTC (rev 288)
+@@ -18,10 +18,10 @@
+   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+     <Version>7.0</Version>
+     <DCC_Define>DEBUG;_CONSOLE_TESTRUNNER;no_translation</DCC_Define>
+-    <DCC_UnitSearchPath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc</DCC_UnitSearchPath>
+-    <DCC_ResourcePath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc</DCC_ResourcePath>
+-    <DCC_ObjPath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc</DCC_ObjPath>
+-    <DCC_IncludePath>$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc</DCC_IncludePath>
++    <DCC_UnitSearchPath>$(BDS)\Lib\Debug\NOT_Indy10;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc;..\..\src</DCC_UnitSearchPath>
++    <DCC_ResourcePath>$(BDS)\Lib\Debug\NOT_Indy10;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc;..\..\src</DCC_ResourcePath>
++    <DCC_ObjPath>$(BDS)\Lib\Debug\NOT_Indy10;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc;..\..\src</DCC_ObjPath>
++    <DCC_IncludePath>$(BDS)\Lib\Debug\NOT_Indy10;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc;..\..\src</DCC_IncludePath>
+     <DCC_DcuOutput>..\dcu</DCC_DcuOutput>
+     <DCC_ObjOutput>..\dcu</DCC_ObjOutput>
+     <DCC_HppOutput>..\dcu</DCC_HppOutput>
+@@ -43,6 +43,7 @@
+     <DelphiCompile Include="DUnitTests_dzLib.dpr">
+       <MainSource>MainSource</MainSource>
+     </DelphiCompile>
++    <DCCReference Include="..\..\lockfree\u_dzMultiWriteSingleReadLockFreeQueue.pas" />
+     <DCCReference Include="..\..\src\u_dzClassUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzConvertUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzDateUtils.pas" />
+@@ -55,6 +56,7 @@
+     <DCCReference Include="Testu_dzConvertUtils.pas" />
+     <DCCReference Include="Testu_dzDateUtils.pas" />
+     <DCCReference Include="Testu_dzFileUtils.pas" />
++    <DCCReference Include="Testu_dzMultiWriteSingleReadLockFreeQueue.pas" />
+     <DCCReference Include="Testu_dzStringUtils.pas" />
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/src/Testu_dzMultiWriteSingleReadLockFreeQueue.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzMultiWriteSingleReadLockFreeQueue.pas	2008-03-30 12:27:24 UTC (rev 287)
++++ utilities/dzLib/trunk/tests/src/Testu_dzMultiWriteSingleReadLockFreeQueue.pas	2008-03-30 12:29:11 UTC (rev 288)
+@@ -0,0 +1,229 @@
++unit Testu_dzMultiWriteSingleReadLockFreeQueue;
++
++interface
++
++uses
++  Windows,
++  Classes,
++  SysUtils,
++  Forms,
++  TestFramework,
++  u_dzNamedThread,
++  u_dzMultiWriteSingleReadLockFreeQueue;
++
++const
++  PRODUCER_COUNT = 100;
++  ENTRIES_PER_PRODUCER = 1000;
++
++type
++  TConsumerThread = class(TNamedThread)
++  private
++    FQueue: TMultiWriteSingleReadLockFreeQueue;
++    FFound: array[0..PRODUCER_COUNT * ENTRIES_PER_PRODUCER - 1] of boolean;
++    FDupes: integer;
++    FExceptions: integer;
++    FOutOfRange: integer;
++    function GetMissingValues: integer;
++  protected
++    procedure Execute; override;
++  public
++    constructor Create(_Queue: TMultiWriteSingleReadLockFreeQueue);
++    property Dupes: integer read FDupes;
++    property OutOfRange: integer read FOutOfRange;
++    property MissingValues: integer read GetMissingValues;
++    property Exceptions: integer read FExceptions;
++  end;
++
++type
++  TProducerThread = class(TNamedThread)
++  private
++    FQueue: TMultiWriteSingleReadLockFreeQueue;
++    FFrom: integer;
++    FCount: integer;
++    FFinished: boolean;
++    FEnqueueFailures: Integer;
++    FEnqueueErrors: Integer;
++  protected
++    procedure SetName(const _Name: string); override;
++    procedure Execute; override;
++  public
++    constructor Create(_Queue: TMultiWriteSingleReadLockFreeQueue; _From, _Count: integer);
++    property Finished: boolean read FFinished;
++    property EnqueueFailures: Integer read FEnqueueFailures;
++    property EnqueueErrors: Integer read FEnqueueErrors;
++  end;
++
++type
++  TestTMultiWriteSingleReadLockFreeQueue = class(TTestCase)
++  private
++    FQueue: TMultiWriteSingleReadLockFreeQueue;
++    FProducers: array[0..PRODUCER_COUNT - 1] of TProducerThread;
++  public
++    procedure SetUp; override;
++    procedure TearDown; override;
++  published
++    procedure Test1;
++  end;
++
++implementation
++
++{ TConsumerThread }
++
++constructor TConsumerThread.Create(_Queue: TMultiWriteSingleReadLockFreeQueue);
++begin
++  inherited Create(True);
++  FQueue := _Queue;
++  Resume;
++end;
++
++procedure TConsumerThread.Execute;
++var
++  Item: TIntObj;
++begin
++  inherited;
++  while not Terminated do begin
++    try
++      while FQueue.Dequeue(Item) do begin
++        if (Item.Value < Low(FFound)) or (Item.Value > High(FFound)) then
++          Inc(FOutOfRange)
++        else if FFound[Item.Value] then
++          Inc(FDupes)
++        else
++          FFound[Item.Value] := True;
++        Item.Free;
++      end;
++    except
++      Inc(FExceptions);
++//      raise;
++    end;
++  end;
++
++  try
++    while FQueue.Dequeue(Item) do begin
++      if (Item.Value < Low(FFound)) or (Item.Value > High(FFound)) then
++        Inc(FOutOfRange)
++      else if FFound[Item.Value] then
++        Inc(FDupes)
++      else
++        FFound[Item.Value] := True;
++      Item.Free;
++    end;
++  except
++    Inc(FExceptions);
++//      raise;
++  end;
++end;
++
++function TConsumerThread.GetMissingValues: integer;
++var
++  i: integer;
++begin
++  Result := 0;
++  for i := low(FFound) to High(FFound) do
++    if not FFound[i] then
++      Inc(Result);
++end;
++
++{ TProducerThread }
++
++constructor TProducerThread.Create(_Queue: TMultiWriteSingleReadLockFreeQueue; _From, _Count: integer);
++begin
++  inherited Create(True);
++  FQueue := _Queue;
++  FFrom := _From;
++  FCount := _Count;
++  Resume;
++end;
++
++procedure TProducerThread.Execute;
++
++var
++  i: Integer;
++  Item: TIntObj;
++begin
++  inherited;
++  for i := FFrom to FFrom + FCount - 1 do begin
++    Item := TIntObj.Create(i);
++    while not FQueue.Enqueue(Item) do begin
++      Sleep(0);
++    end;
++  end;
++  FFinished := True;
++end;
++
++procedure TProducerThread.SetName(const _Name: string);
++begin
++  inherited SetName(ClassName + IntToStr(FFrom));
++end;
++
++{ TestTMultiWriteSingleReadLockFreeQueue }
++
++procedure TestTMultiWriteSingleReadLockFreeQueue.SetUp;
++begin
++  FQueue := TMultiWriteSingleReadLockFreeQueue.Create((PRODUCER_COUNT * ENTRIES_PER_PRODUCER) div 10);
++end;
++
++procedure TestTMultiWriteSingleReadLockFreeQueue.TearDown;
++begin
++  FQueue.Free;
++  FQueue := nil;
++end;
++
++procedure TestTMultiWriteSingleReadLockFreeQueue.Test1;
++var
++  Consumer: TConsumerThread;
++  i: Integer;
++  Running: boolean;
++begin
++  Consumer := TConsumerThread.Create(FQueue);
++  try
++    try
++      for i := Low(FProducers) to High(FProducers) do begin
++        FProducers[i] := TProducerThread.Create(FQueue,
++          i * ENTRIES_PER_PRODUCER, ENTRIES_PER_PRODUCER);
++      end;
++
++      Running := True;
++      while Running do begin
++        Running := false;
++        for i := Low(FProducers) to High(FProducers) do begin
++          if not FProducers[i].Finished then begin
++            Running := true;
++            Sleep(10);
++            Application.ProcessMessages;
++            break;
++          end;
++        end;
++      end;
++
++      for i := Low(FProducers) to High(FProducers) do begin
++        CheckEquals(0, FProducers[i].EnqueueErrors, 'EnqueueErrors[' + IntToStr(i) + ']');
++      end;
++      for i := Low(FProducers) to High(FProducers) do begin
++        CheckEquals(0, FProducers[i].EnqueueFailures, 'EnqueueFailures[' + IntToStr(i) + ']');
++      end;
++
++    finally
++      Consumer.Terminate;
++      Consumer.WaitFor;
++    end;
++
++    CheckEquals(0, Consumer.Exceptions, 'Exceptions');
++    CheckEquals(0, Consumer.OutOfRange, 'OutOfRange');
++    CheckEquals(0, Consumer.Dupes, 'Dupes');
++    for i := 0 to Length(Consumer.FFound) - 1 do
++      CheckTrue(Consumer.FFound[i], 'Found[' + IntToStr(i) + ']');
++    CheckEquals(0, Consumer.MissingValues, 'MissingValues');
++  finally
++    Consumer.Free;
++    for i := Low(FProducers) to High(FProducers) do
++      FProducers[i].Free;
++  end;
++
++  Check(FQueue.QueueChanged > 1, 'QueueChanged > 1');
++end;
++
++initialization
++  RegisterTest(TestTMultiWriteSingleReadLockFreeQueue.Suite);
++end.
++
+
+
+

@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r504 - in utilities/dzContextMenu/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r504%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101002140706.4E2E9480FE9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000362.html">
+   <LINK REL="Next"  HREF="000364.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r504 - in utilities/dzContextMenu/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r504%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101002140706.4E2E9480FE9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r504 - in utilities/dzContextMenu/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct  2 16:07:06 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000362.html">[Dzchart-svncheckins] r503 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000364.html">[Dzchart-svncheckins] r505 - in utilities/dzLib/trunk/Packages: .	Delphi2011
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#363">[ date ]</a>
+              <a href="thread.html#363">[ thread ]</a>
+              <a href="subject.html#363">[ subject ]</a>
+              <a href="author.html#363">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-02 16:07:06 +0200 (Sat, 02 Oct 2010)
+New Revision: 504
+
+Modified:
+   utilities/dzContextMenu/trunk/menu.ini
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+   utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+Log:
+moved Initialize and Finalize further down in the unit (no other changes)
+
+Modified: utilities/dzContextMenu/trunk/menu.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/menu.ini	2010-10-02 14:05:55 UTC (rev 503)
++++ utilities/dzContextMenu/trunk/menu.ini	2010-10-02 14:07:06 UTC (rev 504)
+@@ -1,5 +1,5 @@
+ [global]
+-Caption=Delphi Project
++Caption=Delphi
+ 
+ [BDS.DprFile]
+ extension=.dpr
+
+Modified: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-02 14:05:55 UTC (rev 503)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-02 14:07:06 UTC (rev 504)
+@@ -169,26 +169,6 @@
+   Result := gblIni;
+ end;
+ 
+-procedure Initialize;
+-var
+-  IniName: string;
+-  cfg: TdzConfig;
+-begin
+-  cfg := TdzConfig.Create(HInstance);
+-  try
+-    cfg.ExeName := 'menu';
+-    IniName := cfg.GetUserCfgFile(false);
+-  finally
+-    FreeAndNil(cfg);
+-  end;
+-  gblIni := TMemIniFile.Create(IniName);
+-end;
+-
+-procedure Finalize;
+-begin
+-  FreeAndNil(gblIni);
+-end;
+-
+ { TMenuItemEx }
+ 
+ procedure TMenuItemEx.Execute(_Files: TStrings);
+@@ -241,6 +221,26 @@
+   Inc(_Id);
+ end;
+ 
++procedure Initialize;
++var
++  IniName: string;
++  cfg: TdzConfig;
++begin
++  cfg := TdzConfig.Create(HInstance);
++  try
++    cfg.ExeName := 'menu';
++    IniName := cfg.GetUserCfgFile(false);
++  finally
++    FreeAndNil(cfg);
++  end;
++  gblIni := TMemIniFile.Create(IniName);
++end;
++
++procedure Finalize;
++begin
++  FreeAndNil(gblIni);
++end;
++
+ initialization
+ {$IFDEF show_attach_dialog}
+   MessageBox(0, 'Attach debugger now!', 'Initialization', MB_ICONINFORMATION or MB_OK);
+
+Modified: utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-02 14:05:55 UTC (rev 503)
++++ utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-02 14:07:06 UTC (rev 504)
+@@ -1,12 +1,12 @@
+ [Version Info]
+ AutoIncBuild=0
+-Build=92
++Build=96
+ MajorVer=1
+ MinorVer=0
+ Release=0
+ 
+ [Version Info Keys]
+-FileVersion=1.0.0.92
++FileVersion=1.0.0.96
+ ProductVersion={today}
+ FileDescription=configurable context menu for windows explorer
+ OriginalFilename=dzContextMenu.dll
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000362.html">[Dzchart-svncheckins] r503 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000364.html">[Dzchart-svncheckins] r505 - in utilities/dzLib/trunk/Packages: .	Delphi2011
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#363">[ date ]</a>
+              <a href="thread.html#363">[ thread ]</a>
+              <a href="subject.html#363">[ subject ]</a>
+              <a href="author.html#363">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,1387 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r370 - in utilities/dzLib/trunk: . src	templates tests tests/NullableTypesTest	tests/NullableTypesTest/dcu tests/NullableTypesTest/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r370%20-%20in%20utilities/dzLib/trunk%3A%20.%20src%0A%09templates%20tests%20tests/NullableTypesTest%0A%09tests/NullableTypesTest/dcu%20tests/NullableTypesTest/src&In-Reply-To=%3C200909251845.n8PIjWqH026133%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000235.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r370 - in utilities/dzLib/trunk: . src	templates tests tests/NullableTypesTest	tests/NullableTypesTest/dcu tests/NullableTypesTest/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r370%20-%20in%20utilities/dzLib/trunk%3A%20.%20src%0A%09templates%20tests%20tests/NullableTypesTest%0A%09tests/NullableTypesTest/dcu%20tests/NullableTypesTest/src&In-Reply-To=%3C200909251845.n8PIjWqH026133%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r370 - in utilities/dzLib/trunk: . src	templates tests tests/NullableTypesTest	tests/NullableTypesTest/dcu tests/NullableTypesTest/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 20:45:32 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000235.html">[Dzchart-svncheckins] r369 - utilities/dzLib/trunk/src
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#236">[ date ]</a>
+              <a href="thread.html#236">[ thread ]</a>
+              <a href="subject.html#236">[ subject ]</a>
+              <a href="author.html#236">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 20:45:27 +0200 (Fri, 25 Sep 2009)
+New Revision: 370
+
+Added:
+   utilities/dzLib/trunk/src/u_dzNullableDouble.pas
+   utilities/dzLib/trunk/src/u_dzNullableExtended.pas
+   utilities/dzLib/trunk/src/u_dzNullableInt64.pas
+   utilities/dzLib/trunk/src/u_dzNullableInteger.pas
+   utilities/dzLib/trunk/src/u_dzNullableSingle.pas
+   utilities/dzLib/trunk/src/u_dzNullableTypesUtils.pas
+   utilities/dzLib/trunk/templates/
+   utilities/dzLib/trunk/templates/t_NullableNumber.tpl
+   utilities/dzLib/trunk/tests/NullableTypesTest/
+   utilities/dzLib/trunk/tests/NullableTypesTest/dcu/
+   utilities/dzLib/trunk/tests/NullableTypesTest/src/
+   utilities/dzLib/trunk/tests/NullableTypesTest/src/NullableTypesTest.dpr
+   utilities/dzLib/trunk/tests/NullableTypesTest/src/NullableTypesTest.dproj
+   utilities/dzLib/trunk/tests/NullableTypesTest/src/u_NullableTypesTest.pas
+Log:
+* Nullable number template
+* implementations for Integer, Int64, Single, Double and Extended
+* unit tests (far from complete)
+
+Added: utilities/dzLib/trunk/src/u_dzNullableDouble.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNullableDouble.pas	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/src/u_dzNullableDouble.pas	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,25 @@
++unit u_dzNullableDouble;
++
++interface
++
++uses
++  Math,
++  Variants,
++  u_dzTranslator,
++  u_dzVariantUtils,
++  u_dzNullableTypesUtils;
++
++{$DEFINE __DZ_NULLABLE_NUMBER_TEMPLATE__}
++type
++  _NULLABLE_TYPE_BASE_ = Double;
++{$INCLUDE 't_NullableNumber.tpl'}
++
++type
++  TNullableDouble = _NULLABLE_NUMBER_;
++
++implementation
++
++{$INCLUDE 't_NullableNumber.tpl'}
++
++end.
++
+
+Added: utilities/dzLib/trunk/src/u_dzNullableExtended.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNullableExtended.pas	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/src/u_dzNullableExtended.pas	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,25 @@
++unit u_dzNullableExtended;
++
++interface
++
++uses
++  Math,
++  Variants,
++  u_dzTranslator,
++  u_dzVariantUtils,
++  u_dzNullableTypesUtils;
++
++{$DEFINE __DZ_NULLABLE_NUMBER_TEMPLATE__}
++type
++  _NULLABLE_TYPE_BASE_ = Extended;
++{$INCLUDE 't_NullableNumber.tpl'}
++
++type
++  TNullableExtended = _NULLABLE_NUMBER_;
++
++implementation
++
++{$INCLUDE 't_NullableNumber.tpl'}
++
++end.
++
+
+Added: utilities/dzLib/trunk/src/u_dzNullableInt64.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNullableInt64.pas	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/src/u_dzNullableInt64.pas	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,25 @@
++unit u_dzNullableInt64;
++
++interface
++
++uses
++  Math,
++  Variants,
++  u_dzTranslator,
++  u_dzVariantUtils,
++  u_dzNullableTypesUtils;
++
++{$DEFINE __DZ_NULLABLE_NUMBER_TEMPLATE__}
++type
++  _NULLABLE_TYPE_BASE_ = Int64;
++{$INCLUDE 't_NullableNumber.tpl'}
++
++type
++  TNullableInt64 = _NULLABLE_NUMBER_;
++
++implementation
++
++{$INCLUDE 't_NullableNumber.tpl'}
++
++end.
++
+
+Added: utilities/dzLib/trunk/src/u_dzNullableInteger.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNullableInteger.pas	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/src/u_dzNullableInteger.pas	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,25 @@
++unit u_dzNullableInteger;
++
++interface
++
++uses
++  Math,
++  Variants,
++  u_dzTranslator,
++  u_dzVariantUtils,
++  u_dzNullableTypesUtils;
++
++{$DEFINE __DZ_NULLABLE_NUMBER_TEMPLATE__}
++type
++  _NULLABLE_TYPE_BASE_ = integer;
++{$INCLUDE 't_NullableNumber.tpl'}
++
++type
++  TNullableInteger = _NULLABLE_NUMBER_;
++
++implementation
++
++{$INCLUDE 't_NullableNumber.tpl'}
++
++end.
++
+
+Added: utilities/dzLib/trunk/src/u_dzNullableSingle.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNullableSingle.pas	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/src/u_dzNullableSingle.pas	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,25 @@
++unit u_dzNullableSingle;
++
++interface
++
++uses
++  Math,
++  Variants,
++  u_dzTranslator,
++  u_dzVariantUtils,
++  u_dzNullableTypesUtils;
++
++{$DEFINE __DZ_NULLABLE_NUMBER_TEMPLATE__}
++type
++  _NULLABLE_TYPE_BASE_ = Single;
++{$INCLUDE 't_NullableNumber.tpl'}
++
++type
++  TNullableSingle = _NULLABLE_NUMBER_;
++
++implementation
++
++{$INCLUDE 't_NullableNumber.tpl'}
++
++end.
++
+
+Added: utilities/dzLib/trunk/src/u_dzNullableTypesUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNullableTypesUtils.pas	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/src/u_dzNullableTypesUtils.pas	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,203 @@
++unit u_dzNullableTypesUtils;
++
++interface
++
++uses
++  SysUtils;
++
++type
++  EInvalidValue = class(Exception);
++
++procedure StrToNumber(const _s: string; out _Value: integer); overload;
++procedure StrToNumber(const _s: string; out _Value: single); overload;
++procedure StrToNumber(const _s: string; out _Value: double); overload;
++procedure StrToNumber(const _s: string; out _Value: extended); overload;
++
++function TryStrToNumber(const _s: string; out _Value: integer): boolean; overload;
++function TryStrToNumber(const _s: string; out _Value: Int64): boolean; overload;
++function TryStrToNumber(const _s: string; out _Value: single): boolean; overload;
++function TryStrToNumber(const _s: string; out _Value: double): boolean; overload;
++function TryStrToNumber(const _s: string; out _Value: extended): boolean; overload;
++
++function NumberToStr(_Value: integer): string; overload;
++function NumberToStr(_Value: single): string; overload;
++function NumberToStr(_Value: double): string; overload;
++function NumberToStr(_Value: extended): string; overload;
++
++function TryVar2Number(const _v: variant; out _Value: integer): boolean; overload;
++function TryVar2Number(const _v: variant; out _Value: Int64): boolean; overload;
++function TryVar2Number(const _v: variant; out _Value: single): boolean; overload;
++function TryVar2Number(const _v: variant; out _Value: double): boolean; overload;
++function TryVar2Number(const _v: variant; out _Value: extended): boolean; overload;
++
++function GetNullableTypesFlagInterface: IInterface;
++
++procedure DivideNumbers(_a, _b: Integer; out _Value: Integer); overload;
++procedure DivideNumbers(_a, _b: Int64; out _Value: Int64); overload;
++procedure DivideNumbers(_a, _b: Single; out _Value: Single); overload;
++procedure DivideNumbers(_a, _b: Double; out _Value: Double); overload;
++procedure DivideNumbers(_a, _b: Extended; out _Value: Extended); overload;
++
++implementation
++
++uses
++  u_dzVariantUtils;
++
++// this is a fake interfaced object that only exists as the VMT
++// It can still be used to trick the compiler into believing an interface pointer is assigned
++
++function NopAddref(inst: Pointer): Integer; stdcall;
++begin
++  Result := -1;
++end;
++
++function NopRelease(inst: Pointer): Integer; stdcall;
++begin
++  Result := -1;
++end;
++
++function NopQueryInterface(inst: Pointer; const IID: TGUID; out Obj): HResult; stdcall;
++begin
++  Result := E_NOINTERFACE;
++end;
++
++const
++  FlagInterfaceVTable: array[0..2] of Pointer =
++    (
++    @NopQueryInterface,
++    @NopAddref,
++    @NopRelease
++    );
++const
++  FlagInterfaceInstance: Pointer = @FlagInterfaceVTable;
++
++function GetNullableTypesFlagInterface: IInterface;
++begin
++  Result := IInterface(@FlagInterfaceInstance);
++end;
++
++// StrToNumber
++
++procedure StrToNumber(const _s: string; out _Value: integer);
++begin
++  _Value := StrToInt(_s);
++end;
++
++procedure StrToNumber(const _s: string; out _Value: single);
++begin
++  _Value := StrToFloat(_s);
++end;
++
++procedure StrToNumber(const _s: string; out _Value: double);
++begin
++  _Value := StrToFloat(_s);
++end;
++
++procedure StrToNumber(const _s: string; out _Value: extended);
++begin
++  _Value := StrToFloat(_s);
++end;
++
++// TryStrToNumber
++
++function TryStrToNumber(const _s: string; out _Value: integer): boolean;
++begin
++  Result := TryStrToInt(_s, _Value);
++end;
++
++function TryStrToNumber(const _s: string; out _Value: Int64): boolean;
++begin
++  Result := TryStrToInt64(_s, _Value);
++end;
++
++function TryStrToNumber(const _s: string; out _Value: single): boolean;
++begin
++  Result := TryStrToFloat(_s, _Value);
++end;
++
++function TryStrToNumber(const _s: string; out _Value: double): boolean;
++begin
++  Result := TryStrToFloat(_s, _Value);
++end;
++
++function TryStrToNumber(const _s: string; out _Value: extended): boolean;
++begin
++  Result := TryStrToFloat(_s, _Value);
++end;
++
++// NumberToStr
++
++function NumberToStr(_Value: integer): string;
++begin
++  Result := IntToStr(_Value);
++end;
++
++function NumberToStr(_Value: single): string;
++begin
++  Result := FloatToStr(_Value);
++end;
++
++function NumberToStr(_Value: double): string;
++begin
++  Result := FloatToStr(_Value);
++end;
++
++function NumberToStr(_Value: extended): string;
++begin
++  Result := FloatToStr(_Value);
++end;
++
++// TryVar2Number
++
++function TryVar2Number(const _v: variant; out _Value: integer): boolean;
++begin
++  Result := TryVar2Int(_v, _Value);
++end;
++
++function TryVar2Number(const _v: variant; out _Value: Int64): boolean;
++begin
++  Result := TryVar2Int64(_v, _Value);
++end;
++
++function TryVar2Number(const _v: variant; out _Value: single): boolean;
++begin
++  Result := TryVar2Single(_v, _Value);
++end;
++
++function TryVar2Number(const _v: variant; out _Value: double): boolean;
++begin
++  Result := TryVar2Dbl(_v, _Value);
++end;
++
++function TryVar2Number(const _v: variant; out _Value: extended): boolean;
++begin
++  Result := TryVar2Ext(_v, _Value);
++end;
++
++procedure DivideNumbers(_a, _b: Integer; out _Value: Integer);
++begin
++  _Value := _a div _b;
++end;
++
++procedure DivideNumbers(_a, _b: Int64; out _Value: Int64);
++begin
++  _Value := _a div _b;
++end;
++
++procedure DivideNumbers(_a, _b: Single; out _Value: Single);
++begin
++  _Value := _a / _b;
++end;
++
++procedure DivideNumbers(_a, _b: Double; out _Value: Double);
++begin
++  _Value := _a / _b;
++end;
++
++procedure DivideNumbers(_a, _b: Extended; out _Value: Extended);
++begin
++  _Value := _a / _b;
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/templates/t_NullableNumber.tpl
+===================================================================
+--- utilities/dzLib/trunk/templates/t_NullableNumber.tpl	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/templates/t_NullableNumber.tpl	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,337 @@
++{$IFNDEF __DZ_NULLABLE_NUMBER_TEMPLATE__}
++unit t_NullableNumber;
++
++interface
++
++uses
++  SysUtils,
++  Variants,
++  u_dzNullableTypesUtils;
++
++/// These types must be declared for each class built on this template
++type
++  // can be integer, int64, single, double, extended and possibly some other
++  // numerical types (e.g. currency) which I have not(!) tested.
++  _NULLABLE_TYPE_BASE_ = int64;
++
++{$ENDIF __DZ_NULLABLE_NUMBER_TEMPLATE__}
++
++{$IFNDEF __DZ_NULLABLE_NUMBER_TEMPLATE_SECOND_PASS__}
++
++type
++  _NULLABLE_NUMBER_ = record
++  private
++    FIsValid: IInterface;
++    FValue: _NULLABLE_TYPE_BASE_;
++  public
++    procedure Invalidate;
++    function Value: _NULLABLE_TYPE_BASE_;
++    function IsValid: boolean; inline;
++    function GetValue(out _Value: _NULLABLE_TYPE_BASE_): boolean;
++    procedure AssignVariant(_a: Variant);
++    function ToVariant: Variant;
++    function Dump: string;
++    class operator Negative(_a: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Positive(_a: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Inc(_a: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Dec(_a: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Add(_a, _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Add(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++    class operator Add(_a: _NULLABLE_TYPE_BASE_; _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Subtract(_a, _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Subtract(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++    class operator Subtract(_a: _NULLABLE_TYPE_BASE_; _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Multiply(_a, _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Multiply(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++    class operator Multiply(_a: _NULLABLE_TYPE_BASE_; _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Divide(_a, _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Divide(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++    class operator Divide(_a: _NULLABLE_TYPE_BASE_; _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++    class operator Implicit(_Value: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++    class operator Implicit(_a: _NULLABLE_NUMBER_): _NULLABLE_TYPE_BASE_;
++    class operator Explicit(const _s: string): _NULLABLE_NUMBER_;
++    class operator Explicit(_a: _NULLABLE_NUMBER_): string;
++    class operator LessThan(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++    class operator LessThanOrEqual(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++    class operator GreaterThan(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++    class operator GreaterThanOrEqual(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++    class operator Equal(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++    class operator NotEqual(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++
++    /// &lt;summary&gt; invalid values are considered smaller than any valid values
++    /// and equal to each other &lt;/summary&gt;
++    class function Compare(_a, _b: _NULLABLE_NUMBER_): integer; static;
++    class function Invalid: _NULLABLE_NUMBER_; static;
++    class function FromVariant(_a: Variant): _NULLABLE_NUMBER_; static;
++  end;
++
++{$ENDIF __DZ_NULLABLE_NUMBER_TEMPLATE_SECOND_PASS__}
++
++{$IFNDEF __DZ_NULLABLE_NUMBER_TEMPLATE__}
++{$DEFINE __DZ_NULLABLE_NUMBER_TEMPLATE_SECOND_PASS__}
++
++implementation
++
++uses
++  Math,
++  u_dzTranslator,
++  u_dzVariantUtils;
++
++{$ENDIF __DZ_NULLABLE_NUMBER_TEMPLATE__}
++
++{$IFDEF __DZ_NULLABLE_NUMBER_TEMPLATE_SECOND_PASS__}
++
++{ _NULLABLE_NUMBER_ }
++
++class operator _NULLABLE_NUMBER_.Negative(_a: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  Result := -_a.Value;
++end;
++
++class operator _NULLABLE_NUMBER_.Positive(_a: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  Result := _a.Value;
++end;
++
++class operator _NULLABLE_NUMBER_.Inc(_a: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  Result := _a.Value + 1;
++end;
++
++class operator _NULLABLE_NUMBER_.Dec(_a: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  Result := _a.Value - 1;
++end;
++
++class operator _NULLABLE_NUMBER_.Add(_a, _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  if not _a.IsValid or not _b.IsValid then
++    raise EInvalidValue.Create(_('Cannot add two nullable values if one of them is not valid'));
++  Result := _a.Value + _b.Value;
++end;
++
++class operator _NULLABLE_NUMBER_.Add(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++begin
++  if not _a.IsValid then
++    raise EInvalidValue.Create(_('Cannot add to a nullable value if it is not valid'));
++  Result := _a.Value + _b;
++end;
++
++class operator _NULLABLE_NUMBER_.Add(_a: _NULLABLE_TYPE_BASE_; _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  if not _b.IsValid then
++    raise EInvalidValue.Create(_('Cannot add to a nullable value if it is not valid'));
++  Result := _a + _b.Value;
++end;
++
++class operator _NULLABLE_NUMBER_.Subtract(_a, _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  if not _a.IsValid or not _b.IsValid then
++    raise EInvalidValue.Create(_('Cannot subtract two nullable values if one of them is not valid'));
++  Result := _a.Value - _b.Value;
++end;
++
++class operator _NULLABLE_NUMBER_.Subtract(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++begin
++  if not _a.IsValid then
++    raise EInvalidValue.Create(_('Cannot subtract from a nullable value if it is not valid'));
++  Result := _a.Value - _b;
++end;
++
++class operator _NULLABLE_NUMBER_.Subtract(_a: _NULLABLE_TYPE_BASE_; _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  if not _b.IsValid then
++    raise EInvalidValue.Create(_('Cannot subtract from a value if it is not valid'));
++  Result := _a - _b.Value;
++end;
++
++class operator _NULLABLE_NUMBER_.Multiply(_a, _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  if not _a.IsValid or not _b.IsValid then
++    raise EInvalidValue.Create(_('Cannot multiply two nullable values if one of them is not valid'));
++  Result := _a.Value * _b.Value;
++end;
++
++class operator _NULLABLE_NUMBER_.Multiply(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++begin
++  if not _a.IsValid then
++    raise EInvalidValue.Create(_('Cannot multiply a nullable value if it is not valid'));
++  Result := _a.Value * _b;
++end;
++
++class operator _NULLABLE_NUMBER_.Multiply(_a: _NULLABLE_TYPE_BASE_; _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++begin
++  if not _b.IsValid then
++    raise EInvalidValue.Create(_('Cannot multiply a nullable value if it is not valid'));
++  Result := _a * _b.Value;
++end;
++
++class operator _NULLABLE_NUMBER_.Divide(_a, _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++var
++  Res: _NULLABLE_TYPE_BASE_;
++begin
++  if not _a.IsValid or not _b.IsValid then
++    raise EInvalidValue.Create(_('Cannot divide two nullable values if one of them is not valid'));
++  DivideNumbers(_a.Value, _b.Value, Res);
++  Result := Res;
++end;
++
++class operator _NULLABLE_NUMBER_.Divide(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++var
++  Res: _NULLABLE_TYPE_BASE_;
++begin
++  if not _a.IsValid then
++    raise EInvalidValue.Create(_('Cannot divide a nullable value if it is not valid'));
++  DivideNumbers(_a.Value, _b, Res);
++  Result := Res;
++end;
++
++class operator _NULLABLE_NUMBER_.Divide(_a: _NULLABLE_TYPE_BASE_; _b: _NULLABLE_NUMBER_): _NULLABLE_NUMBER_;
++var
++  Res: _NULLABLE_TYPE_BASE_;
++begin
++  if not _b.IsValid then
++    raise EInvalidValue.Create(_('Cannot divide by a nullable value if it is not valid'));
++  DivideNumbers(_a, _b, Res);
++  Result := Res;
++end;
++
++class operator _NULLABLE_NUMBER_.Explicit(const _s: string): _NULLABLE_NUMBER_;
++begin
++  if TryStrToNumber(_s, Result.FValue) then
++    Result.FIsValid := GetNullableTypesFlagInterface
++  else
++    Result.FIsValid := nil;
++end;
++
++class operator _NULLABLE_NUMBER_.Explicit(_a: _NULLABLE_NUMBER_): string;
++begin
++  if _a.IsValid then
++    Result := NumberToStr(_a.Value)
++  else
++    Result := '';
++end;
++
++class function _NULLABLE_NUMBER_.FromVariant(_a: Variant): _NULLABLE_NUMBER_;
++begin
++  Result.AssignVariant(_a);
++end;
++
++class operator _NULLABLE_NUMBER_.Implicit(_Value: _NULLABLE_TYPE_BASE_): _NULLABLE_NUMBER_;
++begin
++  Result.FValue := _Value;
++  Result.FIsValid := GetNullableTypesFlagInterface;
++end;
++
++class operator _NULLABLE_NUMBER_.Implicit(_a: _NULLABLE_NUMBER_): _NULLABLE_TYPE_BASE_;
++begin
++  Result := _a.Value;
++end;
++
++procedure _NULLABLE_NUMBER_.AssignVariant(_a: Variant);
++begin
++  if TryVar2Number(_a, FValue) then
++    FIsValid := GetNullableTypesFlagInterface
++  else
++    FIsValid := nil;
++end;
++
++class function _NULLABLE_NUMBER_.Compare(_a, _b: _NULLABLE_NUMBER_): integer;
++begin
++  if _a.IsValid then begin
++    if _b.IsValid then
++      Result := Math.CompareValue(_a.Value, _b.Value)
++    else
++      Result := 1;
++  end else if not _b.IsValid then
++    Result := 0
++  else
++    Result := -1;
++end;
++
++function _NULLABLE_NUMBER_.Dump: string;
++begin
++  if IsValid then
++    Result := NumberToStr(FValue)
++  else
++    Result := '&lt;invalid&gt;';
++end;
++
++function _NULLABLE_NUMBER_.ToVariant: Variant;
++begin
++  if IsValid then
++    Result := Value
++  else
++    Result := Variants.Null;
++end;
++
++function _NULLABLE_NUMBER_.GetValue(out _Value: _NULLABLE_TYPE_BASE_): boolean;
++begin
++  Result := IsValid;
++  if Result then
++    _Value := FValue;
++end;
++
++procedure _NULLABLE_NUMBER_.Invalidate;
++begin
++  FIsValid := nil;
++end;
++
++function _NULLABLE_NUMBER_.IsValid: boolean;
++begin
++  Result := FIsValid &lt;&gt; nil;
++end;
++
++class operator _NULLABLE_NUMBER_.LessThan(_a: _NULLABLE_NUMBER_;
++  _b: _NULLABLE_TYPE_BASE_): boolean;
++begin
++  Result := _a.Value &lt; _b;
++end;
++
++class operator _NULLABLE_NUMBER_.LessThanOrEqual(_a: _NULLABLE_NUMBER_;
++  _b: _NULLABLE_TYPE_BASE_): boolean;
++begin
++  Result := _a.Value &lt;= _b;
++end;
++
++class operator _NULLABLE_NUMBER_.GreaterThan(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++begin
++  Result := _a.Value &gt; _b;
++end;
++
++class operator _NULLABLE_NUMBER_.GreaterThanOrEqual(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++begin
++  Result := _a.Value &gt;= _b;
++end;
++
++class operator _NULLABLE_NUMBER_.Equal(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++begin
++  Result := _a.Value = _b;
++end;
++
++class operator _NULLABLE_NUMBER_.NotEqual(_a: _NULLABLE_NUMBER_; _b: _NULLABLE_TYPE_BASE_): boolean;
++begin
++  Result := _a.Value &lt;&gt; _b;
++end;
++
++class function _NULLABLE_NUMBER_.Invalid: _NULLABLE_NUMBER_;
++begin
++  Result.Invalidate;
++end;
++
++function _NULLABLE_NUMBER_.Value: _NULLABLE_TYPE_BASE_;
++begin
++  if not IsValid then
++    raise EInvalidValue.Create(_('NullableInteger value is invalid'));
++  Result := FValue;
++end;
++
++{$ENDIF __DZ_NULLABLE_NUMBER_TEMPLATE_SECOND_PASS__}
++
++{$DEFINE __DZ_NULLABLE_NUMBER_TEMPLATE_SECOND_PASS__}
++
++{$IFNDEF __DZ_NULLABLE_NUMBER_TEMPLATE__}
++{$WARNINGS OFF}
++end.
++{$ENDIF __DZ_NULLABLE_NUMBER_TEMPLATE__}
++
+
+
+Property changes on: utilities/dzLib/trunk/tests/NullableTypesTest
+___________________________________________________________________
+Name: svn:ignore
+   + dunit.ini
+NullableTypesTest.exe
+
+
+
+Property changes on: utilities/dzLib/trunk/tests/NullableTypesTest/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Added: utilities/dzLib/trunk/tests/NullableTypesTest/src/NullableTypesTest.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/NullableTypesTest/src/NullableTypesTest.dpr	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/tests/NullableTypesTest/src/NullableTypesTest.dpr	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,39 @@
++program NullableTypesTest;
++{
++
++  Delphi DUnit Test Project
++  -------------------------
++  This project contains the DUnit test framework and the GUI/Console test runners.
++  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
++  to use the console test runner.  Otherwise the GUI test runner will be used by 
++  default.
++
++}
++
++{$IFDEF CONSOLE_TESTRUNNER}
++{$APPTYPE CONSOLE}
++{$ENDIF}
++
++uses
++  Forms,
++  TestFramework,
++  GUITestRunner,
++  TextTestRunner,
++  u_NullableTypesTest in 'u_NullableTypesTest.pas',
++  u_dzNullableTypesUtils in '..\..\..\src\u_dzNullableTypesUtils.pas',
++  u_dzNullableDouble in '..\..\..\src\u_dzNullableDouble.pas',
++  u_dzNullableInteger in '..\..\..\src\u_dzNullableInteger.pas',
++  u_dzNullableInt64 in '..\..\..\src\u_dzNullableInt64.pas',
++  u_dzNullableSingle in '..\..\..\src\u_dzNullableSingle.pas',
++  u_dzNullableExtended in '..\..\..\src\u_dzNullableExtended.pas';
++
++{$R *.RES}
++
++begin
++  Application.Initialize;
++  if IsConsole then
++    TextTestRunner.RunRegisteredTests
++  else
++    GUITestRunner.RunRegisteredTests;
++end.
++
+
+Added: utilities/dzLib/trunk/tests/NullableTypesTest/src/NullableTypesTest.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/NullableTypesTest/src/NullableTypesTest.dproj	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/tests/NullableTypesTest/src/NullableTypesTest.dproj	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,130 @@
++&#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++		&lt;PropertyGroup&gt;
++			&lt;ProjectGuid&gt;{9ce4adcd-780a-4577-b737-abbae0949aa4}&lt;/ProjectGuid&gt;
++			&lt;MainSource&gt;NullableTypesTest.dpr&lt;/MainSource&gt;
++			&lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++			&lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++			&lt;DCC_DependencyCheckOutputName&gt;..\NullableTypesTest.exe&lt;/DCC_DependencyCheckOutputName&gt;
++			&lt;ProjectVersion&gt;12.0&lt;/ProjectVersion&gt;
++			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Release' or '$(Cfg_1)'!=''&quot;&gt;
++			&lt;Cfg_1&gt;true&lt;/Cfg_1&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Debug' or '$(Cfg_2)'!=''&quot;&gt;
++			&lt;Cfg_2&gt;true&lt;/Cfg_2&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_UnitSearchPath&gt;..\..\..\templates;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
++			&lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++			&lt;DCC_DependencyCheckOutputName&gt;..\NullableTypesTest.exe&lt;/DCC_DependencyCheckOutputName&gt;
++			&lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_1)'!=''&quot;&gt;
++			&lt;Version&gt;7.0&lt;/Version&gt;
++			&lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++			&lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++			&lt;DCC_Define&gt;RELEASE;$(DCC_Define)&lt;/DCC_Define&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_2)'!=''&quot;&gt;
++			&lt;Version&gt;7.0&lt;/Version&gt;
++			&lt;DCC_Define&gt;DEBUG;_CONSOLE_TESTRUNNER;no_translation;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_UnitSearchPath&gt;$(BDS)\Source\DUnit\src;..\..\..\src\common;..\..\..\..\dzlib\src;..\..\..\..\dzlib\jedi_inc;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
++			&lt;DCC_ResourcePath&gt;$(BDS)\Source\DUnit\src;..\..\..\src\common;..\..\..\..\dzlib\src;..\..\..\..\dzlib\jedi_inc;$(DCC_ResourcePath)&lt;/DCC_ResourcePath&gt;
++			&lt;DCC_ObjPath&gt;$(BDS)\Source\DUnit\src;..\..\..\src\common;..\..\..\..\dzlib\src;..\..\..\..\dzlib\jedi_inc;$(DCC_ObjPath)&lt;/DCC_ObjPath&gt;
++			&lt;DCC_IncludePath&gt;$(BDS)\Source\DUnit\src;..\..\..\src\common;..\..\..\..\dzlib\src;..\..\..\..\dzlib\jedi_inc;$(DCC_IncludePath)&lt;/DCC_IncludePath&gt;
++			&lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++			&lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++			&lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
++			&lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;ProjectExtensions&gt;
++			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
++			&lt;Borland.ProjectType/&gt;
++			&lt;BorlandProject&gt;
++				&lt;Delphi.Personality&gt;
++					&lt;Parameters&gt;
++						&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++					&lt;/Parameters&gt;
++					&lt;VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++					&lt;/VersionInfo&gt;
++					&lt;VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;CompanyName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileDescription&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;InternalName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;Comments&quot;/&gt;
++					&lt;/VersionInfoKeys&gt;
++					&lt;Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcltee7100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;D:\twm\source\ArgusVideo-ADAC\libs\mydac\bin\mydac100.bpl&quot;&gt;MySQL Data Access Components&lt;/Excluded_Packages&gt;
++						&lt;Excluded_Packages Name=&quot;D:\twm\source\ArgusVideo-ADAC\libs\mydac\bin\dac100.bpl&quot;&gt;Core Lab Data Access Components&lt;/Excluded_Packages&gt;
++					&lt;/Excluded_Packages&gt;
++					&lt;Source&gt;
++						&lt;Source Name=&quot;MainSource&quot;&gt;NullableTypesTest.dpr&lt;/Source&gt;
++					&lt;/Source&gt;
++				&lt;/Delphi.Personality&gt;
++				&lt;UnitTesting&gt;
++					&lt;TestFramework&gt;DUnit / Delphi Win32&lt;/TestFramework&gt;
++					&lt;TestRunner&gt;GUI&lt;/TestRunner&gt;
++				&lt;/UnitTesting&gt;
++			&lt;/BorlandProject&gt;
++			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
++		&lt;/ProjectExtensions&gt;
++		&lt;ItemGroup&gt;
++			&lt;DelphiCompile Include=&quot;NullableTypesTest.dpr&quot;&gt;
++				&lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++			&lt;/DelphiCompile&gt;
++			&lt;DCCReference Include=&quot;u_NullableTypesTest.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\src\u_dzNullableTypesUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\src\u_dzNullableDouble.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\src\u_dzNullableInteger.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\src\u_dzNullableInt64.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\src\u_dzNullableSingle.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;..\..\..\src\u_dzNullableExtended.pas&quot;/&gt;
++			&lt;None Include=&quot;..\..\..\templates\t_NullableNumber.tpl&quot;/&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
++				&lt;Key&gt;Cfg_2&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
++				&lt;Key&gt;Cfg_1&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++		&lt;/ItemGroup&gt;
++		&lt;Import Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot; Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot;/&gt;
++	&lt;/Project&gt;
+
+Added: utilities/dzLib/trunk/tests/NullableTypesTest/src/u_NullableTypesTest.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/NullableTypesTest/src/u_NullableTypesTest.pas	2009-09-25 18:43:19 UTC (rev 369)
++++ utilities/dzLib/trunk/tests/NullableTypesTest/src/u_NullableTypesTest.pas	2009-09-25 18:45:27 UTC (rev 370)
+@@ -0,0 +1,395 @@
++unit u_NullableTypesTest;
++
++interface
++
++uses
++  TestFramework,
++  u_dzUnitTestUtils,
++  u_dzNullableInteger,
++  u_dzNullableInt64,
++  u_dzNullableSingle,
++  u_dzNullableDouble,
++  u_dzNullableExtended;
++
++type
++  TestTNullableTypes = class(TdzTestCase)
++  public
++  published
++    procedure TestNullableInteger;
++    procedure TestNullableInt64;
++    procedure TestNullableSingle;
++    procedure TestNullableExtended;
++  end;
++
++  TestNullableDouble = class(TdzTestCase)
++  private
++    One: TNullableDouble;
++    Two: TNullableDouble;
++    Res: TNullableDouble;
++  public
++    procedure SetUp; override;
++    procedure TearDown; override;
++  published
++    procedure TestAssign;
++    procedure TestAdd;
++    procedure TestSubtract;
++    procedure TestMultiply;
++    procedure TestDivide;
++    procedure TestIncDec;
++  end;
++
++implementation
++
++uses
++  SysUtils;
++
++{ TestTNullableTypes }
++
++//procedure TestTNullableTypes.TestNullableDate;
++//var
++//  dt: TDateTime;
++//  One, Two: TNullableDate;
++//begin
++//  dt := Date;
++//  CheckFalse(One.IsValid, 'Variable One should be invalid');
++//  One := dt;
++//  CheckTrue(One.IsValid, 'Variable One should be valid');
++//  CheckEqualsDate(dt, One);
++//  CheckFalse(Two.IsValid, 'Variable two should be invalid');
++//  Two := One;
++//  CheckTrue(Two.IsValid, 'Variable two should be valid');
++//  CheckEqualsDate(dt, Two);
++//end;
++
++procedure TestTNullableTypes.TestNullableInteger;
++var
++  One, Two: TNullableInteger;
++begin
++  CheckFalse(One.IsValid, 'Variable One should be invalid');
++  One := 1;
++  CheckTrue(One.IsValid, 'Variable One should be valid');
++  CheckEquals(1, One);
++  CheckFalse(Two.IsValid, 'Variable two should be invalid');
++  Two := One;
++  CheckTrue(Two.IsValid, 'Variable two should be valid');
++  CheckEquals(1, Two);
++  Two := One + 1;
++  CheckTrue(Two.IsValid, 'Variable two should be valid');
++  CheckEquals(2, Two);
++  Two.Invalidate;
++  CheckFalse(Two.IsValid, 'Variable two should be invalid again');
++end;
++
++procedure TestTNullableTypes.TestNullableInt64;
++var
++  One, Two: TNullableInt64;
++begin
++  CheckFalse(One.IsValid, 'Variable One should be invalid');
++  One := 1;
++  CheckTrue(One.IsValid, 'Variable One should be valid');
++  CheckEquals(1, One);
++  CheckFalse(Two.IsValid, 'Variable two should be invalid');
++  Two := One;
++  CheckTrue(Two.IsValid, 'Variable two should be valid');
++  CheckEquals(1, Two);
++  Two := One + 1;
++  CheckTrue(Two.IsValid, 'Variable two should be valid');
++  CheckEquals(2, Two);
++  Two.Invalidate;
++  CheckFalse(Two.IsValid, 'Variable two should be invalid again');
++end;
++
++procedure TestTNullableTypes.TestNullableSingle;
++var
++  s: single;
++  One: TNullableSingle;
++  Two: TNullableSingle;
++  Res: TNullableSingle;
++begin
++  CheckFalse(One.IsValid, 'Variable One should be invalid');
++
++  One := 1;
++  CheckTrue(One.IsValid, 'Variable One should be valid');
++  CheckEquals(1, One);
++
++  CheckFalse(Two.IsValid, 'Variable Two should be invalid');
++  Two := 2;
++  CheckTrue(Two.IsValid, 'Variable Two should be valid');
++  CheckEquals(2, Two);
++
++  Res := One;
++  CheckTrue(Res.IsValid, 'Variable Res should be valid');
++  CheckEquals(1, Res);
++
++  Res := One + 1;
++  CheckEquals(2, Res);
++
++  Res := 1 + One;
++  CheckEquals(2, Res);
++
++  Res := One - 1;
++  CheckEquals(0, Res);
++
++  Res := 1 - One;
++  CheckEquals(0, Res);
++
++  Res := One + Two;
++  CheckEquals(3, Res);
++
++  Res := Two - One;
++  CheckEquals(1, Res);
++
++  Res := One * 2;
++  CheckEquals(2, Res);
++
++  Res := 2 * One;
++  CheckEquals(2, Res);
++
++  Res := Two * One;
++  CheckEquals(2, Res);
++
++  Res := -One;
++  CheckEquals(-1, Res);
++
++  Res := +Two;
++  CheckEquals(2, Res);
++
++  Res := Two;
++  Inc(Res);
++  CheckEquals(3, Res);
++
++  Res := Two;
++  Inc(Res, 2);
++  CheckEquals(4, Res);
++
++  Res := Two;
++  Dec(Res);
++  CheckEquals(1, Res);
++
++  Res := Two;
++  Dec(Res, 2);
++  CheckEquals(0, Res);
++
++  Res := 1.1;
++  Inc(Res);
++  s := 1.1 + 1;
++  CheckEquals(s, Res);
++
++  Res := 1.1;
++  Dec(Res);
++  s := 1.1 - 1;
++  CheckEquals(s, Res);
++
++  Res.Invalidate;
++  CheckFalse(Res.IsValid, 'Variable Res should be invalid again');
++end;
++
++procedure TestTNullableTypes.TestNullableExtended;
++var
++  One: TNullableExtended;
++  Two: TNullableExtended;
++  Res: TNullableExtended;
++begin
++  CheckFalse(One.IsValid, 'Variable One should be invalid');
++
++  One := 1;
++  CheckTrue(One.IsValid, 'Variable One should be valid');
++  CheckEquals(1, One);
++
++  CheckFalse(Two.IsValid, 'Variable Two should be invalid');
++  Two := 2;
++  CheckTrue(Two.IsValid, 'Variable Two should be valid');
++  CheckEquals(2, Two);
++
++  Res := One;
++  CheckTrue(Res.IsValid, 'Variable Res should be valid');
++  CheckEquals(1, Res);
++
++  Res := One + 1;
++  CheckEquals(2, Res);
++
++  Res := 1 + One;
++  CheckEquals(2, Res);
++
++  Res := One - 1;
++  CheckEquals(0, Res);
++
++  Res := 1 - One;
++  CheckEquals(0, Res);
++
++  Res := One + Two;
++  CheckEquals(3, Res);
++
++  Res := Two - One;
++  CheckEquals(1, Res);
++
++  Res := One * 2;
++  CheckEquals(2, Res);
++
++  Res := 2 * One;
++  CheckEquals(2, Res);
++
++  Res := Two * One;
++  CheckEquals(2, Res);
++
++  Res := -One;
++  CheckEquals(-1, Res);
++
++  Res := +Two;
++  CheckEquals(2, Res);
++
++  Res := Two;
++  Inc(Res);
++  CheckEquals(3, Res);
++
++  Res := Two;
++  Inc(Res, 2);
++  CheckEquals(4, Res);
++
++  Res := Two;
++  Dec(Res);
++  CheckEquals(1, Res);
++
++  Res := Two;
++  Dec(Res, 2);
++  CheckEquals(0, Res);
++
++  Res := 1.1;
++  Inc(Res);
++  CheckEquals(2.1, Res);
++
++  Res := 1.1;
++  Dec(Res);
++  CheckEquals(0.1, Res);
++
++  Res.Invalidate;
++  CheckFalse(Res.IsValid, 'Variable Res should be invalid again');
++end;
++
++{ TestNullableDouble }
++
++procedure TestNullableDouble.Setup;
++begin
++  inherited;
++  One := 1;
++  Two := 2;
++  Res.Invalidate;
++end;
++
++procedure TestNullableDouble.TearDown;
++begin
++  inherited;
++  One.Invalidate;
++  Two.Invalidate;
++  Res.Invalidate;
++end;
++
++procedure TestNullableDouble.TestAssign;
++begin
++  CheckTrue(One.IsValid, 'Variable One should be valid');
++  CheckEquals(1, One);
++
++  CheckTrue(Two.IsValid, 'Variable Two should be valid');
++  CheckEquals(2, Two);
++
++  CheckFalse(Res.IsValid, 'Variable One should be invalid');
++
++  Res := One;
++  CheckTrue(Res.IsValid, 'Variable Res should be valid');
++  CheckEquals(1, Res);
++
++  Res := Two;
++  CheckTrue(Res.IsValid, 'Variable Res should be valid');
++  CheckEquals(2, Res);
++
++  Res := -One;
++  CheckEquals(-1, Res);
++
++  Res := +Two;
++  CheckEquals(2, Res);
++
++  Res.Invalidate;
++  CheckFalse(Res.IsValid, 'Variable One should be invalid again');
++end;
++
++procedure TestNullableDouble.TestAdd;
++begin
++  Res := One + 1;
++  CheckEquals(2, Res);
++
++  Res := 1 + One;
++  CheckEquals(2, Res);
++
++  Res := One + Two;
++  CheckEquals(3, Res);
++end;
++
++procedure TestNullableDouble.TestSubtract;
++begin
++  Res := One - 1;
++  CheckEquals(0, Res);
++
++  Res := 1 - One;
++  CheckEquals(0, Res);
++
++  Res := Two - One;
++  CheckEquals(1, Res);
++end;
++
++procedure TestNullableDouble.TestMultiply;
++begin
++  Res := One * 2;
++  CheckEquals(2, Res);
++
++  Res := 2 * One;
++  CheckEquals(2, Res);
++
++  Res := Two * One;
++  CheckEquals(2, Res);
++
++end;
++
++procedure TestNullableDouble.TestDivide;
++begin
++  Res := Two / 1;
++  CheckEquals(2, Res);
++
++  Res := One / 2;
++  CheckEquals(0.5, Res);
++
++  Res := One / Two;
++  CheckEquals(0.5, Res);
++end;
++
++procedure TestNullableDouble.TestIncDec;
++begin
++  Res := Two;
++  Inc(Res);
++  CheckEquals(3, Res);
++
++  Res := Two;
++  Inc(Res, 2);
++  CheckEquals(4, Res);
++
++  Res := Two;
++  Dec(Res);
++  CheckEquals(1, Res);
++
++  Res := Two;
++  Dec(Res, 2);
++  CheckEquals(0, Res);
++
++  Res := 1.1;
++  Inc(Res);
++  CheckEquals(2.1, Res);
++
++  Res := 1.1;
++  Dec(Res);
++  CheckEquals(0.1, Res);
++end;
++
++initialization
++  RegisterTest(TestTNullableTypes.Suite);
++  RegisterTest(TestNullableDouble.Suite);
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000235.html">[Dzchart-svncheckins] r369 - utilities/dzLib/trunk/src
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#236">[ date ]</a>
+              <a href="thread.html#236">[ thread ]</a>
+              <a href="subject.html#236">[ subject ]</a>
+              <a href="author.html#236">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

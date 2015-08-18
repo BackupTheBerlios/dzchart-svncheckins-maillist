@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r223 - utilities/ccpack/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r223%20-%20utilities/ccpack/trunk/src&In-Reply-To=%3C200709301126.l8UBQo1l025653%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000092.html">
+   <LINK REL="Next"  HREF="000094.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r223 - utilities/ccpack/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r223%20-%20utilities/ccpack/trunk/src&In-Reply-To=%3C200709301126.l8UBQo1l025653%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r223 - utilities/ccpack/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep 30 13:26:50 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000092.html">[Dzchart-svncheckins] r222 - utilities/ccpack/trunk/doc
+</A></li>
+        <LI>Next message: <A HREF="000094.html">[Dzchart-svncheckins] r224 - utilities/ccpack/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#93">[ date ]</a>
+              <a href="thread.html#93">[ thread ]</a>
+              <a href="subject.html#93">[ subject ]</a>
+              <a href="author.html#93">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-09-30 13:26:46 +0200 (Sun, 30 Sep 2007)
+New Revision: 223
+
+Modified:
+   utilities/ccpack/trunk/src/ccwizres.pas
+Log:
+removed the annoying {private/protected/public/published declarations} comments. Who needs them? If you don't know what these keywords mean, you shouldn't program.
+
+Modified: utilities/ccpack/trunk/src/ccwizres.pas
+===================================================================
+--- utilities/ccpack/trunk/src/ccwizres.pas	2007-09-30 11:22:11 UTC (rev 222)
++++ utilities/ccpack/trunk/src/ccwizres.pas	2007-09-30 11:26:46 UTC (rev 223)
+@@ -39,13 +39,9 @@
+     'type'+#13#10+
+     '  %ClassName% = class(T%AncestorName%)'+#13#10+
+     '  private'+#13#10+
+-    '    { Private declarations }'+#13#10+
+     '  protected'+#13#10+
+-    '    { Protected declarations }'+#13#10+
+     '  public'+#13#10+
+-    '    { Public declarations }'+#13#10+
+     '  published'+#13#10+
+-    '    { Published declarations }'+#13#10+
+     '  end;'+#13#10+
+     #13#10+
+     'procedure Register;'+#13#10+
+@@ -74,13 +70,9 @@
+     'type'+#13#10+
+     '  %ClassName% = class(T%AncestorName%)'+#13#10+
+     '  private'+#13#10+
+-    '    { Private declarations }'+#13#10+
+     '  protected'+#13#10+
+-    '    { Protected declarations }'+#13#10+
+     '  public'+#13#10+
+-    '    { Public declarations }'+#13#10+
+     '  published'+#13#10+
+-    '    { Published declarations }'+#13#10+
+     '  end;'+#13#10+
+     #13#10+
+     'var'+#13#10+
+@@ -104,13 +96,9 @@
+     'type'+#13#10+
+     '  %ClassName% = class(T%AncestorName%)'+#13#10+
+     '  private'+#13#10+
+-    '    { Private declarations }'+#13#10+
+     '  protected'+#13#10+
+-    '    { Protected declarations }'+#13#10+
+     '  public'+#13#10+
+-    '    { Public declarations }'+#13#10+
+     '  published'+#13#10+
+-    '    { Published declarations }'+#13#10+
+     '  end;'+#13#10+
+     #13#10+
+     'procedure Register;'+#13#10+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000092.html">[Dzchart-svncheckins] r222 - utilities/ccpack/trunk/doc
+</A></li>
+	<LI>Next message: <A HREF="000094.html">[Dzchart-svncheckins] r224 - utilities/ccpack/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#93">[ date ]</a>
+              <a href="thread.html#93">[ thread ]</a>
+              <a href="subject.html#93">[ subject ]</a>
+              <a href="author.html#93">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,428 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r365 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r365%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251537.n8PFbhxq021050%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000230.html">
+   <LINK REL="Next"  HREF="000232.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r365 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r365%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251537.n8PFbhxq021050%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r365 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:37:43 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000230.html">[Dzchart-svncheckins] r364 - in utilities/dzLib/trunk: .	IniFileFormatter tools tools/IniFileFormatter	tools/IniFileFormatter/src
+</A></li>
+        <LI>Next message: <A HREF="000232.html">[Dzchart-svncheckins] r366 - in utilities/dzCmdLineParser/trunk: .	src translations/de
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#231">[ date ]</a>
+              <a href="thread.html#231">[ thread ]</a>
+              <a href="subject.html#231">[ subject ]</a>
+              <a href="author.html#231">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:37:39 +0200 (Fri, 25 Sep 2009)
+New Revision: 365
+
+Added:
+   utilities/dzLib/trunk/src/u_dzDbUtils.pas
+   utilities/dzLib/trunk/src/u_dzGuidUtils.pas
+   utilities/dzLib/trunk/src/u_dzJvclUtils.pas
+   utilities/dzLib/trunk/src/u_dzStatistics.pas
+Log:
+* new unit u_dzDbUtils with database utility functions (tested only for DBase)
+ - TTable_DeleteTable
+ - TTable_DeleteAllIndices
+ - TTable_AddFieldDef
+* new unit u_dzGuidUtils with:
+ - TNullableGuid class
+ - TryStr2Guid function
+ - TryVar2Guid function
+* new unit u_dzJvclUtils with utility functions for JVCL controls:
+ - TJvSpinEdit_SetValueNoChange
+* new unit u_dzStatistics with
+ - TMovingAverage class
+
+
+Added: utilities/dzLib/trunk/src/u_dzDbUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDbUtils.pas	2009-09-25 15:31:45 UTC (rev 364)
++++ utilities/dzLib/trunk/src/u_dzDbUtils.pas	2009-09-25 15:37:39 UTC (rev 365)
+@@ -0,0 +1,61 @@
++unit u_dzDbUtils;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  DBTables,
++  DB;
++
++///&lt;summary&gt; Deletes the table file if it exists, only tested for dbase tables
++///          @returns true, if successfull, false otherwise &lt;/summary&gt;
++function TTable_DeleteTable(_tbl: TTable): boolean;
++
++///&lt;summary&gt; Deletes all table indices, only tested for dbase tables &lt;/summary&gt;
++procedure TTable_DeleteAllIndices(_tbl: TTable);
++
++///&lt;summary&gt; Adds a field definition to a table &lt;/summary&gt;
++procedure TTable_AddFieldDef(_tbl: TTable; const _Name: string; _DataType: TFieldType; _Precision, _Size: integer); inline;
++
++implementation
++
++function TTable_DeleteTable(_tbl: TTable): boolean;
++begin
++  Result := FileExists(IncludeTrailingPathDelimiter(_tbl.DatabaseName) + _tbl.TableName);
++  if Result then
++    _tbl.DeleteTable;
++end;
++
++procedure TTable_DeleteAllIndices(_tbl: TTable);
++var
++  i: Integer;
++  sl: TStringList;
++begin
++  if _tbl.TableName = '' then
++    exit;
++  if _tbl.Active then _tbl.Active := False;
++  _tbl.IndexName := '';
++  sl := TStringList.Create;
++  try
++    _tbl.GetIndexNames(sl);
++    for i := 0 to sl.Count - 1 do
++      _tbl.DeleteIndex(sl[i]);
++  finally
++    sl.Free;
++  end;
++end;
++
++procedure TTable_AddFieldDef(_tbl: TTable; const _Name: string; _DataType: TFieldType; _Precision, _Size: integer);
++var
++  fd: TFieldDef;
++begin
++  fd := _tbl.FieldDefs.AddFieldDef;
++  fd.Name := _Name;
++  fd.DataType := _DataType;
++  fd.Precision := _Precision;
++  fd.Size := _Size;
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/src/u_dzGuidUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzGuidUtils.pas	2009-09-25 15:31:45 UTC (rev 364)
++++ utilities/dzLib/trunk/src/u_dzGuidUtils.pas	2009-09-25 15:37:39 UTC (rev 365)
+@@ -0,0 +1,157 @@
++unit u_dzGuidUtils;
++
++interface
++
++uses
++  SysUtils;
++
++type
++  TNullableGuid = record
++  private
++    FValue: TGuid;
++    FIsValid: IInterface;
++  public
++    ///&lt;summary&gt; Generates a new GUID using WinAPI calls &lt;/summary&gt;
++    procedure GenerateNew;
++    ///&lt;summary&gt; convert to a variant for using for database fields / parameters) &lt;/summary&gt;
++    function ToVariant: Variant;
++    ///&lt;summary&gt; convert from a variant for assigning a database field &lt;/summary&gt;
++    function AssignVariant(_v: Variant): boolean;
++    ///&lt;summary&gt; explicit cast to string &quot;string(GUID)&quot; converts to standard string form &lt;/summary&gt;
++    class operator Explicit(_a: TNullableGuid): string;
++    ///&lt;summary&gt; compares two NullableGuids, returns true, if the are equal, raises exception if one
++    ///          is not valid &lt;/summary&gt;
++    class operator Equal(_a, _b: TNullableGuid): boolean;
++    ///&lt;summary&gt; compares two NullableGuids, returns truw if they are different or at least one is invalid &lt;/summary&gt;
++    class operator NotEqual(_a, _b: TNullableGuid): boolean;
++    ///&lt;summary&gt; implicit conversion from TGUID &lt;/summary&gt;
++    class operator Implicit(_a: TGUID): TNullableGuid;
++    ///&lt;summary&gt; returns the GUID, if valid, raises an exception otherwise &lt;/summary&gt;
++    function Value: TGuid;
++    ///&lt;summary&gt; returns true, if valid, false otherwise &lt;/summary&gt;
++    function IsValid: boolean;
++  end;
++
++///&lt;summary&gt; Tries to convert a string to a GUID, returns true if successfull &lt;/summary&gt;
++function TryStr2GUID(const _s: string; out _GUID: TGUID): boolean;
++///&lt;summary&gt; Tries to convert a variant to a GUID, returns true if successfull &lt;/summary&gt;
++function TryVar2GUID(const _v: variant; out _GUID: TGUID): boolean;
++
++implementation
++
++uses
++  u_dzVariantUtils,
++  ActiveX;
++
++// this is a fake interfaced object that only exists as the VMT
++// It can still be used to trick the compiler into believing an interface pointer is assigned
++
++function NopAddref(inst: Pointer): Integer; stdcall;
++begin
++  Result := -1;
++end;
++
++function NopRelease(inst: Pointer): Integer; stdcall;
++begin
++  Result := -1;
++end;
++
++function NopQueryInterface(inst: Pointer; const IID: TGUID; out Obj): HResult; stdcall;
++begin
++  Result := E_NOINTERFACE;
++end;
++
++const
++  FlagInterfaceVTable: array[0..2] of Pointer =
++    (
++    @NopQueryInterface,
++    @NopAddref,
++    @NopRelease
++    );
++const
++  FlagInterfaceInstance: Pointer = @FlagInterfaceVTable;
++
++function GetNullableTypesFlagInterface: IInterface;
++begin
++  Result := IInterface(@FlagInterfaceInstance);
++end;
++
++{ TGuidEx }
++
++function TryStr2GUID(const _s: string; out _GUID: TGUID): boolean;
++begin
++  Result := Succeeded(CLSIDFromString(PWideChar(WideString(_s)), _GUID));
++end;
++
++function TryVar2GUID(const _v: variant; out _GUID: TGUID): boolean;
++var
++  s: string;
++begin
++  Result := TryVar2Str(_v, s);
++  if Result then
++    Result := TryStr2GUID(s, _GUID);
++end;
++
++function TNullableGuid.AssignVariant(_v: Variant): boolean;
++begin
++  Result := TryVar2GUID(_v, FValue);
++  if Result then
++    FIsValid := GetNullableTypesFlagInterface
++  else
++    FIsValid := nil;
++end;
++
++function TNullableGuid.ToVariant: Variant;
++begin
++  Result := string(Self);
++end;
++
++function TNullableGuid.Value: TGuid;
++begin
++  if not Assigned(FIsValid) then
++    raise Exception.Create('TNullableGuid is not valid');
++  Result := FValue;
++end;
++
++class operator TNullableGuid.Equal(_a, _b: TNullableGuid): boolean;
++begin
++  Result := IsEqualGUID(_a.Value, _b.Value);
++end;
++
++class operator TNullableGuid.NotEqual(_a, _b: TNullableGuid): boolean;
++begin
++  if _a.IsValid and _b.IsValid then
++    Result := not IsEqualGUID(_a.Value, _b.Value)
++  else
++    Result := _a.IsValid or _b.IsValid;
++end;
++
++class operator TNullableGuid.Explicit(_a: TNullableGuid): string;
++begin
++  if _a.IsValid then
++    Result := GUIDToString(_a.FValue)
++  else
++    Result := '';
++end;
++
++procedure TNullableGuid.GenerateNew;
++begin
++  if Succeeded(CreateGUID(FValue)) then
++    FIsValid := GetNullableTypesFlagInterface
++  else
++    FIsValid := nil;
++end;
++
++class operator TNullableGuid.Implicit(_a: TGUID): TNullableGuid;
++begin
++  Result.FValue := _a;
++  Result.FIsValid := GetNullableTypesFlagInterface;
++end;
++
++function TNullableGuid.IsValid: boolean;
++begin
++  Result := Assigned(FIsValid);
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/src/u_dzJvclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzJvclUtils.pas	2009-09-25 15:31:45 UTC (rev 364)
++++ utilities/dzLib/trunk/src/u_dzJvclUtils.pas	2009-09-25 15:37:39 UTC (rev 365)
+@@ -0,0 +1,28 @@
++unit u_dzJvclUtils;
++
++interface
++
++uses
++  JvSpin;
++
++procedure TJvSpinEdit_SetValueNoChange(_sed: TJvSpinEdit; _Value: extended);
++
++implementation
++
++uses
++  Classes;
++
++procedure TJvSpinEdit_SetValueNoChange(_sed: TJvSpinEdit; _Value: extended);
++var
++  Event: TNotifyEvent;
++begin
++  Event := _sed.OnChange;
++  _sed.OnChange := nil;
++  try
++    _sed.Value := _Value;
++  finally
++    _sed.OnChange := Event;
++  end;
++end;
++
++end.
+
+Added: utilities/dzLib/trunk/src/u_dzStatistics.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStatistics.pas	2009-09-25 15:31:45 UTC (rev 364)
++++ utilities/dzLib/trunk/src/u_dzStatistics.pas	2009-09-25 15:37:39 UTC (rev 365)
+@@ -0,0 +1,73 @@
++///&lt;summary&gt; statistical tools &lt;/summary&gt;
++unit u_dzStatistics;
++
++interface
++
++uses
++  SysUtils,
++  u_dzTranslator,
++  u_dzRingBuffer;
++
++type
++  TMovingAverage = class
++  private
++    FCount: integer;
++    FSum: extended;
++    FMaxCount: integer;
++    FQueue: TdzRingQueue;
++  public
++    constructor Create(_MaxCount: integer);
++    destructor Destroy; override;
++    procedure Add(_Value: Extended);
++    function GetAverage: extended;
++    property Count: integer read FCount;
++  end;
++
++implementation
++
++
++function _(const _s: string): string; inline;
++begin
++  Result := dzDGetText(_s, 'dzlib');
++end;
++
++{ TMovingAverage }
++
++constructor TMovingAverage.Create(_MaxCount: integer);
++begin
++  inherited Create;
++  FSum := 0;
++  FCount := 0;
++  FMaxCount := _MaxCount;
++  FQueue := TdzRingQueue.Create(SizeOf(Extended), FMaxCount);
++end;
++
++destructor TMovingAverage.Destroy;
++begin
++  FreeAndNil(FQueue);
++  inherited;
++end;
++
++procedure TMovingAverage.Add(_Value: Extended);
++var
++  ValueToRemove: extended;
++begin
++  if FCount &gt;= FMaxCount then begin
++    FQueue.ExtractFront(ValueToRemove);
++    FSum := FSum - ValueToRemove;
++  end else
++    Inc(FCount);
++  FQueue.InsertEnd(_Value);
++  FSum := FSum + _Value;
++end;
++
++function TMovingAverage.GetAverage: extended;
++begin
++  if FCount &gt; 0 then
++    Result := FSum / FCount
++  else
++    raise Exception.Create(_('Cannot calculate moving average on zero elements'));
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000230.html">[Dzchart-svncheckins] r364 - in utilities/dzLib/trunk: .	IniFileFormatter tools tools/IniFileFormatter	tools/IniFileFormatter/src
+</A></li>
+	<LI>Next message: <A HREF="000232.html">[Dzchart-svncheckins] r366 - in utilities/dzCmdLineParser/trunk: .	src translations/de
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#231">[ date ]</a>
+              <a href="thread.html#231">[ thread ]</a>
+              <a href="subject.html#231">[ subject ]</a>
+              <a href="author.html#231">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

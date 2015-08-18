@@ -1,0 +1,690 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r366 - in utilities/dzCmdLineParser/trunk: .	src translations/de
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r366%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20translations/de&In-Reply-To=%3C200909251545.n8PFjN7Y022733%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000231.html">
+   <LINK REL="Next"  HREF="000233.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r366 - in utilities/dzCmdLineParser/trunk: .	src translations/de</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r366%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20translations/de&In-Reply-To=%3C200909251545.n8PFjN7Y022733%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r366 - in utilities/dzCmdLineParser/trunk: .	src translations/de">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:45:23 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000231.html">[Dzchart-svncheckins] r365 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000233.html">[Dzchart-svncheckins] r367 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#232">[ date ]</a>
+              <a href="thread.html#232">[ thread ]</a>
+              <a href="subject.html#232">[ subject ]</a>
+              <a href="author.html#232">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:45:20 +0200 (Fri, 25 Sep 2009)
+New Revision: 366
+
+Modified:
+   utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+   utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas
+   utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+Log:
+* translation now uses inlined _() functions that call dzDGetText for domain dzCmdLineParser rather than resource strings
+* support for simple logging during startup
+* Delphi 2009/2010 compatible
+* support for hidden options, that is options that are allowed but will not be in the generated help
+
+
+Modified: utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2009-09-25 15:37:39 UTC (rev 365)
++++ utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2009-09-25 15:45:20 UTC (rev 366)
+@@ -5,7 +5,7 @@
+ set BASE=.
+ 
+ @rem extract from subdirectories src and forms
+-dxgettext --delphi -r -b %BASE%\src -o %BASE%\
++dxgettext --delphi -r -b %BASE%\src -b %BASE%\forms -o %BASE%
+ 
+ @rem remove strings given in ignore.po
+ msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
+@@ -13,4 +13,7 @@
+ @rem merge German translations
+ msgmerge --no-wrap --update %BASE%\translations\de\dzCmdLineParser.po %BASE%\filtered.po
+ 
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> merge Eerman translations
++msgmerge --no-wrap --update %BASE%\translations\en\dzCmdLineParser.po %BASE%\filtered.po
++
+ pause
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas	2009-09-25 15:37:39 UTC (rev 365)
++++ utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas	2009-09-25 15:45:20 UTC (rev 366)
+@@ -12,8 +12,10 @@
+ 
+ uses
+   SysUtils,
+-  Classes;
++  Classes,
++  u_dzTranslator;
+ 
++
+ type
+   EStateEngineError = class(exception);
+ 
+@@ -77,6 +79,11 @@
+   u_dzStringUtils,
+   u_dzCmdLineParserStates;
+ 
++function _(const _s: string): string; inline;
++begin
++  Result := dzDGetText(_s, 'dzCmdLineParser');
++end;
++
+ type
+   IEngineContextEx = interface ['{CD19DB13-F344-4E1A-B97F-D235B445B463}']
+     procedure GetOptions(_Options: TStrings);
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2009-09-25 15:37:39 UTC (rev 365)
++++ utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2009-09-25 15:45:20 UTC (rev 366)
+@@ -34,7 +34,7 @@
+     {: Created in InitCmdLineParser, allows reading the parameters }
+     FGetOpt: TGetOpt;
+     {: Initializes FGetOptr with a Parser, should be overridden, but make
+-       sure you call inherited }
++       sure you call inherited if you want to have the --help option }
+     procedure InitCmdLineParser; virtual;
+     {: Shows a short help generated by the TGetOpt and exits the program by calling
+        SysUtils.Abort.
+@@ -52,19 +52,21 @@
+        @returns the exit code for the program }
+     function doExecute: integer; virtual;
+   public
+-    {: Creates a TDefaultMain instance, sets the exit code to 1 (=error) and
+-       initializes logging }
++    {: Creates a TDefaultMain instance and sets the exit code to 1 (=error)
++       also, does a very simple parsing of the commandline to determine whether
++       the --StartupLog option was given and initializes logging, if it was }
+     constructor Create; virtual;
+     {: Frees a TDefaultMain instance and writes the progrem end into the log }
+     destructor Destroy; override;
+-    {: This method should be called after the instance of TDefaultMain has been
+-       created. It initialzies the commandline parser, executes it on the given
++    {: Call this method after the instance of TDefaultMain has been created.
++       It initializes the commandline parser, executes it on the given
+        commandline and calls doExecute within a try..except block.
+        If doExecute raises an exception it will write an error message to the
+-       console and set the exit code to 1 (=error). If doExecute exits normally
+-       it uses the result as exit code.
++       console or show an error dialog and set the exit code to 1 (=error).
++       If doExecute exits normally it uses the result as exit code.
+        @returns the exit code for the program }
+     function Execute: integer;
++    ///&lt;summary&gt; Returns the programm name that was used to start this application
+     property ProgName: string read GetProgName;
+     property ExeName: string read GetExeName;
+   end;
+@@ -93,17 +95,33 @@
+   u_dzLogging,
+   w_dzDialog;
+ 
+-resourcestring
+-  RS_Error_S = 'Error: %s';
+-  RS_Synopsis_S_S = 'Synopsis: %s %s';
+-  RS_Parameters = 'Parameters:';
+-  RS_Options = 'Options:';
++function _(const _s: string): string; inline;
++begin
++  Result := dzDGetText(_s, 'dzCmdLineParser');
++end;
+ 
+ constructor TDefaultMain.Create;
++const
++  STARTUP_LOG = '--startuplog=';
++var
++  s: string;
++  p: integer;
+ begin
+   inherited;
+   // default: error
+   FExitCode := 1;
++
++  s := GetCommandLine;
++  s := LowerCase(s);
++  p := Pos(STARTUP_LOG, s);
++  if p &gt; 0 then begin
++    s := Copy(s, p + Length(STARTUP_LOG));
++    p := Pos(' ', s);
++    if p &gt; 0 then
++      s := Copy(s, 1, p - 1);
++    SetGlobalLogger(TFileLogger.Create(s));
++  end;
++  FGetOpt := TGetOpt.Create();
+ end;
+ 
+ destructor TDefaultMain.Destroy;
+@@ -115,7 +133,7 @@
+ 
+ function TDefaultMain.doExecute: integer;
+ begin
+-  MessageDlg('This program does nothing yet.', mtInformation, [mbOK], 0);
++  MessageDlg(_('This program does nothing yet.'), mtInformation, [mbOK], 0);
+   Result := 0;
+ end;
+ 
+@@ -124,14 +142,14 @@
+   s: string;
+ begin
+   if _Error &lt;&gt; '' then begin
+-    s := Format(RS_Error_S + #13#10#13#10, [_Error]);
++    s := Format(_('Error: %s') + #13#10#13#10, [_Error]);
+     LogError(_Error);
+   end;
+   MessageDlg(s + Format(
+-    RS_Synopsis_S_S + #13#10#13#10 +
+-    RS_Parameters + #13#10 +
++    _('Synopsis: %s %s') + #13#10#13#10 +
++    _('Parameters:') + #13#10 +
+     '%s'#13#10#13#10 +
+-    RS_Options + #13#10 +
++    _('Options:') + #13#10 +
+     '%s',
+     [FGetOpt.ProgName, FGetOpt.GetCmdLineDesc, FGetOpt.GetParamHelp, FGetOpt.GetOptionHelp]),
+     mtError, [mbOK], 0);
+@@ -141,8 +159,8 @@
+ 
+ procedure TDefaultMain.InitCmdLineParser;
+ begin
+-  FGetOpt := TGetOpt.Create();
+   FGetOpt.RegisterHelpOptions;
++  FGetOpt.RegisterOption('StartupLog', _('Write a startup log to the given file.'), true);
+ end;
+ 
+ procedure TDefaultMain.ParseCmdLine;
+@@ -171,7 +189,7 @@
+       // we do not want to show an error if the code called Abort because this
+       // is supposed to be a silent exception. So we log it and terminate with
+       // an exit code of 1
+-      LogError(e.Message + '(' + e.ClassName +')');
++      LogError(e.Message + '(' + e.ClassName + ')');
+       FExitCode := 1;
+     end;
+     on e: Exception do begin
+@@ -180,7 +198,7 @@
+       if IsConsole then
+         WriteLn(s)
+       else
+-       Tf_dzDialog.ShowException(e);
++        Tf_dzDialog.ShowException(e);
+       FExitCode := 1;
+     end;
+   end;
+@@ -192,9 +210,9 @@
+   ModuleName: AnsiString;
+ begin
+   SetLength(ModuleName, 255);
+-  GetModuleFileNameA(MainInstance, PChar(ModuleName), Length(ModuleName));
+-  OemToAnsi(PChar(ModuleName), PChar(ModuleName));
+-  Result := Pchar(ModuleName);
++  GetModuleFileNameA(MainInstance, PAnsiChar(ModuleName), Length(ModuleName));
++  OemToAnsi(PAnsiChar(ModuleName), PAnsiChar(ModuleName));
++  Result := PAnsiChar(ModuleName);
+ end;
+ 
+ function TDefaultMain.GetProgName: string;
+@@ -212,7 +230,7 @@
+     try
+       Result := MainObj.Execute;
+     finally
+-      MainObj.Free;
++      FreeAndNil(MainObj);
+     end;
+   except
+     // Exception handling is done within the MainObj. If something gets here
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2009-09-25 15:37:39 UTC (rev 365)
++++ utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2009-09-25 15:45:20 UTC (rev 366)
+@@ -45,16 +45,20 @@
+     ///                       names are not, that is --help and --HELP are the same.
+     ///          @param Description is a string describing the option for the usage string
+     ///          @param HasValue is a boolean which tells the parser whether to expect
+-    ///                          a parameter for this option. &lt;/summary&gt;
++    ///                          a parameter for this option.
++    ///   Note: One character option names are case sensitive, that is -o and -O
++    ///         are not the same, but longer option names are not, that is
++    ///         --help and --HELP are the same. &lt;/summary&gt;
+     procedure RegisterOption(const _Names: array of string; const _Description: string; _HasValue: boolean = false); overload;
+     procedure RegisterOption(const _Name, _Description: string; _HasValue: boolean = false); overload;
++    procedure RegisterHiddenOption(const _Name: string; _HasValue: boolean = false);
+     ///&lt;summary&gt; registers the standard options --help, -?, -h and -H for displaying help &lt;/summary&gt;
+     procedure RegisterHelpOptions;
+     ///&lt;summary&gt; registers a commandline parameter
+     ///          @param Name is the name of the parameter as displayed in the usage string.
+     ///          @param Description is the description of the parameter for the usage.
+     ///          @param MinCount is the minimum number of parameters to expect
+-    ///          @param MaxCount is the maximum number of parameters to expect
++    ///          @param MaxCount is the maximum number of parameters to expect, -1 for infinite
+     ///          Note: only the last parameter should really have MinCount and MaxCount &lt;&gt; 1 &lt;/summary&gt;
+     procedure RegisterParam(const _Name, _Description: string; _MinCount: integer = 1; _MaxCount: integer = 1);
+     ///&lt;summary&gt; parses the commandline
+@@ -138,11 +142,11 @@
+ 
+ destructor TGetOpt.Destroy;
+ begin
+-  FOptionDescList.Free;
+-  FOptionNameList.Free;
+-  FOptionsFoundList.Free;
+-  FParamDescList.Free;
+-  FParamsFoundList.Free;
++  FreeAndNil(FOptionDescList);
++  FreeAndNil(FOptionNameList);
++  FreeAndNil(FOptionsFoundList);
++  FreeAndNil(FParamDescList);
++  FreeAndNil(FParamsFoundList);
+   inherited;
+ end;
+ 
+@@ -152,7 +156,7 @@
+   ParamDesc: TParamDesc;
+   s: string;
+ begin
+-  if FOptionDescList.Count &lt;&gt; 0 then
++  if FOptionDescList.NonHiddenCount &lt;&gt; 0 then
+     Result := _('[options]')
+   else
+     Result := '';
+@@ -174,9 +178,12 @@
+   Result := '';
+   for i := 0 to FOptionDescList.Count - 1 do begin
+     OptionDesc := FOptionDescList[i];
+-    if Result &lt;&gt; '' then
+-      Result := Result + #13#10;
+-    Result := Result + OptionDesc.GetDescription(_Indent);
++    if not OptionDesc.isHidden then begin
++
++      if Result &lt;&gt; '' then
++        Result := Result + #13#10;
++      Result := Result + OptionDesc.GetDescription(_Indent);
++    end;
+   end;
+ end;
+ 
+@@ -194,7 +201,12 @@
+ end;
+ 
+ function TGetOpt.HelpOptionFound: boolean;
++var
++  Idx: integer;
+ begin
++  Result := False;
++  if not FOptionNameList.Find(PChar('help'), Idx) then
++    exit;
+   Result := OptionPassed('help', nil) &lt;&gt; 0;
+ end;
+ 
+@@ -232,15 +244,15 @@
+ 
+ function TGetOpt.OptionPassed(const _Name: string; var _Value: string): boolean;
+ var
+-  st: TStringList;
++  sl: TStringList;
+ begin
+-  st := TStringList.Create;
++  sl := TStringList.Create;
+   try
+-    Result := OptionPassed(_Name, st) = 1;
++    Result := OptionPassed(_Name, sl) = 1;
+     if Result then
+-      _Value := st[0];
++      _Value := sl[0];
+   finally
+-    st.Free;
++    FreeAndNil(sl);
+   end;
+ end;
+ 
+@@ -263,15 +275,15 @@
+ 
+ function TGetOpt.ParamPassed(const _ParamName: string; var _Value: string): boolean;
+ var
+-  st: TStringList;
++  sl: TStringList;
+ begin
+-  st := TStringList.Create;
++  sl := TStringList.Create;
+   try
+-    Result := ParamPassed(_ParamName, st) = 1;
++    Result := ParamPassed(_ParamName, sl) = 1;
+     if Result then
+-      _Value := st[0];
++      _Value := sl[0];
+   finally
+-    st.Free;
++    FreeAndNil(sl);
+   end;
+ end;
+ 
+@@ -338,8 +350,8 @@
+     Params.Delete(0);
+     EvaluateCmdLine(Options, Params);
+   finally
+-    Options.Free;
+-    Params.Free;
++    FreeAndNil(Options);
++    FreeAndNil(Params);
+   end;
+ end;
+ 
+@@ -355,8 +367,8 @@
+     TCmdLineParser.Execute(_CmdLine, Options, Params);
+     EvaluateCmdLine(Options, Params);
+   finally
+-    Params.Free;
+-    Options.Free;
++    FreeAndNil(Params);
++    FreeAndNil(Options);
+   end;
+ end;
+ 
+@@ -382,6 +394,15 @@
+     FOptionNameList.Add(TOptionName.Create(_Names[i], Desc));
+ end;
+ 
++procedure TGetOpt.RegisterHiddenOption(const _Name: string; _HasValue: boolean = false);
++var
++  Desc: TOptionDesc;
++begin
++  Desc := TOptionDesc.Create([_Name], '', _HasValue, true);
++  FOptionDescList.Add(Desc);
++  FOptionNameList.Add(TOptionName.Create(_Name, Desc));
++end;
++
+ procedure TGetOpt.RegisterParam(const _Name, _Description: string;
+   _MinCount, _MaxCount: integer);
+ begin
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas	2009-09-25 15:37:39 UTC (rev 365)
++++ utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas	2009-09-25 15:45:20 UTC (rev 366)
+@@ -15,8 +15,9 @@
+ type
+   TOptionDesc = class
+   private
++    FIsHidden: boolean;
+     function CreateDescription(const _OptionName: string): string;
+-    procedure AssertValidOptionName(_Name: string);
++    procedure AssertValidOptionName(_Name: ansistring);
+   protected
+     FPrimaryName: string;
+     FDescription: string;
+@@ -24,11 +25,12 @@
+     FNames: TStringList;
+   public
+     constructor Create(const _Names: array of string; const _Description: string;
+-      _HasValue: boolean = false);
++      _HasValue: boolean = false; _IsHidden: boolean = false);
+     destructor Destroy; override;
+     function GetDescription(_Indent: integer): string;
+     property HasValue: boolean read FHasValue;
+     property PrimaryName: string read FPrimaryName;
++    property isHidden: boolean read FIsHidden write FIsHidden;
+   end;
+ 
+ {$DEFINE __DZ_SORTED_OBJECT_LIST_TEMPLATE__}
+@@ -47,6 +49,8 @@
+     ///&lt;summary&gt; compare the keys of two items, must return a value
+     ///          &lt; 0 if Key1 &lt; Key2, = 0 if Key1 = Key2 and &gt; 0 if Key1 &gt; Key2 &lt;/summary&gt;
+     function Compare(const _Key1, _Key2: string): integer; override;
++  public
++    function NonHiddenCount: integer;
+   end;
+ 
+ implementation
+@@ -66,13 +70,23 @@
+   Result := _Item.PrimaryName;
+ end;
+ 
++function TOptionDescList.NonHiddenCount: integer;
++var
++  i: Integer;
++begin
++  result := 0;
++  for i := 0 to Count - 1 do
++    if not Items[i].isHidden then
++      Inc(Result);
++end;
++
+ function TOptionDescList.Compare(const _Key1, _Key2: string): integer;
+ begin
+   Result := CompareText(_Key1, _Key2);
+ end;
+ 
+-constructor TOptionDesc.Create(const _Names: array of string;
+-  const _Description: string; _HasValue: boolean = false);
++constructor TOptionDesc.Create(const _Names: array of string; const _Description: string;
++  _HasValue: boolean = false; _IsHidden: boolean = false);
+ var
+   i: integer;
+   s: string;
+@@ -80,35 +94,36 @@
+   inherited Create;
+   FDescription := _Description;
+   FHasValue := _HasValue;
++  FIsHidden := _IsHidden;
+   Assert(Length(_Names) &gt; 0);
+   FPrimaryName := _Names[0];
+-  AssertValidOptionName(FPrimaryName);
++  AssertValidOptionName(AnsiString(FPrimaryName));
+   FNames := TStringList.Create;
+   for i := 0 to high(_Names) do begin
+     s := _Names[i];
+-    AssertValidOptionName(s);
++    AssertValidOptionName(AnsiString(s));
+     fNames.Add(s);
+   end;
+ end;
+ 
+ destructor TOptionDesc.Destroy;
+ begin
+-  FNames.Free;
++  FreeAndNil(FNames);
+   inherited;
+ end;
+ 
+-procedure TOptionDesc.AssertValidOptionName(_Name: string);
++procedure TOptionDesc.AssertValidOptionName(_Name: ansistring);
+ var
+   i: integer;
+ begin
+   if _Name = '' then
+     raise EOptionName.Create(_('Option name cannot be empty.'));
+-  { TODO -otwm : Maybe '$', '#' and some other chars should be allowed }
++  { TODO -otwm : Maybe '$', '#' and some other special chars should be allowed }
+   if not (_Name[1] in ['a'..'z', 'A'..'Z', '0'..'9', '?']) then
+     raise EOptionName.Create(_('Option name must start with an alphanumeric character.'));
+   for i := 2 to Length(_Name) do
+     if not (_Name[i] in ['a'..'z', 'A'..'Z', '0'..'9', '-', '_']) then
+-      raise EOptionName.CreateFmt(_('Option name contains invalid character &quot;%s&quot; (%d).'), [_Name[i], Ord(_Name[i])]);
++      raise EOptionName.CreateFmt(_('Option name contains invalid character &quot;%s&quot; at position %d.'), [_Name[i], Ord(_Name[i])]);
+ end;
+ 
+ function TOptionDesc.CreateDescription(const _OptionName: string): string;
+
+Modified: utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2009-09-25 15:37:39 UTC (rev 365)
++++ utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2009-09-25 15:45:20 UTC (rev 366)
+@@ -6,9 +6,9 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzCmdLineParser 1.0\n&quot;
+-&quot;POT-Creation-Date: 2008-09-05 06:07\n&quot;
+-&quot;PO-Revision-Date: 2008-09-05 06:03-0800\n&quot;
+-&quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
++&quot;POT-Creation-Date: 2009-06-30 11:42\n&quot;
++&quot;PO-Revision-Date: 2009-06-30 11:46+0100\n&quot;
++&quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
+ &quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">nospam at dummzeuch.de</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+ &quot;Content-Type: text/plain; charset=UTF-8\n&quot;
+@@ -17,74 +17,82 @@
+ &quot;X-Poedit-Language: German\n&quot;
+ &quot;X-Poedit-Country: GERMANY\n&quot;
+ 
+-#: u_dzCmdLineParserStates.pas:197 
+ u_dzCmdLineParserStates.pas:217
+-#: u_dzCmdLineParserStates.pas:231 u_dzCmdLineParserStates.pas:254
+-#: u_dzCmdLineParserStates.pas:270 u_dzCmdLineParserStates.pas:313
+-#: u_dzCmdLineParserStates.pas:335 u_dzCmdLineParserStates.pas:377
++#: u_dzCmdLineParserStates.pas:197
++#: u_dzCmdLineParserStates.pas:231
++#: u_dzCmdLineParserStates.pas:254
++#: u_dzCmdLineParserStates.pas:270
++#: u_dzCmdLineParserStates.pas:313
++#: u_dzCmdLineParserStates.pas:335
++#: u_dzCmdLineParserStates.pas:377
+ msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
+ msgstr &quot;Ung&#252;ltiges Zeichen \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: RS_Error_S
+-#: u_dzDefaultMain.pas:97 
++#: u_dzDefaultMain.pas:136
++msgid &quot;This program does nothing yet.&quot;
++msgstr &quot;Dieses Programm macht noch nichts.&quot;
++
++#: u_dzDefaultMain.pas:145
+ msgid &quot;Error: %s&quot;
+ msgstr &quot;Fehler: %s&quot;
+ 
+-#. Programmer's name for it: RS_Synopsis_S_S
+-#: u_dzDefaultMain.pas:98 
++#: u_dzDefaultMain.pas:149
+ msgid &quot;Synopsis: %s %s&quot;
+ msgstr &quot;Aufruf: %s %s&quot;
+ 
+-#. Programmer's name for it: RS_Parameters
+-#: u_dzDefaultMain.pas:99 
++#: u_dzDefaultMain.pas:150
+ msgid &quot;Parameters:&quot;
+ msgstr &quot;Parameter:&quot;
+ 
+-#. Programmer's name for it: RS_Options
+-#: u_dzDefaultMain.pas:100 
++#: u_dzDefaultMain.pas:152
+ msgid &quot;Options:&quot;
+ msgstr &quot;Optionen:&quot;
+ 
+-#: u_dzGetOpt.pas:156 
++#: u_dzDefaultMain.pas:163
++msgid &quot;Write a startup log to the given file.&quot;
++msgstr &quot;Startup-Log in angegebene Datei schreiben.&quot;
++
++#: u_dzGetOpt.pas:160
+ msgid &quot;[options]&quot;
+ msgstr &quot;[Optionen]&quot;
+ 
+-#: u_dzGetOpt.pas:215 
++#: u_dzGetOpt.pas:227
+ msgid &quot;%s is not a registered option.&quot;
+ msgstr &quot;%s ist keine registrierte Option&quot;
+ 
+-#: u_dzGetOpt.pas:294 
++#: u_dzGetOpt.pas:306
+ msgid &quot;There are too many parameters.&quot;
+ msgstr &quot;Zuviele Parameter&quot;
+ 
+-#: u_dzGetOpt.pas:304 
+ u_dzGetOpt.pas:310
++#: u_dzGetOpt.pas:316
+ msgid &quot;There are not enough %s parameters (min: %d)&quot;
+ msgstr &quot;Nicht gen&#252;gend %s Parameter (min: %d)&quot;
+ 
+-#: u_dzGetOpt.pas:317 
++#: u_dzGetOpt.pas:329
+ msgid &quot;Option %s is unknown&quot;
+ msgstr &quot;Option %s ist nciht bekannt&quot;
+ 
+-#: u_dzGetOpt.pas:321 
++#: u_dzGetOpt.pas:333
+ msgid &quot;Option %s requires a value.&quot;
+ msgstr &quot;Option %s ben&#246;tigt einen Wert.&quot;
+ 
+-#: u_dzGetOpt.pas:365 
++#: u_dzGetOpt.pas:377
+ msgid &quot;display parameter help&quot;
+ msgstr &quot;Parameter Hilfe anzeigen&quot;
+ 
+-#: u_dzOptionDescList.pas:105 
++#: u_dzOptionDescList.pas:120
+ msgid &quot;Option name cannot be empty.&quot;
+ msgstr &quot;Optionsname kann nicht leer sein.&quot;
+ 
+-#: u_dzOptionDescList.pas:108 
++#: u_dzOptionDescList.pas:123
+ msgid &quot;Option name must start with an alphanumeric character.&quot;
+ msgstr &quot;Optionsname muss mit einem alphanumerischen Zeichen beginnen.&quot;
+ 
+-#: u_dzOptionDescList.pas:111 
+-msgid &quot;Option name contains invalid character \&quot;%s\&quot; (%d).&quot;
+-msgstr &quot;Optionsname enth&#228;lt ung&#252;ltiges Zeichen \&quot;%s\&quot; (%d)&quot;
++#: u_dzOptionDescList.pas:126
++msgid &quot;Option name contains invalid character \&quot;%s\&quot; at position %d.&quot;
++msgstr &quot;Optionsname enth&#228;lt ung&#252;ltiges Zeichen \&quot;%s\&quot; bei Position %d.&quot;
+ 
+-#. should never happen
+-#: u_dzOptionDescList.pas:121 
+ u_dzOptionDescList.pas:126
++#. should never happen
++#: u_dzOptionDescList.pas:136
+ msgid &quot;value&quot;
+ msgstr &quot;Wert&quot;
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000231.html">[Dzchart-svncheckins] r365 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000233.html">[Dzchart-svncheckins] r367 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#232">[ date ]</a>
+              <a href="thread.html#232">[ thread ]</a>
+              <a href="subject.html#232">[ subject ]</a>
+              <a href="author.html#232">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

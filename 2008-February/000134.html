@@ -1,0 +1,843 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r265 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r265%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200802050737.m157blBt030604%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000135.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r265 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r265%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200802050737.m157blBt030604%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r265 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Tue Feb  5 08:37:47 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000135.html">[Dzchart-svncheckins] r266 - in utilities/dzCmdLineParser/trunk:	dcu src tests
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#134">[ date ]</a>
+              <a href="thread.html#134">[ thread ]</a>
+              <a href="subject.html#134">[ subject ]</a>
+              <a href="author.html#134">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-02-05 08:37:45 +0100 (Tue, 05 Feb 2008)
+New Revision: 265
+
+Added:
+   utilities/dzLib/trunk/src/u_dzCmdLineParserStates.pas
+Modified:
+   utilities/dzLib/trunk/src/u_dzCmdLineParser.pas
+Log:
+split the parser states to a separate unit so they can be used in unit tests without any hacks
+
+Modified: utilities/dzLib/trunk/src/u_dzCmdLineParser.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzCmdLineParser.pas	2008-01-14 11:27:14 UTC (rev 264)
++++ utilities/dzLib/trunk/src/u_dzCmdLineParser.pas	2008-02-05 07:37:45 UTC (rev 265)
+@@ -74,108 +74,10 @@
+ 
+ uses
+   StrUtils,
+-  u_dzStringUtils;
++  u_dzStringUtils,
++  u_dzCmdLineParserStates;
+ 
+ type
+-  TEngineStateAbstract = class(TInterfacedObject)
+-  private
+-    function GetClassName: string;
+-  end;
+-
+-type
+-  TEngineStateError = class(TEngineStateAbstract, IEngineState)
+-  private
+-    FError: string;
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-    constructor Create(const _Error: string);
+-  end;
+-
+-type
+-  TEngineStateSpace = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateDash = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateDoubleDash = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateLongOption = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortOption = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortSwitch = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedShortParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateLongParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedLongParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+   IEngineContextEx = interface ['{CD19DB13-F344-4E1A-B97F-D235B445B463}']
+     procedure GetOptions(_Options: TStrings);
+     procedure GetParams(_Params: TStrings);
+@@ -222,272 +124,6 @@
+     property Params: TStringList read FParams;
+   end;
+ 
+-{ TEngineStateAbstract }
+-
+-function TEngineStateAbstract.GetClassName: string;
+-begin
+-  Result := ClassName;
+-end;
+-
+-{ TEngineStateError }
+-
+-constructor TEngineStateError.Create(const _Error: string);
+-begin
+-  inherited Create;
+-  FError := _Error;
+-end;
+-
+-function TEngineStateError.Execute(const _Context: IEngineContext): IEngineState;
+-begin
+-  raise EStateEngineError.Create(FError);
+-end;
+-
+-{ TEngineStateSpace }
+-
+-function TEngineStateSpace.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '-':
+-      Result := TEngineStateDash.Create;
+-    #0:
+-      Result := nil; // end state
+-    '&quot;': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedParam.Create;
+-      end;
+-    ' ':
+-      Result := self;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateParam.Create;
+-  end;
+-end;
+-
+-{ TEngineStateParam }
+-
+-function TEngineStateParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '&quot;': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedParam.Create;
+-      end;
+-    #0, ' ': begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := Self;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedParam }
+-
+-function TEngineStateQuotedParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '&quot;': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateDash }
+-
+-function TEngineStateDash.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  if c in ALPHANUMERIC_CHARS + ['?'] then begin
+-    _Context.AddToOption(c);
+-    Result := TEngineStateShortOption.Create;
+-  end else if c = '-' then
+-    Result := TEngineStateDoubleDash.Create
+-  else
+-    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
+-end;
+-
+-{ TEngineStateDoubleDash }
+-
+-function TEngineStateDoubleDash.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  if c in ALPHANUMERIC_CHARS then begin
+-    _Context.AddToOption(c);
+-    Result := TEngineStateLongOption.Create;
+-  end else
+-    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
+-end;
+-
+-{ TEngineStateShortOption }
+-
+-function TEngineStateShortOption.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ': begin
+-        Result := TEngineStateShortParam.Create;
+-      end;
+-    '-', '+': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateShortSwitch.Create;
+-      end;
+-    #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
+-  end;
+-end;
+-
+-{ TEngineStateShortSwitch }
+-
+-function TEngineStateShortSwitch.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end else
+-    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
+-  end;
+-end;
+-
+-{ TEngineStateShortParam }
+-
+-function TEngineStateShortParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-    '&quot;': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedShortParam.Create;
+-      end;
+-    '-': begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateDash.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedShortParam }
+-
+-function TEngineStateQuotedShortParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '&quot;': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateShortParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateLongOption }
+-
+-function TEngineStateLongOption.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '=':
+-      Result := TEngineStateLongParam.Create;
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-    '&quot;', '''':
+-      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
+-  else
+-    _Context.AddToOption(c);
+-    Result := TEngineStateLongOption.Create;
+-  end;
+-end;
+-
+-{ TEngineStateLongParam }
+-
+-function TEngineStateLongParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '&quot;': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedLongParam.Create;
+-      end;
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateLongParam.Create;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedLongParam }
+-
+-function TEngineStateQuotedLongParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '&quot;': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateLongParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateQuotedLongParam.Create;
+-  end;
+-end;
+-
+ { TStateParams }
+ 
+ procedure TEngineContext.AddToOption(_c: char);
+
+Added: utilities/dzLib/trunk/src/u_dzCmdLineParserStates.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzCmdLineParserStates.pas	2008-01-14 11:27:14 UTC (rev 264)
++++ utilities/dzLib/trunk/src/u_dzCmdLineParserStates.pas	2008-02-05 07:37:45 UTC (rev 265)
+@@ -0,0 +1,378 @@
++unit u_dzCmdLineParserStates;
++
++interface
++
++uses
++  u_dzCmdLineParser;
++
++type
++  TEngineStateAbstract = class(TInterfacedObject)
++  private
++    function GetClassName: string;
++  end;
++
++type
++  TEngineStateError = class(TEngineStateAbstract, IEngineState)
++  private
++    FError: string;
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++    constructor Create(const _Error: string);
++  end;
++
++type
++  TEngineStateSpace = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateDash = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateDoubleDash = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateLongOption = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortOption = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortSwitch = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedShortParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateLongParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedLongParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++implementation
++
++uses
++  SysUtils;
++
++{ TEngineStateAbstract }
++
++function TEngineStateAbstract.GetClassName: string;
++begin
++  Result := ClassName;
++end;
++
++{ TEngineStateError }
++
++constructor TEngineStateError.Create(const _Error: string);
++begin
++  inherited Create;
++  FError := _Error;
++end;
++
++function TEngineStateError.Execute(const _Context: IEngineContext): IEngineState;
++begin
++  raise EStateEngineError.Create(FError);
++end;
++
++{ TEngineStateSpace }
++
++function TEngineStateSpace.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '-':
++      Result := TEngineStateDash.Create;
++    #0:
++      Result := nil; // end state
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedParam.Create;
++      end;
++    ' ':
++      Result := self;
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateParam.Create;
++  end;
++end;
++
++{ TEngineStateParam }
++
++function TEngineStateParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedParam.Create;
++      end;
++    #0, ' ': begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := Self;
++  end;
++end;
++
++{ TEngineStateQuotedParam }
++
++function TEngineStateQuotedParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateDash }
++
++function TEngineStateDash.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  if c in ALPHANUMERIC_CHARS + ['?'] then begin
++    _Context.AddToOption(c);
++    Result := TEngineStateShortOption.Create;
++  end else if c = '-' then
++    Result := TEngineStateDoubleDash.Create
++  else
++    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++end;
++
++{ TEngineStateDoubleDash }
++
++function TEngineStateDoubleDash.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  if c in ALPHANUMERIC_CHARS then begin
++    _Context.AddToOption(c);
++    Result := TEngineStateLongOption.Create;
++  end else
++    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++end;
++
++{ TEngineStateShortOption }
++
++function TEngineStateShortOption.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ': begin
++        Result := TEngineStateShortParam.Create;
++      end;
++    '-', '+': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateShortSwitch.Create;
++      end;
++    #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  end;
++end;
++
++{ TEngineStateShortSwitch }
++
++function TEngineStateShortSwitch.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end else
++    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  end;
++end;
++
++{ TEngineStateShortParam }
++
++function TEngineStateShortParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedShortParam.Create;
++      end;
++    '-': begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateDash.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateQuotedShortParam }
++
++function TEngineStateQuotedShortParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateShortParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateLongOption }
++
++function TEngineStateLongOption.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '=':
++      Result := TEngineStateLongParam.Create;
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++    '&quot;', '''':
++      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  else
++    _Context.AddToOption(c);
++    Result := TEngineStateLongOption.Create;
++  end;
++end;
++
++{ TEngineStateLongParam }
++
++function TEngineStateLongParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedLongParam.Create;
++      end;
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateLongParam.Create;
++  end;
++end;
++
++{ TEngineStateQuotedLongParam }
++
++function TEngineStateQuotedLongParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateLongParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateQuotedLongParam.Create;
++  end;
++end;
++
++end.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000135.html">[Dzchart-svncheckins] r266 - in utilities/dzCmdLineParser/trunk:	dcu src tests
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#134">[ date ]</a>
+              <a href="thread.html#134">[ thread ]</a>
+              <a href="subject.html#134">[ subject ]</a>
+              <a href="author.html#134">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

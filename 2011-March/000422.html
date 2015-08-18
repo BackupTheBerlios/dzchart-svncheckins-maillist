@@ -1,0 +1,900 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r564 - in utilities/dzLib/trunk/translations:	de en fr
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r564%20-%20in%20utilities/dzLib/trunk/translations%3A%0A%09de%20en%20fr&In-Reply-To=%3C20110309105138.893C948146F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000421.html">
+   <LINK REL="Next"  HREF="000423.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r564 - in utilities/dzLib/trunk/translations:	de en fr</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r564%20-%20in%20utilities/dzLib/trunk/translations%3A%0A%09de%20en%20fr&In-Reply-To=%3C20110309105138.893C948146F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r564 - in utilities/dzLib/trunk/translations:	de en fr">twm at mail.berlios.de
+       </A><BR>
+    <I>Wed Mar  9 11:51:38 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000421.html">[Dzchart-svncheckins] r563 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000423.html">[Dzchart-svncheckins] r565 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#422">[ date ]</a>
+              <a href="thread.html#422">[ thread ]</a>
+              <a href="subject.html#422">[ subject ]</a>
+              <a href="author.html#422">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-03-09 11:51:38 +0100 (Wed, 09 Mar 2011)
+New Revision: 564
+
+Modified:
+   utilities/dzLib/trunk/translations/de/dzlib.po
+   utilities/dzLib/trunk/translations/en/dzlib.po
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+corrected / new translations
+
+Modified: utilities/dzLib/trunk/translations/de/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/de/dzlib.po	2011-03-09 10:50:32 UTC (rev 563)
++++ utilities/dzLib/trunk/translations/de/dzlib.po	2011-03-09 10:51:38 UTC (rev 564)
+@@ -6,7 +6,7 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2010-11-20 12:52\n&quot;
++&quot;POT-Creation-Date: 2011-03-01 09:46\n&quot;
+ &quot;PO-Revision-Date: 2010-07-13 10:18+0100\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+@@ -17,22 +17,27 @@
+ &quot;X-Poedit-Language: German\n&quot;
+ &quot;X-Poedit-Country: GERMANY\n&quot;
+ 
+-#: u_dzClassUtils.pas:382
++#: u_dzClassUtils.pas:397
+ msgid &quot;no matching object found&quot;
+ msgstr &quot;kein passendes Objekt gefunden&quot;
+ 
+-#: u_dzClassUtils.pas:420
++#: u_dzClassUtils.pas:435
+ #, object-pascal-format
+ msgid &quot;Invalid empty string value in ini file for [%s]%s&quot;
+ msgstr &quot;Ung&#252;ltige Leerstring-Wert in ini-Datei f&#252;r [%s]%s&quot;
+ 
+-#: u_dzClassUtils.pas:451
++#: u_dzClassUtils.pas:466
+ #, object-pascal-format
+-msgid &quot;Invalid floating point value %s in ini file for [%s]%s&quot;
+-msgstr &quot;Ung&#252;ltiger Flie&#223;komawert %s in ini-Datei f&#252;r [%s]%s&quot;
++msgid &quot;Invalid floating point value \&quot;%s\&quot; in ini file for [%s]%s&quot;
++msgstr &quot;Ung&#252;ltiger Flie&#223;kommawert \&quot;%s\&quot; in ini-Datei f&#252;r [%s]%s&quot;
+ 
+-#: u_dzClassUtils.pas:465
++#: u_dzClassUtils.pas:488
+ #, object-pascal-format
++msgid &quot;Invalid date value \&quot;%s\&quot; in ini file for [%s]%s&quot;
++msgstr &quot;Ung&#252;ltiger Datumswert \&quot;%s\&quot; in ini-Datei f&#252;r [%s]%s&quot;
++
++#: u_dzClassUtils.pas:502
++#, object-pascal-format
+ msgid &quot;Invalid integer value \&quot;%s\&quot; in ini file for [%s]%s&quot;
+ msgstr &quot;Ung&#252;ltiger Ganzzahlwert \&quot;%s\&quot; in ini-Datei f&#252;r [%s]%s&quot;
+ 
+@@ -293,76 +298,76 @@
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;StdOut wurde nicht umgeleitet&quot;
+ 
+-#: u_dzFileStreams.pas:259
++#: u_dzFileStreams.pas:257
+ #, object-pascal-format
+ msgid &quot;%%1:s (%%0:d) trying to open \&quot;%s\&quot;&quot;
+ msgstr &quot;%%1:s (%%0:d) beim &#214;ffnen von \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileStreams.pas:307
++#: u_dzFileStreams.pas:305
+ msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Ung&#252;ltige Dateiattribute&quot;
+ 
+-#: u_dzFileStreams.pas:319
++#: u_dzFileStreams.pas:317
+ msgid &quot;Invalid file flags&quot;
+ msgstr &quot;Ung&#252;ltige Dateiflags&quot;
+ 
+-#: u_dzFileStreams.pas:338
+-msgid &quot;Cannot change filename when file is open.&quot;
+-msgstr &quot;Kann Dateinamen nicht &#228;ndern wenn Datei ge&#246;ffnet ist.&quot;
+-
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:919
++#: u_dzFileUtils.pas:927
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ msgstr &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath&quot;
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:935
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ msgstr &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath (zweiter)&quot;
+ 
++#: u_dzFileUtils.pas:987
++msgid &quot;&lt;no volume name&gt;&quot;
++msgstr &quot;&lt;kein Volume-Name&gt;&quot;
++
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:944 u_dzFileUtils.pas:1502
++#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:968
++#: u_dzFileUtils.pas:1030
+ #, object-pascal-format
+ msgid &quot;Could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ msgstr &quot;Konnte keinen eindeutigen Verzeichnisnamen basierend auf \&quot;%s\&quot; finden.&quot;
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:986
++#: u_dzFileUtils.pas:1066
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ msgstr &quot;TFileSystem.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von Windows.GetTempFileName&quot;
+ 
+-#: u_dzFileUtils.pas:1041 u_dzFileUtils.pas:1047
++#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
+ #, object-pascal-format
+ msgid &quot;File not found: \&quot;%s\&quot;&quot;
+ msgstr &quot;Datei nicht gefunden: \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1092
++#: u_dzFileUtils.pas:1172
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ msgstr &quot;TFileSystem.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von Windows.GetShortPathname&quot;
+ 
+-#: u_dzFileUtils.pas:1094
++#: u_dzFileUtils.pas:1174
+ #, object-pascal-format
+ msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ msgstr &quot;Kurzer Pfad ist l&#228;nger als MAX_PATH (%d) Zeichen&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1106
++#: u_dzFileUtils.pas:1186
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Verschieben von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1124
++#: u_dzFileUtils.pas:1204
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim &#196;ndern des Schreibschutz-Flags von \&quot;%s\&quot;&quot;
+@@ -370,50 +375,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1144 u_dzFileUtils.pas:1270 u_dzFileUtils.pas:1343
++#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Kopieren von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+-#: u_dzFileUtils.pas:1258
++#: u_dzFileUtils.pas:1338
+ #, object-pascal-format
+ msgid &quot;Error %s (%s) in progress callback while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %s (%s) im Fortschritts-Callback beim Kopieren von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1373
++#: u_dzFileUtils.pas:1453
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim L&#246;schen der Datei \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1443
++#: u_dzFileUtils.pas:1523
+ #, object-pascal-format
+ msgid &quot;File not found: %s&quot;
+ msgstr &quot;Datei nicht gefunden: %s&quot;
+ 
+-#: u_dzFileUtils.pas:1457
++#: u_dzFileUtils.pas:1537
+ #, object-pascal-format
+ msgid &quot;Directory not found: %s&quot;
+ msgstr &quot;Verzeichnis nicht gefunden: \&quot;%s\&quot;&quot;
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1494
++#: u_dzFileUtils.pas:1574
+ #, object-pascal-format
+ msgid &quot;Error creating directory \&quot;%s\&quot;: %s (%s)&quot;
+ msgstr &quot;Fehler beim Erstellen des Verzeichnisses \&quot;%s\&quot;: %s (%s)&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1521
++#: u_dzFileUtils.pas:1601
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim L&#246;schen des Verzeichnisses \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1539
++#: u_dzFileUtils.pas:1619
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ msgstr &quot;\&quot;%s\&quot; existiert nicht oder ist kein Verzeichnis&quot;
+ 
+-#: u_dzFileUtils.pas:1813
++#: u_dzFileUtils.pas:1893
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;Kombination von ResultContainsNumber und KeepOriginal ist nicht erlaubt&quot;
+ 
+@@ -542,7 +547,7 @@
+ msgid &quot;RESOURCEDLL \&quot;%s\&quot; is not valid (Check #3)&quot;
+ msgstr &quot;RESOURCEDLL \&quot;%s\&quot; ist nicht g&#252;ltig (Pr&#252;fung #3)&quot;
+ 
+-#: u_dzRingBuffer.pas:247 u_dzRingBuffer.pas:258
++#: u_dzRingBuffer.pas:249 u_dzRingBuffer.pas:260
+ #, object-pascal-format
+ msgid &quot;Index %d out of bounds.&quot;
+ msgstr &quot;Index %d nicht im g&#252;ltigen Bereich.&quot;
+@@ -607,30 +612,30 @@
+ msgid &quot;Variant can not be converted to %s&quot;
+ msgstr &quot;Variant kann nicht nach %s konvertiert werden&quot;
+ 
+-#: u_dzVclUtils.pas:636
++#: u_dzVclUtils.pas:647
+ #, object-pascal-format
+ msgid &quot;Glyph string contained invalid character at position %d.&quot;
+ msgstr &quot;Der Glyph-Text beinhaltet ein ung&#252;ltiges Zeichen an Position %d.&quot;
+ 
+-#: u_dzVclUtils.pas:894 u_dzVclUtils.pas:941
++#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Flie&#223;kommawert.&quot;
+ 
+-#: u_dzVclUtils.pas:909 u_dzVclUtils.pas:973 u_dzVclUtils.pas:986
++#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Integerwert.&quot;
+ 
+-#: u_dzVclUtils.pas:1382
++#: u_dzVclUtils.pas:1407
+ msgid &quot;No item selected in combobox&quot;
+ msgstr &quot;Kein Eintrag der Combobox ausgew&#228;hlt&quot;
+ 
+-#: u_dzVclUtils.pas:1401
++#: u_dzVclUtils.pas:1426
+ msgid &quot;No item selected in listbox&quot;
+ msgstr &quot;Kein Eintrag der Listbox ausgew&#228;hlt&quot;
+ 
+-#: u_dzVclUtils.pas:1965
++#: u_dzVclUtils.pas:1990
+ msgid &quot;JPEG Files&quot;
+ msgstr &quot;JPEG Dateien&quot;
+ 
+@@ -739,21 +744,21 @@
+ msgid &quot;Do you really want to abort?&quot;
+ msgstr &quot;Wollen Sie wirklich abbrechen?&quot;
+ 
+-#: w_dzProgress.pas:170
++#: w_dzProgress.pas:171
+ #, no-object-pascal-format
+ msgid &quot;must not contain a % at the end&quot;
+ msgstr &quot;darf am Ende kein % enthalten&quot;
+ 
+-#: w_dzProgress.pas:179
++#: w_dzProgress.pas:180
+ #, no-object-pascal-format
+ msgid &quot;\&quot;%\&quot; must be followed by \&quot;d\&quot; or \&quot;%\&quot;.&quot;
+ msgstr &quot;Auf \&quot;%\&quot; muss \&quot;d\&quot; oder \&quot;%\&quot; folgen&quot;
+ 
+-#: w_dzProgress.pas:185
++#: w_dzProgress.pas:186
+ msgid &quot;too many parameters&quot;
+ msgstr &quot;Zuviele Parameter&quot;
+ 
+-#: w_dzProgress.pas:197
++#: w_dzProgress.pas:198
+ #, object-pascal-format
+ msgid &quot;Invalid FormCaption, %s&quot;
+ msgstr &quot;Ung&#252;ltige Formular&#252;berschrift \&quot;%s\&quot;&quot;
+
+Modified: utilities/dzLib/trunk/translations/en/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/en/dzlib.po	2011-03-09 10:50:32 UTC (rev 563)
++++ utilities/dzLib/trunk/translations/en/dzlib.po	2011-03-09 10:51:38 UTC (rev 564)
+@@ -6,7 +6,7 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2010-11-20 12:52\n&quot;
++&quot;POT-Creation-Date: 2011-03-01 09:46\n&quot;
+ &quot;PO-Revision-Date: 2010-07-13 10:18+0100\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+@@ -17,22 +17,27 @@
+ &quot;X-Poedit-Language: English\n&quot;
+ &quot;X-Poedit-Country: UNITED STATES\n&quot;
+ 
+-#: u_dzClassUtils.pas:382
++#: u_dzClassUtils.pas:397
+ msgid &quot;no matching object found&quot;
+ msgstr &quot;no matching object found&quot;
+ 
+-#: u_dzClassUtils.pas:420
++#: u_dzClassUtils.pas:435
+ #, object-pascal-format
+ msgid &quot;Invalid empty string value in ini file for [%s]%s&quot;
+ msgstr &quot;Invalid empty string value in ini file for [%s]%s&quot;
+ 
+-#: u_dzClassUtils.pas:451
++#: u_dzClassUtils.pas:466
+ #, object-pascal-format
+-msgid &quot;Invalid floating point value %s in ini file for [%s]%s&quot;
+-msgstr &quot;Invalid floating point value %s in ini file for [%s]%s&quot;
++msgid &quot;Invalid floating point value \&quot;%s\&quot; in ini file for [%s]%s&quot;
++msgstr &quot;Invalid floating point value \&quot;%s\&quot; in ini file for [%s]%s&quot;
+ 
+-#: u_dzClassUtils.pas:465
++#: u_dzClassUtils.pas:488
+ #, object-pascal-format
++msgid &quot;Invalid date value \&quot;%s\&quot; in ini file for [%s]%s&quot;
++msgstr &quot;Invalid date value \&quot;%s\&quot; in ini file for [%s]%s&quot;
++
++#: u_dzClassUtils.pas:502
++#, object-pascal-format
+ msgid &quot;Invalid integer value \&quot;%s\&quot; in ini file for [%s]%s&quot;
+ msgstr &quot;Invalid integer value \&quot;%s\&quot; in ini file for [%s]%s&quot;
+ 
+@@ -293,76 +298,76 @@
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;StdOut was not redirected&quot;
+ 
+-#: u_dzFileStreams.pas:259
++#: u_dzFileStreams.pas:257
+ #, object-pascal-format
+ msgid &quot;%%1:s (%%0:d) trying to open \&quot;%s\&quot;&quot;
+ msgstr &quot;%%1:s (%%0:d) trying to open \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileStreams.pas:307
++#: u_dzFileStreams.pas:305
+ msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Invalid file attributes&quot;
+ 
+-#: u_dzFileStreams.pas:319
++#: u_dzFileStreams.pas:317
+ msgid &quot;Invalid file flags&quot;
+ msgstr &quot;Invalid file flags&quot;
+ 
+-#: u_dzFileStreams.pas:338
+-msgid &quot;Cannot change filename when file is open.&quot;
+-msgstr &quot;Cannot change filename when file is open.&quot;
+-
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:919
++#: u_dzFileUtils.pas:927
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ msgstr &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:935
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ msgstr &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ 
++#: u_dzFileUtils.pas:987
++msgid &quot;&lt;no volume name&gt;&quot;
++msgstr &quot;&lt;no volume name&gt;&quot;
++
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:944 u_dzFileUtils.pas:1502
++#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:968
++#: u_dzFileUtils.pas:1030
+ #, object-pascal-format
+ msgid &quot;Could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ msgstr &quot;Could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:986
++#: u_dzFileUtils.pas:1066
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ msgstr &quot;TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ 
+-#: u_dzFileUtils.pas:1041 u_dzFileUtils.pas:1047
++#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
+ #, object-pascal-format
+ msgid &quot;File not found: \&quot;%s\&quot;&quot;
+ msgstr &quot;File not found: \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1092
++#: u_dzFileUtils.pas:1172
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ msgstr &quot;TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ 
+-#: u_dzFileUtils.pas:1094
++#: u_dzFileUtils.pas:1174
+ #, object-pascal-format
+ msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ msgstr &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1106
++#: u_dzFileUtils.pas:1186
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1124
++#: u_dzFileUtils.pas:1204
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ msgstr &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+@@ -370,50 +375,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1144 u_dzFileUtils.pas:1270 u_dzFileUtils.pas:1343
++#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ 
+-#: u_dzFileUtils.pas:1258
++#: u_dzFileUtils.pas:1338
+ #, object-pascal-format
+ msgid &quot;Error %s (%s) in progress callback while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Error %s (%s) in progress callback while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1373
++#: u_dzFileUtils.pas:1453
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ msgstr &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1443
++#: u_dzFileUtils.pas:1523
+ #, object-pascal-format
+ msgid &quot;File not found: %s&quot;
+ msgstr &quot;File not found: %s&quot;
+ 
+-#: u_dzFileUtils.pas:1457
++#: u_dzFileUtils.pas:1537
+ #, object-pascal-format
+ msgid &quot;Directory not found: %s&quot;
+ msgstr &quot;Directory not found: %s&quot;
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1494
++#: u_dzFileUtils.pas:1574
+ #, object-pascal-format
+ msgid &quot;Error creating directory \&quot;%s\&quot;: %s (%s)&quot;
+ msgstr &quot;Error creating directory \&quot;%s\&quot;: %s (%s)&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1521
++#: u_dzFileUtils.pas:1601
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1539
++#: u_dzFileUtils.pas:1619
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ msgstr &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ 
+-#: u_dzFileUtils.pas:1813
++#: u_dzFileUtils.pas:1893
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ 
+@@ -542,7 +547,7 @@
+ msgid &quot;RESOURCEDLL \&quot;%s\&quot; is not valid (Check #3)&quot;
+ msgstr &quot;RESOURCEDLL \&quot;%s\&quot; is not valid (Check #3)&quot;
+ 
+-#: u_dzRingBuffer.pas:247 u_dzRingBuffer.pas:258
++#: u_dzRingBuffer.pas:249 u_dzRingBuffer.pas:260
+ #, object-pascal-format
+ msgid &quot;Index %d out of bounds.&quot;
+ msgstr &quot;Index %d out of bounds.&quot;
+@@ -607,30 +612,30 @@
+ msgid &quot;Variant can not be converted to %s&quot;
+ msgstr &quot;Variant can not be converted to %s&quot;
+ 
+-#: u_dzVclUtils.pas:636
++#: u_dzVclUtils.pas:647
+ #, object-pascal-format
+ msgid &quot;Glyph string contained invalid character at position %d.&quot;
+ msgstr &quot;Glyph string contained invalid character at position %d.&quot;
+ 
+-#: u_dzVclUtils.pas:894 u_dzVclUtils.pas:941
++#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ msgstr &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ 
+-#: u_dzVclUtils.pas:909 u_dzVclUtils.pas:973 u_dzVclUtils.pas:986
++#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ msgstr &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ 
+-#: u_dzVclUtils.pas:1382
++#: u_dzVclUtils.pas:1407
+ msgid &quot;No item selected in combobox&quot;
+ msgstr &quot;No item selected in combobox&quot;
+ 
+-#: u_dzVclUtils.pas:1401
++#: u_dzVclUtils.pas:1426
+ msgid &quot;No item selected in listbox&quot;
+ msgstr &quot;No item selected in listbox&quot;
+ 
+-#: u_dzVclUtils.pas:1965
++#: u_dzVclUtils.pas:1990
+ msgid &quot;JPEG Files&quot;
+ msgstr &quot;JPEG Files&quot;
+ 
+@@ -739,21 +744,21 @@
+ msgid &quot;Do you really want to abort?&quot;
+ msgstr &quot;Do you really want to abort?&quot;
+ 
+-#: w_dzProgress.pas:170
++#: w_dzProgress.pas:171
+ #, no-object-pascal-format
+ msgid &quot;must not contain a % at the end&quot;
+ msgstr &quot;must not contain a % at the end&quot;
+ 
+-#: w_dzProgress.pas:179
++#: w_dzProgress.pas:180
+ #, no-object-pascal-format
+ msgid &quot;\&quot;%\&quot; must be followed by \&quot;d\&quot; or \&quot;%\&quot;.&quot;
+ msgstr &quot;\&quot;%\&quot; must be followed by \&quot;d\&quot; or \&quot;%\&quot;.&quot;
+ 
+-#: w_dzProgress.pas:185
++#: w_dzProgress.pas:186
+ msgid &quot;too many parameters&quot;
+ msgstr &quot;too many parameters&quot;
+ 
+-#: w_dzProgress.pas:197
++#: w_dzProgress.pas:198
+ #, object-pascal-format
+ msgid &quot;Invalid FormCaption, %s&quot;
+ msgstr &quot;Invalid FormCaption, %s&quot;
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2011-03-09 10:50:32 UTC (rev 563)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2011-03-09 10:51:38 UTC (rev 564)
+@@ -6,7 +6,7 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib\n&quot;
+-&quot;POT-Creation-Date: 2010-11-20 12:52\n&quot;
++&quot;POT-Creation-Date: 2011-03-01 09:46\n&quot;
+ &quot;PO-Revision-Date: 2010-10-10 20:17+0100\n&quot;
+ &quot;Last-Translator: RH\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+@@ -17,21 +17,26 @@
+ &quot;X-Poedit-Language: French\n&quot;
+ &quot;X-Poedit-Country: FRANCE\n&quot;
+ 
+-#: u_dzClassUtils.pas:382
++#: u_dzClassUtils.pas:397
+ msgid &quot;no matching object found&quot;
+ msgstr &quot;aucun objet correspondant trouv&#233;&quot;
+ 
+-#: u_dzClassUtils.pas:420
++#: u_dzClassUtils.pas:435
+ #, object-pascal-format
+ msgid &quot;Invalid empty string value in ini file for [%s]%s&quot;
+ msgstr &quot;Cha&#238;ne valeur non valide dans le fichier ini pour [%s]%s&quot;
+ 
+-#: u_dzClassUtils.pas:451
+-#, object-pascal-format
+-msgid &quot;Invalid floating point value %s in ini file for [%s]%s&quot;
++#: u_dzClassUtils.pas:466
++#, fuzzy, object-pascal-format
++msgid &quot;Invalid floating point value \&quot;%s\&quot; in ini file for [%s]%s&quot;
+ msgstr &quot;valeur du point flottante non valide %s dans le fichier ini pour [%s]%s&quot;
+ 
+-#: u_dzClassUtils.pas:465
++#: u_dzClassUtils.pas:488
++#, fuzzy, object-pascal-format
++msgid &quot;Invalid date value \&quot;%s\&quot; in ini file for [%s]%s&quot;
++msgstr &quot;valeur enti&#232;re non valide \&quot;%s\&quot; dans le fichier ini pour [%s]%s&quot;
++
++#: u_dzClassUtils.pas:502
+ #, object-pascal-format
+ msgid &quot;Invalid integer value \&quot;%s\&quot; in ini file for [%s]%s&quot;
+ msgstr &quot;valeur enti&#232;re non valide \&quot;%s\&quot; dans le fichier ini pour [%s]%s&quot;
+@@ -294,76 +299,76 @@
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;StdOut n'a pas &#233;t&#233; redirig&#233;&quot;
+ 
+-#: u_dzFileStreams.pas:259
++#: u_dzFileStreams.pas:257
+ #, object-pascal-format
+ msgid &quot;%%1:s (%%0:d) trying to open \&quot;%s\&quot;&quot;
+ msgstr &quot;%%1:s (%%0:d) lors de la ouverture de \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileStreams.pas:307
++#: u_dzFileStreams.pas:305
+ msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Attributs fichiers non valide&quot;
+ 
+-#: u_dzFileStreams.pas:319
++#: u_dzFileStreams.pas:317
+ msgid &quot;Invalid file flags&quot;
+ msgstr &quot;Flags fichiers non valide&quot;
+ 
+-#: u_dzFileStreams.pas:338
+-msgid &quot;Cannot change filename when file is open.&quot;
+-msgstr &quot;Ne peut pas changer le nom de fichier quand le fichier est ouvert.&quot;
+-
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:919
++#: u_dzFileUtils.pas:927
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ msgstr &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:935
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ msgstr &quot;TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ 
++#: u_dzFileUtils.pas:987
++msgid &quot;&lt;no volume name&gt;&quot;
++msgstr &quot;&quot;
++
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:944 u_dzFileUtils.pas:1502
++#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors de la cr&#233;ation du r&#233;pertoire \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:968
++#: u_dzFileUtils.pas:1030
+ #, object-pascal-format
+ msgid &quot;Could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ msgstr &quot;Impossible de trouver un nom de r&#233;pertoire unique sur la base de \&quot;%s\&quot;&quot;
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:986
++#: u_dzFileUtils.pas:1066
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ msgstr &quot;TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ 
+-#: u_dzFileUtils.pas:1041 u_dzFileUtils.pas:1047
++#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
+ #, object-pascal-format
+ msgid &quot;File not found: \&quot;%s\&quot;&quot;
+ msgstr &quot;Fichier non trouv&#233;: \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1092
++#: u_dzFileUtils.pas:1172
+ #, no-object-pascal-format
+ msgid &quot;TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ msgstr &quot;TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ 
+-#: u_dzFileUtils.pas:1094
++#: u_dzFileUtils.pas:1174
+ #, object-pascal-format
+ msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ msgstr &quot;La longueur du chemin de fichier d&#233;passe MAX_PATH (%d) caract&#232;res&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1106
++#: u_dzFileUtils.pas:1186
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors du d&#233;placement de \&quot;%s\&quot; vers \&quot;%s\&quot;.&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1124
++#: u_dzFileUtils.pas:1204
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors du changement de l'indicateur lecture seule de \&quot;%s\&quot;&quot;
+@@ -371,50 +376,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1144 u_dzFileUtils.pas:1270 u_dzFileUtils.pas:1343
++#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors de la copie de \&quot;%s\&quot; vers \&quot;%s\&quot;.&quot;
+ 
+-#: u_dzFileUtils.pas:1258
++#: u_dzFileUtils.pas:1338
+ #, object-pascal-format
+ msgid &quot;Error %s (%s) in progress callback while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Erreur %s&#183;(%s)  dans processus callback en essayant de copier \&quot;%s\&quot; vers \&quot;%s\&quot;.&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1373
++#: u_dzFileUtils.pas:1453
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors de l'effacement du fichier \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1443
++#: u_dzFileUtils.pas:1523
+ #, object-pascal-format
+ msgid &quot;File not found: %s&quot;
+ msgstr &quot;Fichier non trouv&#233;: %s&quot;
+ 
+-#: u_dzFileUtils.pas:1457
++#: u_dzFileUtils.pas:1537
+ #, object-pascal-format
+ msgid &quot;Directory not found: %s&quot;
+ msgstr &quot;R&#233;pertoire non trouv&#233;: %s&quot;
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1494
++#: u_dzFileUtils.pas:1574
+ #, object-pascal-format
+ msgid &quot;Error creating directory \&quot;%s\&quot;: %s (%s)&quot;
+ msgstr &quot;Erreur lors de la creation du r&#233;pertoire \&quot;%s\&quot;: %s (%s)&quot;
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1521
++#: u_dzFileUtils.pas:1601
+ #, object-pascal-format
+ msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors de l'effacement du r&#233;pertoire \&quot;%s\&quot;&quot;
+ 
+-#: u_dzFileUtils.pas:1539
++#: u_dzFileUtils.pas:1619
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ msgstr &quot;\&quot;%s\&quot; n'existe pas ou n'est pas un r&#233;p&#233;rtoire&quot;
+ 
+-#: u_dzFileUtils.pas:1813
++#: u_dzFileUtils.pas:1893
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;Combinaison de ResultContainsNumber et KeepOriginal n'est pas possible&quot;
+ 
+@@ -557,7 +562,7 @@
+ msgid &quot;RESOURCEDLL \&quot;%s\&quot; is not valid (Check #3)&quot;
+ msgstr &quot;RESOURCEDLL \&quot;%s\&quot; n'est pas valide (Check # 3)&quot;
+ 
+-#: u_dzRingBuffer.pas:247 u_dzRingBuffer.pas:258
++#: u_dzRingBuffer.pas:249 u_dzRingBuffer.pas:260
+ #, object-pascal-format
+ msgid &quot;Index %d out of bounds.&quot;
+ msgstr &quot;Indice %d en dehors des limites.&quot;
+@@ -622,31 +627,31 @@
+ msgid &quot;Variant can not be converted to %s&quot;
+ msgstr &quot;Un variant ne peut pas &#234;tre converti en %s&quot;
+ 
+-#: u_dzVclUtils.pas:636
++#: u_dzVclUtils.pas:647
+ #, object-pascal-format
+ msgid &quot;Glyph string contained invalid character at position %d.&quot;
+ msgstr &quot;Glyph cha&#238;ne contenue un caract&#232;re non valide &#224; position %d.&quot;
+ 
+-#: u_dzVclUtils.pas:894 u_dzVclUtils.pas:941
++#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ msgstr &quot;\&quot;%s\&quot; n'est pas une valeur d&#233;cimale correcte.&quot;
+ 
+ # Integer = Dezimalzahl?
+-#: u_dzVclUtils.pas:909 u_dzVclUtils.pas:973 u_dzVclUtils.pas:986
++#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
+ #, object-pascal-format
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ msgstr &quot;\&quot;%s\&quot; n'est pas une valeur d&#233;cimale correcte.&quot;
+ 
+-#: u_dzVclUtils.pas:1382
++#: u_dzVclUtils.pas:1407
+ msgid &quot;No item selected in combobox&quot;
+ msgstr &quot;Aucun &#233;l&#233;ment s&#233;lectionn&#233; dans combobox&quot;
+ 
+-#: u_dzVclUtils.pas:1401
++#: u_dzVclUtils.pas:1426
+ msgid &quot;No item selected in listbox&quot;
+ msgstr &quot;Aucun &#233;l&#233;ment s&#233;lectionn&#233; dans listbox&quot;
+ 
+-#: u_dzVclUtils.pas:1965
++#: u_dzVclUtils.pas:1990
+ msgid &quot;JPEG Files&quot;
+ msgstr &quot;Fichiers JPEG&quot;
+ 
+@@ -756,21 +761,21 @@
+ msgid &quot;Do you really want to abort?&quot;
+ msgstr &quot;Voulez-vous vraiment faire abandonnerr?&quot;
+ 
+-#: w_dzProgress.pas:170
++#: w_dzProgress.pas:171
+ #, no-object-pascal-format
+ msgid &quot;must not contain a % at the end&quot;
+ msgstr &quot;ne doit pas contenir un % &#224; la fin&quot;
+ 
+-#: w_dzProgress.pas:179
++#: w_dzProgress.pas:180
+ #, no-object-pascal-format
+ msgid &quot;\&quot;%\&quot; must be followed by \&quot;d\&quot; or \&quot;%\&quot;.&quot;
+ msgstr &quot;\&quot;%\&quot; doit &#234;tre suivi par \&quot;d\&quot; ou \&quot;%\&quot;.&quot;
+ 
+-#: w_dzProgress.pas:185
++#: w_dzProgress.pas:186
+ msgid &quot;too many parameters&quot;
+ msgstr &quot;trop de param&#232;tres&quot;
+ 
+-#: w_dzProgress.pas:197
++#: w_dzProgress.pas:198
+ #, object-pascal-format
+ msgid &quot;Invalid FormCaption, %s&quot;
+ msgstr &quot;FormCaption non valide, %s&quot;
+@@ -847,3 +852,5 @@
+ msgid &quot;There is no script named %s in this db type&quot;
+ msgstr &quot;Il n'ya pas de script %s dans ce type db&quot;
+ 
++#~ msgid &quot;Cannot change filename when file is open.&quot;
++#~ msgstr &quot;Ne peut pas changer le nom de fichier quand le fichier est ouvert.&quot;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000421.html">[Dzchart-svncheckins] r563 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000423.html">[Dzchart-svncheckins] r565 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#422">[ date ]</a>
+              <a href="thread.html#422">[ thread ]</a>
+              <a href="subject.html#422">[ subject ]</a>
+              <a href="author.html#422">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

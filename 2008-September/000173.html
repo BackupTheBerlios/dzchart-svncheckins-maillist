@@ -1,0 +1,1421 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r306 - in utilities/dzCmdLineParser/trunk: .	src tests translations translations/de
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r306%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20tests%20translations%20translations/de&In-Reply-To=%3C200809041255.m84CtlB5026881%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000172.html">
+   <LINK REL="Next"  HREF="000174.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r306 - in utilities/dzCmdLineParser/trunk: .	src tests translations translations/de</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r306%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20tests%20translations%20translations/de&In-Reply-To=%3C200809041255.m84CtlB5026881%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r306 - in utilities/dzCmdLineParser/trunk: .	src tests translations translations/de">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 14:55:47 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000172.html">[Dzchart-svncheckins] r305 - in utilities/dzLib/trunk: src	translations/de translations/en translations/fr
+</A></li>
+        <LI>Next message: <A HREF="000174.html">[Dzchart-svncheckins] r307 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#173">[ date ]</a>
+              <a href="thread.html#173">[ thread ]</a>
+              <a href="subject.html#173">[ subject ]</a>
+              <a href="author.html#173">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-04 14:55:43 +0200 (Thu, 04 Sep 2008)
+New Revision: 306
+
+Added:
+   utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+   utilities/dzCmdLineParser/trunk/ignore.po
+   utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas
+   utilities/dzCmdLineParser/trunk/translations/
+   utilities/dzCmdLineParser/trunk/translations/de/
+   utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+Modified:
+   utilities/dzCmdLineParser/trunk/
+   utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzOptionFoundList.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzOptionNameList.pas
+   utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr
+   utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj
+Log:
+latest development version
+
+
+Property changes on: utilities/dzCmdLineParser/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs/dztemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/jedi_inc <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jedi_inc/trunk">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jedi_inc/trunk</A>
+libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+
+   + 
+
+
+Added: utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2008-09-04 12:55:43 UTC (rev 306)
+@@ -0,0 +1,16 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> This batch will
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * call dxgettext to extract all strings to translate
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * call msgremove remove any strings stored in the ignore.po file
++
++set BASE=.
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> extract from subdirectories src and forms
++dxgettext --delphi -r -b %BASE%\src -b %BASE%\forms -o %BASE%
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> remove strings given in ignore.po
++msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> merge German translations
++msgmerge --no-wrap --update %BASE%\translations\de\dzCmdLineParser.po %BASE%\filtered.po
++
++pause
+
+Added: utilities/dzCmdLineParser/trunk/ignore.po
+===================================================================
+
+Added: utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas	2008-09-04 12:55:43 UTC (rev 306)
+@@ -0,0 +1,561 @@
++{: Implements a simple commandline parser based on a state machine.
++   To use, call one of the overloaded TCmdLineParser.Execute class methods.
++   The state machine implementation is based on a concept described by
++   Julian Bucknail in the Delphi Magazine, issue 115: &quot;Object-Oriented State Machines&quot;
++   @author Thomas Mueller &lt;<A HREF="http://www.dummzeuch.de">http://www.dummzeuch.de</A>&gt; }
++unit u_dzCmdLineParser;
++
++interface
++
++uses
++  SysUtils,
++  Classes;
++
++type
++  EStateEngineError = class(exception);
++
++const
++  ALPHANUMERIC_CHARS = ['a'..'z', 'A'..'Z', '0'..'9'];
++  ALLCHARS_BUT_NULL = [#1..#255];
++
++type
++  IEngineContext = interface ['{F6FB6D03-C90F-468D-9ACC-716C58697CCA}']
++    {: returns the next character to parse }
++    function GetNextChar: char;
++    {: appends a character to the FOption field }
++    procedure AddToOption(_c: char);
++    {: appends a character to the FParameter field }
++    procedure AddToParameter(_c: char);
++    {: This is called whenever an option and parameter have been finished.
++       It checks what kind of parameter it was, possibly combines them and
++       adds it to the appropriate list. }
++    procedure HandleCmdLinePart;
++  end;
++
++type
++  IEngineState = interface ['{B8ADC607-8549-4B4A-A15A-278DAEE5F6CE}']
++    function Execute(const _Context: IEngineContext): IEngineState;
++    function GetClassName: string;
++  end;
++
++type
++  TEngineStateAbstract = class(TInterfacedObject)
++  private
++    function GetClassName: string;
++  end;
++
++type
++  TEngineStateError = class(TEngineStateAbstract, IEngineState)
++  private
++    FError: string;
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++    constructor Create(const _Error: string);
++  end;
++
++type
++  TEngineStateSpace = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateDash = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateDoubleDash = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateLongOption = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortOption = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortSwitch = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedShortParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateLongParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedLongParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TCmdLineParser = class
++  public
++    {: parses the CmdLine string and returns the options and parameters
++       @param CmdLine is a string with the commandline to parse
++       @param Options is a TStrings instance which returns all options found as
++              name=value pairs,
++              e.g. '--one=two --three -x four -y' will result in
++              'one=two'
++              'three='
++              'x=four'
++              'y'
++              This list must not be sorted. Duplicates are allowed. The order
++              of the options is preserved. If you do not care about duplicates,
++              you can use the Values property to access option values.
++       @param Params is a TStrings instance  wich returns all parameters found,
++              e.g. 'one two three' will result in
++              'one'
++              'two'
++              'three' }
++    class procedure Execute(const _CmdLine: string; _Options: TStrings; _Params: TStrings); overload;
++    {: parses the application's commandline and returns the options and paramteters }
++    class procedure Execute(_Options: TStrings; _Params: TStrings); overload;
++  end;
++
++implementation
++
++type
++  IEngineContextEx = interface ['{CD19DB13-F344-4E1A-B97F-D235B445B463}']
++    procedure GetOptions(_Options: TStrings);
++    procedure GetParams(_Params: TStrings);
++  end;
++
++type
++  {: stores the engine context, passed to the execute method of all engine states }
++  TEngineContext = class(TInterfacedObject, IEngineContext, IEngineContextEx)
++  protected
++    FReadIdx: integer;
++    FInput: string;
++    {: buffer for the currently handled option }
++    FOption: string;
++    {: buffer for the currently handled parameter }
++    FParameter: string;
++    {: Stores options as &lt;optionname&gt;[=&lt;value] in the order they appeared on the
++       commandline., note that options can appear multiple times, so using
++       FParameter.Values[&lt;name&gt;] might not be appropriate }
++    FOptions: TStringList;
++    {: stores the Params property }
++    FParams: TStringList;
++  protected // implements IEngineContext
++    {: returns the next character to parse }
++    function GetNextChar: char;
++    {: appends a character to the FOption field }
++    procedure AddToOption(_c: char);
++    {: appends a character to the FParameter field }
++    procedure AddToParameter(_c: char);
++    {: This is called whenever an option and parameter have been finished.
++       It checks what kind of parameter it was, possibly combines them and
++       adds it to the appropriate list. }
++    procedure HandleCmdLinePart;
++  protected // implements IEngineContextEx
++    procedure GetOptions(_Options: TStrings);
++    procedure GetParams(_Params: TStrings);
++  public
++    constructor Create(_Input: string);
++    destructor Destroy; override;
++    {: Stores options as &lt;optionname&gt;[=&lt;value] in the order they appeared on the
++       commandline., note that options can appear multiple times, so using
++       FParameter.Values[&lt;name&gt;] might not be appropriate }
++    property Options: TStringList read FOptions;
++    {: Stores the parameters, ordered as they appear on the commandline }
++    property Params: TStringList read FParams;
++  end;
++
++{ TEngineStateAbstract }
++
++function TEngineStateAbstract.GetClassName: string;
++begin
++  Result := ClassName;
++end;
++
++{ TEngineStateError }
++
++constructor TEngineStateError.Create(const _Error: string);
++begin
++  inherited Create;
++  FError := _Error;
++end;
++
++function TEngineStateError.Execute(const _Context: IEngineContext): IEngineState;
++begin
++  raise EStateEngineError.Create(FError);
++end;
++
++{ TEngineStateSpace }
++
++function TEngineStateSpace.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '-':
++      Result := TEngineStateDash.Create;
++    #0:
++      Result := nil; // end state
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedParam.Create;
++      end;
++    ' ':
++      Result := self;
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateParam.Create;
++  end;
++end;
++
++{ TEngineStateParam }
++
++function TEngineStateParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedParam.Create;
++      end;
++    #0, ' ': begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := Self;
++  end;
++end;
++
++{ TEngineStateQuotedParam }
++
++function TEngineStateQuotedParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateDash }
++
++function TEngineStateDash.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  if c in ALPHANUMERIC_CHARS then begin
++    _Context.AddToOption(c);
++    Result := TEngineStateShortOption.Create;
++  end else if c = '-' then
++    Result := TEngineStateDoubleDash.Create
++  else
++    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++end;
++
++{ TEngineStateDoubleDash }
++
++function TEngineStateDoubleDash.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  if c in ALPHANUMERIC_CHARS then begin
++    _Context.AddToOption(c);
++    Result := TEngineStateLongOption.Create;
++  end else
++    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++end;
++
++{ TEngineStateShortOption }
++
++function TEngineStateShortOption.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ': begin
++        Result := TEngineStateShortParam.Create;
++      end;
++    '-', '+': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateShortSwitch.Create;
++      end;
++    #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  end;
++end;
++
++{ TEngineStateShortSwitch }
++
++function TEngineStateShortSwitch.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end else
++    Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  end;
++end;
++
++{ TEngineStateShortParam }
++
++function TEngineStateShortParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedShortParam.Create;
++      end;
++    '-': begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateDash.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateQuotedShortParam }
++
++function TEngineStateQuotedShortParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateShortParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateLongOption }
++
++function TEngineStateLongOption.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '=':
++      Result := TEngineStateLongParam.Create;
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++    '&quot;', '''':
++      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  else
++    _Context.AddToOption(c);
++    Result := TEngineStateLongOption.Create;
++  end;
++end;
++
++{ TEngineStateLongParam }
++
++function TEngineStateLongParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedLongParam.Create;
++      end;
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateLongParam.Create;
++  end;
++end;
++
++{ TEngineStateQuotedLongParam }
++
++function TEngineStateQuotedLongParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '&quot;': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateLongParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character &quot;%s&quot;.', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateQuotedLongParam.Create;
++  end;
++end;
++
++{ TStateParams }
++
++procedure TEngineContext.AddToOption(_c: char);
++begin
++  FOption := FOption + _c;
++end;
++
++procedure TEngineContext.AddToParameter(_c: char);
++begin
++  FParameter := FParameter + _c;
++end;
++
++constructor TEngineContext.Create(_Input: string);
++begin
++  inherited Create;
++  FOptions := TStringList.Create;
++  FParams := TStringList.Create;
++  FInput := _Input;
++  FReadIdx := 0;
++end;
++
++destructor TEngineContext.Destroy;
++begin
++  FParams.Free;
++  FOptions.Free;
++  inherited;
++end;
++
++function TEngineContext.GetNextChar: char;
++begin
++  if FReadIdx &gt;= Length(FInput) then
++    Result := #0
++  else begin
++    Inc(FReadIdx);
++    Result := FInput[FReadIdx];
++  end;
++end;
++
++procedure TEngineContext.GetOptions(_Options: TStrings);
++begin
++  _Options.Assign(FOptions);
++end;
++
++procedure TEngineContext.GetParams(_Params: TStrings);
++begin
++  _Params.Assign(FParams);
++end;
++
++procedure TEngineContext.HandleCmdLinePart;
++begin
++  if FOption &lt;&gt; '' then
++    FOptions.Add(FOption + '=' + FParameter)
++  else
++    FParams.Add(FParameter);
++  FParameter := '';
++  FOption := '';
++end;
++
++{ TCdmLineParser }
++
++class procedure TCmdLineParser.Execute(const _CmdLine: string; _Options, _Params: TStrings);
++var
++  Context: IEngineContext;
++  ContextEx: IEngineContextEx;
++  State: IEngineState;
++begin
++  Context := TEngineContext.Create(_CmdLine);
++  State := TEngineStateSpace.Create;
++  while State &lt;&gt; nil do
++    State := State.Execute(Context);
++  ContextEx := Context as IEngineContextEx;
++  ContextEx.GetOptions(_Options);
++  ContextEx.GetParams(_Params);
++end;
++
++class procedure TCmdLineParser.Execute(_Options, _Params: TStrings);
++begin
++  Execute(CmdLine, _Options, _Params);
++end;
++
++end.
++
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-09-04 12:55:43 UTC (rev 306)
+@@ -90,8 +90,15 @@
+   SysUtils,
+   Classes,
+   Dialogs,
+-  u_dzLogging;
++  u_dzLogging,
++  w_dzDialog;
+ 
++resourcestring
++  RS_Error_S = 'Error: %s';
++  RS_Synopsis_S_S = 'Synopsis: %s %s';
++  RS_Parameters = 'Parameters:';
++  RS_Options = 'Options:';
++
+ constructor TDefaultMain.Create;
+ begin
+   inherited;
+@@ -117,14 +124,14 @@
+   s: string;
+ begin
+   if _Error &lt;&gt; '' then begin
+-    s := Format(_('Error: %s') + #13#10#13#10, [_Error]);
++    s := Format(RS_Error_S + #13#10#13#10, [_Error]);
+     LogError(_Error);
+   end;
+   MessageDlg(s + Format(
+-    _('Synopsis: %s %s') + #13#10#13#10 +
+-    _('Parameters:') + #13#10 +
++    RS_Synopsis_S_S + #13#10#13#10 +
++    RS_Parameters + #13#10 +
+     '%s'#13#10#13#10 +
+-    _('Options:') + #13#10 +
++    RS_Options + #13#10 +
+     '%s',
+     [FGetOpt.ProgName, FGetOpt.GetCmdLineDesc, FGetOpt.GetParamHelp, FGetOpt.GetOptionHelp]),
+     mtError, [mbOK], 0);
+@@ -168,12 +175,12 @@
+       FExitCode := 1;
+     end;
+     on e: Exception do begin
+-      s := 'Exception ' + e.ClassName + ': ' + e.Message;
++      s := 'Exception: ' + e.Message + ' (' + e.ClassName + ')';
+       LogError(s);
+       if IsConsole then
+         WriteLn(s)
+       else
+-        ShowException(e, ExceptAddr);
++       Tf_dzDialog.ShowException(e);
+       FExitCode := 1;
+     end;
+   end;
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2008-09-04 12:55:43 UTC (rev 306)
+@@ -109,8 +109,18 @@
+ implementation
+ 
+ uses
+-  u_dzCmdLineParser;
++  u_dzCmdLineParser,
++  u_dzTranslator;
+ 
++resourcestring
++  RS_NOT_A_REGISTERED_OPTION_S = '%s is not a registered option.';
++  RS_TOO_MANY_PARAMETERS = 'There are too many parameters.';
++  RS_NOT_ENOUGH_PARAMETERS_SD = 'There are not enough %s parameters (min: %d)';
++  RS_DISPLAY_PARAMETER_HELP = 'display parameter help';
++  RS_OPTION_IS_UNKNOWN_S = 'Option %s is unknown';
++  RS_OPTION_REQUIRES_VALUE_S = 'Option %s requires a value.';
++  RS_OPTIONS = '[options]';
++
+ { TdzGetOpt }
+ 
+ constructor TGetOpt.Create(const _ProgName: string = '');
+@@ -145,7 +155,7 @@
+   s: string;
+ begin
+   if FOptionDescList.Count &lt;&gt; 0 then
+-    Result := '[options]'
++    Result := RS_OPTIONS
+   else
+     Result := '';
+   for i := 0 to FParamDescList.Count - 1 do begin
+@@ -204,7 +214,7 @@
+   PrimaryName: string;
+ begin
+   if not FOptionNameList.Find(PChar(_Name), Idx) then
+-    raise EUnknownOption.CreateFmt('%s is not a registered option.', [_Name]);
++    raise EUnknownOption.CreateFmt(RS_NOT_A_REGISTERED_OPTION_S, [_Name]);
+ 
+   Result := 0;
+   PrimaryName := FOptionNameList[Idx].GetPrimaryName;
+@@ -271,6 +281,7 @@
+ var
+   DescIdx: integer;
+   FoundIdx: integer;
++  DesCount: Integer;
+   Cnt: integer;
+   pd: TParamDesc;
+   OptDesc: TOptionDesc;
+@@ -280,36 +291,37 @@
+   FoundIdx := 0;
+   DescIdx := 0;
+   while FoundIdx &lt; _Params.Count do begin
+-    if DescIdx &gt;= FParamDescList.Count then
+-      raise ETooManyParams.Create('There are too many parameters.');
++    DesCount := FParamDescList.Count;
++    if (DescIdx &gt;= DesCount) then
++      raise ETooManyParams.Create(RS_TOO_MANY_PARAMETERS);
+     pd := FParamDescList[DescIdx];
+     Cnt := 0;
+-    while (Cnt &lt; pd.MaxCount) and (FoundIdx &lt; _Params.Count) do begin
++    while ((Cnt &lt; pd.MaxCount) or (pd.MaxCount = -1)) and (FoundIdx &lt; _Params.Count) do begin
+       s := _Params[FoundIdx];
+-      FParamsFoundList.Insert(TParamFound.Create(pd, s));
++      FParamsFoundList.Add(TParamFound.Create(pd, s));
+       Inc(Cnt);
+       Inc(FoundIdx);
+     end;
+     if Cnt &lt; pd.MinCount then
+-      raise ETooFewParams.CreateFmt('There are not enough %s parameters (min: %d)', [pd.Name, pd.MinCount]);
++      raise ETooFewParams.CreateFmt(RS_NOT_ENOUGH_PARAMETERS_SD, [pd.Name, pd.MinCount]);
+     Inc(DescIdx);
+   end;
+   while DescIdx &lt; FParamDescList.Count do begin
+     pd := FParamDescList[DescIdx];
+     if pd.MinCount &gt; 0 then
+-      raise ETooFewParams.CreateFmt('There are not enough %s parameters (min: %d)', [pd.Name, pd.MinCount]);
++      raise ETooFewParams.CreateFmt(RS_NOT_ENOUGH_PARAMETERS_SD, [pd.Name, pd.MinCount]);
+     Inc(DescIdx);
+   end;
+ 
+   FoundIdx := 0;
+   while FoundIdx &lt; _Options.Count do begin
+     if not FOptionNameList.Find(_Options.Names[FoundIdx], OptName) then
+-      raise EUnknownOption.CreateFmt('Option %s is unknown', [_Options.Names[Foundidx]]);
++      raise EUnknownOption.CreateFmt(RS_OPTION_IS_UNKNOWN_S, [_Options.Names[Foundidx]]);
+     s := _Options.ValueFromIndex[FoundIdx];
+     OptDesc := OptName.OptionDesc;
+     if OptDesc.HasValue and (s = '') then
+-      raise EOptionValue.CreateFmt('Option %s requires a value.', [OptName.Name]);
+-    FOptionsFoundList.Insert(TOptionFound.Create(OptDesc, OptName.Name, s));
++      raise EOptionValue.CreateFmt(RS_OPTION_REQUIRES_VALUE_S, [OptName.Name]);
++    FOptionsFoundList.Add(TOptionFound.Create(OptDesc, OptName.Name, s));
+     Inc(FoundIdx);
+   end;
+ end;
+@@ -352,7 +364,7 @@
+ 
+ procedure TGetOpt.RegisterHelpOptions;
+ begin
+-  RegisterOption(['help', '?', 'h', 'H'], 'display parameter help', false);
++  RegisterOption(['help', '?', 'h', 'H'], RS_DISPLAY_PARAMETER_HELP, false);
+ end;
+ 
+ procedure TGetOpt.RegisterOption(const _Name, _Description: string; _HasValue: boolean);
+@@ -367,16 +379,18 @@
+   Desc: TOptionDesc;
+ begin
+   Desc := TOptionDesc.Create(_Names, _Description, _HasValue);
+-  FOptionDescList.Insert(Desc);
++  FOptionDescList.Add(Desc);
+   for i := 0 to High(_Names) do
+-    FOptionNameList.Insert(TOptionName.Create(_Names[i], Desc));
++    FOptionNameList.Add(TOptionName.Create(_Names[i], Desc));
+ end;
+ 
+ procedure TGetOpt.RegisterParam(const _Name, _Description: string;
+   _MinCount, _MaxCount: integer);
+ begin
+-  FParamDescList.Insert(TParamDesc.Create(_Name, _Description, _MinCount, _MaxCount));
++  FParamDescList.Add(TParamDesc.Create(_Name, _Description, _MinCount, _MaxCount));
+ end;
+ 
++initialization
++  AddDomainForResourceString('dzCmdLineParser');
+ end.
+ 
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas	2008-09-04 12:55:43 UTC (rev 306)
+@@ -33,8 +33,6 @@
+ {$DEFINE __DZ_SORTED_OBJECT_LIST_TEMPLATE__}
+ type
+   _LIST_ANCESTOR_ = TObject;
+-  _LIST_CONTAINER_ = TList;
+-  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
+   _ITEM_TYPE_ = TOptionDesc;
+   _KEY_TYPE_ = string;
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+@@ -55,6 +53,12 @@
+ uses
+   StrUtils;
+ 
++resourcestring
++  RS_OPTION_NAME_CANNOT_BE_EMPTY = 'Option name cannot be empty.';
++  RS_OPTION_NAME_MUST_START_WITH_ALPHANUMERIC = 'Option name must start with an alphanumeric character.';
++  RS_OPTION_NAME_CONTAINS_INVALID_CHAR_SD = 'Option name contains invalid character &quot;%s&quot; (%d).';
++  RS_VALUE = 'value';
++
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+ 
+ function TOptionDescList.KeyOf(const _Item: TOptionDesc): string;
+@@ -98,13 +102,13 @@
+   i: integer;
+ begin
+   if _Name = '' then
+-    raise EOptionName.Create('Option name cannot be empty.');
++    raise EOptionName.Create(RS_OPTION_NAME_CANNOT_BE_EMPTY);
+   { TODO -otwm : Maybe '$', '#' and some other chars should be allowed }
+   if not (_Name[1] in ['a'..'z', 'A'..'Z', '0'..'9', '?']) then
+-    raise EOptionName.Create('Option name must start with an alphanumeric character.');
++    raise EOptionName.Create(RS_OPTION_NAME_MUST_START_WITH_ALPHANUMERIC);
+   for i := 2 to Length(_Name) do
+     if not (_Name[i] in ['a'..'z', 'A'..'Z', '0'..'9', '-', '_']) then
+-      raise EOptionName.CreateFmt('Option name contains invalid character &quot;%s&quot; (%d).', [_Name[i], Ord(_Name[i])]);
++      raise EOptionName.CreateFmt(RS_OPTION_NAME_CONTAINS_INVALID_CHAR_SD, [_Name[i], Ord(_Name[i])]);
+ end;
+ 
+ function TOptionDesc.CreateDescription(const _OptionName: string): string;
+@@ -114,12 +118,12 @@
+     1: begin
+         Result := '-' + _OptionName;
+         if FHasValue then
+-          Result := Result + ' value';
++          Result := Result + ' ' + RS_VALUE;
+       end;
+   else begin
+       Result := '--' + _OptionName;
+       if FHasValue then
+-        Result := Result + '=value';
++        Result := Result + '=' + RS_VALUE;
+     end
+   end;
+ end;
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzOptionFoundList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzOptionFoundList.pas	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/src/u_dzOptionFoundList.pas	2008-09-04 12:55:43 UTC (rev 306)
+@@ -24,8 +24,6 @@
+ {$DEFINE __DZ_SORTED_OBJECT_LIST_TEMPLATE__}
+ type
+   _LIST_ANCESTOR_ = TObject;
+-  _LIST_CONTAINER_ = TList;
+-  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
+   _ITEM_TYPE_ = TOptionFound;
+   _KEY_TYPE_ = string;
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzOptionNameList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzOptionNameList.pas	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/src/u_dzOptionNameList.pas	2008-09-04 12:55:43 UTC (rev 306)
+@@ -23,8 +23,6 @@
+ {$DEFINE __DZ_SORTED_OBJECT_LIST_TEMPLATE__}
+ type
+   _LIST_ANCESTOR_ = TObject;
+-  _LIST_CONTAINER_ = TList;
+-  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
+   _ITEM_TYPE_ = TOptionName;
+   _KEY_TYPE_ = string;
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+
+Modified: utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr
+===================================================================
+--- utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr	2008-09-04 12:55:43 UTC (rev 306)
+@@ -4,8 +4,8 @@
+   Delphi DUnit Test Project
+   -------------------------
+   This project contains the DUnit test framework and the GUI/Console test runners.
+-  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
+-  to use the console test runner.  Otherwise the GUI test runner will be used by 
++  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options
++  to use the console test runner.  Otherwise the GUI test runner will be used by
+   default.
+ 
+ }
+@@ -15,6 +15,7 @@
+ {$ENDIF}
+ 
+ uses
++  u_dzTranslator in '..\..\dzlib\src\u_dzTranslator.pas',
+   Forms,
+   TestFramework,
+   GUITestRunner,
+@@ -27,8 +28,8 @@
+   u_dzOptionNameList in '..\src\u_dzOptionNameList.pas',
+   u_dzOptionFoundList in '..\src\u_dzOptionFoundList.pas',
+   u_dzGetOpt_UnitTest in 'u_dzGetOpt_UnitTest.pas',
+-  u_dzCmdLineParser in '..\libs\dzlib\src\u_dzCmdLineParser.pas',
+-  u_dzCmdLineParserStates in '..\libs\dzlib\src\u_dzCmdLineParserStates.pas';
++  u_dzCmdLineParser in '..\..\dzlib\src\u_dzCmdLineParser.pas',
++  u_dzCmdLineParserStates in '..\..\dzlib\src\u_dzCmdLineParserStates.pas';
+ 
+ {$R *.RES}
+ 
+
+Modified: utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj
+===================================================================
+--- utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj	2008-09-04 12:55:43 UTC (rev 306)
+@@ -1,4 +1,5 @@
+-&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+   &lt;PropertyGroup&gt;
+     &lt;ProjectGuid&gt;{ff87c54f-7bb3-4fb0-8be9-da726c81d33c}&lt;/ProjectGuid&gt;
+     &lt;MainSource&gt;CmdLineParserTest.dpr&lt;/MainSource&gt;
+@@ -30,10 +31,10 @@
+     &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+     &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+     &lt;DCC_Description&gt;RTS Highlighter Extensions&lt;/DCC_Description&gt;
+-    &lt;DCC_UnitSearchPath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates;..\libs\jedi_inc;..\libs\dzlib\src&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates;..\libs\jedi_inc;..\libs\dzlib\src&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates;..\libs\jedi_inc;..\libs\dzlib\src&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;..\libs\dzTemplates\units;..\libs\dztemplates\templates;..\libs\jedi_inc;..\libs\dzlib\src&lt;/DCC_IncludePath&gt;
++    &lt;DCC_UnitSearchPath&gt;..\..\dzTemplates\units;..\..\dztemplates\templates;..\..\dzlib\jedi_inc;..\..\dzlib\src&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;..\..\dzTemplates\units;..\..\dztemplates\templates;..\..\dzlib\jedi_inc;..\..\dzlib\src&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;..\..\dzTemplates\units;..\..\dztemplates\templates;..\..\dzlib\jedi_inc;..\..\dzlib\src&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;..\..\dzTemplates\units;..\..\dztemplates\templates;..\..\dzlib\jedi_inc;..\..\dzlib\src&lt;/DCC_IncludePath&gt;
+     &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
+     &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+     &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+@@ -44,291 +45,6 @@
+     &lt;Borland.ProjectType /&gt;
+     &lt;BorlandProject&gt;
+ &lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\Delphi7\Bin\delphi32.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Language&gt;&lt;Language Name=&quot;RootDir&quot;&gt;C:\Delphi7\Bin\&lt;/Language&gt;&lt;/Language&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;4105&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/Versi!
+ onInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+       &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldb100.bpl&quot;&gt;Borland Database Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\bin\dclado100.bpl&quot;&gt;Borland ADO DB Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldbx100.bpl&quot;&gt;Borland dbExpress Components&lt;/Excluded_Packages&gt;
+@@ -355,8 +71,9 @@
+     &lt;DelphiCompile Include=&quot;CmdLineParserTest.dpr&quot;&gt;
+       &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+     &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzlib\src\u_dzCmdLineParser.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzlib\src\u_dzCmdLineParserStates.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\dzlib\src\u_dzCmdLineParser.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\dzlib\src\u_dzCmdLineParserStates.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\dzlib\src\u_dzTranslator.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\src\u_dzGetOpt.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\src\u_dzOptionDescList.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\src\u_dzOptionFoundList.pas&quot; /&gt;
+
+Added: utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2008-09-04 12:41:59 UTC (rev 305)
++++ utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2008-09-04 12:55:43 UTC (rev 306)
+@@ -0,0 +1,89 @@
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the PACKAGE package.
++# FIRST AUTHOR &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">EMAIL at ADDRESS</A>&gt;, YEAR.
++#
++msgid &quot;&quot;
++msgstr &quot;&quot;
++&quot;Project-Id-Version: dzCmdLineParser 1.0\n&quot;
++&quot;POT-Creation-Date: 2008-04-23 16:07\n&quot;
++&quot;PO-Revision-Date: 2008-04-23 16:06+0100\n&quot;
++&quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
++&quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">nospam at dummzeuch.de</A>&gt;\n&quot;
++&quot;MIME-Version: 1.0\n&quot;
++&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
++&quot;Content-Transfer-Encoding: 8bit\n&quot;
++&quot;X-Generator: dxgettext 1.2.2\n&quot;
++&quot;X-Poedit-Language: German\n&quot;
++&quot;X-Poedit-Country: GERMANY\n&quot;
++
++#: u_dzDefaultMain.pas:120 
++msgid &quot;Error: %s&quot;
++msgstr &quot;Fehler: %s&quot;
++
++#: u_dzDefaultMain.pas:124 
++msgid &quot;Synopsis: %s %s&quot;
++msgstr &quot;Aufruf: %s %s&quot;
++
++#: u_dzDefaultMain.pas:125 
++msgid &quot;Parameters:&quot;
++msgstr &quot;Parameter:&quot;
++
++#: u_dzDefaultMain.pas:127 
++msgid &quot;Options:&quot;
++msgstr &quot;Optionen:&quot;
++
++#. Programmer's name for it: RS_NOT_A_REGISTERED_OPTION_S
++#: u_dzGetOpt.pas:115 
++msgid &quot;%s is not a registered option.&quot;
++msgstr &quot;%s ist keine registrierte Option&quot;
++
++#. Programmer's name for it: RS_TOO_MANY_PARAMETERS
++#: u_dzGetOpt.pas:116 
++msgid &quot;There are too many parameters.&quot;
++msgstr &quot;Zuviele Parameter&quot;
++
++#. Programmer's name for it: RS_NOT_ENOUGH_PARAMETERS_SD
++#: u_dzGetOpt.pas:117 
++msgid &quot;There are not enough %s parameters (min: %d)&quot;
++msgstr &quot;Nicht gen&#252;gend %s Parameter (min: %d)&quot;
++
++#. Programmer's name for it: RS_DISPLAY_PARAMETER_HELP
++#: u_dzGetOpt.pas:118 
++msgid &quot;display parameter help&quot;
++msgstr &quot;Parameter Hilfe anzeigen&quot;
++
++#. Programmer's name for it: RS_OPTION_IS_UNKNOWN_S
++#: u_dzGetOpt.pas:119 
++msgid &quot;Option %s is unknown&quot;
++msgstr &quot;Option %s ist nciht bekannt&quot;
++
++#. Programmer's name for it: RS_OPTION_REQUIRES_VALUE_S
++#: u_dzGetOpt.pas:120 
++msgid &quot;Option %s requires a value.&quot;
++msgstr &quot;Option %s ben&#246;tigt einen Wert.&quot;
++
++#. Programmer's name for it: RS_OPTIONS
++#: u_dzGetOpt.pas:121 
++msgid &quot;[options]&quot;
++msgstr &quot;[Optionen]&quot;
++
++#. Programmer's name for it: RS_OPTION_NAME_CANNOT_BE_EMPTY
++#: u_dzOptionDescList.pas:59 
++msgid &quot;Option name cannot be empty.&quot;
++msgstr &quot;Optionsname kann nicht leer sein.&quot;
++
++#. Programmer's name for it: RS_OPTION_NAME_MUST_START_WITH_ALPHANUMERIC
++#: u_dzOptionDescList.pas:60 
++msgid &quot;Option name must start with an alphanumeric character.&quot;
++msgstr &quot;Optionsname muss mit einem alphanumerischen Zeichen beginnen.&quot;
++
++#. Programmer's name for it: RS_OPTION_NAME_CONTAINS_INVALID_CHAR_SD
++#: u_dzOptionDescList.pas:61 
++msgid &quot;Option name contains invalid character \&quot;%s\&quot; (%d).&quot;
++msgstr &quot;Optionsname enth&#228;lt ung&#252;ltiges Zeichen \&quot;%s\&quot; (%d)&quot;
++
++#. Programmer's name for it: RS_VALUE
++#: u_dzOptionDescList.pas:62 
++msgid &quot;value&quot;
++msgstr &quot;Wert&quot;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000172.html">[Dzchart-svncheckins] r305 - in utilities/dzLib/trunk: src	translations/de translations/en translations/fr
+</A></li>
+	<LI>Next message: <A HREF="000174.html">[Dzchart-svncheckins] r307 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#173">[ date ]</a>
+              <a href="thread.html#173">[ thread ]</a>
+              <a href="subject.html#173">[ subject ]</a>
+              <a href="author.html#173">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

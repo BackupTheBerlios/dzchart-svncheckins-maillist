@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r501 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r501%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101002125326.29BE0480FE9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000359.html">
+   <LINK REL="Next"  HREF="000361.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r501 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r501%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101002125326.29BE0480FE9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r501 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct  2 14:53:26 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000359.html">[Dzchart-svncheckins] r500 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+        <LI>Next message: <A HREF="000361.html">[Dzchart-svncheckins] r502 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#360">[ date ]</a>
+              <a href="thread.html#360">[ thread ]</a>
+              <a href="subject.html#360">[ subject ]</a>
+              <a href="author.html#360">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-02 14:53:25 +0200 (Sat, 02 Oct 2010)
+New Revision: 501
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzConfigUtils.pas
+Log:
+extended to expand variables for ForcedCommonCfg and ForcedUserCfg
+
+Modified: utilities/dzLib/trunk/src/u_dzConfigUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConfigUtils.pas	2010-10-01 17:47:25 UTC (rev 500)
++++ utilities/dzLib/trunk/src/u_dzConfigUtils.pas	2010-10-02 12:53:25 UTC (rev 501)
+@@ -15,8 +15,12 @@
+     FExtension: string;
+     FForcedUserCfg: string;
+     FForcedCommonCfg: string;
++    FHModule: Cardinal;
+     function BuildCfgFilename(const _Base: string): string;
+     procedure GetCompanyAndProductFromPath(_ModuleName: string);
++    function ExpandVariables(const _s: string): string;
++    procedure SetForcedCommonCfg(const _Value: string);
++    procedure SetForcedUserCfg(const _Value: string);
+   public
+     ///&lt;summary&gt; @param HModule is the module handle of the file to use for version information
+     ///                         and for the default RedirIni filename, defaults to 0 (the
+@@ -69,17 +73,20 @@
+     property ExeName: string read FExeName write FExeName;
+     ///&lt;summary&gt; Extension defaults to '.ini'
+     property Extension: string read FExtension write FExtension;
+-    ///&lt;summary&gt; if set, this will always be returned by GetUserCfgFile,
+-    ///          Initialized from &lt;ExeNameBase&gt;.ini [global]usercfg &lt;/summary&gt;
+-    property ForcedUserCfg: string read FForcedUserCfg write FForcedUserCfg;
+-    ///&lt;summary&gt; if set, this will always be returned by GetCommonCfgFile &lt;/summary&gt;
+-    property ForcedCommonCfg: string read FForcedCommonCfg write FForcedCommonCfg;
++    ///&lt;summary&gt; If set, this will always be returned by GetUserCfgFile,
++    ///          Initialized from &lt;ExeNameBase&gt;.ini [global]usercfg
++    ///          When set, variable expansion takes place. &lt;/summary&gt;
++    property ForcedUserCfg: string read FForcedUserCfg write SetForcedUserCfg;
++    ///&lt;summary&gt; If set, this will always be returned by GetCommonCfgFile
++    ///          When set, variable expansion takes place. &lt;/summary&gt;
++    property ForcedCommonCfg: string read FForcedCommonCfg write SetForcedCommonCfg;
+ 
+   end;
+ 
+ implementation
+ 
+ uses
++  StrUtils,
+   u_dzOsUtils,
+   u_dzFileUtils,
+   u_dzClassutils,
+@@ -92,15 +99,20 @@
+ var
+   VerInfo: IFileInfo;
+   ModuleName: string;
++  s: string;
+ begin
+   inherited Create;
+-  ModuleName := GetModuleFilename(_HModule);
++  FHModule := _HModule;
++  ModuleName := GetModuleFilename(FHModule);
++
+   if _RedirIni = '' then
+     _RedirIni := ChangeFileExt(ModuleName, '.ini');
+   if _RedirSection &lt;&gt; '' then begin
+     if TFileSystem.FileExists(_RedirIni) then begin
+-      FForcedUserCfg := TIniFile_ReadString(_RedirIni, _RedirSection, 'usercfg', '');
+-      FForcedCommonCfg := TIniFile_ReadString(_RedirIni, _RedirSection, 'commoncfg', '')
++      s := TIniFile_ReadString(_RedirIni, _RedirSection, 'usercfg', '');
++      SetForcedUserCfg(s);
++      s := TIniFile_ReadString(_RedirIni, _RedirSection, 'commoncfg', '');
++      SetForcedCommonCfg(s);
+     end;
+   end;
+ 
+@@ -121,6 +133,28 @@
+     FExeName := ChangeFileExt(ExtractFileName(ModuleName), '');
+ end;
+ 
++function TdzConfig.ExpandVariables(const _s: string): string;
++begin
++  // the following variables are supported:
++  // * AppData
++  // * LocalAppData
++  // * CommonAppData
++  // * ExeName
++  // * ExeDir
++  // they must be enclosed in curly braces &quot;{&quot; and &quot;}&quot;
++  Result := _s;
++  if Pos('{', Result) &lt;&gt; 0 then
++    Result := ReplaceText(Result, '{AppData}', TWindowsShell.GetAppDataDir);
++  if Pos('{', Result) &lt;&gt; 0 then
++    Result := ReplaceText(Result, '{LocalAppData}', TWindowsShell.GetLocalAppDataDir);
++  if Pos('{', Result) &lt;&gt; 0 then
++    Result := ReplaceText(Result, '{CommonAppData}', TWindowsShell.GetCommonAppDataDir);
++  if Pos('{', Result) &lt;&gt; 0 then
++    Result := ReplaceText(Result, '{ExeName}', ExtractFileName(GetModuleFilename(FHModule)));
++  if Pos('{', Result) &lt;&gt; 0 then
++    Result := ReplaceText(Result, '{ExeDir}', ExtractFileDir(GetModuleFilename(FHModule)));
++end;
++
+ procedure TdzConfig.GetCompanyAndProductFromPath(_ModuleName: string);
+ var
+   Programfiles: string;
+@@ -179,5 +213,15 @@
+   end;
+ end;
+ 
++procedure TdzConfig.SetForcedCommonCfg(const _Value: string);
++begin
++  FForcedCommonCfg := ExpandVariables(_Value);
++end;
++
++procedure TdzConfig.SetForcedUserCfg(const _Value: string);
++begin
++  FForcedUserCfg := ExpandVariables(_Value);
++end;
++
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000359.html">[Dzchart-svncheckins] r500 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+	<LI>Next message: <A HREF="000361.html">[Dzchart-svncheckins] r502 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#360">[ date ]</a>
+              <a href="thread.html#360">[ thread ]</a>
+              <a href="subject.html#360">[ subject ]</a>
+              <a href="author.html#360">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

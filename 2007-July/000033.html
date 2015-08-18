@@ -1,0 +1,1015 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r158 - in utilities/dzPrepBuild/trunk: . src	testdata
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r158%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%20src%0A%09testdata&In-Reply-To=%3C200707112158.l6BLwtoO023369%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000032.html">
+   <LINK REL="Next"  HREF="000034.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r158 - in utilities/dzPrepBuild/trunk: . src	testdata</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r158%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%20src%0A%09testdata&In-Reply-To=%3C200707112158.l6BLwtoO023369%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r158 - in utilities/dzPrepBuild/trunk: . src	testdata">twm at mail.berlios.de
+       </A><BR>
+    <I>Wed Jul 11 23:58:55 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000032.html">[Dzchart-svncheckins] r157 - in utilities/dzPrepBuild/trunk: . src	testdata
+</A></li>
+        <LI>Next message: <A HREF="000034.html">[Dzchart-svncheckins] r159 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#33">[ date ]</a>
+              <a href="thread.html#33">[ thread ]</a>
+              <a href="subject.html#33">[ subject ]</a>
+              <a href="author.html#33">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-11 23:58:48 +0200 (Wed, 11 Jul 2007)
+New Revision: 158
+
+Added:
+   utilities/dzPrepBuild/trunk/testdata/Testproject_Version.ini
+Modified:
+   utilities/dzPrepBuild/trunk/
+   utilities/dzPrepBuild/trunk/src/
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.dfm
+   utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/i_VersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_IncBuildNoMain.pas
+   utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas
+   utilities/dzPrepBuild/trunk/testdata/
+Log:
+added handling of a TCentralVersionInfo instance
+
+
+Property changes on: utilities/dzPrepBuild/trunk
+___________________________________________________________________
+Name: svn:externals
+   + libs\dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+
+
+
+Property changes on: utilities/dzPrepBuild/trunk/src
+___________________________________________________________________
+Name: svn:ignore
+   + PrepBuild.dsk
+PrepBuild.res
+
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-07-11 21:58:48 UTC (rev 158)
+@@ -1,4 +1,5 @@
+-&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+   &lt;PropertyGroup&gt;
+     &lt;ProjectGuid&gt;{209412ac-0ec2-4f63-b92a-e78853ff142a}&lt;/ProjectGuid&gt;
+     &lt;MainSource&gt;PrepBuild.dpr&lt;/MainSource&gt;
+@@ -22,14 +23,18 @@
+     &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+     &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+     &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_Define&gt;DEBUG&lt;/DCC_Define&gt;
++    &lt;DCC_Define&gt;DEBUG;no_translation&lt;/DCC_Define&gt;
+     &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++    &lt;DCC_UnitSearchPath&gt;..\libs\dzlib\src;..\libs\dzlib\inc&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;..\libs\dzlib\src;..\libs\dzlib\inc&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;..\libs\dzlib\src;..\libs\dzlib\inc&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;..\libs\dzlib\src;..\libs\dzlib\inc&lt;/DCC_IncludePath&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ProjectExtensions&gt;
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType /&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;testproject&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;52&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.1.0.52&lt;/VersionInfoKeys&gt;&lt;Versio!
+ nInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;dummzeuch.de&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;increment build number and create rc file&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;IncBuildNo&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2005-2006 by Thomas Mueller&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;IncBuildNo.exe&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;IncBuildNo&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;this is the comment&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;testdata\testproject&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;52&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.1.0.52&lt;/VersionInfoKey!
+ s&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;dummzeuch.de&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;increment build number and create rc file&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;IncBuildNo&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2005-2006 by Thomas Mueller&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;IncBuildNo.exe&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;IncBuildNo&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;this is the comment&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
+       
+       
+       
+@@ -40,6 +45,46 @@
+       
+       
+       
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
+       &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclnet100.bpl&quot;&gt;Borland Internet Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dbx100.bpl&quot;&gt;Borland SQL Explorer UI Package&lt;/Excluded_Packages&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.dfm
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.dfm	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.dfm	2007-07-11 21:58:48 UTC (rev 158)
+@@ -1,7 +1,5 @@
+ object dm_BdsProjVersionInfo: Tdm_BdsProjVersionInfo
+   OldCreateOrder = False
+-  Left = 400
+-  Top = 48
+   Height = 150
+   Width = 215
+   object ProjDoc: TXMLDocument
+
+Modified: utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas	2007-07-11 21:58:48 UTC (rev 158)
+@@ -16,6 +16,7 @@
+   Tdm_BdsProjVersionInfo = class(TDataModule, IVersionInfo)
+     ProjDoc: TXMLDocument;
+   private
++    FProjectName: string;
+     function GetChildNodeContent(_Parent: IXMLNode; const _NodeName, _AttrName: string): string;
+     function GetVersionInfo(const _Name: string): string;
+     function GetVersionInfoKey(const _Name: string): string;
+@@ -62,6 +63,7 @@
+   //
+     procedure Assign(const _VersionInfo: IVersionInfo); reintroduce;
+     procedure UpdateFile;
++    function VerInfoFilename: string;
+   //
+     property AutoIncBuild: boolean read GetAutoIncBuild write SetAutoIncBuild;
+     property Build: integer read GetBuild write SetBuild;
+@@ -85,6 +87,8 @@
+   public
+     constructor Create(const _Project: string); reintroduce;
+     destructor Destroy; override;
++    class function FilenameFor(const _Project: string): string;
++
+   end;
+ 
+ implementation
+@@ -162,7 +166,8 @@
+   DelphiPersonality: IXMLNode;
+ begin
+   inherited Create(nil);
+-  FBdsProjFile := _Project + '.bdsproj';
++  FProjectName := _Project;
++  FBdsProjFile := VerInfoFilename;
+   ProjDoc.FileName := FBdsProjFile;
+   ProjDoc.Active := True;
+   BorlandProject := ProjDoc.DocumentElement;
+@@ -180,6 +185,11 @@
+   inherited;
+ end;
+ 
++class function Tdm_BdsProjVersionInfo.FilenameFor(const _Project: string): string;
++begin
++  Result := _Project + '.bdsproj';
++end;
++
+ function Tdm_BdsProjVersionInfo.GetAutoIncBuild: boolean;
+ begin
+   Result := SameText(GetVersionInfo('AutoIncBuild'), 'True');
+@@ -348,6 +358,11 @@
+   ProjDoc.SaveToFile(FBdsProjFile);
+ end;
+ 
++function Tdm_BdsProjVersionInfo.VerInfoFilename: string;
++begin
++  Result := FilenameFor(FProjectName);
++end;
++
+ // standard TInterfacedObject implementation of IInterface
+ 
+ function Tdm_BdsProjVersionInfo.QueryInterface(const IID: TGUID; out Obj): HResult;
+
+Modified: utilities/dzPrepBuild/trunk/src/i_VersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/i_VersionInfo.pas	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/src/i_VersionInfo.pas	2007-07-11 21:58:48 UTC (rev 158)
+@@ -9,7 +9,7 @@
+   ENoVersionInfo = class(Exception);
+ 
+ type
+-  IVersionInfo = interface
++  IVersionInfo = interface ['{C228DED6-C3B2-43C0-B061-28EA5D2EB93C}']
+     function GetBuild: integer;
+     procedure SetBuild(_Build: integer);
+     function GetMajorVer: integer;
+@@ -44,6 +44,8 @@
+     procedure Assign(const _VersionInfo: IVersionInfo);
+     procedure UpdateFile;
+   //
++    function VerInfoFilename: string;
++  //
+     property AutoIncBuild: boolean read GetAutoIncBuild write SetAutoIncBuild;
+     property Build: integer read GetBuild write SetBuild;
+     property Comments: string read GetComments write SetComments;
+
+Modified: utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas	2007-07-11 21:58:48 UTC (rev 158)
+@@ -20,7 +20,10 @@
+      number should be increased for a build of any of these versions. }
+   TCentralVersionInfo = class(TIniVersionInfo, IVersionInfo)
+   private
++    FProjectName: string;
+   protected
++    function VerInfoFilename: string;
++    //
+     function ReadString(const _Section, _Ident: string; _Default: string): string; override;
+     procedure WriteString(const _Section, _Ident: string; _Value: string); override;
+   public
+@@ -29,12 +32,14 @@
+                           The constructor appends &quot;_Version.ini&quot; to this
+                           name and tries to open the file }
+     constructor Create(const _ProjectName: string);
++    class function FilenameFor(const _ProjectName: string): string;
+   end;
+ 
+ implementation
+ 
+ uses
+-  IniFiles;
++  IniFiles,
++  u_dzStringUtils;
+ 
+ const
+   VERSION_INFO_SECTION = 'Version Info';
+@@ -44,25 +49,84 @@
+ 
+ constructor TCentralVersionInfo.Create(const _ProjectName: string);
+ begin
+-  inherited Create(_ProjectName + '_Version.ini', VERSION_INFO_SECTION, VERSION_INFO_KEYS_SECTION);
++  FProjectName := _ProjectName;
++  inherited Create(VerInfoFilename, VERSION_INFO_SECTION, VERSION_INFO_KEYS_SECTION);
+ end;
+ 
++class function TCentralVersionInfo.FilenameFor(const _ProjectName: string): string;
++begin
++  Result := _ProjectName + '_Version.ini';
++end;
++
+ function TCentralVersionInfo.ReadString(const _Section, _Ident: string; _Default: string): string;
+ var
+   Redir: string;
+   IniFile: TMemIniFile;
++  Filename: string;
++  Section: string;
+ begin
+   Redir := FIniFile.ReadString(_Section, 'redirect', '');
+-  if Redir = '' then
+-    IniFile := FIniFile
+-  else begin
+-
++  if Redir = '' then begin
++    Result := FIniFile.ReadString(_Section, _Ident, _Default);
++    if UStartsWith('redirect:', Result) then begin
++      Redir := Result;
++      Filename := GetDelStr(Redir, ',');
++      Section := GetDelStr(Redir, ',');
++      IniFile := TMemIniFile.Create(Filename);
++      try
++        Result := IniFile.ReadString(Section, Redir, _Default);
++      finally
++        IniFile.Free;
++      end;
++    end;
++  end else begin
++    Filename := GetDelStr(Redir, ',');
++    Section := Redir;
++    IniFile := TMemIniFile.Create(Filename);
++    try
++      Result := IniFile.ReadString(Section, _Ident, _Default);
++    finally
++      IniFile.Free;
++    end;
+   end;
+ end;
+ 
++function TCentralVersionInfo.VerInfoFilename: string;
++begin
++  Result := FilenameFor(FProjectName);
++end;
++
+ procedure TCentralVersionInfo.WriteString(const _Section, _Ident: string; _Value: string);
++var
++  Redir: string;
++  IniFile: TMemIniFile;
++  Filename: string;
++  Section: string;
+ begin
+-
++  Redir := FIniFile.ReadString(_Section, 'redirect', '');
++  if Redir = '' then begin
++    Redir := FIniFile.ReadString(_Section, _Ident, '');
++    if UStartsWith('redirect:', Redir) then begin
++      Filename := GetDelStr(Redir, ',');
++      Section := GetDelStr(Redir, ',');
++      IniFile := TMemIniFile.Create(Filename);
++      try
++        IniFile.WriteString(Section, Redir, _Value);
++      finally
++        IniFile.Free;
++      end;
++    end else
++      FIniFile.WriteString(_Section, _Ident, _Value);
++  end else begin
++    Filename := GetDelStr(Redir, ',');
++    Section := Redir;
++    IniFile := TMemIniFile.Create(Filename);
++    try
++      IniFile.WriteString(Section, _Ident, _Value);
++    finally
++      IniFile.Free;
++    end;
++  end;
+ end;
+ 
+ end.
+
+Modified: utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas	2007-07-11 21:58:48 UTC (rev 158)
+@@ -12,6 +12,10 @@
+   {: This is a specialized versoin of TIniVersionInfo which readds a
+      &lt;projectname&gt;.dof file, that was used by Delphi up to version 7. }
+   TDofVersionInfo = class(TIniVersionInfo, IVersionInfo)
++  private
++    FProjectName: string;
++  protected
++    function VerInfoFilename: string;
+   public
+     {: Creates a TDofVersionInfo instance. Succeeds, if the file exists
+        and IncludeVerInfo is &lt;&gt; 0
+@@ -19,6 +23,7 @@
+        @raises ENoVersionInfo if the file does not exist or
+                               the value of [Version Info] IncludeVerInfo is not 1 }
+     constructor Create(const _ProjectName: string);
++    class function FilenameFor(const _ProjectName: string): string;
+   end;
+ 
+ implementation
+@@ -31,10 +36,21 @@
+ 
+ constructor TDofVersionInfo.Create(const _ProjectName: string);
+ begin
+-  inherited Create(_ProjectName + '.dof', VERSION_INFO_SECTION, VERSION_INFO_KEYS_SECTION);
++  FProjectName := _ProjectName;
++  inherited Create(VerInfoFilename, VERSION_INFO_SECTION, VERSION_INFO_KEYS_SECTION);
+   if FIniFile.ReadInteger(VERSION_INFO_SECTION, 'IncludeVerInfo', 0) &lt;&gt; 1 then
+     raise ENoVersionInfo.Create('.dof file does not contain version info');
+ end;
+ 
++class function TDofVersionInfo.FilenameFor(const _ProjectName: string): string;
++begin
++  Result := _ProjectName + '.dof';
++end;
++
++function TDofVersionInfo.VerInfoFilename: string;
++begin
++  Result := FilenameFor(FProjectName);
++end;
++
+ end.
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_IncBuildNoMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_IncBuildNoMain.pas	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/src/u_IncBuildNoMain.pas	2007-07-11 21:58:48 UTC (rev 158)
+@@ -16,7 +16,8 @@
+   ActiveX,
+   i_VersionInfo,
+   u_DofVersionInfo,
+-  d_BdsProjVersionInfo;
++  d_BdsProjVersionInfo,
++  u_CentralIniVersionInfo;
+ 
+ type
+   EHalt = class(EAbort)
+@@ -40,20 +41,20 @@
+   Assignfile(t, _Project + '.rc');
+   Rewrite(t);
+ 
+-  WriteLn(t, {     } 'LANGUAGE LANG_ENGLISH,SUBLANG_ENGLISH_US');
++  WriteLn(t, {    } 'LANGUAGE LANG_ENGLISH,SUBLANG_ENGLISH_US');
+   WriteLn(t);
+-  WriteLn(t, {     } '1 VERSIONINFO LOADONCALL MOVEABLE DISCARDABLE IMPURE');
++  WriteLn(t, {    } '1 VERSIONINFO LOADONCALL MOVEABLE DISCARDABLE IMPURE');
+   WriteLn(t, Format('FILEVERSION %d, %d, %d, %d', [_VersionInfo.MajorVer, _VersionInfo.MinorVer, _VersionInfo.Release, _VersionInfo.Build]));
+   WriteLn(t, Format('PRODUCTVERSION %d, %d, %d, %d',
+     [_VersionInfo.MajorVer, _VersionInfo.MinorVer, _VersionInfo.Release, _VersionInfo.Build]));
+-  WriteLn(t, {     } 'FILEFLAGSMASK VS_FFI_FILEFLAGSMASK');
+-  WriteLn(t, {     } 'FILEOS VOS__WINDOWS32');
+-  WriteLn(t, {     } 'FILETYPE VFT_APP');
+-  WriteLn(t, {     } '{');
+-  WriteLn(t, {     } ' BLOCK &quot;StringFileInfo&quot;');
+-  WriteLn(t, {     } ' {');
+-  WriteLn(t, {     } '  BLOCK &quot;040904E4&quot;');
+-  WriteLn(t, {     } '  {');
++  WriteLn(t, {    } 'FILEFLAGSMASK VS_FFI_FILEFLAGSMASK');
++  WriteLn(t, {    } 'FILEOS VOS__WINDOWS32');
++  WriteLn(t, {    } 'FILETYPE VFT_APP');
++  WriteLn(t, {    } '{');
++  WriteLn(t, {    } ' BLOCK &quot;StringFileInfo&quot;');
++  WriteLn(t, {    } ' {');
++  WriteLn(t, {    } '  BLOCK &quot;040904E4&quot;');
++  WriteLn(t, {    } '  {');
+   WriteLn(t, Format('   VALUE &quot;CompanyName&quot;, &quot;%s\000&quot;', [_VersionInfo.CompanyName]));
+   WriteLn(t, Format('   VALUE &quot;FileDescription&quot;, &quot;%s\000&quot;', [_VersionInfo.FileDescription]));
+   WriteLn(t, Format('   VALUE &quot;FileVersion&quot;, &quot;%s\000&quot;', [_VersionInfo.FileVersion]));
+@@ -64,16 +65,16 @@
+   WriteLn(t, Format('   VALUE &quot;ProductName&quot;, &quot;%s\000&quot;', [_VersionInfo.ProductName]));
+   WriteLn(t, Format('   VALUE &quot;ProductVersion&quot;, &quot;%s\000&quot;', [_VersionInfo.ProductVersion]));
+   WriteLn(t, Format('   VALUE &quot;Comments&quot;, &quot;%s\000&quot;', [_VersionInfo.Comments]));
+-  WriteLn(t, {     } '  }');
+-  WriteLn(t, {     } ' }');
+-  WriteLn(t, {     } ' BLOCK &quot;VarFileInfo&quot;');
+-  WriteLn(t, {     } ' {');
+-  WriteLn(t, {     } '  VALUE &quot;Translation&quot;, 1033, 1252');
+-  WriteLn(t, {     } ' }');
+-  WriteLn(t, {     } '}');
++  WriteLn(t, {    } '  }');
++  WriteLn(t, {    } ' }');
++  WriteLn(t, {    } ' BLOCK &quot;VarFileInfo&quot;');
++  WriteLn(t, {    } ' {');
++  WriteLn(t, {    } '  VALUE &quot;Translation&quot;, 1033, 1252');
++  WriteLn(t, {    } ' }');
++  WriteLn(t, {    } '}');
+   if FileExists(_Project + '.ico') then begin
+     WriteLn(t);
+-    WriteLn(t, {     } 'MAINICON ICON LOADONCALL MOVEABLE DISCARDABLE IMPURE %s.ico');
++    WriteLn(t, {  } 'MAINICON ICON LOADONCALL MOVEABLE DISCARDABLE IMPURE %s.ico');
+   end;
+   Close(t);
+ end;
+@@ -81,17 +82,22 @@
+ procedure Usage;
+ begin
+   WriteLn;
+-  WriteLn('Usage: IncBuildNo &lt;projectname&gt;');
++  WriteLn('Usage: dzPrepBuild &lt;projectname&gt;');
+   WriteLn;
+   WriteLn('This Program tries to read version information from &lt;projectname&gt;.bdsproj');
+   WriteLn('and if that fails from &lt;projectname&gt;.dof');
++  WriteLn;
+   WriteLn('If AutoIncBuild = true, it will increment the build number and write it back.');
+   WriteLn('The information is then written to &lt;projectname&gt;.rc to be compiled with');
+   WriteLn('the brcc32 tool.');
++  WriteLn;
+   WriteLn('If &lt;projectname&gt;.ico exists, this file will be included as an icon resource.');
+   WriteLn;
++  WriteLn('If both, a .bdsproj and a .dof file exist, the .dof file will be updated');
++  WriteLn('with the information from the .bdsproj file.');
++  WriteLn;
+   WriteLn('Example:');
+-  WriteLn('c:\myproject&gt; IncBuildNo MyProject');
++  WriteLn('c:\myproject&gt; dzPrepBuild MyProject');
+   WriteLn('c:\myproject&gt; brcc32 MyProject.rc');
+   raise EHalt.Create(1);
+ end;
+@@ -100,75 +106,103 @@
+ var
+   Projectname: string;
+   ResultCode: integer;
++  CentralVerInfo: IVersionInfo;
+   BdsVerInfo: IVersionInfo;
+   DelphiVerInfo: IVersionInfo;
+   OtherVerinfo: IVersionInfo;
+   VersionInfo: IVersionInfo;
++  AdditionalVersionInfos: TInterfaceList;
++  BuildNo: integer;
++  i: integer;
+ begin
+   Resultcode := 0;
+   try
+     try
+-      WriteLn('IncBuildNo (c) 2005 by Thomas Mueller (www.dummzeuch.de)');
++      WriteLn('dzPrepBuild (c) 2007 by Thomas Mueller (www.dummzeuch.de)');
++      WriteLn('(previously called IncBuildNo)');
+       if ParamCount &lt;&gt; 1 then
+         Usage;
+       CoInitializeEx(nil, COINIT_APARTMENTTHREADED);
+       Projectname := ParamStr(1);
+ 
++      AdditionalVersionInfos := TInterfaceList.Create;
+       try
+-        Write('Reading ', Projectname, '.bdsproj ');
+-        BdsVerInfo := Tdm_BdsProjVersionInfo.Create(Projectname);
+-        WriteLn('OK');
+-      except
+-        WriteLn('FAIL');
+-        BdsVerInfo := nil;
+-      end;
++        try
++          Write('Reading ', TCentralVersionInfo.FilenameFor(Projectname), ' ');
++          CentralVerInfo := TCentralVersionInfo.Create(Projectname);
++          WriteLn('OK');
++        except
++          WriteLn('FAIL');
++          CentralVerInfo := nil;
++        end;
++        try
++          Write('Reading ', Tdm_BdsProjVersionInfo.FilenameFor(Projectname), ' ');
++          BdsVerInfo := Tdm_BdsProjVersionInfo.Create(Projectname);
++          WriteLn('OK');
++        except
++          WriteLn('FAIL');
++          BdsVerInfo := nil;
++        end;
+ 
+-      try
+-        Write('Reading ', Projectname, '.dof ');
+-        DelphiVerInfo := TDofVersionInfo.Create(Projectname);
+-        WriteLn('OK');
+-      except
+-        WriteLn('FAIL');
+-        DelphiVerInfo := nil;
+-      end;
++        try
++          Write('Reading ', TDofVersionInfo.FilenameFor(Projectname), ' ');
++          DelphiVerInfo := TDofVersionInfo.Create(Projectname);
++          WriteLn('OK');
++        except
++          WriteLn('FAIL');
++          DelphiVerInfo := nil;
++        end;
+ 
+-      if not Assigned(BdsVerInfo) then begin
+-        VersionInfo := DelphiVerInfo;
+-      end else if not Assigned(DelphiVerInfo) then
+-        VersionInfo := BdsVerInfo
+-      else begin
+-        if DelphiVerInfo.Build &gt; BdsVerInfo.Build then begin
+-          VersionInfo := DelphiVerInfo;
+-          OtherVerinfo := BdsVerInfo;
+-        end else begin
++        if Assigned(CentralVerInfo) then begin
++          VersionInfo := CentralVerInfo;
++          if Assigned(BdsVerInfo) then
++            AdditionalVersionInfos.Add(BdsVerInfo);
++          if Assigned(DelphiVerInfo) then
++            AdditionalVersionInfos.Add(DelphiVerInfo);
++        end else if Assigned(BdsVerInfo) then begin
+           VersionInfo := BdsVerInfo;
+-          OtherVerinfo := DelphiVerInfo;
++          if Assigned(DelphiVerInfo) then
++            AdditionalVersionInfos.Add(DelphiVerInfo);
++        end else if Assigned(DelphiVerInfo) then
++          VersionInfo := DelphiVerInfo
++        else begin
++          WriteLn('Error: Could not read either of the version info files.');
++          raise EHalt.Create(1);
+         end;
+-      end;
+ 
+-      if not Assigned(VersionInfo) then begin
+-        WriteLn(Format('Error: Could not read either %:0s.bdsproj or %:0s.dof', [Projectname]));
+-        raise EHalt.Create(1);
+-      end;
++        BuildNo := VersionInfo.Build;
++        WriteLn('BuildNo from ', VersionInfo.VerInfoFilename, ' is ', BuildNo);
++        for i := 0 to AdditionalVersionInfos.Count - 1 do begin
++          OtherVerinfo := AdditionalVersionInfos[i] as IVersionInfo;
++          if OtherVerinfo.Build &gt; BuildNo then begin
++            BuildNo := OtherVerinfo.Build;
++            Writeln('BuildNo from ', OtherVerinfo.VerInfoFilename, ' is higher, using ', BuildNo);
++          end;
++        end;
+ 
+-      if VersionInfo.AutoIncBuild then begin
+-        Write('Incrementing build number ');
+-        VersionInfo.Build := VersionInfo.Build + 1;
+-        VersionInfo.UpdateFile;
++        if VersionInfo.AutoIncBuild then begin
++          Write('Incrementing build number ');
++          VersionInfo.Build := BuildNo + 1;
++          VersionInfo.UpdateFile;
++          WriteLn('OK');
++          WriteLn('New version number is ', VersionInfo.MajorVer, '.', VersionInfo.MinorVer,
++            '.', VersionInfo.Release, ' build ', VersionInfo.Build);
++        end;
++
++        Write('Writing ', Projectname, '.rc file ');
++        WriteRcFile(Projectname, VersionInfo);
+         WriteLn('OK');
+-      end;
+ 
+-      Write('Writing ', Projectname, '.rc file ');
+-      WriteRcFile(Projectname, VersionInfo);
+-      WriteLn('OK');
+-
+-      if Assigned(OtherVerinfo) then begin
+-        Write('Updating other version info file ');
+-        OtherVerinfo.Assign(VersionInfo);
+-        OtherVerinfo.UpdateFile;
+-        WriteLn('OK');
++        for i := 0 to AdditionalVersionInfos.Count - 1 do begin
++          OtherVerinfo := AdditionalVersionInfos[i] as IVersionInfo;
++          Write('Updating ', OtherVerinfo.VerInfoFilename, ' ');
++          OtherVerinfo.Assign(VersionInfo);
++          OtherVerinfo.UpdateFile;
++          WriteLn('OK');
++        end;
++      finally
++        AdditionalVersionInfos.Free;
+       end;
+-
+     except
+       on e: EHalt do
+         ResultCode := e.ResultCode;
+
+Modified: utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas	2007-07-11 21:58:48 UTC (rev 158)
+@@ -11,7 +11,7 @@
+   {: Tries to read a &lt;projectname&gt;.ini file, succeeds, if it exists
+      @param Project is the project name (*.dpr file without extension)
+      @param VersionInfo is a TVersionInfoRec record which will be filled with the version info }
+-  TIniVersionInfo = class(TInterfacedObject, IVersionInfo)
++  TIniVersionInfo = class(TInterfacedObject)
+   protected
+     FIniFile: TMemIniFile;
+     FInfoSection: string;
+@@ -22,6 +22,24 @@
+     procedure WriteString(const _Section, _Ident: string; _Value: string); virtual;
+     function ReadBool(const _Section, _Ident: string; _Default: boolean): boolean; virtual;
+     procedure WriteBool(const _Section, _Ident: string; _Value: boolean); virtual;
++    procedure ReadValues;
++    procedure WriteValues;
++  private
++    FFileVersion: string;
++    FProductVersion: string;
++    FProductName: string;
++    FMinorVer: integer;
++    FLegalTrademarks: string;
++    FRelease: integer;
++    FLegalCopyright: string;
++    FMajorVer: integer;
++    FCompanyName: string;
++    FAutoIncBuild: boolean;
++    FFileDescription: string;
++    FBuild: integer;
++    FInternalName: string;
++    FOriginalFilename: string;
++    FComments: string;
+   protected // implementation of IVersionInfo
+     function GetBuild: integer;
+     procedure SetBuild(_Build: integer);
+@@ -95,9 +113,12 @@
+   const _InfoKeysSection: string);
+ begin
+   inherited Create;
++  if not FileExists(_FullFilename) then
++    raise ENoVersionInfo.CreateFmt('File %s does not exist.', [_FullFilename]);
+   FInfoSection := _InfoSection;
+   FInfoKeysSection := _InfoKeysSection;
+   FIniFile := TMemIniFile.Create(_FullFilename);
++  ReadValues;
+ end;
+ 
+ destructor TIniVersionInfo.Destroy;
+@@ -159,158 +180,197 @@
+   Release := _VersionInfo.Release;
+ end;
+ 
++procedure TIniVersionInfo.ReadValues;
++begin
++  FAutoIncBuild := ReadBool(FInfoSection, 'AutoIncBuild', False);
++  FBuild := ReadInteger(FInfoSection, 'Build', 0);
++  FComments := ReadString(FInfoKeysSection, 'Comments', '');
++  FCompanyName := ReadString(FInfoKeysSection, 'CompanyName', '');
++  FFileDescription := ReadString(FInfoKeysSection, 'FileDescription', '');
++  FFileVersion := ReadString(FInfoKeysSection, 'FileVersion', '');
++  FInternalName := ReadString(FInfoKeysSection, 'InternalName', '');
++  FLegalCopyright := ReadString(FInfoKeysSection, 'LegalCopyright', '');
++  FLegalTrademarks := ReadString(FInfoKeysSection, 'LegalTrademarks', '');
++  FMajorVer := ReadInteger(FInfoSection, 'MajorVer', 0);
++  FMinorVer := ReadInteger(FInfoSection, 'MinorVer', 0);
++  FOriginalFilename := ReadString(FInfoKeysSection, 'OriginalFilename', '');
++  FProductName := ReadString(FInfoKeysSection, 'ProductName', '');
++  FProductVersion := ReadString(FInfoKeysSection, 'ProductVersion', '');
++  FRelease := ReadInteger(FInfoSection, 'Release', 0);
++end;
++
++procedure TIniVersionInfo.WriteValues;
++begin
++  WriteBool(FInfoSection, 'AutoIncBuild', FAutoIncBuild);
++  WriteInteger(FInfoSection, 'Build', FBuild);
++  WriteString(FInfoKeysSection, 'Comments', FComments);
++  WriteString(FInfoKeysSection, 'CompanyName', FCompanyName);
++  WriteString(FInfoKeysSection, 'FileDescription', FFileDescription);
++  WriteString(FInfoKeysSection, 'FileVersion', FFileVersion);
++  WriteString(FInfoKeysSection, 'InternalName', FInternalName);
++  WriteString(FInfoKeysSection, 'LegalCopyright', FLegalCopyright);
++  WriteString(FInfoKeysSection, 'LegalTrademarks', FLegalTrademarks);
++  WriteInteger(FInfoSection, 'MajorVer', FMajorVer);
++  WriteInteger(FInfoSection, 'MinorVer', FMinorVer);
++  WriteString(FInfoKeysSection, 'OriginalFilename', FOriginalFilename);
++  WriteString(FInfoKeysSection, 'ProductName', FProductName);
++  WriteString(FInfoKeysSection, 'ProductVersion', FProductVersion);
++  WriteInteger(FInfoSection, 'Release', FRelease);
++end;
++
+ function TIniVersionInfo.GetAutoIncBuild: boolean;
+ begin
+-  Result := ReadInteger(FInfoSection, 'AutoIncBuild', 0) &lt;&gt; 0;
++  Result := FAutoIncBuild;
+ end;
+ 
+ function TIniVersionInfo.GetBuild: integer;
+ begin
+-  Result := ReadInteger(FInfoSection, 'Build', 0);
++  Result := FBuild;
+ end;
+ 
+ function TIniVersionInfo.GetComments: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'Comments', '');
++  Result := FComments;
+ end;
+ 
+ function TIniVersionInfo.GetCompanyName: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'CompanyName', '');
++  Result := FCompanyName;
+ end;
+ 
+ function TIniVersionInfo.GetFileDescription: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'FileDescription', '');
++  Result := FFileDescription;
+ end;
+ 
+ function TIniVersionInfo.GetFileVersion: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'FileVersion', '');
++  Result := FFileVersion;
+ end;
+ 
+ function TIniVersionInfo.GetInternalName: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'InternalName', '');
++  Result := FInternalName;
+ end;
+ 
+ function TIniVersionInfo.GetLegalCopyright: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'LegalCopyright', '');
++  Result := FLegalCopyright;
+ end;
+ 
+ function TIniVersionInfo.GetLegalTrademarks: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'LegalTrademarks', '');
++  Result := FLegalTrademarks;
+ end;
+ 
+ function TIniVersionInfo.GetMajorVer: integer;
+ begin
+-  Result := ReadInteger(FInfoSection, 'MajorVer', 0);
++  Result := FMajorVer;
+ end;
+ 
+ function TIniVersionInfo.GetMinorVer: integer;
+ begin
+-  Result := ReadInteger(FInfoSection, 'MinorVer', 0);
++  Result := FMinorVer;
+ end;
+ 
+ function TIniVersionInfo.GetOriginalFilename: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'OriginalFilename', '');
++  Result := FOriginalFilename;
+ end;
+ 
+ function TIniVersionInfo.GetProductName: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'ProductName', '');
++  Result := FProductName;
+ end;
+ 
+ function TIniVersionInfo.GetProductVersion: string;
+ begin
+-  Result := ReadString(FInfoKeysSection, 'ProductVersion', '');
++  Result := FProductVersion;
+ end;
+ 
+ function TIniVersionInfo.GetRelease: integer;
+ begin
+-  Result := ReadInteger(FInfoSection, 'Release', 0);
++  Result := FRelease;
+ end;
+ 
+ procedure TIniVersionInfo.SetAutoIncBuild(_AutoIncBuild: boolean);
+ begin
+-  WriteBool(FInfoSection, 'AutoIncBuild', _AutoIncBuild);
++  FAutoIncBuild := _AutoIncBuild;
+ end;
+ 
+ procedure TIniVersionInfo.SetBuild(_Build: integer);
+ begin
+-  WriteInteger(FInfoSection, 'Build', _Build);
++  FBuild := _Build;
+ end;
+ 
+ procedure TIniVersionInfo.SetComments(const _Comments: string);
+ begin
+-  WriteString(FInfoKeysSection, 'Comments', _Comments);
++  FComments := _Comments;
+ end;
+ 
+ procedure TIniVersionInfo.SetCompanyName(_CompanyName: string);
+ begin
+-  WriteString(FInfoKeysSection, 'CompanyName', _CompanyName);
++  FCompanyName := _CompanyName;
+ end;
+ 
+ procedure TIniVersionInfo.SetFileDescription(_FileDescription: string);
+ begin
+-  WriteString(FInfoKeysSection, 'FileDescription', _FileDescription);
++  FFileDescription := _FileDescription;
+ end;
+ 
+ procedure TIniVersionInfo.SetFileVersion(_FileVersion: string);
+ begin
+-  WriteString(FInfoKeysSection, 'FileVersion', _FileVersion);
++  FFileVersion := _FileVersion;
+ end;
+ 
+ procedure TIniVersionInfo.SetInternalName(_InternalName: string);
+ begin
+-  WriteString(FInfoKeysSection, 'InternalName', _InternalName);
++  FInternalName := _InternalName;
+ end;
+ 
+ procedure TIniVersionInfo.SetLegalCopyright(_LegalCopyright: string);
+ begin
+-  WriteString(FInfoKeysSection, 'LegalCopyright', _LegalCopyright);
++  FLegalCopyright := _LegalCopyright;
+ end;
+ 
+ procedure TIniVersionInfo.SetLegalTrademarks(_LegalTrademarks: string);
+ begin
+-  WriteString(FInfoKeysSection, 'LegalTrademarks', _LegalTrademarks);
++  FLegalTrademarks := _LegalTrademarks;
+ end;
+ 
+ procedure TIniVersionInfo.SetMajorVer(_MajorVer: integer);
+ begin
+-  WriteInteger(FInfoSection, 'MajorVer', _MajorVer);
++  FMajorVer := _MajorVer;
+ end;
+ 
+ procedure TIniVersionInfo.SetMinorVer(_MinorVer: integer);
+ begin
+-  WriteInteger(FInfoSection, 'MinorVer', _MinorVer);
++  FMinorVer := _MinorVer;
+ end;
+ 
+ procedure TIniVersionInfo.SetOriginalFilename(_OriginalFilename: string);
+ begin
+-  WriteString(FInfoKeysSection, 'OriginalFilename', _OriginalFilename);
++  FOriginalFilename := _OriginalFilename;
+ end;
+ 
+ procedure TIniVersionInfo.SetProductName(_ProductName: string);
+ begin
+-  WriteString(FInfoKeysSection, 'ProductName', _ProductName);
++  FProductName := _ProductName;
+ end;
+ 
+ procedure TIniVersionInfo.SetProductVersion(_ProductVersion: string);
+ begin
+-  WriteString(FInfoKeysSection, 'ProductVersion', _ProductVersion);
++  FProductVersion := _ProductVersion;
+ end;
+ 
+ procedure TIniVersionInfo.SetRelease(_Release: integer);
+ begin
+-  WriteInteger(FInfoSection, 'Release', _Release);
++  FRelease := _Release;
+ end;
+ 
+ procedure TIniVersionInfo.UpdateFile;
+ begin
++  WriteValues;
+   FIniFile.UpdateFile;
+ end;
+ 
+
+
+Property changes on: utilities/dzPrepBuild/trunk/testdata
+___________________________________________________________________
+Name: svn:ignore
+   + testproject.rc
+
+
+Added: utilities/dzPrepBuild/trunk/testdata/Testproject_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/Testproject_Version.ini	2007-07-11 20:43:22 UTC (rev 157)
++++ utilities/dzPrepBuild/trunk/testdata/Testproject_Version.ini	2007-07-11 21:58:48 UTC (rev 158)
+@@ -0,0 +1,27 @@
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=0
++Release=0
++Build=31
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=0
++Locale=1033
++CodePage=1252
++
++[Version Info Keys]
++CompanyName=iCD. GmbH
++FileDescription=Dof2Rc Tool
++FileVersion=1.0.0.21
++InternalName=dof2rc
++LegalCopyright=Copyright 2002-2005 by iCD. GmbH
++LegalTrademarks=
++OriginalFilename=dof2rc.exe
++ProductName=Dof2Rc
++ProductVersion=1.0.0.0
++Comments=internal use only
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000032.html">[Dzchart-svncheckins] r157 - in utilities/dzPrepBuild/trunk: . src	testdata
+</A></li>
+	<LI>Next message: <A HREF="000034.html">[Dzchart-svncheckins] r159 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#33">[ date ]</a>
+              <a href="thread.html#33">[ thread ]</a>
+              <a href="subject.html#33">[ subject ]</a>
+              <a href="author.html#33">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r493 - utilities/dzContextMenu/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r493%20-%20utilities/dzContextMenu/trunk/src&In-Reply-To=%3C20101001135618.4615548108F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000351.html">
+   <LINK REL="Next"  HREF="000353.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r493 - utilities/dzContextMenu/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r493%20-%20utilities/dzContextMenu/trunk/src&In-Reply-To=%3C20101001135618.4615548108F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r493 - utilities/dzContextMenu/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 15:56:18 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000351.html">[Dzchart-svncheckins] r492 - utilities/dzContextMenu/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000353.html">[Dzchart-svncheckins] r494 - 3rd/jcl/2.000/trunk/source/include
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#352">[ date ]</a>
+              <a href="thread.html#352">[ thread ]</a>
+              <a href="subject.html#352">[ subject ]</a>
+              <a href="author.html#352">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 15:56:18 +0200 (Fri, 01 Oct 2010)
+New Revision: 493
+
+Modified:
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+   utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+Log:
+* now uses an extended TMenuItem that stores the executable in an additional property
+* moved execution code to TMenuItemEx.Execute
+
+Modified: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-01 13:46:32 UTC (rev 492)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-01 13:56:18 UTC (rev 493)
+@@ -48,6 +48,15 @@
+ var
+   gblIni: TMemIniFile = nil;
+ 
++type
++  TMenuItemEx = class(TMenuItem)
++  private
++    FExecutable: string;
++  public
++    procedure Execute(_Files: TStrings);
++    property Executable: string read FExecutable write FExecutable;
++  end;
++
+ constructor Tdm_ContextMenu.Create(_Owner: TComponent);
+ var
+   Sections: TStringList;
+@@ -86,28 +95,11 @@
+ 
+ procedure Tdm_ContextMenu.DoCommand(_Idx: integer);
+ var
+-  Executable: string;
+-  Exec: TExecutor;
+-  s: string;
+-  mi: TMenuItem;
++  mi: TMenuItemEx;
+ begin
+   if _Idx &lt; ThePopupMenu.Items.Count then begin
+-    mi := ThePopupMenu.Items[_Idx];
+-    Executable := mi.Hint;
+-    Exec := TExecutor.Create;
+-    try
+-      if not Exec.FindExecutable(Executable) then
+-        raise Exception.CreateFmt('Could not find executable %s', [Executable]);
+-      FFiles.Delimiter := ' ';
+-      FFiles.QuoteChar := '&quot;';
+-      s := FFiles.DelimitedText;
+-      Exec.Commandline := s;
+-      Exec.Visible := true;
+-      Exec.WorkingDir := Extractfiledir(FFiles[0]);
+-      Exec.Execute;
+-    finally
+-      FreeAndNil(Exec)
+-    end;
++    mi := ThePopupMenu.Items[_Idx] as TMenuItemEx;
++    mi.Execute(FFiles);
+   end;
+ end;
+ 
+@@ -119,7 +111,7 @@
+     Ext: string;
+     SectExt: string;
+     ItemIdx: Integer;
+-    mi: TMenuItem;
++    mi: TMenuItemEx;
+   begin
+     Result := false;
+     for i := 0 to FFiles.Count - 1 do begin
+@@ -131,9 +123,9 @@
+         IniFile.ReadSection(FSection, FItems);
+         FItems.Delete(0);
+         for ItemIdx := 0 to FItems.Count - 1 do begin
+-          mi := TMenuItem.Create(Self);
++          mi := TMenuItemEx.Create(Self);
+           mi.Caption := FItems[ItemIdx];
+-          mi.Hint := IniFile.ReadString(_Section, FItems[ItemIdx], '');
++          mi.Executable := IniFile.ReadString(_Section, FItems[ItemIdx], '');
+           ThePopupMenu.Items.Add(mi);
+         end;
+         exit(true);
+@@ -210,6 +202,29 @@
+   FreeAndNil(gblIni);
+ end;
+ 
++{ TMenuItemEx }
++
++procedure TMenuItemEx.Execute(_Files: TStrings);
++var
++  Exec: TExecutor;
++  s: string;
++begin
++  Exec := TExecutor.Create;
++  try
++    if not Exec.FindExecutable(Executable) then
++      raise Exception.CreateFmt('Could not find executable %s', [Executable]);
++    _Files.Delimiter := ' ';
++    _Files.QuoteChar := '&quot;';
++    s := _Files.DelimitedText;
++    Exec.Commandline := s;
++    Exec.Visible := true;
++    Exec.WorkingDir := Extractfiledir(_Files[0]);
++    Exec.Execute;
++  finally
++    FreeAndNil(Exec)
++  end;
++end;
++
+ initialization
+ {$IFDEF show_attach_dialog}
+   MessageBox(0, 'Attach debugger now!', 'Initialization', MB_ICONINFORMATION or MB_OK);
+
+Modified: utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-01 13:46:32 UTC (rev 492)
++++ utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-01 13:56:18 UTC (rev 493)
+@@ -1,12 +1,12 @@
+ [Version Info]
+ AutoIncBuild=0
+-Build=28
++Build=33
+ MajorVer=1
+ MinorVer=0
+ Release=0
+ 
+ [Version Info Keys]
+-FileVersion=1.0.0.28
++FileVersion=1.0.0.33
+ ProductVersion={today}
+ FileDescription=configurable context menu for windows explorer
+ OriginalFilename=dzContextMenu.dll
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000351.html">[Dzchart-svncheckins] r492 - utilities/dzContextMenu/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000353.html">[Dzchart-svncheckins] r494 - 3rd/jcl/2.000/trunk/source/include
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#352">[ date ]</a>
+              <a href="thread.html#352">[ thread ]</a>
+              <a href="subject.html#352">[ subject ]</a>
+              <a href="author.html#352">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

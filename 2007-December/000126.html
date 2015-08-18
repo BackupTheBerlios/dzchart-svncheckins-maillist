@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r257 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r257%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200712161535.lBGFZv0O000417%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000125.html">
+   <LINK REL="Next"  HREF="000127.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r257 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r257%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200712161535.lBGFZv0O000417%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r257 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Dec 16 16:35:57 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000125.html">[Dzchart-svncheckins] r256 - utilities/dzLib/trunk
+</A></li>
+        <LI>Next message: <A HREF="000127.html">[Dzchart-svncheckins] r258 - in utilities/dzLib/trunk: . tests	tests/dzconvertutils tests/dzfileutils tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#126">[ date ]</a>
+              <a href="thread.html#126">[ thread ]</a>
+              <a href="subject.html#126">[ subject ]</a>
+              <a href="author.html#126">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-12-16 16:35:48 +0100 (Sun, 16 Dec 2007)
+New Revision: 257
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzClassUtils.pas
+Log:
+converted PasDoc comments to HelpInsight comments
+
+Modified: utilities/dzLib/trunk/src/u_dzClassUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzClassUtils.pas	2007-12-16 15:06:17 UTC (rev 256)
++++ utilities/dzLib/trunk/src/u_dzClassUtils.pas	2007-12-16 15:35:48 UTC (rev 257)
+@@ -1,6 +1,8 @@
+ {GXFormatter.config=twm}
+-{: Implements functions which work on classes but are not methods.
+-   @autor(twm) }
++/// &lt;summary&gt;
++/// Implements functions which work on classes but are not methods.
++/// @autor(twm)
++/// &lt;/summary&gt;
+ unit u_dzClassUtils;
+ 
+ interface
+@@ -12,74 +14,98 @@
+ // NOTE: The naming convention is &lt;extended-class&gt;_&lt;Methodname&gt;
+ 
+ type
+-  {: raised by StringByObj if no matching entry was found }
++  /// &lt;summary&gt;
++  /// raised by StringByObj if no matching entry was found
++  /// &lt;/summary&gt;
+   EObjectNotFound = class(Exception);
+ 
+-  {: Removes trailing spaces from all lines in Strings as well as empty lines
+-     from the end of Strings, returns true if at least one string was shortened
+-     or an empty string was removed.
+-     @param Strings is the TStrings class to work on.
+-     @returns true, if something was changed, false otherwise }
++/// &lt;summary&gt;
++/// Removes trailing spaces from all lines in Strings as well as empty lines
++/// from the end of Strings, returns true if at least one string was shortened
++/// or an empty string was removed.
++/// @param Strings is the TStrings class to work on.
++/// @returns true, if something was changed, false otherwise
++/// &lt;/summary&gt;
+ function TStrings_RemoveTrailingSpaces(_Strings: TStrings): boolean;
+ 
+-{: Free a TStrings object including all it's Object[n]s }
++/// &lt;summary&gt;
++/// Free a TStrings object including all it's Object[n]s
++/// &lt;/summary&gt;
+ procedure TStrings_FreeWithObjects(_Strings: TStrings);
+ 
+-{: Frees all objects stored in the TStrings intance and returns the instance,
+-   meant to be called like
+-   @code( TStrings_FreeAllObjects(sl).Free; ) or
+-   @code( TStrings_FreeAllObjects(sl).Clear; ) }
++/// &lt;summary&gt;
++/// Frees all objects stored in the TStrings intance and returns the instance,
++/// meant to be called like
++/// @code( TStrings_FreeAllObjects(sl).Free; ) or
++/// @code( TStrings_FreeAllObjects(sl).Clear; ) 
++/// &lt;/summary&gt;
+ function TStrings_FreeAllObjects(_Strings: TStrings): TStrings;
+ 
+-{: frees the object and delets the entry from the list }
++/// &lt;summary&gt;
++/// frees the object and delets the entry from the list
++/// &lt;/summary&gt;
+ procedure TStrings_DeleteAndFreeObject(_Strings: TStrings; _Idx: integer);
+ 
+-{: Free a TList object an all TObjects it contains
+-   NOTE: this function is obsolete, use contnrs.TObjectList instead! }
++/// &lt;summary&gt;
++/// Free a TList object an all TObjects it contains
++/// NOTE: this function is obsolete, use contnrs.TObjectList instead!
++/// &lt;/summary&gt;
+ procedure TList_FreeWithItems(var _List: TList); deprecated; // use contnrs.TObjectList
+ 
+-{: Write a string to the stream
+-   @param Stream is the TStream to write to.
+-   @param s is the string to write
+-   @returns the number of bytes written. }
++/// &lt;summary&gt;
++// Write a string to the stream
++/// @param Stream is the TStream to write to.
++/// @param s is the string to write
++/// @returns the number of bytes written.
++/// &lt;/summary&gt;
+ function TStream_WriteString(_Stream: TStream; const _s: string): integer;
+ 
+-{: Write a string to the stream appending CRLF
+-   @param Stream is the TStream to write to.
+-   @param s is the string to write
+-   @returns the number of bytes written. }
++/// &lt;summary&gt;
++/// Write a string to the stream appending CRLF
++/// @param Stream is the TStream to write to.
++/// @param s is the string to write
++/// @returns the number of bytes written. 
++/// &lt;/summary&gt;
+ function TStream_WriteStringLn(_Stream: TStream; const _s: string): integer;
+ 
+-{: Read a line from a stream, that is, a string ending in CRLF
+-   @param Stream is the TStream to read from.
+-   @param s returns the read string.
+-   @returns the number of bytes read. }
++/// &lt;summary&gt;
++/// Read a line from a stream, that is, a string ending in CRLF
++/// @param Stream is the TStream to read from.
++/// @param s returns the read string, without the CRLF
++/// @returns the number of bytes read, excluding the CRLF
++/// &lt;/summary&gt;
+ function TStream_ReadStringLn(_Stream: TStream; out _s: string): integer;
+ 
+-{: Write formatted data to the stream appending CRLF
+-   @param Stream is the TStream to write to.
+-   @param Format is a format string as used in sysutils.format
+-   @param Args is an array of const as used in sysutils.format
+-   @returns the number of bytes written. }
++/// &lt;summary&gt;
++/// Write formatted data to the stream appending CRLF
++/// @param Stream is the TStream to write to.
++/// @param Format is a format string as used in sysutils.format
++/// @param Args is an array of const as used in sysutils.format
++/// @returns the number of bytes written.
++/// &lt;/summary&gt;
+ function TStream_WriteFmtLn(_Stream: TStream; const _Format: string; _Args: array of const): integer;
+ 
+-{: returns the string which has the given value as Object
+-   @param Strings is the TStrings to search
+-   @param Obj is a pointer to match
+-   @param RaiseException is a boolean that controls whether an exception should
+-          be raised (if true) if the Obj cannot be found or an empty strin should
+-          be returned (if false), Default = true
+-   @returns the string whose object matches Obj or an empty string, if none
+-            was found and RaiseExeption was false
+-   @raises EObjectNotFound if a matching object was not found and RaiseException
+-                           is true. }
++/// &lt;summary&gt;
++/// returns the string which has the given value as Object
++/// @param Strings is the TStrings to search
++/// @param Obj is a pointer to match
++/// @param RaiseException is a boolean that controls whether an exception should
++///           be raised (if true) if the Obj cannot be found or an empty strin should
++///           be returned (if false), Default = true
++/// @returns the string whose object matches Obj or an empty string, if none
++///          was found and RaiseExeption was false
++/// @raises EObjectNotFound if a matching object was not found and RaiseException
++///         is true.
++/// &lt;/summary&gt;
+ function TStrings_StringByObj(_Strings: TStrings; _Obj: pointer; _RaiseException: boolean = true): string;
+ 
+-{: determines the string which has the given value as Object
+-   @param Strings is the TStrings to search
+-   @param Obj is a pointer to match
+-   @param Value is the string whose object matches Obj, only valid if result is true
+-   @returns true, if a matching object was found, false otherwise }
++/// &lt;summary&gt;
++/// determines the string which has the given value as Object
++/// @param Strings is the TStrings to search
++/// @param Obj is a pointer to match
++/// @param Value is the string whose object matches Obj, only valid if result is true
++/// @returns true, if a matching object was found, false otherwise
++/// &lt;/summary&gt;
+ function TStrings_TryStringByObj(_Strings: TStrings; _Obj: pointer; out _Value: string): boolean;
+ 
+ implementation
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000125.html">[Dzchart-svncheckins] r256 - utilities/dzLib/trunk
+</A></li>
+	<LI>Next message: <A HREF="000127.html">[Dzchart-svncheckins] r258 - in utilities/dzLib/trunk: . tests	tests/dzconvertutils tests/dzfileutils tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#126">[ date ]</a>
+              <a href="thread.html#126">[ thread ]</a>
+              <a href="subject.html#126">[ subject ]</a>
+              <a href="author.html#126">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

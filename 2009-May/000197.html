@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r331 - in utilities/gtdnotes/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r331%20-%20in%20utilities/gtdnotes/trunk%3A%20.%20src&In-Reply-To=%3C200905301414.n4UEEVan021953%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000196.html">
+   <LINK REL="Next"  HREF="000198.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r331 - in utilities/gtdnotes/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r331%20-%20in%20utilities/gtdnotes/trunk%3A%20.%20src&In-Reply-To=%3C200905301414.n4UEEVan021953%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r331 - in utilities/gtdnotes/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat May 30 16:14:32 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000196.html">[Dzchart-svncheckins] r330 - in utilities/gtdnotes/trunk: . dcu src
+</A></li>
+        <LI>Next message: <A HREF="000198.html">[Dzchart-svncheckins] r332 - in utilities/gtdnotes/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#197">[ date ]</a>
+              <a href="thread.html#197">[ thread ]</a>
+              <a href="subject.html#197">[ subject ]</a>
+              <a href="author.html#197">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-05-30 16:14:30 +0200 (Sat, 30 May 2009)
+New Revision: 331
+
+Modified:
+   utilities/gtdnotes/trunk/data.gtdnotes
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+* checking an action now also checks it in all filters
+* also reads the isdone and isnext attributes from the xml file
+
+Modified: utilities/gtdnotes/trunk/data.gtdnotes
+===================================================================
+--- utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 13:55:52 UTC (rev 330)
++++ utilities/gtdnotes/trunk/data.gtdnotes	2009-05-30 14:14:30 UTC (rev 331)
+@@ -15,10 +15,10 @@
+     &lt;action name=&quot;enter projects&quot;&gt;
+       &lt;place id=&quot;2&quot;/&gt;
+     &lt;/action&gt;
+-    &lt;action name=&quot;enter project actions&quot;&gt;
++    &lt;action name=&quot;enter project actions&quot; isdone=&quot;1&quot;&gt;
+       &lt;place id=&quot;2&quot;/&gt;
+     &lt;/action&gt;
+-    &lt;action name=&quot;decide on next action for each project&quot;&gt;
++    &lt;action name=&quot;decide on next action for each project&quot; isnext=&quot;1&quot;&gt;
+       &lt;place id=&quot;2&quot;/&gt;
+       &lt;label id=&quot;1&quot;/&gt;
+       &lt;place id=&quot;3&quot;/&gt;
+
+Modified: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 13:55:52 UTC (rev 330)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 14:14:30 UTC (rev 331)
+@@ -343,10 +343,26 @@
+ procedure Tf_gtdNotes.VSTChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
+ var
+   Data: PGtdLabelRec;
++  vn: PVirtualNode;
+ begin
+   Data := Sender.GetNodeData(Node);
+   Assert(Assigned(Data));
+-  Data.GtdNode.IsDone := (Node.CheckState = csCheckedNormal);
++  VST.BeginUpdate;
++  try
++    Data.GtdNode.IsDone := (Node.CheckState = csCheckedNormal);
++    vn := VST.GetFirstChild(nil);
++    while assigned(vn) do begin
++      Data := Sender.GetNodeData(vn);
++      Assert(Assigned(Data));
++      if Data.GtdNode.IsDone then
++        vn.CheckState := csCheckedNormal
++      else
++        vn.CheckState := csUncheckedNormal;
++      vn := VST.GetNext(vn);
++    end;
++  finally
++    VST.EndUpdate;
++  end;
+ end;
+ 
+ procedure Tf_gtdNotes.UnsetNextAction(_Sender: TBaseVirtualTree; _Node: PVirtualNode; _Data: Pointer; var _Abort: Boolean);
+@@ -398,8 +414,11 @@
+   end;
+   VST.ChildCount[Node] := Data.GtdNode.Count;
+   VST.Expanded[Node] := (Data.GtdNode.Count &gt; 0);
+-  if Level = 2 then
++  if Level = 2 then begin
+     VST.CheckType[Node] := ctCheckBox;
++    if Data.GtdNode.IsDone then
++      VST.CheckState[Node] := csCheckedNormal;
++  end;
+ end;
+ 
+ procedure Tf_gtdNotes.VSTKeyPress(Sender: TObject; var Key: Char);
+@@ -600,8 +619,16 @@
+ { TGtdAction }
+ 
+ constructor TGtdAction.Create(_Node: IDOMNode);
++var
++  AttrNode: IDOMNode;
+ begin
+   Create(_Node.attributes.getNamedItem('name').nodeValue);
++  AttrNode := _Node.attributes.getNamedItem('isnext');
++  if Assigned(AttrNode) and (AttrNode.nodeValue = '1') then
++    IsNextAction := true;
++  AttrNode := _Node.attributes.getNamedItem('isdone');
++  if Assigned(AttrNode) and (AttrNode.nodeValue = '1') then
++    IsDone := true;
+ end;
+ 
+ function TGtdAction.GetIsDone: boolean;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000196.html">[Dzchart-svncheckins] r330 - in utilities/gtdnotes/trunk: . dcu src
+</A></li>
+	<LI>Next message: <A HREF="000198.html">[Dzchart-svncheckins] r332 - in utilities/gtdnotes/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#197">[ date ]</a>
+              <a href="thread.html#197">[ thread ]</a>
+              <a href="subject.html#197">[ subject ]</a>
+              <a href="author.html#197">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

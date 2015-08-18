@@ -1,0 +1,1603 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r130 - utilities/dzBdsIdeScript/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r130%20-%20utilities/dzBdsIdeScript/trunk&In-Reply-To=%3C200701041618.l04GIL6U013880%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000005.html">
+   <LINK REL="Next"  HREF="000007.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r130 - utilities/dzBdsIdeScript/trunk</H1>
+    <B>twm at BerliOS</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r130%20-%20utilities/dzBdsIdeScript/trunk&In-Reply-To=%3C200701041618.l04GIL6U013880%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r130 - utilities/dzBdsIdeScript/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Jan  4 17:18:21 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000005.html">[Dzchart-svncheckins] r129 - in utilities/dzAutoSave/trunk: Delphi5	source
+</A></li>
+        <LI>Next message: <A HREF="000007.html">[Dzchart-svncheckins] r131 -	utilities/dzFeedReader/trunk/SimpleRss/Source
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-01-04 17:18:21 +0100 (Thu, 04 Jan 2007)
+New Revision: 130
+
+Added:
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas
+Removed:
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.dfm
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.pas
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.utils.IdeExpert.pas
+Modified:
+   utilities/dzBdsIdeScript/trunk/
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk
+Log:
+* no longer registers as expert but rather instantiates itself on package load and free's itself on unload
+* removes the Script menu on unload
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk
+___________________________________________________________________
+Name: svn:ignore
+   - dzBdsIdeScript.cfg
+dzBdsIdeScript.res
+
+   + dzBdsIdeScript.cfg
+dzBdsIdeScript.res
+ModelSupport_dzBdsIdeScript
+
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.dfm	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.dfm	2007-01-04 16:18:21 UTC (rev 130)
+@@ -1,52 +0,0 @@
+-object dm_BdsIdeScript: Tdm_BdsIdeScript
+-  OldCreateOrder = False
+-  OnCreate = DataModuleCreate
+-  OnDestroy = DataModuleDestroy
+-  Height = 479
+-  Width = 741
+-  object TheTimer: TTimer
+-    Enabled = False
+-    Interval = 5000
+-    OnTimer = TheTimerTimer
+-    Left = 32
+-    Top = 120
+-  end
+-  object dws2Unit: Tdws2Unit
+-    Script = dws_Main
+-    Arrays = &lt;&gt;
+-    Classes = &lt;&gt;
+-    Constants = &lt;&gt;
+-    Dependencies.Strings = (
+-      'Classes')
+-    Enumerations = &lt;&gt;
+-    Forwards = &lt;&gt;
+-    Functions = &lt;&gt;
+-    Instances = &lt;&gt;
+-    Records = &lt;&gt;
+-    Synonyms = &lt;&gt;
+-    UnitName = 'dzIdeEditor'
+-    Variables = &lt;&gt;
+-    StaticSymbols = False
+-    Left = 152
+-    Top = 280
+-  end
+-  object dws_Main: TDelphiWebScriptII
+-    Config.CompilerOptions = []
+-    Config.MaxDataSize = 0
+-    Config.Timeout = 0
+-    Left = 88
+-    Top = 280
+-  end
+-  object dws2ClassesLib: Tdws2ClassesLib
+-    OldCreateOrder = False
+-    Script = dws_Main
+-    Left = 232
+-    Top = 344
+-    Height = 0
+-    Width = 0
+-  end
+-  object dws2FileFunctions: Tdws2FileFunctions
+-    Left = 368
+-    Top = 312
+-  end
+-end
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.pas	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.dm_BdsIdeScriptWizard.pas	2007-01-04 16:18:21 UTC (rev 130)
+@@ -1,365 +0,0 @@
+-unit de.dummzeuch.dm_BdsIdeScriptWizard;
+-
+-interface
+-
+-uses
+-  Windows,
+-  Messages,
+-  SysUtils,
+-  Classes,
+-  Graphics,
+-  Controls,
+-  Forms,
+-  Dialogs,
+-  Menus,
+-  ExtCtrls,
+-  ToolsAPI,
+-  dws2Comp,
+-  dws2Exprs,
+-  dws2StringFunctions,
+-  dws2FileFunctions, dws2ClassesLibModule;
+-
+-type
+-  Tdm_BdsIdeScript = class(TDataModule)
+-    TheTimer: TTimer;
+-    dws2Unit: Tdws2Unit;
+-    dws_Main: TDelphiWebScriptII;
+-    dws2ClassesLib: Tdws2ClassesLib;
+-    dws2FileFunctions: Tdws2FileFunctions;
+-    procedure DataModuleCreate(Sender: TObject);
+-    procedure DataModuleDestroy(Sender: TObject);
+-    procedure RunScriptSubItemClick(Sender: TObject);
+-    procedure RunScriptExplainClick(Sender: TObject);
+-    procedure TheTimerTimer(Sender: TObject);
+-  private
+-    FScriptItems: TList;
+-    FScripts: TStringList;
+-    FMessageGroup: IOTAMessageGroup;
+-
+-    procedure ClearMenuItems(_List: TList);
+-    procedure ClearScriptMenuItems;
+-    procedure LoadScripts;
+-    procedure RefreshMenuItems;
+-    procedure RefreshScriptMenuItems;
+-    procedure SetTimerRefreshing;
+-    procedure RegisterOTAFunctions;
+-  private // Eval functions for the TIdeEditor class and IdeEditor global variable
+-  private
+-    function Compile(const _Source: string): TProgram;
+-    procedure ExecuteScript(_Code: TStrings);
+-    procedure WriteToMessages(const _Msg: string; _Show: Boolean = False);
+-    procedure ClearMessages;
+-    procedure OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-    procedure OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-    procedure OnIdeEditorInsertTextEval(_Info: TProgramInfo;
+-      _ExtObject: TObject);
+-  public
+-  end;
+-
+-var
+-  dm_BdsIdeScript: Tdm_BdsIdeScript;
+-
+-implementation
+-
+-{$R *.DFM}
+-
+-uses
+-  Registry,
+-  ShellAPI,
+-  dws2Symbols,
+-  dws2Compiler,
+-  de.dummzeuch.utils.IdeExpert;
+-
+-procedure Tdm_BdsIdeScript.ExecuteScript(_Code: TStrings);
+-var
+-  i: Integer;
+-  Prog: TProgram;
+-begin
+-  WriteToMessages('Compiling script.');
+-  try
+-    Prog := Compile(_Code.Text);
+-  except
+-    on e: Exception do begin
+-      WriteToMessages('Error compiling script:'#13#10 + e.Message, True);
+-      Exit;
+-    end;
+-  end;
+-
+-  WriteToMessages('Running script.');
+-  try
+-//    Prog.BeginProgram();
+-    Prog.Execute;
+-//    Prog.EndProgram;
+-
+-    for i := 0 to Prog.Msgs.Count - 1 do
+-      WriteToMessages(Prog.Msgs[i].asInfo);
+-    WriteToMessages(Tdws2DefaultResult(Prog.Result).Text);
+-
+-  finally
+-    Prog.Free;
+-  end;
+-  WriteToMessages('Done.');
+-end;
+-
+-procedure Tdm_BdsIdeScript.ClearMessages;
+-var
+-  MessageView: IOTAMessageServices;
+-begin
+-  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
+-    FMessageGroup := MessageView.AddMessageGroup('BdsIdeScript');
+-    MessageView.ClearMessageGroup(FMessageGroup);
+-  end;
+-end;
+-
+-procedure Tdm_BdsIdeScript.WriteToMessages(const _Msg: string; _Show: Boolean = False);
+-var
+-  MessageView: IOTAMessageServices;
+-  st: TStringList;
+-  i: Integer;
+-begin
+-  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
+-    st := TStringList.Create;
+-    try
+-      st.Text := _Msg;
+-      FMessageGroup := MessageView.AddMessageGroup('BdsIdeScript');
+-      if _Show then
+-        MessageView.ShowMessageView(FMessageGroup);
+-      for i := 0 to st.Count - 1 do
+-        MessageView.AddTitleMessage(st[i], FMessageGroup);
+-    finally
+-      st.Free;
+-    end;
+-  end;
+-end;
+-
+-function Tdm_BdsIdeScript.Compile(const _Source: string): TProgram;
+-var
+-  i: Integer;
+-  err: string;
+-begin
+-  Result := dws_Main.Compile(_Source);
+-  if Result.Msgs.HasCompilerErrors then begin
+-    err := '';
+-    for i := 0 to Result.Msgs.Count - 1 do begin
+-      if err &lt;&gt; '' then
+-        err := err + #13#10;
+-      err := err + Result.Msgs[i].asInfo;
+-    end;
+-    Result.Free;
+-    raise Exception.Create(err);
+-  end;
+-end;
+-
+-procedure Tdm_BdsIdeScript.DataModuleCreate(Sender: TObject);
+-begin
+-  FScriptItems := TList.Create;
+-  FScripts := TStringList.Create;
+-
+-  RefreshMenuItems;
+-
+-  RegisterOTAFunctions;
+-end;
+-
+-procedure Tdm_BdsIdeScript.DataModuleDestroy(Sender: TObject);
+-begin
+-  ClearScriptMenuItems;
+-  FScripts.Free;
+-  FScriptItems.Free;
+-end;
+-
+-procedure Tdm_BdsIdeScript.OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  _Info.Result := GetSelectedText;
+-end;
+-
+-procedure Tdm_BdsIdeScript.OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  SetSelectedText(_Info.Value['_Text']);
+-end;
+-
+-procedure Tdm_BdsIdeScript.OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  InsertText(_Info.Value['_Text']);
+-end;
+-
+-procedure Tdm_BdsIdeScript.RegisterOTAFunctions;
+-var
+-  Item: Tdws2Class;
+-  Meth: Tdws2Method;
+-  Param: Tdws2Parameter;
+-begin
+-  Item := dws2Unit.Classes.Add as Tdws2Class;
+-  Item.Name := 'TIdeEditor';
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'GetSelectedText';
+-  Meth.Kind := mkClassFunction;
+-  Meth.ResultType := 'String';
+-  Meth.OnEval := OnIdeEditorGetSelectedTextEval;
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'SetSelectedText';
+-  Meth.Kind := mkClassProcedure;
+-  Param := Meth.Parameters.Add as Tdws2Parameter;
+-  Param.Name := '_Text';
+-  Param.DataType := 'String';
+-  Meth.OnEval := OnIdeEditorSetSelectedTextEval;
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'InsertText';
+-  Meth.Kind := mkClassProcedure;
+-  Param := Meth.Parameters.Add as Tdws2Parameter;
+-  Param.Name := '_Text';
+-  Param.DataType := 'String';
+-  Meth.OnEval := OnIdeEditorInsertTextEval;
+-end;
+-
+-procedure ListFiles(const Path: string; Strings: TStrings);
+-var
+-  Found: Integer;
+-  SearchRec: TSearchRec;
+-begin
+-  Found := FindFirst(Path, faAnyFile, SearchRec);
+-  while Found = 0 do begin
+-    if (SearchRec.Attr and faDirectory) &lt;&gt; faDirectory then
+-      Strings.Add(SearchRec.Name);
+-    Found := FindNext(SearchRec);
+-  end;
+-  FindClose(SearchRec);
+-end;
+-
+-procedure Tdm_BdsIdeScript.LoadScripts;
+-var
+-  Folder: string;
+-  i: Integer;
+-  Reg: TRegistry;
+-begin
+-  Reg := TRegistry.Create;
+-  try
+-    Reg.OpenKey(GetBaseRegistryKey + '\dzBdsIdeScript', True);
+-    if not Reg.ValueExists('ScriptFolder') then
+-      { Add the IDE's folder. }
+-      Reg.WriteString('ScriptFolder',
+-        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Scripts')
+-    else
+-      Folder := Reg.ReadString('ScriptFolder');
+-  finally
+-    Reg.Free;
+-  end;
+-  Folder := IncludeTrailingPathDelimiter(Folder);
+-  FScripts.Clear;
+-  ListFiles(Folder + '*.dws', FScripts);
+-  for i := 0 to FScripts.Count - 1 do
+-    FScripts[i] := Folder + FScripts[i];
+-end;
+-
+-procedure Tdm_BdsIdeScript.RunScriptExplainClick(Sender: TObject);
+-begin
+-  ShowMessage(
+-    'Scripts should be placed in the folder pointed by '#13 +
+-    'the registry value at:'#13#13 +
+-    'HKCU\' + GetBaseRegistryKey + '\dzBdsIdeScript' +
+-    #13#13'The value should be assigned to &quot;ScriptFolder&quot;.' +
+-    #13#13'You can always refresh the script list by clicking this item.'
+-    );
+-  RefreshMenuItems;
+-end;
+-
+-procedure Tdm_BdsIdeScript.TheTimerTimer(Sender: TObject);
+-begin
+-  RefreshMenuItems;
+-end;
+-
+-procedure Tdm_BdsIdeScript.RefreshMenuItems;
+-begin
+-  RefreshScriptMenuItems;
+-end;
+-
+-procedure Tdm_BdsIdeScript.RefreshScriptMenuItems;
+-var
+-  i: Integer;
+-  Item, ScriptMenu: TMenuItem;
+-begin
+-  ScriptMenu := GetDelphiCustomMenu('Scripts');
+-  if ScriptMenu = nil then begin { The menu may not exist yet. }
+-    TheTimer.Enabled := True;
+-    Exit;
+-  end;
+-
+-  LoadScripts;
+-  ClearScriptMenuItems;
+-
+-  for i := 0 to FScripts.Count - 1 do begin
+-    Item := TMenuItem.Create(nil);
+-    FScriptItems.Add(Item);
+-    Item.Caption := ChangeFileExt(ExtractFileName(FScripts[i]), '');
+-    Item.Tag := i;
+-    Item.OnClick := RunScriptSubItemClick;
+-    ScriptMenu.Add(Item);
+-  end;
+-
+-  Item := TMenuItem.Create(nil);
+-  FScriptItems.Add(Item);
+-  Item.Caption := '(customize)';
+-  Item.OnClick := RunScriptExplainClick;
+-  ScriptMenu.Add(Item);
+-  SetTimerRefreshing;
+-
+-  ScriptMenu.Visible := FScripts.Count &gt; 0;
+-end;
+-
+-procedure Tdm_BdsIdeScript.ClearMenuItems(_List: TList);
+-var
+-  i: Integer;
+-begin
+-  if (not Assigned(_List)) or (_List.Count = 0) then
+-    Exit;
+-  for i := 0 to _List.Count - 1 do
+-    TMenuItem(_List[i]).Free;
+-  _List.Clear;
+-end;
+-
+-procedure Tdm_BdsIdeScript.ClearScriptMenuItems;
+-begin
+-  ClearMenuItems(FScriptItems);
+-end;
+-
+-procedure Tdm_BdsIdeScript.SetTimerRefreshing;
+-var
+-  Reg: TRegistry;
+-begin
+-  Reg := TRegistry.Create;
+-  try
+-    Reg.OpenKey(GetBaseRegistryKey + '\dzBdsIdeScript\Options', True);
+-    if Reg.ValueExists('Refresh') then begin
+-      TheTimer.Enabled := Reg.ReadBool('Refresh');
+-    end else begin
+-      Reg.WriteBool('Refresh', True);
+-      TheTimer.Enabled := True;
+-    end;
+-  finally
+-    Reg.Free;
+-  end;
+-end;
+-
+-procedure Tdm_BdsIdeScript.RunScriptSubItemClick(Sender: TObject);
+-var
+-  Code: TStringList;
+-  FileName: string;
+-  Idx: Integer;
+-begin
+-  Idx := (Sender as TComponent).Tag;
+-  FileName := FScripts[Idx];
+-  ClearMessages;
+-  WriteToMessages('Loading script ' + FileName);
+-  Code := TStringList.Create;
+-  try
+-    Code.LoadFromFile(FileName);
+-    ExecuteScript(Code);
+-  finally
+-    Code.Free;
+-  end;
+-end;
+-
+-end.
+-
+
+Added: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm	2007-01-04 16:18:21 UTC (rev 130)
+@@ -0,0 +1,5 @@
++object dm_DzBaseExpert: Tdm_DzBaseExpert
++  OldCreateOrder = False
++  Height = 150
++  Width = 215
++end
+
+Added: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas	2007-01-04 16:18:21 UTC (rev 130)
+@@ -0,0 +1,245 @@
++unit de.dummzeuch.experts.BaseExpert;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  Forms,
++  Graphics,
++  Menus,
++  ToolsAPI;
++
++type
++  IMsgWindow = interface ['{94A55B0E-1185-4469-85F6-28A2A433A609}']
++    procedure Write(const _Msg: string; _Show: Boolean = False);
++    procedure Clear;
++  end;
++
++type
++  Tdm_DzBaseExpert = class(TDataModule)
++  protected // helper methods
++    function GetMsgWindow(_Title: string): IMsgWindow;
++    function GetBaseRegistryKey: string;
++    function GetDelphiCustomMenu(const _Caption: string): TMenuItem;
++    function TryGetDelphiCustomMenu(const _Caption: string; out _Item: TMenuItem): Boolean;
++    procedure DeleteDelphiCustomMenu(const _Caption: string);
++    function GetSelectedText: string;
++    function GetSourceEditor: IOTASourceEditor;
++    procedure InsertText(const _Text: string);
++    procedure SetSelectedText(const _Text: string);
++  end;
++
++implementation
++
++{$R *.dfm}
++
++type
++  TMsgWindow = class(TInterfacedObject, IMsgWindow)
++  private
++    FTitle: string;
++  public
++    constructor Create(const _Title: string = '');
++    procedure Write(const _Msg: string; _Show: Boolean = False);
++    procedure Clear;
++  end;
++
++{ Tdm_DzBaseExpert }
++
++procedure Tdm_DzBaseExpert.DeleteDelphiCustomMenu(const _Caption: string);
++var
++  Item: TMenuItem;
++begin
++  if TryGetDelphiCustomMenu(_Caption, Item) then
++    Item.Free;
++end;
++
++function Tdm_DzBaseExpert.GetBaseRegistryKey: string;
++begin
++  Result := (BorlandIDEServices as IOTAServices).GetBaseRegistryKey;
++end;
++
++function Tdm_DzBaseExpert.GetDelphiCustomMenu(const _Caption: string): TMenuItem;
++var
++  MainMenu: TMenuItem;
++  NTAServices: INTAServices;
++begin
++  Result := nil;
++  if not Supports(BorlandIDEServices, INTAServices, NTAServices) then
++    Exit;
++
++  MainMenu := NTAServices.MainMenu.Items;
++  if not Assigned(MainMenu) then
++    Exit;
++
++  Result := MainMenu.Find(_Caption);
++  if Result = nil then begin
++    Result := TMenuItem.Create(MainMenu);
++    Result.Caption := _Caption;
++    MainMenu.Add(Result);
++  end;
++end;
++
++function Tdm_DzBaseExpert.GetMsgWindow(_Title: string): IMsgWindow;
++begin
++  Result := TMsgWindow.Create(_Title);
++end;
++
++function Tdm_DzBaseExpert.GetSelectedText: string;
++var
++  Block: IOTAEditBlock;
++  CurrMod: IOTAModule;
++  i: Integer;
++  Editor: IOTASourceEditor;
++  View: IOTAEditView;
++begin
++  Result := '';
++  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
++  if not Assigned(CurrMod) then
++    Exit;
++  for i := 0 to CurrMod.GetModuleFileCount - 1 do
++    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor, Editor) = S_OK then begin
++      if Editor.GetEditViewCount = 0 then
++        continue;
++      View := Editor.EditViews[0];
++      if View = nil then
++        continue;
++      Block := View.GetBlock;
++      if Block = nil then
++        continue;
++      Result := Block.Text;
++      Exit;
++    end;
++end;
++
++function Tdm_DzBaseExpert.GetSourceEditor: IOTASourceEditor;
++var
++  CurrMod: IOTAModule;
++  i: Integer;
++begin
++  Result := nil;
++  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
++  if not Assigned(CurrMod) then Exit;
++  for i := 0 to CurrMod.GetModuleFileCount - 1 do
++    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor, Result) = S_OK then
++      Exit;
++end;
++
++procedure Tdm_DzBaseExpert.InsertText(const _Text: string);
++var
++  OldAutoIndent: Boolean;
++  Buffer: IOTAEditBuffer;
++  Editor: IOTASourceEditor;
++  View: IOTAEditView;
++begin
++  Editor := GetSourceEditor;
++  if (Editor = nil) or (Editor.GetEditViewCount = 0) then
++    Exit;
++
++  View := Editor.GetEditView(0);
++  if View = nil then
++    Exit;
++
++  Buffer := View.GetBuffer;
++  if Buffer = nil then
++    Exit;
++
++  OldAutoIndent := Buffer.BufferOptions.AutoIndent;
++  try
++    Buffer.BufferOptions.AutoIndent := False;
++    View.Position.InsertText(_Text);
++    View.Paint;
++  finally
++    Buffer.BufferOptions.AutoIndent := OldAutoIndent;
++  end;
++end;
++
++procedure Tdm_DzBaseExpert.SetSelectedText(const _Text: string);
++var
++  OldAutoIndent: Boolean;
++  Buffer: IOTAEditBuffer;
++  Block: IOTAEditBlock;
++  Editor: IOTASourceEditor;
++  i: Integer;
++  View: IOTAEditView;
++begin
++  Editor := GetSourceEditor;
++  if Editor = nil then
++    Exit;
++  for i := 0 to Editor.GetEditViewCount - 1 do begin
++    View := Editor.GetEditView(i);
++    if View = nil then
++      continue;
++    Block := View.GetBlock;
++    if Block.Text &lt;&gt; '' then begin
++      Buffer := View.GetBuffer;
++      OldAutoIndent := Buffer.BufferOptions.AutoIndent;
++      try
++        Buffer.BufferOptions.AutoIndent := False;
++        View.Position.InsertText(_Text);
++        View.Paint;
++      finally
++        Buffer.BufferOptions.AutoIndent := OldAutoIndent;
++      end;
++      Exit;
++    end;
++  end;
++end;
++
++function Tdm_DzBaseExpert.TryGetDelphiCustomMenu(const _Caption: string; out _Item: TMenuItem): Boolean;
++var
++  NTAServices: INTAServices;
++  MainMenu: TMenuItem;
++begin
++  Result := Supports(BorlandIDEServices, INTAServices, NTAServices);
++  if not Result then
++    Exit;
++
++  MainMenu := NTAServices.MainMenu.Items;
++  _Item := MainMenu.Find(_Caption);
++  Result := Assigned(_Item);
++end;
++
++{ TMsgWindow }
++
++procedure TMsgWindow.Clear;
++var
++  MessageView: IOTAMessageServices;
++  MessageGroup: IOTAMessageGroup;
++begin
++  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++    MessageGroup := MessageView.AddMessageGroup(FTitle);
++    MessageView.ClearMessageGroup(MessageGroup);
++  end;
++end;
++
++constructor TMsgWindow.Create(const _Title: string);
++begin
++  inherited Create;
++  FTitle := _Title;
++end;
++
++procedure TMsgWindow.Write(const _Msg: string; _Show: Boolean);
++var
++  MessageView: IOTAMessageServices;
++  MessageGroup: IOTAMessageGroup;
++  st: TStringList;
++  i: Integer;
++begin
++  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++    st := TStringList.Create;
++    try
++      st.Text := _Msg;
++      MessageGroup := MessageView.AddMessageGroup(FTitle);
++      if _Show then
++        MessageView.ShowMessageView(MessageGroup);
++      for i := 0 to st.Count - 1 do
++        MessageView.AddTitleMessage(st[i], MessageGroup);
++    finally
++      st.Free;
++    end;
++  end;
++end;
++
++end.
++
+
+Added: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm	2007-01-04 16:18:21 UTC (rev 130)
+@@ -0,0 +1,52 @@
++inherited dm_dzBdsIdeScriptExpert: Tdm_dzBdsIdeScriptExpert
++  OldCreateOrder = True
++  OnCreate = DataModuleCreate
++  OnDestroy = DataModuleDestroy
++  Height = 219
++  Width = 217
++  object TheTimer: TTimer
++    Enabled = False
++    Interval = 5000
++    OnTimer = TheTimerTimer
++    Left = 24
++    Top = 16
++  end
++  object dws2Unit: Tdws2Unit
++    Script = dws_Main
++    Arrays = &lt;&gt;
++    Classes = &lt;&gt;
++    Constants = &lt;&gt;
++    Dependencies.Strings = (
++      'Classes')
++    Enumerations = &lt;&gt;
++    Forwards = &lt;&gt;
++    Functions = &lt;&gt;
++    Instances = &lt;&gt;
++    Records = &lt;&gt;
++    Synonyms = &lt;&gt;
++    UnitName = 'dzIdeEditor'
++    Variables = &lt;&gt;
++    StaticSymbols = False
++    Left = 112
++    Top = 88
++  end
++  object dws_Main: TDelphiWebScriptII
++    Config.CompilerOptions = []
++    Config.MaxDataSize = 0
++    Config.Timeout = 0
++    Left = 24
++    Top = 88
++  end
++  inline dws2ClassesLib: Tdws2ClassesLib
++    OldCreateOrder = False
++    Script = dws_Main
++    Left = 24
++    Top = 144
++    Height = 0
++    Width = 0
++  end
++  object dws2FileFunctions: Tdws2FileFunctions
++    Left = 112
++    Top = 144
++  end
++end
+
+Added: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas	2007-01-04 16:18:21 UTC (rev 130)
+@@ -0,0 +1,343 @@
++unit de.dummzeuch.experts.BdsIdeScriptExpert;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  Menus,
++  ExtCtrls,
++  ToolsAPI,
++  dws2Comp,
++  dws2Exprs,
++  dws2StringFunctions,
++  dws2FileFunctions,
++  dws2ClassesLibModule,
++  de.dummzeuch.experts.BaseExpert;
++
++type
++  Tdm_dzBdsIdeScriptExpert = class(Tdm_DzBaseExpert)
++    TheTimer: TTimer;
++    dws2Unit: Tdws2Unit;
++    dws_Main: TDelphiWebScriptII;
++    dws2ClassesLib: Tdws2ClassesLib;
++    dws2FileFunctions: Tdws2FileFunctions;
++    procedure DataModuleCreate(Sender: TObject);
++    procedure DataModuleDestroy(Sender: TObject);
++    procedure RunScriptSubItemClick(Sender: TObject);
++    procedure RunScriptExplainClick(Sender: TObject);
++    procedure TheTimerTimer(Sender: TObject);
++  private
++    FScriptItems: TList;
++    FScripts: TStringList;
++
++    procedure ClearMenuItems(_List: TList);
++    procedure ClearScriptMenuItems;
++    procedure LoadScripts;
++    procedure RefreshMenuItems;
++    procedure RefreshScriptMenuItems;
++    procedure SetTimerRefreshing;
++  private
++    function Compile(const _Source: string): TProgram;
++    procedure ExecuteScript(_Code: TStrings);
++    procedure OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++    procedure OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++    procedure OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++    procedure RegisterOTAFunctions;
++  end;
++
++implementation
++
++{$R *.DFM}
++
++uses
++  Registry,
++  ShellAPI,
++  dws2Symbols,
++  dws2Compiler;
++
++const
++  MESSAGE_WINDOW_TITLE = 'BdsIdeScript';
++  CUSTOM_MENU_CAPTION = 'Scripts';
++  REGISTRY_BRANCH = 'dzBdsIdeScript';
++
++procedure Tdm_dzBdsIdeScriptExpert.ExecuteScript(_Code: TStrings);
++var
++  i: Integer;
++  Prog: TProgram;
++  Msg: IMsgWindow;
++begin
++  Msg := GetMsgWindow(MESSAGE_WINDOW_TITLE);
++  Msg.Write('Compiling script.');
++  try
++    Prog := Compile(_Code.Text);
++  except
++    on e: Exception do begin
++      Msg.Write('Error compiling script:'#13#10 + e.Message, True);
++      Exit;
++    end;
++  end;
++
++  Msg.Write('Running script.');
++  try
++//    Prog.BeginProgram();
++    Prog.Execute;
++//    Prog.EndProgram;
++
++    for i := 0 to Prog.Msgs.Count - 1 do
++      Msg.Write(Prog.Msgs[i].asInfo);
++    Msg.Write(Tdws2DefaultResult(Prog.Result).Text);
++
++  finally
++    Prog.Free;
++  end;
++  Msg.Write('Done.');
++end;
++
++function Tdm_dzBdsIdeScriptExpert.Compile(const _Source: string): TProgram;
++var
++  i: Integer;
++  err: string;
++begin
++  Result := dws_Main.Compile(_Source);
++  if Result.Msgs.HasCompilerErrors then begin
++    err := '';
++    for i := 0 to Result.Msgs.Count - 1 do begin
++      if err &lt;&gt; '' then
++        err := err + #13#10;
++      err := err + Result.Msgs[i].asInfo;
++    end;
++    Result.Free;
++    raise Exception.Create(err);
++  end;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.DataModuleCreate(Sender: TObject);
++begin
++  FScriptItems := TList.Create;
++  FScripts := TStringList.Create;
++
++  RefreshMenuItems;
++
++  RegisterOTAFunctions;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.DataModuleDestroy(Sender: TObject);
++begin
++  ClearScriptMenuItems;
++  DeleteDelphiCustomMenu(CUSTOM_MENU_CAPTION);
++  FScripts.Free;
++  FScriptItems.Free;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  _Info.Result := GetSelectedText;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  SetSelectedText(_Info.Value['_Text']);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  InsertText(_Info.Value['_Text']);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RegisterOTAFunctions;
++var
++  Item: Tdws2Class;
++  Meth: Tdws2Method;
++  Param: Tdws2Parameter;
++begin
++  Item := dws2Unit.Classes.Add as Tdws2Class;
++  Item.Name := 'TIdeEditor';
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'GetSelectedText';
++  Meth.Kind := mkClassFunction;
++  Meth.ResultType := 'String';
++  Meth.OnEval := OnIdeEditorGetSelectedTextEval;
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'SetSelectedText';
++  Meth.Kind := mkClassProcedure;
++  Param := Meth.Parameters.Add as Tdws2Parameter;
++  Param.Name := '_Text';
++  Param.DataType := 'String';
++  Meth.OnEval := OnIdeEditorSetSelectedTextEval;
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'InsertText';
++  Meth.Kind := mkClassProcedure;
++  Param := Meth.Parameters.Add as Tdws2Parameter;
++  Param.Name := '_Text';
++  Param.DataType := 'String';
++  Meth.OnEval := OnIdeEditorInsertTextEval;
++end;
++
++procedure ListFiles(const Path: string; Strings: TStrings);
++var
++  Found: Integer;
++  SearchRec: TSearchRec;
++begin
++  Found := FindFirst(Path, faAnyFile, SearchRec);
++  while Found = 0 do begin
++    if (SearchRec.Attr and faDirectory) &lt;&gt; faDirectory then
++      Strings.Add(SearchRec.Name);
++    Found := FindNext(SearchRec);
++  end;
++  FindClose(SearchRec);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.LoadScripts;
++var
++  Folder: string;
++  i: Integer;
++  Reg: TRegistry;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH, True);
++    if not Reg.ValueExists('ScriptFolder') then
++      { Add the IDE's folder. }
++      Reg.WriteString('ScriptFolder',
++        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Scripts')
++    else
++      Folder := Reg.ReadString('ScriptFolder');
++  finally
++    Reg.Free;
++  end;
++  Folder := IncludeTrailingPathDelimiter(Folder);
++  FScripts.Clear;
++  ListFiles(Folder + '*.dws', FScripts);
++  for i := 0 to FScripts.Count - 1 do
++    FScripts[i] := Folder + FScripts[i];
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RunScriptExplainClick(Sender: TObject);
++begin
++  ShowMessage(
++    'Scripts should be placed in the folder pointed by '#13 +
++    'the registry value at:'#13#13 +
++    'HKCU\' + GetBaseRegistryKey + '\' + REGISTRY_BRANCH +
++    #13#13'The value should be assigned to &quot;ScriptFolder&quot;.' +
++    #13#13'You can always refresh the script list by clicking this item.'
++    );
++  RefreshMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.TheTimerTimer(Sender: TObject);
++begin
++  RefreshMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RefreshMenuItems;
++begin
++  RefreshScriptMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RefreshScriptMenuItems;
++var
++  i: Integer;
++  Item, ScriptMenu: TMenuItem;
++begin
++  ScriptMenu := GetDelphiCustomMenu(CUSTOM_MENU_CAPTION);
++  if ScriptMenu = nil then begin { The menu may not exist yet. }
++    TheTimer.Enabled := True;
++    Exit;
++  end;
++
++  LoadScripts;
++  ClearScriptMenuItems;
++
++  for i := 0 to FScripts.Count - 1 do begin
++    Item := TMenuItem.Create(nil);
++    FScriptItems.Add(Item);
++    Item.Caption := ChangeFileExt(ExtractFileName(FScripts[i]), '');
++    Item.Tag := i;
++    Item.OnClick := RunScriptSubItemClick;
++    ScriptMenu.Add(Item);
++  end;
++
++  Item := TMenuItem.Create(nil);
++  FScriptItems.Add(Item);
++  Item.Caption := '(customize)';
++  Item.OnClick := RunScriptExplainClick;
++  ScriptMenu.Add(Item);
++  SetTimerRefreshing;
++
++  ScriptMenu.Visible := FScripts.Count &gt; 0;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.ClearMenuItems(_List: TList);
++var
++  i: Integer;
++begin
++  if (not Assigned(_List)) or (_List.Count = 0) then
++    Exit;
++  for i := 0 to _List.Count - 1 do
++    TMenuItem(_List[i]).Free;
++  _List.Clear;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.ClearScriptMenuItems;
++begin
++  ClearMenuItems(FScriptItems);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.SetTimerRefreshing;
++var
++  Reg: TRegistry;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH + '\Options', True);
++    if Reg.ValueExists('Refresh') then begin
++      TheTimer.Enabled := Reg.ReadBool('Refresh');
++    end else begin
++      Reg.WriteBool('Refresh', True);
++      TheTimer.Enabled := True;
++    end;
++  finally
++    Reg.Free;
++  end;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RunScriptSubItemClick(Sender: TObject);
++var
++  Code: TStringList;
++  FileName: string;
++  Idx: Integer;
++  Msg: IMsgWindow;
++begin
++  Idx := (Sender as TComponent).Tag;
++  FileName := FScripts[Idx];
++  Msg := GetMsgWindow(MESSAGE_WINDOW_TITLE);
++  Msg.Clear;
++  Msg.Write('Loading script ' + FileName);
++  Code := TStringList.Create;
++  try
++    Code.LoadFromFile(FileName);
++    ExecuteScript(Code);
++  finally
++    Code.Free;
++  end;
++end;
++
++var
++  Expert: Tdm_dzBdsIdeScriptExpert;
++
++initialization
++  Expert := Tdm_dzBdsIdeScriptExpert.Create(nil);
++finalization
++  Expert.Free;
++end.
++
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.utils.IdeExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.utils.IdeExpert.pas	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.utils.IdeExpert.pas	2007-01-04 16:18:21 UTC (rev 130)
+@@ -1,353 +0,0 @@
+-unit de.dummzeuch.utils.IdeExpert;
+-
+-interface
+-
+-uses
+-  Classes,
+-  Forms,
+-  Graphics,
+-  Menus,
+-  ToolsAPI;
+-
+-type
+-  { We use just one expert, even if it's named after the first expert it
+-    sets up. }
+-  TMLRActionsToMenuExpert = class(TInterfacedObject, IOTAWizard, IOTANotifier)
+-  private // IOTANotifier implementation.
+-    procedure AfterSave;
+-    procedure BeforeSave;
+-    procedure Destroyed;
+-    procedure Modified;
+-  private // IOTAWizard implementation.
+-    function GetIDString: string;
+-    function GetName: string;
+-    function GetState: TWizardState;
+-    procedure Execute;
+-  public // Object-specific.
+-    constructor Create;
+-    destructor Destroy; override;
+-  end;
+-
+-function AddDelphiImage(Bitmap: TBitmap; MaskColor: TColor = clWindow): Integer;
+-function CreateCurrentFormComponent(const TypeName: string; X, Y, w, H: Integer): TComponent;
+-function CurrentForm: TCustomForm;
+-function GetBaseRegistryKey: string;
+-function GetDelphiCustomMenu(const Caption: string): TMenuItem;
+-function GetDelphiDataMenu: TMenuItem;
+-function GetDelphiHelpMenu: TMenuItem;
+-function GetSelectedComponent: TComponent;
+-function GetSelectedText: string;
+-procedure InsertText(const _Text: string);
+-procedure SetSelectedText(const _Text: string);
+-
+-procedure Register;
+-
+-implementation
+-
+-uses
+-  Windows,
+-  Registry,
+-  de.dummzeuch.dm_BdsIdeScriptWizard;
+-
+-function GetEditView: IOTAEditView; forward;
+-function GetFormEditor: IOTAFormEditor; forward;
+-function GetSourceEditor: IOTASourceEditor; forward;
+-
+-function AddDelphiImage(Bitmap: Graphics.TBitmap; MaskColor: TColor): Integer;
+-begin
+-  Result := (BorlandIDEServices as INTAServices).AddMasked(Bitmap, MaskColor);
+-end;
+-
+-function CreateCurrentFormComponent(const TypeName: string;
+-  X, Y, w, H: Integer): TComponent;
+-var
+-  FormEditor: IOTAFormEditor;
+-  NTAComponent: INTAComponent;
+-  OTAComponent: IOTAComponent;
+-begin
+-  Result := nil;
+-  FormEditor := GetFormEditor;
+-  OTAComponent := FormEditor.CreateComponent(FormEditor.GetRootComponent,
+-    TypeName, X, Y, w, H);
+-  if Assigned(OTAComponent) and
+-    (OTAComponent.QueryInterface(INTAComponent, NTAComponent) = S_OK) then
+-    Result := NTAComponent.GetComponent;
+-end;
+-
+-function CurrentForm: TCustomForm;
+-var
+-  Component: TComponent;
+-  CurrentComponent: INTAComponent;
+-  FormEditor: IOTAFormEditor;
+-  OTAComponent: IOTAComponent;
+-begin
+-  Result := nil;
+-  FormEditor := GetFormEditor;
+-  if Assigned(FormEditor) then begin
+-    OTAComponent := FormEditor.GetRootComponent;
+-    if OTAComponent &lt;&gt; nil then
+-      if OTAComponent.QueryInterface(INTAComponent, CurrentComponent)
+-        = S_OK then begin
+-        Component := CurrentComponent.GetComponent;
+-        if Component is TCustomForm then
+-          Result := TCustomForm(Component);
+-        Exit;
+-      end;
+-  end;
+-end;
+-
+-function GetBaseRegistryKey: string;
+-begin
+-  Result := (BorlandIDEServices as IOTAServices).GetBaseRegistryKey;
+-end;
+-
+-function GetDelphiCustomMenu(const Caption: string): TMenuItem;
+-var
+-  MainMenu: TMenuItem;
+-begin
+-  MainMenu := (BorlandIDEServices as INTAServices).MainMenu.Items;
+-  Result := MainMenu.Find(Caption);
+-  if Result = nil then begin
+-    Result := TMenuItem.Create(MainMenu);
+-    Result.Caption := Caption;
+-    MainMenu.Add(Result);
+-  end;
+-end;
+-
+-function GetDelphiDataMenu: TMenuItem;
+-begin
+-  Result := (BorlandIDEServices as INTAServices).MainMenu.Items[7];
+-end;
+-
+-function GetDelphiHelpMenu: TMenuItem;
+-var
+-  NTAServices: INTAServices;
+-begin
+-  Result := nil;
+-  NTAServices := BorlandIDEServices as INTAServices;
+-  if NTAServices = nil then Exit;
+-  if NTAServices.MainMenu.Items.Count &gt;= 10 then
+-    Result := NTAServices.MainMenu.Items[9];
+-end;
+-
+-function GetEditView: IOTAEditView;
+-var
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  Editor: IOTASourceEditor;
+-begin
+-  Result := nil;
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then Exit;
+-  for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor,
+-      Editor) = S_OK then begin
+-      if Editor.GetEditViewCount = 0 then
+-        continue;
+-      Result := Editor.EditViews[0];
+-      if Result &lt;&gt; nil then
+-        Exit;
+-    end;
+-end;
+-
+-function GetFormEditor: IOTAFormEditor;
+-var
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  FormEditor: IOTAFormEditor;
+-begin
+-  Result := nil;
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if Assigned(CurrMod) then
+-    for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-      if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTAFormEditor,
+-        FormEditor) = S_OK then begin
+-        Result := FormEditor;
+-        Exit;
+-      end;
+-end;
+-
+-function GetSelectedComponent: TComponent;
+-var
+-  CurrentComponent: INTAComponent;
+-  Editor: IOTAFormEditor;
+-  OTAComponent: IOTAComponent;
+-begin
+-  Result := nil;
+-  Editor := GetFormEditor;
+-  if Assigned(Editor) then begin
+-    if Editor.GetSelCount &gt;= 1 then begin
+-      OTAComponent := Editor.GetSelComponent(0);
+-      if Assigned(OTAComponent) and
+-        (OTAComponent.QueryInterface(INTAComponent,
+-        CurrentComponent) = S_OK) then
+-        Result := CurrentComponent.GetComponent;
+-    end;
+-  end;
+-end;
+-
+-function GetSelectedText: string;
+-var
+-  Block: IOTAEditBlock;
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  Editor: IOTASourceEditor;
+-  View: IOTAEditView;
+-begin
+-  Result := '';
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then
+-    Exit;
+-  for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor,
+-      Editor) = S_OK then begin
+-      if Editor.GetEditViewCount = 0 then
+-        continue;
+-      View := Editor.EditViews[0];
+-      if View = nil then
+-        continue;
+-      Block := View.GetBlock;
+-      if Block = nil then
+-        continue;
+-      Result := Block.Text;
+-      Exit;
+-    end;
+-end;
+-
+-function GetSourceEditor: IOTASourceEditor;
+-var
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  Editor: IOTASourceEditor;
+-begin
+-  Result := nil;
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then Exit;
+-  for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor,
+-      Editor) = S_OK then begin
+-      Result := Editor;
+-      Exit;
+-    end;
+-end;
+-
+-procedure Register;
+-begin
+-  RegisterPackageWizard(TMLRActionsToMenuExpert.Create as IOTAWizard);
+-end;
+-
+-procedure InsertText(const _Text: string);
+-var
+-  OldAutoIndent: Boolean;
+-  Buffer: IOTAEditBuffer;
+-  Editor: IOTASourceEditor;
+-  View: IOTAEditView;
+-begin
+-  Editor := GetSourceEditor;
+-  if (Editor = nil) or (Editor.GetEditViewCount = 0) then
+-    Exit;
+-
+-  View := Editor.GetEditView(0);
+-  if View = nil then
+-    Exit;
+-
+-  Buffer := View.GetBuffer;
+-  if Buffer = nil then
+-    Exit;
+-
+-  OldAutoIndent := Buffer.BufferOptions.AutoIndent;
+-  try
+-    Buffer.BufferOptions.AutoIndent := False;
+-    View.Position.InsertText(_Text);
+-    View.Paint;
+-  finally
+-    Buffer.BufferOptions.AutoIndent := OldAutoIndent;
+-  end;
+-end;
+-
+-procedure SetSelectedText(const _Text: string);
+-var
+-  OldAutoIndent: Boolean;
+-  Buffer: IOTAEditBuffer;
+-  Block: IOTAEditBlock;
+-  Editor: IOTASourceEditor;
+-  i: Integer;
+-  View: IOTAEditView;
+-begin
+-  Editor := GetSourceEditor;
+-  if Editor = nil then
+-    Exit;
+-  for i := 0 to Editor.GetEditViewCount - 1 do begin
+-    View := Editor.GetEditView(i);
+-    if View = nil then
+-      continue;
+-    Block := View.GetBlock;
+-    if Block.Text &lt;&gt; '' then begin
+-      Buffer := View.GetBuffer;
+-      OldAutoIndent := Buffer.BufferOptions.AutoIndent;
+-      try
+-        Buffer.BufferOptions.AutoIndent := False;
+-        View.Position.InsertText(_Text);
+-        View.Paint;
+-      finally
+-        Buffer.BufferOptions.AutoIndent := OldAutoIndent;
+-      end;
+-      Exit;
+-    end;
+-  end;
+-end;
+-
+-{ TMLRActionsToMenuExpert }
+-
+-procedure TMLRActionsToMenuExpert.AfterSave;
+-begin
+-
+-end;
+-
+-procedure TMLRActionsToMenuExpert.BeforeSave;
+-begin
+-
+-end;
+-
+-constructor TMLRActionsToMenuExpert.Create;
+-begin
+-  dm_BdsIdeScript := Tdm_BdsIdeScript.Create(nil);
+-end;
+-
+-destructor TMLRActionsToMenuExpert.Destroy;
+-begin
+-  dm_BdsIdeScript.Free;
+-end;
+-
+-procedure TMLRActionsToMenuExpert.Destroyed;
+-begin
+-
+-end;
+-
+-procedure TMLRActionsToMenuExpert.Execute;
+-begin
+-
+-end;
+-
+-function TMLRActionsToMenuExpert.GetIDString: string;
+-begin
+-  Result := 'de.dummzeuch.BdsIdeScript';
+-end;
+-
+-function TMLRActionsToMenuExpert.GetName: string;
+-begin
+-  Result := 'Actions to menu.';
+-end;
+-
+-function TMLRActionsToMenuExpert.GetState: TWizardState;
+-begin
+-  Result := [wsEnabled];
+-end;
+-
+-procedure TMLRActionsToMenuExpert.Modified;
+-begin
+-
+-end;
+-
+-end.
+-
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj	2007-01-04 16:18:21 UTC (rev 130)
+@@ -170,7 +170,12 @@
+ 			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
+-		&lt;/VersionInfoKeys&gt;  &lt;Excluded_Packages&gt;
++		&lt;/VersionInfoKeys&gt;  
++    
++    
++    
++    &lt;Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\dzBdsIdeScript100.bpl.1.0&quot;&gt;BDS IDE Scripting using Delphi Web Script II&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
+@@ -196,4 +201,5 @@
+       &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
+     &lt;/Excluded_Packages&gt;
+   &lt;/Delphi.Personality&gt;
++	&lt;ModelSupport&gt;True&lt;/ModelSupport&gt;
+ &lt;/BorlandProject&gt;
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk	2007-01-01 18:27:42 UTC (rev 129)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk	2007-01-04 16:18:21 UTC (rev 130)
+@@ -27,6 +27,11 @@
+ {$LIBVERSION '1.0'}
+ {$DESIGNONLY}
+ {$IMPLICITBUILD OFF}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\default.txaPackage'}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\de\default.txaPackage'}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\de\dummzeuch\default.txaPackage'}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\de\dummzeuch\experts\default.txaPackage'}
++{%TogetherDiagram 'ModelSupport_dzBdsIdeScript\de\dummzeuch\experts\BaseExpert\default.txaPackage'}
+ 
+ requires
+   vcl,
+@@ -36,7 +41,7 @@
+   dws2ClassesLibrary;
+ 
+ contains
+-  de.dummzeuch.utils.IdeExpert in 'de.dummzeuch.utils.IdeExpert.pas',
+-  de.dummzeuch.dm_BdsIdeScriptWizard in 'de.dummzeuch.dm_BdsIdeScriptWizard.pas' {dm_BdsIdeScript: TDataModule};
++  de.dummzeuch.experts.BdsIdeScriptExpert in 'de.dummzeuch.experts.BdsIdeScriptExpert.pas' {dm_dzBdsIdeScriptExpert: TDataModule},
++  de.dummzeuch.experts.BaseExpert in 'de.dummzeuch.experts.BaseExpert.pas' {dm_DzBaseExpert: TDataModule};
+ 
+ end.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000005.html">[Dzchart-svncheckins] r129 - in utilities/dzAutoSave/trunk: Delphi5	source
+</A></li>
+	<LI>Next message: <A HREF="000007.html">[Dzchart-svncheckins] r131 -	utilities/dzFeedReader/trunk/SimpleRss/Source
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

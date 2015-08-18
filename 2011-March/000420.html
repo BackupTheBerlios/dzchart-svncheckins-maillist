@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r562 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r562%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110309104923.1DA2948146F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000419.html">
+   <LINK REL="Next"  HREF="000421.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r562 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r562%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110309104923.1DA2948146F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r562 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Wed Mar  9 11:49:22 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000419.html">[Dzchart-svncheckins] r561 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000421.html">[Dzchart-svncheckins] r563 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#420">[ date ]</a>
+              <a href="thread.html#420">[ thread ]</a>
+              <a href="subject.html#420">[ subject ]</a>
+              <a href="author.html#420">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-03-09 11:49:22 +0100 (Wed, 09 Mar 2011)
+New Revision: 562
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+* new method IUniqueTempDir.PathBS
+* new class method TFilesystem.MoveFileEx
+* TFileSystem.CreateUniqueTempDir now has the option to delete the directory only if it is empty
+
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-03-09 10:47:25 UTC (rev 561)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-03-09 10:49:22 UTC (rev 562)
+@@ -311,6 +311,8 @@
+ 
+   IUniqueTempDir = interface ['{D9A4A428-66AE-4BBC-B1CA-22CE4DE2FACB}']
+     function Path: string;
++    ///&lt;summary&gt; Path including trailing path delimiter &lt;/summary&gt;
++    function PathBS: string;
+   end;
+ 
+   /// &lt;summary&gt;
+@@ -322,6 +324,9 @@
+   type
+     TCopyFileFlags = (cfFailIfExists, cfForceOverwrite, cfRaiseException);
+     TCopyFileFlagSet = set of TCopyFileFlags;
++    TMoveFileExFlags = (mfCopyAllowed, {mfCreateHardlink,} mfDelayUntilReboot, mfFailIfNotTrackable,
++      mfReplaceExisting, mfWriteThrough);
++    TMoveFileexFlagSet = set of TMoveFileExFlags;
+     TMatchingFileResult = (mfNotFound, mfDirectory, mfFile, mfSpecial);
+     TCopyFileWithProgressFlags = (cfwFailIfExists, cfwRestartable, cfwRaiseException);
+     TCopyFileWithProgressFlagSet = set of TCopyFileWithProgressFlags;
+@@ -383,7 +388,7 @@
+     /// @returns the name of the created directory
+     /// &lt;/summary&gt;
+     class function CreateUniqueDirectory(_BaseDir: string = ''; const _Prefix: string = 'dz'): string;
+-    class function CreateUniqueTempDir(_Prefix: string = 'dz'): IUniqueTempDir;
++    class function CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = false; _Prefix: string = 'dz'): IUniqueTempDir;
+ 
+     /// &lt;summary&gt;
+     /// Calls the Win32Api function GetTempPath but returns a string rather than
+@@ -403,6 +408,19 @@
+     /// @returns true, if the file could be moved, false otherwise.
+     /// &lt;/summary&gt;
+     class function MoveFile(const _Source, _Dest: string; _RaiseException: boolean = true): boolean;
++    /// &lt;summary&gt;
++    /// Moves the file Source to Dest using the Windows MoveFileEx function.
++    /// @param Source is a string containing the name of the existing file
++    /// @param Dest is a string containing the destination file name
++    /// @Param Flags is a set of flags corresponding to the Windows MoveEx flags
++    /// @param RaiseException is a boolean which controls whether the function
++    ///        retrieves the Windows error and raises an exception
++    ///        if it fails. If false, it will not raise an exception
++    ///        but just return false if moving the file fails.
++    /// @returns true, if the file could be moved, false otherwise.
++    /// &lt;/summary&gt;
++    class function MoveFileEx(const _Source, _Dest: string; _Flags: TMoveFileExFlagSet;
++      _RaiseException: boolean = true): boolean;
+ 
+     /// &lt;summary&gt;
+     /// Copies the file Source to Dest using the Windows CopyFile function.
+@@ -968,7 +986,7 @@
+ var
+   DriveBits: set of 0..25;
+   DriveNum: Integer;
+-  DriveChar: AnsiChar;
++  DriveChar: Char;
+   DriveType: TDriveType;
+   s: string;
+ begin
+@@ -976,7 +994,7 @@
+   for DriveNum := 0 to 25 do begin
+     if not (DriveNum in DriveBits) then
+       Continue;
+-    DriveChar := AnsiChar(DriveNum + Ord('a'));
++    DriveChar := Char(DriveNum + Ord('a'));
+     DriveType := TDriveType(Windows.GetDriveType(PChar(DriveChar + ':\')));
+     if not _HdOnly or (DriveType = dtFixed) then begin
+       s := GetVolumeName(DriveChar);
+@@ -1036,18 +1054,21 @@
+   TUniqueTempDir = class(TInterfacedObject, IUniqueTempDir)
+   private
+     FPath: string;
++    FDeleteOnlyIfEmpty: Boolean;
+     function Path: string;
++    ///&lt;summary&gt; Path including trailing path delimiter &lt;/summary&gt;
++    function PathBS: string;
+   public
+-    constructor Create(const _Path: string);
++    constructor Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = false);
+     destructor Destroy; override;
+   end;
+ 
+-class function TFileSystem.CreateUniqueTempDir(_Prefix: string): IUniqueTempDir;
++class function TFileSystem.CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = false; _Prefix: string = 'dz'): IUniqueTempDir;
+ var
+   s: string;
+ begin
+   s := CreateUniqueDirectory(GetTempPath, _Prefix);
+-  Result := TUniqueTempDir.Create(s);
++  Result := TUniqueTempDir.Create(s, _DeleteOnlyIfEmpty);
+ end;
+ 
+ class function TFileSystem.GetTempFileName(_Directory: string = ''; const _Prefix: string = 'dz';
+@@ -1187,6 +1208,32 @@
+   end;
+ end;
+ 
++class function TFileSystem.MoveFileEx(const _Source, _Dest: string; _Flags: TMoveFileExFlagSet;
++  _RaiseException: boolean): boolean;
++var
++  LastError: Cardinal;
++  Flags: DWORD;
++begin
++  Flags := 0;
++  if mfCopyAllowed in _Flags then
++    Flags := Flags or MOVEFILE_COPY_ALLOWED;
++  if mfDelayUntilReboot in _Flags then
++    Flags := Flags or MOVEFILE_DELAY_UNTIL_REBOOT;
++  if mfFailIfNotTrackable in _Flags then
++    Flags := Flags or MOVEFILE_FAIL_IF_NOT_TRACKABLE;
++  if mfReplaceExisting in _Flags then
++    Flags := Flags or MOVEFILE_REPLACE_EXISTING;
++  if mfWriteThrough in _Flags then
++    Flags := Flags or MOVEFILE_WRITE_THROUGH;
++
++  Result := Windows.MoveFileEx(PChar(_Source), PChar(_Dest), Flags);
++  if not Result and _RaiseException then begin
++    LastError := GetLastError;
++    // duplicate % so they get passed through the format function
++    RaiseLastOsErrorEx(LastError, Format(_('Error %%1:s (%%0:d) while trying to move &quot;%s&quot; to &quot;%s&quot;.'), [_Source, _Dest]));
++  end;
++end;
++
+ class function TFileSystem.SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
+ var
+   Attr: integer;
+@@ -2060,16 +2107,20 @@
+ 
+ { TUniqueTempDir }
+ 
+-constructor TUniqueTempDir.Create(const _Path: string);
++constructor TUniqueTempDir.Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = false);
+ begin
+   inherited Create;
+   FPath := _Path;
++  FDeleteOnlyIfEmpty := _DeleteOnlyIfEmpty;
+ end;
+ 
+ destructor TUniqueTempDir.Destroy;
+ begin
+   // delete directory, fail silently on errors
+-  TFileSystem.DelDirTree(FPath, False);
++  if FDeleteOnlyIfEmpty then
++    TFileSystem.RemoveDir(FPath, False)
++  else
++    TFileSystem.DelDirTree(FPath, False);
+   inherited;
+ end;
+ 
+@@ -2078,5 +2129,10 @@
+   Result := FPath;
+ end;
+ 
++function TUniqueTempDir.PathBS: string;
++begin
++  Result := itpd(FPath);
++end;
++
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000419.html">[Dzchart-svncheckins] r561 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000421.html">[Dzchart-svncheckins] r563 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#420">[ date ]</a>
+              <a href="thread.html#420">[ thread ]</a>
+              <a href="subject.html#420">[ subject ]</a>
+              <a href="author.html#420">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

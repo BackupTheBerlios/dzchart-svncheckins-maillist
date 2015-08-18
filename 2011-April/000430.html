@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r572 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r572%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110423102739.652804814C9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000429.html">
+   <LINK REL="Next"  HREF="000431.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r572 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r572%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110423102739.652804814C9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r572 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Apr 23 12:27:39 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000429.html">[Dzchart-svncheckins] r571 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000431.html">[Dzchart-svncheckins] r573 - in utilities/dzLib/trunk/translations:	de en fr
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#430">[ date ]</a>
+              <a href="thread.html#430">[ thread ]</a>
+              <a href="subject.html#430">[ subject ]</a>
+              <a href="author.html#430">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-04-23 12:27:39 +0200 (Sat, 23 Apr 2011)
+New Revision: 572
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+new procedures:
+* TStringGrid_SetNonfixedCell
+* TStringGrid_GetNonfixedCell
+* TStringGrid_AppendRow
+* TTabControl_GetSelectedObject
+* TComboBox_Change
+* TListView_BeginUpdate
+* TListView_GetSelected
+* TGroupBox_SetFileCaption
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-04-23 10:25:29 UTC (rev 571)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-04-23 10:27:39 UTC (rev 572)
+@@ -158,6 +158,9 @@
+ ///          @returns the index of the new column &lt;/summary&gt;
+ function TStringGrid_AddColumn(_Grid: TStringGrid; const _Caption: string): integer;
+ 
++procedure TStringGrid_SetNonfixedCell(_Grid: TStringGrid; _col, _row: integer; const _Text: string);
++function TStringGrid_GetNonfixedCell(_Grid: TStringGrid; _col, _row: integer): string;
++
+ ///&lt;summary&gt; exports the contents of the string grid to a tab separated text file (deprecated, use TGrid_ExportTofile instead)
+ ///          @param Grid is the string grid to export
+ ///          @param Filename is the name of the text file to create &lt;/summary&gt;
+@@ -188,6 +191,9 @@
+ ///          @returns the inserted row index or -1 if the row cannot be inserted &lt;/summary&gt;
+ function TStringGrid_InsertRow(_Grid: TStringGrid; _Row: integer = -1): integer;
+ 
++///&lt;summary&gt; Appends a row to the string grid and returns the index of the new row &lt;/summary&gt;
++function TStringGrid_AppendRow(_Grid: TStringGrid): integer;
++
+ ///&lt;summary&gt; Tries to convert the grid cell to a double, if an error occurs, it raises
+ ///          an exception and optionally focuses the cell.
+ ///          @param Grid is the grid containing the data
+@@ -290,6 +296,12 @@
+ ///          to display horizontal text in tabs on the left or right hand side &lt;/summary&gt;
+ procedure TTabControl_AdjustTabWidth(_TabControl: TTabControl; _Form: TForm; _MinWidth: integer = 80);
+ 
++///&lt;summary&gt; Gets the object associated with the currently selected tab
++///          @param TabControl is the TTabControl to work on
++///          @param Obj is the object of the selected tab, only valid if Result=true
++///          @returns true, if TabIndex &lt;&gt; -1 &lt;/summary&gt;
++function TTabControl_GetSelectedObject(_TabControl: TTabControl; out _Obj: pointer): boolean;
++
+ ///&lt;summary&gt; Enables longer SimpleText (longer than 127 characters)
+ ///          Call once to enable. Works, by adding a single panel with owner drawing and
+ ///          setting the StatusBar's OnDrawPanel to a custom drawing method.
+@@ -380,7 +392,11 @@
+ ///          @returns the index of the newly selected item or -1 if it doesn't exist &lt;/summary&gt;
+ function TComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+ 
+-///&lt;summary&gt; Selects an item (or no Item, if Idx = -1) without triggering an OnChange event &lt;/summary&gt;
++///&lt;summary&gt; Calls the protected Change method of the combobox &lt;/summary&gt;
++procedure TComboBox_Change(_cmb: TCustomCombo);
++
++///&lt;summary&gt; Selects an item (or no Item, if Idx = -1) without triggering an OnChange event
++///          (I am not even sure whether setting the item index always triggers an OnChange event.) &lt;/summary&gt;
+ procedure TComboBox_SelectWithoutChangeEvent(_cmb: TComboBox; _Idx: integer);
+ 
+ ///&lt;summary&gt; Sets the control to readonly by adding a TPanel as parent and disable it. Note that this does
+@@ -581,6 +597,10 @@
+ ///          @param Form is the TForm to unmerge &lt;/summary&gt;
+ procedure UnMergeForm(_Form: TCustomForm); deprecated; // use a frame instead
+ 
++///&lt;summary&gt; Calls lv.Items.BeginUpdate and returns an interface which, when released calls
++///          lv.Items.EndUpdate. &lt;/summary&gt;
++function TListView_BeginUpdate(_lv: TListView): IInterface;
++
+ ///&lt;summary&gt; free all lv.Items[n].Data objects and then clear the items &lt;/summary&gt;
+ procedure TListView_ClearWithObjects(_lv: TListView);
+ 
+@@ -591,6 +611,9 @@
+ ///&lt;summary&gt; Returns the number of selected items in the ListView &lt;/summary&gt;
+ function TListView_GetSelectedCount(_lv: TListView): integer;
+ 
++function TListView_GetSelected(_Lv: TListView; out _Idx: integer): boolean; overload;
++function TListView_GetSelected(_lv: TListView; out _Item: TListItem): boolean; overload;
++
+ ///&lt;summary&gt; Returns the first item in the radio group with the caption ItemText &lt;/summary&gt;
+ function TRadioGroup_GetButton(_rg: TRadioGroup; _ItemText: string): TRadioButton; overload;
+ ///&lt;summary&gt; Returns the ItemIdx'th item in the radio group &lt;/summary&gt;
+@@ -615,6 +638,12 @@
+ //          @returns true, if Execute was called and returned true, false otherwise &lt;/summary&gt;
+ function TAction_SetCheckedExecute(_act: TCustomAction; _Checked: boolean): boolean;
+ 
++///&lt;summary&gt; Sets the caption of a groupbox in the form '&lt;prefix:&gt;&lt;filename&gt;' shortening the
++///          filename in the path part using '..' so the file name itself should be visible.
++///          Note that the Prefix is used as is, so include any whitespace and punctuation you
++///          might want to see. &lt;/summary&gt;
++function TGroupBox_SetFileCaption(_grp: TCustomGroupBox; const _Prefix: string; const _Filename: string): string;
++
+ implementation
+ 
+ uses
+@@ -631,7 +660,8 @@
+ {$ENDIF GIFByRx}
+   u_dzConvertUtils,
+   u_dzStringUtils,
+-  u_dzClassUtils;
++  u_dzClassUtils,
++  FileCtrl;
+ 
+ function _(const _s: string): string; inline;
+ begin
+@@ -823,6 +853,16 @@
+     _Grid.Cells[c, _Grid.FixedRows] := '';
+ end;
+ 
++procedure TStringGrid_SetNonfixedCell(_Grid: TStringGrid; _col, _row: integer; const _Text: string);
++begin
++  _Grid.Cells[_col + _Grid.FixedCols, _row + _Grid.FixedRows] := _Text;
++end;
++
++function TStringGrid_GetNonfixedCell(_Grid: TStringGrid; _col, _row: integer): string;
++begin
++  Result := _Grid.Cells[_col + _Grid.FixedCols, _row + _Grid.FixedRows];
++end;
++
+ function TStringGrid_AddColumn(_Grid: TStringGrid; const _Caption: string): integer;
+ var
+   i: Integer;
+@@ -913,6 +953,12 @@
+   Result := _Row;
+ end;
+ 
++function TStringGrid_AppendRow(_Grid: TStringGrid): integer;
++begin
++  Result := _Grid.RowCount;
++  _Grid.RowCount := Result + 1;
++end;
++
+ function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): double;
+ var
+   s: string;
+@@ -1286,6 +1332,16 @@
+   end;
+ end;
+ 
++function TTabControl_GetSelectedObject(_TabControl: TTabControl; out _Obj: pointer): boolean;
++var
++  Idx: Integer;
++begin
++  Idx := _TabControl.TabIndex;
++  Result := (Idx &lt;&gt; -1);
++  if Result then
++    _Obj := _TabControl.Tabs.Objects[Idx];
++end;
++
+ type
+   // Note: This class is never instantiated, only the DrawPanel method will be used
+   //       without ever referencing the self pointer (which is NIL), so it should work
+@@ -1391,7 +1447,7 @@
+   out _Obj: pointer; _FocusControl: boolean = false): boolean;
+ begin
+   _Idx := _cmb.ItemIndex;
+-  Result := _Idx &lt;&gt; -1;
++  Result := (_Idx &lt;&gt; -1);
+   if Result then
+     _Obj := _cmb.Items.Objects[_Idx]
+   else if _FocusControl then
+@@ -1641,6 +1697,15 @@
+   _Cmb.ItemIndex := Result;
+ end;
+ 
++type
++  TComboHack = class(TCustomCombo)
++  end;
++
++procedure TComboBox_Change(_cmb: TCustomCombo);
++begin
++  TComboHack(_cmb).Change;
++end;
++
+ procedure TComboBox_SelectWithoutChangeEvent(_cmb: TComboBox; _Idx: integer);
+ var
+   Event: TNotifyEvent;
+@@ -2218,6 +2283,21 @@
+   _lv.Clear;
+ end;
+ 
++type
++  TListViewEndUpdateClass = class(TInterfacedObject, IInterface)
++  private
++    FListView: TListView;
++  public
++    constructor Create(_ListView: TListView);
++    destructor Destroy; override;
++  end;
++
++function TListView_BeginUpdate(_lv: TListView): IInterface;
++begin
++  _lv.Items.BeginUpdate;
++  Result := TListViewEndUpdateClass.Create(_lv);
++end;
++
+ function TRadioGroup_GetButton(_rg: TRadioGroup; _ItemIdx: integer): TRadioButton;
+ // taken from <A HREF="http://delphi.about.com/od/adptips2006/qt/radiogroupbtns.htm">http://delphi.about.com/od/adptips2006/qt/radiogroupbtns.htm</A>
+ begin
+@@ -2288,6 +2368,26 @@
+       Inc(Result);
+ end;
+ 
++function TListView_GetSelected(_Lv: TListView; out _Idx: integer): boolean;
++var
++  Idx: integer;
++begin
++  Idx := _Lv.ItemIndex;
++  Result := (Idx &lt;&gt; -1);
++  if Result then
++    _Idx := Idx;
++end;
++
++function TListView_GetSelected(_lv: TListView; out _Item: TListItem): boolean;
++var
++  Item: TListItem;
++begin
++  Item := _lv.Selected;
++  Result := Assigned(Item);
++  if Result then
++    _Item := Item;
++end;
++
+ function TAction_SetCheckedExecute(_act: TCustomAction; _Checked: boolean): boolean;
+ begin
+   Result := _act.Checked &lt;&gt; _Checked;
+@@ -2295,6 +2395,21 @@
+     Result := _act.Execute;
+ end;
+ 
++type
++  THackGroupBox = class(TCustomGroupBox)
++  end;
++
++function TGroupBox_SetFileCaption(_grp: TCustomGroupBox; const _Prefix: string; const _Filename: string): string;
++var
++  Len: Integer;
++  grp: THackGroupBox;
++begin
++  grp := THackGroupBox(_grp);
++  Len := grp.Canvas.TextWidth(_Prefix);
++  Result := _Prefix + MinimizeName(_Filename, grp.Canvas, grp.Width - Len);
++  grp.Caption := Result;
++end;
++
+ function TStatusBar_GetClickedPanel(_sb: TStatusBar): integer;
+ // call this to determine which panel of a TStatusBar has been clicked
+ // Note: This assumes, that the status bar actually was clicked, so only call it
+@@ -2455,6 +2570,21 @@
+ end;
+ {$ENDIF DELPHI2009_UP}
+ 
++{ TListViewEndUpdateClass }
++
++constructor TListViewEndUpdateClass.Create(_ListView: TListView);
++begin
++  inherited Create;
++  FListView := _ListView;
++end;
++
++destructor TListViewEndUpdateClass.Destroy;
++begin
++  if Assigned(FListView) then
++    FListView.Items.EndUpdate;
++  inherited;
++end;
++
+ initialization
+ finalization
+   FreeAndNil(gblCheckListBoxHelper);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000429.html">[Dzchart-svncheckins] r571 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000431.html">[Dzchart-svncheckins] r573 - in utilities/dzLib/trunk/translations:	de en fr
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#430">[ date ]</a>
+              <a href="thread.html#430">[ thread ]</a>
+              <a href="subject.html#430">[ subject ]</a>
+              <a href="author.html#430">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

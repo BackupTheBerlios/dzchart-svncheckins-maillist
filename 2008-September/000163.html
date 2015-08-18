@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r296 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r296%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041021.m84ALqrO023470%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000162.html">
+   <LINK REL="Next"  HREF="000164.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r296 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r296%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041021.m84ALqrO023470%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r296 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 12:21:52 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000162.html">[Dzchart-svncheckins] r295 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000164.html">[Dzchart-svncheckins] r297 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-04 12:21:48 +0200 (Thu, 04 Sep 2008)
+New Revision: 296
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzTextFile.pas
+Log:
+* changed all pasdoc comments to xmldoc
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+
+
+Modified: utilities/dzLib/trunk/src/u_dzTextFile.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTextFile.pas	2008-09-04 10:20:02 UTC (rev 295)
++++ utilities/dzLib/trunk/src/u_dzTextFile.pas	2008-09-04 10:21:48 UTC (rev 296)
+@@ -30,12 +30,16 @@
+ 
+ implementation
+ 
+-resourcestring
+-  RS_INVALID_FILE_ACCES_VALUE_D = 'Invalid file access value (%d)';
+-  RS_ACCESSING_FILE_SS = '%s accessing file %s';
+-  
++uses
++  u_dzTranslator;
++
+ { TTextFile }
+ 
++function _(const _s: string): string; inline;
++begin
++  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++end;
++
+ constructor TTextFile.Create(const _Filename: string; _Access: TTextFileAccess);
+ var
+   EInOut: EInOutError;
+@@ -49,11 +53,11 @@
+       tfaWrite: Rewrite(FFile);
+       tfaAppend: Append(FFile);
+     else
+-      raise Exception.CreateFmt(RS_INVALID_FILE_ACCES_VALUE_D, [Ord(_Access)]);
++      raise Exception.CreateFmt(_('Invalid file access value (%d)'), [Ord(_Access)]);
+     end;
+   except
+     on e: EInOutError do begin
+-      EInOut := EInOutError.CreateFmt(RS_ACCESSING_FILE_SS, [e.Message, _Filename]);
++      EInOut := EInOutError.CreateFmt(_('%s accessing file %s'), [e.Message, _Filename]);
+       EInOut.ErrorCode := e.ErrorCode;
+       raise EInOut;
+     end;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000162.html">[Dzchart-svncheckins] r295 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000164.html">[Dzchart-svncheckins] r297 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

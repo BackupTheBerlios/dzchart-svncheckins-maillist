@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r197 - utilities/dzPrepBuild/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r197%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C200707281201.l6SC1wvO001284%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000070.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r197 - utilities/dzPrepBuild/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r197%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C200707281201.l6SC1wvO001284%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r197 - utilities/dzPrepBuild/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jul 28 14:01:58 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000070.html">[Dzchart-svncheckins] r196 - utilities/dzLib/trunk/src
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#71">[ date ]</a>
+              <a href="thread.html#71">[ thread ]</a>
+              <a href="subject.html#71">[ subject ]</a>
+              <a href="author.html#71">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-28 14:01:53 +0200 (Sat, 28 Jul 2007)
+New Revision: 197
+
+Modified:
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Log:
+* removed versioninfo from .dproj file since it isn't used anyway
+* turned off no_translation warning, I won't translate this tool
+* changed file description
+* added &quot;(overwrites value from -ReadXxx option)&quot; to all options it applies to
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2007-07-28 11:51:34 UTC (rev 196)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2007-07-28 12:01:53 UTC (rev 197)
+@@ -1,9 +1,8 @@
+ program PrepBuild;
+ 
+-{$R *_icon.res}
+-{$R *_version.res}
+ 
+ 
++
+ {$APPTYPE CONSOLE}
+ 
+ uses
+@@ -20,6 +19,9 @@
+   u_DummyVersionInfo in 'u_DummyVersionInfo.pas',
+   u_AbstractVersionInfo in 'u_AbstractVersionInfo.pas';
+ 
++{$R *_icon.res}
++{$R *_version.res}
++
+ begin
+   Application.Initialize;
+   Application.Title := 'PrepBuild';
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-07-28 11:51:34 UTC (rev 196)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-07-28 12:01:53 UTC (rev 197)
+@@ -23,7 +23,7 @@
+     &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+     &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+     &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_Define&gt;DEBUG;no_translation&lt;/DCC_Define&gt;
++    &lt;DCC_Define&gt;DEBUG;no_translation;NO_TRANSLATION_HINT&lt;/DCC_Define&gt;
+     &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
+     &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
+     &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
+@@ -37,10 +37,35 @@
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType /&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--incbuild --readini=src\prepbuild --exec=prep.cmd&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;62&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVe!
+ rsion&quot;&gt;1.1.0.62&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;&lt;build data goes here&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;dummzeuch.de&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;increment build number and create rc file&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;PrepBuild&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2005-2007 by Thomas Mueller&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;PrepBuild.exe&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;PrepBuild&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;this is the comment&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--incbuild --readini=src\prepbuild --exec=prep.cmd&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;  &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;&lt;Excluded_Packages&gt;
++      
++      
+       &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;ModelSupport&gt;False&lt;/ModelSupport&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;  &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++    &lt;/VersionInfoKeys&gt;
++  &lt;/Delphi.Personality&gt;&lt;ModelSupport&gt;False&lt;/ModelSupport&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;PropertyGroup&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2007-07-28 11:51:34 UTC (rev 196)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2007-07-28 12:01:53 UTC (rev 197)
+@@ -1,3 +1,3 @@
+ [Version Info]
+-Build=86
++Build=101
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2007-07-28 11:51:34 UTC (rev 196)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2007-07-28 12:01:53 UTC (rev 197)
+@@ -15,13 +15,13 @@
+ 
+ [Version Info Keys]
+ CompanyName=dummzeuch.de
+-FileDescription=increment build number and create rc file
+-FileVersion=1.1.0.86
++FileDescription=commandline and IDE prebuild tool
++FileVersion=1.1.0.101
+ InternalName=PrepBuild
+ LegalCopyright=Copyright 2002-2007 by Thomas Mueller
+ LegalTrademarks=
+ OriginalFilename=PrepBuild.exe
+ ProductName=PrepBuild
+-ProductVersion=2007-07-22
++ProductVersion=2007-07-28
+ Comments=Use at your own risk
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2007-07-28 11:51:34 UTC (rev 196)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2007-07-28 12:01:53 UTC (rev 197)
+@@ -302,19 +302,19 @@
+   FGetOpt.RegisterOption('WriteRc', _('write version info to a .rc file'), true);
+   FGetOpt.RegisterOption('Icon', _('Assign an icon file to add to the .rc file'), true);
+   FGetOpt.RegisterOption('IncBuild', _('increment the build number'), false);
+-  FGetOpt.RegisterOption('MajorVer', _('set the major version number'), true);
+-  FGetOpt.RegisterOption('MinorVer', _('set the minor version number'), true);
+-  FGetOpt.RegisterOption('Release', _('set the release number'), true);
+-  FGetOpt.RegisterOption('Build', _('set the build number'), true);
+-  FGetOpt.RegisterOption('FileDesc', _('set the file description'), true);
+-  FGetOpt.RegisterOption('InternalName', _('set the internal name'), true);
+-  FGetOpt.RegisterOption('OriginalName', _('set the original file name'), true);
+-  FGetOpt.RegisterOption('Product', _('set the product name'), true);
+-  FGetOpt.RegisterOption('ProductVersion', _('set the product version'), true);
+-  FGetOpt.RegisterOption('Company', _('set the company name'), true);
+-  FGetOpt.RegisterOption('Copyright', _('set the legal copyright'), true);
+-  FGetOpt.RegisterOption('Trademark', _('set the legal trademark'), true);
+-  FGetOpt.RegisterOption('Comments', _('set the comments'), true);
++  FGetOpt.RegisterOption('MajorVer', _('set the major version number (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('MinorVer', _('set the minor version number (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('Release', _('set the release number (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('Build', _('set the build number (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('FileDesc', _('set the file description (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('InternalName', _('set the internal name (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('OriginalName', _('set the original file name (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('Product', _('set the product name (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('ProductVersion', _('set the product version (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('Company', _('set the company name (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('Copyright', _('set the legal copyright (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('Trademark', _('set the legal trademark (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('Comments', _('set the comments (overwrites value from -ReadXxx option)'), true);
+ end;
+ 
+ initialization
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000070.html">[Dzchart-svncheckins] r196 - utilities/dzLib/trunk/src
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#71">[ date ]</a>
+              <a href="thread.html#71">[ thread ]</a>
+              <a href="subject.html#71">[ subject ]</a>
+              <a href="author.html#71">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

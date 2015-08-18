@@ -1,0 +1,544 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r187 - utilities/dzPrepBuild/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r187%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C200707221859.l6MIxq7F019454%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000060.html">
+   <LINK REL="Next"  HREF="000062.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r187 - utilities/dzPrepBuild/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r187%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C200707221859.l6MIxq7F019454%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r187 - utilities/dzPrepBuild/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Jul 22 20:59:52 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000060.html">[Dzchart-svncheckins] r186 - utilities/dzPrepBuild/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000062.html">[Dzchart-svncheckins] r188 - in utilities/dzPrepBuild/trunk: .	testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-22 20:59:40 +0200 (Sun, 22 Jul 2007)
+New Revision: 187
+
+Added:
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Icon.RES
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Icon.rc
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/dz.ico
+Modified:
+   utilities/dzPrepBuild/trunk/src/
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/i_VersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_AbstractVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Log:
+* Bugfix: Build option was assigned to MinorVer
+* Bugfix: Writing to redirected ini file was not committed to file
+* New UpdateFileVersion method which creates the FileVersion string from the version information
+* added an icon as a separate resource
+* added version info as .ini file with a separate file for the build number (eating my own dog food)
+
+
+
+Property changes on: utilities/dzPrepBuild/trunk/src
+___________________________________________________________________
+Name: svn:ignore
+   - PrepBuild.dsk
+PrepBuild.res
+
+   + PrepBuild.dsk
+PrepBuild.res
+PrepBuild_Version.rc
+PrepBuild_Version.RES
+
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2007-07-22 18:59:40 UTC (rev 187)
+@@ -1,5 +1,9 @@
+ program PrepBuild;
+ 
++{$R *_icon.res}
++{$R *_version.res}
++
++
+ {$APPTYPE CONSOLE}
+ 
+ uses
+@@ -16,8 +20,6 @@
+   u_DummyVersionInfo in 'u_DummyVersionInfo.pas',
+   u_AbstractVersionInfo in 'u_AbstractVersionInfo.pas';
+ 
+-{$R *.res}
+-
+ begin
+   Application.Initialize;
+   Application.Title := 'PrepBuild';
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-07-22 18:59:40 UTC (rev 187)
+@@ -25,41 +25,27 @@
+     &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+     &lt;DCC_Define&gt;DEBUG;no_translation&lt;/DCC_Define&gt;
+     &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
+-    &lt;DCC_UnitSearchPath&gt;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_IncludePath&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_IncludePath&gt;
+     &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+     &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ProjectExtensions&gt;
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType /&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--Readini=testdata\testproject --exec=test.cmd --writerc=testdata\testproject&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;57&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;Ve!
+ rsionInfoKeys Name=&quot;FileVersion&quot;&gt;1.1.0.57&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;dummzeuch.de&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;increment build number and create rc file&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;IncBuildNo&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2005-2006 by Thomas Mueller&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;IncBuildNo.exe&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;IncBuildNo&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;this is the comment&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclnet100.bpl&quot;&gt;Borland Internet Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dbx100.bpl&quot;&gt;Borland SQL Explorer UI Package&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\bcbie100.bpl&quot;&gt;Borland C++Builder Internet Explorer 5 Components Package&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldbxcds100.bpl&quot;&gt;Borland SimpleDataset Component (DBX)&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--incbuild --readini=src\prepbuild --exec=prep.cmd&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;62&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVe!
+ rsion&quot;&gt;1.1.0.62&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;&lt;build data goes here&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;dummzeuch.de&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;increment build number and create rc file&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;PrepBuild&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2005-2007 by Thomas Mueller&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;PrepBuild.exe&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;PrepBuild&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;this is the comment&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;ModelSupport&gt;False&lt;/ModelSupport&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;PropertyGroup&gt;
++    &lt;PreBuildEvent&gt;prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\prep.cmd&lt;/PreBuildEvent&gt;
++  &lt;/PropertyGroup&gt;
+   &lt;ItemGroup&gt;
+     &lt;DelphiCompile Include=&quot;PrepBuild.dpr&quot;&gt;
+       &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+
+Added: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2007-07-22 18:59:40 UTC (rev 187)
+@@ -0,0 +1,3 @@
++[Version Info]
++Build=86
++
+
+Added: utilities/dzPrepBuild/trunk/src/PrepBuild_Icon.RES
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/dzPrepBuild/trunk/src/PrepBuild_Icon.RES
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/dzPrepBuild/trunk/src/PrepBuild_Icon.rc
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Icon.rc	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Icon.rc	2007-07-22 18:59:40 UTC (rev 187)
+@@ -0,0 +1 @@
++MAINICON ICON LOADONCALL MOVEABLE DISCARDABLE IMPURE dz.ico
+
+Added: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2007-07-22 18:59:40 UTC (rev 187)
+@@ -0,0 +1,27 @@
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=0
++MajorVer=1
++MinorVer=1
++Release=0
++Build=redirect:PrepBuild_BuildNo.ini,Version Info,Build
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=0
++Locale=1033
++CodePage=1252
++
++[Version Info Keys]
++CompanyName=dummzeuch.de
++FileDescription=increment build number and create rc file
++FileVersion=1.1.0.86
++InternalName=PrepBuild
++LegalCopyright=Copyright 2002-2007 by Thomas Mueller
++LegalTrademarks=
++OriginalFilename=PrepBuild.exe
++ProductName=PrepBuild
++ProductVersion=2007-07-22
++Comments=Use at your own risk
++
+
+Modified: utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas	2007-07-22 18:59:40 UTC (rev 187)
+@@ -63,6 +63,7 @@
+   //
+     procedure Assign(const _VersionInfo: IVersionInfo); reintroduce;
+     procedure UpdateFile;
++    procedure UpdateFileVersion;
+     function VerInfoFilename: string;
+   //
+     property AutoIncBuild: boolean read GetAutoIncBuild write SetAutoIncBuild;
+@@ -359,6 +360,11 @@
+   ProjDoc.SaveToFile(FBdsProjFile);
+ end;
+ 
++procedure Tdm_BdsProjVersionInfo.UpdateFileVersion;
++begin
++  FileVersion := Format('%d.%d.%d.%d', [MajorVer, MinorVer, Release, Build]);
++end;
++
+ function Tdm_BdsProjVersionInfo.VerInfoFilename: string;
+ begin
+   Result := FilenameFor(FProjectName);
+
+Added: utilities/dzPrepBuild/trunk/src/dz.ico
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/dzPrepBuild/trunk/src/dz.ico
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Modified: utilities/dzPrepBuild/trunk/src/i_VersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/i_VersionInfo.pas	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/i_VersionInfo.pas	2007-07-22 18:59:40 UTC (rev 187)
+@@ -42,6 +42,7 @@
+     procedure SetComments(const _Comments: string);
+   //
+     procedure Assign(const _VersionInfo: IVersionInfo);
++    procedure UpdateFileVersion;
+     procedure UpdateFile;
+   //
+     function VerInfoFilename: string;
+
+Modified: utilities/dzPrepBuild/trunk/src/u_AbstractVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_AbstractVersionInfo.pas	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/u_AbstractVersionInfo.pas	2007-07-22 18:59:40 UTC (rev 187)
+@@ -3,6 +3,7 @@
+ interface
+ 
+ uses
++  SysUtils,
+   i_VersionInfo;
+ 
+ type
+@@ -55,8 +56,10 @@
+     procedure SetProductName(_ProductName: string); virtual;
+     procedure SetProductVersion(_ProductVersion: string); virtual;
+     procedure SetRelease(_Release: Integer); virtual;
++    //
+     procedure UpdateFile; virtual; abstract;
+     function VerInfoFilename: string; virtual; abstract;
++    procedure UpdateFileVersion;
+     //
+     property AutoIncBuild: boolean read GetAutoIncBuild write SetAutoIncBuild;
+     property Build: integer read GetBuild write SetBuild;
+@@ -246,5 +249,10 @@
+   FRelease := _Release;
+ end;
+ 
++procedure TAbstractVersionInfo.UpdateFileVersion;
++begin
++  FileVersion := Format('%d.%d.%d.%d', [MajorVer, MinorVer, Release, Build]);
++end;
++
+ end.
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas	2007-07-22 18:59:40 UTC (rev 187)
+@@ -21,6 +21,9 @@
+   TCentralVersionInfo = class(TIniVersionInfo, IVersionInfo)
+   private
+     FProjectName: string;
++    procedure GetRedirIdentInfo(const _RedirString: string; out _Filename, _Section, _Ident: string);
++    procedure GetRedirSectionInfo(_Redir: string; out _Filename, _Section: string);
++    procedure AdjustFilename(var _Filename: string);
+   protected
+     function VerInfoFilename: string; override;
+     //
+@@ -59,30 +62,58 @@
+   Result := ChangeFileExt(_ProjectName, '') + '_Version.ini';
+ end;
+ 
++procedure TCentralVersionInfo.AdjustFilename(var _Filename: string);
++var
++  Path: string;
++begin
++  Path := ExtractFilePath(_Filename);
++  if (Path = '') or ((Path[1] &lt;&gt; '\') and (Copy(Path, 2, 1) &lt;&gt; ':')) then begin
++      // Path is relative, so make it relative to the main .ini file
++    _Filename := ExtractFilePath(FProjectName) + _Filename;
++  end;
++end;
++
++procedure TCentralVersionInfo.GetRedirSectionInfo(_Redir: string; out _Filename, _Section: string);
++begin
++  _Filename := GetDelStr(_Redir, ',');
++  _Section := _Redir;
++  AdjustFilename(_Filename);
++end;
++
++procedure TCentralVersionInfo.GetRedirIdentInfo(const _RedirString: string;
++  out _Filename, _Section, _Ident: string);
++var
++  Redir: string;
++begin
++  Redir := Copy(_RedirString, Length('redirect:') + 1);
++  _Filename := GetDelStr(Redir, ',');
++  _Section := GetDelStr(Redir, ',');
++  _Ident := Redir;
++  AdjustFilename(_Filename);
++end;
++
+ function TCentralVersionInfo.ReadString(const _Section, _Ident: string; _Default: string): string;
+ var
+   Redir: string;
+   IniFile: TMemIniFile;
+   Filename: string;
+   Section: string;
++  Ident: string;
+ begin
+   Redir := FIniFile.ReadString(_Section, 'redirect', '');
+   if Redir = '' then begin
+     Result := FIniFile.ReadString(_Section, _Ident, _Default);
+     if UStartsWith('redirect:', Result) then begin
+-      Redir := Result;
+-      Filename := GetDelStr(Redir, ',');
+-      Section := GetDelStr(Redir, ',');
++      GetRedirIdentInfo(Result, Filename, Section, Ident);
+       IniFile := TMemIniFile.Create(Filename);
+       try
+-        Result := IniFile.ReadString(Section, Redir, _Default);
++        Result := IniFile.ReadString(Section, Ident, _Default);
+       finally
+         IniFile.Free;
+       end;
+     end;
+   end else begin
+-    Filename := GetDelStr(Redir, ',');
+-    Section := Redir;
++    GetRedirSectionInfo(Redir, Filename, Section);
+     IniFile := TMemIniFile.Create(Filename);
+     try
+       Result := IniFile.ReadString(Section, _Ident, _Default);
+@@ -103,27 +134,28 @@
+   IniFile: TMemIniFile;
+   Filename: string;
+   Section: string;
++  Ident: string;
+ begin
+   Redir := FIniFile.ReadString(_Section, 'redirect', '');
+   if Redir = '' then begin
+     Redir := FIniFile.ReadString(_Section, _Ident, '');
+     if UStartsWith('redirect:', Redir) then begin
+-      Filename := GetDelStr(Redir, ',');
+-      Section := GetDelStr(Redir, ',');
++      GetRedirIdentInfo(Redir, Filename, Section, Ident);
+       IniFile := TMemIniFile.Create(Filename);
+       try
+-        IniFile.WriteString(Section, Redir, _Value);
++        IniFile.WriteString(Section, Ident, _Value);
++        IniFile.UpdateFile;
+       finally
+         IniFile.Free;
+       end;
+     end else
+       FIniFile.WriteString(_Section, _Ident, _Value);
+   end else begin
+-    Filename := GetDelStr(Redir, ',');
+-    Section := Redir;
++    GetRedirSectionInfo(Redir, Filename, Section);
+     IniFile := TMemIniFile.Create(Filename);
+     try
+       IniFile.WriteString(Section, _Ident, _Value);
++      IniFile.UpdateFile;
+     finally
+       IniFile.Free;
+     end;
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2007-07-22 14:56:00 UTC (rev 186)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2007-07-22 18:59:40 UTC (rev 187)
+@@ -15,6 +15,7 @@
+   private
+     function HandleExecOption(const _Command: string; _VersionInfo: IVersionInfo; const _Project: string): integer;
+     procedure WriteRcFile(const _Project: string; _VersionInfo: IVersionInfo; const _Icon: string);
++    procedure DumpCmd;
+   protected
+     procedure InitCmdLineParser; override;
+     function doExecute: integer; override;
+@@ -31,7 +32,8 @@
+   u_DofVersionInfo,
+   d_BdsProjVersionInfo,
+   u_CentralIniVersionInfo,
+-  u_DummyVersionInfo;
++  u_DummyVersionInfo,
++  Dialogs;
+ 
+ { TPrepBuildMain }
+ 
+@@ -80,7 +82,7 @@
+     WriteLn(t, {    } '}');
+     if _Icon &lt;&gt; '' then begin
+       WriteLn(t);
+-      WriteLn(t, Format('MAINICON ICON LOADONCALL MOVEABLE DISCARDABLE IMPURE %s.ico', [_Icon]));
++      WriteLn(t, Format('MAINICON ICON LOADONCALL MOVEABLE DISCARDABLE IMPURE %s', [ChangeFileExt(_Icon, '.ico')]));
+     end;
+   finally
+     Close(t);
+@@ -113,7 +115,7 @@
+     Executor.Environment.Values[DZ_DATE_TIME] := DateTimeToString('yyyy-mm-dd_hh-nn-ss', dt);
+ 
+     if _Project &lt;&gt; '' then
+-      Executor.Environment.Values[DZ_PROJECT] := _Project;
++      Executor.Environment.Values[DZ_PROJECT] := ChangeFileExt(_Project, '');
+ 
+     if Assigned(_VersionInfo) then begin
+       Executor.Environment.Values[DZ_VERSION + 'MajorVer'] := IntToStr(_VersionInfo.MajorVer);
+@@ -139,6 +141,19 @@
+   end;
+ end;
+ 
++procedure TPrepBuildMain.DumpCmd;
++var
++  i: Integer;
++  s: string;
++begin
++  s := GetCurrentDir + #13#10 + ParamStr(0) + #13#10;
++  for i := 0 to FGetOpt.OptionsFoundList.Count - 1 do begin
++    s := s + FGetOpt.OptionsFoundList.Items[i].Name + '=' + FGetOpt.OptionsFoundList.Items[i].Value + #13#10;
++  end;
++  MessageDlg(s, mtInformation, [mbOK], 0);
++  SysUtils.Abort;
++end;
++
+ function UnquoteStr(const _s: string): string;
+ var
+   s: PChar;
+@@ -159,6 +174,12 @@
+   IconFile: string;
+   Project: string;
+ begin
++  if FGetOpt.OptionsFoundList.Count = 0 then
++    Usage(_('You must supply some options.'));
++
++  if FGetOpt.OptionPassed('dumpcmd') then
++    DumpCmd;
++
+   Project := '';
+   if FGetOpt.OptionPassed('ReadDof', Project) then
+     ParamVersionInfo := TDofVersionInfo.Create(Project);
+@@ -201,8 +222,8 @@
+ 
+   if FGetOpt.OptionPassed('Build', Param) then begin
+     if not TryStrToInt(Param, IntValue) then
+-      raise Exception.Create(_('Parameter to MinorVer must be a number'));
+-    VersionInfo.MinorVer := IntValue;
++      raise Exception.Create(_('Parameter to Build must be a number'));
++    VersionInfo.Build := IntValue;
+   end;
+ 
+   if FGetOpt.OptionPassed('FileDesc', Param) then
+@@ -235,6 +256,8 @@
+   if FGetOpt.OptionPassed('IncBuild') then
+     VersionInfo.Build := VersionInfo.Build + 1;
+ 
++  VersionInfo.UpdateFileVersion;
++
+   if FGetOpt.OptionPassed('UpdateDof', Param) then begin
+     ParamVersionInfo := TDofVersionInfo.Create(Param);
+     ParamVersionInfo.Assign(VersionInfo);
+@@ -268,6 +291,7 @@
+ procedure TPrepBuildMain.InitCmdLineParser;
+ begin
+   inherited;
++  FGetOpt.RegisterOption('dumpcmd', _('dump the commandline and exit (for debug purposes)'), false);
+   FGetOpt.RegisterOption('ReadDof', _('read a .dof file to get the version information'), true);
+   FGetOpt.RegisterOption('ReadBdsproj', _('read a .bdsproj file to get the version information'), true);
+   FGetOpt.RegisterOption('ReadIni', _('read a .ini file to get the version information'), true);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000060.html">[Dzchart-svncheckins] r186 - utilities/dzPrepBuild/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000062.html">[Dzchart-svncheckins] r188 - in utilities/dzPrepBuild/trunk: .	testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

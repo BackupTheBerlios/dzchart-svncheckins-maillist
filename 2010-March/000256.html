@@ -1,0 +1,1543 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r395 - in 3rd/jcl/2.000/trunk/docs: .	cps_files
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r395%20-%20in%203rd/jcl/2.000/trunk/docs%3A%20.%0A%09cps_files&In-Reply-To=%3C201003131054.o2DAskMY023991%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000255.html">
+   <LINK REL="Next"  HREF="000257.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r395 - in 3rd/jcl/2.000/trunk/docs: .	cps_files</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r395%20-%20in%203rd/jcl/2.000/trunk/docs%3A%20.%0A%09cps_files&In-Reply-To=%3C201003131054.o2DAskMY023991%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r395 - in 3rd/jcl/2.000/trunk/docs: .	cps_files">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 13 11:54:46 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000255.html">[Dzchart-svncheckins] r392 - 3rd/jcl/2.000
+</A></li>
+        <LI>Next message: <A HREF="000257.html">[Dzchart-svncheckins] r396 - in utilities/IniFileFormatter/trunk: .	dcu src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#256">[ date ]</a>
+              <a href="thread.html#256">[ thread ]</a>
+              <a href="subject.html#256">[ subject ]</a>
+              <a href="author.html#256">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-13 11:54:44 +0100 (Sat, 13 Mar 2010)
+New Revision: 395
+
+Added:
+   3rd/jcl/2.000/trunk/docs/cps.html
+   3rd/jcl/2.000/trunk/docs/cps_files/
+   3rd/jcl/2.000/trunk/docs/cps_files/strucv1.jpg
+   3rd/jcl/2.000/trunk/docs/cps_files/test.css
+Log:
+updated to version 2.000
+
+Added: 3rd/jcl/2.000/trunk/docs/cps.html
+===================================================================
+--- 3rd/jcl/2.000/trunk/docs/cps.html	2010-03-13 10:16:30 UTC (rev 394)
++++ 3rd/jcl/2.000/trunk/docs/cps.html	2010-03-13 10:54:44 UTC (rev 395)
+@@ -0,0 +1,655 @@
++&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
++&lt;html&gt;
++&lt;head&gt;
++  &lt;link rel=&quot;stylesheet&quot; href=&quot;cps_files/test.css&quot; type=&quot;text/css&quot;&gt;
++  &lt;title&gt;JEDI Code Library - Cross Platform Strategy&lt;/title&gt;
++&lt;/head&gt;
++&lt;body&gt;
++&lt;h1&gt;JEDI Code Library - Cross Platform Strategy&lt;/h1&gt;
++&lt;p&gt;
++This paper presents the JCL teams strategy for cross platform
++compliance of the
++JEDI Code Library. It is based up on the discussions within the JCL
++newsgroup
++and JCL developer mailing lists. This document is currently &lt;b&gt;work in
++progress&lt;/b&gt;
++and subject to changes with or without notice.
++&lt;/p&gt;
++&lt;p&gt;
++Version history: &lt;br&gt;
++&nbsp;&nbsp;&nbsp;&nbsp;0.1 Initial release
++&lt;/p&gt;
++&lt;p&gt;
++&lt;/p&gt;
++&lt;h3&gt;Background&lt;/h3&gt;
++&lt;p&gt;
++The main objective is to make the JEDI Code Library VisualCLX (Kylix
++for Delphi/Delphi) and Delphi.NET compatible. For a detailed
++explanation of the currently used terminology, see the following
++article &lt;a href=&quot;<A HREF="http://bdn.borland.com/article/0,1410,29460,00.html">http://bdn.borland.com/article/0,1410,29460,00.html</A>&quot;&gt;
++Overview of the VCL for .NET&lt;/a&gt;. &lt;/p&gt;
++&lt;p&gt;
++We have to cope with nearly all aspects of cross platform progamming,
++like different APIs, different operating system concepts etc. Since we
++want to be as crossplatform compatible as possible interface
++compatability is the most important
++issue for us. JEDI Code Library users should have to opportunity the
++use the JCL
++on whatever platform they like. Figure 1 shows the three basic layers
++we have to deal with:
++&lt;/p&gt;
++&lt;ul&gt;
++  &lt;li&gt;Platform independent layer: Units which are not (or only very
++minor)
++platform specific and do not depend on a specific component set. This
++doesn't mean that units in this layer have to consist of no platform
++dependent code, but they have to
++be nearly 100% interface compatible and all functionality must have
++been ported to all
++supported platforms. &lt;/li&gt;
++  &lt;li&gt;Platform dependent layer: Units which depend on a specific
++platform (e.g. JclCLI) &lt;/li&gt;
++  &lt;li&gt;Component set dependent layer: Units which depend on a specific
++component set&lt;/li&gt;
++&lt;/ul&gt;
++&lt;p&gt;
++&lt;img src=&quot;cps_files/strucv1.jpg&quot; border=&quot;1&quot;&gt;&lt;br&gt;
++&lt;i&gt;Fig 1: The JEDI Code Library crossplatform layer structure&lt;/i&gt;
++&lt;/p&gt;
++&lt;p&gt;
++The JEDI Code Library currently targets the following platforms:
++&lt;/p&gt;
++&lt;ul&gt;
++  &lt;li&gt;Kylix for Delphi (Kylix 3) / Linux&lt;/li&gt;
++  &lt;li&gt;Delphi (Version 5,6,7) / Microsoft Windows&lt;/li&gt;
++&lt;/ul&gt;
++and is trying to support the following platforms as soon as possible:
++&lt;ul&gt;
++  &lt;li&gt;Delphi .NET / .NET (Micrsoft Windows) &lt;/li&gt;
++&lt;/ul&gt;
++&lt;p&gt;
++As a mid or long term perspective we are hoping to get the JCL
++FreePascal compatible.
++This involves the possibilty to have the JCL running on DOS, OS/2,
++FreeBSD and
++AmigaOS. &lt;/p&gt;
++&lt;h3&gt;Common platform independent layer&lt;/h3&gt;
++&lt;p&gt;
++This layer consists of all files which are not platform dependent or
++need only very minor adjustations. Furthermore all units in this layer
++do not depend on a
++specific component set. Examples for common platform independent units
++are JclBase, JclDateTime, JclFileUtils and JclMath. The units have been
++ported to all platforms and are the crossplatform &quot;core&quot; of the Jedi
++Code Library. As a general rule a unit in this layer should have no
++platform specific ifdefs in its
++interface section.
++&lt;/p&gt;
++&lt;h3&gt;Platform dependent layer&lt;/h3&gt;
++&lt;p&gt;
++Furthermore we do not have to differentiate between VCL and VisualCLX
++units only (the so called component set dependent layer), but also
++between UNIX, Windows and .NET dependent units. The platform dependent
++units doesn't need to be interface compatible (if there is an
++equivalent in one of the other suported platforms at all!).
++An example for a platform dependent unit is JclCLI. Nonetheless if
++there are equivalents in all other supported platforms as well it might
++be considerable to write a more general class and include that unit
++into the common platform indepedant layer.
++&lt;/p&gt;
++&lt;h3&gt;Component set dependent layer&lt;/h3&gt;
++&lt;p&gt;
++When it comes to sharing code between VCL and VisualCLX-applications,
++some facts need to be stated:
++&lt;/p&gt;
++&lt;p&gt;
++&lt;/p&gt;
++&lt;li&gt;A unit is called &lt;i&gt;VCL-dependent&lt;/i&gt;, when it uses some
++VCL-unit(s), e.g. Graphics.
++&lt;/li&gt;
++&lt;li&gt;A unit is called &lt;i&gt;VisualCLX-dependent&lt;/i&gt;, when it uses some
++VisualCLX-unit(s), e.g. QGraphics.&lt;/li&gt;
++&lt;p&gt;
++When a unit contains neither VCL- nor VisualCLX-specific code, there is
++no problem: It can be used by either type of application.
++&lt;/p&gt;
++&lt;p&gt;
++While it is basically possible to create VCL-dependent and
++VisualCLX-dependent
++variants of the same unit by means of conditional compilation - and use
++them in
++VCL- and VisualCLX-applications respectively -, this method fails at
++design time:
++One and the same unit cannot be installed twice in the IDE, not even as
++part of
++different packages. We would have to rename one of the variants,
++effectively
++creating a new unit. Therefor we will use a preprocessor to resolve the
++conditional compilation symbols related to VCL/VisualCLX-specific code
++and create
++VCL/VisualCLX units from a common codebase.
++&lt;/p&gt;
++&lt;p&gt;
++Component dependent units should be largely &quot;interface compatible&quot; -
++interface
++adjustments for specific component sets are unavoidable - nonetheless
++similar
++interfaces are desirable.
++&lt;/p&gt;
++&lt;h3&gt;Preprocessor&lt;/h3&gt;
++&lt;p&gt;
++The preprocessor jpp is a modified version of Barry Kelly's ppp tool.
++In contrast to ppp, which resolves all conditional compilation
++directives without exception, with jpp symbols not only can be defined
++but also undefined. Those symbols which are neither defined nor
++explicitely undefined are considered
++as of unknown status and it and its related source code remains
++untouched.
++&lt;/p&gt;
++&lt;p&gt;
++The usage of jpp is not too hard. It is called via
++&lt;/p&gt;
++&lt;pre&gt;jpp [options] &lt;input files&gt;...&lt;br&gt;&lt;/pre&gt;
++Possible options are
++&lt;pre&gt;  -i       Process includes&lt;br&gt;  -c       Process conditional directives&lt;br&gt;  -C       Strip comments&lt;br&gt;  -pxxx    Add xxx to include path&lt;br&gt;  -dxxx    Define xxx as a preprocessor conditional symbol&lt;br&gt;  -uxxx    Assume preprocessor conditional symbol xxx as not defined&lt;br&gt;  -x[n:]yyy  Strip first n characters from file name; precede filename by prefix yyy&lt;br&gt;&lt;/pre&gt;
++&lt;p&gt;
++The example command line below generates a file JclQGraphics.pas in
++subdirectory
++CLX from file Graphics.cb located in the current directory. Symbols
++&quot;VisualCLX&quot;
++and &quot;COMPILER6_UP&quot; are specified as defined, &quot;Bitmap32&quot; and &quot;VCL&quot; as
++undefined.
++&lt;/p&gt;
++&lt;pre&gt;  jpp -c -dVisualCLX -dCOMPILER6_UP -uBitmap32 -uVCL -xCLX\JclQ Graphics.cb&lt;br&gt;&lt;/pre&gt;
++&lt;h3&gt;Generating Jcl[Q]Graphics.pas and Jcl[Q]GraphUtils.pas&lt;/h3&gt;
++&lt;p&gt;
++First compile Preprocessor\jpp.exe from Preprocessor\jpp.dpr.
++Then change to the &quot;Source&quot; directory and type &quot;make&quot; at the command
++line.
++This will create the units &lt;br&gt;
++VCL\JclGraphics.pas &lt;br&gt;
++VCL\JclGraphUtils.pas &lt;br&gt;
++CLX\JclQGraphics.pas &lt;br&gt;
++CLX\JclQGraphUtils.pas &lt;br&gt;
++&lt;/p&gt;
++&lt;p&gt;
++from their prototypes _Graphics.pas and _GraphUtils.pas.
++&lt;/p&gt;
++&lt;h3&gt;Minimizing VCL dependencies&lt;/h3&gt;
++&lt;p&gt;
++To reduce VCL dependencies in JCL, the following changes have been
++made:
++&lt;/p&gt;
++&lt;menu&gt;
++&lt;dl&gt;
++  &lt;dt&gt;JclFileUtils&lt;/dt&gt;
++  &lt;dd&gt;PathCompactPath is an overloaded function. The variant which
++takes a TCanvas as argument (and thus creates a dependency on VCL unit
++Graphics) has been removed. &lt;/dd&gt;
++&lt;/dl&gt;
++&lt;br&gt;
++&lt;dl&gt;
++  &lt;dt&gt;JclShell&lt;/dt&gt;
++  &lt;dd&gt; ShellLinkGetIcon has been removed. It could get part of some
++genuine VCL-dependent unit (e.g. JclGraphUtils), but for now it is left
++out. &lt;/dd&gt;
++&lt;/dl&gt;
++&lt;br&gt;
++&lt;dl&gt;
++  &lt;dt&gt;JclPEImage&lt;/dt&gt;
++  &lt;dd&gt;
++    &lt;pre&gt; Replace &quot;uses Consts,&quot; by&lt;br&gt;&lt;br&gt;    uses&lt;br&gt;      {$IFDEF COMPILER6_UP}&lt;br&gt;      RtlConsts,         // VisualCLX-package compatible (part of rtlxx.bpl)&lt;br&gt;      {$ELSE}&lt;br&gt;      Consts,            // not VisualCLX-package compatible (part of vclxx.bpl)&lt;br&gt;      {$ENDIF COMPILER6_UP} &lt;/pre&gt;
++  &lt;/dd&gt;
++&lt;/dl&gt;
++&lt;/menu&gt;
++&lt;p&gt;
++Note that the first two changes have enormous impact, since many JCL
++units use JclFileUtils and JclSysInfo (which both use JclShell). This
++leaves JclGraphics and JclGraphUtils as sole units with genuine
++VCL/VisualCLX-dependencies.
++JclPrint is the only remaining pure VCL-dependent units. &lt;/p&gt;
++&lt;h3&gt;New directory structure&lt;/h3&gt;
++&lt;p&gt;
++With the new JCL release we introduce a more appropriate source file
++directory
++structure. The files are now grouped according their respective layers.
++&lt;/p&gt;
++&lt;pre&gt;Source/&lt;br&gt;  Common&lt;br&gt;  DotNet&lt;br&gt;  Unix&lt;br&gt;  VCL&lt;br&gt;  VisCLX&lt;br&gt;  Windows   &lt;br&gt;&lt;/pre&gt;
++&lt;h3&gt;Status - Platforms&lt;/h3&gt;
++&lt;p&gt;
++This table gives a short overview of which units are already working
++under four different Delphi language compilers/platforms. There are
++four status levels possible:
++&lt;/p&gt;
++&lt;p&gt;
++&lt;table&gt;
++  &lt;tbody&gt;
++    &lt;tr&gt;
++      &lt;td
++ style=&quot;text-align: center; background-color: rgb(238, 238, 238);&quot;&gt;&lt;span
++ style=&quot;font-weight: bold;&quot;&gt;+&lt;/span&gt;&lt;br&gt;
++      &lt;/td&gt;
++      &lt;td&gt;&nbsp; the unit has been ported to that platform&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td
++ style=&quot;text-align: center; background-color: rgb(238, 238, 238);&quot;&gt;-&lt;/td&gt;
++      &lt;td&gt;&nbsp; the unit has not been ported to that platform&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td
++ style=&quot;text-align: center; background-color: rgb(238, 238, 238);&quot;&gt;&nbsp;(+)
++      &lt;br&gt;
++      &lt;/td&gt;
++      &lt;td&gt;&nbsp; the unit compiles, but not all of its functionality
++has been ported to that platform.&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td
++ style=&quot;text-align: center; background-color: rgb(238, 238, 238);&quot;&gt;&nbsp;platform
++      &lt;br&gt;
++      &lt;/td&gt;
++      &lt;td&gt;&nbsp; the unit is platform dependent and will not be ported.&lt;/td&gt;
++    &lt;/tr&gt;
++  &lt;/tbody&gt;
++&lt;/table&gt;
++&lt;/p&gt;
++&lt;table&gt;
++  &lt;tbody&gt;
++    &lt;tr&gt;
++      &lt;td style=&quot;background-color: rgb(238, 238, 238);&quot;&gt;&lt;b&gt;Name&lt;/b&gt;&lt;/td&gt;
++      &lt;td
++ style=&quot;text-align: center; background-color: rgb(238, 238, 238);&quot;&gt;&lt;b&gt;Delphi
++(Windows)&lt;/b&gt;&lt;/td&gt;
++      &lt;td
++ style=&quot;text-align: center; background-color: rgb(238, 238, 238);&quot;&gt;&lt;b&gt;Kylix
++for Delphi&lt;/b&gt;&lt;/td&gt;
++      &lt;td
++ style=&quot;text-align: center; background-color: rgb(238, 238, 238);&quot;&gt;&lt;b&gt;Delphi.NET&lt;/b&gt;&lt;/td&gt;
++      &lt;td
++ style=&quot;text-align: center; background-color: rgb(238, 238, 238);&quot;&gt;&lt;b&gt;Free
++Pascal&lt;/b&gt;&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;Jcl8087&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclAppInst&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclCil&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclClr&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclCom&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclComplex&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclConsole&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclCounter&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclDateTime&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;(+)&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;?&lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclDebug&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclDotNet&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclEDI&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclEDISEF&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclEDIXML&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclEDI_ANSIX12&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclEDI_UNEDIFACT&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclFileUtils&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;(+)&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclExprEval&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;br&gt;
++      &lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclHookExcept&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclIniFiles&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;br&gt;
++      &lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclLanMan&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclLocales&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclLogic&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclMapi&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclMath&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclMetaData&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclMidi&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclMime&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclMiscel&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclMultimedia&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclNTFS&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclPEImage&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclPrint&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclStrHashMap&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;br&gt;
++      &lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclStatistics&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclShell&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclSecurity&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclSchedule&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclRTTI&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclResources&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclRegistry&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclStrings&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;Jclsvcctrl&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;Jclsynch&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclTask&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;platform&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclSysUtils&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;(+)&lt;br&gt;
++      &lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclSysInfo&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;(+)&lt;br&gt;
++      &lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclTD32&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclUnicode&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclUnitConv&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;&lt;b&gt;+&lt;/b&gt;&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclWin32&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;platform &lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++    &lt;tr&gt;
++      &lt;td&gt;JclWinMidi&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;platform &lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;-&lt;/td&gt;
++      &lt;td style=&quot;text-align: center;&quot;&gt;? &lt;/td&gt;
++    &lt;/tr&gt;
++  &lt;/tbody&gt;
++&lt;/table&gt;
++&lt;h3&gt;Assembler&lt;/h3&gt;
++&lt;p&gt;
++For crossplatform compatability it is absolutely necessary to reduce
++the amount
++of inline assembler code used. Therefore as a general rule every line
++of assembler
++&lt;b&gt;must have a pure pascal pendant&lt;/b&gt;. Please use assembler only if it
++really has a noticeable impact on the libraries performance. &lt;/p&gt;
++&lt;pre&gt;{$IFNDEF PUREPASCAL}&lt;br&gt;  // assembler code here&lt;br&gt;{$ELSE}&lt;br&gt;  // Delphi equivalent here&lt;br&gt;{$ENDIF}  &lt;br&gt;&lt;/pre&gt;
++&lt;h3&gt;Packages&lt;/h3&gt;
++&lt;/body&gt;
++&lt;/html&gt;
+
+Added: 3rd/jcl/2.000/trunk/docs/cps_files/strucv1.jpg
+===================================================================
+(Binary files differ)
+
+
+Property changes on: 3rd/jcl/2.000/trunk/docs/cps_files/strucv1.jpg
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: 3rd/jcl/2.000/trunk/docs/cps_files/test.css
+===================================================================
+--- 3rd/jcl/2.000/trunk/docs/cps_files/test.css	2010-03-13 10:16:30 UTC (rev 394)
++++ 3rd/jcl/2.000/trunk/docs/cps_files/test.css	2010-03-13 10:54:44 UTC (rev 395)
+@@ -0,0 +1,793 @@
++TD {
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++}
++
++PRE.SourceCode2 {
++   background-color : #e0ffff; 
++   border-width : medium; 
++   border-style : outset; 
++   border-color : silver; 
++   white-space : pre;
++}
++
++PRE.SourceCode EM {
++   font-style : normal; 
++   color : #9933cc; 
++   white-space : pre;  
++}
++
++PRE.SourceCode {
++   font-family : &quot;Courier&quot;, monospace; 
++   background-color : white; 
++   margin-right : 20px; 
++   margin-left : 20px; 
++   padding : 5px 20px; 
++   border-width : medium; 
++   border-style : outset; 
++   border-color : silver; 
++   white-space : pre;  
++}
++
++P.chatuser {
++   font-weight : bold; 
++   color : #3366cc; 
++   vertical-align : top; 
++}
++
++P.chatquestionpresented {
++   font-weight : bold; 
++   background-color : #dddddd; 
++   vertical-align : top; 
++}
++
++P.chatpublicmsg {
++   font-weight : normal; 
++   vertical-align : top; 
++   padding : 0 0 20px; 
++}
++
++P.chateditor {
++   color : red; 
++   padding : 0 0 10px; 
++}
++
++P.chataction {
++   font-style : italic; 
++   vertical-align : top; 
++}
++
++P.TechNote {
++   font-weight : normal; 
++   background-color : #e0ffff; 
++   padding : 2px 5px; 
++   border-width : medium; 
++   border-style : outset; 
++   border-color : silver; 
++}
++
++H3 {
++   font-weight : bold; 
++   font-size : 11pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++H2 {
++   font-weight : bold; 
++   font-size : 14pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++H1 {
++   font-weight : bold; 
++   font-size : 18pt; 
++   line-height : 18pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   padding : 10px 0 0; 
++}
++
++BODY {
++   background : #ffffff; 
++   margin-left : 20 px;
++   margin-right : 20 px;}
++
++B.Help {
++   color : white; 
++   background-color : gray; 
++}
++
++A:hover {
++   color : #cc3300; 
++}
++
++.webDirectoryLink {
++   font-size : 0.8em; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #3366cc; 
++   text-decoration : underline; 
++}
++
++.webDirectoryCategoryLink {
++   font-size : 0.8em; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.webDirectoryCatHead {
++   font-size : 0.9em; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #ffffff; 
++   text-decoration : none; 
++}
++
++.vspace5 {
++   padding : 5px 0 0; 
++}
++
++.visibility {
++   font-weight : bold; 
++   font-size : 0.8em; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #ff0000; 
++   text-decoration : none; 
++}
++
++.tuser {
++   color : blue; 
++   background-color : white; 
++}
++
++.ttitle {
++   font-weight : bold; 
++   color : black; 
++   background-color : #dddddd; 
++}
++
++.tthis {
++   font-weight : bold; 
++   line-height : 1; 
++   color : white; 
++   background-color : red; 
++   vertical-align : top; 
++}
++
++.tother {
++   font-weight : bold; 
++   line-height : 1; 
++   color : white; 
++   background-color : blue; 
++   vertical-align : top; 
++}
++
++.tmine {
++   font-weight : bold; 
++   color : black; 
++   background-color : #c71585; 
++}
++
++.title3 {
++   font-weight : bold; 
++   font-size : 12pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.thi {
++   background-color : #dddddd; 
++}
++
++.textAdLink {
++   font-weight : bold; 
++   color : #ffffff; 
++   text-decoration : none; 
++}
++
++.textAdCell {
++   font-size : 0.8em; 
++}
++
++.searchCell {
++   font-weight : bold; 
++   font-size : 11px; 
++}
++
++.rightSidebarLink {
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.rightSidebarHeading {
++   font-weight : bold; 
++   font-size : 10pt; 
++   color : #ffffff; 
++   background : #3366cc; 
++}
++
++.rightSidebarCell {
++   font-weight : bold; 
++   font-size : 10pt; 
++   color : #000000; 
++   background : #dddddd; 
++}
++
++.presentLocation {
++   font-weight : bold; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.logoCell {
++   background : #000000; 
++}
++
++.logoBar {
++   background : #000000; 
++}
++
++.loginLinkCell {
++   font-weight : bold; 
++   font-size : 0.8em; 
++   background : #3366cc; 
++}
++
++.loginLink {
++   color : #ffffff; 
++   text-decoration : none; 
++}
++
++.loginStd {
++   text-align : right; 
++}
++
++.loginReq {
++   text-align : right; 
++   font-weight : bold; 
++   color : blue; 
++}
++
++.login_std {
++   text-align : right; 
++}
++
++.login_req {
++   text-align : right; 
++   font-weight : bold; 
++   color : blue; 
++}
++
++.locationLink {
++   color : #000000; 
++   text-decoration : underline; 
++}
++
++.localLinkCell {
++   font-size : 9pt; 
++   color : #ffffff; 
++   background : #3366cc; 
++}
++
++.localLink {
++   font-weight : bold; 
++   color : #ffffff; 
++   text-decoration : none; 
++}
++
++.leftSidebarText {
++   font-weight : normal; 
++   font-size : 9pt; 
++   color : #000000;
++}
++
++.leftSidebarSoapboxLink {
++   font-weight : normal; 
++   font-size : 10pt; 
++   color : #0000cc; 
++   font-style : italic;
++   text-decoration : none 
++
++}
++
++.leftSidebarSoapboxLink:hover {
++	COLOR: #6666cc;
++   font-weight : normal; 
++   font-size : 10pt; 
++   font-style : italic;
++   text-decoration : none 
++
++}
++
++
++.leftSidebarHeading {
++   font-weight : bold; 
++   font-size : 12pt; 
++   color : #3366cc; 
++}
++
++.leftSidebarCell {
++   font-size : 0.8em; 
++   background : #dddddd; 
++}
++
++.heading3 {
++   font-weight : bold; 
++   font-size : 11pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   vertical-align:   baseline; 
++}
++
++.heading2 {
++   font-weight : bold; 
++   font-size : 14pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.heading1 {
++   font-weight : bold; 
++   font-size : 18pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   padding : 10px 0 0; 
++}
++
++.globalNavBar {
++   background : #dddddd; 
++}
++
++.globalLinkCell {
++   font-size : 0.8em; 
++   background : #dddddd; 
++}
++
++.globalLink {
++   font-weight : bold; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.fineprint {
++   font-weight : normal; 
++   font-size : 8pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.directoryStuff {
++   font-size : 0.8em; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++}
++
++.directoryLink {
++   font-size : 9pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.directoryCategory {
++   font-size : 10pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : underline; 
++}
++
++.date3 {
++   font-weight : normal; 
++   font-size : 9pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   vertical-align:    baseline ;
++
++ }
++
++.copyrightLink {
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.copyrightCell {
++   font-size : 7pt; 
++   background : #dddddd; 
++}
++
++.contentshortDescription {
++   font-weight : normal; 
++   font-size : 9pt; 
++   color : #000000; 
++}
++
++.contentTableCell {
++   font-size : 0.8em; 
++   background : #ffffff; 
++}
++
++.contentTable {
++   background : #ffffff; 
++}
++
++.contentStoryLink {
++   color : #3366cc; 
++}
++
++.contentStoryHeadingCell {
++   background : #dddddd; 
++}
++
++.contentStoryHeading {
++   font-weight : normal; 
++   font-size : 11pt; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.contentStoryByline {
++   font-style : italic; 
++   font-weight : normal; 
++   font-size : 9pt; 
++   color : #000000; 
++}
++
++.contentSectionHeading {
++   font-weight : bold; 
++   font-size : 12pt; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.contentRule {
++   background : #3366cc; 
++}
++
++.contentMoreLink {
++   font-weight : bold; 
++   color : #3366cc; 
++}
++
++.contentHat {
++   font-weight : bold; 
++   font-size : 10pt; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.contentDevNewsStoryHeading {
++   font-weight : normal; 
++   font-size : 10pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.contentArticleTypeIndex {
++   font-size : 0.7em; 
++   color : #3366cc; 
++}
++
++.body3, blb, bottomlink {
++   font-weight : normal; 
++   font-size : 11pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.blueHeading2 {
++   font-weight : bold; 
++   font-size : 12pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #003399; 
++   text-decoration : none; 
++}
++
++.bigBlue {
++   font-weight : bold; 
++   font-size : 14pt; 
++   color : #013399; 
++   text-decoration : none; 
++}
++
++.abstract {
++   font-style : italic; 
++   font-weight : normal; 
++   font-size : 10pt; 
++   line-height : 11pt; 
++   font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   padding : 10px; 
++}
++/* new classes - added 01/11/01 rare medium */
++
++.whiteLink { font-size : 10pt; text-decoration : none; color : #ffffff; }
++
++.whiteLinkB { font-size : 10pt; font-weight : bold; text-decoration : none; color : #ffffff; }
++
++.whiteLinkSmall { font-size : 9pt; text-decoration : none; color : #ffffff; }
++.yellowLinkSmall { font-size : 9pt; font-weight : bold; text-decoration : none; color : #ffdf00; }
++.whiteLinkVerySmall { font-size : 8pt; text-decoration : none; color : #ffffff; }
++
++.newBody { font-weight : normal; font-size : 9pt; font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; color : #000000; text-decoration : none; }
++
++.newTitle { font-weight : bold; font-size : 11pt; font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; color : #000000; text-decoration : none; }
++
++.newDate { font-weight : normal; font-size : 8pt;  font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; color : #000000; text-decoration : none; margin-top : 3pt; }
++
++.newHeading { font-weight : bold; font-size : 9pt; font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; color : #000000; text-decoration : none; }
++
++.bigBlack { font-weight : bold; font-size : 14pt; font-family : &quot;Arial&quot;, &quot;Helvetica&quot;, Sans-serif; color : #000000; text-decoration : none; }
++
++BODY
++{
++    MARGINLEFT: 18px
++}
++/* Changed font size from 12px to 14 px here due to complaints 2002/5/20 Tom Lam */
++TR, TD, P, LAYER {
++    FONT-SIZE: 14px;
++    COLOR: #000000;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++.newsItem {
++    FONT-SIZE: 11px;
++    COLOR: #000000;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++A {
++	COLOR: #0000cc;
++    TEXT-DECORATION: none;
++}
++
++A: hover {
++	COLOR: #6666cc;
++    TEXT-DECORATION: none;
++}
++
++.divider
++{
++	BACKGROUND: #999999
++}
++
++.lightBG
++{
++	BACKGROUND: #cccccc;
++}
++
++.intTopnav {
++	FONT-SIZE: 12px;
++	FONT-WEIGHT: bold;
++	COLOR: #666666;
++}
++
++.intTopnav A {
++	FONT-SIZE: 12px;
++	FONT-WEIGHT: bold;
++	COLOR: #000000;
++    TEXT-DECORATION: none;
++}
++
++.intTopnav A:hover {
++	FONT-SIZE: 12px;
++	FONT-WEIGHT: bold;
++	COLOR: #666666;
++    TEXT-DECORATION: underline;
++}
++
++.leftNavTop {
++	FONT-SIZE: 14px;
++	FONT-WEIGHT: bold;
++}
++
++.leftNavTop A {
++	FONT-SIZE: 14px;
++	FONT-WEIGHT: bold;
++	COLOR: #0000cc;
++    TEXT-DECORATION: underline;
++}
++
++.leftNavTop A:hover {
++	FONT-SIZE: 14px;
++	FONT-WEIGHT: bold;
++	COLOR: #6666cc;
++}
++
++.leftNav {
++	FONT-SIZE: 12px;
++	COLOR: #666666;
++	FONT-WEIGHT: bold;
++}
++
++.leftNav A {
++	FONT-SIZE: 12px;
++	COLOR: #0000cc;
++	FONT-WEIGHT: normal;
++    TEXT-DECORATION: underline;
++}
++
++.leftNav A:hover {
++	FONT-SIZE: 12px;
++	COLOR: #6666cc;
++	FONT-WEIGHT: normal;
++}
++
++.prodList {
++    FONT-SIZE: 13px;
++	FONT-WEIGHT: bold;
++	COLOR: #666666;
++    TEXT-DECORATION: none;
++	MARGIN-TOP: -6px;
++}
++
++.prodList A {
++	COLOR: #666666;
++    TEXT-DECORATION: none;
++}
++
++.prodList A:hover {
++	COLOR: #6666cc;
++    TEXT-DECORATION: underline;
++}
++
++.contentHeader {
++    FONT-FAMILY: arial, helvetica, sans-serif;
++	FONT-SIZE: 20px;
++	FONT-WEIGHT: bold;
++}
++
++.contentHeader A {
++	COLOR: #000000;
++    TEXT-DECORATION: underline;
++}
++
++.contentHeader A: hover {
++	COLOR: #666666;
++    TEXT-DECORATION: underline;
++}
++
++.contentSubHeader {
++    FONT-FAMILY: arial, helvetica, sans-serif;
++	FONT-SIZE: 16px;
++	FONT-WEIGHT: bold;
++	MARGIN-BOTTOM: -8px;
++}
++
++.subHeader {
++    FONT-FAMILY: arial, helvetica, sans-serif;
++	FONT-SIZE: 16px;
++	FONT-WEIGHT: bold;
++}
++
++.pressSubHead {
++	FONT-WEIGHT: bold;
++	COLOR: #003366;
++}
++
++.bodyLight {
++	COLOR: #666666;
++}
++
++A.bodyNav1 {
++	COLOR: #0000cc;
++    TEXT-DECORATION: underline;
++}
++
++A.bodyNav1:hover {
++	COLOR: #6666cc;
++    TEXT-DECORATION: underline;
++}
++
++A.bodyNav2 {
++	COLOR: #333333;
++    TEXT-DECORATION: underline;
++}
++
++A.bodyNav2:hover {
++	COLOR: #003366;
++    TEXT-DECORATION: underline;
++}
++
++INPUT.TEXT {
++	font-size: 12px;
++}
++
++.tableHeader {
++    FONT-SIZE: 11px;
++	COLOR: #333333;
++}
++
++.footer {
++	font-size: 11px;
++	COLOR: #666666;
++	MARGIN-BOTTOM: 0px;
++}
++
++.footer A {
++	COLOR: #003366;
++}
++
++.footer A:hover {
++	COLOR: #006699;
++}
++
++.Menu
++{
++    VISIBILITY: hidden;
++	POSITION: absolute;
++    TOP: 93px;
++}
++
++.Menu TD
++{
++    FONT-SIZE: 11px;
++    COLOR: #ffffff;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++.Menu A
++{
++    FONT-SIZE: 11px;
++    COLOR: #ffffff;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++.Menu A:hover
++{
++    FONT-SIZE: 11px;
++    COLOR: #cccccc;
++    FONT-FAMILY:  arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++.Trigger
++{
++    POSITION: relative;
++    TOP: 0px;
++    LEFT: 0px;
++}
++
++select {
++    FONT-SIZE: 10px;
++    COLOR: #000000;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++}
++
++INPUT.TEXT.srchBox {
++	FONT-SIZE: 12px;
++	WIDTH: 116px;
++}
++A.leftLink {
++	COLOR: #0000cc;
++    TEXT-DECORATION: none;
++}
++
++A.leftLink:hover {
++	COLOR: #6666cc;
++    TEXT-DECORATION: none;
++}
++
++A.leftLinkB {
++	COLOR: #000000;
++    TEXT-DECORATION: none;
++	FONT-WEIGHT: bold;
++}
++
++.topLinkB {
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000255.html">[Dzchart-svncheckins] r392 - 3rd/jcl/2.000
+</A></li>
+	<LI>Next message: <A HREF="000257.html">[Dzchart-svncheckins] r396 - in utilities/IniFileFormatter/trunk: .	dcu src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#256">[ date ]</a>
+              <a href="thread.html#256">[ thread ]</a>
+              <a href="subject.html#256">[ subject ]</a>
+              <a href="author.html#256">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

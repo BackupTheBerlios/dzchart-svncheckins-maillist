@@ -1,0 +1,832 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r261 - in utilities/dzLib/trunk: src tests/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r261%20-%20in%20utilities/dzLib/trunk%3A%20src%20tests/src&In-Reply-To=%3C200712221657.lBMGv3b8012978%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000129.html">
+   <LINK REL="Next"  HREF="000131.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r261 - in utilities/dzLib/trunk: src tests/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r261%20-%20in%20utilities/dzLib/trunk%3A%20src%20tests/src&In-Reply-To=%3C200712221657.lBMGv3b8012978%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r261 - in utilities/dzLib/trunk: src tests/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Dec 22 17:57:03 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000129.html">[Dzchart-svncheckins] r260 - in utilities/dzLib/trunk: src tests/src
+</A></li>
+        <LI>Next message: <A HREF="000131.html">[Dzchart-svncheckins] r262 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#130">[ date ]</a>
+              <a href="thread.html#130">[ thread ]</a>
+              <a href="subject.html#130">[ subject ]</a>
+              <a href="author.html#130">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-12-22 17:56:59 +0100 (Sat, 22 Dec 2007)
+New Revision: 261
+
+Added:
+   utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas
+Modified:
+   utilities/dzLib/trunk/src/u_dzStringUtils.pas
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+Log:
+* added unit tests for some dzStringUtils functions
+* added comments
+* deprecated GetDelStr, use ExtractStr instead
+* removed Delphi7Up specific ifdefs, we only support delphi7 and upwards any more (update or don't use dzlib)
+* renamed RemoveFileExtIfMatching to RemoveSuffixIfMatching because that is what it does
+* removed $IFOPT H- cond. define, we only support AnsiStrings
+* Bugfix: RTrimSpaces did not work with empty strings
+* StringOf now calls StrUtils.DupeStr
+
+
+Modified: utilities/dzLib/trunk/src/u_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringUtils.pas	2007-12-22 14:08:00 UTC (rev 260)
++++ utilities/dzLib/trunk/src/u_dzStringUtils.pas	2007-12-22 16:56:59 UTC (rev 261)
+@@ -36,62 +36,132 @@
+     '0'..'9', '&#246;', '&#214;', '&#228;', '&#196;', '&#252;', '&#220;', '&#223;'];
+   STANDARD_CONTROL_CHARS = [#0..' '];
+ 
+-function GetDelStr(var _Zeile: string; _Del: char): string;
++/// &lt;summary&gt;
++/// function is deprecated, use ExtractStr instead
++/// &lt;/summary&gt;
++function GetDelStr(var _Zeile: string; _Del: char): string; deprecated;
+ 
+-{: extracts a substring from the start of Source up to the Delimiter, returns
+-   true, if a substring (even an empty one) was found. }
++/// &lt;summary&gt;
++/// extracts the substring from the start of Source up to the Delimiter
++/// &lt;/summary&gt;
++function ExtractStr(var _Source: string; _Delimiter: char): string; overload;
++/// &lt;summary&gt;
++/// extracts a substring from the start of Source up to the Delimiter
++/// @returns true, if a substring (even an empty one) was found.
++/// &lt;/summary&gt;
+ function ExtractStr(var _Source: string; _Delimiters: TCharSet; out _Substr: string): boolean; overload;
++/// &lt;summary&gt;
++/// extracts a substring from the start of Source up to the Delimiter
++/// @returns true, if a substring (even an empty one) was found.
++/// &lt;/summary&gt;
+ function ExtractStr(var _Source: string; _Delimiter: char; out _Substr: string): boolean; overload;
++/// &lt;summary&gt;
++/// extracts a substring from the start of Source up to the delimiter
++/// @param LastWasDelimiter is a boolean that is to be used in repeated calls
++///                         to the function to tell the next call that the
++///                         last call returned an empty string because there
++///                         was a double delimiter.
++/// Use like this:
++/// b := false;
++/// while ExtractStr(Source, [' ', #9], s, b) do
++///   HandleSubstring(s);
++/// &lt;/summary&gt;
+ function ExtractStr(var _Source: string; _Delimiters: TCharSet; out _Substr: string; var _LastWasDelimiter: boolean): boolean; overload;
++/// &lt;summary&gt;
++/// extracts a substring from the start of Source up to the delimiter
++/// @param LastWasDelimiter is a boolean that is to be used in repeated calls
++///                         to the function to tell the next call that the
++///                         last call returned an empty string because there
++///                         was a double delimiter.
++/// Use like this:
++/// b := false;
++/// while ExtractStr(Source, [' ', #9], s, b) do
++///   HandleSubstring(s);
++/// &lt;/summary&gt;
+ function ExtractStr(var _Source: string; _Delimiter: char; out _Substr: string; var _LastWasDelimiter: boolean): boolean; overload;
+ 
+-{: Converts A to lower case. }
++/// &lt;summary&gt;
++/// Converts a char to lower case.
++/// &lt;/summary&gt;
+ function LoCase(_c: char): char;
++
+ // function UpStr(const _s: string): string; // use SysUtils.(Ansi)UpperCase instead
+ // function LoStr(const _s: string): string; // use SysUtils.(Ansi)LowerCase instead
+ 
+-{: Entfernt im Gegensatz zu Sysutils.Trim nur Spaces und keine Sonderzeichen }
++/// &lt;summary&gt;
++/// like SysUtils.Trim but only removes spaces, no special characters
++/// &lt;/summary&gt;
+ function TrimSpaces(const _s: string): string;
+-{: Entfernt im Gegensatz zu SysUtils.TrimRight nur Spaces, keine Sonderzeichen }
++/// &lt;summary&gt;
++/// like SysUtils.TrimRight but only removes spaces, no special characters
++/// &lt;/summary&gt;
+ function RTrimSpaces(const _s: string): string;
+-{: Entfernt im Gegensatz zu SysUtils.TrimLeft nur Spaces, keine Sonderzeichen }
++/// &lt;summary&gt;
++/// like SysUtils.TrimLeft but only removes spaces, no special characters
++/// &lt;/summary&gt;
+ function LTrimSpaces(const _s: string): string;
++type
++  TTrimStr = function(const _s: string): string;
++const
++/// &lt;summary&gt;
++/// function is deprcated, use RTrimSpaces instead, or possibily SysUtils.TrimRight
++/// &lt;/summary&gt;
++  RTrimStr: TTrimStr = RTrimSpaces deprecated;
++/// &lt;summary&gt;
++/// function is deprcated, use LTrimSpaces instead, or possibly SysUtils.TrimLeft
++/// &lt;/summary&gt;
++  LTrimStr: TTrimStr = LTrimSpaces deprecated;
++/// &lt;summary&gt;
++/// function is deprcated, use TrimSpaces instead, or possibly SysUtils.Trim
++/// &lt;/summary&gt;
++  TrimStr: TTrimStr = TrimSpaces deprecated;
+ 
+-{: Creates a string with Anz spaces. }
+-function SpaceStr(_Anz: integer): string;
++/// &lt;summary&gt;
++/// Creates a string with Anz spaces.
++/// &lt;/summary&gt;
++function SpaceStr(_Cnt: integer): string;
+ 
+-function StringOf(_c: char; _Anz: integer): string;
+-{$IFDEF Delphi7up}
+-deprecated; // use StrUtils.DupeString
+-{$ENDIF}
++/// &lt;summary&gt;
++/// function is deprecated, use StrUtils.DupeString instead
++/// &lt;/summary&gt;
++function StringOf(_c: char; _Cnt: integer): string; deprecated;
+ 
+-{: Prepend a backslash to the string if there isn't one already. }
++/// &lt;summary&gt;
++/// Prepend a backslash to the string if there isn't one already.
++/// &lt;/summary&gt;
+ function PrependBackslash(const _s: string): string;
+-{$IFDEF Delphi7up}
+ type
+   TXxxBackslash = function(const _s: string): string;
+ const
++/// &lt;summary&gt;
++/// function is deprecated, use IncludeTrailingPathDelimiter instead
++/// &lt;/summary&gt;
+   AddBackslash: TXxxBackslash = IncludeTrailingPathDelimiter deprecated;
++/// &lt;summary&gt;
++/// function is deprecated, use ExcludeTrailingPathDelimiter instead
++/// &lt;/summary&gt;
+   StripBackslash: TXxxBackslash = ExcludeTrailingPathDelimiter deprecated;
+-{$ELSE}
+-{: Append a backslash to the string if there isn't one already. }
+-function AddBackslash(const _s: string): string;
+-{: Remove a trailing backslash if there is one. Note that this does also
+-   remove a trailing backlash from the root directory ('c:\') which might
+-   not be what you want. }
+-function StripBackslash(const _s: string): string;
+-{$ENDIF}
+ 
+-{: Replaces an existing extension in Name with Ext or adds Ext to Name if
+-   it does not have an extension. }
++/// &lt;summary&gt;
++/// Replaces an existing extension in Name with Ext or adds Ext to Name if
++/// it does not have an extension.
++/// &lt;/summary&gt;
+ function ForceExtension(const _Name, _Ext: string): string;
+ {: Returns only the filename (incl. extension) portion of Name. }
+ function JustFilename(const _Name: string): string;
+-{: removes an extension if it matches the given one
+-   @param Filename is the input filename
+-   @param Extension is the extension to remove, if the file has it (comparison is case insensitive)
+-   @returns the filename without the extension, if it matched, the unchanged filename otherwise }
+-function RemoveFileExtIfMatching(const _Filename: string; const _Extension: string): string;
++/// &lt;summary&gt;
++/// function is deprecated (because it did a different thing than the name said)
++/// use RemoveSuffixIfMatching instead
++/// &lt;/summary&gt;
++function RemoveFileExtIfMatching(const _s, _Suffix: string): string; deprecated;
++/// &lt;summary&gt;
++/// removes a suffix (can be a file extension, but can also be any arbitrary string)
++/// from a string if it matches the given one
++/// @param s is the input string
++/// @param Suffix is the suffix to remove, if the string has it (comparison is case insensitive)
++/// @returns the string without the suffix, if it matched, the unchanged string otherwise }
++/// &lt;/summary&gt;
++function RemoveSuffixIfMatching(const _s, _Suffix: string): string;
+ 
+ {: Appends spaces to the string S to bring it to the given length. If S is
+    too long it is truncated, thus the result is guaranteed to be Len characters
+@@ -102,15 +172,8 @@
+    long. }
+ function LPadStr(const _s: string; _Len: integer): string;
+ 
+-type
+-  TTrimStr = function(const _s: string): string;
+-const
+-  RTrimStr: TTrimStr = RTrimSpaces deprecated; // or possibily SysUtils.TrimRight
+-  LTrimStr: TTrimStr = LTrimSpaces deprecated; // or possibly SysUtils.TrimLeft
+-  TrimStr: TTrimStr = TrimSpaces deprecated; // or possibly SysUtils.Trim
+-
+-  {: Returns true, if SubStr is found in Str and sets Head to the text before
+-     and Tail to the text after SubStr. Otherwise Head and Tail are undefined. }
++{: Returns true, if SubStr is found in Str and sets Head to the text before
++   and Tail to the text after SubStr. Otherwise Head and Tail are undefined. }
+ function FindString(const _Substr, _Str: string; var _Head, _Tail: string): boolean;
+ 
+ {: Returns the rightmost position of Sub in S or 0 if Sub is not found in S. }
+@@ -326,12 +389,17 @@
+     result := TailStr(_Name, p + 1);
+ end;
+ 
+-function RemoveFileExtIfMatching(const _Filename: string; const _Extension: string): string;
++function RemoveFileExtIfMatching(const _s, _Suffix: string): string;
+ begin
+-  if UEndsWith(_Extension, _Filename) then
+-    Result := LeftStr(_Filename, Length(_Filename) - Length(_Extension))
++  Result := RemoveSuffixIfMatching(_s, _Suffix);
++end;
++
++function RemoveSuffixIfMatching(const _s, _Suffix: string): string;
++begin
++  if UEndsWith(_Suffix, _s) then
++    Result := LeftStr(_s, Length(_s) - Length(_Suffix))
+   else
+-    Result := _Filename;
++    Result := _s;
+ end;
+ 
+ function nthWordStartAndEnd(const _s: string; _WordNo: integer;
+@@ -570,19 +638,9 @@
+   (Result + Size)^ := #0;
+ end;
+ 
+-{$IFOPT h-}
+-var
+-  Pas2StrTempStr: string;
+-{$ENDIF}
+-
+ function Pas2Str(var _s: string): PChar;
+ begin
+-{$IFOPT h+}
+-  result := PChar(_s);
+-{$ELSE}
+-  Pas2StrTempStr := _s + #0;
+-  result := @Pas2StrTempStr[1];
+-{$ENDIF}
++  Result := PChar(_s);
+ end;
+ 
+ function Str2Pas(_p: PChar): string;
+@@ -612,7 +670,7 @@
+ function RTrimSpaces(const _s: string): string;
+ begin
+   Result := _s;
+-  while NthCharOf(Result, Length(Result)) = ' ' do
++  while (Length(Result) &gt; 0) and  (NthCharOf(Result, Length(Result)) = ' ') do
+     System.Delete(Result, Length(Result), 1);
+ end;
+ 
+@@ -646,42 +704,17 @@
+     Result := '\' + _s;
+ end;
+ 
+-{$IFNDEF delphi7up}
+-
+-function AddBackslash(const _s: string): string;
++function StringOf(_c: char; _Cnt: integer): string;
+ begin
+-  if RightStr(_s, 1) = '\' then
+-    Result := _s
+-  else
+-    Result := _s + '\';
++  Result := StrUtils.DupeString(_c, _cnt);
+ end;
+ 
+-function StripBackslash(const _s: string): string;
++function SpaceStr(_Cnt: integer): string;
+ begin
+-  if RightStr(_s, 1) = '\' then
+-    Result := LeftStr(_s, Length(_s) - 1)
+-  else
+-    Result := _s;
+-end;
+-{$ENDIF}
+-
+-function StringOf(_c: char; _Anz: integer): string;
+-var
+-  i: integer;
+-begin
+-  //  SetLength(Result, _Anz);
+-  //  FillChar(Result[1], _Anz, _c);
+-  Result := '';
+-  for i := 1 to _Anz do
+-    Result := Result + _c;
+-end;
+-
+-function SpaceStr(_Anz: integer): string;
+-begin
+ {$IFDEF Delphi7up}
+   Result := DupeString(' ', _Anz);
+ {$ELSE}
+-  Result := StringOf(' ', _Anz);
++  Result := StringOf(' ', _Cnt);
+ {$ENDIF}
+ end;
+ 
+@@ -754,6 +787,20 @@
+   _p^ := #0
+ end;
+ 
++function ExtractStr(var _Source: string; _Delimiter: char): string;
++var
++  p: integer;
++begin
++  p := Pos(_Delimiter, _Source);
++  if p = 0 then begin
++    Result := _Source;
++    _Source := '';
++  end else begin
++    Result := LeftStr(_Source, p - 1);
++    _Source := TailStr(_Source, p + 1);
++  end;
++end;
++
+ function ExtractStr(var _Source: string; _Delimiters: TCharSet; out _Substr: string; var _LastWasDelimiter: boolean): boolean;
+ var
+   p: integer;
+@@ -807,17 +854,8 @@
+ end;
+ 
+ function GetDelStr(var _Zeile: string; _Del: char): string;
+-var
+-  p: integer;
+ begin
+-  p := Pos(_Del, _Zeile);
+-  if p = 0 then begin
+-    Result := _Zeile;
+-    _Zeile := '';
+-  end else begin
+-    Result := LeftStr(_Zeile, p - 1);
+-    _Zeile := TailStr(_Zeile, p + 1);
+-  end;
++  Result := ExtractStr(_Zeile, _Del);
+ end;
+ 
+ function CenterStr(const _s: string; _MaxLen: integer): string;
+
+Modified: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2007-12-22 14:08:00 UTC (rev 260)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2007-12-22 16:56:59 UTC (rev 261)
+@@ -30,7 +30,8 @@
+   Testu_dzConvertUtils in 'Testu_dzConvertUtils.pas',
+   Testu_dzDateUtils in 'Testu_dzDateUtils.pas',
+   u_dzClassUtils in '..\..\src\u_dzClassUtils.pas',
+-  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas';
++  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
++  Testu_dzStringUtils in 'Testu_dzStringUtils.pas';
+ 
+ {$R *.RES}
+ 
+
+Modified: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2007-12-22 14:08:00 UTC (rev 260)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2007-12-22 16:56:59 UTC (rev 261)
+@@ -55,5 +55,6 @@
+     &lt;DCCReference Include=&quot;Testu_dzConvertUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;Testu_dzDateUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;Testu_dzFileUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;Testu_dzStringUtils.pas&quot; /&gt;
+   &lt;/ItemGroup&gt;
+ &lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas	2007-12-22 14:08:00 UTC (rev 260)
++++ utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas	2007-12-22 16:56:59 UTC (rev 261)
+@@ -0,0 +1,391 @@
++unit Testu_dzStringUtils;
++
++interface
++
++uses
++  Windows,
++  Classes,
++  SysUtils,
++  TestFramework,
++  u_dzStringUtils,
++  u_dzUnitTestUtils;
++
++type
++  TestExtractStr = class(TdzTestCase)
++  published
++    procedure TestExtractStr1;
++    procedure TestExtractStr2;
++    procedure TestExtractStr3;
++    procedure TestExtractStr4;
++    procedure TestExtractStr5;
++  end;
++
++type
++  TestTrimSpaces = class(TdzTestCase)
++  published
++    procedure TestTrimSpaces;
++    procedure TestLTrimSpaces;
++    procedure TestRTrimSpaces;
++  end;
++
++type
++  TestMisc = class(TdzTestCase)
++  published
++    procedure TestStringOf;
++    procedure TestSpaceString;
++    procedure TestPrependBackslash;
++  end;
++
++type
++  TestFileExt = class(TdzTestCase)
++  published
++    procedure TestForceExt;
++    procedure TestJustFilename;
++    procedure TestRemoveSuffixIfMatching;
++  end;
++
++implementation
++
++{ TestStringUtils }
++
++procedure TestExtractStr.TestExtractStr1;
++var
++  src: string;
++  s: string;
++begin
++  src := 'hello#world';
++  s := ExtractStr(src, '#');
++  CheckEquals('hello', s);
++  CheckEquals('world', src);
++
++  src := 'helloworld';
++  s := ExtractStr(src, '#');
++  CheckEquals('helloworld', s);
++  CheckEquals('', src);
++
++  src := '';
++  s := ExtractStr(src, '#');
++  CheckEquals('', s);
++  CheckEquals('', src);
++end;
++
++procedure TestExtractStr.TestExtractStr2;
++var
++  src: string;
++  s: string;
++begin
++  src := 'hello#world';
++  CheckTrue(ExtractStr(src, '#', s));
++  CheckEquals('hello', s);
++  CheckEquals('world', src);
++
++  src := 'helloworld';
++  CheckTrue(ExtractStr(src, '#', s));
++  CheckEquals('helloworld', s);
++  CheckEquals('', src);
++
++  src := '';
++  s := 'hello';
++  CheckFalse(ExtractStr(src, '#', s));
++  CheckEquals('', s);
++  CheckEquals('', src);
++end;
++
++procedure TestExtractStr.TestExtractStr3;
++var
++  src: string;
++  s: string;
++  b: boolean;
++  cnt: integer;
++begin
++  src := 'hello#world#';
++  b := false;
++  CheckTrue(ExtractStr(src, '#', s, b));
++  CheckFalse(b);
++  CheckEquals('hello', s);
++  CheckEquals('world#', src);
++  CheckTrue(ExtractStr(src, '#', s, b));
++  CheckTrue(b);
++  CheckEquals('world', s);
++  CheckEquals('', src);
++  CheckTrue(ExtractStr(src, '#', s, b));
++  CheckFalse(b);
++  CheckEquals('', s);
++  CheckEquals('', src);
++  CheckFalse(ExtractStr(src, '#', s, b));
++  CheckFalse(b);
++  CheckEquals('', s);
++  CheckEquals('', src);
++
++  src := 'hello##world';
++  b := false;
++  CheckTrue(ExtractStr(src, '#', s, b));
++  CheckFalse(b);
++  CheckEquals('hello', s);
++  CheckEquals('#world', src);
++  CheckTrue(ExtractStr(src, '#', s, b));
++  CheckFalse(b);
++  CheckEquals('', s);
++  CheckEquals('world', src);
++  CheckTrue(ExtractStr(src, '#', s, b));
++  CheckFalse(b);
++  CheckEquals('world', s);
++  CheckEquals('', src);
++  CheckFalse(ExtractStr(src, '#', s, b));
++  CheckFalse(b);
++  CheckEquals('', s);
++  CheckEquals('', src);
++
++  cnt := 0;
++  src := 'hello#world#';
++  b := false;
++  while ExtractStr(src, '#', s, b) do begin
++    Inc(Cnt);
++  end;
++  CheckEquals(3, Cnt);
++end;
++
++procedure TestExtractStr.TestExtractStr4;
++var
++  src: string;
++  s: string;
++begin
++  src := 'hello#world';
++  CheckTrue(ExtractStr(src, ['#'], s));
++  CheckEquals('hello', s);
++  CheckEquals('world', src);
++
++  src := 'helloworld';
++  CheckTrue(ExtractStr(src, ['#'], s));
++  CheckEquals('helloworld', s);
++  CheckEquals('', src);
++
++  src := '';
++  s := 'hello';
++  CheckFalse(ExtractStr(src, ['#'], s));
++  CheckEquals('', s);
++  CheckEquals('', src);
++
++  src := 'hello#big world';
++  CheckTrue(ExtractStr(src, ['#', ' '], s));
++  CheckEquals('hello', s);
++  CheckEquals('big world', src);
++  CheckTrue(ExtractStr(src, ['#', ' '], s));
++  CheckEquals('big', s);
++  CheckEquals('world', src);
++
++  src := 'hellobigworld';
++  CheckTrue(ExtractStr(src, ['#', ' '], s));
++  CheckEquals('hellobigworld', s);
++  CheckEquals('', src);
++
++  src := '';
++  s := 'hello';
++  CheckFalse(ExtractStr(src, ['#', ' '], s));
++  CheckEquals('', s);
++  CheckEquals('', src);
++end;
++
++procedure TestExtractStr.TestExtractStr5;
++var
++  src: string;
++  s: string;
++  b: boolean;
++  cnt: Integer;
++begin
++  src := 'hello#world';
++  b := false;
++  CheckTrue(ExtractStr(src, ['#'], s, b));
++  CheckFalse(b);
++  CheckEquals('hello', s);
++  CheckEquals('world', src);
++
++  src := 'helloworld';
++  b := false;
++  CheckTrue(ExtractStr(src, ['#'], s, b));
++  CheckFalse(b);
++  CheckEquals('helloworld', s);
++  CheckEquals('', src);
++
++  src := '';
++  s := 'hello';
++  b := false;
++  CheckFalse(ExtractStr(src, ['#'], s, b));
++  CheckFalse(b);
++  CheckEquals('', s);
++  CheckEquals('', src);
++
++  src := 'hello#big world';
++  b := false;
++  CheckTrue(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('hello', s);
++  CheckEquals('big world', src);
++  CheckTrue(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('big', s);
++  CheckEquals('world', src);
++
++  src := 'hellobigworld';
++  b := false;
++  CheckTrue(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('hellobigworld', s);
++  CheckEquals('', src);
++
++  src := '';
++  s := 'hello';
++  b := false;
++  CheckFalse(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('', s);
++  CheckEquals('', src);
++
++  // this are 5 strings, delimited by ' ' and '#':
++  // 'hello'
++  // 'big'
++  // 'world'
++  // '' (between ' ' and '#')
++  // '' (after the last '#')
++  src := 'hello#big world #';
++  b := false;
++  CheckTrue(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('hello', s);
++  CheckEquals('big world #', src);
++  CheckTrue(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('big', s);
++  CheckEquals('world #', src);
++  CheckTrue(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('world', s);
++  CheckEquals('#', src);
++  CheckTrue(ExtractStr(src, ['#', ' '], s, b));
++  CheckTrue(b);
++  CheckEquals('', s);
++  CheckEquals('', src);
++  CheckTrue(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('', s);
++  CheckEquals('', src);
++  CheckFalse(ExtractStr(src, ['#', ' '], s, b));
++  CheckFalse(b);
++  CheckEquals('', s);
++  CheckEquals('', src);
++
++  cnt := 0;
++  src := 'hello big#world# ';
++  b := false;
++  while ExtractStr(src, ['#', ' '], s, b) do begin
++    Inc(Cnt);
++  end;
++  CheckEquals(5, Cnt);
++end;
++
++{ TestTrimSpaces }
++
++procedure TestTrimSpaces.TestLTrimSpaces;
++begin
++  CheckEquals('', LTrimSpaces(''));
++  CheckEquals('', LTrimSpaces('   '));
++  CheckEquals('a', LTrimSpaces('   a'));
++  CheckEquals('a b c', LTrimSpaces('   a b c'));
++  CheckEquals('a b c  ', LTrimSpaces('   a b c  '));
++  CheckEquals(#9, LTrimSpaces(#9));
++  CheckEquals(#13#10'a'#13#10'b', LTrimSpaces('  '#13#10'a'#13#10'b'));
++end;
++
++procedure TestTrimSpaces.TestRTrimSpaces;
++begin
++  CheckEquals('', TrimSpaces(''));
++  CheckEquals('', TrimSpaces('   '));
++  CheckEquals('a', TrimSpaces('   a'));
++  CheckEquals('a b c', TrimSpaces('   a b c'));
++  CheckEquals('a b c', TrimSpaces('   a b c  '));
++  CheckEquals(#9, TrimSpaces(#9));
++  CheckEquals(#13#10'a'#13#10'b', TrimSpaces('  '#13#10'a'#13#10'b'));
++  CheckEquals(#13#10'a'#13#10'b', TrimSpaces('  '#13#10'a'#13#10'b '));
++end;
++
++procedure TestTrimSpaces.TestTrimSpaces;
++begin
++  CheckEquals('', RTrimSpaces(''));
++  CheckEquals('', RTrimSpaces('   '));
++  CheckEquals('a', RTrimSpaces('a   '));
++  CheckEquals('a b c', RTrimSpaces('a b c   '));
++  CheckEquals('   a b c', RTrimSpaces('   a b c  '));
++  CheckEquals(#9, RTrimSpaces(#9));
++  CheckEquals('  '#13#10'a'#13#10'b', RTrimSpaces('  '#13#10'a'#13#10'b'));
++  CheckEquals('  '#13#10'a'#13#10'b', RTrimSpaces('  '#13#10'a'#13#10'b '));
++end;
++
++{ TestStringOf }
++
++procedure TestMisc.TestPrependBackslash;
++begin
++  CheckEquals('\', PrependBackslash(''));
++  CheckEquals('\', PrependBackslash('\'));
++  CheckEquals('\hello', PrependBackslash('hello'));
++  CheckEquals('\hello', PrependBackslash('\hello'));
++  CheckEquals('\hello\world\', PrependBackslash('hello\world\'));
++  CheckEquals('\hello\world', PrependBackslash('\hello\world'));
++end;
++
++procedure TestMisc.TestSpaceString;
++begin
++  CheckEquals('', SpaceStr(0));
++  CheckEquals(' ', SpaceStr(1));
++  CheckEquals('     ', SpaceStr(5));
++end;
++
++procedure TestMisc.TestStringOf;
++begin
++  CheckEquals('', StringOf(' ', 0));
++  CheckEquals(' ', StringOf(' ', 1));
++  CheckEquals('     ', StringOf(' ', 5));
++end;
++
++{ TestFileExt }
++
++procedure TestFileExt.TestJustFilename;
++begin
++  CheckEquals('', JustFilename(''));
++  CheckEquals('.', JustFilename('.'));
++  CheckEquals('.txt', JustFilename('.txt'));
++  CheckEquals('hello', JustFilename('hello'));
++  CheckEquals('hello.txt', JustFilename('hello.txt'));
++  CheckEquals('hello.', JustFilename('hello.'));
++  CheckEquals('world', JustFilename('hello\world'));
++  CheckEquals('world.', JustFilename('hello\world.'));
++  CheckEquals('world.txt', JustFilename('hello\world.txt'));
++end;
++
++procedure TestFileExt.TestRemoveSuffixIfMatching;
++begin
++  CheckEquals('', RemoveSuffixIfMatching('', ''));
++  CheckEquals('', RemoveSuffixIfMatching('', '.txt'));
++  CheckEquals('', RemoveSuffixIfMatching('', '.'));
++  CheckEquals('', RemoveSuffixIfMatching('', 'abc'));
++  CheckEquals('hello', RemoveSuffixIfMatching('hello', ''));
++  CheckEquals('hello', RemoveSuffixIfMatching('hello.txt', '.txt'));
++  CheckEquals('hello.txt', RemoveSuffixIfMatching('hello.txt', '.abc'));
++  CheckEquals('hello.', RemoveSuffixIfMatching('hello.txt', 'txt'));
++  CheckEquals('hello.txt', RemoveSuffixIfMatching('hello.txt.abc', '.abc'));
++  CheckEquals('hello.txt.abc', RemoveSuffixIfMatching('hello.txt.abc', '.def'));
++  CheckEquals('hello ', RemoveSuffixIfMatching('hello World', 'World'));
++  CheckEquals('hello', RemoveSuffixIfMatching('hello World', ' World'));
++end;
++
++procedure TestFileExt.TestForceExt;
++begin
++
++end;
++
++initialization
++  RegisterTest('StringUtils', TestExtractStr.Suite);
++  RegisterTest('StringUtils', TestTrimSpaces.Suite);
++  RegisterTest('StringUtils', TestMisc.Suite);
++  RegisterTest('StringUtils', TestFileExt.Suite);
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000129.html">[Dzchart-svncheckins] r260 - in utilities/dzLib/trunk: src tests/src
+</A></li>
+	<LI>Next message: <A HREF="000131.html">[Dzchart-svncheckins] r262 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#130">[ date ]</a>
+              <a href="thread.html#130">[ thread ]</a>
+              <a href="subject.html#130">[ subject ]</a>
+              <a href="author.html#130">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

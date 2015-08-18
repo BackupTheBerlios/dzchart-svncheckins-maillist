@@ -1,0 +1,948 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r510 - in utilities/dzContextMenu/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r510%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101002181607.D8B94480FE9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000368.html">
+   <LINK REL="Next"  HREF="000370.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r510 - in utilities/dzContextMenu/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r510%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101002181607.D8B94480FE9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r510 - in utilities/dzContextMenu/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct  2 20:16:07 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000368.html">[Dzchart-svncheckins] r509 - in 3rd/jcl/2.000/trunk: lib/d10	lib/d14 packages/d10
+</A></li>
+        <LI>Next message: <A HREF="000370.html">[Dzchart-svncheckins] r511 - in utilities/dzCmdLineParser/trunk: .	src translations translations/de translations/en translations/fr
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#369">[ date ]</a>
+              <a href="thread.html#369">[ thread ]</a>
+              <a href="subject.html#369">[ subject ]</a>
+              <a href="author.html#369">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-02 20:16:07 +0200 (Sat, 02 Oct 2010)
+New Revision: 510
+
+Added:
+   utilities/dzContextMenu/trunk/src/w_Configure.dfm
+   utilities/dzContextMenu/trunk/src/w_Configure.pas
+   utilities/dzContextMenu/trunk/src/w_EditSection.dfm
+   utilities/dzContextMenu/trunk/src/w_EditSection.pas
+Modified:
+   utilities/dzContextMenu/trunk/menu.ini
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+   utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+   utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+Log:
+* changed syntax for divider lines (configure dialog cannot not contain duplicates)
+* added confgure dialog (not yet finished)
+
+
+Modified: utilities/dzContextMenu/trunk/menu.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/menu.ini	2010-10-02 17:06:30 UTC (rev 509)
++++ utilities/dzContextMenu/trunk/menu.ini	2010-10-02 18:16:07 UTC (rev 510)
+@@ -1,37 +1,37 @@
+ [global]
+-Caption=Delphi
++caption=Delphi
+ 
+ [BDS.DprFile]
+ extension=.dpr
++Local Menu=
+ Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
+ Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
+ Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
+--=
++N1=-
+ Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
+ Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
+ Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
+--=
++N2=-
+ Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+ Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
+ Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
+--=
++N3=-
+ Text Editor=C:\Program Files\Notepad++\notepad++.exe
+-Local Menu=
+ 
+ [BDS.DpkFile]
+ extension=.dpk
+ Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
+ Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
+ Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
+--=
++N1=-
+ Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
+ Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
+ Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
+--=
++N2=-
+ Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+ Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
+ Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
+--=
++N3=-
+ Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BDS.DProjFile]
+@@ -40,7 +40,7 @@
+ Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
+ Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
+ Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
+--=
++N1=-
+ Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BDS.GroupProjFile]
+@@ -49,21 +49,21 @@
+ Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
+ Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
+ Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
+--=
++N1=-
+ Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BDS.ProjectFile]
+ extension=.bdsproj
+ Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
+ Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
+--=
++N1=-
+ Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BDS.ProjectGroup]
+ extension=.bdsgroup
+ Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
+ Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
+--=
++N1=-
+ Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BorlandProjectGroup]
+@@ -71,6 +71,6 @@
+ Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+ Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
+ Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
+--=
++N1=-
+ Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+
+Modified: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-02 17:06:30 UTC (rev 509)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-02 18:16:07 UTC (rev 510)
+@@ -22,6 +22,7 @@
+     FSection: string;
+     FItems: TStringList;
+     procedure UpdatePopup;
++    procedure HandleConfigureClick(_Sender: TObject);
+   public
+     class function IniFile: TMemIniFile;
+     constructor Create(_Owner: TComponent); override;
+@@ -41,22 +42,35 @@
+   u_dzFileUtils,
+   u_dzOsUtils,
+   u_dzExecutor,
+-  u_dzConfigUtils;
++  u_dzConfigUtils,
++  w_Configure;
+ 
+ var
+   gblIni: TMemIniFile = nil;
+ 
+ type
+   TMenuItemEx = class(TMenuItem)
++  public
++    procedure AddToSubmenu(_SubMenu: HMenu; _Position: integer; var _Id: integer);
++    procedure Execute(_Files: TStrings); virtual; abstract;
++  end;
++
++type
++  TMenuItemExExternal = class(TMenuItemEx)
+   private
+     FExecutable: string;
+     procedure SetExecutable(const _Value: string);
+   public
+-    procedure AddToSubmenu(_SubMenu: HMenu; _Position: integer; var _Id: integer);
+-    procedure Execute(_Files: TStrings);
++    procedure Execute(_Files: TStrings); override;
+     property Executable: string read FExecutable write SetExecutable;
+   end;
+ 
++type
++  TMenuItemExInternal = class(TMenuItemEx)
++  public
++    procedure Execute(_Files: TStrings); override;
++  end;
++
+ constructor Tdm_ContextMenu.Create(_Owner: TComponent);
+ var
+   Sections: TStringList;
+@@ -103,6 +117,12 @@
+   end;
+ end;
+ 
++procedure Tdm_ContextMenu.HandleConfigureClick(_Sender: TObject);
++begin
++  if tf_Configure.Execute(Self, IniFile) then
++    IniFile.UpdateFile;
++end;
++
+ procedure Tdm_ContextMenu.UpdatePopup;
+ 
+   function HandleSection(const _Section: string): boolean;
+@@ -111,7 +131,9 @@
+     Ext: string;
+     SectExt: string;
+     ItemIdx: Integer;
+-    mi: TMenuItemEx;
++    mie: TMenuItemExExternal;
++    mi: TMenuItemExInternal;
++    s: string;
+   begin
+     Result := false;
+     for i := 0 to FFiles.Count - 1 do begin
+@@ -123,11 +145,21 @@
+         IniFile.ReadSection(FSection, FItems);
+         FItems.Delete(0);
+         for ItemIdx := 0 to FItems.Count - 1 do begin
+-          mi := TMenuItemEx.Create(Self);
+-          mi.Caption := FItems[ItemIdx];
+-          mi.Executable := IniFile.ReadString(_Section, FItems[ItemIdx], '');
+-          ThePopupMenu.Items.Add(mi);
++          mie := TMenuItemExExternal.Create(Self);
++          mie.Caption := FItems[ItemIdx];
++          mie.Executable := IniFile.ReadString(_Section, FItems[ItemIdx], '');
++          ThePopupMenu.Items.Add(mie);
+         end;
++
++        mie := TMenuItemExExternal.Create(self);
++        mie.Caption := '-';
++        mie.Executable := '';
++        ThePopupMenu.Items.Add(mie);
++
++        mi := TMenuItemExInternal.Create(Self);
++        mi.Caption := 'Configure ...';
++        mi.OnClick := HandleConfigureClick;
++        ThePopupMenu.Items.Add(mi);
+         exit(true);
+       end;
+     end;
+@@ -171,8 +203,33 @@
+ 
+ { TMenuItemEx }
+ 
+-procedure TMenuItemEx.Execute(_Files: TStrings);
++procedure TMenuItemEx.AddToSubmenu(_SubMenu: HMenu; _Position: integer; var _Id: integer);
+ var
++  mii: TMenuItemInfo;
++begin
++  FillChar(mii, sizeof(mii), 0);
++  mii.cbSize := sizeof(mii);
++  mii.fMask := MIIM_CHECKMARKS or MIIM_ID or MIIM_TYPE or MIIM_STATE or MIIM_DATA;
++  mii.wID := _Id;
++  mii.hSubMenu := _SubMenu;
++  if IsLine then
++    mii.fType := MFT_SEPARATOR
++  else
++    mii.fType := MFT_STRING;
++  if Enabled then
++    mii.fState := MFS_ENABLED
++  else
++    mii.fState := MFS_DISABLED;
++  mii.dwItemData := integer(self);
++  mii.dwTypeData := PChar(Caption);
++  Windows.InsertMenuItem(_SubMenu, _Position, LongBool(True), mii);
++  Inc(_Id);
++end;
++
++{ TMenuItemExExternal }
++
++procedure TMenuItemExExternal.Execute(_Files: TStrings);
++var
+   Exec: TExecutor;
+   s: string;
+ begin
+@@ -192,33 +249,19 @@
+   end;
+ end;
+ 
+-procedure TMenuItemEx.SetExecutable(const _Value: string);
++procedure TMenuItemExExternal.SetExecutable(const _Value: string);
+ begin
+   FExecutable := _Value;
+   Enabled := (FExecutable &lt;&gt; '');
++  if FExecutable = '-' then
++    Caption := '-';
+ end;
+ 
+-procedure TMenuItemEx.AddToSubmenu(_SubMenu: HMenu; _Position: integer; var _Id: integer);
+-var
+-  mii: TMenuItemInfo;
++{ TMenuItemExInternal }
++
++procedure TMenuItemExInternal.Execute(_Files: TStrings);
+ begin
+-  FillChar(mii, sizeof(mii), 0);
+-  mii.cbSize := sizeof(mii);
+-  mii.fMask := MIIM_CHECKMARKS or MIIM_ID or MIIM_TYPE or MIIM_STATE or MIIM_DATA;
+-  mii.wID := _Id;
+-  mii.hSubMenu := _SubMenu;
+-  if IsLine then
+-    mii.fType := MFT_SEPARATOR
+-  else
+-    mii.fType := MFT_STRING;
+-  if Enabled then
+-    mii.fState := MFS_ENABLED
+-  else
+-    mii.fState := MFS_DISABLED;
+-  mii.dwItemData := integer(self);
+-  mii.dwTypeData := PChar(Caption);
+-  Windows.InsertMenuItem(_SubMenu, _Position, LongBool(True), mii);
+-  Inc(_Id);
++  Click;
+ end;
+ 
+ procedure Initialize;
+
+Modified: utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-02 17:06:30 UTC (rev 509)
++++ utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-02 18:16:07 UTC (rev 510)
+@@ -1,12 +1,12 @@
+ [Version Info]
+ AutoIncBuild=0
+-Build=96
++Build=157
+ MajorVer=1
+ MinorVer=0
+ Release=0
+ 
+ [Version Info Keys]
+-FileVersion=1.0.0.96
++FileVersion=1.0.0.157
+ ProductVersion={today}
+ FileDescription=configurable context menu for windows explorer
+ OriginalFilename=dzContextMenu.dll
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-10-02 17:06:30 UTC (rev 509)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-10-02 18:16:07 UTC (rev 510)
+@@ -4,7 +4,10 @@
+   ComServ,
+   u_ContextMenuHandler in 'u_ContextMenuHandler.pas',
+   d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule},
+-  u_dzConfigUtils in '..\libs\dzLib\src\u_dzConfigUtils.pas';
++  u_dzConfigUtils in '..\libs\dzLib\src\u_dzConfigUtils.pas',
++  w_Configure in 'w_Configure.pas' {f_Configure},
++  w_EditSection in 'w_EditSection.pas' {f_EditSection},
++  w_dzDialog in '..\libs\dzLib\forms\w_dzDialog.pas' {f_dzDialog};
+ 
+ exports
+   DllGetClassObject,
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-10-02 17:06:30 UTC (rev 509)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-10-02 18:16:07 UTC (rev 510)
+@@ -25,7 +25,7 @@
+ 		&lt;/PropertyGroup&gt;
+ 		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
+ 			&lt;DCC_MapFile&gt;3&lt;/DCC_MapFile&gt;
+-			&lt;DCC_UnitSearchPath&gt;..\libs\dzlib\src;..\libs\dzlib\jedi_inc;..\libs\jcl\source\include;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
++			&lt;DCC_UnitSearchPath&gt;..\libs\dzlib\src;..\libs\jcl\source\include;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;..\libs\dzlib\components;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
+ 			&lt;DCC_Define&gt;NO_TRANSLATION;$(DCC_Define)&lt;/DCC_Define&gt;
+ 			&lt;DCC_UsePackage&gt;vcl;vclx;VclSmp;rtl;vclimg;svnui;svn;bdertl;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyProtocols;inet;vclie;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;soaprtl;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;dbexpress;dbxcds&lt;/DCC_UsePackage&gt;
+ 			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
+@@ -65,6 +65,15 @@
+ 				&lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+ 			&lt;/DCCReference&gt;
+ 			&lt;DCCReference Include=&quot;..\libs\dzLib\src\u_dzConfigUtils.pas&quot;/&gt;
++			&lt;DCCReference Include=&quot;w_Configure.pas&quot;&gt;
++				&lt;Form&gt;f_Configure&lt;/Form&gt;
++			&lt;/DCCReference&gt;
++			&lt;DCCReference Include=&quot;w_EditSection.pas&quot;&gt;
++				&lt;Form&gt;f_EditSection&lt;/Form&gt;
++			&lt;/DCCReference&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzLib\forms\w_dzDialog.pas&quot;&gt;
++				&lt;Form&gt;f_dzDialog&lt;/Form&gt;
++			&lt;/DCCReference&gt;
+ 			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
+ 				&lt;Key&gt;Cfg_2&lt;/Key&gt;
+ 				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
+
+Modified: utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-10-02 17:06:30 UTC (rev 509)
++++ utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-10-02 18:16:07 UTC (rev 510)
+@@ -146,7 +146,7 @@
+     if _idCmd &lt; FCmdCount then begin
+       case _uType of
+         GCS_HELPTEXTW: begin
+-          // Return the menu item's help
++            // Return the menu item's help
+             StrLCopy(szName, PChar('execute some command'), _cchMax);
+             Result := S_OK;
+           end;
+
+Added: utilities/dzContextMenu/trunk/src/w_Configure.dfm
+===================================================================
+--- utilities/dzContextMenu/trunk/src/w_Configure.dfm	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/w_Configure.dfm	2010-10-02 18:16:07 UTC (rev 510)
+@@ -0,0 +1,157 @@
++object f_Configure: Tf_Configure
++  Left = 0
++  Top = 0
++  Anchors = [akLeft, akBottom]
++  Caption = 'Configure dzContextMenu'
++  ClientHeight = 353
++  ClientWidth = 729
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'Tahoma'
++  Font.Style = []
++  OldCreateOrder = False
++  Position = poScreenCenter
++  DesignSize = (
++    729
++    353)
++  PixelsPerInch = 96
++  TextHeight = 13
++  object l_MenuCaption: TLabel
++    Left = 8
++    Top = 8
++    Width = 66
++    Height = 13
++    Caption = 'Menu Caption'
++  end
++  object l_Extension: TLabel
++    Left = 256
++    Top = 56
++    Width = 47
++    Height = 13
++    Caption = 'Extension'
++  end
++  object l_FileTypes: TLabel
++    Left = 8
++    Top = 56
++    Width = 48
++    Height = 13
++    Caption = 'File Types'
++  end
++  object b_Cancel: TButton
++    Left = 647
++    Top = 320
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Cancel = True
++    Caption = 'Cancel'
++    ModalResult = 2
++    TabOrder = 11
++  end
++  object b_OK: TButton
++    Left = 567
++    Top = 320
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Caption = 'OK'
++    Default = True
++    ModalResult = 1
++    TabOrder = 10
++    OnClick = b_OKClick
++  end
++  object ed_MenuCaption: TEdit
++    Left = 8
++    Top = 24
++    Width = 233
++    Height = 21
++    TabOrder = 0
++  end
++  object lb_Sections: TListBox
++    Left = 8
++    Top = 72
++    Width = 233
++    Height = 209
++    Anchors = [akLeft, akTop, akBottom]
++    ItemHeight = 13
++    TabOrder = 1
++    OnClick = lb_SectionsClick
++  end
++  object sg_Items: TdzVirtualStringGrid
++    Left = 256
++    Top = 104
++    Width = 465
++    Height = 177
++    ColumnHeaders.Strings = (
++      'Caption'
++      'Executable')
++    OnGetNonfixedCellData = sg_ItemsGetNonfixedCellData
++    Anchors = [akLeft, akTop, akRight, akBottom]
++    ColCount = 2
++    TabOrder = 6
++    ColWidths = (
++      145
++      300)
++  end
++  object b_AddSection: TButton
++    Left = 8
++    Top = 288
++    Width = 75
++    Height = 25
++    Caption = 'Add ...'
++    TabOrder = 2
++  end
++  object b_DeleteSection: TButton
++    Left = 168
++    Top = 288
++    Width = 75
++    Height = 25
++    Caption = 'Delete'
++    TabOrder = 4
++    OnClick = b_DeleteSectionClick
++  end
++  object b_AddItem: TButton
++    Left = 256
++    Top = 288
++    Width = 75
++    Height = 25
++    Caption = 'Add ...'
++    TabOrder = 7
++  end
++  object b_DeleteItem: TButton
++    Left = 416
++    Top = 288
++    Width = 75
++    Height = 25
++    Caption = 'Delete'
++    TabOrder = 9
++  end
++  object b_EditItem: TButton
++    Left = 336
++    Top = 288
++    Width = 75
++    Height = 25
++    Caption = 'Edit ...'
++    TabOrder = 8
++  end
++  object b_EditSection: TButton
++    Left = 88
++    Top = 288
++    Width = 75
++    Height = 25
++    Caption = 'Edit ...'
++    TabOrder = 3
++    OnClick = b_EditSectionClick
++  end
++  object ed_Extension: TEdit
++    Left = 256
++    Top = 72
++    Width = 121
++    Height = 21
++    Color = clBtnFace
++    ReadOnly = True
++    TabOrder = 5
++  end
++end
+
+Added: utilities/dzContextMenu/trunk/src/w_Configure.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/w_Configure.pas	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/w_Configure.pas	2010-10-02 18:16:07 UTC (rev 510)
+@@ -0,0 +1,199 @@
++unit w_Configure;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls,
++  IniFiles,
++  ComCtrls,
++  Grids,
++  c_dzVirtualStringGrid;
++
++type
++  Tf_Configure = class(TForm)
++    b_Cancel: TButton;
++    b_OK: TButton;
++    ed_MenuCaption: TEdit;
++    l_MenuCaption: TLabel;
++    lb_Sections: TListBox;
++    sg_Items: TdzVirtualStringGrid;
++    b_AddSection: TButton;
++    b_DeleteSection: TButton;
++    b_AddItem: TButton;
++    b_DeleteItem: TButton;
++    b_EditItem: TButton;
++    b_EditSection: TButton;
++    ed_Extension: TEdit;
++    l_Extension: TLabel;
++    l_FileTypes: TLabel;
++    procedure lb_SectionsClick(Sender: TObject);
++    procedure sg_ItemsGetNonfixedCellData(_Sender: TObject; _DataCol, _DataRow: Integer;
++      _State: TGridDrawState; var _Text: string; var _HAlign: TAlignment;
++      var _VAlign: TdzCellVertAlign; _Font: TFont; var _Color: TColor);
++    procedure b_OKClick(Sender: TObject);
++    procedure b_EditSectionClick(Sender: TObject);
++    procedure b_DeleteSectionClick(Sender: TObject);
++  private
++    FIni: TCustomIniFile;
++    FItems: TStringList;
++    FExecutables: TStringList;
++    procedure SetData(_Ini: TCustomIniFile);
++  public
++    constructor Create(_Owner: TComponent); override;
++    destructor Destroy; override;
++    class function Execute(_Owner: TComponent; _Ini: TCustomIniFile): boolean;
++  end;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  u_dzVclUtils,
++  w_dzDialog,
++  w_EditSection;
++
++class function Tf_Configure.Execute(_Owner: TComponent; _Ini: TCustomIniFile): boolean;
++var
++  frm: Tf_Configure;
++begin
++  frm := Tf_Configure.Create(_Owner);
++  try
++    frm.SetData(_Ini);
++    Result := (frm.ShowModal = mrOK);
++  finally
++    FreeAndNil(frm);
++  end;
++end;
++
++constructor Tf_Configure.Create(_Owner: TComponent);
++begin
++  inherited;
++  FItems := TStringList.Create;
++  FExecutables := TStringList.Create;
++end;
++
++destructor Tf_Configure.Destroy;
++begin
++  FreeAndNil(FExecutables);
++  FreeAndNil(FItems);
++  inherited;
++end;
++
++procedure Tf_Configure.b_DeleteSectionClick(Sender: TObject);
++var
++  Section: string;
++begin
++  if not TListBox_GetSelected(lb_Sections, Section) then
++    exit;
++  if mrYes &lt;&gt; Tf_dzDialog.ShowMessage(mtConfirmation, Format('Really delete context menu for file type %s ?', [Section]), [dbeYes, dbeCancel], Self) then
++    exit;
++  FIni.EraseSection(Section);
++end;
++
++procedure Tf_Configure.b_EditSectionClick(Sender: TObject);
++var
++  OrigSection: string;
++  Section: string;
++  Extension: string;
++  sl: TStringList;
++  s: string;
++  i: Integer;
++begin
++  if not TListBox_GetSelected(lb_Sections, OrigSection) then
++    exit;
++  Section := OrigSection;
++  Extension := ed_Extension.Text;
++  if Tf_EditSection.Execute(Self, Section, Extension) then begin
++    if Section &lt;&gt; OrigSection then begin
++      sl := TStringList.Create;
++      try
++        FIni.ReadSectionValues(OrigSection, sl);
++        FIni.EraseSection(OrigSection);
++        FIni.WriteString(Section, 'extension', Extension);
++        for i := 0 to sl.Count - 1 do begin
++          s := sl.Names[i];
++          FIni.WriteString(Section, s, sl.Values[s]);
++        end;
++      finally
++        sl.Free;
++      end;
++    end else
++      FIni.WriteString(Section, 'extension', Extension);
++  end;
++end;
++
++procedure Tf_Configure.b_OKClick(Sender: TObject);
++begin
++  FIni.WriteString('global', 'caption', ed_MenuCaption.Text);
++end;
++
++procedure Tf_Configure.SetData(_Ini: TCustomIniFile);
++var
++  sl: TStringList;
++  i: Integer;
++begin
++  FIni := _Ini;
++  ed_MenuCaption.Text := FIni.ReadString('global', 'caption', 'SubMenu');
++  sl := TStringList.Create;
++  try
++    FIni.ReadSections(sl);
++    for i := 0 to sl.Count - 1 do begin
++      if SameText(sl[i], 'global') then
++        // do nothing
++      else begin
++        lb_Sections.Items.Add(sl[i]);
++      end;
++    end;
++  finally
++    FreeAndNil(sl);
++  end;
++end;
++
++procedure Tf_Configure.sg_ItemsGetNonfixedCellData(_Sender: TObject; _DataCol, _DataRow: Integer;
++  _State: TGridDrawState; var _Text: string; var _HAlign: TAlignment; var _VAlign: TdzCellVertAlign;
++  _Font: TFont; var _Color: TColor);
++begin
++  case _DataCol of
++    0: begin
++        if not Assigned(FItems) or (FItems.Count &lt;= _DataRow) then
++          exit;
++        _Text := FItems[_DataRow];
++      end;
++    1: begin
++        if not Assigned(FExecutables) or (FExecutables.Count &lt;= _DataRow) then
++          exit;
++        _Text := FExecutables[_DataRow];
++      end;
++  end;
++end;
++
++procedure Tf_Configure.lb_SectionsClick(Sender: TObject);
++var
++  Section: string;
++  i: Integer;
++begin
++  if not TListBox_GetSelected(lb_Sections, Section) then
++    exit;
++  FIni.ReadSection(Section, FItems);
++  ed_Extension.Text := FIni.ReadString(Section, 'extension', '');
++  FItems.Delete(0);
++  FExecutables.Clear;
++  for i := 0 to FItems.Count - 1 do begin
++    FExecutables.Add(FIni.ReadString(Section, fItems[i], ''));
++  end;
++  TGrid_SetRowCount(sg_Items, FItems.count + 1);
++  TGrid_Resize(sg_Items, [roUseGridWidth, roIgnoreHeader, roUseAllRows]);
++end;
++
++end.
++
+
+Added: utilities/dzContextMenu/trunk/src/w_EditSection.dfm
+===================================================================
+--- utilities/dzContextMenu/trunk/src/w_EditSection.dfm	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/w_EditSection.dfm	2010-10-02 18:16:07 UTC (rev 510)
+@@ -0,0 +1,64 @@
++object f_EditSection: Tf_EditSection
++  Left = 0
++  Top = 0
++  Caption = 'File Type'
++  ClientHeight = 89
++  ClientWidth = 273
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'Tahoma'
++  Font.Style = []
++  OldCreateOrder = False
++  PixelsPerInch = 96
++  TextHeight = 13
++  object l_Section: TLabel
++    Left = 8
++    Top = 8
++    Width = 43
++    Height = 13
++    Caption = 'File Type'
++  end
++  object l_Extension: TLabel
++    Left = 144
++    Top = 8
++    Width = 47
++    Height = 13
++    Caption = 'Extension'
++  end
++  object ed_Section: TEdit
++    Left = 8
++    Top = 24
++    Width = 121
++    Height = 21
++    TabOrder = 0
++  end
++  object ed_Extension: TEdit
++    Left = 144
++    Top = 24
++    Width = 121
++    Height = 21
++    TabOrder = 1
++  end
++  object b_Ok: TButton
++    Left = 112
++    Top = 56
++    Width = 75
++    Height = 25
++    Caption = 'OK'
++    Default = True
++    ModalResult = 1
++    TabOrder = 2
++  end
++  object b_Cancel: TButton
++    Left = 192
++    Top = 56
++    Width = 75
++    Height = 25
++    Cancel = True
++    Caption = 'Cancel'
++    ModalResult = 2
++    TabOrder = 3
++  end
++end
+
+Added: utilities/dzContextMenu/trunk/src/w_EditSection.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/w_EditSection.pas	                        (rev 0)
++++ utilities/dzContextMenu/trunk/src/w_EditSection.pas	2010-10-02 18:16:07 UTC (rev 510)
+@@ -0,0 +1,70 @@
++unit w_EditSection;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls;
++
++type
++  Tf_EditSection = class(TForm)
++    ed_Section: TEdit;
++    ed_Extension: TEdit;
++    b_Ok: TButton;
++    b_Cancel: TButton;
++    l_Section: TLabel;
++    l_Extension: TLabel;
++  private
++    procedure SetData(const _Section, _Extension: string);
++    procedure GetData(var _Section, _Extension: string);
++  public
++    class function Execute(_Owner: TWinControl; var _Section, _Extension: string): boolean;
++  end;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  u_dzVclUtils;
++
++{ Tf_EditSection }
++
++class function Tf_EditSection.Execute(_Owner: TWinControl; var _Section, _Extension: string): boolean;
++var
++  frm: Tf_EditSection;
++begin
++  frm := Tf_EditSection.Create(_Owner);
++  try
++    TForm_CenterOn(frm, _Owner);
++    frm.SetData(_Section, _Extension);
++    Result := (frm.ShowModal = mrOk);
++    if Result then
++      frm.GetData(_Section, _Extension);
++  finally
++    FreeAndNil(frm);
++  end;
++end;
++
++procedure Tf_EditSection.GetData(var _Section, _Extension: string);
++begin
++  _Section := ed_Section.Text;
++  _Extension := ed_Extension.Text;
++end;
++
++procedure Tf_EditSection.SetData(const _Section, _Extension: string);
++begin
++  ed_Section.Text := _Section;
++  ed_Extension.Text := _Extension;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000368.html">[Dzchart-svncheckins] r509 - in 3rd/jcl/2.000/trunk: lib/d10	lib/d14 packages/d10
+</A></li>
+	<LI>Next message: <A HREF="000370.html">[Dzchart-svncheckins] r511 - in utilities/dzCmdLineParser/trunk: .	src translations translations/de translations/en translations/fr
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#369">[ date ]</a>
+              <a href="thread.html#369">[ thread ]</a>
+              <a href="subject.html#369">[ subject ]</a>
+              <a href="author.html#369">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

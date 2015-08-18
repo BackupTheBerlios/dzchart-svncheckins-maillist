@@ -1,0 +1,2811 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r125 - in utilities/dzAutoSave: . trunk	trunk/Delphi2006 trunk/Delphi5 trunk/Delphi6 trunk/source
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r125%20-%20in%20utilities/dzAutoSave%3A%20.%20trunk%0A%09trunk/Delphi2006%20trunk/Delphi5%20trunk/Delphi6%20trunk/source&In-Reply-To=%3C200701011427.l01ERYRH016564%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000000.html">
+   <LINK REL="Next"  HREF="000002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r125 - in utilities/dzAutoSave: . trunk	trunk/Delphi2006 trunk/Delphi5 trunk/Delphi6 trunk/source</H1>
+    <B>twm at BerliOS</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r125%20-%20in%20utilities/dzAutoSave%3A%20.%20trunk%0A%09trunk/Delphi2006%20trunk/Delphi5%20trunk/Delphi6%20trunk/source&In-Reply-To=%3C200701011427.l01ERYRH016564%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r125 - in utilities/dzAutoSave: . trunk	trunk/Delphi2006 trunk/Delphi5 trunk/Delphi6 trunk/source">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Jan  1 15:27:34 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000000.html">[Dzchart-svncheckins] r124 - utilities
+</A></li>
+        <LI>Next message: <A HREF="000002.html">[Dzchart-svncheckins] r126 - utilities/dzAutoSave/trunk/Delphi2006
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-01-01 15:27:32 +0100 (Mon, 01 Jan 2007)
+New Revision: 125
+
+Added:
+   utilities/dzAutoSave/trunk/
+   utilities/dzAutoSave/trunk/Delphi2006/
+   utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj
+   utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk
+   utilities/dzAutoSave/trunk/Delphi5/
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk
+   utilities/dzAutoSave/trunk/Delphi6/
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof
+   utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk
+   utilities/dzAutoSave/trunk/Delphi7/
+   utilities/dzAutoSave/trunk/source/
+   utilities/dzAutoSave/trunk/source/delphiversions.inc
+   utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+   utilities/dzAutoSave/trunk/source/dzAutoConfig.pas
+   utilities/dzAutoSave/trunk/source/dzAutoSaveReg.pas
+   utilities/dzAutoSave/trunk/source/dzAutoUtil.pas
+   utilities/dzAutoSave/trunk/source/dzAutoWizard.pas
+Log:
+initial import of AutoSave wizard
+
+Added: utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.bdsproj	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,175 @@
++&#239;&#187;&#191;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;BorlandProject&gt;
++  &lt;PersonalityInfo&gt;
++    &lt;Option&gt;
++      &lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
++      &lt;Option Name=&quot;ProjectType&quot;&gt;VCLApplication&lt;/Option&gt;
++      &lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
++      &lt;Option Name=&quot;GUID&quot;&gt;{9454CBDE-6D68-4F11-A030-22DC6BEB5018}&lt;/Option&gt;
++    &lt;/Option&gt;
++  &lt;/PersonalityInfo&gt;
++  &lt;Delphi.Personality&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;dzAutoSave.dpk&lt;/Source&gt;
++    &lt;/Source&gt;
++    &lt;FileVersion&gt;
++      &lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
++    &lt;/FileVersion&gt;
++    &lt;Compiler&gt;
++      &lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;J&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Q&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;R&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;T&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitPlatform&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
++    &lt;/Compiler&gt;
++    &lt;Linker&gt;
++      &lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
++      &lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
++      &lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
++      &lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
++      &lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ImageBase&quot;&gt;253755392&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ExeDescription&quot;&gt;dummzeuch.de Auto Save Wizard&lt;/Linker&gt;
++    &lt;/Linker&gt;
++    &lt;Directories&gt;
++      &lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;Packages&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;UsePackages&quot;&gt;False&lt;/Directories&gt;
++    &lt;/Directories&gt;
++    &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;HostApplication&quot;&gt;$(BDS)\Bin\bds.exe&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;Language&gt;
++      &lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
++      &lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
++      &lt;Language Name=&quot;RootDir&quot;&gt;D:\source\icd.autosave\&lt;/Language&gt;
++    &lt;/Language&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;2&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;18&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;Tempest Software, Inc.&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;Auto Save Wizard&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.2.1.18&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;Copyright &#194;&#169; 1999 Tempest Software,Inc.&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;autosave60.bpl&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;Auto Save Wizard&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++    &lt;/VersionInfoKeys&gt;
++  &lt;/Delphi.Personality&gt;
++&lt;/BorlandProject&gt;
+
+Added: utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi2006/dzAutoSave.dpk	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,40 @@
++package dzAutoSave;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
++{$LIBSUFFIX '10'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl,
++  designide;
++
++contains
++  dzAutoSaveReg in '..\dzAutoSaveReg.pas',
++  dzAutoWizard in '..\dzAutoWizard.pas',
++  dzAutoConfig in '..\dzAutoConfig.pas' {TAutoSaveForm},
++  dzAutoUtil in '..\dzAutoUtil.pas';
++
++end.
+
+Added: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,22 @@
++#------------------------------------------------------------------------------
++VERSION = BWS.01
++#------------------------------------------------------------------------------
++!ifndef ROOT
++ROOT = $(MAKEDIR)\..
++!endif
++#------------------------------------------------------------------------------
++MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
++DCC = $(ROOT)\bin\dcc32.exe $**
++BRCC = $(ROOT)\bin\brcc32.exe $**
++#------------------------------------------------------------------------------
++PROJECTS = AutoSave5.bpl
++#------------------------------------------------------------------------------
++default: $(PROJECTS)
++#------------------------------------------------------------------------------
++
++
++
++AutoSave5.bpl: AutoSave5.dpk
++  $(DCC)
++
++
+
+Added: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,150 @@
++[FileVersion]
++Version=7.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++NamespacePrefix=
++SymbolDeprecated=1
++SymbolLibrary=1
++SymbolPlatform=1
++UnitLibrary=1
++UnitPlatform=1
++UnitDeprecated=1
++HResultCompat=1
++HidingMember=1
++HiddenVirtual=1
++Garbage=1
++BoundsError=1
++ZeroNilCompat=1
++StringConstTruncated=1
++ForLoopVarVarPar=1
++TypedConstVarPar=1
++AsgToTypedConst=1
++CaseLabelRange=1
++ForVariable=1
++ConstructingAbstract=1
++ComparisonFalse=1
++ComparisonTrue=1
++ComparingSignedUnsigned=1
++CombiningSignedUnsigned=1
++UnsupportedConstruct=1
++FileOpen=1
++FileOpenUnitSrc=1
++BadGlobalSymbol=1
++DuplicateConstructorDestructor=1
++InvalidDirective=1
++PackageNoLink=1
++PackageThreadVar=1
++ImplicitImport=1
++HPPEMITIgnored=1
++NoRetVal=1
++UseBeforeDef=1
++ForLoopVarUndef=1
++UnitNameMismatch=1
++NoCFGFileFound=1
++MessageDirective=1
++ImplicitVariants=1
++UnicodeToLocale=1
++LocaleToUnicode=1
++ImagebaseMultiple=1
++SuspiciousTypecast=1
++PrivatePropAccessor=1
++UnsafeType=1
++UnsafeCode=1
++UnsafeCast=1
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=Q:\bpl\dcu
++PackageDLLOutputDir=Q:\bpl
++PackageDCPOutputDir=Q:\bpl\dcp
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=
++[Language]
++ActiveLang=
++ProjectLang=
++RootDir=
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=1
++Release=0
++Build=2
++Debug=1
++PreRelease=1
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.1.0.2
++InternalName=
++LegalCopyright=Copyright &#169; 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[Excluded Packages]
++c:\program files\borland\delphi7\Bin\dclite50.bpl=Borland Integrated Translation Environment
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Added: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,38 @@
++package AutoSave5;
++
++{$R *.RES}
++{$ALIGN ON}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'Auto Save Wizard'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl50;
++
++contains
++  AutoSaveReg in 'AutoSaveReg.pas',
++  AutoWizard in 'AutoWizard.pas',
++  AutoConfig in 'AutoConfig.pas' {TAutoSaveForm},
++  AutoUtil in 'AutoUtil.pas';
++
++end.
+
+Added: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.bpg	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,21 @@
++#------------------------------------------------------------------------------
++VERSION = BWS.01
++#------------------------------------------------------------------------------
++!ifndef ROOT
++ROOT = $(MAKEDIR)\..
++!endif
++#------------------------------------------------------------------------------
++MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
++DCC = $(ROOT)\bin\dcc32.exe $**
++BRCC = $(ROOT)\bin\brcc32.exe $**
++#------------------------------------------------------------------------------
++PROJECTS = AutoSave6.bpl
++#------------------------------------------------------------------------------
++default: $(PROJECTS)
++#------------------------------------------------------------------------------
++
++
++AutoSave6.bpl: AutoSave6.dpk
++  $(DCC)
++
++
+
+Added: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dof	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,181 @@
++[FileVersion]
++Version=7.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++NamespacePrefix=
++SymbolDeprecated=1
++SymbolLibrary=1
++SymbolPlatform=0
++UnitLibrary=1
++UnitPlatform=0
++UnitDeprecated=1
++HResultCompat=1
++HidingMember=1
++HiddenVirtual=1
++Garbage=1
++BoundsError=1
++ZeroNilCompat=1
++StringConstTruncated=1
++ForLoopVarVarPar=1
++TypedConstVarPar=1
++AsgToTypedConst=1
++CaseLabelRange=1
++ForVariable=1
++ConstructingAbstract=1
++ComparisonFalse=1
++ComparisonTrue=1
++ComparingSignedUnsigned=1
++CombiningSignedUnsigned=1
++UnsupportedConstruct=1
++FileOpen=1
++FileOpenUnitSrc=1
++BadGlobalSymbol=1
++DuplicateConstructorDestructor=1
++InvalidDirective=1
++PackageNoLink=1
++PackageThreadVar=1
++ImplicitImport=1
++HPPEMITIgnored=1
++NoRetVal=1
++UseBeforeDef=1
++ForLoopVarUndef=1
++UnitNameMismatch=1
++NoCFGFileFound=1
++MessageDirective=1
++ImplicitVariants=1
++UnicodeToLocale=1
++LocaleToUnicode=1
++ImagebaseMultiple=1
++SuspiciousTypecast=1
++PrivatePropAccessor=1
++UnsafeType=0
++UnsafeCode=0
++UnsafeCast=0
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=dummzeuch.de Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=Q:\bpl\dcu
++PackageDLLOutputDir=Q:\bpl
++PackageDCPOutputDir=Q:\bpl\dcp
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=C:\Program Files\Borland\Delphi7\Projects
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=2
++Release=1
++Build=10
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.2.1.10
++InternalName=
++LegalCopyright=Copyright &#169; 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[Excluded Packages]
++q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
++c:\program files\borland\delphi7\Bin\dclado70.bpl=Borland ADO DB Components
++c:\program files\borland\delphi7\Bin\dclshlctrls70.bpl=Shell Control Property and Component Editors
++c:\program files\borland\delphi7\Bin\dclemacsedit70.bpl=Borland Editor Emacs Enhancements
++c:\program files\borland\delphi7\Bin\applet70.bpl=Borland Control Panel Applet Package
++C:\Program Files\Borland\Delphi7\Bin\dbx70.bpl=Borland SQL Explorer UI Package
++Q:\bpl\hkimportexport7.bpl=headwork Import/Export Wizard - desing and runtime (should be splitted)
++c:\program files\borland\delphi7\Bin\dclbde70.bpl=Borland BDE DB Components
++c:\program files\borland\delphi7\Bin\dclite70.bpl=Borland Integrated Translation Environment
++c:\program files\borland\delphi7\Bin\dclnet70.bpl=Borland Internet Components
++c:\program files\borland\delphi7\Bin\dclsoap70.bpl=Borland SOAP Components
++c:\program files\borland\delphi7\Bin\dclocx70.bpl=Borland Sample Imported ActiveX Controls
++c:\program files\borland\delphi7\Bin\dcldbx70.bpl=Borland dbExpress Components
++c:\program files\borland\delphi7\Bin\dcldbxcds70.bpl=Borland SimpleDataset Component (DBX)
++c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
++c:\program files\borland\delphi7\Bin\dclie70.bpl=Internet Explorer Components
++c:\program files\borland\delphi7\Bin\dcltee70.bpl=TeeChart Components
++c:\program files\borland\delphi7\Bin\dclib70.bpl=InterBase Data Access Components
++c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
++c:\program files\borland\delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
++c:\program files\borland\delphi7\Bin\dclmid70.bpl=Borland MyBase DataAccess Components
++C:\WINNT\System32\ibevnt70.bpl=Borland Interbase Event Alerter Component
++c:\program files\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
++Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.2
++Q:\bpl\dcldummzeuchchart.bpl=dummzeuch.de Charts - designtime package
++Q:\bpl\dclrxbd7.bpl=RX Library BDE Database Components
++Q:\bpl\olectra.bpl=Olectra Chart Components (Active X)
++Q:\bpl\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
++c:\program files\borland\delphi7\bin\dclRave70.bpl=Rave Reports BE 5.0 Package
++c:\program files\borland\delphi7\Bin\dclaxserver70.bpl=Microsoft Office 97 Sample Automation Server Wrapper Components
++Q:\bpl\JclDebugIde70.bpl=JCL Debug IDE extension for Delphi 7
++C:\Program Files\Castalia Free for Delphi\JacobsLadder7.bpl=Castalia for Delphi 7
++C:\Program Files\CompDiff\Delphi7\CompDiff.bpl=Component Diff Tool for Delphi
++C:\Program Files\Castalia for Delphi Trial\LadderFlyout7.bpl=Castalia Flyout Bar for Delphi 7
++C:\Program Files\Castalia for Delphi Trial\LadderForms7.bpl=Castalia Form Designer for Delphi 7
++C:\Program Files\Castalia for Delphi Trial\LadderStat7.bpl=Castalia Statistics for Delphi 7
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Added: utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/Delphi6/AutoSave6.dpk	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,39 @@
++package AutoSave6;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl,
++  designide;
++
++contains
++  AutoSaveReg in 'AutoSaveReg.pas',
++  AutoWizard in 'AutoWizard.pas',
++  AutoConfig in 'AutoConfig.pas' {TAutoSaveForm},
++  AutoUtil in 'AutoUtil.pas';
++
++end.
+
+Added: utilities/dzAutoSave/trunk/source/delphiversions.inc
+===================================================================
+--- utilities/dzAutoSave/trunk/source/delphiversions.inc	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/delphiversions.inc	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,41 @@
++// global defines und options
++// to be included in all source files
++
++// to make it easier to find out which version of Delphi we are using
++{$IFDEF VER130}
++{$DEFINE Delphi5up}
++{$ENDIF}
++
++{$IFDEF VER140}
++{$DEFINE Delphi5up}
++{$DEFINE Delphi6up}
++{$ENDIF}
++
++{$IFDEF VER150}
++{$DEFINE Delphi5up}
++{$DEFINE Delphi6up}
++{$DEFINE Delphi7up}
++{$ENDIF}
++
++{$IFDEF VER170}
++{$DEFINE Delphi5up}
++{$DEFINE Delphi6up}
++{$DEFINE Delphi7up}
++{$DEFINE Delphi2005up}
++{$ENDIF}
++
++
++{$IFDEF VER180}
++{$DEFINE Delphi5up}
++{$DEFINE Delphi6up}
++{$DEFINE Delphi7up}
++{$DEFINE Delphi2005up}
++{$DEFINE Delphi2006up}
++{$ENDIF}
++
++{$IFDEF Delphi6up}
++{$WARN unsafe_type off}
++{$WARN unsafe_code off}
++{$WARN unsafe_cast off}
++{$ENDIF}
++
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,255 @@
++object AutoSaveForm: TAutoSaveForm
++  Left = 322
++  Top = 214
++  BorderIcons = [biSystemMenu]
++  Caption = 'Auto Save Properties'
++  ClientHeight = 248
++  ClientWidth = 349
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -10
++  Font.Name = 'MS Sans Serif'
++  Font.Style = []
++  OldCreateOrder = True
++  Position = poScreenCenter
++  OnCreate = FormCreate
++  DesignSize = (
++    349
++    248)
++  PixelsPerInch = 96
++  TextHeight = 13
++  object b_Cancel: TButton
++    Left = 272
++    Top = 216
++    Width = 66
++    Height = 26
++    Anchors = [akRight, akBottom]
++    Cancel = True
++    Caption = 'Cancel'
++    ModalResult = 2
++    TabOrder = 2
++  end
++  object PageControl1: TPageControl
++    Left = 7
++    Top = 7
++    Width = 332
++    Height = 195
++    ActivePage = TabSheet1
++    Anchors = [akLeft, akTop, akRight, akBottom]
++    TabOrder = 0
++    object TabSheet1: TTabSheet
++      Caption = 'General'
++      DesignSize = (
++        324
++        167)
++      object Label2: TLabel
++        Left = 91
++        Top = 90
++        Width = 36
++        Height = 13
++        Caption = 'minutes'
++      end
++      object Icon: TImage
++        Left = 13
++        Top = 13
++        Width = 26
++        Height = 26
++        Picture.Data = {
++          055449636F6E0000010001002020100000000000E80200001600000028000000
++          2000000040000000010004000000000080020000000000000000000000000000
++          0000000000000000000080000080000000808000800000008000800080800000
++          C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000
++          FFFFFF0000000000000000000000000000000000000000000000000000000000
++          0000000000000000000000000000000000000000000000000000000008000000
++          08000000000000000000000CC077777FF0C00000000000000000000CC077777F
++          F0C00000000000000000000CC077777FF0C00000000000000000000CC0000000
++          00C00000000000000000000CCCCCCCCCCCC00000000000000000000C00000000
++          0CC00000000000000000000C0FFFFFFFF0C00000000000000FF00F0C0FFFFFFF
++          F0C0000000000000FFF00F0C0FFFFFFFF0C00000000000FF0FF00F0C0FFFFFFF
++          F0C0000000000FFFFFFFFF0C0FFFFFFFF0000000000008FFFFFFFF0C0FFFFFFF
++          F07000000000FF8FFFFFFF0000000000000000000000FFFFFFFFFFFFFFFF0000
++          000000000000000FFFF00FFFF0000000000000000000000FFFF00FFFF0000000
++          000000000000FFFFFF0F00FFFFFF0000000000000000FFFFF0FFF00FFFFF0000
++          0000000000000F8F0FFFFF00F8F000000000000000000777FFFFFFFFFF800000
++          00000000000000008FF00FF8FF0000000000000000000FFFFFF00FFF80000000
++          00000000000000000FF00FF00000000000000000000000000000000000000000
++          0000000000000000000000000000000000000000000000000000000000000000
++          0000000000000000000000000000000000000000000000000000000000000000
++          00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFE000FFFFC000FFFFC000FFFFC000F
++          FFFC000FFFFC000FFFFC000FFFFC000FFF80000FFE00000FFC00000FF800000F
++          F800000FF000000FF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF8001FFF
++          F8001FFFF8003FFFF8007FFFFF81FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
++          FFFFFFFF}
++      end
++      object Label3: TLabel
++        Left = 65
++        Top = 12
++        Width = 157
++        Height = 16
++        AutoSize = False
++        Caption = 'Auto Save Wizard'
++      end
++      object Bevel1: TBevel
++        Left = 7
++        Top = 52
++        Width = 312
++        Height = 7
++        Anchors = [akLeft, akTop, akRight]
++        Shape = bsTopLine
++      end
++      object Label1: TLabel
++        Left = 184
++        Top = 64
++        Width = 107
++        Height = 13
++        Caption = 'Position in Tools Menu'
++      end
++      object l_Version: TLabel
++        Left = 64
++        Top = 26
++        Width = 69
++        Height = 13
++        Caption = '0.00.000.0000'
++      end
++      object ud_Interval: TUpDown
++        Left = 72
++        Top = 88
++        Width = 12
++        Height = 21
++        Associate = ed_Interval
++        Min = 1
++        Max = 60
++        Position = 5
++        TabOrder = 2
++      end
++      object ed_Interval: TEdit
++        Left = 32
++        Top = 88
++        Width = 40
++        Height = 21
++        TabOrder = 1
++        Text = '5'
++      end
++      object chk_SaveTimed: TCheckBox
++        Left = 16
++        Top = 64
++        Width = 153
++        Height = 16
++        Caption = '&amp;Save Files Every'
++        Checked = True
++        State = cbChecked
++        TabOrder = 0
++      end
++      object chk_SaveOnCompile: TCheckBox
++        Left = 16
++        Top = 128
++        Width = 161
++        Height = 17
++        Caption = 'Save Before &amp;Compile'
++        TabOrder = 3
++      end
++      object ud_ToolPosition: TUpDown
++        Left = 224
++        Top = 88
++        Width = 11
++        Height = 21
++        Associate = ed_ToolPosition
++        Min = 1
++        Max = 5
++        Position = 1
++        TabOrder = 4
++      end
++      object ed_ToolPosition: TEdit
++        Left = 184
++        Top = 88
++        Width = 40
++        Height = 21
++        TabOrder = 5
++        Text = '1'
++      end
++      object chk_ShowMessage: TCheckBox
++        Left = 184
++        Top = 128
++        Width = 137
++        Height = 17
++        Caption = 'Show Message View'
++        TabOrder = 6
++        Visible = False
++      end
++    end
++    object TabSheet2: TTabSheet
++      Caption = 'Help'
++      ExplicitLeft = 0
++      ExplicitTop = 0
++      ExplicitWidth = 0
++      ExplicitHeight = 0
++      object Memo1: TMemo
++        Left = 7
++        Top = 7
++        Width = 312
++        Height = 156
++        TabStop = False
++        BorderStyle = bsNone
++        Color = clBtnFace
++        Ctl3D = False
++        Lines.Strings = (
++          'The Auto Save Wizard can save your files at regular intervals, '
++          
++            'helping to ensure that you do not lose information if Delphi or ' +
++            'your '
++          'system were to crash.'
++          ''
++          
++            'At regular intervals, every modified file is saved into a tempor' +
++            'ary '
++          
++            'file, whose name is formed by inserting a tilde (~) at the start' +
++            ' of the '
++          
++            'file name and which is marked *hidden* so it won'#39't show up in th' +
++            'e '
++          'file listing.'
++          ''
++          'When you open a project, if there are any auto-saved files, you '
++          
++            'are asked if you want to restore the files as soon as you open t' +
++            'he'
++          'file in the editor.')
++        ParentCtl3D = False
++        ReadOnly = True
++        TabOrder = 0
++        WantReturns = False
++      end
++    end
++    object TabSheet3: TTabSheet
++      Caption = 'Files'
++      ImageIndex = 2
++      ExplicitLeft = 0
++      ExplicitTop = 0
++      ExplicitWidth = 0
++      ExplicitHeight = 0
++      object FileList: TListBox
++        Left = 0
++        Top = 0
++        Width = 324
++        Height = 167
++        Align = alClient
++        ItemHeight = 13
++        TabOrder = 0
++        OnDblClick = FileListDblClick
++      end
++    end
++  end
++  object b_Ok: TButton
++    Left = 200
++    Top = 216
++    Width = 66
++    Height = 26
++    Anchors = [akRight, akBottom]
++    Caption = 'OK'
++    Default = True
++    ModalResult = 1
++    TabOrder = 1
++  end
++end
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoConfig.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoConfig.pas	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoConfig.pas	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,175 @@
++unit dzAutoConfig;
++
++{$I delphiversions.inc}
++
++{ Properties for the auto-save expert. }
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  ExtCtrls,
++  StdCtrls,
++  ComCtrls;
++
++type
++  TAutoSaveForm = class(TForm)
++    b_Cancel: TButton;
++    PageControl1: TPageControl;
++    TabSheet1: TTabSheet;
++    TabSheet2: TTabSheet;
++    Label2: TLabel;
++    ud_Interval: TUpDown;
++    ed_Interval: TEdit;
++    chk_SaveTimed: TCheckBox;
++    b_Ok: TButton;
++    Icon: TImage;
++    Label3: TLabel;
++    Bevel1: TBevel;
++    Memo1: TMemo;
++    TabSheet3: TTabSheet;
++    FileList: TListBox;
++    chk_SaveOnCompile: TCheckBox;
++    ud_ToolPosition: TUpDown;
++    ed_ToolPosition: TEdit;
++    Label1: TLabel;
++    chk_ShowMessage: TCheckBox;
++    l_Version: TLabel;
++    procedure FileListDblClick(Sender: TObject);
++    procedure FormCreate(Sender: TObject);
++  private
++    function GetSaveInterval: integer;
++    function GetSaveOnCompile: boolean;
++    function GetSaveTimed: boolean;
++    procedure SetSaveInterval(const _SaveInterval: integer);
++    procedure SetSaveOncompile(const _SaveOnCompile: boolean);
++    procedure SetSaveTimed(const _SaveTimed: boolean);
++    function GetToolPosition: integer;
++    procedure SetToolPosition(const _ToolPosition: integer);
++    function GetShowMessageView: boolean;
++    procedure SetShowMessageView(const _ShowMessageView: boolean);
++  public
++    property SaveTimed: boolean read GetSaveTimed write SetSaveTimed;
++    property SaveOnCompile: boolean read GetSaveOnCompile write SetSaveOncompile;
++    property SaveInterval: integer read GetSaveInterval write SetSaveInterval;
++    property ToolPosition: integer read GetToolPosition write SetToolPosition;
++    property ShowMessageView: boolean read GetShowMessageView write SetShowMessageView;
++  end;
++
++implementation
++
++uses
++  ToolsAPI;
++
++{$R *.DFM}
++
++function GetModuleFilename: string;
++var
++  Buffer: array[0..260] of Char;
++begin
++  SetString(Result, Buffer, Windows.GetModuleFileName(HInstance, Buffer, SizeOf(Buffer)))
++end;
++
++function GetFileBuildInfo: string;
++var
++  VerInfoSize: DWORD;
++  VerInfo: Pointer;
++  VerValueSize: DWORD;
++  VerValue: PVSFixedFileInfo;
++  Dummy: DWORD;
++  Major, Minor, Revision, Build: integer;
++  Filename: string;
++begin
++  Filename := GetModuleFileName;
++  VerInfoSize := GetFileVersionInfoSize(PChar(Filename), Dummy);
++  Result := '';
++  if (VerInfoSize &lt;&gt; 0) then
++    begin
++      GetMem(VerInfo, VerInfoSize);
++      try
++        GetFileVersionInfo(PChar(Filename), 0, VerInfoSize, VerInfo);
++        VerQueryValue(VerInfo, '\', Pointer(VerValue), VerValueSize);
++        with VerValue^ do
++          begin
++            Major := dwFileVersionMS shr 16;
++            Minor := dwFileVersionMS and $FFFF;
++            Revision := dwFileVersionLS shr 16;
++            Build := dwFileVersionLS and $FFFF;
++            Result := Format('version %d.%.2d.%.3d build %d', [Major, Minor, Revision, Build]);
++          end;
++      finally
++        FreeMem(VerInfo, VerInfoSize);
++      end;
++    end;
++end;
++
++procedure TAutoSaveForm.FileListDblClick(Sender: TObject);
++begin
++  IOTAEditor(Pointer(FileList.Items.Objects[FileList.ItemIndex])).Show;
++end;
++
++function TAutoSaveForm.GetSaveInterval: integer;
++begin
++  result := ud_Interval.Position;
++end;
++
++procedure TAutoSaveForm.SetSaveInterval(const _SaveInterval: integer);
++begin
++  ud_Interval.Position := _SaveInterval;
++end;
++
++function TAutoSaveForm.GetSaveOnCompile: boolean;
++begin
++  Result := chk_SaveOnCompile.Checked;
++end;
++
++procedure TAutoSaveForm.SetSaveOncompile(const _SaveOnCompile: boolean);
++begin
++  chk_SaveOnCompile.Checked := _SaveOnCompile;
++end;
++
++function TAutoSaveForm.GetSaveTimed: boolean;
++begin
++  Result := chk_SaveTimed.Checked;
++end;
++
++procedure TAutoSaveForm.SetSaveTimed(const _SaveTimed: boolean);
++begin
++  chk_SaveTimed.Checked := _SaveTimed;
++end;
++
++function TAutoSaveForm.GetToolPosition: integer;
++begin
++  Result := ud_ToolPosition.Position - 1;
++end;
++
++procedure TAutoSaveForm.SetToolPosition(const _ToolPosition: integer);
++begin
++  ud_ToolPosition.Position := _ToolPosition + 1;
++end;
++
++function TAutoSaveForm.GetShowMessageView: boolean;
++begin
++  Result := chk_ShowMessage.Checked;
++end;
++
++procedure TAutoSaveForm.SetShowMessageView(const _ShowMessageView: boolean);
++begin
++  chk_ShowMessage.Checked := _ShowMessageView;
++end;
++
++procedure TAutoSaveForm.FormCreate(Sender: TObject);
++begin
++  l_Version.Caption := GetFileBuildInfo;
++{$ifdef delphi6up}
++  chk_ShowMessage.Visible := true
++{$endif}
++end;
++
++end.
++
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoSaveReg.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoSaveReg.pas	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoSaveReg.pas	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,36 @@
++unit dzAutoSaveReg;
++
++interface
++
++uses
++  Forms,
++  ToolsAPI,
++  dzAutoWizard;
++
++procedure Register;
++
++implementation
++
++// Register the wizard in a package.
++
++procedure Register;
++begin
++  RegisterPackageWizard(TAutoSaveWizard.Create);
++end;
++
++// Register the wizard in a DLL.
++
++function InitWizard(Services: IBorlandIDEServices;
++  RegisterProc: TWizardRegisterProc;
++  var Terminate: TWizardTerminateProc): Boolean; stdcall;
++begin
++  Application.Handle := (Services as IOTAServices).GetParentHandle;
++  RegisterProc(TAutoSaveWizard.Create);
++  Result := True;
++end;
++
++exports
++  InitWizard name WizardEntryPoint;
++
++end.
++
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoUtil.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoUtil.pas	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoUtil.pas	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,790 @@
++unit dzAutoUtil;
++
++{$I delphiversions.inc}
++
++interface
++
++uses
++  Windows,
++  ActiveX,
++  SysUtils,
++  Classes,
++  Dialogs,
++  ToolsAPI;
++
++type
++  TOnAutoSave = procedure(const _Filename: string) of object;
++  TOnError = procedure(const _Error: string) of object;
++
++var
++  OnAutoSave: TOnAutoSave = nil;
++  OnError: TOnError = nil;
++
++type
++{$IFNDEF delphi6up}
++  // Base class for all notifiers, wizards, etc.
++  // The base class does nothing for each method, but derived classes
++  // can override any or all of these methods. Note that any given notifier
++  // interface might not call some (or any) of these methods.
++  TNotifierObject = class(TInterfacedObject, IOTANotifier)
++  public
++    procedure AfterSave;
++    procedure BeforeSave;
++    procedure Destroyed;
++    procedure Modified;
++  end;
++{$ENDIF}
++
++  TFileList = class;
++  TIdeFile = class;
++  TModuleList = class;
++
++  // Each Delphi module has a corresponding TModule object in the wizard.
++  // The TModule object is a module notifier and it keeps track of the
++  // individual files that comprise a module.
++  TModule = class(TNotifierObject, IOTANotifier, IOTAModuleNotifier)
++  private
++    fFileList: TFileList; // list of editor notifiers (TIdeFile objects)
++    fModule: IOTAModule; // Tools API module interface
++    fModuleList: TModuleList; // parent that contains this module
++    fNotifierIndex: Integer;
++  protected
++    procedure AddNotifier;
++    procedure RemoveNotifier;
++    procedure GetFiles;
++    property NotifierIndex: Integer read fNotifierIndex;
++
++  public
++    constructor Create(const Module: IOTAModule; List: TModuleList);
++    destructor Destroy; override;
++    procedure AutoSave;
++
++    // When the user saves a file, Delphi calls the module's AfterSave,
++    // but not AfterSave for the individual editors.
++    procedure AfterSave;
++    procedure Destroyed;
++
++    procedure GetFileList(List: TStrings);
++    function CheckOverwrite: Boolean;
++    procedure ModuleRenamed(const NewName: string);
++
++    property Module: IOTAModule read fModule;
++    property FileList: TFileList read fFileList;
++  end;
++
++  // Keep a list of open modules.
++  TModuleList = class
++  private
++    fList: TList;
++    function GetCount: Integer;
++    function GetModules(Index: Integer): TModule;
++  public
++    constructor Create;
++    destructor Destroy; override;
++
++    procedure AutoSave;
++    procedure Add(const Module: IOTAModule);
++    procedure Clear;
++    procedure Delete(Index: Integer);
++    procedure GetFileList(List: TStrings);
++    procedure Remove(Module: TModule);
++
++    property Count: Integer read GetCount;
++    property Modules[Index: Integer]: TModule read GetModules; default;
++  end;
++
++  // Each file that is open in the IDE is represented by a TIdeFile object.
++  // Derived classes specialize for different kinds of files, which are
++  // auto-saved differently, but the basic notifier behavior is common to
++  // all the files. Note that each module can have multiple files.
++  TIdeFile = class
++  private
++    fEditor: IOTAEditor;
++    fFileName: string;
++  public
++    constructor Create(const Editor: IOTAEditor);
++    procedure doAutoSave; virtual;
++    procedure AutoSave;
++    procedure Renamed; virtual;
++    procedure Saved; virtual;
++
++    property Editor: IOTAEditor read fEditor;
++    property FileName: string read fFileName;
++  end;
++
++  TFormFile = class(TIdeFile)
++  public
++    procedure doAutoSave; override;
++  end;
++
++  TSourceFile = class(TIdeFile)
++  public
++    procedure doAutoSave; override;
++  end;
++
++  TResourceFile = class(TIdeFile)
++  public
++    procedure doAutoSave; override;
++  end;
++
++  // Keep a list of TIdeFile objects.
++  TFileList = class
++  private
++    fList: TList;
++    function GetCount: Integer;
++    function GetFiles(Index: Integer): TIdeFile;
++  public
++    constructor Create;
++    destructor Destroy; override;
++    procedure AutoSave;
++    procedure Add(const Editor: IOTAEditor);
++    procedure Clear;
++    procedure Delete(Index: Integer);
++    procedure GetFileList(List: TStrings);
++    procedure Remove(IdeFile: TIdeFile);
++    procedure Renamed;
++    procedure Saved;
++
++    property Count: Integer read GetCount;
++    property Files[Index: Integer]: TIdeFile read GetFiles; default;
++  end;
++
++  // A file stream that stores an auto-save file.
++  TAutoSaveStream = class(THandleStream)
++  public
++    constructor Create(const Filename: string);
++    destructor Destroy; override;
++  end;
++
++function MakeAutoSaveFilename(const FileName: string): string;
++
++implementation
++
++uses
++{$ifdef delphi6up}
++  RtlConsts;
++{$else}
++  Consts;
++{$endif}
++
++resourcestring
++  S_Error = 'Error auto-saving %s'#13#10'%s';
++
++{ Form the auto-save file name by prepending a tilde to the
++  real file name. For example, c:\dir\foo.pas becomes
++  c:\dir\~foo.pas. }
++
++function MakeAutoSaveFilename(const FileName: string): string;
++begin
++  Result := ExtractFilePath(FileName);
++  if (Length(Result) &gt; 0) and (Result[Length(Result)] &lt;&gt; '\') then
++    Result := Result + '\';
++  Result := Result + '~' + ExtractFileName(FileName);
++end;
++
++{ TAutoSaveStream }
++
++{ Create an auto-save file, and open a stream to write that file.
++  TFileStream doesn't let you set the hidden file attribute when
++  creating the file, so inherit from THandleStream and open the
++  file by calling Windows' CreateFile API function. }
++
++constructor TAutoSaveStream.Create(const Filename: string);
++var
++  SaveFile: string;
++  Handle: THandle;
++begin
++  SaveFile := MakeAutoSaveFilename(Filename);
++  Handle := Windows.CreateFile(PChar(SaveFile), Generic_Write, 0, nil,
++    Create_Always, File_Attribute_Hidden, 0);
++
++  if Handle = Invalid_Handle_Value then
++    raise EFCreateError.CreateFmt(S_Error, [FileName]);
++
++  inherited Create(Handle);
++end;
++
++destructor TAutoSaveStream.Destroy;
++begin
++  CloseHandle(Handle);
++  inherited Destroy;
++end;
++
++{$IFNDEF delphi6up}
++{ TNotifierObject }
++
++procedure TNotifierObject.AfterSave;
++begin
++end;
++
++procedure TNotifierObject.BeforeSave;
++begin
++end;
++
++procedure TNotifierObject.Destroyed;
++begin
++end;
++
++procedure TNotifierObject.Modified;
++begin
++end;
++{$ENDIF}
++
++{ TIdeFile }
++// Remember the editor interface and register the notifier.
++
++constructor TIdeFile.Create(const Editor: IOTAEditor);
++begin
++  fEditor := Editor;
++  fFileName := Editor.FileName;
++  inherited Create;
++end;
++
++// Delete the auto-saved backup file.
++
++procedure TIdeFile.Saved;
++begin
++  DeleteFile(MakeAutoSaveFilename(Editor.FileName));
++end;
++
++// When the user renames a file, clean up the autosaved files, too.
++// Instead of messing around renaming the autosave files, it's easier
++// just to create new ones with the new name and delete the old
++// ones with the old name.
++//
++// At first, it seems safest to create the new files first, then
++// delete the old ones. That way, there is no window where a system
++// crash could occur after deleting the old autosaved files but before
++// the new ones were created. On the other hand, what if the file isn't
++// really renamed, but Delphi thinks it is? The IDE isn't always smart
++// about telling the difference between UNC names and drive letters,
++// for example. If the autosave wizard were to create the new files,
++// and then delete the old ones, that would be wrong if the old and
++// new files are the same.
++//
++// The best solution is to open the old and new files and see whether
++// they are the same. Win32 can return this information by comparing
++// the volume identifier and the file index number, but I'm too lazy.
++// The short cut is to delete the old file first, then create the new one.
++
++procedure TIdeFile.Renamed;
++begin
++  // Delete the old autosaved backup files.
++  DeleteFile(MakeAutoSaveFilename(FileName));
++  // Remember the new file name.
++  fFileName := Editor.FileName;
++  // Save under the new name.
++  AutoSave;
++end;
++
++{ TFormFile }
++// Auto-save a form file by writing its resource.
++
++procedure TFormFile.doAutoSave;
++var
++  Stream: TStream;
++  Adapter: IStream;
++begin
++  // The form editor interface needs an IStream, so create
++  // an adapter for the TAutoSaveStream.
++  Stream := TAutoSaveStream.Create(Editor.FileName);
++  try
++    Adapter := TStreamAdapter.Create(Stream);
++    try
++      (Editor as IOTAFormEditor).GetFormResource(Adapter);
++      inherited;
++    except
++      on Ex: Exception do
++      { Propagate the exception, but with the file name. }
++        raise Exception.CreateFmt(S_Error, [Editor.Filename, Ex.Message]);
++    end;
++  finally
++    Stream.Free;
++  end;
++end;
++
++{ TSourceFile }
++// Auto-save a file in the text editor.
++
++procedure TSourceFile.doAutoSave;
++const
++  BufSize = 8192;
++var
++  SourceEditor: IOTASourceEditor;
++  Reader: IOTAEditReader;
++  Buffer: PChar;
++  Count: Integer;
++  Stream: TStream;
++begin
++  Stream := nil;
++  SourceEditor := Editor as IOTASourceEditor;
++  Reader := SourceEditor.CreateReader;
++  GetMem(Buffer, BufSize);
++  try
++    Stream := TAutoSaveStream.Create(Editor.FileName);
++    try
++      repeat
++        Count := Reader.GetText(Stream.Position, Buffer, BufSize);
++        Stream.WriteBuffer(Buffer^, Count);
++      until Count &lt;&gt; BufSize;
++      inherited;
++    except
++      on Ex: Exception do
++      { Propagate the exception, but with the file name. }
++        raise Exception.CreateFmt(S_Error, [Editor.Filename, Ex.Message]);
++    end;
++  finally
++    Stream.Free;
++    FreeMem(Buffer);
++  end;
++end;
++
++{ TFileList }
++
++constructor TFileList.Create;
++begin
++  inherited;
++  fList := TList.Create;
++end;
++
++destructor TFileList.Destroy;
++begin
++  Clear;
++  fList.Free;
++  inherited;
++end;
++
++procedure TFileList.Add(const Editor: IOTAEditor);
++var
++  FormEditor: IOTAFormEditor;
++  SourceEditor: IOTASourceEditor;
++  ResourceFile: IOTAProjectResource;
++begin
++  if Succeeded(Editor.QueryInterface(IOTAFormEditor, FormEditor)) then
++    fList.Add(TFormFile.Create(Editor))
++  else
++    if Succeeded(Editor.QueryInterface(IOTASourceEditor, SourceEditor)) then
++      fList.Add(TSourceFile.Create(Editor))
++    else
++      if Succeeded(Editor.QueryInterface(IOTAProjectResource, ResourceFile)) then
++        fList.Add(TResourceFile.Create(Editor))
++      else
++        ShowMessage('Unknown file type. Cannot autosave ' + Editor.FileName);
++end;
++
++// Autosave all the modified files.
++
++procedure TFileList.AutoSave;
++var
++  I: Integer;
++  IdeFile: TIdeFile;
++begin
++  for I := 0 to fList.Count - 1 do
++    begin
++      IdeFile := Files[I];
++      if IdeFile.Editor.Modified then
++        begin
++          IdeFile.AutoSave;
++        end;
++    end;
++end;
++
++// Delete all the files in the list.
++
++procedure TFileList.Clear;
++var
++  I: Integer;
++begin
++  for I := fList.Count - 1 downto 0 do
++    Delete(I);
++end;
++
++// Delete and free a file in the list.
++
++procedure TFileList.Delete(Index: Integer);
++var
++  IdeFile: TIdeFile;
++begin
++  IdeFile := Files[Index];
++  fList.Delete(Index);
++  IdeFile.Free;
++end;
++
++// Get the list size.
++
++function TFileList.GetCount: Integer;
++begin
++  Result := fList.Count;
++end;
++
++// Get a file from the list.
++
++function TFileList.GetFiles(Index: Integer): TIdeFile;
++begin
++  Result := fList[Index];
++end;
++
++// When a notifier is destroyed, the notifier calls back to the list
++// and the list deletes the notifier.
++
++procedure TFileList.Remove(IdeFile: TIdeFile);
++begin
++  Delete(fList.IndexOf(IdeFile));
++end;
++
++// The module was renamed, so rename all the editor files.
++
++procedure TFileList.Renamed;
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    Files[I].Renamed;
++end;
++
++// The module was saved, so delete all the autosave files.
++
++procedure TFileList.Saved;
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    Files[I].Saved;
++end;
++
++// Copy all the file names in the list to &quot;List&quot;.
++// This method is used for debugging.
++
++procedure TFileList.GetFileList(List: TStrings);
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    List.AddObject(Files[I].FileName, TObject(Files[I].Editor));
++end;
++
++{ TModule }
++
++constructor TModule.Create(const Module: IOTAModule; List: TModuleList);
++begin
++  inherited Create;
++  fModule := Module;
++  fFileList := TFileList.Create;
++  fModuleList := List;
++  GetFiles;
++  AddNotifier;
++end;
++
++destructor TModule.Destroy;
++begin
++  RemoveNotifier;
++  fFileList.Free;
++  fFileList := nil;
++  inherited;
++end;
++
++// Autosave all the modified files for this module.
++
++procedure TModule.AutoSave;
++begin
++  FileList.AutoSave;
++end;
++
++// Module notifier method. Always return True because the autosave wizard does't care.
++
++function TModule.CheckOverwrite: Boolean;
++begin
++  Result := True;
++end;
++
++// When the module is destroyed, free the TModule object.
++// Also, free the autosaved files as though the user saved the file.
++// If the user deliberately abandons modified files that means the
++// user wants to discard those changes. The IDE prompts the user for
++// confirmation, so it's safe to abandon the autosave files, too.
++
++procedure TModule.Destroyed;
++begin
++  AfterSave; // Pretend the user saved the module.
++  RemoveNotifier;
++  fModuleList.Remove(Self); // Get rid of this module notifier.
++end;
++
++procedure TModule.ModuleRenamed(const NewName: string);
++begin
++  FileList.Renamed;
++end;
++
++// Get a list of all the files associated with this module, for debugging.
++
++procedure TModule.GetFileList(List: TStrings);
++begin
++  FileList.GetFileList(List);
++end;
++
++// Initialize the module with all of its editor files.
++
++procedure TModule.GetFiles;
++var
++  I: Integer;
++begin
++  for I := 0 to Module.GetModuleFileCount - 1 do
++    FileList.Add(Module.GetModuleFileEditor(I));
++end;
++
++// After the user saves a file, delete all the autosave files.
++
++procedure TModule.AfterSave;
++begin
++  FileList.Saved;
++end;
++
++procedure TModule.AddNotifier;
++begin
++  fNotifierIndex := Module.AddNotifier(Self);
++end;
++
++procedure TModule.RemoveNotifier;
++begin
++  if NotifierIndex &gt;= 0 then
++    begin
++      Module.RemoveNotifier(NotifierIndex);
++      fNotifierIndex := -1;
++    end;
++end;
++
++{ TModuleList }
++
++constructor TModuleList.Create;
++begin
++  inherited;
++  fList := TList.Create;
++end;
++
++destructor TModuleList.Destroy;
++begin
++  Clear;
++  fList.Free;
++  inherited;
++end;
++
++// Add a module to the list.
++
++procedure TModuleList.Add(const Module: IOTAModule);
++begin
++  fList.Add(TModule.Create(Module, Self));
++end;
++
++// Autosave all the modules and all their files.
++
++procedure TModuleList.AutoSave;
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    Modules[I].AutoSave;
++end;
++
++// Clear all the modules from the list.
++
++procedure TModuleList.Clear;
++var
++  I: Integer;
++begin
++  for I := fList.Count - 1 downto 0 do
++    Delete(I);
++end;
++
++// Return the size of the list.
++
++function TModuleList.GetCount: Integer;
++begin
++  Result := fList.Count;
++end;
++
++// Get a module, conveniently type cast to TModule.
++
++function TModuleList.GetModules(Index: Integer): TModule;
++begin
++  Result := fList[Index];
++end;
++
++// Remove a module from the list.
++
++procedure TModuleList.Remove(Module: TModule);
++begin
++  Delete(fList.IndexOf(Module));
++end;
++
++// Delete a module from an index in the list. Automatically free
++// the module, which also unregisters the notifier.
++
++procedure TModuleList.Delete(Index: Integer);
++var
++  Module: TModule;
++begin
++  Module := Modules[Index];
++  fList.Delete(Index);
++  Module.RemoveNotifier;
++end;
++
++// Get a list of all the files in all the modules, for debugging.
++
++procedure TModuleList.GetFileList(List: TStrings);
++var
++  I: Integer;
++begin
++  for I := 0 to fList.Count - 1 do
++    Modules[I].GetFileList(List);
++end;
++
++// Return the number of bytes occupied by a resource type or name.
++// If the value is numeric, the size is 4 bytes; otherwise, it is
++// the number of bytes occupied by the name, including the trailing
++// zero word. The resource file uses Unicode, so the actual number
++// of bytes is twice the size of the string (plus trailing #0).
++
++function ResTypeSize(ResType: PChar): Integer;
++begin
++  if LongRec(ResType).Hi = 0 then
++    Result := SizeOf(LongInt)
++  else
++    Result := SizeOf(WideChar) * (StrLen(ResType) + 2);
++end;
++
++// Add zero bytes to a stream until its size is an integral
++// multiple of PadAmount.
++
++procedure PadStream(Stream: TStream; PadAmount: Integer);
++var
++  Zero: Integer;
++  PadSize: Integer;
++begin
++  Zero := 0;
++  PadSize := PadAmount - Stream.Size mod PadAmount;
++  if PadSize &lt;&gt; PadAmount then
++    Stream.WriteBuffer(Zero, PadSize);
++end;
++
++// Write the resource type or name to the stream.
++
++procedure WriteResType(Stream: TStream; ResType: PChar);
++var
++  I: Integer;
++  C: WideChar;
++  W: Word;
++begin
++  if LongRec(ResType).Hi = 0 then
++    begin
++    // The Delphi format uses a high word of 0 for a numeric resource
++    // type or name, but the .RES file format uses $FFFF.
++      W := $FFFF;
++      Stream.WriteBuffer(W, SizeOf(W));
++      W := LongRec(ResType).Lo;
++      Stream.WriteBuffer(W, SizeOf(W));
++    end
++  else
++    begin
++    // Write the name, converting each ANSI character to Unicode.
++    // Include the trailing #0 character, then pad to a LongWord boundary.
++      I := 0;
++      repeat
++        C := WideChar(ResType[I]);
++        Stream.WriteBuffer(C, SizeOf(C));
++        Inc(I);
++      until ResType[I - 1] = #0;
++      PadStream(Stream, SizeOf(LongInt));
++    end;
++end;
++
++procedure WriteResource(Stream: TStream; DataSize: LongInt; Data: PChar;
++  ResType: PChar; ResName: PChar; DataVersion: LongInt; Flags, Language: Word;
++  Version, Characteristics: LongInt);
++var
++  HeaderSize: LongInt;
++  HeaderStream: TMemoryStream;
++begin
++  // Use an in-memory stream for the resource header, to buffer
++  // the header and write it to the auto-save file in a single operation.
++  HeaderSize := SizeOf(DataSize) + SizeOf(HeaderSize) +
++    SizeOf(DataVersion) + SizeOf(Flags) + SizeOf(Language) +
++    SizeOf(Version) + SizeOf(Characteristics) +
++    ResTypeSize(ResType) + ResTypeSize(ResName);
++  HeaderStream := TMemoryStream.Create;
++  try
++    HeaderStream.WriteBuffer(DataSize, SizeOf(DataSize));
++    HeaderStream.WriteBuffer(HeaderSize, SizeOf(HeaderSize));
++    WriteResType(HeaderStream, ResType);
++    WriteResType(HeaderStream, ResName);
++    HeaderStream.WriteBuffer(DataVersion, SizeOf(DataVersion));
++    HeaderStream.WriteBuffer(Flags, SizeOf(Flags));
++    HeaderStream.WriteBuffer(Language, SizeOf(Language));
++    HeaderStream.WriteBuffer(Version, SizeOf(Version));
++    HeaderStream.WriteBuffer(Characteristics, SizeOf(Characteristics));
++    PadStream(HeaderStream, SizeOf(LongInt));
++    Stream.CopyFrom(HeaderStream, 0);
++  finally
++    HeaderStream.Free;
++  end;
++  if DataSize &gt; 0 then
++    begin
++      Stream.WriteBuffer(Data^, DataSize);
++      PadStream(Stream, SizeOf(LongInt));
++    end;
++end;
++
++{ TResourceFile }
++
++procedure TResourceFile.doAutoSave;
++var
++  ResourceFile: IOTAProjectResource;
++  Resource: IOTAResourceEntry;
++  Stream: TAutoSaveStream;
++  I: Integer;
++  Characteristics, DataVersion, Flags, Language, Version: LongInt;
++begin
++  ResourceFile := Editor as IOTAProjectResource;
++  Stream := TAutoSaveStream.Create(Editor.FileName);
++  try
++    // Every .RES file starts with an empty resource entry.
++    WriteResource(Stream, 0, nil, nil, nil, 0, 0, 0, 0, 0);
++    for I := 0 to ResourceFile.GetEntryCount - 1 do
++      begin
++        Resource := ResourceFile.GetEntry(I);
++        Resource.GetHeaderValue(hvFlags, Flags);
++        Resource.GetHeaderValue(hvLanguage, Language);
++        Resource.GetHeaderValue(hvCharacteristics, Characteristics);
++        Resource.GetHeaderValue(hvDataVersion, DataVersion);
++        Resource.GetHeaderValue(hvVersion, Version);
++        WriteResource(Stream, Resource.DataSize, Resource.GetData,
++          Resource.GetResourceType, Resource.GetResourceName,
++          DataVersion, Flags, Language, Version, Characteristics);
++      end;
++    inherited;
++  finally
++    Stream.Free;
++  end;
++end;
++
++{ TIdeFile }
++
++procedure TIdeFile.AutoSave;
++begin
++  try
++    doAutoSave;
++    if Assigned(OnAutoSave) then
++      OnAutoSave(fFileName);
++  except
++    on e: exception do
++      if Assigned(OnError) then
++        OnError(e.Message);
++  end;
++end;
++
++procedure TIdeFile.doAutoSave;
++begin
++// does nothing
++end;
++
++end.
++
+
+Added: utilities/dzAutoSave/trunk/source/dzAutoWizard.pas
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoWizard.pas	2007-01-01 14:24:21 UTC (rev 124)
++++ utilities/dzAutoSave/trunk/source/dzAutoWizard.pas	2007-01-01 14:27:32 UTC (rev 125)
+@@ -0,0 +1,675 @@
++unit dzAutoWizard;
++
++{$I delphiversions.inc}
++
++interface
++
++{ Auto save expert. Automatically save modified files and forms.
++  If Delphi exits unexpectedly (due to a crash, power failure, etc.),
++  you lose only the work done since the last auto-save.
++  When opening a file that had been auto-saved, you can restore
++  the auto-saved file, or ignore it and revert to the original file.
++
++  The user turns auto-save on and off and can change the interval
++  at which files are automatically saved.
++
++  Copyright &#169; 1999 Tempest Software, Inc.
++
++  Changes copyright 2003-2006 Thomas Mueller
++}
++
++uses
++  Windows,
++  ActiveX,
++  SysUtils,
++  Classes,
++  Forms,
++  Dialogs,
++  Controls,
++  Menus,
++  ExtCtrls,
++  ToolsApi,
++  Registry,
++  dzAutoUtil,
++  dzAutoConfig;
++
++type
++  TAutoSaveWizard = class;
++
++  TAutoSaveNotifier = class(TNotifierObject)
++  private
++    fNotifierIndex: Integer;
++    fWizard: TAutoSaveWizard;
++  protected
++    function RegisterNotifier: Integer; virtual;
++    procedure UnregisterNotifier(_Index: Integer); overload; virtual; abstract;
++  public
++    constructor Create(Wizard: TAutoSaveWizard);
++    destructor Destroy; override;
++    procedure UnregisterNotifier; overload;
++  end;
++
++  TIdeNotifier = class(TAutoSaveNotifier, IOTAIdeNotifier)
++  private
++    // IOTAIdeNotifier
++    procedure FileNotification(NotifyCode: TOTAFileNotification;
++      const FileName: string; var Cancel: Boolean);
++    procedure BeforeCompile(const Project: IOTAProject; var Cancel: Boolean);
++    procedure AfterCompile(Succeeded: Boolean);
++  protected
++    function RegisterNotifier: Integer; override;
++    procedure UnregisterNotifier(_Index: Integer); override;
++  public
++  end;
++
++{$IFDEF delphi6up}
++  TMessageNotifier = class(TAutoSaveNotifier, IOTAMessageNotifier)
++  private
++    fShowMessageView: Boolean;
++    fMessageGroup: IOTAMessageGroup;
++    procedure MessageGroupAdded(const Group: IOTAMessageGroup);
++    procedure MessageGroupDeleted(const Group: IOTAMessageGroup);
++    procedure AutoSaveCallback(const _Filename: string);
++    procedure ErrorCallback(const _Error: string);
++  protected
++    function RegisterNotifier: Integer; override;
++    procedure UnregisterNotifier(_Index: Integer); override;
++  public
++    constructor Create(_Wizard: TAutoSaveWizard);
++    destructor Destroy; override;
++    procedure ClearMessageView(_Show: Boolean);
++  end;
++{$ENDIF}
++
++  // Here is the actual wizard.
++  TAutoSaveWizard = class(TNotifierObject, IOTAWizard)
++  private
++    fModuleList: TModuleList; // List of modules open in the IDE.
++    fTimer: TTimer; // Timer for periodic auto-saving.
++    fMenuItem: TMenuItem; // Tools menu item for Auto Save Properties.
++    fIdeNotifier: TIdeNotifier;
++{$IFDEF delphi6up}
++    fMessageNotifier: TMessageNotifier;
++{$ENDIF}
++    fSaveOnCompile: Boolean;
++    fToolPosition: Integer;
++    fShowMessageView: Boolean;
++    procedure RestoreAutoSave(const SavedFile, CurrentFile: string);
++    procedure OnClick(Sender: TObject);
++    procedure OnTimer(Sender: TObject);
++    function GetEnabled: Boolean;
++    procedure SetEnabled(_Enabled: Boolean);
++    function GetInterval: Integer;
++    procedure SetInterval(Value: Integer);
++    procedure SetToolPosition(const _ToolPosition: Integer);
++    procedure SetSaveOnCompile(const _SaveOnCompile: Boolean);
++    procedure UpdateMenuChecked;
++  protected
++    procedure EditProperties;
++    procedure GetRegInfo;
++    procedure SetRegInfo;
++    procedure AutoSaveFiles;
++    procedure BeforeCompile;
++    function MakeMenuItem: TMenuItem;
++    procedure GetOpenModules;
++    procedure AddNotifiers(const FileName: string); overload;
++    procedure AddNotifiers(const Module: IOTAModule); overload;
++    property ModuleList: TModuleList read fModuleList;
++  public
++    constructor Create;
++    destructor Destroy; override;
++    function FileOpening(const FileName: string): Boolean;
++
++    // IOTAWizard
++    procedure Execute;
++    function GetName: string;
++    function GetState: TWizardState;
++    function GetIDString: string;
++
++    property Enabled: Boolean read GetEnabled write SetEnabled;
++    property SaveOnCompile: Boolean read fSaveOnCompile write SetSaveOnCompile;
++    property Interval: Integer read GetInterval write SetInterval;
++    property Timer: TTimer read fTimer;
++    property ToolPosition: Integer read fToolPosition write SetToolPosition;
++    property MenuItem: TMenuItem read fMenuItem;
++    property ShowMessageView: Boolean read fShowMessageView write fShowMessageView;
++  end;
++
++implementation
++
++resourcestring
++  S_CantFindTools = 'Cannot locate Tools menu';
++  S_Label = '&amp;Auto Save...';
++  S_Name = 'Auto Save Expert';
++  S_CantRestore = 'Cannot restore auto-saved file';
++  S_LoadPrompt = 'File was auto-saved when Delphi terminated unexpectedly:' +
++    #13#10'%s'#13#10'Load from the auto-saved file?';
++
++  { TAutoSaveWizard }
++
++  { When the expert is created,it installs a menu item on Delphi's Tools menu,
++    to invoke the Auto Save Properties dialog. The constructor also
++    creates the auto-save timer. }
++
++constructor TAutoSaveWizard.Create;
++begin
++  inherited;
++  fShowMessageView := True;
++
++  fModuleList := TModuleList.Create;
++  fTimer := TTimer.Create(nil);
++  Timer.OnTimer := OnTimer;
++
++  // Register the IDE notifier so the wizard knows when the user opens a file.
++  fIdeNotifier := TIdeNotifier.Create(Self);
++{$IFDEF delphi6up}
++  fMessageNotifier := TMessageNotifier.Create(Self);
++{$ENDIF}
++  // Add the Auto Save menu item to the Tools menu.
++  fMenuItem := MakeMenuItem;
++
++  // Get the configuration data from the registry.
++  GetRegInfo;
++
++  // Add notifiers for all files currently open.
++  GetOpenModules;
++end;
++
++destructor TAutoSaveWizard.Destroy;
++begin
++  if Assigned(fIdeNotifier) then
++    fIdeNotifier.UnregisterNotifier; // Delphi frees the notifier when its ref count = 0
++{$IFDEF delphi6up}
++  if Assigned(fMessageNotifier) then
++    fMessageNotifier.UnregisterNotifier; // Delphi frees the notifier when its ref count = 0
++{$ENDIF}
++  MenuItem.Free;
++  fMenuItem := nil;
++  Timer.Free;
++  fTimer := nil;
++  ModuleList.Free;
++  fModuleList := nil;
++
++  inherited;
++end;
++
++{ Store the auto-save configuration in the registry. }
++const
++  REG_KEY = '\Software\dummzeuch.de';
++  REG_SECTION = 'Auto Save Expert';
++  REG_ENABLED = 'Enabled';
++  REG_INTERVAL = 'Interval';
++  DEFAULT_INTERVAL = 2 * 60 * 1000; // 2 minutes, in milliseconds
++  REG_SAVE_ON_COMPILE = 'SaveOnCompile';
++  REG_TOOL_POSITION = 'ToolPosition';
++  REG_SHOW_MESSAGE_VIEW = 'ShowMessageView';
++
++procedure TAutoSaveWizard.GetRegInfo;
++var
++  Reg: TRegIniFile;
++begin
++  Reg := TRegIniFile.Create(REG_KEY);
++  try
++    Enabled := Reg.ReadBool(REG_SECTION, REG_ENABLED, True);
++    Interval := Reg.ReadInteger(REG_SECTION, REG_INTERVAL, DEFAULT_INTERVAL);
++    SaveOnCompile := Reg.ReadBool(REG_SECTION, REG_SAVE_ON_COMPILE, False);
++    ToolPosition := Reg.ReadInteger(REG_SECTION, REG_TOOL_POSITION, 0);
++    ShowMessageView := Reg.ReadBool(REG_SECTION, REG_SHOW_MESSAGE_VIEW, True);
++  finally
++    Reg.Free;
++  end;
++end;
++
++{ Store the configuration after it changes. }
++
++procedure TAutoSaveWizard.SetRegInfo;
++var
++  Reg: TRegIniFile;
++begin
++  Reg := TRegIniFile.Create(REG_KEY);
++  try
++    Reg.WriteBool(REG_SECTION, REG_ENABLED, Enabled);
++    Reg.WriteInteger(REG_SECTION, REG_INTERVAL, Interval);
++    Reg.WriteBool(REG_SECTION, REG_SAVE_ON_COMPILE, SaveOnCompile);
++    Reg.WriteInteger(REG_SECTION, REG_TOOL_POSITION, ToolPosition);
++    Reg.WriteBool(REG_SECTION, REG_SHOW_MESSAGE_VIEW, ShowMessageView);
++  finally
++    Reg.Free;
++  end;
++end;
++
++{ Perform the automatic save by checking all the modules,
++  and saving any that have been modified. }
++
++procedure TAutoSaveWizard.AutoSaveFiles;
++begin
++{$IFDEF delphi6up}
++  if Assigned(fMessageNotifier) then
++    fMessageNotifier.ClearMessageView(ShowMessageView);
++{$ENDIF}
++  ModuleList.AutoSave;
++end;
++
++{ Restore an auto-saved file. Delete the original, and rename
++  the auto-save file to have the name of the original. If the
++  Delete succeeds and the rename fails, then the user needs to
++  patch things up by hand. }
++
++procedure TAutoSaveWizard.RestoreAutoSave(const SavedFile, CurrentFile: string);
++begin
++  if not DeleteFile(CurrentFile) or not RenameFile(SavedFile, CurrentFile) then
++    MessageDlg(S_CantRestore, mtWarning, [mbOK], 0);
++end;
++
++{ A file notifier has been notified that a file is about to be
++  opened. Before allowing Delphi to open the file, check for
++  an auto-saved file. In most cases, there won't be one, so
++  just return False, to allow the open to proceed normally.
++  If there is an auto-save file, then ask the user whether
++  he or she wants to load the auto-saved file, or stick with
++  the original. The user can also choose Cancel, which returns
++  True, to cancel the open action. If the user choose Yes, to
++  use the auto-save file, then delete the original and rename
++  the auto-saved file in its stead. }
++
++function TAutoSaveWizard.FileOpening(const FileName: string): Boolean;
++var
++  SaveFile: string;
++  st: TFileStream;
++begin
++  Result := False;
++  SaveFile := MakeAutoSaveFileName(FileName);
++  if not FileExists(SaveFile) then
++    Exit;
++
++  try
++    st := TFileStream.Create(SaveFile, fmOpenRead);
++    try
++      if st.Size = 0 then begin
++        FreeAndNil(st);
++        DeleteFile(SaveFile);
++        Exit; // don't restore empty files
++      end;
++    finally
++      FreeAndNil(st);
++    end;
++  except
++    Exit; // if we can't open it, it doesn't make sense to try to restore it
++  end;
++
++  MessageBeep(Mb_IconQuestion);
++  case MessageDlg(Format(S_LoadPrompt, [FileName]), mtConfirmation, mbYesNoCancel, 0) of
++    mrYes:
++      RestoreAutoSave(SaveFile, FileName);
++    mrNo:
++      DeleteFile(SaveFile);
++    mrCancel:
++      Result := True;
++  end;
++end;
++
++// Create notifiers for all the files that are open when the wizard starts.
++
++procedure TAutoSaveWizard.GetOpenModules;
++var
++  i: Integer;
++  Services: IOTAModuleServices;
++begin
++  Services := BorlandIDEServices as IOTAModuleServices;
++  for i := 0 to Services.ModuleCount - 1 do
++    AddNotifiers(Services.Modules[i]);
++end;
++
++{ The user has chosen the Auto Save menu item, to edit the
++  auto-save properties. If the user clicks the OK button, then
++  save the new configuration values, and store them in the registry. }
++
++procedure TAutoSaveWizard.EditProperties;
++const
++  MillisecPerMinute = 60 * 1000;
++var
++  Form: TAutoSaveForm;
++begin
++  Form := TAutoSaveForm.Create(Application);
++  try
++    { Initialize the form with the current values. }
++    Form.SaveInterval := Interval div MillisecPerMinute;
++    Form.SaveTimed := Enabled;
++    Form.SaveOnCompile := SaveOnCompile;
++    Form.ToolPosition := ToolPosition;
++    Form.ShowMessageView := ShowMessageView;
++    ModuleList.GetFileList(Form.FileList.Items);
++
++    if Form.ShowModal = mrOk then begin
++        { Extract the new values from the form. }
++      Enabled := Form.SaveTimed;
++      Interval := Form.SaveInterval * MillisecPerMinute;
++      SaveOnCompile := Form.SaveOnCompile;
++      ToolPosition := Form.ToolPosition;
++      ShowMessageView := Form.ShowMessageView;
++        { Save the new values in the registry. }
++      SetRegInfo;
++    end;
++  finally
++    Form.Free;
++  end;
++end;
++
++// Find a menu item whose component name is Name. Search recursively
++// in all submenus, starting at Item. Return a reference to the menu item
++// or nil if not found.
++
++function FindMenuItem(Item: TMenuItem; const Name: string): TMenuItem;
++var
++  i: Integer;
++begin
++  Result := nil;
++  if CompareText(Item.Name, Name) = 0 then
++    Result := Item
++  else
++    for i := 0 to Item.Count - 1 do begin
++      Result := FindMenuItem(Item.Items[i], Name);
++      if Result &lt;&gt; nil then
++        Exit;
++    end;
++end;
++
++{ Create and return a menu item to invoke the configuration dialog box. }
++
++function TAutoSaveWizard.MakeMenuItem: TMenuItem;
++var
++  MainMenu: TMainMenu;
++  ToolsMenu: TMenuItem;
++begin
++  // Add a menu item to the Tools menu.
++  MainMenu := (BorlandIDEServices as INTAServices).MainMenu;
++  ToolsMenu := FindMenuItem(MainMenu.Items, 'ToolsMenu');
++  if ToolsMenu = nil then
++    raise Exception.Create(S_CantFindTools);
++
++  { Insert as first menu item. Appending as last Tools menu
++    item does not work because when the user adds tools,
++    they overwrite the added item. }
++  Result := NewItem(S_Label, 0, Enabled, True, OnClick, 0, 'mi_AutoSaveWizard');
++  ToolsMenu.Insert(ToolPosition, Result);
++end;
++
++// After the IDE opens a file, create a notifier for each editor.
++
++procedure TAutoSaveWizard.AddNotifiers(const FileName: string);
++var
++  Module: IOTAModule;
++begin
++  Module := (BorlandIDEServices as IOTAModuleServices).FindModule(FileName);
++  if Module &lt;&gt; nil then
++    AddNotifiers(Module);
++end;
++
++// Modules with file systems are not usually files. Even if the file
++// system is file-based, the &quot;file&quot; might be part of an OLE structured storage
++// file or anything else--without knowing what the real file is, the
++// auto-save wizard can't do anything useful. Thus it is best to let the
++// file system itself handle the auto-saving.
++
++procedure TAutoSaveWizard.AddNotifiers(const Module: IOTAModule);
++begin
++  if Module.FileSystem = '' then
++    ModuleList.Add(Module);
++end;
++
++function TAutoSaveWizard.GetEnabled: Boolean;
++begin
++  Result := Timer.Enabled;
++end;
++
++function TAutoSaveWizard.GetInterval: Integer;
++begin
++  Result := Timer.Interval;
++end;
++
++procedure TAutoSaveWizard.SetEnabled(_Enabled: Boolean);
++begin
++  Timer.Enabled := _Enabled;
++  UpdateMenuChecked;
++end;
++
++procedure TAutoSaveWizard.SetSaveOnCompile(const _SaveOnCompile: Boolean);
++begin
++  fSaveOnCompile := _SaveOnCompile;
++  UpdateMenuChecked;
++end;
++
++procedure TAutoSaveWizard.SetToolPosition(const _ToolPosition: Integer);
++begin
++  fToolPosition := _ToolPosition;
++  fMenuItem.Free;
++  fMenuItem := MakeMenuItem;
++  UpdateMenuChecked;
++end;
++
++procedure TAutoSaveWizard.UpdateMenuChecked;
++begin
++  if not Assigned(fMenuItem) then
++    Exit;
++  { Set the menu item to reflect whether auto-saving is enabled. }
++  MenuItem.Checked := Enabled or SaveOnCompile;
++end;
++
++procedure TAutoSaveWizard.SetInterval(Value: Integer);
++begin
++  Timer.Interval := Value;
++end;
++
++{ Implement the expert interface. }
++
++function TAutoSaveWizard.GetName: string;
++begin
++  Result := S_Name;
++end;
++
++// Delphi doesn't use GetState except for menu wizard, but in case a future
++// version pays attention, return something meaningful.
++
++function TAutoSaveWizard.GetState: TWizardState;
++begin
++  Result := [wsEnabled];
++end;
++
++function TAutoSaveWizard.GetIDString: string;
++begin
++  Result := 'Tempest.AutoSaveWizard';
++end;
++
++{ OnClick menu handler, for the menu item add-in. When the user
++  clicks the Auto Save menu item, pop up the properties dialog. }
++
++procedure TAutoSaveWizard.OnClick(Sender: TObject);
++begin
++  EditProperties;
++end;
++
++{ Timer event: when the timer expires, auto-save files. }
++
++procedure TAutoSaveWizard.OnTimer(Sender: TObject);
++begin
++  AutoSaveFiles;
++end;
++
++procedure TAutoSaveWizard.BeforeCompile;
++begin
++  if SaveOnCompile then
++    AutoSaveFiles;
++end;
++
++// Not called for an add-in wizard.
++
++procedure TAutoSaveWizard.Execute;
++begin
++end;
++
++{ TAutoSaveNotifier }
++
++constructor TAutoSaveNotifier.Create(Wizard: TAutoSaveWizard);
++begin
++  inherited Create;
++  fWizard := Wizard;
++  fNotifierIndex := Self.RegisterNotifier;
++end;
++
++destructor TAutoSaveNotifier.Destroy;
++begin
++  if fNotifierIndex &gt;= 0 then
++    UnregisterNotifier;
++  inherited;
++end;
++
++function TAutoSaveNotifier.RegisterNotifier: Integer;
++begin
++  Result := -1;
++end;
++
++procedure TAutoSaveNotifier.UnregisterNotifier;
++var
++  Idx: Integer;
++begin
++  Idx := fNotifierIndex;
++  fNotifierIndex := -1;
++  UnregisterNotifier(Idx);
++end;
++
++{ TIdeNotifier }
++
++// Ignore compilation notification.
++
++procedure TIdeNotifier.AfterCompile(Succeeded: Boolean);
++begin
++end;
++
++procedure TIdeNotifier.BeforeCompile(const Project: IOTAProject;
++  var Cancel: Boolean);
++begin
++  fWizard.BeforeCompile;
++end;
++
++// If the user is about to open a file, see if an auto-save file
++// exists. After opening a file, create the necessary notifiers.
++
++procedure TIdeNotifier.FileNotification(
++  NotifyCode: TOTAFileNotification; const FileName: string;
++  var Cancel: Boolean);
++begin
++  case NotifyCode of
++    ofnFileOpening:
++      Cancel := fWizard.FileOpening(FileName);
++    ofnFileOpened:
++      fWizard.AddNotifiers(FileName);
++  else
++    ; { ignore other notifications }
++  end;
++end;
++
++function TIdeNotifier.RegisterNotifier: Integer;
++var
++  Services: IOTAServices;
++begin
++  // Register the notifier.
++  if Supports(BorlandIDEServices, IOTAServices, Services) then
++    Result := Services.AddNotifier(Self)
++  else
++    Result := -1;
++end;
++
++procedure TIdeNotifier.UnregisterNotifier(_Index: Integer);
++begin
++  if _Index &lt;&gt; -1 then
++    (BorlandIDEServices as IOTAServices).RemoveNotifier(_Index);
++end;
++
++{$IFDEF delphi6up}
++{ TMessageNotifier }
++
++constructor TMessageNotifier.Create(_Wizard: TAutoSaveWizard);
++begin
++  inherited Create(_Wizard);
++  OnAutoSave := Self.AutoSaveCallback;
++  OnError := Self.ErrorCallback;
++end;
++
++destructor TMessageNotifier.Destroy;
++begin
++  OnAutoSave := nil;
++  OnError := nil;
++  inherited;
++end;
++
++function TMessageNotifier.RegisterNotifier: Integer;
++var
++  MessageView: IOTAMessageServices;
++begin
++  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++    Result := MessageView.AddNotifier(Self);
++    fMessageGroup := MessageView.AddMessageGroup('AutoSave');
++  end else
++    Result := -1;
++end;
++
++procedure TMessageNotifier.UnregisterNotifier(_Index: Integer);
++begin
++  if Assigned(fMessageGroup) then
++    (BorlandIDEServices as IOTAMessageServices).RemoveMessageGroup(fMessageGroup);
++  if _Index &lt;&gt; -1 then
++    (BorlandIDEServices as IOTAMessageServices).RemoveNotifier(_Index);
++end;
++
++procedure TMessageNotifier.MessageGroupAdded(const Group: IOTAMessageGroup);
++begin
++  // ignore
++end;
++
++procedure TMessageNotifier.MessageGroupDeleted(const Group: IOTAMessageGroup);
++begin
++  if Group = fMessageGroup then begin
++    fMessageGroup := nil;
++  end;
++end;
++
++procedure TMessageNotifier.AutoSaveCallback(const _Filename: string);
++var
++  MessageView: IOTAMessageServices;
++  LineRef: pointer;
++begin
++  if Assigned(fMessageGroup) then
++    if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++      MessageView.AddToolMessage(_Filename, 'autosaved', DateTimeToStr(Now),
++        0, 0, nil, LineRef, fMessageGroup);
++      if fShowMessageView then
++        MessageView.ShowMessageView(fMessageGroup);
++    end;
++end;
++
++procedure TMessageNotifier.ErrorCallback(const _Error: string);
++var
++  MessageView: IOTAMessageServices;
++  //   LineRef: pointer;
++begin
++  if Assigned(fMessageGroup) then
++    if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
++      MessageView.AddTitleMessage(_Error, fMessageGroup);
++      if fShowMessageView then
++        MessageView.ShowMessageView(fMessageGroup);
++    end;
++end;
++
++procedure TMessageNotifier.ClearMessageView(_Show: Boolean);
++var
++  MessageView: IOTAMessageServices;
++begin
++  fShowMessageView := _Show;
++  if Assigned(fMessageGroup) then
++    if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then
++      MessageView.ClearMessageGroup(fMessageGroup);
++end;
++{$ENDIF}
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000000.html">[Dzchart-svncheckins] r124 - utilities
+</A></li>
+	<LI>Next message: <A HREF="000002.html">[Dzchart-svncheckins] r126 - utilities/dzAutoSave/trunk/Delphi2006
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

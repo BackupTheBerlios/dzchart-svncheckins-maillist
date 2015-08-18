@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r467 - utilities/dzPrepBuild/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r467%20-%20utilities/dzPrepBuild/trunk&In-Reply-To=%3C201005161619.o4GGJkud028992%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000326.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r467 - utilities/dzPrepBuild/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r467%20-%20utilities/dzPrepBuild/trunk&In-Reply-To=%3C201005161619.o4GGJkud028992%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r467 - utilities/dzPrepBuild/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun May 16 18:19:46 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000326.html">[Dzchart-svncheckins] r466 - utilities/dzPrepBuild/trunk/buildtools
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#327">[ date ]</a>
+              <a href="thread.html#327">[ thread ]</a>
+              <a href="subject.html#327">[ subject ]</a>
+              <a href="author.html#327">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-05-16 18:19:45 +0200 (Sun, 16 May 2010)
+New Revision: 467
+
+Modified:
+   utilities/dzPrepBuild/trunk/ReadMe.txt
+Log:
+exended description
+
+Modified: utilities/dzPrepBuild/trunk/ReadMe.txt
+===================================================================
+--- utilities/dzPrepBuild/trunk/ReadMe.txt	2010-05-16 10:29:34 UTC (rev 466)
++++ utilities/dzPrepBuild/trunk/ReadMe.txt	2010-05-16 16:19:45 UTC (rev 467)
+@@ -1,27 +1,26 @@
+ PrepBuild is a commandline tool for handling the version information
+ for Delphi projects when compiling using the dcc32.exe commandline
+-compiler. It can also be used as a Pre-Build tool in Delphi 2007.
++compiler. It can also be used as a Pre-Build tool in Delphi 2007 and up.
+ 
+-It can read and update three different kinds of sources for the
++It can read and update four different kinds of sources for the
+ version information:
+ * &lt;projectname&gt;.dof files (used up to Delphi 7)
+ * &lt;projectname&gt;.bdsproj files (used in BDS 2005 and 2006)
+-* &lt;projectname&gt;_version.ini files (uses the same format as .dof)
++* &lt;projectname&gt;.dproj files (used in Delphi 2007, 2009 and 2010)
++* &lt;projectname&gt;_version.ini files (uses the same format as .dof but has some
++                                   extensions)
+ 
+-It cannot read the .dproj file format of Delphi/Rad Studio 2007,
+-in this case I suggest using an .ini file instead.
+-
+ If you call the programm with the --help or -? option, it will display
+ usage information.
+ 
+-Example 1:
++Use case 1, Delphi 7:
+ 
+ Let's assume you are using Delphi 7, so you probably store the version
+ in the &lt;projectname&gt;.dof file and let the IDE autoincrement the build
+ number. Now, for release builds you don't want to use the IDE because
+ you want to make sure that the process is 100% repeatable without
+-relying on a particular IDE setup. So you use the commandline compiler
+-dcc32.exe rather than the IDE which is called from a script called
++relying on a particular IDE setup. So instead of the IDE you use the
++commandline compiler dcc32.exe which is called from a script called
+ build.cmd:
+ 
+ -------------
+@@ -117,7 +116,7 @@
+ %dzProject% - the project name passed by the --ReadDof / --ReadBdsProj
+               or --ReadIni option without extension
+ 
+-The following values are read from the .dof / .bdsproj / .ini file and
++The following values are read from the .dof / .bdsproj / .dproj / .ini file and
+ also passed as environment variables:
+ 
+ %dzVersion.MajorVer% - the major version number
+@@ -151,7 +150,7 @@
+ can use the current version number and build date/time for generating
+ the tag's name.
+ 
+-Example 2:
++Use case 2, Delphi 2007:
+ 
+ Let's assume your company is using Delphi 2007 and there are
+ multiple Developers working on the same project. You want to make
+@@ -176,17 +175,25 @@
+ Build=redirect:\\server\share\Testproject_Buildno.ini,Version Info,Build
+ 
+ This will make PrepBuild read and write the build number to the
+-central .ini file rather than the local one (*1).
++central .ini file rather than the local one (*1). Make sure that
++everybody involved has write permissions on that file.
+ 
+ Now, you add PrepBuild as a prebuild event like this:
+ 
+ prepbuild 
+ 
++to be continued ....
+ 
++dzPrepBuild itself uses the same mechanism, but not with a central file
++on a server but with a separate file in the repository. This is for two
++reasons:
++1. It demonstrates how it is done
++2. It reduces the changes to one single very small file.
++
++
+ (*1: Of course there is the small chance of two developers doing
+ a build at the same time. This will result in a duplicate build
+ number, but this shouldn't happen very often and I was too lazy
+ to try and implement some kind of locking mechanism to prevent
+ this rare case. If you need it, you have got the source code....)
+ 
+-to be continued ....
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000326.html">[Dzchart-svncheckins] r466 - utilities/dzPrepBuild/trunk/buildtools
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#327">[ date ]</a>
+              <a href="thread.html#327">[ thread ]</a>
+              <a href="subject.html#327">[ subject ]</a>
+              <a href="author.html#327">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

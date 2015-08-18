@@ -1,0 +1,5871 @@
+From twm at mail.berlios.de  Sat Mar 13 10:29:45 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 10:29:45 +0100
+Subject: [Dzchart-svncheckins] r386 - utilities
+Message-ID: <201003130929.o2D9Tjs3019188@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 10:29:45 +0100 (Sat, 13 Mar 2010)
+New Revision: 386
+
+Added:
+   utilities/IniFileFormatter/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 10:30:00 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 10:30:00 +0100
+Subject: [Dzchart-svncheckins] r387 - utilities/IniFileFormatter
+Message-ID: <201003130930.o2D9U0T6019221@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 10:30:00 +0100 (Sat, 13 Mar 2010)
+New Revision: 387
+
+Added:
+   utilities/IniFileFormatter/trunk/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 10:30:52 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 10:30:52 +0100
+Subject: [Dzchart-svncheckins] r388 - in utilities: IniFileFormatter/trunk
+	dzLib/trunk/tools/IniFileFormatter
+Message-ID: <201003130930.o2D9Uqmn019321@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 10:30:48 +0100 (Sat, 13 Mar 2010)
+New Revision: 388
+
+Added:
+   utilities/IniFileFormatter/trunk/SortTemplate.ini
+   utilities/IniFileFormatter/trunk/TestIniFile.ini
+   utilities/IniFileFormatter/trunk/dcu/
+   utilities/IniFileFormatter/trunk/src/
+Removed:
+   utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini
+   utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini
+   utilities/dzLib/trunk/tools/IniFileFormatter/dcu/
+   utilities/dzLib/trunk/tools/IniFileFormatter/src/
+Log:
+
+
+Copied: utilities/IniFileFormatter/trunk/SortTemplate.ini (from rev 387, utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini)
+
+Copied: utilities/IniFileFormatter/trunk/TestIniFile.ini (from rev 387, utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini)
+
+Copied: utilities/IniFileFormatter/trunk/dcu (from rev 387, utilities/dzLib/trunk/tools/IniFileFormatter/dcu)
+
+Copied: utilities/IniFileFormatter/trunk/src (from rev 387, utilities/dzLib/trunk/tools/IniFileFormatter/src)
+
+Deleted: utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini	2010-03-13 09:30:00 UTC (rev 387)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/SortTemplate.ini	2010-03-13 09:30:48 UTC (rev 388)
+@@ -1,18 +0,0 @@
+-#comment for section2
+-[section2]
+-
+-item2=zwei
+-// comment for section2.item1
+-item1=eins
+-
+-
+-#comment for section1
+-[section1]
+-
+-
+-
+-// comment1 for section1.item1
+-// comment2 for section1.item1
+-item1=1
+-// comment for section1.item2
+-item2=1
+
+Deleted: utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini
+===================================================================
+--- utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini	2010-03-13 09:30:00 UTC (rev 387)
++++ utilities/dzLib/trunk/tools/IniFileFormatter/TestIniFile.ini	2010-03-13 09:30:48 UTC (rev 388)
+@@ -1,18 +0,0 @@
+-#comment for section2
+-[section2]
+-// comment for section2.item1
+-item1=eins
+-
+-item2=zwei
+-
+-
+-#comment for section1
+-[section1]
+-
+-// comment for section1.item2
+-item2=1
+-
+-
+-// comment1 for section1.item1
+-// comment2 for section1.item1
+-item1=1
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 10:32:17 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 10:32:17 +0100
+Subject: [Dzchart-svncheckins] r389 - utilities/dzLib/trunk/tools
+Message-ID: <201003130932.o2D9WHMl019612@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 10:32:15 +0100 (Sat, 13 Mar 2010)
+New Revision: 389
+
+Removed:
+   utilities/dzLib/trunk/tools/IniFileFormatter/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 10:35:54 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 10:35:54 +0100
+Subject: [Dzchart-svncheckins] r390 - utilities/IniFileFormatter/trunk
+Message-ID: <201003130935.o2D9ZsDO019901@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 10:35:53 +0100 (Sat, 13 Mar 2010)
+New Revision: 390
+
+Modified:
+   utilities/IniFileFormatter/trunk/
+Log:
+added externals
+
+
+Property changes on: utilities/IniFileFormatter/trunk
+___________________________________________________________________
+Name: svn:externals
+   + libs/dztemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs/dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 10:50:01 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 10:50:01 +0100
+Subject: [Dzchart-svncheckins] r391 - 3rd/jcl
+Message-ID: <201003130950.o2D9o1vh020646@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 10:50:00 +0100 (Sat, 13 Mar 2010)
+New Revision: 391
+
+Added:
+   3rd/jcl/2.000/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 10:50:34 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 10:50:34 +0100
+Subject: [Dzchart-svncheckins] r392 - 3rd/jcl/2.000
+Message-ID: <201003130950.o2D9oYJP020670@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 10:50:33 +0100 (Sat, 13 Mar 2010)
+New Revision: 392
+
+Added:
+   3rd/jcl/2.000/trunk/
+Log:
+
+
+Copied: 3rd/jcl/2.000/trunk (from rev 391, 3rd/jcl/1.99/trunk)
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 11:54:46 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 11:54:46 +0100
+Subject: [Dzchart-svncheckins] r395 - in 3rd/jcl/2.000/trunk/docs: .
+	cps_files
+Message-ID: <201003131054.o2DAskMY023991@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 11:54:44 +0100 (Sat, 13 Mar 2010)
+New Revision: 395
+
+Added:
+   3rd/jcl/2.000/trunk/docs/cps.html
+   3rd/jcl/2.000/trunk/docs/cps_files/
+   3rd/jcl/2.000/trunk/docs/cps_files/strucv1.jpg
+   3rd/jcl/2.000/trunk/docs/cps_files/test.css
+Log:
+updated to version 2.000
+
+Added: 3rd/jcl/2.000/trunk/docs/cps.html
+===================================================================
+--- 3rd/jcl/2.000/trunk/docs/cps.html	2010-03-13 10:16:30 UTC (rev 394)
++++ 3rd/jcl/2.000/trunk/docs/cps.html	2010-03-13 10:54:44 UTC (rev 395)
+@@ -0,0 +1,655 @@
++<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
++<html>
++<head>
++  <link rel="stylesheet" href="cps_files/test.css" type="text/css">
++  <title>JEDI Code Library - Cross Platform Strategy</title>
++</head>
++<body>
++<h1>JEDI Code Library - Cross Platform Strategy</h1>
++<p>
++This paper presents the JCL teams strategy for cross platform
++compliance of the
++JEDI Code Library. It is based up on the discussions within the JCL
++newsgroup
++and JCL developer mailing lists. This document is currently <b>work in
++progress</b>
++and subject to changes with or without notice.
++</p>
++<p>
++Version history: <br>
++&nbsp;&nbsp;&nbsp;&nbsp;0.1 Initial release
++</p>
++<p>
++</p>
++<h3>Background</h3>
++<p>
++The main objective is to make the JEDI Code Library VisualCLX (Kylix
++for Delphi/Delphi) and Delphi.NET compatible. For a detailed
++explanation of the currently used terminology, see the following
++article <a href="http://bdn.borland.com/article/0,1410,29460,00.html">
++Overview of the VCL for .NET</a>. </p>
++<p>
++We have to cope with nearly all aspects of cross platform progamming,
++like different APIs, different operating system concepts etc. Since we
++want to be as crossplatform compatible as possible interface
++compatability is the most important
++issue for us. JEDI Code Library users should have to opportunity the
++use the JCL
++on whatever platform they like. Figure 1 shows the three basic layers
++we have to deal with:
++</p>
++<ul>
++  <li>Platform independent layer: Units which are not (or only very
++minor)
++platform specific and do not depend on a specific component set. This
++doesn't mean that units in this layer have to consist of no platform
++dependent code, but they have to
++be nearly 100% interface compatible and all functionality must have
++been ported to all
++supported platforms. </li>
++  <li>Platform dependent layer: Units which depend on a specific
++platform (e.g. JclCLI) </li>
++  <li>Component set dependent layer: Units which depend on a specific
++component set</li>
++</ul>
++<p>
++<img src="cps_files/strucv1.jpg" border="1"><br>
++<i>Fig 1: The JEDI Code Library crossplatform layer structure</i>
++</p>
++<p>
++The JEDI Code Library currently targets the following platforms:
++</p>
++<ul>
++  <li>Kylix for Delphi (Kylix 3) / Linux</li>
++  <li>Delphi (Version 5,6,7) / Microsoft Windows</li>
++</ul>
++and is trying to support the following platforms as soon as possible:
++<ul>
++  <li>Delphi .NET / .NET (Micrsoft Windows) </li>
++</ul>
++<p>
++As a mid or long term perspective we are hoping to get the JCL
++FreePascal compatible.
++This involves the possibilty to have the JCL running on DOS, OS/2,
++FreeBSD and
++AmigaOS. </p>
++<h3>Common platform independent layer</h3>
++<p>
++This layer consists of all files which are not platform dependent or
++need only very minor adjustations. Furthermore all units in this layer
++do not depend on a
++specific component set. Examples for common platform independent units
++are JclBase, JclDateTime, JclFileUtils and JclMath. The units have been
++ported to all platforms and are the crossplatform "core" of the Jedi
++Code Library. As a general rule a unit in this layer should have no
++platform specific ifdefs in its
++interface section.
++</p>
++<h3>Platform dependent layer</h3>
++<p>
++Furthermore we do not have to differentiate between VCL and VisualCLX
++units only (the so called component set dependent layer), but also
++between UNIX, Windows and .NET dependent units. The platform dependent
++units doesn't need to be interface compatible (if there is an
++equivalent in one of the other suported platforms at all!).
++An example for a platform dependent unit is JclCLI. Nonetheless if
++there are equivalents in all other supported platforms as well it might
++be considerable to write a more general class and include that unit
++into the common platform indepedant layer.
++</p>
++<h3>Component set dependent layer</h3>
++<p>
++When it comes to sharing code between VCL and VisualCLX-applications,
++some facts need to be stated:
++</p>
++<p>
++</p>
++<li>A unit is called <i>VCL-dependent</i>, when it uses some
++VCL-unit(s), e.g. Graphics.
++</li>
++<li>A unit is called <i>VisualCLX-dependent</i>, when it uses some
++VisualCLX-unit(s), e.g. QGraphics.</li>
++<p>
++When a unit contains neither VCL- nor VisualCLX-specific code, there is
++no problem: It can be used by either type of application.
++</p>
++<p>
++While it is basically possible to create VCL-dependent and
++VisualCLX-dependent
++variants of the same unit by means of conditional compilation - and use
++them in
++VCL- and VisualCLX-applications respectively -, this method fails at
++design time:
++One and the same unit cannot be installed twice in the IDE, not even as
++part of
++different packages. We would have to rename one of the variants,
++effectively
++creating a new unit. Therefor we will use a preprocessor to resolve the
++conditional compilation symbols related to VCL/VisualCLX-specific code
++and create
++VCL/VisualCLX units from a common codebase.
++</p>
++<p>
++Component dependent units should be largely "interface compatible" -
++interface
++adjustments for specific component sets are unavoidable - nonetheless
++similar
++interfaces are desirable.
++</p>
++<h3>Preprocessor</h3>
++<p>
++The preprocessor jpp is a modified version of Barry Kelly's ppp tool.
++In contrast to ppp, which resolves all conditional compilation
++directives without exception, with jpp symbols not only can be defined
++but also undefined. Those symbols which are neither defined nor
++explicitely undefined are considered
++as of unknown status and it and its related source code remains
++untouched.
++</p>
++<p>
++The usage of jpp is not too hard. It is called via
++</p>
++<pre>jpp [options] &lt;input files&gt;...<br></pre>
++Possible options are
++<pre>  -i       Process includes<br>  -c       Process conditional directives<br>  -C       Strip comments<br>  -pxxx    Add xxx to include path<br>  -dxxx    Define xxx as a preprocessor conditional symbol<br>  -uxxx    Assume preprocessor conditional symbol xxx as not defined<br>  -x[n:]yyy  Strip first n characters from file name; precede filename by prefix yyy<br></pre>
++<p>
++The example command line below generates a file JclQGraphics.pas in
++subdirectory
++CLX from file Graphics.cb located in the current directory. Symbols
++"VisualCLX"
++and "COMPILER6_UP" are specified as defined, "Bitmap32" and "VCL" as
++undefined.
++</p>
++<pre>  jpp -c -dVisualCLX -dCOMPILER6_UP -uBitmap32 -uVCL -xCLX\JclQ Graphics.cb<br></pre>
++<h3>Generating Jcl[Q]Graphics.pas and Jcl[Q]GraphUtils.pas</h3>
++<p>
++First compile Preprocessor\jpp.exe from Preprocessor\jpp.dpr.
++Then change to the "Source" directory and type "make" at the command
++line.
++This will create the units <br>
++VCL\JclGraphics.pas <br>
++VCL\JclGraphUtils.pas <br>
++CLX\JclQGraphics.pas <br>
++CLX\JclQGraphUtils.pas <br>
++</p>
++<p>
++from their prototypes _Graphics.pas and _GraphUtils.pas.
++</p>
++<h3>Minimizing VCL dependencies</h3>
++<p>
++To reduce VCL dependencies in JCL, the following changes have been
++made:
++</p>
++<menu>
++<dl>
++  <dt>JclFileUtils</dt>
++  <dd>PathCompactPath is an overloaded function. The variant which
++takes a TCanvas as argument (and thus creates a dependency on VCL unit
++Graphics) has been removed. </dd>
++</dl>
++<br>
++<dl>
++  <dt>JclShell</dt>
++  <dd> ShellLinkGetIcon has been removed. It could get part of some
++genuine VCL-dependent unit (e.g. JclGraphUtils), but for now it is left
++out. </dd>
++</dl>
++<br>
++<dl>
++  <dt>JclPEImage</dt>
++  <dd>
++    <pre> Replace "uses Consts," by<br><br>    uses<br>      {$IFDEF COMPILER6_UP}<br>      RtlConsts,         // VisualCLX-package compatible (part of rtlxx.bpl)<br>      {$ELSE}<br>      Consts,            // not VisualCLX-package compatible (part of vclxx.bpl)<br>      {$ENDIF COMPILER6_UP} </pre>
++  </dd>
++</dl>
++</menu>
++<p>
++Note that the first two changes have enormous impact, since many JCL
++units use JclFileUtils and JclSysInfo (which both use JclShell). This
++leaves JclGraphics and JclGraphUtils as sole units with genuine
++VCL/VisualCLX-dependencies.
++JclPrint is the only remaining pure VCL-dependent units. </p>
++<h3>New directory structure</h3>
++<p>
++With the new JCL release we introduce a more appropriate source file
++directory
++structure. The files are now grouped according their respective layers.
++</p>
++<pre>Source/<br>  Common<br>  DotNet<br>  Unix<br>  VCL<br>  VisCLX<br>  Windows   <br></pre>
++<h3>Status - Platforms</h3>
++<p>
++This table gives a short overview of which units are already working
++under four different Delphi language compilers/platforms. There are
++four status levels possible:
++</p>
++<p>
++<table>
++  <tbody>
++    <tr>
++      <td
++ style="text-align: center; background-color: rgb(238, 238, 238);"><span
++ style="font-weight: bold;">+</span><br>
++      </td>
++      <td>&nbsp; the unit has been ported to that platform</td>
++    </tr>
++    <tr>
++      <td
++ style="text-align: center; background-color: rgb(238, 238, 238);">-</td>
++      <td>&nbsp; the unit has not been ported to that platform</td>
++    </tr>
++    <tr>
++      <td
++ style="text-align: center; background-color: rgb(238, 238, 238);">&nbsp;(+)
++      <br>
++      </td>
++      <td>&nbsp; the unit compiles, but not all of its functionality
++has been ported to that platform.</td>
++    </tr>
++    <tr>
++      <td
++ style="text-align: center; background-color: rgb(238, 238, 238);">&nbsp;platform
++      <br>
++      </td>
++      <td>&nbsp; the unit is platform dependent and will not be ported.</td>
++    </tr>
++  </tbody>
++</table>
++</p>
++<table>
++  <tbody>
++    <tr>
++      <td style="background-color: rgb(238, 238, 238);"><b>Name</b></td>
++      <td
++ style="text-align: center; background-color: rgb(238, 238, 238);"><b>Delphi
++(Windows)</b></td>
++      <td
++ style="text-align: center; background-color: rgb(238, 238, 238);"><b>Kylix
++for Delphi</b></td>
++      <td
++ style="text-align: center; background-color: rgb(238, 238, 238);"><b>Delphi.NET</b></td>
++      <td
++ style="text-align: center; background-color: rgb(238, 238, 238);"><b>Free
++Pascal</b></td>
++    </tr>
++    <tr>
++      <td>Jcl8087</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclAppInst</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclCil</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclClr</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclCom</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclComplex</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclConsole</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclCounter</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclDateTime</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">(+)</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">?</td>
++    </tr>
++    <tr>
++      <td>JclDebug</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclDotNet</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclEDI</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclEDISEF</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclEDIXML</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclEDI_ANSIX12</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclEDI_UNEDIFACT</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclFileUtils</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">(+)</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclExprEval</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b><br>
++      </td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclHookExcept</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclIniFiles</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b><br>
++      </td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclLanMan</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclLocales</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclLogic</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclMapi</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclMath</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclMetaData</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclMidi</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclMime</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclMiscel</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclMultimedia</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclNTFS</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclPEImage</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclPrint</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclStrHashMap</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b><br>
++      </td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclStatistics</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclShell</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclSecurity</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclSchedule</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclRTTI</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclResources</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclRegistry</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclStrings</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>Jclsvcctrl</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>Jclsynch</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclTask</td>
++      <td style="text-align: center;">platform</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclSysUtils</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">(+)<br>
++      </td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclSysInfo</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">(+)<br>
++      </td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclTD32</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclUnicode</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclUnitConv</td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;"><b>+</b></td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclWin32</td>
++      <td style="text-align: center;">platform </td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++    <tr>
++      <td>JclWinMidi</td>
++      <td style="text-align: center;">platform </td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">-</td>
++      <td style="text-align: center;">? </td>
++    </tr>
++  </tbody>
++</table>
++<h3>Assembler</h3>
++<p>
++For crossplatform compatability it is absolutely necessary to reduce
++the amount
++of inline assembler code used. Therefore as a general rule every line
++of assembler
++<b>must have a pure pascal pendant</b>. Please use assembler only if it
++really has a noticeable impact on the libraries performance. </p>
++<pre>{$IFNDEF PUREPASCAL}<br>  // assembler code here<br>{$ELSE}<br>  // Delphi equivalent here<br>{$ENDIF}  <br></pre>
++<h3>Packages</h3>
++</body>
++</html>
+
+Added: 3rd/jcl/2.000/trunk/docs/cps_files/strucv1.jpg
+===================================================================
+(Binary files differ)
+
+
+Property changes on: 3rd/jcl/2.000/trunk/docs/cps_files/strucv1.jpg
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: 3rd/jcl/2.000/trunk/docs/cps_files/test.css
+===================================================================
+--- 3rd/jcl/2.000/trunk/docs/cps_files/test.css	2010-03-13 10:16:30 UTC (rev 394)
++++ 3rd/jcl/2.000/trunk/docs/cps_files/test.css	2010-03-13 10:54:44 UTC (rev 395)
+@@ -0,0 +1,793 @@
++TD {
++   font-family : "Arial", "Helvetica", Sans-serif; 
++}
++
++PRE.SourceCode2 {
++   background-color : #e0ffff; 
++   border-width : medium; 
++   border-style : outset; 
++   border-color : silver; 
++   white-space : pre;
++}
++
++PRE.SourceCode EM {
++   font-style : normal; 
++   color : #9933cc; 
++   white-space : pre;  
++}
++
++PRE.SourceCode {
++   font-family : "Courier", monospace; 
++   background-color : white; 
++   margin-right : 20px; 
++   margin-left : 20px; 
++   padding : 5px 20px; 
++   border-width : medium; 
++   border-style : outset; 
++   border-color : silver; 
++   white-space : pre;  
++}
++
++P.chatuser {
++   font-weight : bold; 
++   color : #3366cc; 
++   vertical-align : top; 
++}
++
++P.chatquestionpresented {
++   font-weight : bold; 
++   background-color : #dddddd; 
++   vertical-align : top; 
++}
++
++P.chatpublicmsg {
++   font-weight : normal; 
++   vertical-align : top; 
++   padding : 0 0 20px; 
++}
++
++P.chateditor {
++   color : red; 
++   padding : 0 0 10px; 
++}
++
++P.chataction {
++   font-style : italic; 
++   vertical-align : top; 
++}
++
++P.TechNote {
++   font-weight : normal; 
++   background-color : #e0ffff; 
++   padding : 2px 5px; 
++   border-width : medium; 
++   border-style : outset; 
++   border-color : silver; 
++}
++
++H3 {
++   font-weight : bold; 
++   font-size : 11pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++H2 {
++   font-weight : bold; 
++   font-size : 14pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++H1 {
++   font-weight : bold; 
++   font-size : 18pt; 
++   line-height : 18pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   padding : 10px 0 0; 
++}
++
++BODY {
++   background : #ffffff; 
++   margin-left : 20 px;
++   margin-right : 20 px;}
++
++B.Help {
++   color : white; 
++   background-color : gray; 
++}
++
++A:hover {
++   color : #cc3300; 
++}
++
++.webDirectoryLink {
++   font-size : 0.8em; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #3366cc; 
++   text-decoration : underline; 
++}
++
++.webDirectoryCategoryLink {
++   font-size : 0.8em; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.webDirectoryCatHead {
++   font-size : 0.9em; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #ffffff; 
++   text-decoration : none; 
++}
++
++.vspace5 {
++   padding : 5px 0 0; 
++}
++
++.visibility {
++   font-weight : bold; 
++   font-size : 0.8em; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #ff0000; 
++   text-decoration : none; 
++}
++
++.tuser {
++   color : blue; 
++   background-color : white; 
++}
++
++.ttitle {
++   font-weight : bold; 
++   color : black; 
++   background-color : #dddddd; 
++}
++
++.tthis {
++   font-weight : bold; 
++   line-height : 1; 
++   color : white; 
++   background-color : red; 
++   vertical-align : top; 
++}
++
++.tother {
++   font-weight : bold; 
++   line-height : 1; 
++   color : white; 
++   background-color : blue; 
++   vertical-align : top; 
++}
++
++.tmine {
++   font-weight : bold; 
++   color : black; 
++   background-color : #c71585; 
++}
++
++.title3 {
++   font-weight : bold; 
++   font-size : 12pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.thi {
++   background-color : #dddddd; 
++}
++
++.textAdLink {
++   font-weight : bold; 
++   color : #ffffff; 
++   text-decoration : none; 
++}
++
++.textAdCell {
++   font-size : 0.8em; 
++}
++
++.searchCell {
++   font-weight : bold; 
++   font-size : 11px; 
++}
++
++.rightSidebarLink {
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.rightSidebarHeading {
++   font-weight : bold; 
++   font-size : 10pt; 
++   color : #ffffff; 
++   background : #3366cc; 
++}
++
++.rightSidebarCell {
++   font-weight : bold; 
++   font-size : 10pt; 
++   color : #000000; 
++   background : #dddddd; 
++}
++
++.presentLocation {
++   font-weight : bold; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.logoCell {
++   background : #000000; 
++}
++
++.logoBar {
++   background : #000000; 
++}
++
++.loginLinkCell {
++   font-weight : bold; 
++   font-size : 0.8em; 
++   background : #3366cc; 
++}
++
++.loginLink {
++   color : #ffffff; 
++   text-decoration : none; 
++}
++
++.loginStd {
++   text-align : right; 
++}
++
++.loginReq {
++   text-align : right; 
++   font-weight : bold; 
++   color : blue; 
++}
++
++.login_std {
++   text-align : right; 
++}
++
++.login_req {
++   text-align : right; 
++   font-weight : bold; 
++   color : blue; 
++}
++
++.locationLink {
++   color : #000000; 
++   text-decoration : underline; 
++}
++
++.localLinkCell {
++   font-size : 9pt; 
++   color : #ffffff; 
++   background : #3366cc; 
++}
++
++.localLink {
++   font-weight : bold; 
++   color : #ffffff; 
++   text-decoration : none; 
++}
++
++.leftSidebarText {
++   font-weight : normal; 
++   font-size : 9pt; 
++   color : #000000;
++}
++
++.leftSidebarSoapboxLink {
++   font-weight : normal; 
++   font-size : 10pt; 
++   color : #0000cc; 
++   font-style : italic;
++   text-decoration : none 
++
++}
++
++.leftSidebarSoapboxLink:hover {
++	COLOR: #6666cc;
++   font-weight : normal; 
++   font-size : 10pt; 
++   font-style : italic;
++   text-decoration : none 
++
++}
++
++
++.leftSidebarHeading {
++   font-weight : bold; 
++   font-size : 12pt; 
++   color : #3366cc; 
++}
++
++.leftSidebarCell {
++   font-size : 0.8em; 
++   background : #dddddd; 
++}
++
++.heading3 {
++   font-weight : bold; 
++   font-size : 11pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   vertical-align:   baseline; 
++}
++
++.heading2 {
++   font-weight : bold; 
++   font-size : 14pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.heading1 {
++   font-weight : bold; 
++   font-size : 18pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   padding : 10px 0 0; 
++}
++
++.globalNavBar {
++   background : #dddddd; 
++}
++
++.globalLinkCell {
++   font-size : 0.8em; 
++   background : #dddddd; 
++}
++
++.globalLink {
++   font-weight : bold; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.fineprint {
++   font-weight : normal; 
++   font-size : 8pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.directoryStuff {
++   font-size : 0.8em; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++}
++
++.directoryLink {
++   font-size : 9pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.directoryCategory {
++   font-size : 10pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : underline; 
++}
++
++.date3 {
++   font-weight : normal; 
++   font-size : 9pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   vertical-align:    baseline ;
++
++ }
++
++.copyrightLink {
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.copyrightCell {
++   font-size : 7pt; 
++   background : #dddddd; 
++}
++
++.contentshortDescription {
++   font-weight : normal; 
++   font-size : 9pt; 
++   color : #000000; 
++}
++
++.contentTableCell {
++   font-size : 0.8em; 
++   background : #ffffff; 
++}
++
++.contentTable {
++   background : #ffffff; 
++}
++
++.contentStoryLink {
++   color : #3366cc; 
++}
++
++.contentStoryHeadingCell {
++   background : #dddddd; 
++}
++
++.contentStoryHeading {
++   font-weight : normal; 
++   font-size : 11pt; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.contentStoryByline {
++   font-style : italic; 
++   font-weight : normal; 
++   font-size : 9pt; 
++   color : #000000; 
++}
++
++.contentSectionHeading {
++   font-weight : bold; 
++   font-size : 12pt; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.contentRule {
++   background : #3366cc; 
++}
++
++.contentMoreLink {
++   font-weight : bold; 
++   color : #3366cc; 
++}
++
++.contentHat {
++   font-weight : bold; 
++   font-size : 10pt; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.contentDevNewsStoryHeading {
++   font-weight : normal; 
++   font-size : 10pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.contentArticleTypeIndex {
++   font-size : 0.7em; 
++   color : #3366cc; 
++}
++
++.body3, blb, bottomlink {
++   font-weight : normal; 
++   font-size : 11pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++}
++
++.blueHeading2 {
++   font-weight : bold; 
++   font-size : 12pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #003399; 
++   text-decoration : none; 
++}
++
++.bigBlue {
++   font-weight : bold; 
++   font-size : 14pt; 
++   color : #013399; 
++   text-decoration : none; 
++}
++
++.abstract {
++   font-style : italic; 
++   font-weight : normal; 
++   font-size : 10pt; 
++   line-height : 11pt; 
++   font-family : "Arial", "Helvetica", Sans-serif; 
++   color : #000000; 
++   text-decoration : none; 
++   padding : 10px; 
++}
++/* new classes - added 01/11/01 rare medium */
++
++.whiteLink { font-size : 10pt; text-decoration : none; color : #ffffff; }
++
++.whiteLinkB { font-size : 10pt; font-weight : bold; text-decoration : none; color : #ffffff; }
++
++.whiteLinkSmall { font-size : 9pt; text-decoration : none; color : #ffffff; }
++.yellowLinkSmall { font-size : 9pt; font-weight : bold; text-decoration : none; color : #ffdf00; }
++.whiteLinkVerySmall { font-size : 8pt; text-decoration : none; color : #ffffff; }
++
++.newBody { font-weight : normal; font-size : 9pt; font-family : "Arial", "Helvetica", Sans-serif; color : #000000; text-decoration : none; }
++
++.newTitle { font-weight : bold; font-size : 11pt; font-family : "Arial", "Helvetica", Sans-serif; color : #000000; text-decoration : none; }
++
++.newDate { font-weight : normal; font-size : 8pt;  font-family : "Arial", "Helvetica", Sans-serif; color : #000000; text-decoration : none; margin-top : 3pt; }
++
++.newHeading { font-weight : bold; font-size : 9pt; font-family : "Arial", "Helvetica", Sans-serif; color : #000000; text-decoration : none; }
++
++.bigBlack { font-weight : bold; font-size : 14pt; font-family : "Arial", "Helvetica", Sans-serif; color : #000000; text-decoration : none; }
++
++BODY
++{
++    MARGINLEFT: 18px
++}
++/* Changed font size from 12px to 14 px here due to complaints 2002/5/20 Tom Lam */
++TR, TD, P, LAYER {
++    FONT-SIZE: 14px;
++    COLOR: #000000;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++.newsItem {
++    FONT-SIZE: 11px;
++    COLOR: #000000;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++A {
++	COLOR: #0000cc;
++    TEXT-DECORATION: none;
++}
++
++A: hover {
++	COLOR: #6666cc;
++    TEXT-DECORATION: none;
++}
++
++.divider
++{
++	BACKGROUND: #999999
++}
++
++.lightBG
++{
++	BACKGROUND: #cccccc;
++}
++
++.intTopnav {
++	FONT-SIZE: 12px;
++	FONT-WEIGHT: bold;
++	COLOR: #666666;
++}
++
++.intTopnav A {
++	FONT-SIZE: 12px;
++	FONT-WEIGHT: bold;
++	COLOR: #000000;
++    TEXT-DECORATION: none;
++}
++
++.intTopnav A:hover {
++	FONT-SIZE: 12px;
++	FONT-WEIGHT: bold;
++	COLOR: #666666;
++    TEXT-DECORATION: underline;
++}
++
++.leftNavTop {
++	FONT-SIZE: 14px;
++	FONT-WEIGHT: bold;
++}
++
++.leftNavTop A {
++	FONT-SIZE: 14px;
++	FONT-WEIGHT: bold;
++	COLOR: #0000cc;
++    TEXT-DECORATION: underline;
++}
++
++.leftNavTop A:hover {
++	FONT-SIZE: 14px;
++	FONT-WEIGHT: bold;
++	COLOR: #6666cc;
++}
++
++.leftNav {
++	FONT-SIZE: 12px;
++	COLOR: #666666;
++	FONT-WEIGHT: bold;
++}
++
++.leftNav A {
++	FONT-SIZE: 12px;
++	COLOR: #0000cc;
++	FONT-WEIGHT: normal;
++    TEXT-DECORATION: underline;
++}
++
++.leftNav A:hover {
++	FONT-SIZE: 12px;
++	COLOR: #6666cc;
++	FONT-WEIGHT: normal;
++}
++
++.prodList {
++    FONT-SIZE: 13px;
++	FONT-WEIGHT: bold;
++	COLOR: #666666;
++    TEXT-DECORATION: none;
++	MARGIN-TOP: -6px;
++}
++
++.prodList A {
++	COLOR: #666666;
++    TEXT-DECORATION: none;
++}
++
++.prodList A:hover {
++	COLOR: #6666cc;
++    TEXT-DECORATION: underline;
++}
++
++.contentHeader {
++    FONT-FAMILY: arial, helvetica, sans-serif;
++	FONT-SIZE: 20px;
++	FONT-WEIGHT: bold;
++}
++
++.contentHeader A {
++	COLOR: #000000;
++    TEXT-DECORATION: underline;
++}
++
++.contentHeader A: hover {
++	COLOR: #666666;
++    TEXT-DECORATION: underline;
++}
++
++.contentSubHeader {
++    FONT-FAMILY: arial, helvetica, sans-serif;
++	FONT-SIZE: 16px;
++	FONT-WEIGHT: bold;
++	MARGIN-BOTTOM: -8px;
++}
++
++.subHeader {
++    FONT-FAMILY: arial, helvetica, sans-serif;
++	FONT-SIZE: 16px;
++	FONT-WEIGHT: bold;
++}
++
++.pressSubHead {
++	FONT-WEIGHT: bold;
++	COLOR: #003366;
++}
++
++.bodyLight {
++	COLOR: #666666;
++}
++
++A.bodyNav1 {
++	COLOR: #0000cc;
++    TEXT-DECORATION: underline;
++}
++
++A.bodyNav1:hover {
++	COLOR: #6666cc;
++    TEXT-DECORATION: underline;
++}
++
++A.bodyNav2 {
++	COLOR: #333333;
++    TEXT-DECORATION: underline;
++}
++
++A.bodyNav2:hover {
++	COLOR: #003366;
++    TEXT-DECORATION: underline;
++}
++
++INPUT.TEXT {
++	font-size: 12px;
++}
++
++.tableHeader {
++    FONT-SIZE: 11px;
++	COLOR: #333333;
++}
++
++.footer {
++	font-size: 11px;
++	COLOR: #666666;
++	MARGIN-BOTTOM: 0px;
++}
++
++.footer A {
++	COLOR: #003366;
++}
++
++.footer A:hover {
++	COLOR: #006699;
++}
++
++.Menu
++{
++    VISIBILITY: hidden;
++	POSITION: absolute;
++    TOP: 93px;
++}
++
++.Menu TD
++{
++    FONT-SIZE: 11px;
++    COLOR: #ffffff;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++.Menu A
++{
++    FONT-SIZE: 11px;
++    COLOR: #ffffff;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++.Menu A:hover
++{
++    FONT-SIZE: 11px;
++    COLOR: #cccccc;
++    FONT-FAMILY:  arial, helvetica, sans-serif;
++    TEXT-DECORATION: none;
++}
++
++.Trigger
++{
++    POSITION: relative;
++    TOP: 0px;
++    LEFT: 0px;
++}
++
++select {
++    FONT-SIZE: 10px;
++    COLOR: #000000;
++    FONT-FAMILY: arial, helvetica, sans-serif;
++}
++
++INPUT.TEXT.srchBox {
++	FONT-SIZE: 12px;
++	WIDTH: 116px;
++}
++A.leftLink {
++	COLOR: #0000cc;
++    TEXT-DECORATION: none;
++}
++
++A.leftLink:hover {
++	COLOR: #6666cc;
++    TEXT-DECORATION: none;
++}
++
++A.leftLinkB {
++	COLOR: #000000;
++    TEXT-DECORATION: none;
++	FONT-WEIGHT: bold;
++}
++
++.topLinkB {
++
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:06:20 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:06:20 +0100
+Subject: [Dzchart-svncheckins] r396 - in utilities/IniFileFormatter/trunk: .
+	dcu src
+Message-ID: <201003131106.o2DB6KeK025396@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:06:18 +0100 (Sat, 13 Mar 2010)
+New Revision: 396
+
+Modified:
+   utilities/IniFileFormatter/trunk/
+   utilities/IniFileFormatter/trunk/dcu/
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+   utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas
+   utilities/IniFileFormatter/trunk/src/w_IniFileFormatter.pas
+Log:
+* added externals
+* improved parameter help
+
+
+Property changes on: utilities/IniFileFormatter/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs/dztemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs/dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+
+   + libs/dztemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs/dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+
+Name: svn:ignore
+   + IniFileFormatter.exe
+
+
+
+Property changes on: utilities/IniFileFormatter/trunk/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr	2010-03-13 10:54:44 UTC (rev 395)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr	2010-03-13 11:06:18 UTC (rev 396)
+@@ -3,18 +3,20 @@
+ uses
+   Forms,
+   w_IniFileFormatter in 'w_IniFileFormatter.pas' {f_IniFileFormatter},
+-  u_dzIniFileFormatter in '..\..\..\IniFileFormatter\u_dzIniFileFormatter.pas',
+-  u_dzIniSections in '..\..\..\IniFileFormatter\u_dzIniSections.pas',
+-  u_dzIniEntryList in '..\..\..\IniFileFormatter\u_dzIniEntryList.pas',
+   u_IniFileFormatterMain in 'u_IniFileFormatterMain.pas',
+-  u_dzDefaultMain in '..\..\..\..\dzcmdlineparser\src\u_dzDefaultMain.pas',
+-  u_dzGetOpt in '..\..\..\..\dzcmdlineparser\src\u_dzGetOpt.pas',
+-  u_dzOptionDescList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionDescList.pas',
+-  u_dzOptionFoundList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionFoundList.pas',
+-  u_dzOptionNameList in '..\..\..\..\dzcmdlineparser\src\u_dzOptionNameList.pas',
+-  u_dzParamDescList in '..\..\..\..\dzcmdlineparser\src\u_dzParamDescList.pas',
+-  u_dzParamFoundList in '..\..\..\..\dzcmdlineparser\src\u_dzParamFoundList.pas',
+-  w_dzDialog in '..\..\..\forms\w_dzDialog.pas' {f_dzDialog};
++  w_dzDialog in '..\libs\dzLib\forms\w_dzDialog.pas' {f_dzDialog},
++  u_dzIniFileFormatter in '..\libs\dzLib\IniFileFormatter\u_dzIniFileFormatter.pas',
++  u_dzIniSections in '..\libs\dzLib\IniFileFormatter\u_dzIniSections.pas',
++  u_dzIniEntryList in '..\libs\dzLib\IniFileFormatter\u_dzIniEntryList.pas',
++  u_dzDefaultMain in '..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas',
++  u_dzCmdLineParser in '..\libs\dzCmdLineParser\src\u_dzCmdLineParser.pas',
++  u_dzCmdLineParserStates in '..\libs\dzCmdLineParser\src\u_dzCmdLineParserStates.pas',
++  u_dzGetOpt in '..\libs\dzCmdLineParser\src\u_dzGetOpt.pas',
++  u_dzOptionDescList in '..\libs\dzCmdLineParser\src\u_dzOptionDescList.pas',
++  u_dzOptionFoundList in '..\libs\dzCmdLineParser\src\u_dzOptionFoundList.pas',
++  u_dzOptionNameList in '..\libs\dzCmdLineParser\src\u_dzOptionNameList.pas',
++  u_dzParamDescList in '..\libs\dzCmdLineParser\src\u_dzParamDescList.pas',
++  u_dzParamFoundList in '..\libs\dzCmdLineParser\src\u_dzParamFoundList.pas';
+ 
+ {$R *.res}
+ 
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-03-13 10:54:44 UTC (rev 395)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-03-13 11:06:18 UTC (rev 396)
+@@ -22,11 +22,11 @@
+ 		<PropertyGroup Condition="'$(Base)'!=''">
+ 			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
+ 			<DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
+-			<DCC_Define>no_translation;$(DCC_Define)</DCC_Define>
++			<DCC_Define>no_translation;no_jcl;$(DCC_Define)</DCC_Define>
+ 			<DCC_DebugDCUs>true</DCC_DebugDCUs>
+ 			<DCC_DcuOutput>..\dcu</DCC_DcuOutput>
+ 			<DCC_ExeOutput>..</DCC_ExeOutput>
+-			<DCC_UnitSearchPath>..\..\..\..\dztemplates\Units;..\..\..\..\dztemplates\templates;..\..\..\jedi_inc;..\..\..\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
++			<DCC_UnitSearchPath>..\libs\dztemplates\Units;..\libs\dztemplates\templates;..\libs\dzlib\jedi_inc;..\libs\dzlib\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+ 			<DCC_DependencyCheckOutputName>..\IniFileFormatter.exe</DCC_DependencyCheckOutputName>
+ 			<DCC_ImageBase>00400000</DCC_ImageBase>
+ 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
+@@ -54,20 +54,22 @@
+ 			<DCCReference Include="w_IniFileFormatter.pas">
+ 				<Form>f_IniFileFormatter</Form>
+ 			</DCCReference>
+-			<DCCReference Include="..\..\..\IniFileFormatter\u_dzIniFileFormatter.pas"/>
+-			<DCCReference Include="..\..\..\IniFileFormatter\u_dzIniSections.pas"/>
+-			<DCCReference Include="..\..\..\IniFileFormatter\u_dzIniEntryList.pas"/>
+ 			<DCCReference Include="u_IniFileFormatterMain.pas"/>
+-			<DCCReference Include="..\..\..\..\dzcmdlineparser\src\u_dzDefaultMain.pas"/>
+-			<DCCReference Include="..\..\..\..\dzcmdlineparser\src\u_dzGetOpt.pas"/>
+-			<DCCReference Include="..\..\..\..\dzcmdlineparser\src\u_dzOptionDescList.pas"/>
+-			<DCCReference Include="..\..\..\..\dzcmdlineparser\src\u_dzOptionFoundList.pas"/>
+-			<DCCReference Include="..\..\..\..\dzcmdlineparser\src\u_dzOptionNameList.pas"/>
+-			<DCCReference Include="..\..\..\..\dzcmdlineparser\src\u_dzParamDescList.pas"/>
+-			<DCCReference Include="..\..\..\..\dzcmdlineparser\src\u_dzParamFoundList.pas"/>
+-			<DCCReference Include="..\..\..\forms\w_dzDialog.pas">
++			<DCCReference Include="..\libs\dzLib\forms\w_dzDialog.pas">
+ 				<Form>f_dzDialog</Form>
+ 			</DCCReference>
++			<DCCReference Include="..\libs\dzLib\IniFileFormatter\u_dzIniFileFormatter.pas"/>
++			<DCCReference Include="..\libs\dzLib\IniFileFormatter\u_dzIniSections.pas"/>
++			<DCCReference Include="..\libs\dzLib\IniFileFormatter\u_dzIniEntryList.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzCmdLineParser.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzCmdLineParserStates.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzGetOpt.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzOptionDescList.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzOptionFoundList.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzOptionNameList.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzParamDescList.pas"/>
++			<DCCReference Include="..\libs\dzCmdLineParser\src\u_dzParamFoundList.pas"/>
+ 			<BuildConfiguration Include="Base">
+ 				<Key>Base</Key>
+ 			</BuildConfiguration>
+@@ -93,7 +95,6 @@
+ 						<Parameters Name="UseLauncher">False</Parameters>
+ 						<Parameters Name="LoadAllSymbols">True</Parameters>
+ 						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+-						<Parameters Name="RunParams">--help</Parameters>
+ 					</Parameters>
+ 					<VersionInfo>
+ 						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+
+Modified: utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas	2010-03-13 10:54:44 UTC (rev 395)
++++ utilities/IniFileFormatter/trunk/src/u_IniFileFormatterMain.pas	2010-03-13 11:06:18 UTC (rev 396)
+@@ -26,9 +26,9 @@
+ begin
+   inherited;
+   FGetOpt.RegisterOption('SortSections', _(
+-    'Sort sections. Possible values: no, alpha, template'), true);
++    'Sort sections. Possible values: no, alpha, template (default: alpha)'), true);
+   FGetOpt.RegisterOption('SortItems', _(
+-    'Sort items. Possible values: no, alpha, template'), true);
++    'Sort items. Possible values: no, alpha, template (default: alpha'), true);
+   FGetOpt.RegisterOption('template', _('Template file for sorting by template')
+     , true);
+   FGetOpt.RegisterParam('SrcFile', _('Source INI file to read and format'), 0, 1);
+
+Modified: utilities/IniFileFormatter/trunk/src/w_IniFileFormatter.pas
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/w_IniFileFormatter.pas	2010-03-13 10:54:44 UTC (rev 395)
++++ utilities/IniFileFormatter/trunk/src/w_IniFileFormatter.pas	2010-03-13 11:06:18 UTC (rev 396)
+@@ -106,7 +106,8 @@
+   case _Idx of
+     0: rb_ItemsUnsorted.Checked := true;
+     2: rb_ItemsByTemplate.Checked := true;
+-  // else: alpha-sort
++  else
++    rb_ItemsAlpha.Checked := true;
+   end;
+ end;
+ 
+@@ -115,7 +116,8 @@
+   case _Idx of
+     0: rb_SectionsUnsorted.Checked := true;
+     2: rb_SectionsByTemplate.Checked := true;
+-  // else: alpha-sort
++  else
++    rb_SectionsAlpha.Checked := true;
+   end;
+ end;
+ 
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:21:29 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:21:29 +0100
+Subject: [Dzchart-svncheckins] r397 - utilities/dzLib/trunk/src
+Message-ID: <201003131121.o2DBLTCc026361@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:21:28 +0100 (Sat, 13 Mar 2010)
+New Revision: 397
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+Log:
+xmldoc comments
+
+Modified: utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2010-03-13 11:06:18 UTC (rev 396)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2010-03-13 11:21:28 UTC (rev 397)
+@@ -109,6 +109,10 @@
+     function GetFieldValue(const _FieldName: string): Variant;
+     ///<summary> sets the field value as variant (setter method for FieldValues property) </summary>
+     procedure SetFieldValue(const _FieldName: string; const _Value: Variant);
++    ///<summary> sets the field value, if the filed exists
++    ///          @param Fieldname is name of the field to set
++    ///          @param Value is the new value
++    ///          @returns true, if the field exists, false otherwise </summary>
+     function TrySetFieldValue(const _FieldName: string; const _Value: Variant): boolean;
+     procedure ClearField(const _Fieldname: string);
+ 
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:22:29 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:22:29 +0100
+Subject: [Dzchart-svncheckins] r398 - utilities/dzLib/trunk/src
+Message-ID: <201003131122.o2DBMTBw026415@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:22:29 +0100 (Sat, 13 Mar 2010)
+New Revision: 398
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+for now commented out new method GetTempFileNameEx (does not work as expected)
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2010-03-13 11:21:28 UTC (rev 397)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2010-03-13 11:22:29 UTC (rev 398)
+@@ -320,7 +320,7 @@
+     /// Returns a temporary filename.
+     /// @param Directory is a string with the directory to create the file in, defaults
+     ///                  to the TEMP directory.
+-    /// @param Prefix is a string with a prefix for the filename, defaults to 'dz'.)
++    /// @param Prefix is a string with a prefix for the filename, defaults to 'dz'.
+     /// @param Unique is an word that the function converts to a hexadecimal string
+     /// for use in creating the temporary filename.)
+     /// <ul>
+@@ -337,7 +337,16 @@
+     /// </summary>
+     class function GetTempFileName(_Directory: string = ''; const _Prefix: string = 'dz';
+       _Unique: word = 0): string;
+-
++//    ///<summary>
++//    /// Returns a temporary filename which is ensured not to already exist before but has been created
++//    /// in this call.
++//    /// @param Directory is a string with the directory to create the file in, defaults
++//    ///                  to the TEMP directory.
++//    /// @param Prefix is a string with a prefix for the filename, defaults to 'dz'.
++//    /// @param Ext is the extension for the filename, defaults to '.tmp'.
++//    ///</summary>
++//    class function GetTempFileNameEx(_Directory: string = ''; const _Prefix: string = 'dz';
++//      const _Ext: string = '.tmp'): string;
+     /// <summary>
+     /// Calls the corresponding Windows function and returns the short path name
+     /// for an *existing* file or directory.
+@@ -714,7 +723,8 @@
+   Masks,
+   u_dzMiscUtils,
+   u_dzStringUtils,
+-  u_dzDateUtils;
++  u_dzDateUtils,
++  u_dzFileStreams;
+ 
+ function _(const _s: string): string; inline;
+ begin
+@@ -939,6 +949,30 @@
+   Result := PChar(Result); // remove trailing characters
+ end;
+ 
++//class function TFileSystem.GetTempFileNameEx(_Directory: string; const _Prefix,
++//  _Ext: string): string;
++//var
++//  st: TdzFile;
++//  i: Integer;
++//begin
++//  if _Directory = '' then
++//    _Directory := GetTempPath;
++//  for i := 0 to 256 * 16 - 1 do begin
++//    Result := itpd(_Directory) + _Prefix + IntToHex(MainThreadID, 3) + IntToHex(Random(256 * 16), 2) + _Ext;
++//    st := TdzFile.Create(Result);
++//    try
++//      st.AccessMode := faReadWrite;
++//      st.ShareMode := fsNoSharing;
++//      st.CreateDisposition := fcCreateFailIfExists;
++//      if st.OpenNoException then
++//        exit;
++//    finally
++//      FreeAndNil(st);
++//    end;
++//  end;
++//  raise Exception.CreateFmt(_('Unable to create a temporary file from %s.'), [itpd(_Directory) + _Prefix + '*' + _Ext]);
++//end;
++
+ class function TFileSystem.TryGetFileInfo(const _Filename: string;
+   out _Info: TFileInfoRec): boolean;
+ var
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:23:00 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:23:00 +0100
+Subject: [Dzchart-svncheckins] r399 - utilities/dzLib/trunk/src
+Message-ID: <201003131123.o2DBN0mo026441@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:22:59 +0100 (Sat, 13 Mar 2010)
+New Revision: 399
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzGuidUtils.pas
+Log:
+class function Generate
+
+Modified: utilities/dzLib/trunk/src/u_dzGuidUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzGuidUtils.pas	2010-03-13 11:22:29 UTC (rev 398)
++++ utilities/dzLib/trunk/src/u_dzGuidUtils.pas	2010-03-13 11:22:59 UTC (rev 399)
+@@ -30,6 +30,8 @@
+     function Value: TGuid;
+     ///<summary> returns true, if valid, false otherwise </summary>
+     function IsValid: boolean;
++    ///<summary> returns a new, valid GUID </summary>
++    class function Generate: TNullableGuid; static;
+   end;
+ 
+ ///<summary> Tries to convert a string to a GUID, returns true if successfull </summary>
+@@ -134,6 +136,11 @@
+     Result := '';
+ end;
+ 
++class function TNullableGuid.Generate: TNullableGuid;
++begin
++  Result.GenerateNew;
++end;
++
+ procedure TNullableGuid.GenerateNew;
+ begin
+   if Succeeded(CreateGUID(FValue)) then
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:24:21 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:24:21 +0100
+Subject: [Dzchart-svncheckins] r400 - utilities/dzLib/trunk/src
+Message-ID: <201003131124.o2DBOLV4026488@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:24:20 +0100 (Sat, 13 Mar 2010)
+New Revision: 400
+
+Added:
+   utilities/dzLib/trunk/src/u_dzProgress.pas
+Log:
+interface for progress dialog
+
+Added: utilities/dzLib/trunk/src/u_dzProgress.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzProgress.pas	2010-03-13 11:22:59 UTC (rev 399)
++++ utilities/dzLib/trunk/src/u_dzProgress.pas	2010-03-13 11:24:20 UTC (rev 400)
+@@ -0,0 +1,137 @@
++unit u_dzProgress;
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  Controls,
++  w_dzProgress;
++
++type
++  IdzProgress = interface ['{68DDF5DC-D71B-4D9A-9C45-D65E9D259C32}']
++    function GetAction: string;
++    function GetIsActionVisible: boolean;
++    function GetIsCancelVisible: boolean;
++    function GetProgressMax: integer;
++    function GetProgressPos: integer;
++    procedure SetAction(const Value: string);
++    procedure SetIsActionVisible(const Value: boolean);
++    procedure SetIsCancelVisible(const Value: boolean);
++    procedure SetProgressMax(const Value: integer);
++    procedure SetProgressPos(const Value: integer);
++    property ProgressPos: integer read GetProgressPos write SetProgressPos;
++    property ProgressMax: integer read GetProgressMax write SetProgressMax;
++    property Action: string read GetAction write SetAction;
++    property IsCancelVisible: boolean read GetIsCancelVisible write SetIsCancelVisible;
++    property IsActionVisible: boolean read GetIsActionVisible write SetIsActionVisible;
++    procedure Progress(_Position: integer; const _Action: string; var _Abort: boolean); overload;
++    procedure Progress(_Position: integer; var _Abort: boolean); overload;
++  end;
++
++type
++  TdzProgress = class(TInterfacedObject, IdzProgress)
++  private
++    FForm: Tf_dzProgress;
++  private // implement IdzProgress
++    function GetAction: string;
++    function GetIsActionVisible: boolean;
++    function GetIsCancelVisible: boolean;
++    function GetProgressMax: integer;
++    function GetProgressPos: integer;
++    procedure SetAction(const _Value: string);
++    procedure SetIsActionVisible(const _Value: boolean);
++    procedure SetIsCancelVisible(const _Value: boolean);
++    procedure SetProgressMax(const _Value: integer);
++    procedure SetProgressPos(const _Value: integer);
++    procedure Progress(_Position: integer; const _Action: string; var _Abort: boolean); overload;
++    procedure Progress(_Position: integer; var _Abort: boolean); overload;
++  public
++    constructor Create(_Owner: TWinControl; const _Caption: string);
++    destructor Destroy; override;
++  end;
++
++implementation
++
++uses
++  u_dzVclUtils;
++
++{ TdzProgress }
++
++constructor TdzProgress.Create(_Owner: TWinControl; const _Caption: string);
++begin
++  inherited Create;
++  FForm := Tf_dzProgress.Create(_Owner);
++  TForm_CenterOn(FForm, _Owner);
++  FForm.FormCaption := _Caption;
++  FForm.Show;
++end;
++
++destructor TdzProgress.Destroy;
++begin
++  FreeAndNil(FForm);
++  inherited;
++end;
++
++function TdzProgress.GetAction: string;
++begin
++  Result := FForm.Action;
++end;
++
++function TdzProgress.GetIsActionVisible: boolean;
++begin
++  Result := FForm.IsActionVisible;
++end;
++
++function TdzProgress.GetIsCancelVisible: boolean;
++begin
++  Result := FForm.IsCancelVisible;
++end;
++
++function TdzProgress.GetProgressMax: integer;
++begin
++  Result := FForm.ProgressMax;
++end;
++
++function TdzProgress.GetProgressPos: integer;
++begin
++  Result := FForm.ProgressPos;
++end;
++
++procedure TdzProgress.Progress(_Position: integer; const _Action: string; var _Abort: boolean);
++begin
++  FForm.Progress(_Position, _Action, _Abort);
++end;
++
++procedure TdzProgress.Progress(_Position: integer; var _Abort: boolean);
++begin
++  FForm.Progress(_Position, _Abort);
++end;
++
++procedure TdzProgress.SetAction(const _Value: string);
++begin
++  FForm.Action := _Value;
++end;
++
++procedure TdzProgress.SetIsActionVisible(const _Value: boolean);
++begin
++  FForm.IsActionVisible := _Value;
++end;
++
++procedure TdzProgress.SetIsCancelVisible(const _Value: boolean);
++begin
++  FForm.IsCancelVisible := _Value;
++end;
++
++procedure TdzProgress.SetProgressMax(const _Value: integer);
++begin
++  FForm.ProgressMax := _Value;
++end;
++
++procedure TdzProgress.SetProgressPos(const _Value: integer);
++begin
++  FForm.ProgressPos := _Value;
++end;
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:31:57 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:31:57 +0100
+Subject: [Dzchart-svncheckins] r401 - in utilities/dzCmdLineParser/trunk: .
+	translations translations/en
+Message-ID: <201003131131.o2DBVvX2028076@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:31:55 +0100 (Sat, 13 Mar 2010)
+New Revision: 401
+
+Added:
+   utilities/dzCmdLineParser/trunk/translations/en/
+   utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po
+Modified:
+   utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+Log:
+* added English translations
+* corrected comments
+
+Modified: utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-03-13 11:24:20 UTC (rev 400)
++++ utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-03-13 11:31:55 UTC (rev 401)
+@@ -1,6 +1,7 @@
+ @rem This batch will
+ @rem * call dxgettext to extract all strings to translate
+ @rem * call msgremove remove any strings stored in the ignore.po file
++ at rem * call msgmerge to merge German and English translations with the new template
+ 
+ set BASE=.
+ 
+@@ -13,7 +14,7 @@
+ @rem merge German translations
+ msgmerge --no-wrap --update %BASE%\translations\de\dzCmdLineParser.po %BASE%\filtered.po
+ 
+- at rem merge Eerman translations
++ at rem merge English translations
+ msgmerge --no-wrap --update %BASE%\translations\en\dzCmdLineParser.po %BASE%\filtered.po
+ 
+ pause
+
+Added: utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po	2010-03-13 11:24:20 UTC (rev 400)
++++ utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po	2010-03-13 11:31:55 UTC (rev 401)
+@@ -0,0 +1,101 @@
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the PACKAGE package.
++# FIRST AUTHOR <EMAIL at ADDRESS>, YEAR.
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: dzCmdLineParser 1.0\n"
++"POT-Creation-Date: 2009-06-30 11:42\n"
++"PO-Revision-Date: 2009-06-30 11:46+0100\n"
++"Last-Translator: Thomas Mueller <info at schniering.com>\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"X-Generator: dxgettext 1.2.2\n"
++"Language-Team: twm <dzcmdlineparser at dummzeuch.de>\n"
++"X-Poedit-Language: English\n"
++"X-Poedit-Country: UNITED STATES\n"
++
++#: u_dzCmdLineParserStates.pas:197
++#: u_dzCmdLineParserStates.pas:217
++#: u_dzCmdLineParserStates.pas:231
++#: u_dzCmdLineParserStates.pas:254
++#: u_dzCmdLineParserStates.pas:270
++#: u_dzCmdLineParserStates.pas:313
++#: u_dzCmdLineParserStates.pas:335
++#: u_dzCmdLineParserStates.pas:377
++msgid "Invalid character \"%s\"."
++msgstr "Invalid character \"%s\"."
++
++#: u_dzDefaultMain.pas:136
++msgid "This program does nothing yet."
++msgstr "This program does nothing yet."
++
++#: u_dzDefaultMain.pas:145
++msgid "Error: %s"
++msgstr "Error: %s"
++
++#: u_dzDefaultMain.pas:149
++msgid "Synopsis: %s %s"
++msgstr "Synopsis: %s %s"
++
++#: u_dzDefaultMain.pas:150
++msgid "Parameters:"
++msgstr "Parameters:"
++
++#: u_dzDefaultMain.pas:152
++msgid "Options:"
++msgstr "Options:"
++
++#: u_dzDefaultMain.pas:163
++msgid "Write a startup log to the given file."
++msgstr "Write a startup log to the given file."
++
++#: u_dzGetOpt.pas:160
++msgid "[options]"
++msgstr "[options]"
++
++#: u_dzGetOpt.pas:227
++msgid "%s is not a registered option."
++msgstr "%s is not a registered option."
++
++#: u_dzGetOpt.pas:306
++msgid "There are too many parameters."
++msgstr "There are too many parameters."
++
++#: u_dzGetOpt.pas:316
++#: u_dzGetOpt.pas:322
++msgid "There are not enough %s parameters (min: %d)"
++msgstr "There are not enough %s parameters (min: %d)"
++
++#: u_dzGetOpt.pas:329
++msgid "Option %s is unknown"
++msgstr "Option %s is unknown"
++
++#: u_dzGetOpt.pas:333
++msgid "Option %s requires a value."
++msgstr "Option %s requires a value."
++
++#: u_dzGetOpt.pas:377
++msgid "display parameter help"
++msgstr "display parameter help"
++
++#: u_dzOptionDescList.pas:120
++msgid "Option name cannot be empty."
++msgstr "Option name cannot be empty."
++
++#: u_dzOptionDescList.pas:123
++msgid "Option name must start with an alphanumeric character."
++msgstr "Option name must start with an alphanumeric character."
++
++#: u_dzOptionDescList.pas:126
++msgid "Option name contains invalid character \"%s\" at position %d."
++msgstr "Option name contains invalid character \"%s\" at position %d."
++
++#. should never happen
++#: u_dzOptionDescList.pas:136
++#: u_dzOptionDescList.pas:141
++msgid "value"
++msgstr "value"
++
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:33:46 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:33:46 +0100
+Subject: [Dzchart-svncheckins] r402 - utilities
+Message-ID: <201003131133.o2DBXkeK029064@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:33:42 +0100 (Sat, 13 Mar 2010)
+New Revision: 402
+
+Added:
+   utilities/dzlibraries/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:36:10 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:36:10 +0100
+Subject: [Dzchart-svncheckins] r403 - utilities/dzlibraries
+Message-ID: <201003131136.o2DBaAcT030625@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:36:10 +0100 (Sat, 13 Mar 2010)
+New Revision: 403
+
+Modified:
+   utilities/dzlibraries/
+Log:
+externals for all libraries
+
+
+Property changes on: utilities/dzlibraries
+___________________________________________________________________
+Name: svn:externals
+   + libs/dzLib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://twm at svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+libs/dztemplates https://twm at svn.berlios.de/svnroot/repos/dztemplates/trunk
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:40:11 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:40:11 +0100
+Subject: [Dzchart-svncheckins] r404 - utilities
+Message-ID: <201003131140.o2DBeBEr031866@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:40:10 +0100 (Sat, 13 Mar 2010)
+New Revision: 404
+
+Added:
+   utilities/buildtools/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:41:53 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:41:53 +0100
+Subject: [Dzchart-svncheckins] r405 - in utilities/buildtools: . trunk
+	trunk/templates
+Message-ID: <201003131141.o2DBfrLE032436@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:40:24 +0100 (Sat, 13 Mar 2010)
+New Revision: 405
+
+Added:
+   utilities/buildtools/trunk/
+   utilities/buildtools/trunk/!ReadMe.txt
+   utilities/buildtools/trunk/AppendJclDebug.cmd
+   utilities/buildtools/trunk/AppendTranslations.cmd
+   utilities/buildtools/trunk/ExtractTranslations.cmd
+   utilities/buildtools/trunk/MakeJclDbg.exe
+   utilities/buildtools/trunk/PostBuild.cmd
+   utilities/buildtools/trunk/PrepBuild.exe
+   utilities/buildtools/trunk/assemble.exe
+   utilities/buildtools/trunk/cygexpat-0.dll
+   utilities/buildtools/trunk/cyggettextlib-0-14-1.dll
+   utilities/buildtools/trunk/cyggettextpo-0.dll
+   utilities/buildtools/trunk/cyggettextsrc-0-14-1.dll
+   utilities/buildtools/trunk/cygiconv-2.dll
+   utilities/buildtools/trunk/cygintl-2.dll
+   utilities/buildtools/trunk/cygintl-3.dll
+   utilities/buildtools/trunk/cygwin1.dll
+   utilities/buildtools/trunk/doExtractTranslations.cmd
+   utilities/buildtools/trunk/dxgettext.exe
+   utilities/buildtools/trunk/gorm.exe
+   utilities/buildtools/trunk/msgcat.exe
+   utilities/buildtools/trunk/msgfmt.exe
+   utilities/buildtools/trunk/msgmerge.exe
+   utilities/buildtools/trunk/msgremove.exe
+   utilities/buildtools/trunk/prep.cmd
+   utilities/buildtools/trunk/templates/
+   utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd
+   utilities/buildtools/trunk/templates/Template_Icon.rc
+   utilities/buildtools/trunk/templates/Template_version.ini
+   utilities/buildtools/trunk/templates/schniering.ico
+   utilities/buildtools/trunk/upx.exe
+Log:
+
+
+Added: utilities/buildtools/trunk/!ReadMe.txt
+===================================================================
+--- utilities/buildtools/trunk/!ReadMe.txt	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/!ReadMe.txt	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,5 @@
++Pre-Build events:
++..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd
++
++Post-Build events:
++..\buildtools\makejcldbg -e $(OUTPUTDIR)\$(OUTPUTNAME).map
+
+Added: utilities/buildtools/trunk/AppendJclDebug.cmd
+===================================================================
+--- utilities/buildtools/trunk/AppendJclDebug.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/AppendJclDebug.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,8 @@
++ at rem add jcldebug information from the .map file
++ at rem copy this file to the projects root directory if
++ at rem you want it automatically called by postbuild.cmd
++echo * %0 running in
++cd
++
++%~dp0\makejcldbg -e %1.map
++ at echo * %0 exiting
+
+Added: utilities/buildtools/trunk/AppendTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/AppendTranslations.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/AppendTranslations.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,23 @@
++ at rem * compile translations
++ at rem * bind them to the executable
++ at rem copy this file to the projects root directory if
++ at rem you want it automatically called by postbuild.cmd
++
++echo * %0 running in
++cd
++
++if exist locale goto locexists
++echo subdirectory locale does not exist, no translation added
++goto :eof
++
++:locexists
++
++
++ at echo compile German default.po
++%~dp0\msgfmt locale\de\lc_messages\default.po -o locale\de\lc_messages\default.mo
++
++ at echo bind all translations to the executable
++%~dp0\assemble --dxgettext %1.exe
++echo off
++
++echo * %0 exiting
+
+Added: utilities/buildtools/trunk/ExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/ExtractTranslations.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/ExtractTranslations.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,3 @@
++call doextracttranslations.cmd
++pause
++"%ProgramFiles%\poEdit\bin\poedit.exe" locale\de\lc_messages\default.po
+
+Added: utilities/buildtools/trunk/MakeJclDbg.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/MakeJclDbg.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/PostBuild.cmd
+===================================================================
+--- utilities/buildtools/trunk/PostBuild.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/PostBuild.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,39 @@
++ at rem postbuild.cmd sollte wie folgt als PostBuild-Event aufgerufen werden:
++ at rem ..\buildtools\postbuild.cmd $(OUTPUTDIR)$(OUTPUTNAME)
++ at rem
++
++ at echo off
++ at echo %0 running in
++cd
++
++ at rem needs one parameter: The basename of the executable file (without .exe)
++set EXEFILEBASE=%1
++if "%EXEFILEBASE%"=="" goto NeedPara
++
++set OUTPUTDIR=%~dp1
++
++pushd %OUTPUTDIR%
++
++if not exist %~dp0\AppendJclDebug.cmd goto NoDebug
++  echo appending JclDebug information
++  call %~dp0\AppendJclDebug.cmd %EXEFILEBASE%
++  goto afterdebug
++:NoDebug
++echo no jcldebug information appended
++:afterdebug
++
++if not exist %~dp0\AppendTranslations.cmd goto NoTrans
++  echo appending translations
++  call %~dp0\AppendTranslations.cmd %EXEFILEBASE%
++  goto aftertrans
++:NoTrans
++echo no translations appended
++:aftertrans
++
++popd
++
++echo %0 exiting
++goto :EOF
++
++:NeedPara
++echo needs the base filename of the executable as parameter
+
+Added: utilities/buildtools/trunk/PrepBuild.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/PrepBuild.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/assemble.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/assemble.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygexpat-0.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygexpat-0.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cyggettextlib-0-14-1.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cyggettextlib-0-14-1.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cyggettextpo-0.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cyggettextpo-0.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cyggettextsrc-0-14-1.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cyggettextsrc-0-14-1.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygiconv-2.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygiconv-2.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygintl-2.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygintl-2.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygintl-3.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygintl-3.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygwin1.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygwin1.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/doExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/doExtractTranslations.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/doExtractTranslations.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,50 @@
++ at rem This batch will
++ at rem * call dxgettext to extract all strings to translate
++ at rem * compile all .po files and copy them to locale\...
++ at rem * do the same for the sigunits, dzlib and delphi2007 files in libs
++
++ at echo off
++echo * %0 running in
++cd
++
++set MASKS=*.pas *.dfm *.inc *.tpl
++set POFILES=
++set OUTDIR=.
++
++set BASE=.
++dxgettext %MASKS% -r -b %BASE%\src -o %BASE%
++msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
++move %BASE%\filtered.po %BASE%\default.po
++set POFILES=%POFILES% %BASE%\default.po
++msgcat -o default.po %POFILES%
++
++ at rem German:
++set LNG=de
++call :HandLng
++
++goto skipfr
++ at rem French:
++set LNG=fr
++call :HandLng
++:skipfr
++
++goto skipen
++ at rem English:
++set LNG=en
++call :HandLng
++:skipen
++
++echo * %0 exiting
++goto :eof
++
++ at rem subroutine for handling a language
++:HandLng
++ at echo ** handling language %LNG% **
++ at rem merge translations
++msgmerge --no-wrap --update locale\%LNG%\lc_messages\default.po default.po
++ at rem compile
++msgfmt locale\%LNG%\lc_messages\default.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\default.mo
++ at rem add Delphi, sigunits and dzlib translations
++msgfmt libs\dxgettext\translations\%LNG%\delphi2007.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\delphi2007.mo
++msgfmt libs\sigunits\translations\%LNG%\sigunits.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\sigunits.mo
++msgfmt libs\dzlib\translations\%LNG%\dzlib.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\dzlib.mo
+
+Added: utilities/buildtools/trunk/dxgettext.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/dxgettext.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/gorm.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/gorm.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/msgcat.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/msgcat.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/msgfmt.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/msgfmt.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/msgmerge.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/msgmerge.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/msgremove.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/msgremove.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/prep.cmd
+===================================================================
+--- utilities/buildtools/trunk/prep.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/prep.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,3 @@
++ at echo off
++%~dp0\PrepBuild --writerc=%dzProject%_Version.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc="%dzVersion.FileDesc%" --InternalName="%dzVersion.InternalName%" --OriginalName="%dzVersion.OriginalName%" --Product="%dzVersion.Product%" --ProductVersion="%dzDate%" --Company="%dzVersion.Company%" --Copyright="%dzVersion.Copyright%" --Trademark="%dzVersion.Trademark%" --Comments="%dzVersion.Comments%"
++brcc32 %dzProject%_Version.rc
+
+Added: utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,8 @@
++ at rem builds a project using msbuild
++ at rem Copy this to the project's root directory and
++ at rem change the projectname below
++call "%ProgramFiles%\CodeGear\RAD Studio\5.0\bin\rsvars.bat"
++pushd src
++msbuild <projectname>.dproj
++pause
++popd
+
+Added: utilities/buildtools/trunk/templates/Template_Icon.rc
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_Icon.rc	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/templates/Template_Icon.rc	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1 @@
++MAINICON ICON LOADONCALL MOVEABLE DISCARDABLE IMPURE <programname>.ico
+
+Added: utilities/buildtools/trunk/templates/Template_version.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_version.ini	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/templates/Template_version.ini	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,18 @@
++[Version Info]
++AutoIncBuild=0
++Build=0
++MajorVer=1
++MinorVer=0
++Release=0
++
++[Version Info Keys]
++FileVersion=1.0.0.0
++ProductVersion=
++FileDescription=<file description here>
++OriginalFilename=<filename here>
++Comments=
++CompanyName=TUEV Rheinland Schniering GmbH
++InternalName=<internale name here>
++LegalCopyright=TUEV Rheinland Schniering GmbH, 2009
++LegalTrademarks=T. M?ller
++ProductName=<productname here>
+
+Added: utilities/buildtools/trunk/templates/schniering.ico
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/templates/schniering.ico
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/upx.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/upx.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:46:12 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:46:12 +0100
+Subject: [Dzchart-svncheckins] r406 - utilities/dzCmdLineParser/trunk
+Message-ID: <201003131146.o2DBkCAG001832@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:46:10 +0100 (Sat, 13 Mar 2010)
+New Revision: 406
+
+Modified:
+   utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+   utilities/dzCmdLineParser/trunk/readme.txt
+Log:
+adapted to path for buildtools
+
+Modified: utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-03-13 11:40:24 UTC (rev 405)
++++ utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-03-13 11:46:10 UTC (rev 406)
+@@ -6,15 +6,15 @@
+ set BASE=.
+ 
+ @rem extract from subdirectories src and forms
+-dxgettext --delphi -r -b %BASE%\src -b %BASE%\forms -o %BASE%
++..\..\dxgettext --delphi -r -b %BASE%\src -b %BASE%\forms -o %BASE%
+ 
+ @rem remove strings given in ignore.po
+-msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
++..\..\msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
+ 
+ @rem merge German translations
+-msgmerge --no-wrap --update %BASE%\translations\de\dzCmdLineParser.po %BASE%\filtered.po
++..\..\msgmerge --no-wrap --update %BASE%\translations\de\dzCmdLineParser.po %BASE%\filtered.po
+ 
+ @rem merge English translations
+-msgmerge --no-wrap --update %BASE%\translations\en\dzCmdLineParser.po %BASE%\filtered.po
++..\..\msgmerge --no-wrap --update %BASE%\translations\en\dzCmdLineParser.po %BASE%\filtered.po
+ 
+ pause
+
+Modified: utilities/dzCmdLineParser/trunk/readme.txt
+===================================================================
+--- utilities/dzCmdLineParser/trunk/readme.txt	2010-03-13 11:40:24 UTC (rev 405)
++++ utilities/dzCmdLineParser/trunk/readme.txt	2010-03-13 11:46:10 UTC (rev 406)
+@@ -1,5 +1,5 @@
+-dummzeuch.de commandline parser version 1.0.0
+-copyright 2006 by Thomas Mueller <http://www.dummzeuch.de
++dummzeuch.de commandline parser
++copyright 2006-2010 by Thomas Mueller <http://www.dummzeuch.de
+ 
+  *****************************************************************************
+  * Version: MPL 1.1
+@@ -35,4 +35,4 @@
+ at all which could mean everything between nobody even looked at it, or everybody
+ who looked at it turned away in horror. ;-)
+ 
+-last updated 2006-08-03 by twm
++last updated 2010-03-13 by twm
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:46:36 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:46:36 +0100
+Subject: [Dzchart-svncheckins] r407 - utilities/dzLib/trunk
+Message-ID: <201003131146.o2DBkanQ001908@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:46:35 +0100 (Sat, 13 Mar 2010)
+New Revision: 407
+
+Modified:
+   utilities/dzLib/trunk/UpdateTranslations.cmd
+Log:
+adapted to path for buildtools
+
+Modified: utilities/dzLib/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzLib/trunk/UpdateTranslations.cmd	2010-03-13 11:46:10 UTC (rev 406)
++++ utilities/dzLib/trunk/UpdateTranslations.cmd	2010-03-13 11:46:35 UTC (rev 407)
+@@ -7,18 +7,18 @@
+ @rem   - French (partial)
+ 
+ @rem extract from subdirectories src, forms, adodb, components, dbcreator, dzAdoDb, IniFileFormatter, lockfree
+-buildtools\dxgettext *.dfm *.pas *.inc *.dpr -r -b src -b forms -b adodb -b components -b dbcreator -b dzAdoDb -b IniFileFormatter -b lockfree -o .
++..\..\buildtools\dxgettext *.dfm *.pas *.inc *.dpr -r -b src -b forms -b adodb -b components -b dbcreator -b dzAdoDb -b IniFileFormatter -b lockfree -o .
+ 
+ @rem remove strings given in ignore.po
+-buildtools\msgremove default.po -i ignore.po -o filtered.po
++..\..\buildtools\msgremove default.po -i ignore.po -o filtered.po
+ 
+ @rem merge German translations
+-buildtools\msgmerge --no-wrap --update translations\de\dzlib.po filtered.po
++..\..\buildtools\msgmerge --no-wrap --update translations\de\dzlib.po filtered.po
+ 
+ @rem merge French translations
+-buildtools\msgmerge --no-wrap --update translations\fr\dzlib.po filtered.po
++..\..\buildtools\msgmerge --no-wrap --update translations\fr\dzlib.po filtered.po
+ 
+ @rem merge English "translations"
+-buildtools\msgmerge --no-wrap --update translations\en\dzlib.po filtered.po
++..\..\buildtools\msgmerge --no-wrap --update translations\en\dzlib.po filtered.po
+ 
+ pause
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:58:40 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:58:40 +0100
+Subject: [Dzchart-svncheckins] r408 - utilities/dzCmdLineParser/trunk
+Message-ID: <201003131158.o2DBweU6008383@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:58:39 +0100 (Sat, 13 Mar 2010)
+New Revision: 408
+
+Modified:
+   utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+Log:
+adapted to path for buildtools
+
+Modified: utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-03-13 11:46:35 UTC (rev 407)
++++ utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-03-13 11:58:39 UTC (rev 408)
+@@ -6,15 +6,15 @@
+ set BASE=.
+ 
+ @rem extract from subdirectories src and forms
+-..\..\dxgettext --delphi -r -b %BASE%\src -b %BASE%\forms -o %BASE%
++..\..\buildtools\dxgettext --delphi -r -b %BASE%\src -b %BASE%\forms -o %BASE%
+ 
+ @rem remove strings given in ignore.po
+-..\..\msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
++..\..\buildtools\msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
+ 
+ @rem merge German translations
+-..\..\msgmerge --no-wrap --update %BASE%\translations\de\dzCmdLineParser.po %BASE%\filtered.po
++..\..\buildtools\msgmerge --no-wrap --update %BASE%\translations\de\dzCmdLineParser.po %BASE%\filtered.po
+ 
+ @rem merge English translations
+-..\..\msgmerge --no-wrap --update %BASE%\translations\en\dzCmdLineParser.po %BASE%\filtered.po
++..\..\buildtools\msgmerge --no-wrap --update %BASE%\translations\en\dzCmdLineParser.po %BASE%\filtered.po
+ 
+ pause
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 12:59:08 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 12:59:08 +0100
+Subject: [Dzchart-svncheckins] r409 - in utilities/dzLib/trunk/translations:
+	de en fr
+Message-ID: <201003131159.o2DBx8SH009050@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 12:58:53 +0100 (Sat, 13 Mar 2010)
+New Revision: 409
+
+Modified:
+   utilities/dzLib/trunk/translations/de/dzlib.po
+   utilities/dzLib/trunk/translations/en/dzlib.po
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+translations updated
+
+Modified: utilities/dzLib/trunk/translations/de/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/de/dzlib.po	2010-03-13 11:58:39 UTC (rev 408)
++++ utilities/dzLib/trunk/translations/de/dzlib.po	2010-03-13 11:58:53 UTC (rev 409)
+@@ -5,7 +5,7 @@
+ #
+ msgid ""
+ msgstr "Project-Id-Version: dzLib 1.0\n"
+-"POT-Creation-Date: 2010-02-12 15:20\n"
++"POT-Creation-Date: 2010-03-13 12:46\n"
+ "PO-Revision-Date: 2009-10-12 17:01+0100\n"
+ "Last-Translator: twm <info at schniering.com>\n"
+ "Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+@@ -18,13 +18,13 @@
+ 
+ #: w_dzProgress.pas:162
+ msgid "\"%\" must be followed by \"d\" or \"%\"."
+-msgstr "\"%\" muss von \"d\" or \"%\" gefolgt werden."
++msgstr "Auf \"%\" muss \"d\" oder \"%\" folgen"
+ 
+-#: u_dzFileUtils.pas:1427
++#: u_dzFileUtils.pas:1461
+ msgid "\"%s\" does not exist or is not a directory"
+ msgstr "\"%s\" existiert nicht oder ist kein Verzeichnis"
+ 
+-#: u_dzVclUtils.pas:820  u_dzVclUtils.pas:867
++#: u_dzVclUtils.pas:837  u_dzVclUtils.pas:884
+ msgid "\"%s\" is not a valid floating point value."
+ msgstr "\"%s\" ist kein g?ltiger Flie?kommawert."
+ 
+@@ -38,7 +38,7 @@
+ msgid "\"%s\" is not a valid Int64 value: %s"
+ msgstr "\"%s\" ist kein g?ltiger Int64 Wert: %s"
+ 
+-#: u_dzVclUtils.pas:835  u_dzVclUtils.pas:899 u_dzVclUtils.pas:912
++#: u_dzVclUtils.pas:852  u_dzVclUtils.pas:916 u_dzVclUtils.pas:929
+ msgid "\"%s\" is not a valid integer value."
+ msgstr "\"%s\" ist kein g?ltiger Integerwert."
+ 
+@@ -220,7 +220,7 @@
+ msgstr "Kann Dateinamen nicht ?ndern wenn Datei ge?ffnet "
+ "ist."
+ 
+-#: u_dzFileUtils.pas:1655
++#: u_dzFileUtils.pas:1689
+ msgid "Combination of ResultContainsNumber and KeepOriginal is not "
+ "allowed"
+ msgstr "Kombination von ResultContainsNumber und KeepOriginal ist nicht "
+@@ -238,7 +238,7 @@
+ msgstr "Konnte Index %s nicht hinzuf?gen. Tabelle %s hat schon einen "
+ "Prim?rschl?ssel."
+ 
+-#: u_dzFileUtils.pas:919
++#: u_dzFileUtils.pas:929
+ msgid "Could not find a unique directory name based on "
+ "\"%s\""
+ msgstr "Konnte keinen eindeutigen Verzeichnisnamen basierend auf \"%s\" "
+@@ -309,27 +309,27 @@
+ 
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:895  u_dzFileUtils.pas:1390
++#: u_dzFileUtils.pas:905  u_dzFileUtils.pas:1424
+ msgid "Error %%1:s (%%0:d) creating directory "
+ "\"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses "
+ "\"%s\""
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1409
++#: u_dzFileUtils.pas:1443
+ msgid "Error %%1:s (%%0:d) deleting directory "
+ "\"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim L?schen des Verzeichnisses "
+ "\"%s\""
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1277
++#: u_dzFileUtils.pas:1311
+ msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim L?schen der Datei "
+ "\"%s\""
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1047
++#: u_dzFileUtils.pas:1081
+ msgid "Error %%1:s (%%0:d) while changing the readonly flag of "
+ "\"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim ?ndern des Schreibschutz-Flags von "
+@@ -338,14 +338,14 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1067  u_dzFileUtils.pas:1174 u_dzFileUtils.pas:1247
++#: u_dzFileUtils.pas:1101  u_dzFileUtils.pas:1208 u_dzFileUtils.pas:1281
+ msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to "
+ "\"%s\"."
+ msgstr "Fehler %%1:s (%%0:d) beim Kopieren von \"%s\" nach "
+ "\"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1029
++#: u_dzFileUtils.pas:1063
+ msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to "
+ "\"%s\"."
+ msgstr "Fehler %%1:s (%%0:d) beim Verschieben von \"%s\" nach "
+@@ -358,12 +358,12 @@
+ "Windows.ExpandEnvironmentStrings"
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1382
++#: u_dzFileUtils.pas:1416
+ msgid "Error creating directory \"%s\": %s (%s)"
+ msgstr "Fehler beim Erstellen des Verzeichnisses \"%s\": %s "
+ "(%s)"
+ 
+-#: u_dzDatasetHelpers.pas:534
++#: u_dzDatasetHelpers.pas:538
+ msgid "Error posting a dataset to \"%s\". (%s)"
+ msgstr "Fehler beim Schreiben eines Datensatzes nach \"%s\". "
+ "(%s)"
+@@ -372,7 +372,7 @@
+ msgid "February"
+ msgstr "Februar"
+ 
+-#: u_dzFileUtils.pas:964  u_dzFileUtils.pas:970
++#: u_dzFileUtils.pas:998  u_dzFileUtils.pas:1004
+ msgid "File not found: \"%s\""
+ msgstr "Datei nicht gefunden: \"%s\""
+ 
+@@ -380,7 +380,7 @@
+ msgid "Friday"
+ msgstr "Freitag"
+ 
+-#: u_dzVclUtils.pas:594
++#: u_dzVclUtils.pas:600
+ msgid "Glyph string contained invalid character at position "
+ "%d."
+ msgstr "Der Glyph-Text beinhaltet ein ung?ltiges Zeichen an Position "
+@@ -445,7 +445,7 @@
+ msgid "January"
+ msgstr "Januar"
+ 
+-#: u_dzVclUtils.pas:1857
++#: u_dzVclUtils.pas:1874
+ msgid "JPEG Files"
+ msgstr "JPEG Dateien"
+ 
+@@ -485,11 +485,11 @@
+ msgstr "Neue Kapazit?t kann nicht kleiner sein als aktuelle "
+ "L?nge."
+ 
+-#: u_dzVclUtils.pas:1308
++#: u_dzVclUtils.pas:1325
+ msgid "No item selected in combobox"
+ msgstr "Kein Eintrag der Combobox ausgew?hlt"
+ 
+-#: u_dzVclUtils.pas:1327
++#: u_dzVclUtils.pas:1344
+ msgid "No item selected in listbox"
+ msgstr "Kein Eintrag der Listbox ausgew?hlt"
+ 
+@@ -583,13 +583,13 @@
+ msgstr "September"
+ 
+ #. Do not use ParamByName -> only works if param is unique
+-#: u_dzDatasetHelpers.pas:470  u_dzDatasetHelpers.pas:489
++#: u_dzDatasetHelpers.pas:474  u_dzDatasetHelpers.pas:493
+ msgid "SetParamByName is not supported for a %s (only TQuery and TAdoDataset "
+ "descendants)."
+ msgstr "SetParamByName wird f?r %s nicht unterst?tzt (nur TQuery- und "
+ "TAdoDataset-Abk?mmlinge)"
+ 
+-#: u_dzFileUtils.pas:1017
++#: u_dzFileUtils.pas:1051
+ msgid "Short pathname is longer than MAX_PATH (%d) "
+ "characters"
+ msgstr "Kurzer Pfad ist l?nger als MAX_PATH (%d) "
+@@ -616,28 +616,28 @@
+ msgstr "Tabelle hat keine Spalte mit dem Namen "
+ "\"%s\""
+ 
+-#: u_dzFileUtils.pas:1015
++#: u_dzFileUtils.pas:1049
+ msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling "
+ "Windows.GetShortPathname"
+ msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von "
+ "Windows.GetShortPathname"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:937
++#: u_dzFileUtils.pas:947
+ msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling "
+ "Windows.GetTempFileName"
+ msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von "
+ "Windows.GetTempFileName"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:870
++#: u_dzFileUtils.pas:880
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+ "Windows.GetTempPath"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) beim Aufruf von "
+ "Windows.GetTempPath"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:878
++#: u_dzFileUtils.pas:888
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+ "Windows.GetTempPath (2nd)"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) beim Aufruf von "
+
+Modified: utilities/dzLib/trunk/translations/en/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/en/dzlib.po	2010-03-13 11:58:39 UTC (rev 408)
++++ utilities/dzLib/trunk/translations/en/dzlib.po	2010-03-13 11:58:53 UTC (rev 409)
+@@ -2,709 +2,657 @@
+ # Copyright (C) 2008
+ # This file is distributed under the same license as the dzlib package.
+ # Thomas Mueller <dzlib at dummzeuch.de>, 2008.
+-#
+-msgid ""
+-msgstr "Project-Id-Version: dzLib 1.0\n"
+-"POT-Creation-Date: 2010-02-12 15:20\n"
+-"PO-Revision-Date: 2009-10-12 17:01+0100\n"
+-"Last-Translator: twm <info at schniering.com>\n"
+-"Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+-"MIME-Version: 1.0\n"
+-"Content-Type: text/plain; charset=UTF-8\n"
+-"Content-Transfer-Encoding: 8bit\n"
+-"X-Generator: dxgettext 1.2.2\n"
+-"X-Poedit-Language: English\n"
+-"X-Poedit-Country: UNITED STATES\n"
+-
+-#: w_dzProgress.pas:162
+-msgid "\"%\" must be followed by \"d\" or \"%\"."
+-msgstr "\"%\" must be followed by \"d\" or \"%\"."
+-
+-#: u_dzFileUtils.pas:1427
+-msgid "\"%s\" does not exist or is not a directory"
+-msgstr "\"%s\" does not exist or is not a directory"
+-
+-#: u_dzVclUtils.pas:820  u_dzVclUtils.pas:867
+-msgid "\"%s\" is not a valid floating point value."
+-msgstr "\"%s\" is not a valid floating point value."
+-
+-#: u_dzConvertUtils.pas:701
+-msgid "\"%s\" is not a valid floating point value: "
+-"%s"
+-msgstr "\"%s\" is not a valid floating point value: "
+-"%s"
+-
+-#: u_dzConvertUtils.pas:630
+-msgid "\"%s\" is not a valid Int64 value: %s"
+-msgstr "\"%s\" is not a valid Int64 value: %s"
+-
+-#: u_dzVclUtils.pas:835  u_dzVclUtils.pas:899 u_dzVclUtils.pas:912
+-msgid "\"%s\" is not a valid integer value."
+-msgstr "\"%s\" is not a valid integer value."
+-
+-#: u_dzConvertUtils.pas:612
+-msgid "\"%s\" is not a valid integer value: %s"
+-msgstr "\"%s\" is not a valid integer value: %s"
+-
+-#: u_dzFileStreams.pas:259
+-msgid "%%1:s (%%0:d) trying to open \"%s\""
+-msgstr "%%1:s (%%0:d) trying to open \"%s\""
+-
+-#: u_dzConvertUtils.pas:707
+-msgid "%.2f EiB"
+-msgstr "%.2f EiB"
+-
+-#: u_dzConvertUtils.pas:713
+-msgid "%.2f GiB"
+-msgstr "%.2f GiB"
+-
+-#: u_dzConvertUtils.pas:717
+-msgid "%.2f KiB"
+-msgstr "%.2f KiB"
+-
+-#: u_dzConvertUtils.pas:715
+-msgid "%.2f MiB"
+-msgstr "%.2f MiB"
+-
+-#: u_dzConvertUtils.pas:709
+-msgid "%.2f PiB"
+-msgstr "%.2f PiB"
+-
+-#: u_dzConvertUtils.pas:711
+-msgid "%.2f TiB"
+-msgstr "%.2f TiB"
+-
+-#: u_dzExecutor.pas:413
+-msgid "%1:s (%0:d) in CreateProcess(\"%s\", \"%s\")"
+-msgstr "%1:s (%0:d) in CreateProcess(\"%s\", \"%s\")"
+-
+-#: u_dzConvertUtils.pas:719
+-msgid "%d Bytes"
+-msgstr "%d Bytes"
+-
++# 
++msgid ""
++msgstr ""
++"Project-Id-Version: dzLib 1.0\n"
++"POT-Creation-Date: 2010-03-13 12:46\n"
++"PO-Revision-Date: 2009-10-12 17:01+0100\n"
++"Last-Translator: twm <info at schniering.com>\n"
++"Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"X-Generator: dxgettext 1.2.2\n"
++"X-Poedit-Language: English\n"
++"X-Poedit-Country: UNITED STATES\n"
++
++#: u_dzClassUtils.pas:365 
++msgid "no matching object found"
++msgstr "no matching object found"
++
++#: u_dzConvertUtils.pas:397 
++msgid "Digit out of range %s"
++msgstr "Digit out of range %s"
++
++#: u_dzConvertUtils.pas:410 
++msgid "Digit #%d (%s) out of range"
++msgstr "Digit #%d (%s) out of range"
++
++#: u_dzConvertUtils.pas:612 
++msgid "\"%s\" is not a valid integer value: %s"
++msgstr "\"%s\" is not a valid integer value: %s"
++
++#: u_dzConvertUtils.pas:630 
++msgid "\"%s\" is not a valid Int64 value: %s"
++msgstr "\"%s\" is not a valid Int64 value: %s"
++
++#: u_dzConvertUtils.pas:701 
++msgid "\"%s\" is not a valid floating point value: %s"
++msgstr "\"%s\" is not a valid floating point value: %s"
++
++#: u_dzConvertUtils.pas:707 
++msgid "%.2f EiB"
++msgstr "%.2f EiB"
++
++#: u_dzConvertUtils.pas:709 
++msgid "%.2f PiB"
++msgstr "%.2f PiB"
++
++#: u_dzConvertUtils.pas:711 
++msgid "%.2f TiB"
++msgstr "%.2f TiB"
++
++#: u_dzConvertUtils.pas:713 
++msgid "%.2f GiB"
++msgstr "%.2f GiB"
++
++#: u_dzConvertUtils.pas:715 
++msgid "%.2f MiB"
++msgstr "%.2f MiB"
++
++#: u_dzConvertUtils.pas:717 
++msgid "%.2f KiB"
++msgstr "%.2f KiB"
++
++#: u_dzConvertUtils.pas:719 
++msgid "%d Bytes"
++msgstr "%d Bytes"
++
+ #. Days and hours, ignore minutes and seconds
+-#: u_dzConvertUtils.pas:726
+-msgid "%dd %dh"
+-msgstr "%dd %dh"
+-
++#: u_dzConvertUtils.pas:726 
++msgid "%dd %dh"
++msgstr "%dd %dh"
++
+ #. Hours and minutes, ignore seconds
+-#: u_dzConvertUtils.pas:729
+-msgid "%dh %dm"
+-msgstr "%dh %dm"
+-
++#: u_dzConvertUtils.pas:729 
++msgid "%dh %dm"
++msgstr "%dh %dm"
++
+ #. Minutes and seconds
+-#: u_dzConvertUtils.pas:732
+-msgid "%dm %ds"
+-msgstr "%dm %ds"
+-
++#: u_dzConvertUtils.pas:732 
++msgid "%dm %ds"
++msgstr "%dm %ds"
++
+ #. Seconds only
+-#: u_dzConvertUtils.pas:735
+-msgid "%ds"
+-msgstr "%ds"
+-
+-#: u_dzOsUtils.pas:134
+-msgid "%s (code %d) calling Windows.GetUsername"
+-msgstr "%s (code %d) calling Windows.GetUsername"
+-
+-#: u_dzTextFile.pas:58
+-msgid "%s accessing file %s"
+-msgstr "%s accessing file %s"
+-
+-#: u_dzDbCreatorDescription.pas:817
+-msgid "%s is not a valid TFieldDataType name"
+-msgstr "%s is not a valid TFieldDataType name"
+-
+-#: u_dzDbCreatorDescription.pas:785
+-msgid "%s is not a valid TSortOrder name"
+-msgstr "%s is not a valid TSortOrder name"
+-
+-#: u_dzDbCreatorDescription.pas:765
+-msgid "%s is not in 'yes'/'no'"
+-msgstr "%s is not in 'yes'/'no'"
+-
+-#: w_dzDialog.pas:805
+-msgid "&Details <<"
+-msgstr "&Details <<"
+-
+-#: w_dzDialog.pas:645  w_dzDialog.pas:755 w_dzDialog.pas:802
+-msgid "&Details >>"
+-msgstr "&Details >>"
+-
+-#: w_dzWizard.pas:342  w_dzWizardForm.pas:227
+-msgid "&Finish"
+-msgstr "&Finish"
+-
+-#. f_dzWizard..p_Buttons..b_Next..Caption
+-#. f_dzWizardForm..p_Buttons..b_Next..Caption
+-#: w_dzWizard.dfm:1210  w_dzWizardForm.dfm:1210 w_dzWizard.pas:341
+-#: w_dzWizardForm.pas:226
+-msgid "&Next >"
+-msgstr "&Next >"
+-
+-#. f_dzWizard..p_Buttons..b_Prev..Caption
+-#. f_dzWizardForm..p_Buttons..b_Prev..Caption
+-#: w_dzWizard.dfm:1233  w_dzWizardForm.dfm:1233 w_dzWizard.pas:339
+-#: w_dzWizardForm.pas:224
+-msgid "< &Previous"
+-msgstr "< &Previous"
+-
+-#. f_dzProgress..b_Cancel..Caption
+-#: w_dzProgress.dfm:42
+-msgid "Abort"
+-msgstr "Abort"
+-
+-#. f_dzProgress..l_Action..Caption
+-#: w_dzProgress.dfm:25
+-msgid "Action"
+-msgstr "Action"
+-
+-#. 400;
+-#: w_dzDialog.pas:625
+-msgid "Additional information:"
+-msgstr "Additional information:"
+-
+-#: w_dzWizard.pas:478
+-msgid "Already on first page."
+-msgstr "Already on first page."
+-
+-#: w_dzDialog.pas:601
+-msgid "An error occurred:\n"
+-"%s"
+-msgstr "An error occurred:\n"
+-"%s"
+-
+-#: u_dzDateUtils.pas:114
+-msgid "April"
+-msgstr "April"
+-
+-#: u_dzDateUtils.pas:118
+-msgid "August"
+-msgstr "August"
+-
+-#: u_dzDbCreatorDescription.pas:1797
+-msgid "Can not apply default %s, no variable with that "
+-"name."
+-msgstr "Can not apply default %s, no variable with that "
+-"name."
+-
+-#: u_dzExecutor.pas:227
+-msgid "Can not free Executor while a process using redirection is still "
+-"running."
+-msgstr "Can not free Executor while a process using redirection is still "
+-"running."
+-
+-#. f_dzInputDialog..b_Cancel..Caption
+-#. f_dzWizard..p_Buttons..b_Cancel..Caption
+-#. f_dzWizardForm..p_Buttons..b_Cancel..Caption
+-#: w_dzInputDialog.dfm:53  w_dzWizard.dfm:1223 w_dzWizardForm.dfm:1223
+-#: w_dzWizard.pas:340 w_dzWizardForm.pas:225
+-msgid "Cancel"
+-msgstr "Cancel"
+-
+-#: u_dzStatistics.pas:69
+-msgid "Cannot calculate moving average on zero "
+-"elements"
+-msgstr "Cannot calculate moving average on zero "
+-"elements"
+-
+-#: u_dzStringUtils.pas:923
+-msgid "Cannot center string that is larger than the maximum "
+-"length."
+-msgstr "Cannot center string that is larger than the maximum "
+-"length."
+-
+-#: u_dzFileStreams.pas:338
+-msgid "Cannot change filename when file is "
+-"open."
+-msgstr "Cannot change filename when file is "
+-"open."
+-
+-#: u_dzFileUtils.pas:1655
+-msgid "Combination of ResultContainsNumber and KeepOriginal is not "
+-"allowed"
+-msgstr "Combination of ResultContainsNumber and KeepOriginal is not "
+-"allowed"
+-
+-#: u_dzDbCreatorDescription.pas:1186
+-msgid "Could not append index %s. Table %s already has a index with that "
+-"name."
+-msgstr "Could not append index %s. Table %s already has a index with that "
+-"name."
+-
+-#: u_dzDbCreatorDescription.pas:1181
+-msgid "Could not append index %s. Table %s already has a primary "
+-"key."
+-msgstr "Could not append index %s. Table %s already has a primary "
+-"key."
+-
+-#: u_dzFileUtils.pas:919
+-msgid "Could not find a unique directory name based on "
+-"\"%s\""
+-msgstr "Could not find a unique directory name based on "
+-"\"%s\""
+-
+-#: u_dzDllLoader.pas:119  u_dzResourceDllLoader.pas:383
+-msgid "Could not find entry point %s in %s\n"
+-"ERROR= %%d, %%s"
+-msgstr "Could not find entry point %s in %s\n"
+-"ERROR= %%d, %%s"
+-
+-#: u_dzResourceDllLoader.pas:196
+-msgid "Could not find RESOURCEDLL \"%s\""
+-msgstr "Could not find RESOURCEDLL \"%s\""
+-
+-#: u_dzDllLoader.pas:98
+-msgid "Could not load %s."
+-msgstr "Could not load %s."
+-
+-#: u_dzResourceDllLoader.pas:200
+-msgid "Could not load RESOURCEDLL \"%s\""
+-msgstr "Could not load RESOURCEDLL \"%s\""
+-
+-#: u_dzResourceDllLoader.pas:204
+-msgid "Could not lock RESOURCEDLL \"%s\""
+-msgstr "Could not lock RESOURCEDLL \"%s\""
+-
+-#: u_dzDbCreatorDescription.pas:1536
+-msgid "Cyclic table references detected"
+-msgstr "Cyclic table references detected"
+-
+-#: u_dzDbCreatorDescription.pas:896
+-msgid "Data type of foreign key and primary key of referenced table do not "
+-"match"
+-msgstr "Data type of foreign key and primary key of referenced table do not "
+-"match"
+-
+-#: u_dzDateUtils.pas:122
+-msgid "December"
+-msgstr "December"
+-
+-#: u_dzConvertUtils.pas:410
+-msgid "Digit #%d (%s) out of range"
+-msgstr "Digit #%d (%s) out of range"
+-
+-#: u_dzConvertUtils.pas:397
+-msgid "Digit out of range %s"
+-msgstr "Digit out of range %s"
+-
+-#: u_dzCustomDllLoader.pas:115  u_dzCustomDllLoader.pas:120
+-#: u_dzCustomDllLoader.pas:125 u_dzCustomDllLoader.pas:130
+-#: u_dzCustomDllLoader.pas:135 u_dzCustomDllLoader.pas:140
+-#: u_dzCustomDllLoader.pas:145
+-msgid "DLL entry point not initialized"
+-msgstr "DLL entry point not initialized"
+-
+-#: w_dzDialog.pas:519
+-msgid "Do not show again."
+-msgstr "Do not show again."
+-
+-#: w_dzProgress.pas:101
+-msgid "Do you really want to abort?"
+-msgstr "Do you really want to abort?"
+-
+-#: u_dzNameValueList.pas:96
+-msgid "Entry \"%s\" not found."
+-msgstr "Entry \"%s\" not found."
+-
++#: u_dzConvertUtils.pas:735 
++msgid "%ds"
++msgstr "%ds"
++
++#: u_dzConvertUtils.pas:767 
++msgid "Length of byte array (%d) does not match size of a LongWord (%d)"
++msgstr "Length of byte array (%d) does not match size of a LongWord (%d)"
++
++#: u_dzCustomDllLoader.pas:115 
+ u_dzCustomDllLoader.pas:120
++#: u_dzCustomDllLoader.pas:125 u_dzCustomDllLoader.pas:130
++#: u_dzCustomDllLoader.pas:135 u_dzCustomDllLoader.pas:140
++#: u_dzCustomDllLoader.pas:145
++msgid "DLL entry point not initialized"
++msgstr "DLL entry point not initialized"
++
++#. Do not use ParamByName -> only works if param is unique
++#: u_dzDatasetHelpers.pas:474 
+ u_dzDatasetHelpers.pas:493
++msgid "SetParamByName is not supported for a %s (only TQuery and TAdoDataset descendants)."
++msgstr "SetParamByName is not supported for a %s (only TQuery and TAdoDataset descendants)."
++
++#: u_dzDatasetHelpers.pas:538 
++msgid "Error posting a dataset to \"%s\". (%s)"
++msgstr "Error posting a dataset to \"%s\". (%s)"
++
++#: u_dzDateUtils.pas:95 
++msgid "Monday"
++msgstr "Monday"
++
++#: u_dzDateUtils.pas:96 
++msgid "Tuesday"
++msgstr "Tuesday"
++
++#: u_dzDateUtils.pas:97 
++msgid "Wednesday"
++msgstr "Wednesday"
++
++#: u_dzDateUtils.pas:98 
++msgid "Thursday"
++msgstr "Thursday"
++
++#: u_dzDateUtils.pas:99 
++msgid "Friday"
++msgstr "Friday"
++
++#: u_dzDateUtils.pas:100 
++msgid "Saturday"
++msgstr "Saturday"
++
++#: u_dzDateUtils.pas:101 
++msgid "Sunday"
++msgstr "Sunday"
++
++#. should never happen ...
++#: u_dzDateUtils.pas:104 
++msgid "Invalid value for DayOfWeek: %d"
++msgstr "Invalid value for DayOfWeek: %d"
++
++#: u_dzDateUtils.pas:111 
++msgid "January"
++msgstr "January"
++
++#: u_dzDateUtils.pas:112 
++msgid "February"
++msgstr "February"
++
++#: u_dzDateUtils.pas:113 
++msgid "March"
++msgstr "March"
++
++#: u_dzDateUtils.pas:114 
++msgid "April"
++msgstr "April"
++
++#: u_dzDateUtils.pas:115 
++msgid "May"
++msgstr "May"
++
++#: u_dzDateUtils.pas:116 
++msgid "June"
++msgstr "June"
++
++#: u_dzDateUtils.pas:117 
++msgid "July"
++msgstr "July"
++
++#: u_dzDateUtils.pas:118 
++msgid "August"
++msgstr "August"
++
++#: u_dzDateUtils.pas:119 
++msgid "September"
++msgstr "September"
++
++#: u_dzDateUtils.pas:120 
++msgid "October"
++msgstr "October"
++
++#: u_dzDateUtils.pas:121 
++msgid "November"
++msgstr "November"
++
++#: u_dzDateUtils.pas:122 
++msgid "December"
++msgstr "December"
++
++#. should never happen ...
++#: u_dzDateUtils.pas:125 
++msgid "Invalid month number %d"
++msgstr "Invalid month number %d"
++
++#: u_dzDllLoader.pas:98 
++msgid "Could not load %s."
++msgstr "Could not load %s."
++
++#: u_dzDllLoader.pas:119 
+ u_dzResourceDllLoader.pas:383
++msgid ""
++"Could not find entry point %s in %s\n"
++"ERROR= %%d, %%s"
++msgstr ""
++"Could not find entry point %s in %s\n"
++"ERROR= %%d, %%s"
++
++#: u_dzExecutor.pas:227 
++msgid "Can not free Executor while a process using redirection is still running."
++msgstr "Can not free Executor while a process using redirection is still running."
++
++#: u_dzExecutor.pas:265 
++msgid ""
++"Process has not yet been started.\n"
++"%s"
++msgstr ""
++"Process has not yet been started.\n"
++"%s"
++
++#: u_dzExecutor.pas:266 
++msgid ""
++"Process is still running.\n"
++"%s"
++msgstr ""
++"Process is still running.\n"
++"%s"
++
++#: u_dzExecutor.pas:267 
++msgid ""
++"Process has terminated.\n"
++"%s"
++msgstr ""
++"Process has terminated.\n"
++"%s"
++
++#: u_dzExecutor.pas:298 
++msgid "Process has not yet been started"
++msgstr "Process has not yet been started"
++
++#: u_dzExecutor.pas:413 
++msgid "%1:s (%0:d) in CreateProcess(\"%s\", \"%s\")"
++msgstr "%1:s (%0:d) in CreateProcess(\"%s\", \"%s\")"
++
++#: u_dzExecutor.pas:435 
++msgid "StdErr was not redirected"
++msgstr "StdErr was not redirected"
++
++#: u_dzExecutor.pas:451 
++msgid "StdOut was not redirected"
++msgstr "StdOut was not redirected"
++
++#: u_dzFileStreams.pas:259 
++msgid "%%1:s (%%0:d) trying to open \"%s\""
++msgstr "%%1:s (%%0:d) trying to open \"%s\""
++
++#: u_dzFileStreams.pas:307 
++msgid "Invalid file attributes"
++msgstr "Invalid file attributes"
++
++#: u_dzFileStreams.pas:319 
++msgid "Invalid file flags"
++msgstr "Invalid file flags"
++
++#: u_dzFileStreams.pas:338 
++msgid "Cannot change filename when file is open."
++msgstr "Cannot change filename when file is open."
++
++#. GetLastError must be called before _(), otherwise the error code gets lost
++#: u_dzFileUtils.pas:880 
++msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
++msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
++
++#. GetLastError must be called before _(), otherwise the error code gets lost
++#: u_dzFileUtils.pas:888 
++msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
++msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
++
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:895  u_dzFileUtils.pas:1390
+-msgid "Error %%1:s (%%0:d) creating directory "
+-"\"%s\""
+-msgstr "Error %%1:s (%%0:d) creating directory "
+-"\"%s\""
+-
++#: u_dzFileUtils.pas:905 
+ u_dzFileUtils.pas:1424
++msgid "Error %%1:s (%%0:d) creating directory \"%s\""
++msgstr "Error %%1:s (%%0:d) creating directory \"%s\""
++
++#: u_dzFileUtils.pas:929 
++msgid "Could not find a unique directory name based on \"%s\""
++msgstr "Could not find a unique directory name based on \"%s\""
++
++#. GetLastError must be called before _(), otherwise the error code gets lost
++#: u_dzFileUtils.pas:947 
++msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
++msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
++
++#: u_dzFileUtils.pas:998 
+ u_dzFileUtils.pas:1004
++msgid "File not found: \"%s\""
++msgstr "File not found: \"%s\""
++
++#: u_dzFileUtils.pas:1049 
++msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
++msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
++
++#: u_dzFileUtils.pas:1051 
++msgid "Short pathname is longer than MAX_PATH (%d) characters"
++msgstr "Short pathname is longer than MAX_PATH (%d) characters"
++
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1409
+-msgid "Error %%1:s (%%0:d) deleting directory "
+-"\"%s\""
+-msgstr "Error %%1:s (%%0:d) deleting directory "
+-"\"%s\""
+-
++#: u_dzFileUtils.pas:1063 
++msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
++msgstr "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
++
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1277
+-msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+-msgstr "Error %%1:s (%%0:d) deleting file \"%s\""
+-
++#: u_dzFileUtils.pas:1081 
++msgid "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
++msgstr "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
++
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1047
+-msgid "Error %%1:s (%%0:d) while changing the readonly flag of "
+-"\"%s\""
+-msgstr "Error %%1:s (%%0:d) while changing the readonly flag of "
+-"\"%s\""
+-
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
++#: u_dzFileUtils.pas:1101 
+ u_dzFileUtils.pas:1208 u_dzFileUtils.pas:1281
++msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
++msgstr "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
++
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1067  u_dzFileUtils.pas:1174 u_dzFileUtils.pas:1247
+-msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to "
+-"\"%s\"."
+-msgstr "Error %%1:s (%%0:d) while trying to copy \"%s\" to "
+-"\"%s\"."
+-
+-#. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1029
+-msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to "
+-"\"%s\"."
+-msgstr "Error %%1:s (%%0:d) while trying to move \"%s\" to "
+-"\"%s\"."
+-
+-#. 16 KB should be enough for everybody... ;-)
+-#: u_dzOsUtils.pas:154
+-msgid "Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings"
+-msgstr "Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings"
+-
++#: u_dzFileUtils.pas:1311 
++msgid "Error %%1:s (%%0:d) deleting file \"%s\""
++msgstr "Error %%1:s (%%0:d) deleting file \"%s\""
++
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1382
+-msgid "Error creating directory \"%s\": %s (%s)"
+-msgstr "Error creating directory \"%s\": %s (%s)"
+-
+-#: u_dzDatasetHelpers.pas:534
+-msgid "Error posting a dataset to \"%s\". (%s)"
+-msgstr "Error posting a dataset to \"%s\". (%s)"
+-
+-#: u_dzDateUtils.pas:112
+-msgid "February"
+-msgstr "February"
+-
+-#: u_dzFileUtils.pas:964  u_dzFileUtils.pas:970
+-msgid "File not found: \"%s\""
+-msgstr "File not found: \"%s\""
+-
+-#: u_dzDateUtils.pas:99
+-msgid "Friday"
+-msgstr "Friday"
+-
+-#: u_dzVclUtils.pas:594
+-msgid "Glyph string contained invalid character at position "
+-"%d."
+-msgstr "Glyph string contained invalid character at position "
+-"%d."
+-
+-#: u_dzRingBuffer.pas:247  u_dzRingBuffer.pas:258
+-msgid "Index %d out of bounds."
+-msgstr "Index %d out of bounds."
+-
+-#. f_dzInputDialog..Caption
+-#: w_dzInputDialog.dfm:5
+-msgid "InputQuery"
+-msgstr "InputQuery"
+-
+-#: u_dzDbCreatorDescription.pas:835
+-msgid "Invalid boolean value"
+-msgstr "Invalid boolean value"
+-
+-#: u_dzTextFile.pas:54
+-msgid "Invalid file access value (%d)"
+-msgstr "Invalid file access value (%d)"
+-
+-#: u_dzFileStreams.pas:307
+-msgid "Invalid file attributes"
+-msgstr "Invalid file attributes"
+-
+-#: u_dzFileStreams.pas:319
+-msgid "Invalid file flags"
+-msgstr "Invalid file flags"
+-
+-#: w_dzProgress.pas:180
+-msgid "Invalid FormCaption, %s"
+-msgstr "Invalid FormCaption, %s"
+-
+-#: w_dzDialog.pas:332
+-msgid "Invalid modal result %d."
+-msgstr "Invalid modal result %d."
+-
+-#. should never happen ...
+-#: u_dzDateUtils.pas:125
+-msgid "Invalid month number %d"
+-msgstr "Invalid month number %d"
+-
+-#: u_dzDbCreatorDescription.pas:798
+-msgid "Invalid TFieldDataType value"
+-msgstr "Invalid TFieldDataType value"
+-
+-#: u_dzDbCreatorDescription.pas:754
+-msgid "Invalid TNullAllowed value"
+-msgstr "Invalid TNullAllowed value"
+-
+-#: u_dzDbCreatorDescription.pas:774
+-msgid "Invalid TSortOrder value"
+-msgstr "Invalid TSortOrder value"
+-
+-#. should never happen ...
+-#: u_dzDateUtils.pas:104
+-msgid "Invalid value for DayOfWeek: %d"
+-msgstr "Invalid value for DayOfWeek: %d"
+-
+-#: u_dzDateUtils.pas:111
+-msgid "January"
+-msgstr "January"
+-
+-#: u_dzVclUtils.pas:1857
+-msgid "JPEG Files"
+-msgstr "JPEG Files"
+-
+-#: u_dzDateUtils.pas:117
+-msgid "July"
+-msgstr "July"
+-
+-#: u_dzDateUtils.pas:116
+-msgid "June"
+-msgstr "June"
+-
+-#: u_dzConvertUtils.pas:767
+-msgid "Length of byte array (%d) does not match size of a LongWord "
+-"(%d)"
+-msgstr "Length of byte array (%d) does not match size of a LongWord "
+-"(%d)"
+-
+-#: u_dzDateUtils.pas:113
+-msgid "March"
+-msgstr "March"
+-
+-#: u_dzDateUtils.pas:115
+-msgid "May"
+-msgstr "May"
+-
+-#: u_dzDateUtils.pas:95
+-msgid "Monday"
+-msgstr "Monday"
+-
+-#: w_dzProgress.pas:153
+-msgid "must not contain a % at the end"
+-msgstr "must not contain a % at the end"
+-
+-#: u_dzRecordArray.pas:67
+-msgid "New capacity cannot be less than current "
+-"length."
+-msgstr "New capacity cannot be less than current "
+-"length."
+-
+-#: u_dzVclUtils.pas:1308
+-msgid "No item selected in combobox"
+-msgstr "No item selected in combobox"
+-
+-#: u_dzVclUtils.pas:1327
+-msgid "No item selected in listbox"
+-msgstr "No item selected in listbox"
+-
+-#: u_dzClassUtils.pas:365
+-msgid "no matching object found"
+-msgstr "no matching object found"
+-
+-#: u_dzOsUtils.pas:312  u_dzOsUtils.pas:327
+-msgid "No version information available for "
+-"%s"
+-msgstr "No version information available for "
+-"%s"
+-
+-#: u_dzDateUtils.pas:121
+-msgid "November"
+-msgstr "November"
+-
+-#: u_dzStringUtils.pas:435
+-msgid "nthWord: 0th word not available"
+-msgstr "nthWord: 0th word not available"
+-
+-#: u_dzDateUtils.pas:120
+-msgid "October"
+-msgstr "October"
+-
+-#. f_dzInputDialog..b_Ok..Caption
+-#: w_dzInputDialog.dfm:41
+-msgid "OK"
+-msgstr "OK"
+-
+-#: u_dzExecutor.pas:298
+-msgid "Process has not yet been started"
+-msgstr "Process has not yet been started"
+-
+-#: u_dzExecutor.pas:265
+-msgid "Process has not yet been started.\n"
+-"%s"
+-msgstr "Process has not yet been started.\n"
+-"%s"
+-
+-#: u_dzExecutor.pas:267
+-msgid "Process has terminated.\n"
+-"%s"
+-msgstr "Process has terminated.\n"
+-"%s"
+-
+-#: u_dzExecutor.pas:266
+-msgid "Process is still running.\n"
+-"%s"
+-msgstr "Process is still running.\n"
+-"%s"
+-
+-#. f_dzProgress..Caption
+-#: w_dzProgress.dfm:6
+-msgid "Progress"
+-msgstr "Progress"
+-
+-#: w_dzProgress.pas:90
+-msgid "Progress (%d%%)"
+-msgstr "Progress (%d%%)"
+-
+-#. f_dzInputDialog..l_Query..Caption
+-#: w_dzInputDialog.dfm:25
+-msgid "Query goes here"
+-msgstr "Query goes here"
+-
+-#: u_dzResourceDllLoader.pas:209
+-msgid "RESOURCEDLL \"%s\" is not valid (Check "
+-"#1)"
+-msgstr "RESOURCEDLL \"%s\" is not valid (Check "
+-"#1)"
+-
+-#: u_dzResourceDllLoader.pas:213
+-msgid "RESOURCEDLL \"%s\" is not valid (Check "
+-"#2)"
+-msgstr "RESOURCEDLL \"%s\" is not valid (Check "
+-"#2)"
+-
+-#: u_dzResourceDllLoader.pas:218
+-msgid "RESOURCEDLL \"%s\" is not valid (Check "
+-"#3)"
+-msgstr "RESOURCEDLL \"%s\" is not valid (Check "
+-"#3)"
+-
+-#: u_dzDateUtils.pas:100
+-msgid "Saturday"
+-msgstr "Saturday"
+-
+-#: u_dzDateUtils.pas:119
+-msgid "September"
+-msgstr "September"
+-
+-#. Do not use ParamByName -> only works if param is unique
+-#: u_dzDatasetHelpers.pas:470  u_dzDatasetHelpers.pas:489
+-msgid "SetParamByName is not supported for a %s (only TQuery and TAdoDataset "
+-"descendants)."
+-msgstr "SetParamByName is not supported for a %s (only TQuery and TAdoDataset "
+-"descendants)."
+-
+-#: u_dzFileUtils.pas:1017
+-msgid "Short pathname is longer than MAX_PATH (%d) "
+-"characters"
+-msgstr "Short pathname is longer than MAX_PATH (%d) "
+-"characters"
+-
+-#: u_dzExecutor.pas:435
+-msgid "StdErr was not redirected"
+-msgstr "StdErr was not redirected"
+-
+-#: u_dzExecutor.pas:451
+-msgid "StdOut was not redirected"
+-msgstr "StdOut was not redirected"
+-
+-#: u_dzStringUtils.pas:1012
+-msgid "Strings do not have a 0th character."
+-msgstr "Strings do not have a 0th character."
+-
+-#: u_dzDateUtils.pas:101
+-msgid "Sunday"
+-msgstr "Sunday"
+-
+-#: u_dzDbCreatorDescription.pas:1626  u_dzDbCreatorDescription.pas:1635
+-msgid "Table has no column with name \"%s\""
+-msgstr "Table has no column with name \"%s\""
+-
+-#: u_dzFileUtils.pas:1015
+-msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling "
+-"Windows.GetShortPathname"
+-msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling "
+-"Windows.GetShortPathname"
+-
+-#. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:937
+-msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling "
+-"Windows.GetTempFileName"
+-msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling "
+-"Windows.GetTempFileName"
+-
+-#. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:870
+-msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+-"Windows.GetTempPath"
+-msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+-"Windows.GetTempPath"
+-
+-#. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:878
+-msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+-"Windows.GetTempPath (2nd)"
+-msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+-"Windows.GetTempPath (2nd)"
+-
+-#: u_dzDbCreatorDescription.pas:2196
+-msgid "There is no script named %s in this db "
+-"type"
+-msgstr "There is no script named %s in this db "
+-"type"
+-
+-#: u_dzDateUtils.pas:98
+-msgid "Thursday"
+-msgstr "Thursday"
+-
+-#: w_dzProgress.pas:168
+-msgid "too many parameters"
+-msgstr "too many parameters"
+-
+-#: u_dzDateUtils.pas:96
+-msgid "Tuesday"
+-msgstr "Tuesday"
+-
+-#: u_dzMiscUtils.pas:295  u_dzMiscUtils.pas:313
+-msgid "unknown OS error"
+-msgstr "unknown OS error"
+-
++#: u_dzFileUtils.pas:1416 
++msgid "Error creating directory \"%s\": %s (%s)"
++msgstr "Error creating directory \"%s\": %s (%s)"
++
++#. duplicate % so they get passed through the format function
++#: u_dzFileUtils.pas:1443 
++msgid "Error %%1:s (%%0:d) deleting directory \"%s\""
++msgstr "Error %%1:s (%%0:d) deleting directory \"%s\""
++
++#: u_dzFileUtils.pas:1461 
++msgid "\"%s\" does not exist or is not a directory"
++msgstr "\"%s\" does not exist or is not a directory"
++
++#: u_dzFileUtils.pas:1689 
++msgid "Combination of ResultContainsNumber and KeepOriginal is not allowed"
++msgstr "Combination of ResultContainsNumber and KeepOriginal is not allowed"
++
+ #. do not translate
+-#: u_dzMiscUtils.pas:266
+-msgid "unknown RegDataType"
+-msgstr "unknown RegDataType"
+-
++#: u_dzMiscUtils.pas:253 
++msgid "unknown Registry Root Key %x"
++msgstr "unknown Registry Root Key %x"
++
+ #. do not translate
+-#: u_dzMiscUtils.pas:253
+-msgid "unknown Registry Root Key %x"
+-msgstr "unknown Registry Root Key %x"
+-
++#: u_dzMiscUtils.pas:266 
++msgid "unknown RegDataType"
++msgstr "unknown RegDataType"
++
++#: u_dzMiscUtils.pas:295 
+ u_dzMiscUtils.pas:313
++msgid "unknown OS error"
++msgstr "unknown OS error"
++
++#: u_dzOsUtils.pas:134 
++msgid "%s (code %d) calling Windows.GetUsername"
++msgstr "%s (code %d) calling Windows.GetUsername"
++
++#. 16 KB should be enough for everybody... ;-)
++#: u_dzOsUtils.pas:154 
++msgid "Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings"
++msgstr "Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings"
++
++#: u_dzOsUtils.pas:312 
+ u_dzOsUtils.pas:327
++msgid "No version information available for %s"
++msgstr "No version information available for %s"
++
++#: u_dzRecordArray.pas:67 
++msgid "New capacity cannot be less than current length."
++msgstr "New capacity cannot be less than current length."
++
++#: u_dzResourceDllLoader.pas:196 
++msgid "Could not find RESOURCEDLL \"%s\""
++msgstr "Could not find RESOURCEDLL \"%s\""
++
++#: u_dzResourceDllLoader.pas:200 
++msgid "Could not load RESOURCEDLL \"%s\""
++msgstr "Could not load RESOURCEDLL \"%s\""
++
++#: u_dzResourceDllLoader.pas:204 
++msgid "Could not lock RESOURCEDLL \"%s\""
++msgstr "Could not lock RESOURCEDLL \"%s\""
++
++#: u_dzResourceDllLoader.pas:209 
++msgid "RESOURCEDLL \"%s\" is not valid (Check #1)"
++msgstr "RESOURCEDLL \"%s\" is not valid (Check #1)"
++
++#: u_dzResourceDllLoader.pas:213 
++msgid "RESOURCEDLL \"%s\" is not valid (Check #2)"
++msgstr "RESOURCEDLL \"%s\" is not valid (Check #2)"
++
++#: u_dzResourceDllLoader.pas:218 
++msgid "RESOURCEDLL \"%s\" is not valid (Check #3)"
++msgstr "RESOURCEDLL \"%s\" is not valid (Check #3)"
++
++#: u_dzRingBuffer.pas:247 
+ u_dzRingBuffer.pas:258
++msgid "Index %d out of bounds."
++msgstr "Index %d out of bounds."
++
++#: u_dzStatistics.pas:69 
++msgid "Cannot calculate moving average on zero elements"
++msgstr "Cannot calculate moving average on zero elements"
++
++#: u_dzStringUtils.pas:435 
++msgid "nthWord: 0th word not available"
++msgstr "nthWord: 0th word not available"
++
++#: u_dzStringUtils.pas:923 
++msgid "Cannot center string that is larger than the maximum length."
++msgstr "Cannot center string that is larger than the maximum length."
++
++#: u_dzStringUtils.pas:1012 
++msgid "Strings do not have a 0th character."
++msgstr "Strings do not have a 0th character."
++
++#: u_dzTextFile.pas:54 
++msgid "Invalid file access value (%d)"
++msgstr "Invalid file access value (%d)"
++
++#: u_dzTextFile.pas:58 
++msgid "%s accessing file %s"
++msgstr "%s accessing file %s"
++
+ #. do not translate
+ #. do not translate
+ #. do not translate
+ #. do not translate
+-#: u_dzVariantUtils.pas:413  u_dzVariantUtils.pas:427
+-#: u_dzVariantUtils.pas:441 u_dzVariantUtils.pas:509
+-msgid "Variant can not be converted to %s"
+-msgstr "Variant can not be converted to %s"
+-
+-#: u_dzVariantUtils.pas:307  u_dzVariantUtils.pas:336
+-#: u_dzVariantUtils.pas:362 u_dzVariantUtils.pas:463 u_dzVariantUtils.pas:479
+-#: u_dzVariantUtils.pas:531
+-msgid "Variant can not be converted to %s: "
+-"%s"
+-msgstr "Variant can not be converted to %s: "
+-"%s"
+-
+-#: u_dzVariantUtils.pas:302  u_dzVariantUtils.pas:331
+-#: u_dzVariantUtils.pas:357 u_dzVariantUtils.pas:458 u_dzVariantUtils.pas:474
+-#: u_dzVariantUtils.pas:526
+-msgid "Variant is Empty, should be %s: %s"
+-msgstr "Variant is Empty, should be %s: %s"
+-
+ #. do not translate
+ #. do not translate
++#: u_dzVariantUtils.pas:300 
+ u_dzVariantUtils.pas:329
++#: u_dzVariantUtils.pas:355 u_dzVariantUtils.pas:456 u_dzVariantUtils.pas:472
++#: u_dzVariantUtils.pas:524
++msgid "Variant is Null, should be %s: %s"
++msgstr "Variant is Null, should be %s: %s"
++
++#: u_dzVariantUtils.pas:302 
+ u_dzVariantUtils.pas:331
++#: u_dzVariantUtils.pas:357 u_dzVariantUtils.pas:458 u_dzVariantUtils.pas:474
++#: u_dzVariantUtils.pas:526
++msgid "Variant is Empty, should be %s: %s"
++msgstr "Variant is Empty, should be %s: %s"
++
++#: u_dzVariantUtils.pas:307 
+ u_dzVariantUtils.pas:336
++#: u_dzVariantUtils.pas:362 u_dzVariantUtils.pas:463 u_dzVariantUtils.pas:479
++#: u_dzVariantUtils.pas:531
++msgid "Variant can not be converted to %s: %s"
++msgstr "Variant can not be converted to %s: %s"
++
+ #. do not translate
+ #. do not translate
+ #. do not translate
+ #. do not translate
+-#: u_dzVariantUtils.pas:300  u_dzVariantUtils.pas:329
+-#: u_dzVariantUtils.pas:355 u_dzVariantUtils.pas:456 u_dzVariantUtils.pas:472
+-#: u_dzVariantUtils.pas:524
+-msgid "Variant is Null, should be %s: %s"
+-msgstr "Variant is Null, should be %s: %s"
+-
+-#: u_dzDateUtils.pas:97
+-msgid "Wednesday"
+-msgstr "Wednesday"
+-
++#: u_dzVariantUtils.pas:413 
+ u_dzVariantUtils.pas:427
++#: u_dzVariantUtils.pas:441 u_dzVariantUtils.pas:509
++msgid "Variant can not be converted to %s"
++msgstr "Variant can not be converted to %s"
++
++#: u_dzVclUtils.pas:600 
++msgid "Glyph string contained invalid character at position %d."
++msgstr "Glyph string contained invalid character at position %d."
++
++#: u_dzVclUtils.pas:837 
+ u_dzVclUtils.pas:884
++msgid "\"%s\" is not a valid floating point value."
++msgstr "\"%s\" is not a valid floating point value."
++
++#: u_dzVclUtils.pas:852 
+ u_dzVclUtils.pas:916 u_dzVclUtils.pas:929
++msgid "\"%s\" is not a valid integer value."
++msgstr "\"%s\" is not a valid integer value."
++
++#: u_dzVclUtils.pas:1325 
++msgid "No item selected in combobox"
++msgstr "No item selected in combobox"
++
++#: u_dzVclUtils.pas:1344 
++msgid "No item selected in listbox"
++msgstr "No item selected in listbox"
++
++#: u_dzVclUtils.pas:1874 
++msgid "JPEG Files"
++msgstr "JPEG Files"
++
++#. f_dzInputDialog..Caption
++#: w_dzInputDialog.dfm:5 
++msgid "InputQuery"
++msgstr "InputQuery"
++
++#. f_dzInputDialog..l_Query..Caption
++#: w_dzInputDialog.dfm:25 
++msgid "Query goes here"
++msgstr "Query goes here"
++
++#. f_dzInputDialog..b_Ok..Caption
++#: w_dzInputDialog.dfm:41 
++msgid "OK"
++msgstr "OK"
++
++#. f_dzInputDialog..b_Cancel..Caption
++#. f_dzWizard..p_Buttons..b_Cancel..Caption
++#. f_dzWizardForm..p_Buttons..b_Cancel..Caption
++#: w_dzInputDialog.dfm:53 
+ w_dzWizard.dfm:1223 w_dzWizardForm.dfm:1223
++#: w_dzWizard.pas:340 w_dzWizardForm.pas:225
++msgid "Cancel"
++msgstr "Cancel"
++
++#. f_dzProgress..Caption
++#: w_dzProgress.dfm:6 
++msgid "Progress"
++msgstr "Progress"
++
++#. f_dzProgress..l_Action..Caption
++#: w_dzProgress.dfm:25 
++msgid "Action"
++msgstr "Action"
++
++#. f_dzProgress..b_Cancel..Caption
++#: w_dzProgress.dfm:42 
++msgid "Abort"
++msgstr "Abort"
++
++#. f_dzWizard..p_Buttons..b_Next..Caption
++#. f_dzWizardForm..p_Buttons..b_Next..Caption
++#: w_dzWizard.dfm:1210 
+ w_dzWizardForm.dfm:1210 w_dzWizard.pas:341
++#: w_dzWizardForm.pas:226
++msgid "&Next >"
++msgstr "&Next >"
++
++#. f_dzWizard..p_Buttons..b_Prev..Caption
++#. f_dzWizardForm..p_Buttons..b_Prev..Caption
++#: w_dzWizard.dfm:1233 
+ w_dzWizardForm.dfm:1233 w_dzWizard.pas:339
++#: w_dzWizardForm.pas:224
++msgid "< &Previous"
++msgstr "< &Previous"
++
++#: w_dzDialog.pas:332 
++msgid "Invalid modal result %d."
++msgstr "Invalid modal result %d."
++
++#: w_dzDialog.pas:519 
++msgid "Do not show again."
++msgstr "Do not show again."
++
++#: w_dzDialog.pas:601 
++msgid ""
++"An error occurred:\n"
++"%s"
++msgstr ""
++"An error occurred:\n"
++"%s"
++
++#. 400;
++#: w_dzDialog.pas:625 
++msgid "Additional information:"
++msgstr "Additional information:"
++
++#: w_dzDialog.pas:645 
+ w_dzDialog.pas:755 w_dzDialog.pas:802
++msgid "&Details >>"
++msgstr "&Details >>"
++
++#: w_dzDialog.pas:805 
++msgid "&Details <<"
++msgstr "&Details <<"
++
++#: w_dzProgress.pas:90 
++msgid "Progress (%d%%)"
++msgstr "Progress (%d%%)"
++
++#: w_dzProgress.pas:101 
++msgid "Do you really want to abort?"
++msgstr "Do you really want to abort?"
++
++#: w_dzProgress.pas:153 
++msgid "must not contain a % at the end"
++msgstr "must not contain a % at the end"
++
++#: w_dzProgress.pas:162 
++msgid "\"%\" must be followed by \"d\" or \"%\"."
++msgstr "\"%\" must be followed by \"d\" or \"%\"."
++
++#: w_dzProgress.pas:168 
++msgid "too many parameters"
++msgstr "too many parameters"
++
++#: w_dzProgress.pas:180 
++msgid "Invalid FormCaption, %s"
++msgstr "Invalid FormCaption, %s"
++
++#: w_dzWizard.pas:342 
+ w_dzWizardForm.pas:227
++msgid "&Finish"
++msgstr "&Finish"
++
++#: w_dzWizard.pas:478 
++msgid "Already on first page."
++msgstr "Already on first page."
++
++#: u_dzDbCreatorDescription.pas:754 
++msgid "Invalid TNullAllowed value"
++msgstr "Invalid TNullAllowed value"
++
++#: u_dzDbCreatorDescription.pas:765 
++msgid "%s is not in 'yes'/'no'"
++msgstr "%s is not in 'yes'/'no'"
++
++#: u_dzDbCreatorDescription.pas:774 
++msgid "Invalid TSortOrder value"
++msgstr "Invalid TSortOrder value"
++
++#: u_dzDbCreatorDescription.pas:785 
++msgid "%s is not a valid TSortOrder name"
++msgstr "%s is not a valid TSortOrder name"
++
++#: u_dzDbCreatorDescription.pas:798 
++msgid "Invalid TFieldDataType value"
++msgstr "Invalid TFieldDataType value"
++
++#: u_dzDbCreatorDescription.pas:817 
++msgid "%s is not a valid TFieldDataType name"
++msgstr "%s is not a valid TFieldDataType name"
++
++#: u_dzDbCreatorDescription.pas:835 
++msgid "Invalid boolean value"
++msgstr "Invalid boolean value"
++
++#: u_dzDbCreatorDescription.pas:896 
++msgid "Data type of foreign key and primary key of referenced table do not match"
++msgstr "Data type of foreign key and primary key of referenced table do not match"
++
++#: u_dzDbCreatorDescription.pas:1181 
++msgid "Could not append index %s. Table %s already has a primary key."
++msgstr "Could not append index %s. Table %s already has a primary key."
++
++#: u_dzDbCreatorDescription.pas:1186 
++msgid "Could not append index %s. Table %s already has a index with that name."
++msgstr "Could not append index %s. Table %s already has a index with that name."
++
++#: u_dzDbCreatorDescription.pas:1536 
++msgid "Cyclic table references detected"
++msgstr "Cyclic table references detected"
++
++#: u_dzDbCreatorDescription.pas:1626 
+ u_dzDbCreatorDescription.pas:1635
++msgid "Table has no column with name \"%s\""
++msgstr "Table has no column with name \"%s\""
++
++#: u_dzDbCreatorDescription.pas:1797 
++msgid "Can not apply default %s, no variable with that name."
++msgstr "Can not apply default %s, no variable with that name."
++
++#: u_dzDbCreatorDescription.pas:2196 
++msgid "There is no script named %s in this db type"
++msgstr "There is no script named %s in this db type"
++
++#: u_dzNameValueList.pas:96 
++msgid "Entry \"%s\" not found."
++msgstr "Entry \"%s\" not found."
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2010-03-13 11:58:39 UTC (rev 408)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2010-03-13 11:58:53 UTC (rev 409)
+@@ -5,7 +5,7 @@
+ #
+ msgid ""
+ msgstr "Project-Id-Version: dzLib 1.0\n"
+-"POT-Creation-Date: 2010-02-12 15:20\n"
++"POT-Creation-Date: 2010-03-13 12:46\n"
+ "PO-Revision-Date: 2008-09-04 05:41-0800\n"
+ "Last-Translator: Thomas Mueller <dzlib at dummzeuch.de>\n"
+ "Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+@@ -18,13 +18,13 @@
+ 
+ #: w_dzProgress.pas:162
+ msgid "\"%\" must be followed by \"d\" or \"%\"."
+-msgstr ""
++msgstr "\"%\" Doit ?tre suivi par \"d\" ou \"%\"."
+ 
+-#: u_dzFileUtils.pas:1427
++#: u_dzFileUtils.pas:1461
+ msgid "\"%s\" does not exist or is not a directory"
+ msgstr "\"%s\" n'existe pas ou n'est pas un r?p?rtoire"
+ 
+-#: u_dzVclUtils.pas:820  u_dzVclUtils.pas:867
++#: u_dzVclUtils.pas:837  u_dzVclUtils.pas:884
+ msgid "\"%s\" is not a valid floating point value."
+ msgstr "\"%s\" n'est pas une valeur d?cimale correcte."
+ 
+@@ -39,7 +39,7 @@
+ msgstr "\"%s\" n'est pas une valeur Int64 correcte: "
+ "%s"
+ 
+-#: u_dzVclUtils.pas:835  u_dzVclUtils.pas:899 u_dzVclUtils.pas:912
++#: u_dzVclUtils.pas:852  u_dzVclUtils.pas:916 u_dzVclUtils.pas:929
+ msgid "\"%s\" is not a valid integer value."
+ msgstr "\"%s\" n'est pas une valeur d?cimale correcte."
+ 
+@@ -79,8 +79,10 @@
+ msgstr "%.2f Goctets"
+ 
+ #: u_dzExecutor.pas:413
++#, fuzzy
+ msgid "%1:s (%0:d) in CreateProcess(\"%s\", \"%s\")"
+-msgstr ""
++msgstr "% 1: s (% 0: d) dans CreateProcess ( %s "
++"%s"
+ 
+ #: u_dzConvertUtils.pas:719
+ msgid "%d Bytes"
+@@ -116,18 +118,17 @@
+ msgstr "Allocation du fichier de capture"
+ 
+ #: u_dzDbCreatorDescription.pas:817
+-#, fuzzy
+ msgid "%s is not a valid TFieldDataType name"
+ msgstr "\"%s\" n'est pas une valeur d?cimale correcte."
+ 
+ #: u_dzDbCreatorDescription.pas:785
+-#, fuzzy
+ msgid "%s is not a valid TSortOrder name"
+ msgstr "\"%s\" n'est pas une valeur d?cimale correcte."
+ 
+ #: u_dzDbCreatorDescription.pas:765
++#, fuzzy
+ msgid "%s is not in 'yes'/'no'"
+-msgstr ""
++msgstr "%s n'est pas en ?oui? / ?non?"
+ 
+ #: w_dzDialog.pas:805
+ msgid "&Details <<"
+@@ -139,21 +140,21 @@
+ 
+ #: w_dzWizard.pas:342  w_dzWizardForm.pas:227
+ msgid "&Finish"
+-msgstr ""
++msgstr "&Terminer"
+ 
+ #. f_dzWizard..p_Buttons..b_Next..Caption
+ #. f_dzWizardForm..p_Buttons..b_Next..Caption
+ #: w_dzWizard.dfm:1210  w_dzWizardForm.dfm:1210 w_dzWizard.pas:341
+ #: w_dzWizardForm.pas:226
+ msgid "&Next >"
+-msgstr ""
++msgstr "&Suivant>"
+ 
+ #. f_dzWizard..p_Buttons..b_Prev..Caption
+ #. f_dzWizardForm..p_Buttons..b_Prev..Caption
+ #: w_dzWizard.dfm:1233  w_dzWizardForm.dfm:1233 w_dzWizard.pas:339
+ #: w_dzWizardForm.pas:224
+ msgid "< &Previous"
+-msgstr ""
++msgstr "<&Pr?c?dent"
+ 
+ #. f_dzProgress..b_Cancel..Caption
+ #: w_dzProgress.dfm:42
+@@ -162,17 +163,18 @@
+ 
+ #. f_dzProgress..l_Action..Caption
+ #: w_dzProgress.dfm:25
++#, fuzzy
+ msgid "Action"
+-msgstr ""
++msgstr "Action"
+ 
+ #. 400;
+ #: w_dzDialog.pas:625
+ msgid "Additional information:"
+-msgstr ""
++msgstr "Informations compl?mentaires:"
+ 
+ #: w_dzWizard.pas:478
+ msgid "Already on first page."
+-msgstr ""
++msgstr "D?j? ? la premi?re page."
+ 
+ #: w_dzDialog.pas:601
+ #, fuzzy
+@@ -189,14 +191,18 @@
+ msgstr "Ao?t"
+ 
+ #: u_dzDbCreatorDescription.pas:1797
++#, fuzzy
+ msgid "Can not apply default %s, no variable with that "
+ "name."
+-msgstr ""
++msgstr "Impossible %s par d?faut %s aucune variable avec ce "
++"nom."
+ 
+ #: u_dzExecutor.pas:227
++#, fuzzy
+ msgid "Can not free Executor while a process using redirection is still "
+ "running."
+-msgstr ""
++msgstr "Impossible de lib?rer Executor tout un processus utilisant la "
++"redirection fonctionne toujours."
+ 
+ #. f_dzInputDialog..b_Cancel..Caption
+ #. f_dzWizard..p_Buttons..b_Cancel..Caption
+@@ -207,9 +213,11 @@
+ msgstr "Annuler"
+ 
+ #: u_dzStatistics.pas:69
++#, fuzzy
+ msgid "Cannot calculate moving average on zero "
+ "elements"
+-msgstr ""
++msgstr "Impossible de calculer la moyenne mobile sur des ?l?ments "
++"z?ro"
+ 
+ #: u_dzStringUtils.pas:923
+ msgid "Cannot center string that is larger than the maximum "
+@@ -220,59 +228,71 @@
+ #: u_dzFileStreams.pas:338
+ msgid "Cannot change filename when file is "
+ "open."
+-msgstr ""
++msgstr "Ne peut pas changer le nom de fichier quand le fichier est "
++"ouvert."
+ 
+-#: u_dzFileUtils.pas:1655
++#: u_dzFileUtils.pas:1689
+ msgid "Combination of ResultContainsNumber and KeepOriginal is not "
+ "allowed"
+-msgstr ""
++msgstr "Combinaison de ResultContainsNumber et KeepOriginal n'est pas "
++"possible"
+ 
+ #: u_dzDbCreatorDescription.pas:1186
++#, fuzzy
+ msgid "Could not append index %s. Table %s already has a index with that "
+ "name."
+-msgstr ""
++msgstr "Impossible de %s l'indice %s"
+ 
+ #: u_dzDbCreatorDescription.pas:1181
++#, fuzzy
+ msgid "Could not append index %s. Table %s already has a primary "
+ "key."
+-msgstr ""
++msgstr "Impossible de %s l'indice %s"
+ 
+-#: u_dzFileUtils.pas:919
+-#, fuzzy
++#: u_dzFileUtils.pas:929
+ msgid "Could not find a unique directory name based on "
+ "\"%s\""
+ msgstr "Impossible de trouver un nom de r?pertoire unique sur la base de "
+ "\"%s\""
+ 
+ #: u_dzDllLoader.pas:119  u_dzResourceDllLoader.pas:383
++#, fuzzy
+ msgid "Could not find entry point %s in %s\n"
+ "ERROR= %%d, %%s"
+-msgstr ""
++msgstr "Impossible de trouver le point d'entr?e %s en %s\n"
++"ERROR= %%d, %%s"
+ 
+ #: u_dzResourceDllLoader.pas:196
+ msgid "Could not find RESOURCEDLL \"%s\""
+-msgstr ""
++msgstr "Impossible de trouver RESOURCEDLL %s"
+ 
+ #: u_dzDllLoader.pas:98
++#, fuzzy
+ msgid "Could not load %s."
+-msgstr ""
++msgstr "Impossible de %s"
+ 
+ #: u_dzResourceDllLoader.pas:200
++#, fuzzy
+ msgid "Could not load RESOURCEDLL \"%s\""
+-msgstr ""
++msgstr "Impossible de charger RESOURCEDLL %s"
+ 
+ #: u_dzResourceDllLoader.pas:204
++#, fuzzy
+ msgid "Could not lock RESOURCEDLL \"%s\""
+-msgstr ""
++msgstr "Impossible de verrouiller RESOURCEDLL "
++"%s"
+ 
+ #: u_dzDbCreatorDescription.pas:1536
++#, fuzzy
+ msgid "Cyclic table references detected"
+-msgstr ""
++msgstr "Tableau de r?f?rences cycliques d?tect?es"
+ 
+ #: u_dzDbCreatorDescription.pas:896
++#, fuzzy
+ msgid "Data type of foreign key and primary key of referenced table do not "
+ "match"
+-msgstr ""
++msgstr "Type de donn?es de cl? ?trang?re et cl? primaire de la table "
++"r?f?renc?e ne correspondent pas"
+ 
+ #: u_dzDateUtils.pas:122
+ msgid "December"
+@@ -290,44 +310,48 @@
+ #: u_dzCustomDllLoader.pas:125 u_dzCustomDllLoader.pas:130
+ #: u_dzCustomDllLoader.pas:135 u_dzCustomDllLoader.pas:140
+ #: u_dzCustomDllLoader.pas:145
++#, fuzzy
+ msgid "DLL entry point not initialized"
+-msgstr ""
++msgstr "DLL entr?e non initialis?e"
+ 
+ #: w_dzDialog.pas:519
++#, fuzzy
+ msgid "Do not show again."
+-msgstr ""
++msgstr "Ne pas afficher de nouveau."
+ 
+ #: w_dzProgress.pas:101
++#, fuzzy
+ msgid "Do you really want to abort?"
+-msgstr ""
++msgstr "Voulez-vous vraiment faire avorter?"
+ 
+ #: u_dzNameValueList.pas:96
++#, fuzzy
+ msgid "Entry \"%s\" not found."
+-msgstr ""
++msgstr "%s introuvable."
+ 
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:895  u_dzFileUtils.pas:1390
++#: u_dzFileUtils.pas:905  u_dzFileUtils.pas:1424
+ msgid "Error %%1:s (%%0:d) creating directory "
+ "\"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de la cr?ation du r?pertoire "
+ "\"%s\""
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1409
++#: u_dzFileUtils.pas:1443
+ msgid "Error %%1:s (%%0:d) deleting directory "
+ "\"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de l'effacement du r?pertoire "
+ "\"%s\""
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1277
++#: u_dzFileUtils.pas:1311
+ msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de l'effacement du fichier "
+ "\"%s\""
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1047
++#: u_dzFileUtils.pas:1081
+ msgid "Error %%1:s (%%0:d) while changing the readonly flag of "
+ "\"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors du changement de l'indicateur lecture seule "
+@@ -336,14 +360,14 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1067  u_dzFileUtils.pas:1174 u_dzFileUtils.pas:1247
++#: u_dzFileUtils.pas:1101  u_dzFileUtils.pas:1208 u_dzFileUtils.pas:1281
+ msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to "
+ "\"%s\"."
+ msgstr "Erreur %%1:s (%%0:d) lors de la copie de \"%s\" vers "
+ "\"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1029
++#: u_dzFileUtils.pas:1063
+ msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to "
+ "\"%s\"."
+ msgstr "Erreur %%1:s (%%0:d) lors du d?placement de \"%s\" vers "
+@@ -355,12 +379,12 @@
+ msgstr "Error %1:s (%0:d) calling Windows.ExpandEnvironmentStrings"
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1382
++#: u_dzFileUtils.pas:1416
+ #, fuzzy
+ msgid "Error creating directory \"%s\": %s (%s)"
+ msgstr "Erreur Temps d?pass? dans %s"
+ 
+-#: u_dzDatasetHelpers.pas:534
++#: u_dzDatasetHelpers.pas:538
+ #, fuzzy
+ msgid "Error posting a dataset to \"%s\". (%s)"
+ msgstr "Erreur Temps d?pass? dans %s"
+@@ -369,7 +393,7 @@
+ msgid "February"
+ msgstr "F?vrier"
+ 
+-#: u_dzFileUtils.pas:964  u_dzFileUtils.pas:970
++#: u_dzFileUtils.pas:998  u_dzFileUtils.pas:1004
+ msgid "File not found: \"%s\""
+ msgstr "Fichier non trouv?: \"%s\""
+ 
+@@ -377,19 +401,23 @@
+ msgid "Friday"
+ msgstr "Vendredi"
+ 
+-#: u_dzVclUtils.pas:594
++#: u_dzVclUtils.pas:600
++#, fuzzy
+ msgid "Glyph string contained invalid character at position "
+ "%d."
+-msgstr ""
++msgstr "Glyph cha?ne contenue ? caract?re non %d position "
++"%d"
+ 
+ #: u_dzRingBuffer.pas:247  u_dzRingBuffer.pas:258
++#, fuzzy
+ msgid "Index %d out of bounds."
+-msgstr ""
++msgstr "%d out of bounds."
+ 
+ #. f_dzInputDialog..Caption
+ #: w_dzInputDialog.dfm:5
++#, fuzzy
+ msgid "InputQuery"
+-msgstr ""
++msgstr "InputQuery"
+ 
+ #: u_dzDbCreatorDescription.pas:835
+ #, fuzzy
+@@ -397,8 +425,9 @@
+ msgstr "Allocation du fichier de capture"
+ 
+ #: u_dzTextFile.pas:54
++#, fuzzy
+ msgid "Invalid file access value (%d)"
+-msgstr ""
++msgstr "Blancs acc?s au fichier valeur %d"
+ 
+ #: u_dzFileStreams.pas:307
+ #, fuzzy
+@@ -427,16 +456,19 @@
+ msgstr "L'abscisse est invalide"
+ 
+ #: u_dzDbCreatorDescription.pas:798
++#, fuzzy
+ msgid "Invalid TFieldDataType value"
+-msgstr ""
++msgstr "Valeur incorrecte TFieldDataType"
+ 
+ #: u_dzDbCreatorDescription.pas:754
++#, fuzzy
+ msgid "Invalid TNullAllowed value"
+-msgstr ""
++msgstr "Valeur incorrecte TNullAllowed"
+ 
+ #: u_dzDbCreatorDescription.pas:774
++#, fuzzy
+ msgid "Invalid TSortOrder value"
+-msgstr ""
++msgstr "Valeur incorrecte TSortOrder"
+ 
+ #. should never happen ...
+ #: u_dzDateUtils.pas:104
+@@ -449,7 +481,7 @@
+ msgid "January"
+ msgstr "Janvier"
+ 
+-#: u_dzVclUtils.pas:1857
++#: u_dzVclUtils.pas:1874
+ msgid "JPEG Files"
+ msgstr "Fichiers JPEG"
+ 
+@@ -462,9 +494,11 @@
+ msgstr "Juin"
+ 
+ #: u_dzConvertUtils.pas:767
++#, fuzzy
+ msgid "Length of byte array (%d) does not match size of a LongWord "
+ "(%d)"
+-msgstr ""
++msgstr "Longueur du tableau d'octets %d ne correspond pas ? la taille d'un "
++"LongWord %d"
+ 
+ #: u_dzDateUtils.pas:113
+ msgid "March"
+@@ -479,30 +513,38 @@
+ msgstr "Lundi"
+ 
+ #: w_dzProgress.pas:153
++#, fuzzy
+ msgid "must not contain a % at the end"
+-msgstr ""
++msgstr "ne doit pas contenir un% ? la fin"
+ 
+ #: u_dzRecordArray.pas:67
++#, fuzzy
+ msgid "New capacity cannot be less than current "
+ "length."
+-msgstr ""
++msgstr "Ces nouvelles capacit?s ne peuvent pas ?tre inf?rieure ? la longueur "
++"actuelle."
+ 
+-#: u_dzVclUtils.pas:1308
++#: u_dzVclUtils.pas:1325
++#, fuzzy
+ msgid "No item selected in combobox"
+-msgstr ""
++msgstr "Aucun ?l?ment s?lectionn? dans ComboBox"
+ 
+-#: u_dzVclUtils.pas:1327
++#: u_dzVclUtils.pas:1344
++#, fuzzy
+ msgid "No item selected in listbox"
+-msgstr ""
++msgstr "Aucun ?l?ment s?lectionn? dans ListBox"
+ 
+ #: u_dzClassUtils.pas:365
++#, fuzzy
+ msgid "no matching object found"
+-msgstr ""
++msgstr "aucun objet correspondant trouv?"
+ 
+ #: u_dzOsUtils.pas:312  u_dzOsUtils.pas:327
++#, fuzzy
+ msgid "No version information available for "
+ "%s"
+-msgstr ""
++msgstr "Aucune information disponible pour la "
++"%s"
+ 
+ #: u_dzDateUtils.pas:121
+ msgid "November"
+@@ -518,27 +560,32 @@
+ 
+ #. f_dzInputDialog..b_Ok..Caption
+ #: w_dzInputDialog.dfm:41
++#, fuzzy
+ msgid "OK"
+-msgstr ""
++msgstr "OK"
+ 
+ #: u_dzExecutor.pas:298
++#, fuzzy
+ msgid "Process has not yet been started"
+-msgstr ""
++msgstr "Processus n'a pas encore commenc?"
+ 
+ #: u_dzExecutor.pas:265
++#, fuzzy
+ msgid "Process has not yet been started.\n"
+ "%s"
+-msgstr ""
++msgstr "Processus n'a pas encore %s"
+ 
+ #: u_dzExecutor.pas:267
++#, fuzzy
+ msgid "Process has terminated.\n"
+ "%s"
+-msgstr ""
++msgstr "Processus a pris %s"
+ 
+ #: u_dzExecutor.pas:266
++#, fuzzy
+ msgid "Process is still running.\n"
+ "%s"
+-msgstr ""
++msgstr "Le processus est toujours en %s"
+ 
+ #. f_dzProgress..Caption
+ #: w_dzProgress.dfm:6
+@@ -551,23 +598,30 @@
+ 
+ #. f_dzInputDialog..l_Query..Caption
+ #: w_dzInputDialog.dfm:25
++#, fuzzy
+ msgid "Query goes here"
+-msgstr ""
++msgstr "Requ?te goes here"
+ 
+ #: u_dzResourceDllLoader.pas:209
++#, fuzzy
+ msgid "RESOURCEDLL \"%s\" is not valid (Check "
+ "#1)"
+-msgstr ""
++msgstr "RESOURCEDLL %s n'est pas valide (Check # "
++"1)"
+ 
+ #: u_dzResourceDllLoader.pas:213
++#, fuzzy
+ msgid "RESOURCEDLL \"%s\" is not valid (Check "
+ "#2)"
+-msgstr ""
++msgstr "RESOURCEDLL %s n'est pas valide (Check # "
++"2)"
+ 
+ #: u_dzResourceDllLoader.pas:218
++#, fuzzy
+ msgid "RESOURCEDLL \"%s\" is not valid (Check "
+ "#3)"
+-msgstr ""
++msgstr "RESOURCEDLL %s n'est pas valide (Check # "
++"3)"
+ 
+ #: u_dzDateUtils.pas:100
+ msgid "Saturday"
+@@ -578,23 +632,27 @@
+ msgstr "Septembre"
+ 
+ #. Do not use ParamByName -> only works if param is unique
+-#: u_dzDatasetHelpers.pas:470  u_dzDatasetHelpers.pas:489
++#: u_dzDatasetHelpers.pas:474  u_dzDatasetHelpers.pas:493
++#, fuzzy
+ msgid "SetParamByName is not supported for a %s (only TQuery and TAdoDataset "
+ "descendants)."
+-msgstr ""
++msgstr "SetParamByName n'est pas support? pour %s (seulement TQuery "
++"TAdoDataset et descendants)."
+ 
+-#: u_dzFileUtils.pas:1017
++#: u_dzFileUtils.pas:1051
+ msgid "Short pathname is longer than MAX_PATH (%d) "
+ "characters"
+ msgstr "La longueur du chemin de fichier d?passe MAX_PATH (%d) caract?res "
+ 
+ #: u_dzExecutor.pas:435
++#, fuzzy
+ msgid "StdErr was not redirected"
+-msgstr ""
++msgstr "StdErr n'a pas ?t? redirig?"
+ 
+ #: u_dzExecutor.pas:451
++#, fuzzy
+ msgid "StdOut was not redirected"
+-msgstr ""
++msgstr "StdOut n'a pas ?t? redirig?"
+ 
+ #: u_dzStringUtils.pas:1012
+ msgid "Strings do not have a 0th character."
+@@ -605,48 +663,53 @@
+ msgstr "Dimance"
+ 
+ #: u_dzDbCreatorDescription.pas:1626  u_dzDbCreatorDescription.pas:1635
++#, fuzzy
+ msgid "Table has no column with name \"%s\""
+-msgstr ""
++msgstr "Le tableau n'a pas de colonne avec le nom "
++"%s"
+ 
+-#: u_dzFileUtils.pas:1015
++#: u_dzFileUtils.pas:1049
+ msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling "
+ "Windows.GetShortPathname"
+ msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling "
+ "Windows.GetShortPathname"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:937
++#: u_dzFileUtils.pas:947
+ msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling "
+ "Windows.GetTempFileName"
+ msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling "
+ "Windows.GetTempFileName"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:870
++#: u_dzFileUtils.pas:880
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+ "Windows.GetTempPath"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+ "Windows.GetTempPath"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:878
++#: u_dzFileUtils.pas:888
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+ "Windows.GetTempPath (2nd)"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling "
+ "Windows.GetTempPath (2nd)"
+ 
+ #: u_dzDbCreatorDescription.pas:2196
++#, fuzzy
+ msgid "There is no script named %s in this db "
+ "type"
+-msgstr ""
++msgstr "Il n'ya pas de script %s dans ce type "
++"db"
+ 
+ #: u_dzDateUtils.pas:98
+ msgid "Thursday"
+ msgstr "Jeudi"
+ 
+ #: w_dzProgress.pas:168
++#, fuzzy
+ msgid "too many parameters"
+-msgstr ""
++msgstr "trop de param?tres"
+ 
+ #: u_dzDateUtils.pas:96
+ msgid "Tuesday"
+@@ -664,8 +727,9 @@
+ 
+ #. do not translate
+ #: u_dzMiscUtils.pas:253
++#, fuzzy
+ msgid "unknown Registry Root Key %x"
+-msgstr ""
++msgstr "inconnu registre Root% Principales x"
+ 
+ #. do not translate
+ #. do not translate
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 13:00:08 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 13:00:08 +0100
+Subject: [Dzchart-svncheckins] r410 - utilities/dzlibraries
+Message-ID: <201003131200.o2DC08sN010846@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 13:00:07 +0100 (Sat, 13 Mar 2010)
+New Revision: 410
+
+Modified:
+   utilities/dzlibraries/
+Log:
+
+
+
+Property changes on: utilities/dzlibraries
+___________________________________________________________________
+Name: svn:externals
+   - libs/dzLib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://twm at svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+libs/dztemplates https://twm at svn.berlios.de/svnroot/repos/dztemplates/trunk
+
+   + libs/dzLib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+libs/dztemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+buildtools https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk
+
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 13:53:39 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 13:53:39 +0100
+Subject: [Dzchart-svncheckins] r411 - utilities/dzLib/trunk/src
+Message-ID: <201003131253.o2DCrdRI016059@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 13:53:38 +0100 (Sat, 13 Mar 2010)
+New Revision: 411
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileStreams.pas
+Log:
+integer -> cardinal
+
+Modified: utilities/dzLib/trunk/src/u_dzFileStreams.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileStreams.pas	2010-03-13 12:00:07 UTC (rev 410)
++++ utilities/dzLib/trunk/src/u_dzFileStreams.pas	2010-03-13 12:53:38 UTC (rev 411)
+@@ -334,7 +334,7 @@
+ 
+ procedure TdzFile.SetFilename(const _Filename: string);
+ begin
+-  if Self.Handle <> integer(INVALID_HANDLE_VALUE) then
++  if Self.Handle <> Cardinal(INVALID_HANDLE_VALUE) then
+     raise EdzFile.Create(_('Cannot change filename when file is open.'));
+   FFilename := _Filename;
+ end;
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 13:54:49 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 13:54:49 +0100
+Subject: [Dzchart-svncheckins] r412 - utilities/dzLib/trunk/src
+Message-ID: <201003131254.o2DCsnNv016114@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 13:54:48 +0100 (Sat, 13 Mar 2010)
+New Revision: 412
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+* char -> AnsiChar
+* IN -> CharInSet
+* chr(ord(...)) -> UpCase
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2010-03-13 12:53:38 UTC (rev 411)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2010-03-13 12:54:48 UTC (rev 412)
+@@ -314,7 +314,7 @@
+     /// <summary>
+     /// set of char constant containing all characters that are invalid in a filename
+     /// </summary>
+-    INVALID_FILENAME_CHARS: set of Char = ['\', '/', ':', '*', '?', '"', '<', '>', '|'];
++    INVALID_FILENAME_CHARS: set of AnsiChar = ['\', '/', ':', '*', '?', '"', '<', '>', '|'];
+   {*)}
+     /// <summary>
+     /// Returns a temporary filename.
+@@ -647,7 +647,7 @@
+     /// <summary>
+     /// Returns the free space (in bytes) on the disk with the given drive letter
+     /// </summary>
+-    class function DiskFree(_DriveLetter: char): Int64;
++    class function DiskFree(_DriveLetter: AnsiChar): Int64;
+   end;
+ 
+ type
+@@ -1014,12 +1014,12 @@
+     _Size := Info.Size;
+ end;
+ 
+-class function TFileSystem.DiskFree(_DriveLetter: char): Int64;
++class function TFileSystem.DiskFree(_DriveLetter: AnsiChar): Int64;
+ var
+   ErrorMode: Cardinal;
+ begin
+   if _DriveLetter in ['a'..'z'] then
+-    _DriveLetter := chr(Ord(_DriveLetter) - Ord('a') + Ord('A'));
++    _DriveLetter := UpCase(_DriveLetter);
+ 
+   if not (_DriveLetter in ['A'..'Z']) then
+     Result := -1
+@@ -1530,7 +1530,7 @@
+   if not _AllowDot then
+     Include(NotAllowed, '.');
+   for i := 1 to Length(_s) do begin
+-    if _s[i] in NotAllowed then begin
++    if CharInSet(_s[i], NotAllowed) then begin
+       _ErrPos := i;
+       Exit;
+     end;
+
+
+
+From twm at mail.berlios.de  Sat Mar 13 13:55:29 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 13 Mar 2010 13:55:29 +0100
+Subject: [Dzchart-svncheckins] r413 - utilities/dzLib/trunk/IniFileFormatter
+Message-ID: <201003131255.o2DCtTcf016131@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-13 13:55:29 +0100 (Sat, 13 Mar 2010)
+New Revision: 413
+
+Modified:
+   utilities/dzLib/trunk/IniFileFormatter/u_dzIniFileFormatter.pas
+Log:
+now handles everything that does not contain an equal sign as a comment
+
+Modified: utilities/dzLib/trunk/IniFileFormatter/u_dzIniFileFormatter.pas
+===================================================================
+--- utilities/dzLib/trunk/IniFileFormatter/u_dzIniFileFormatter.pas	2010-03-13 12:54:48 UTC (rev 412)
++++ utilities/dzLib/trunk/IniFileFormatter/u_dzIniFileFormatter.pas	2010-03-13 12:55:29 UTC (rev 413)
+@@ -141,14 +141,17 @@
+       Comment.Clear;
+       FSections.Add(Section);
+     end else begin
+-      if (Copy(s, 1, 2) = '//') or (Copy(s, 1, 1) = ';')
+-        or (Copy(s, 1, 1) = '#') or (Section = nil) then begin
+-        Comment.Add(s);
+-      end else if (s <> '') then begin
+-        Item := TIniItem.Create(s);
+-        Item.Comment := Trim(Comment.Text);
+-        Comment.Clear;
+-        Section.Items.Add(Item);
++      if (s <> '') then begin
++        if (Copy(s, 1, 2) = '//') or (Copy(s, 1, 1) = ';')
++          or (Copy(s, 1, 1) = '#') or (Section = nil)
++          or (Pos('=', s) = 0) then begin
++          Comment.Add(s);
++        end else begin
++          Item := TIniItem.Create(s);
++          Item.Comment := Trim(Comment.Text);
++          Comment.Clear;
++          Section.Items.Add(Item);
++        end;
+       end;
+     end;
+   end;
+
+
+
+From twm at mail.berlios.de  Sat Mar 27 12:24:17 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 27 Mar 2010 12:24:17 +0100
+Subject: [Dzchart-svncheckins] r414 - in utilities/dzLib/trunk: src
+	translations/fr
+Message-ID: <201003271124.o2RBOHfp000204@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-27 12:24:15 +0100 (Sat, 27 Mar 2010)
+New Revision: 414
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+new function Str2Date and TryStr2Date
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2010-03-13 12:55:29 UTC (rev 413)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2010-03-27 11:24:15 UTC (rev 414)
+@@ -68,10 +68,14 @@
+ function ddmmyyyy2Date(const _s: string): TDateTime;
+ function Tryddmmyyyy2Date(const _s: string; out _Date: TDateTime): boolean;
+ 
++function TryStr2Date(const _s: string; out _dt: TDateTime): boolean;
++function Str2Date(const _s: string): TDateTime;
++
+ implementation
+ 
+ uses
+   SysUtils,
++  SysConst,
+   DateUtils,
+   u_dzStringUtils;
+ 
+@@ -233,5 +237,33 @@
+   Result := StrToDateTime(_s, Settings);
+ end;
+ 
++function TryStr2Date(const _s: string; out _dt: TDateTime): boolean;
++var
++  UKSettings: TFormatSettings;
++begin
++  Result := true;
++  // Try several different formats
++  // format configured in Windows
++  if not TryStrToDate(_s, _dt) then
++    // German dd.mm.yyyy
++    if not Tryddmmyyyy2Date(_s, _dt) then
++      // ISO yyyy-mm-dd
++      if not TryIso2Date(_s, _dt) then begin
++        // United Kingdom: dd/mm/yyyy
++        UKSettings := GetUserDefaultLocaleSettings;
++        UKSettings.DateSeparator := '/';
++        UKSettings.ShortDateFormat := 'dd/mm/yyyy';
++        if not TryStrToDate(_s, _dt, UKSettings) then
++          // nothing worked, give up
++          Result := false;
++      end;
++end;
++
++function Str2Date(const _s: string): TDateTime;
++begin
++  if not TryStr2Date(_s, Result) then
++    raise EConvertError.CreateResFmt(@SInvalidDate, [_s]);
++end;
++
+ end.
+ 
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2010-03-13 12:55:29 UTC (rev 413)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2010-03-27 11:24:15 UTC (rev 414)
+@@ -4,7 +4,7 @@
+ # Thomas Mueller <dzlib at dummzeuch.de>, 2008.
+ #
+ msgid ""
+-msgstr "Project-Id-Version: dzLib 1.0\n"
++msgstr "Project-Id-Version: dzLib\n"
+ "POT-Creation-Date: 2010-03-13 12:46\n"
+ "PO-Revision-Date: 2008-09-04 05:41-0800\n"
+ "Last-Translator: Thomas Mueller <dzlib at dummzeuch.de>\n"
+
+
+
+From twm at mail.berlios.de  Sat Mar 27 13:05:45 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 27 Mar 2010 13:05:45 +0100
+Subject: [Dzchart-svncheckins] r415 - utilities/buildtools/trunk/templates
+Message-ID: <201003271205.o2RC5jRw010926@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-27 13:05:43 +0100 (Sat, 27 Mar 2010)
+New Revision: 415
+
+Removed:
+   utilities/buildtools/trunk/templates/schniering.ico
+Modified:
+   utilities/buildtools/trunk/templates/Template_version.ini
+Log:
+oops
+
+Modified: utilities/buildtools/trunk/templates/Template_version.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_version.ini	2010-03-27 11:24:15 UTC (rev 414)
++++ utilities/buildtools/trunk/templates/Template_version.ini	2010-03-27 12:05:43 UTC (rev 415)
+@@ -11,8 +11,8 @@
+ FileDescription=<file description here>
+ OriginalFilename=<filename here>
+ Comments=
+-CompanyName=TUEV Rheinland Schniering GmbH
++CompanyName=dzlib
+ InternalName=<internale name here>
+-LegalCopyright=TUEV Rheinland Schniering GmbH, 2009
+-LegalTrademarks=T. M?ller
++LegalCopyright=Thomas Mueller, 2009
++LegalTrademarks=T. Mueller
+ ProductName=<productname here>
+
+Deleted: utilities/buildtools/trunk/templates/schniering.ico
+===================================================================
+(Binary files differ)
+
+
+
+From twm at mail.berlios.de  Sat Mar 27 13:09:00 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 27 Mar 2010 13:09:00 +0100
+Subject: [Dzchart-svncheckins] r416 - in utilities/IniFileFormatter/trunk: .
+	src
+Message-ID: <201003271209.o2RC90AX017839@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-27 13:08:57 +0100 (Sat, 27 Mar 2010)
+New Revision: 416
+
+Added:
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini
+Modified:
+   utilities/IniFileFormatter/trunk/
+   utilities/IniFileFormatter/trunk/src/
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr
+   utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+Log:
+switched to buildtools
+
+
+Property changes on: utilities/IniFileFormatter/trunk
+___________________________________________________________________
+Name: svn:ignore
+   - IniFileFormatter.exe
+
+   + IniFileFormatter.exe
+IniFileFormatter.dpr.lnk
+
+Name: svn:externals
+   - libs/dztemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs/dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+
+   + libs/dztemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs/dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk
+buildtools https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk
+
+
+
+Property changes on: utilities/IniFileFormatter/trunk/src
+___________________________________________________________________
+Name: svn:ignore
+   + IniFileFormatter_Version.rc
+IniFileFormatter_Version.RES
+
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr	2010-03-27 12:05:43 UTC (rev 415)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dpr	2010-03-27 12:08:57 UTC (rev 416)
+@@ -18,7 +18,7 @@
+   u_dzParamDescList in '..\libs\dzCmdLineParser\src\u_dzParamDescList.pas',
+   u_dzParamFoundList in '..\libs\dzCmdLineParser\src\u_dzParamFoundList.pas';
+ 
+-{$R *.res}
++{$R *_version.res}
+ 
+ begin
+   Application.Initialize;
+
+Modified: utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-03-27 12:05:43 UTC (rev 415)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter.dproj	2010-03-27 12:08:57 UTC (rev 416)
+@@ -83,6 +83,10 @@
+ 			</BuildConfiguration>
+ 		</ItemGroup>
+ 		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
++		<PropertyGroup>
++			<PreBuildEvent><![CDATA[..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd]]></PreBuildEvent>
++			<PostBuildEvent><![CDATA[..\buildtools\makejcldbg -e $(OUTPUTDIR)\$(OUTPUTNAME).map]]></PostBuildEvent>
++		</PropertyGroup>
+ 		<ProjectExtensions>
+ 			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+ 			<Borland.ProjectType/>
+
+Added: utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini
+===================================================================
+--- utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini	2010-03-27 12:05:43 UTC (rev 415)
++++ utilities/IniFileFormatter/trunk/src/IniFileFormatter_version.ini	2010-03-27 12:08:57 UTC (rev 416)
+@@ -0,0 +1,19 @@
++[Version Info]
++AutoIncBuild=0
++Build=1
++MajorVer=1
++MinorVer=0
++Release=0
++
++[Version Info Keys]
++FileVersion=1.0.0.1
++ProductVersion=2010-03-27
++FileDescription=INI file formatter
++OriginalFilename=IniFileFormatter
++Comments=
++CompanyName=twm
++InternalName=IniFileFormatter
++LegalCopyright=Thomas Mueller 2010
++LegalTrademarks=T. M?ller
++ProductName=dzlib
++
+
+
+
+From twm at mail.berlios.de  Sat Mar 27 13:12:24 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 27 Mar 2010 13:12:24 +0100
+Subject: [Dzchart-svncheckins] r417 - utilities/buildtools/trunk/templates
+Message-ID: <201003271212.o2RCCOAd021573@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-27 13:12:20 +0100 (Sat, 27 Mar 2010)
+New Revision: 417
+
+Added:
+   utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd
+   utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2009.cmd
+Log:
+build script templates for Delphi 2009 and 2010
+
+Copied: utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd (from rev 414, utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd)
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-27 11:24:15 UTC (rev 414)
++++ utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd	2010-03-27 12:12:20 UTC (rev 417)
+@@ -0,0 +1,8 @@
++ at rem builds a project using msbuild
++ at rem Copy this to the project's root directory and
++ at rem change the projectname below
++call "%ProgramFiles%\Embarcadero\RAD Studio\7.0\bin\rsvars.bat"
++pushd src
++msbuild <projectname>.dproj
++pause
++popd
+
+Copied: utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2009.cmd (from rev 414, utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd)
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-27 11:24:15 UTC (rev 414)
++++ utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2009.cmd	2010-03-27 12:12:20 UTC (rev 417)
+@@ -0,0 +1,8 @@
++ at rem builds a project using msbuild
++ at rem Copy this to the project's root directory and
++ at rem change the projectname below
++call "%ProgramFiles%\CodeGear\RAD Studio\6.0\bin\rsvars.bat"
++pushd src
++msbuild <projectname>.dproj
++pause
++popd
+
+
+
+From twm at mail.berlios.de  Sat Mar 27 13:12:59 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 27 Mar 2010 13:12:59 +0100
+Subject: [Dzchart-svncheckins] r418 - utilities/buildtools/trunk/templates
+Message-ID: <201003271212.o2RCCxfP022585@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-27 13:12:56 +0100 (Sat, 27 Mar 2010)
+New Revision: 418
+
+Added:
+   utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2007.cmd
+   utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2010.cmd
+Removed:
+   utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd
+   utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd
+Log:
+build script templates for Delphi 2009 and 2010
+
+Deleted: utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-27 12:12:20 UTC (rev 417)
++++ utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-27 12:12:56 UTC (rev 418)
+@@ -1,8 +0,0 @@
+- at rem builds a project using msbuild
+- at rem Copy this to the project's root directory and
+- at rem change the projectname below
+-call "%ProgramFiles%\CodeGear\RAD Studio\5.0\bin\rsvars.bat"
+-pushd src
+-msbuild <projectname>.dproj
+-pause
+-popd
+
+Deleted: utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd	2010-03-27 12:12:20 UTC (rev 417)
++++ utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd	2010-03-27 12:12:56 UTC (rev 418)
+@@ -1,8 +0,0 @@
+- at rem builds a project using msbuild
+- at rem Copy this to the project's root directory and
+- at rem change the projectname below
+-call "%ProgramFiles%\Embarcadero\RAD Studio\7.0\bin\rsvars.bat"
+-pushd src
+-msbuild <projectname>.dproj
+-pause
+-popd
+
+Copied: utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2007.cmd (from rev 414, utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd)
+
+Copied: utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2010.cmd (from rev 417, utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd)
+
+
+
+From twm at mail.berlios.de  Sat Mar 27 13:27:01 2010
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 27 Mar 2010 13:27:01 +0100
+Subject: [Dzchart-svncheckins] r419 - utilities/dzPrepBuild/trunk
+Message-ID: <201003271227.o2RCR1nW025147@sheep.berlios.de>
+
+Author: twm
+Date: 2010-03-27 13:27:00 +0100 (Sat, 27 Mar 2010)
+New Revision: 419
+
+Modified:
+   utilities/dzPrepBuild/trunk/
+   utilities/dzPrepBuild/trunk/ReadMe.txt
+Log:
+* changed \ to / in lib path due to stupid change in TortoiseSVN
+* updated/fixed readme.txt
+
+
+Property changes on: utilities/dzPrepBuild/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs\dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs\dzCmdLineParser\src https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src
+libs\dzTemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs\jcl https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1
+
+   + libs/dzlib https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk
+libs/dzCmdLineParser\src https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src
+libs/dzTemplates https://svn.berlios.de/svnroot/repos/dztemplates/trunk
+libs/jcl https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1
+
+
+Modified: utilities/dzPrepBuild/trunk/ReadMe.txt
+===================================================================
+--- utilities/dzPrepBuild/trunk/ReadMe.txt	2010-03-27 12:12:56 UTC (rev 418)
++++ utilities/dzPrepBuild/trunk/ReadMe.txt	2010-03-27 12:27:00 UTC (rev 419)
+@@ -2,7 +2,7 @@
+ for Delphi projects when compiling using the dcc32.exe commandline
+ compiler. It can also be used as a Pre-Build tool in Delphi 2007.
+ 
+-I can read and update three different kinds of sources for the
++It can read and update three different kinds of sources for the
+ version information:
+ * <projectname>.dof files (used up to Delphi 7)
+ * <projectname>.bdsproj files (used in BDS 2005 and 2006)
+@@ -31,7 +31,7 @@
+ del <projectname>.cfg
+ dcc32 [... options ...] <projectname>.dpr
+ 
+-[... other stuff, e.g. create a tag in the sCM ...]
++[... other stuff, e.g. create a tag in the SCM ...]
+ 
+ -------------
+ 
+@@ -72,7 +72,7 @@
+ del <projectname>.cfg
+ dcc32 [... options ...] <projectname>.dpr
+ 
+-[... other stuff, e.g. create a tag in the sCM ...]
++[... other stuff, e.g. create a tag in the SCM ...]
+ 
+ -------------
+ 
+@@ -105,16 +105,15 @@
+           --Trademark="%dzVersion.Trademark%"
+           --Comments="build on %dzDateTime%"
+ 
+-(all this goes into one line, I just wrapped it to improve readability)
++(all this must go into one line, I just wrapped it to improve readability)
+ 
+ The following environment variables can be used (in addition to the ones
+ that are usually set):
+ 
+ %dzDate% - the current date in ISO format (yyyy-mm-dd)
+ %dzTime% - the current time in 24 hour format (hh:mm:ss)
+-%dzDateTime% - both, date and time as yyyy-mm-dd hh:mm:ss
++%dzDateTime% - combination of the above (yyyy-mm-dd hh:mm:ss)
+ %dzMyDocuments% - the My Documents folder of the current user
+-
+ %dzProject% - the project name passed by the --ReadDof / --ReadBdsProj
+               or --ReadIni option without extension
+ 
+@@ -143,8 +142,8 @@
+ 
+ You may ask why I am using a second script instead of doing everything
+ in PrepBuild itself. The answer is that I didn't want to add too
+-much functionality to the tool but also wanted the maximu on flexibility.
+-Using this second script, I can use the version info and also the
++much functionality to the tool but also wanted the maximum of flexibility.
++With this second script, I can use the version info and also the
+ build timestamp to modify the version information. Others may want to
+ add the user name to the version info, so they can just use the
+ standard environment variable %USERNAME% to add it. You might even want
+@@ -164,7 +163,7 @@
+ way to modify them. So, what do you do?
+ 
+ The first thing is disabling the version information in the project
+-options. Since the IDE doesn't do it right, there is no point in
++options. Since the IDE doesn't do it correctly, there is no point in
+ letting it manage the version info. Instead you use a .ini file
+ to store it. This .ini file goes into your source code repository
+ together with the code. In addtion you have got another .ini file
+
+
+

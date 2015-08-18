@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r148 - in utilities/dzLiveTemplates: . trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r148%20-%20in%20utilities/dzLiveTemplates%3A%20.%20trunk&In-Reply-To=%3C200705191752.l4JHq6wK005061%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000022.html">
+   <LINK REL="Next"  HREF="000024.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r148 - in utilities/dzLiveTemplates: . trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r148%20-%20in%20utilities/dzLiveTemplates%3A%20.%20trunk&In-Reply-To=%3C200705191752.l4JHq6wK005061%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r148 - in utilities/dzLiveTemplates: . trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat May 19 19:52:06 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000022.html">[Dzchart-svncheckins] r147 - utilities
+</A></li>
+        <LI>Next message: <A HREF="000024.html">[Dzchart-svncheckins] r149 - in utilities/dzLib/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#23">[ date ]</a>
+              <a href="thread.html#23">[ thread ]</a>
+              <a href="subject.html#23">[ subject ]</a>
+              <a href="author.html#23">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-05-19 19:52:04 +0200 (Sat, 19 May 2007)
+New Revision: 148
+
+Added:
+   utilities/dzLiveTemplates/trunk/
+   utilities/dzLiveTemplates/trunk/FormExecute.xml
+   utilities/dzLiveTemplates/trunk/cr_live_template_integerdecl.xml
+   utilities/dzLiveTemplates/trunk/cr_live_template_stringdecl.xml
+   utilities/dzLiveTemplates/trunk/point.xml
+   utilities/dzLiveTemplates/trunk/propfreadonly.xml
+   utilities/dzLiveTemplates/trunk/propfreadwrite.xml
+   utilities/dzLiveTemplates/trunk/semicolon-equals-typo.xml
+Log:
+
+
+Added: utilities/dzLiveTemplates/trunk/FormExecute.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/FormExecute.xml	2007-05-19 17:51:36 UTC (rev 147)
++++ utilities/dzLiveTemplates/trunk/FormExecute.xml	2007-05-19 17:52:04 UTC (rev 148)
+@@ -0,0 +1,51 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
++&lt;codetemplate	xmlns=&quot;<A HREF="http://schemas.borland.com/Delphi/2005/codetemplates">http://schemas.borland.com/Delphi/2005/codetemplates</A>&quot;
++				version=&quot;1.0.0&quot;&gt;
++	&lt;template name=&quot;FormExecute&quot; invoke=&quot;manual&quot;&gt;
++		&lt;description&gt;
++			creates an Execute class method for a form, press Shift-Ctrl afterwards
++			to add the method declaration.
++		&lt;/description&gt;
++		&lt;author&gt;
++			twm
++		&lt;/author&gt;
++		&lt;point name=&quot;FormClass&quot;&gt;
++			&lt;text&gt;TForm&lt;/text&gt;
++			&lt;hint&gt;name of the form class&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;point name=&quot;Value&quot;&gt;
++			&lt;text&gt;_Value&lt;/text&gt;
++			&lt;hint&gt;value edited with this form&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;point name=&quot;Type&quot;&gt;
++			&lt;text&gt;string&lt;/text&gt;
++			&lt;hint&gt;Type of value&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;point name=&quot;control&quot;&gt;
++			&lt;text&gt;Edit1&lt;/text&gt;
++			&lt;hint&gt;control that edits the value&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;point name=&quot;property&quot;&gt;
++			&lt;text&gt;Text&lt;/text&gt;
++			&lt;hint&gt;property of the control for editing&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;code language=&quot;Delphi&quot; delimiter=&quot;|&quot;&gt;&lt;![CDATA[
++class function |FormClass|.Execute(_Owner: TComponent; var |Value|: |Type|): boolean;
++var
++  frm: |FormClass|;
++begin
++  frm := |FormClass|.Create(_Owner);
++  try
++	frm.|control|.|property| := |Value|;|end|
++	Result := (frm.ShowModal = mrOK);
++	if Result then begin
++	  |Value| := frm.|control|.|property|;
++	end;
++  finally
++	frm.Free;
++  end;
++end;
++		]]&gt;
++		&lt;/code&gt;
++	&lt;/template&gt;
++&lt;/codetemplate&gt;
+\ No newline at end of file
+
+Added: utilities/dzLiveTemplates/trunk/cr_live_template_integerdecl.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/cr_live_template_integerdecl.xml	2007-05-19 17:51:36 UTC (rev 147)
++++ utilities/dzLiveTemplates/trunk/cr_live_template_integerdecl.xml	2007-05-19 17:52:04 UTC (rev 148)
+@@ -0,0 +1,25 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
++&lt;codetemplate xmlns=&quot;<A HREF="http://schemas.borland.com/Delphi/2005/codetemplates">http://schemas.borland.com/Delphi/2005/codetemplates</A>&quot; version=&quot;1.0.0&quot;&gt;
++  &lt;template name=&quot;i:&quot; invoke=&quot;auto&quot;&gt;
++    &lt;description&gt;
++      AutoComplete i: Integer declaration
++    &lt;/description&gt;
++    &lt;author&gt;
++      Sebastian Modersohn / Thomas Mueller
++    &lt;/author&gt;
++    &lt;point name=&quot;ident&quot; editable=&quot;false&quot;&gt;
++      &lt;text&gt;i&lt;/text&gt;
++    &lt;/point&gt;
++    &lt;point name=&quot;type&quot; editable=&quot;false&quot;&gt;
++      &lt;text&gt;Integer&lt;/text&gt;
++    &lt;/point&gt;
++    &lt;script language=&quot;Delphi&quot; onenter=&quot;false&quot; onleave=&quot;true&quot;&gt;
++      DeclareVariable(|ident|, |type|);
++      RemoveTemplate;
++    &lt;/script&gt;
++    &lt;code language=&quot;Delphi&quot; context=&quot;methodbody&quot; delimiter=&quot;|&quot;&gt;
++      &lt;![CDATA[|ident||type|]]&gt;
++    &lt;/code&gt;
++  &lt;/template&gt;
++&lt;/codetemplate&gt;
++
+
+Added: utilities/dzLiveTemplates/trunk/cr_live_template_stringdecl.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/cr_live_template_stringdecl.xml	2007-05-19 17:51:36 UTC (rev 147)
++++ utilities/dzLiveTemplates/trunk/cr_live_template_stringdecl.xml	2007-05-19 17:52:04 UTC (rev 148)
+@@ -0,0 +1,25 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
++&lt;codetemplate xmlns=&quot;<A HREF="http://schemas.borland.com/Delphi/2005/codetemplates">http://schemas.borland.com/Delphi/2005/codetemplates</A>&quot; version=&quot;1.0.0&quot;&gt;
++  &lt;template name=&quot;s:&quot; invoke=&quot;auto&quot;&gt;
++	&lt;description&gt;
++	  AutoComplete s: String declaration
++	&lt;/description&gt;
++	&lt;author&gt;
++	  Sebastian Modersohn / Thomas Mueller
++	&lt;/author&gt;
++	&lt;point name=&quot;ident&quot; editable=&quot;false&quot;&gt;
++	  &lt;text&gt;s&lt;/text&gt;
++	&lt;/point&gt;
++	&lt;point name=&quot;type&quot; editable=&quot;false&quot;&gt;
++	  &lt;text&gt;String&lt;/text&gt;
++	&lt;/point&gt;
++	&lt;script language=&quot;Delphi&quot; onenter=&quot;false&quot; onleave=&quot;true&quot;&gt;
++      DeclareVariable(|ident|, |type|);
++      RemoveTemplate;
++    &lt;/script&gt;
++    &lt;code language=&quot;Delphi&quot; context=&quot;methodbody&quot; delimiter=&quot;|&quot;&gt;
++      &lt;![CDATA[|ident||type|]]&gt;
++    &lt;/code&gt;
++  &lt;/template&gt;
++&lt;/codetemplate&gt;
++
+
+Added: utilities/dzLiveTemplates/trunk/point.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/point.xml	2007-05-19 17:51:36 UTC (rev 147)
++++ utilities/dzLiveTemplates/trunk/point.xml	2007-05-19 17:52:04 UTC (rev 148)
+@@ -0,0 +1,27 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
++&lt;codetemplate xmlns=&quot;<A HREF="http://schemas.borland.com/Delphi/2005/codetemplates">http://schemas.borland.com/Delphi/2005/codetemplates</A>&quot; version=&quot;1.0.0&quot;&gt;
++ &lt;template name=&quot;point&quot; invoke=&quot;auto&quot;&gt;
++   &lt;description&gt;Used to enter points in Live Templates&lt;/description&gt;
++   &lt;author&gt;Stolen from Nick Hodges who borrowed it from Deborah Pate&lt;/author&gt;
++   &lt;point name=&quot;pointname&quot;&gt;
++	 &lt;text&gt;pointname&lt;/text&gt;
++	 &lt;hint&gt;The name to be used for this point.&lt;/hint&gt;
++   &lt;/point&gt;
++   &lt;point name=&quot;pointtext&quot;&gt;
++	 &lt;text /&gt;
++	 &lt;hint&gt;The default text to insert.&lt;/hint&gt;
++   &lt;/point&gt;
++   &lt;point name=&quot;pointhint&quot;&gt;
++	 &lt;text /&gt;
++	 &lt;hint&gt;The text describing the point.&lt;/hint&gt;
++   &lt;/point&gt;
++   &lt;code language=&quot;XML&quot; delimiter=&quot;|&quot;&gt;
++	 &lt;![CDATA[ &lt;point name=&quot;|pointname|&quot;&gt;
++	  |*|&lt;text&gt;|pointtext|&lt;/text&gt;
++	  |*|&lt;hint&gt;|pointhint|&lt;/hint&gt;
++	  &lt;/point&gt;
++	 |end|]]&gt;
++   &lt;/code&gt;
++  &lt;/template&gt;
++ &lt;/codetemplate&gt;
++
+
+Added: utilities/dzLiveTemplates/trunk/propfreadonly.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/propfreadonly.xml	2007-05-19 17:51:36 UTC (rev 147)
++++ utilities/dzLiveTemplates/trunk/propfreadonly.xml	2007-05-19 17:52:04 UTC (rev 148)
+@@ -0,0 +1,25 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
++&lt;codetemplate	xmlns=&quot;<A HREF="http://schemas.borland.com/Delphi/2005/codetemplates">http://schemas.borland.com/Delphi/2005/codetemplates</A>&quot;
++				version=&quot;1.0.0&quot;&gt;
++	&lt;template name=&quot;propfreadonly&quot; invoke=&quot;none&quot;&gt;
++		&lt;description&gt;
++			read only property for field, press Ctrl-Shift-C afterwards to add the fields
++		&lt;/description&gt;
++		&lt;author&gt;
++			twm
++		&lt;/author&gt;
++		&lt;point name=&quot;ident&quot;&gt;
++			&lt;text&gt;Name&lt;/text&gt;
++			&lt;hint&gt;the name for the property&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;point name=&quot;type&quot;&gt;
++			&lt;text&gt;Integer&lt;/text&gt;
++			&lt;hint&gt;the type for the property&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;code language=&quot;Delphi&quot; delimiter=&quot;|&quot;&gt;
++		&lt;![CDATA[property |ident|: |type| read F|ident|;
++|end|]]&gt;
++		&lt;/code&gt;
++	&lt;/template&gt;
++&lt;/codetemplate&gt;
++
+
+Added: utilities/dzLiveTemplates/trunk/propfreadwrite.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/propfreadwrite.xml	2007-05-19 17:51:36 UTC (rev 147)
++++ utilities/dzLiveTemplates/trunk/propfreadwrite.xml	2007-05-19 17:52:04 UTC (rev 148)
+@@ -0,0 +1,25 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
++&lt;codetemplate	xmlns=&quot;<A HREF="http://schemas.borland.com/Delphi/2005/codetemplates">http://schemas.borland.com/Delphi/2005/codetemplates</A>&quot;
++				version=&quot;1.0.0&quot;&gt;
++	&lt;template name=&quot;propfreadwrite&quot; invoke=&quot;none&quot;&gt;
++		&lt;description&gt;
++			read write property for field, press Ctrl-Shift-C afterwards to add the fields
++		&lt;/description&gt;
++		&lt;author&gt;
++			twm
++		&lt;/author&gt;
++		&lt;point name=&quot;ident&quot;&gt;
++			&lt;text&gt;Name&lt;/text&gt;
++			&lt;hint&gt;the name for the property&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;point name=&quot;type&quot;&gt;
++			&lt;text&gt;Integer&lt;/text&gt;
++			&lt;hint&gt;the type for the property&lt;/hint&gt;
++		&lt;/point&gt;
++		&lt;code language=&quot;Delphi&quot; delimiter=&quot;|&quot;&gt;
++		&lt;![CDATA[property |ident|: |type| read F|ident| write F|ident|;
++|end|]]&gt;
++		&lt;/code&gt;
++	&lt;/template&gt;
++&lt;/codetemplate&gt;
++
+
+Added: utilities/dzLiveTemplates/trunk/semicolon-equals-typo.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/semicolon-equals-typo.xml	2007-05-19 17:51:36 UTC (rev 147)
++++ utilities/dzLiveTemplates/trunk/semicolon-equals-typo.xml	2007-05-19 17:52:04 UTC (rev 148)
+@@ -0,0 +1,15 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
++&lt;codetemplate xmlns=&quot;<A HREF="http://schemas.borland.com/Delphi/2005/codetemplates">http://schemas.borland.com/Delphi/2005/codetemplates</A>&quot; version=&quot;1.0.0&quot;&gt;
++  &lt;template name=&quot;;=&quot; invoke=&quot;auto&quot;&gt;
++    &lt;description&gt;
++      convert typo ;= to :=
++    &lt;/description&gt;
++    &lt;author&gt;
++      twm
++    &lt;/author&gt;
++    &lt;code language=&quot;Delphi&quot; delimiter=&quot;|&quot;&gt;
++      &lt;![CDATA[:= |end|]]&gt;
++    &lt;/code&gt;
++  &lt;/template&gt;
++&lt;/codetemplate&gt;
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000022.html">[Dzchart-svncheckins] r147 - utilities
+</A></li>
+	<LI>Next message: <A HREF="000024.html">[Dzchart-svncheckins] r149 - in utilities/dzLib/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#23">[ date ]</a>
+              <a href="thread.html#23">[ thread ]</a>
+              <a href="subject.html#23">[ subject ]</a>
+              <a href="author.html#23">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

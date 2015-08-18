@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r136 - in utilities/dzLib: . trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r136%20-%20in%20utilities/dzLib%3A%20.%20trunk&In-Reply-To=%3C200703181804.l2II4mOf028652%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000011.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r136 - in utilities/dzLib: . trunk</H1>
+    <B>twm at BerliOS</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r136%20-%20in%20utilities/dzLib%3A%20.%20trunk&In-Reply-To=%3C200703181804.l2II4mOf028652%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r136 - in utilities/dzLib: . trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar 18 19:04:48 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000011.html">[Dzchart-svncheckins] r135 - utilities
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#12">[ date ]</a>
+              <a href="thread.html#12">[ thread ]</a>
+              <a href="subject.html#12">[ subject ]</a>
+              <a href="author.html#12">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-03-18 19:04:39 +0100 (Sun, 18 Mar 2007)
+New Revision: 136
+
+Added:
+   utilities/dzLib/trunk/
+   utilities/dzLib/trunk/u_dzNamedThread.pas
+Log:
+initial import
+
+Added: utilities/dzLib/trunk/u_dzNamedThread.pas
+===================================================================
+--- utilities/dzLib/trunk/u_dzNamedThread.pas	2007-03-18 18:02:21 UTC (rev 135)
++++ utilities/dzLib/trunk/u_dzNamedThread.pas	2007-03-18 18:04:39 UTC (rev 136)
+@@ -0,0 +1,76 @@
++{: If this unit is included in a multithreaded program, it will set the
++   name for the main thread to 'Main' (also does this for single threaded
++   programs but it doesn't make that much sense there).
++   Also it declares a TNamedThread type that uses its class name for the thread
++   name. Make sure to override this if there are multiple instances of this class.
++   If you do not want to derive from TNamedThread, just call SetThreadName from
++   your thread's execute procedure. }
++unit u_dzNamedThread;
++
++interface
++
++uses
++  Classes,
++  Windows;
++
++type
++  {: This record must be filled to set the name of a thread }
++  TThreadNameInfo = record
++    FType: LongWord;     // must be 0x1000
++    FName: PChar;        // pointer to name (in user address space)
++    FThreadID: LongWord; // thread ID (-1 indicates caller thread)
++    FFlags: LongWord;    // reserved for future use, must be zero
++  end;
++
++{: Set the name for the current thread to
++   @param Name is a string with the name to use }
++procedure SetThreadName(const _Name: string);
++
++type
++  {: A TThread that sets its name to its class name. Make sure you call
++     inherited Execute in descendants! }
++  TNamedThread = class(TThread)
++  protected
++    {: Calls SetThreadName with the given name or the class name if empty
++       @param Name is the name to use, if empty, the class name will be used }
++    procedure SetName(_Name: string = ''); virtual;
++    {: Calls SetName }
++    procedure Execute; override;
++  end;
++
++implementation
++
++procedure SetThreadName(const _Name: string);
++var
++  ThreadNameInfo: TThreadNameInfo;
++begin
++  ThreadNameInfo.FType:= $1000;
++  ThreadNameInfo.FName:= PChar(_Name);
++  ThreadNameInfo.FThreadID:= $FFFFFFFF;
++  ThreadNameInfo.FFlags:= 0;
++  try
++    RaiseException($406D1388, 0, SizeOf(ThreadNameInfo) div SizeOf(LongWord), @ThreadNameInfo );
++  except
++    // ignore
++  end;
++end;
++
++{ TNamedThread }
++
++procedure TNamedThread.Execute;
++begin
++  SetName();
++end;
++
++procedure TNamedThread.SetName(_Name: string = '');
++begin
++  if _Name = '' then
++    _Name := ClassName;
++  SetThreadName(_Name);
++end;
++
++initialization
++  // set the name for the main thread to 'Main'
++  SetThreadName('Main');
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000011.html">[Dzchart-svncheckins] r135 - utilities
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#12">[ date ]</a>
+              <a href="thread.html#12">[ thread ]</a>
+              <a href="subject.html#12">[ subject ]</a>
+              <a href="author.html#12">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

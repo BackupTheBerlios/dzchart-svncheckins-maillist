@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r439 - utilities/dzPrepBuild/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r439%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201004111533.o3BFXxO9027033%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000299.html">
+   <LINK REL="Next"  HREF="000301.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r439 - utilities/dzPrepBuild/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r439%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201004111533.o3BFXxO9027033%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r439 - utilities/dzPrepBuild/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr 11 17:33:59 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000299.html">[Dzchart-svncheckins] r438 - utilities/dzPrepBuild/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000301.html">[Dzchart-svncheckins] r440 - in utilities/dzPrepBuild/trunk:	buildtools src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#300">[ date ]</a>
+              <a href="thread.html#300">[ thread ]</a>
+              <a href="subject.html#300">[ subject ]</a>
+              <a href="author.html#300">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-04-11 17:33:57 +0200 (Sun, 11 Apr 2010)
+New Revision: 439
+
+Modified:
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Log:
+new options --ProductVersionToDate and --ProductVersionToDateTime
+
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 15:22:41 UTC (rev 438)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 15:33:57 UTC (rev 439)
+@@ -1,4 +1,4 @@
+ [Version Info]
+-Build=238
+-FileVersion=1.2.0.238
++Build=244
++FileVersion=1.2.0.244
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2010-04-11 15:22:41 UTC (rev 438)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2010-04-11 15:33:57 UTC (rev 439)
+@@ -180,6 +180,7 @@
+   IntValue: integer;
+   IconFile: string;
+   Project: string;
++  dt: TDateTime;
+ begin
+   WriteLn('dzPrepBuild version ' + TApplication_GetFileVersion + ' built ' + TApplication_GetProductVersion);
+ 
+@@ -220,25 +221,25 @@
+ 
+     if FGetOpt.OptionPassed('MajorVer', Param) then begin
+       if not TryStrToInt(Param, IntValue) then
+-        raise Exception.Create(_('Parameter to MajorVer must be a number'));
++        raise Exception.Create(_('Parameter for MajorVer must be a number'));
+       VersionInfo.MajorVer := IntValue;
+     end;
+ 
+     if FGetOpt.OptionPassed('MinorVer', Param) then begin
+       if not TryStrToInt(Param, IntValue) then
+-        raise Exception.Create(_('Parameter to MinorVer must be a number'));
++        raise Exception.Create(_('Parameter for MinorVer must be a number'));
+       VersionInfo.MinorVer := IntValue;
+     end;
+ 
+     if FGetOpt.OptionPassed('Release', Param) then begin
+       if not TryStrToInt(Param, IntValue) then
+-        raise Exception.Create(_('Parameter to Release must be a number'));
++        raise Exception.Create(_('Parameter for Release must be a number'));
+       VersionInfo.Release := IntValue;
+     end;
+ 
+     if FGetOpt.OptionPassed('Build', Param) then begin
+       if not TryStrToInt(Param, IntValue) then
+-        raise Exception.Create(_('Parameter to Build must be a number'));
++        raise Exception.Create(_('Parameter for Build must be a number'));
+       VersionInfo.Build := IntValue;
+     end;
+ 
+@@ -257,6 +258,13 @@
+     if FGetOpt.OptionPassed('ProductVersion', Param) then
+       VersionInfo.ProductVersion := UnquoteStr(Param);
+ 
++    dt := Now;
++    if FGetOpt.OptionPassed('ProductVersionToDate') then
++      VersionInfo.ProductVersion := DateTimeToString('yyyy-mm-dd', dt);
++
++    if FGetOpt.OptionPassed('ProductVersionToDateTime') then
++      VersionInfo.ProductVersion := DateTimeToString('yyyy-mm-dd hh:nn:ss', dt);
++
+     if FGetOpt.OptionPassed('Company', Param) then
+       VersionInfo.CompanyName := UnquoteStr(Param);
+ 
+@@ -314,31 +322,41 @@
+ begin
+   inherited;
+   FGetOpt.RegisterOption('dumpcmd', _('dump the commandline and exit (for debug purposes)'), false);
++
+   FGetOpt.RegisterOption('ReadDof', _('read a .dof file to get the version information'), true);
+   FGetOpt.RegisterOption('ReadBdsproj', _('read a .bdsproj file to get the version information'), true);
+   FGetOpt.RegisterOption('ReadIni', _('read a .ini file to get the version information'), true);
+   FGetOpt.RegisterOption('ReadDproj', _('Read a .dproj file to get the version information'), true);
+-  FGetOpt.RegisterOption('Exec', _('execute the given program or script with extended environment'), true);
+-  FGetOpt.RegisterOption('UpdateDof', _('update a .dof file with the version information'), true);
+-  FGetOpt.RegisterOption('UpdateBdsproj', _('update a .bdsproj file with the version information'), true);
+-  FGetOpt.RegisterOption('UpdateIni', _('update a .ini file with the version information'), true);
+-  FGetOpt.RegisterOption('UpdateDproj', _('update a .dproj file with the version information'), true);
+-  FGetOpt.RegisterOption('WriteRc', _('write version info to a .rc file'), true);
+-  FGetOpt.RegisterOption('Icon', _('Assign an icon file to add to the .rc file'), true);
+-  FGetOpt.RegisterOption('IncBuild', _('increment the build number'), false);
++
+   FGetOpt.RegisterOption('MajorVer', _('set the major version number (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('MinorVer', _('set the minor version number (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Release', _('set the release number (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Build', _('set the build number (overwrites value from -ReadXxx option)'), true);
++
+   FGetOpt.RegisterOption('FileDesc', _('set the file description (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('InternalName', _('set the internal name (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('OriginalName', _('set the original file name (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Product', _('set the product name (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('ProductVersion', _('set the product version (overwrites value from -ReadXxx option)'), true);
++  FGetOpt.RegisterOption('ProductVersionToDate', _('set the proodcut version to the current date  (overwrites value from -ReadXxx and ProductVersion option)'), false);
++  FGetOpt.RegisterOption('ProductVersionToDateTime', _('set the proodcut version to the current date and time (overwrites value from -ReadXxx and ProductVersion option)'), false);
+   FGetOpt.RegisterOption('Company', _('set the company name (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Copyright', _('set the legal copyright (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Trademark', _('set the legal trademark (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Comments', _('set the comments (overwrites value from -ReadXxx option)'), true);
++
++  FGetOpt.RegisterOption('IncBuild', _('increment the build number'), false);
++
++  FGetOpt.RegisterOption('UpdateDof', _('update a .dof file with the version information'), true);
++  FGetOpt.RegisterOption('UpdateBdsproj', _('update a .bdsproj file with the version information'), true);
++  FGetOpt.RegisterOption('UpdateIni', _('update a .ini file with the version information'), true);
++  FGetOpt.RegisterOption('UpdateDproj', _('update a .dproj file with the version information'), true);
++
++  FGetOpt.RegisterOption('Icon', _('Assign an icon file to add to the .rc file'), true);
++
++  FGetOpt.RegisterOption('WriteRc', _('write version info to a .rc file'), true);
++
++  FGetOpt.RegisterOption('Exec', _('execute the given program or script with extended environment'), true);
+ end;
+ 
+ initialization
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000299.html">[Dzchart-svncheckins] r438 - utilities/dzPrepBuild/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000301.html">[Dzchart-svncheckins] r440 - in utilities/dzPrepBuild/trunk:	buildtools src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#300">[ date ]</a>
+              <a href="thread.html#300">[ thread ]</a>
+              <a href="subject.html#300">[ subject ]</a>
+              <a href="author.html#300">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,2518 @@
+From twm at mail.berlios.de  Tue Feb  5 08:37:47 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 08:37:47 +0100
+Subject: [Dzchart-svncheckins] r265 - utilities/dzLib/trunk/src
+Message-ID: <200802050737.m157blBt030604@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 08:37:45 +0100 (Tue, 05 Feb 2008)
+New Revision: 265
+
+Added:
+   utilities/dzLib/trunk/src/u_dzCmdLineParserStates.pas
+Modified:
+   utilities/dzLib/trunk/src/u_dzCmdLineParser.pas
+Log:
+split the parser states to a separate unit so they can be used in unit tests without any hacks
+
+Modified: utilities/dzLib/trunk/src/u_dzCmdLineParser.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzCmdLineParser.pas	2008-01-14 11:27:14 UTC (rev 264)
++++ utilities/dzLib/trunk/src/u_dzCmdLineParser.pas	2008-02-05 07:37:45 UTC (rev 265)
+@@ -74,108 +74,10 @@
+ 
+ uses
+   StrUtils,
+-  u_dzStringUtils;
++  u_dzStringUtils,
++  u_dzCmdLineParserStates;
+ 
+ type
+-  TEngineStateAbstract = class(TInterfacedObject)
+-  private
+-    function GetClassName: string;
+-  end;
+-
+-type
+-  TEngineStateError = class(TEngineStateAbstract, IEngineState)
+-  private
+-    FError: string;
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-    constructor Create(const _Error: string);
+-  end;
+-
+-type
+-  TEngineStateSpace = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateDash = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateDoubleDash = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateLongOption = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortOption = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortSwitch = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedShortParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateLongParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedLongParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+   IEngineContextEx = interface ['{CD19DB13-F344-4E1A-B97F-D235B445B463}']
+     procedure GetOptions(_Options: TStrings);
+     procedure GetParams(_Params: TStrings);
+@@ -222,272 +124,6 @@
+     property Params: TStringList read FParams;
+   end;
+ 
+-{ TEngineStateAbstract }
+-
+-function TEngineStateAbstract.GetClassName: string;
+-begin
+-  Result := ClassName;
+-end;
+-
+-{ TEngineStateError }
+-
+-constructor TEngineStateError.Create(const _Error: string);
+-begin
+-  inherited Create;
+-  FError := _Error;
+-end;
+-
+-function TEngineStateError.Execute(const _Context: IEngineContext): IEngineState;
+-begin
+-  raise EStateEngineError.Create(FError);
+-end;
+-
+-{ TEngineStateSpace }
+-
+-function TEngineStateSpace.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '-':
+-      Result := TEngineStateDash.Create;
+-    #0:
+-      Result := nil; // end state
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedParam.Create;
+-      end;
+-    ' ':
+-      Result := self;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateParam.Create;
+-  end;
+-end;
+-
+-{ TEngineStateParam }
+-
+-function TEngineStateParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedParam.Create;
+-      end;
+-    #0, ' ': begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := Self;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedParam }
+-
+-function TEngineStateQuotedParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateDash }
+-
+-function TEngineStateDash.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  if c in ALPHANUMERIC_CHARS + ['?'] then begin
+-    _Context.AddToOption(c);
+-    Result := TEngineStateShortOption.Create;
+-  end else if c = '-' then
+-    Result := TEngineStateDoubleDash.Create
+-  else
+-    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-end;
+-
+-{ TEngineStateDoubleDash }
+-
+-function TEngineStateDoubleDash.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  if c in ALPHANUMERIC_CHARS then begin
+-    _Context.AddToOption(c);
+-    Result := TEngineStateLongOption.Create;
+-  end else
+-    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-end;
+-
+-{ TEngineStateShortOption }
+-
+-function TEngineStateShortOption.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ': begin
+-        Result := TEngineStateShortParam.Create;
+-      end;
+-    '-', '+': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateShortSwitch.Create;
+-      end;
+-    #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  end;
+-end;
+-
+-{ TEngineStateShortSwitch }
+-
+-function TEngineStateShortSwitch.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end else
+-    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  end;
+-end;
+-
+-{ TEngineStateShortParam }
+-
+-function TEngineStateShortParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedShortParam.Create;
+-      end;
+-    '-': begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateDash.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedShortParam }
+-
+-function TEngineStateQuotedShortParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateShortParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateLongOption }
+-
+-function TEngineStateLongOption.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '=':
+-      Result := TEngineStateLongParam.Create;
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-    '"', '''':
+-      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  else
+-    _Context.AddToOption(c);
+-    Result := TEngineStateLongOption.Create;
+-  end;
+-end;
+-
+-{ TEngineStateLongParam }
+-
+-function TEngineStateLongParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedLongParam.Create;
+-      end;
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateLongParam.Create;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedLongParam }
+-
+-function TEngineStateQuotedLongParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateLongParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateQuotedLongParam.Create;
+-  end;
+-end;
+-
+ { TStateParams }
+ 
+ procedure TEngineContext.AddToOption(_c: char);
+
+Added: utilities/dzLib/trunk/src/u_dzCmdLineParserStates.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzCmdLineParserStates.pas	2008-01-14 11:27:14 UTC (rev 264)
++++ utilities/dzLib/trunk/src/u_dzCmdLineParserStates.pas	2008-02-05 07:37:45 UTC (rev 265)
+@@ -0,0 +1,378 @@
++unit u_dzCmdLineParserStates;
++
++interface
++
++uses
++  u_dzCmdLineParser;
++
++type
++  TEngineStateAbstract = class(TInterfacedObject)
++  private
++    function GetClassName: string;
++  end;
++
++type
++  TEngineStateError = class(TEngineStateAbstract, IEngineState)
++  private
++    FError: string;
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++    constructor Create(const _Error: string);
++  end;
++
++type
++  TEngineStateSpace = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateDash = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateDoubleDash = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateLongOption = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortOption = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortSwitch = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateShortParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedShortParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateLongParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedLongParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++type
++  TEngineStateQuotedParam = class(TEngineStateAbstract, IEngineState)
++  private
++    function Execute(const _Context: IEngineContext): IEngineState;
++  public
++  end;
++
++implementation
++
++uses
++  SysUtils;
++
++{ TEngineStateAbstract }
++
++function TEngineStateAbstract.GetClassName: string;
++begin
++  Result := ClassName;
++end;
++
++{ TEngineStateError }
++
++constructor TEngineStateError.Create(const _Error: string);
++begin
++  inherited Create;
++  FError := _Error;
++end;
++
++function TEngineStateError.Execute(const _Context: IEngineContext): IEngineState;
++begin
++  raise EStateEngineError.Create(FError);
++end;
++
++{ TEngineStateSpace }
++
++function TEngineStateSpace.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '-':
++      Result := TEngineStateDash.Create;
++    #0:
++      Result := nil; // end state
++    '"': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedParam.Create;
++      end;
++    ' ':
++      Result := self;
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateParam.Create;
++  end;
++end;
++
++{ TEngineStateParam }
++
++function TEngineStateParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '"': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedParam.Create;
++      end;
++    #0, ' ': begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := Self;
++  end;
++end;
++
++{ TEngineStateQuotedParam }
++
++function TEngineStateQuotedParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '"': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateDash }
++
++function TEngineStateDash.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  if c in ALPHANUMERIC_CHARS + ['?'] then begin
++    _Context.AddToOption(c);
++    Result := TEngineStateShortOption.Create;
++  end else if c = '-' then
++    Result := TEngineStateDoubleDash.Create
++  else
++    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
++end;
++
++{ TEngineStateDoubleDash }
++
++function TEngineStateDoubleDash.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  if c in ALPHANUMERIC_CHARS then begin
++    _Context.AddToOption(c);
++    Result := TEngineStateLongOption.Create;
++  end else
++    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
++end;
++
++{ TEngineStateShortOption }
++
++function TEngineStateShortOption.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ': begin
++        Result := TEngineStateShortParam.Create;
++      end;
++    '-', '+': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateShortSwitch.Create;
++      end;
++    #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
++  end;
++end;
++
++{ TEngineStateShortSwitch }
++
++function TEngineStateShortSwitch.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end else
++    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
++  end;
++end;
++
++{ TEngineStateShortParam }
++
++function TEngineStateShortParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++    '"': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedShortParam.Create;
++      end;
++    '-': begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateDash.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateQuotedShortParam }
++
++function TEngineStateQuotedShortParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '"': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateShortParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := self;
++  end;
++end;
++
++{ TEngineStateLongOption }
++
++function TEngineStateLongOption.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '=':
++      Result := TEngineStateLongParam.Create;
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++    '"', '''':
++      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
++  else
++    _Context.AddToOption(c);
++    Result := TEngineStateLongOption.Create;
++  end;
++end;
++
++{ TEngineStateLongParam }
++
++function TEngineStateLongParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '"': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateQuotedLongParam.Create;
++      end;
++    ' ', #0: begin
++        _Context.HandleCmdLinePart;
++        Result := TEngineStateSpace.Create;
++      end;
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateLongParam.Create;
++  end;
++end;
++
++{ TEngineStateQuotedLongParam }
++
++function TEngineStateQuotedLongParam.Execute(const _Context: IEngineContext): IEngineState;
++var
++  c: char;
++begin
++  c := _Context.GetNextChar;
++  case c of
++    '"': begin
++        _Context.AddToParameter(c);
++        Result := TEngineStateLongParam.Create;
++      end;
++    #0:
++      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
++  else
++    _Context.AddToParameter(c);
++    Result := TEngineStateQuotedLongParam.Create;
++  end;
++end;
++
++end.
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 08:39:59 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 08:39:59 +0100
+Subject: [Dzchart-svncheckins] r266 - in utilities/dzCmdLineParser/trunk:
+	dcu src tests
+Message-ID: <200802050739.m157dx5D030684@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 08:39:56 +0100 (Tue, 05 Feb 2008)
+New Revision: 266
+
+Removed:
+   utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas
+Modified:
+   utilities/dzCmdLineParser/trunk/dcu/
+   utilities/dzCmdLineParser/trunk/src/u_dzParamDescList.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzParamFoundList.pas
+   utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr
+   utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj
+   utilities/dzCmdLineParser/trunk/tests/u_dzCmdLineParser_UnitTest.pas
+Log:
+* removed u_dzCmdLineParser, is now part of dzLib
+* adapted ParamDescList and ParamFoundList to changes in templates
+* added u_dzCmdLineParserStates to uses clause of unit test so it can access the individual states again
+
+
+Property changes on: utilities/dzCmdLineParser/trunk/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Deleted: utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas	2008-02-05 07:37:45 UTC (rev 265)
++++ utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParser.pas	2008-02-05 07:39:56 UTC (rev 266)
+@@ -1,561 +0,0 @@
+-{: Implements a simple commandline parser based on a state machine.
+-   To use, call one of the overloaded TCmdLineParser.Execute class methods.
+-   The state machine implementation is based on a concept described by
+-   Julian Bucknail in the Delphi Magazine, issue 115: "Object-Oriented State Machines"
+-   @author Thomas Mueller <http://www.dummzeuch.de> }
+-unit u_dzCmdLineParser;
+-
+-interface
+-
+-uses
+-  SysUtils,
+-  Classes;
+-
+-type
+-  EStateEngineError = class(exception);
+-
+-const
+-  ALPHANUMERIC_CHARS = ['a'..'z', 'A'..'Z', '0'..'9'];
+-  ALLCHARS_BUT_NULL = [#1..#255];
+-
+-type
+-  IEngineContext = interface ['{F6FB6D03-C90F-468D-9ACC-716C58697CCA}']
+-    {: returns the next character to parse }
+-    function GetNextChar: char;
+-    {: appends a character to the FOption field }
+-    procedure AddToOption(_c: char);
+-    {: appends a character to the FParameter field }
+-    procedure AddToParameter(_c: char);
+-    {: This is called whenever an option and parameter have been finished.
+-       It checks what kind of parameter it was, possibly combines them and
+-       adds it to the appropriate list. }
+-    procedure HandleCmdLinePart;
+-  end;
+-
+-type
+-  IEngineState = interface ['{B8ADC607-8549-4B4A-A15A-278DAEE5F6CE}']
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-    function GetClassName: string;
+-  end;
+-
+-type
+-  TEngineStateAbstract = class(TInterfacedObject)
+-  private
+-    function GetClassName: string;
+-  end;
+-
+-type
+-  TEngineStateError = class(TEngineStateAbstract, IEngineState)
+-  private
+-    FError: string;
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-    constructor Create(const _Error: string);
+-  end;
+-
+-type
+-  TEngineStateSpace = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateDash = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateDoubleDash = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateLongOption = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortOption = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortSwitch = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateShortParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedShortParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateLongParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedLongParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TEngineStateQuotedParam = class(TEngineStateAbstract, IEngineState)
+-  private
+-    function Execute(const _Context: IEngineContext): IEngineState;
+-  public
+-  end;
+-
+-type
+-  TCmdLineParser = class
+-  public
+-    {: parses the CmdLine string and returns the options and parameters
+-       @param CmdLine is a string with the commandline to parse
+-       @param Options is a TStrings instance which returns all options found as
+-              name=value pairs,
+-              e.g. '--one=two --three -x four -y' will result in
+-              'one=two'
+-              'three='
+-              'x=four'
+-              'y'
+-              This list must not be sorted. Duplicates are allowed. The order
+-              of the options is preserved. If you do not care about duplicates,
+-              you can use the Values property to access option values.
+-       @param Params is a TStrings instance  wich returns all parameters found,
+-              e.g. 'one two three' will result in
+-              'one'
+-              'two'
+-              'three' }
+-    class procedure Execute(const _CmdLine: string; _Options: TStrings; _Params: TStrings); overload;
+-    {: parses the application's commandline and returns the options and paramteters }
+-    class procedure Execute(_Options: TStrings; _Params: TStrings); overload;
+-  end;
+-
+-implementation
+-
+-type
+-  IEngineContextEx = interface ['{CD19DB13-F344-4E1A-B97F-D235B445B463}']
+-    procedure GetOptions(_Options: TStrings);
+-    procedure GetParams(_Params: TStrings);
+-  end;
+-
+-type
+-  {: stores the engine context, passed to the execute method of all engine states }
+-  TEngineContext = class(TInterfacedObject, IEngineContext, IEngineContextEx)
+-  protected
+-    FReadIdx: integer;
+-    FInput: string;
+-    {: buffer for the currently handled option }
+-    FOption: string;
+-    {: buffer for the currently handled parameter }
+-    FParameter: string;
+-    {: Stores options as <optionname>[=<value] in the order they appeared on the
+-       commandline., note that options can appear multiple times, so using
+-       FParameter.Values[<name>] might not be appropriate }
+-    FOptions: TStringList;
+-    {: stores the Params property }
+-    FParams: TStringList;
+-  protected // implements IEngineContext
+-    {: returns the next character to parse }
+-    function GetNextChar: char;
+-    {: appends a character to the FOption field }
+-    procedure AddToOption(_c: char);
+-    {: appends a character to the FParameter field }
+-    procedure AddToParameter(_c: char);
+-    {: This is called whenever an option and parameter have been finished.
+-       It checks what kind of parameter it was, possibly combines them and
+-       adds it to the appropriate list. }
+-    procedure HandleCmdLinePart;
+-  protected // implements IEngineContextEx
+-    procedure GetOptions(_Options: TStrings);
+-    procedure GetParams(_Params: TStrings);
+-  public
+-    constructor Create(_Input: string);
+-    destructor Destroy; override;
+-    {: Stores options as <optionname>[=<value] in the order they appeared on the
+-       commandline., note that options can appear multiple times, so using
+-       FParameter.Values[<name>] might not be appropriate }
+-    property Options: TStringList read FOptions;
+-    {: Stores the parameters, ordered as they appear on the commandline }
+-    property Params: TStringList read FParams;
+-  end;
+-
+-{ TEngineStateAbstract }
+-
+-function TEngineStateAbstract.GetClassName: string;
+-begin
+-  Result := ClassName;
+-end;
+-
+-{ TEngineStateError }
+-
+-constructor TEngineStateError.Create(const _Error: string);
+-begin
+-  inherited Create;
+-  FError := _Error;
+-end;
+-
+-function TEngineStateError.Execute(const _Context: IEngineContext): IEngineState;
+-begin
+-  raise EStateEngineError.Create(FError);
+-end;
+-
+-{ TEngineStateSpace }
+-
+-function TEngineStateSpace.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '-':
+-      Result := TEngineStateDash.Create;
+-    #0:
+-      Result := nil; // end state
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedParam.Create;
+-      end;
+-    ' ':
+-      Result := self;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateParam.Create;
+-  end;
+-end;
+-
+-{ TEngineStateParam }
+-
+-function TEngineStateParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedParam.Create;
+-      end;
+-    #0, ' ': begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := Self;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedParam }
+-
+-function TEngineStateQuotedParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateDash }
+-
+-function TEngineStateDash.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  if c in ALPHANUMERIC_CHARS then begin
+-    _Context.AddToOption(c);
+-    Result := TEngineStateShortOption.Create;
+-  end else if c = '-' then
+-    Result := TEngineStateDoubleDash.Create
+-  else
+-    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-end;
+-
+-{ TEngineStateDoubleDash }
+-
+-function TEngineStateDoubleDash.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  if c in ALPHANUMERIC_CHARS then begin
+-    _Context.AddToOption(c);
+-    Result := TEngineStateLongOption.Create;
+-  end else
+-    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-end;
+-
+-{ TEngineStateShortOption }
+-
+-function TEngineStateShortOption.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ': begin
+-        Result := TEngineStateShortParam.Create;
+-      end;
+-    '-', '+': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateShortSwitch.Create;
+-      end;
+-    #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  end;
+-end;
+-
+-{ TEngineStateShortSwitch }
+-
+-function TEngineStateShortSwitch.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end else
+-    Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  end;
+-end;
+-
+-{ TEngineStateShortParam }
+-
+-function TEngineStateShortParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedShortParam.Create;
+-      end;
+-    '-': begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateDash.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedShortParam }
+-
+-function TEngineStateQuotedShortParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateShortParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := self;
+-  end;
+-end;
+-
+-{ TEngineStateLongOption }
+-
+-function TEngineStateLongOption.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '=':
+-      Result := TEngineStateLongParam.Create;
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-    '"', '''':
+-      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  else
+-    _Context.AddToOption(c);
+-    Result := TEngineStateLongOption.Create;
+-  end;
+-end;
+-
+-{ TEngineStateLongParam }
+-
+-function TEngineStateLongParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateQuotedLongParam.Create;
+-      end;
+-    ' ', #0: begin
+-        _Context.HandleCmdLinePart;
+-        Result := TEngineStateSpace.Create;
+-      end;
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateLongParam.Create;
+-  end;
+-end;
+-
+-{ TEngineStateQuotedLongParam }
+-
+-function TEngineStateQuotedLongParam.Execute(const _Context: IEngineContext): IEngineState;
+-var
+-  c: char;
+-begin
+-  c := _Context.GetNextChar;
+-  case c of
+-    '"': begin
+-        _Context.AddToParameter(c);
+-        Result := TEngineStateLongParam.Create;
+-      end;
+-    #0:
+-      Result := TEngineStateError.Create(Format('Invalid character "%s".', [c]));
+-  else
+-    _Context.AddToParameter(c);
+-    Result := TEngineStateQuotedLongParam.Create;
+-  end;
+-end;
+-
+-{ TStateParams }
+-
+-procedure TEngineContext.AddToOption(_c: char);
+-begin
+-  FOption := FOption + _c;
+-end;
+-
+-procedure TEngineContext.AddToParameter(_c: char);
+-begin
+-  FParameter := FParameter + _c;
+-end;
+-
+-constructor TEngineContext.Create(_Input: string);
+-begin
+-  inherited Create;
+-  FOptions := TStringList.Create;
+-  FParams := TStringList.Create;
+-  FInput := _Input;
+-  FReadIdx := 0;
+-end;
+-
+-destructor TEngineContext.Destroy;
+-begin
+-  FParams.Free;
+-  FOptions.Free;
+-  inherited;
+-end;
+-
+-function TEngineContext.GetNextChar: char;
+-begin
+-  if FReadIdx >= Length(FInput) then
+-    Result := #0
+-  else begin
+-    Inc(FReadIdx);
+-    Result := FInput[FReadIdx];
+-  end;
+-end;
+-
+-procedure TEngineContext.GetOptions(_Options: TStrings);
+-begin
+-  _Options.Assign(FOptions);
+-end;
+-
+-procedure TEngineContext.GetParams(_Params: TStrings);
+-begin
+-  _Params.Assign(FParams);
+-end;
+-
+-procedure TEngineContext.HandleCmdLinePart;
+-begin
+-  if FOption <> '' then
+-    FOptions.Add(FOption + '=' + FParameter)
+-  else
+-    FParams.Add(FParameter);
+-  FParameter := '';
+-  FOption := '';
+-end;
+-
+-{ TCdmLineParser }
+-
+-class procedure TCmdLineParser.Execute(const _CmdLine: string; _Options, _Params: TStrings);
+-var
+-  Context: IEngineContext;
+-  ContextEx: IEngineContextEx;
+-  State: IEngineState;
+-begin
+-  Context := TEngineContext.Create(_CmdLine);
+-  State := TEngineStateSpace.Create;
+-  while State <> nil do
+-    State := State.Execute(Context);
+-  ContextEx := Context as IEngineContextEx;
+-  ContextEx.GetOptions(_Options);
+-  ContextEx.GetParams(_Params);
+-end;
+-
+-class procedure TCmdLineParser.Execute(_Options, _Params: TStrings);
+-begin
+-  Execute(CmdLine, _Options, _Params);
+-end;
+-
+-end.
+-
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzParamDescList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzParamDescList.pas	2008-02-05 07:37:45 UTC (rev 265)
++++ utilities/dzCmdLineParser/trunk/src/u_dzParamDescList.pas	2008-02-05 07:39:56 UTC (rev 266)
+@@ -25,8 +25,8 @@
+ {$DEFINE __DZ_OBJECT_LIST_TEMPLATE__}
+ type
+   _LIST_ANCESTOR_ = TObject;
+-  _LIST_CONTAINER_ = TList;
+-  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
++//  _LIST_CONTAINER_ = TList;
++//  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
+   _ITEM_TYPE_ = TParamDesc;
+ {$INCLUDE 't_dzObjectListTemplate.tpl'}
+ 
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzParamFoundList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzParamFoundList.pas	2008-02-05 07:37:45 UTC (rev 265)
++++ utilities/dzCmdLineParser/trunk/src/u_dzParamFoundList.pas	2008-02-05 07:39:56 UTC (rev 266)
+@@ -20,8 +20,8 @@
+ {$DEFINE __DZ_OBJECT_LIST_TEMPLATE__}
+ type
+   _LIST_ANCESTOR_ = TObject;
+-  _LIST_CONTAINER_ = TList;
+-  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
++//  _LIST_CONTAINER_ = TList;
++//  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
+   _ITEM_TYPE_ = TParamFound;
+ {$INCLUDE 't_dzObjectListTemplate.tpl'}
+ 
+
+Modified: utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr
+===================================================================
+--- utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr	2008-02-05 07:37:45 UTC (rev 265)
++++ utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dpr	2008-02-05 07:39:56 UTC (rev 266)
+@@ -20,14 +20,15 @@
+   GUITestRunner,
+   TextTestRunner,
+   u_dzCmdLineParser_UnitTest in 'u_dzCmdLineParser_UnitTest.pas',
+-  u_dzCmdLineParser in '..\src\u_dzCmdLineParser.pas',
+   u_dzGetOpt in '..\src\u_dzGetOpt.pas',
+   u_dzOptionDescList in '..\src\u_dzOptionDescList.pas',
+   u_dzParamDescList in '..\src\u_dzParamDescList.pas',
+   u_dzParamFoundList in '..\src\u_dzParamFoundList.pas',
+   u_dzOptionNameList in '..\src\u_dzOptionNameList.pas',
+   u_dzOptionFoundList in '..\src\u_dzOptionFoundList.pas',
+-  u_dzGetOpt_UnitTest in 'u_dzGetOpt_UnitTest.pas';
++  u_dzGetOpt_UnitTest in 'u_dzGetOpt_UnitTest.pas',
++  u_dzCmdLineParser in '..\libs\dzlib\src\u_dzCmdLineParser.pas',
++  u_dzCmdLineParserStates in '..\libs\dzlib\src\u_dzCmdLineParserStates.pas';
+ 
+ {$R *.RES}
+ 
+
+Modified: utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj
+===================================================================
+--- utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj	2008-02-05 07:37:45 UTC (rev 265)
++++ utilities/dzCmdLineParser/trunk/tests/CmdLineParserTest.dproj	2008-02-05 07:39:56 UTC (rev 266)
+@@ -26,14 +26,14 @@
+   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+     <Version>7.0</Version>
+     <DCC_Optimize>False</DCC_Optimize>
+-    <DCC_Define>_CONSOLE_TESTRUNNER;DEBUG</DCC_Define>
++    <DCC_Define>_CONSOLE_TESTRUNNER;DEBUG;no_translation</DCC_Define>
+     <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+     <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+     <DCC_Description>RTS Highlighter Extensions</DCC_Description>
+-    <DCC_UnitSearchPath>..\libs\dzTemplates\units;..\libs\dztemplates\templates</DCC_UnitSearchPath>
+-    <DCC_ResourcePath>..\libs\dzTemplates\units;..\libs\dztemplates\templates</DCC_ResourcePath>
+-    <DCC_ObjPath>..\libs\dzTemplates\units;..\libs\dztemplates\templates</DCC_ObjPath>
+-    <DCC_IncludePath>..\libs\dzTemplates\units;..\libs\dztemplates\templates</DCC_IncludePath>
++    <DCC_UnitSearchPath>..\libs\dzTemplates\units;..\libs\dztemplates\templates;..\libs\jedi_inc;..\libs\dzlib\src</DCC_UnitSearchPath>
++    <DCC_ResourcePath>..\libs\dzTemplates\units;..\libs\dztemplates\templates;..\libs\jedi_inc;..\libs\dzlib\src</DCC_ResourcePath>
++    <DCC_ObjPath>..\libs\dzTemplates\units;..\libs\dztemplates\templates;..\libs\jedi_inc;..\libs\dzlib\src</DCC_ObjPath>
++    <DCC_IncludePath>..\libs\dzTemplates\units;..\libs\dztemplates\templates;..\libs\jedi_inc;..\libs\dzlib\src</DCC_IncludePath>
+     <DCC_ExeOutput>..</DCC_ExeOutput>
+     <DCC_DcuOutput>..\dcu</DCC_DcuOutput>
+     <DCC_ObjOutput>..\dcu</DCC_ObjOutput>
+@@ -63,6 +63,272 @@
+       
+       
+       
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
+       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dcldb100.bpl">Borland Database Components</Excluded_Packages>
+       <Excluded_Packages Name="c:\program files\borland\bds\4.0\bin\dclado100.bpl">Borland ADO DB Components</Excluded_Packages>
+       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dcldbx100.bpl">Borland dbExpress Components</Excluded_Packages>
+@@ -89,7 +355,8 @@
+     <DelphiCompile Include="CmdLineParserTest.dpr">
+       <MainSource>MainSource</MainSource>
+     </DelphiCompile>
+-    <DCCReference Include="..\src\u_dzCmdLineParser.pas" />
++    <DCCReference Include="..\libs\dzlib\src\u_dzCmdLineParser.pas" />
++    <DCCReference Include="..\libs\dzlib\src\u_dzCmdLineParserStates.pas" />
+     <DCCReference Include="..\src\u_dzGetOpt.pas" />
+     <DCCReference Include="..\src\u_dzOptionDescList.pas" />
+     <DCCReference Include="..\src\u_dzOptionFoundList.pas" />
+
+Modified: utilities/dzCmdLineParser/trunk/tests/u_dzCmdLineParser_UnitTest.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/tests/u_dzCmdLineParser_UnitTest.pas	2008-02-05 07:37:45 UTC (rev 265)
++++ utilities/dzCmdLineParser/trunk/tests/u_dzCmdLineParser_UnitTest.pas	2008-02-05 07:39:56 UTC (rev 266)
+@@ -238,6 +238,9 @@
+ 
+ implementation
+ 
++uses
++  u_dzCmdLineParserStates;
++
+ { TTestContext }
+ 
+ constructor TTestContext.Create(const _Input: string);
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 08:47:01 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 08:47:01 +0100
+Subject: [Dzchart-svncheckins] r267 - utilities/dzLib/trunk/forms
+Message-ID: <200802050747.m157l1DF031087@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 08:47:00 +0100 (Tue, 05 Feb 2008)
+New Revision: 267
+
+Modified:
+   utilities/dzLib/trunk/forms/w_dzDialog.pas
+Log:
+changed Tf_dzDialog.ShowNonModalMessage's parameters and clarified the PasDoc comment (because I had forgotten what it does myself)
+
+Modified: utilities/dzLib/trunk/forms/w_dzDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzDialog.pas	2008-02-05 07:39:56 UTC (rev 266)
++++ utilities/dzLib/trunk/forms/w_dzDialog.pas	2008-02-05 07:47:00 UTC (rev 267)
+@@ -250,7 +250,7 @@
+        @param CustomButtons is an array of strings for the custom button captions,
+                             the number of entries must correspond to the number
+                             of dbeCustom entries in the Buttons array
+-       param CustomResults is an array of integers with the modal results for
++       @param CustomResults is an array of integers with the modal results for
+                            the custom buttons, the number of entries must
+                            correspond to the number of dbeCustom entries in the
+                            Buttons array
+@@ -265,11 +265,23 @@
+       _Owner: TComponent = nil;
+       const _OptionDesc: string = ''): integer; overload;
+     {: Creates a Tf_dzDialog instance, shows it and returns it. The created
+-       dialog instance must be freed by the caller
++       dialog instance must be freed by the caller. Nonmodal in this context
++       means that the call returns to the caller rather than waiting for the
++       dialog to be dismissed by the user, so processing can continue. But note
++       that the dialog is displayed on top of all application windows and
++       works just like a modal dialog by blocking input to all other windows.
++       You must free the dialog so is removed.
+        @param DialogType gives the icon to display
+        @param Message is the message text to display
+        @param Buttons is an array of buttons to show (Note: This is an array of
+                       buttons, not a set, so the order is important!)
++       @param CustomButton is an array of strings for the custom button captions,
++                           the number of entries must correspond to the number
++                           of debCustom entries in the Buttons array
++       @param CustomResults is an array of integers with the modal results for
++                           the custom buttons, the number of entries must
++                           correspond to the number of dbeCustom entries in the
++                           Buttons array
+        @param OnButtonClick is an event handler that will be called if one of the
+                             buttons is clicked
+        @param OptionDesc gives the description for the Buttons, if not given,
+@@ -279,9 +291,9 @@
+        @returns the created Tf_dzDialog instance, the caller is responsible
+                 for closing and freeing this instance. }
+     class function ShowNonModalMessage(_DialogType: TMsgDlgType; const _Message: string;
+-      const _Buttons: array of TDialogButtonEnum; _OnButtonClick: TOnButtonClick;
++      const _Buttons: array of TDialogButtonEnum; const _CustomButtons: array of string;
++      const _CustomResults: array of integer; _OnButtonClick: TOnButtonClick;
+       const _OptionDesc: string = ''; _Parent: TComponent = nil): Tf_dzDialog;
+-
+   end;
+ 
+ implementation
+@@ -359,12 +371,21 @@
+ end;
+ 
+ class function Tf_dzDialog.ShowNonModalMessage(_DialogType: TMsgDlgType; const _Message: string;
+-  const _Buttons: array of TDialogButtonEnum; _OnButtonClick: TOnButtonClick;
++  const _Buttons: array of TDialogButtonEnum; const _CustomButtons: array of string;
++  const _CustomResults: array of integer; _OnButtonClick: TOnButtonClick;
+   const _OptionDesc: string = ''; _Parent: TComponent = nil): Tf_dzDialog;
++var
++  i: Integer;
+ begin
+   Result := Tf_dzDialog.Create(_Parent);
+   Result.ShowDetailButton := false;
+   Result.SetVisibleButtons(_Buttons);
++    Assert(Length(_CustomButtons) = Length(Result.CustomButtonCaptions));
++    for i := Low(_CustomButtons) to High(_CustomButtons) do
++      Result.CustomButtonCaptions[i] := _CustomButtons[i];
++    Assert(Length(_CustomResults) = Length(Result.CustomModalResults));
++    for i := Low(_CustomResults) to High(_CustomResults) do
++      Result.CustomModalResults[i] := _CustomResults[i];
+   Result.UserMessage := _Message;
+   Result.OptionDescription := _OptionDesc;
+   Result.DialogType := _DialogType;
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 08:47:48 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 08:47:48 +0100
+Subject: [Dzchart-svncheckins] r268 - utilities/dzLib/trunk/src
+Message-ID: <200802050747.m157lmPh031113@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 08:47:46 +0100 (Tue, 05 Feb 2008)
+New Revision: 268
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzClassUtils.pas
+Log:
+new function TIniFiles_ReadChar
+
+Modified: utilities/dzLib/trunk/src/u_dzClassUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzClassUtils.pas	2008-02-05 07:47:00 UTC (rev 267)
++++ utilities/dzLib/trunk/src/u_dzClassUtils.pas	2008-02-05 07:47:46 UTC (rev 268)
+@@ -9,7 +9,8 @@
+ 
+ uses
+   SysUtils,
+-  Classes;
++  Classes,
++  IniFiles;
+ 
+ // NOTE: The naming convention is <extended-class>_<Methodname>
+ 
+@@ -108,6 +109,12 @@
+ /// </summary>
+ function TStrings_TryStringByObj(_Strings: TStrings; _Obj: pointer; out _Value: string): boolean;
+ 
++/// <summary>
++/// reads a char from an ini file, if the value is longer than one char, it returns
++/// the first char, if it is empty, it returns the default
++/// </summary>
++function TIniFiles_ReadChar(_Ini: TCustomIniFile; const _Section, _Ident: string; _Default: char): char;
++
+ implementation
+ 
+ uses
+@@ -251,5 +258,15 @@
+   end;
+ end;
+ 
++function TIniFiles_ReadChar(_Ini: TCustomIniFile; const _Section, _Ident: string; _Default: char): char;
++var
++  s: string;
++begin
++  s:=_Ini.ReadString(_Section, _Ident, _Default);
++  if s = '' then
++    s:= _Default;
++  Result := s[1];
++end;
++
+ end.
+ 
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 08:50:03 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 08:50:03 +0100
+Subject: [Dzchart-svncheckins] r269 - utilities/dzLib/trunk/src
+Message-ID: <200802050750.m157o3CF031230@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 08:50:02 +0100 (Tue, 05 Feb 2008)
+New Revision: 269
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+Log:
+added Time2Iso function
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2008-02-05 07:47:46 UTC (rev 268)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2008-02-05 07:50:02 UTC (rev 269)
+@@ -17,7 +17,7 @@
+ ///          'yyyy-mm-dd hh:mm:ss'
+ /// </summary>
+ function DateTime2Iso(_dt: TDateTime; _IncludeTime: boolean = false): string; inline;
+-
++function Time2Iso(_dt: TDateTime): string;
+ /// <summary>
+ /// converts a string that contains a time in ISO 8601 format to a TDateTime value
+ /// @param s is the string to convert, it must be in the form 'hh:mm:ss' or 'hh:mm'
+@@ -47,6 +47,11 @@
+     DateTimeToString(Result, 'yyyy-mm-dd', _dt);
+ end;
+ 
++function Time2Iso(_dt: TDateTime): string;
++begin
++  DateTimeToString(Result, 'hh:nn:ss', _dt)
++end;
++
+ function Iso2Time(_s: string): TDateTime;
+ var
+   s: string;
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 08:51:14 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 08:51:14 +0100
+Subject: [Dzchart-svncheckins] r270 - utilities/dzLib/trunk/src
+Message-ID: <200802050751.m157pEWM031341@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 08:51:13 +0100 (Tue, 05 Feb 2008)
+New Revision: 270
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+Log:
+new IntToHex functions for converting an integer and an Int64 to a full length hex string
+
+Modified: utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2008-02-05 07:50:02 UTC (rev 269)
++++ utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2008-02-05 07:51:13 UTC (rev 270)
+@@ -90,6 +90,12 @@
+ {: converts a hexdump of an extended back to an extended value }
+ procedure HexDumpToExtended(const _s: string; var _Value: Extended);
+ 
++///<summary> converts an integer to a 8 digit hex string </summary>
++function IntToHex(_Value: integer): string; overload;
++
++///<summary> converts an In64 to a 16 digit hex string </summary>
++function IntToHex(_Value: Int64): string; overload;
++
+ {: Converts an integer to a boolean.
+    @param(Int is the integer to convert)
+    @returns(false, if the integer is 0, true otherwise) }
+@@ -805,6 +811,16 @@
+   end;
+ end;
+ 
++function IntToHex(_Value: integer): string;
++begin
++  Result := IntToHex(_Value, SizeOf(_Value) * 2);
++end;
++
++function IntToHex(_Value: Int64): string;
++begin
++  Result := IntToHex(_Value, SizeOf(_Value) * 2);
++end;
++
+ type
+   PStringDescriptor = ^TStringDescriptor;
+   TStringDescriptor = record
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 08:58:29 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 08:58:29 +0100
+Subject: [Dzchart-svncheckins] r271 - utilities/dzLib/trunk/src
+Message-ID: <200802050758.m157wTj5031545@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 08:58:28 +0100 (Tue, 05 Feb 2008)
+New Revision: 271
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzStringUtils.pas
+Log:
+* changed some comments from PasDoc to XMLDoc
+* TLineBuilder's decimal separator can now be configured
+* The list separator is now also a property
+
+Modified: utilities/dzLib/trunk/src/u_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringUtils.pas	2008-02-05 07:51:13 UTC (rev 270)
++++ utilities/dzLib/trunk/src/u_dzStringUtils.pas	2008-02-05 07:58:28 UTC (rev 271)
+@@ -117,7 +117,7 @@
+   TrimStr: TTrimStr = TrimSpaces deprecated;
+ 
+ /// <summary>
+-/// Creates a string with Anz spaces.
++/// Creates a string with Cnt spaces.
+ /// </summary>
+ function SpaceStr(_Cnt: integer): string;
+ 
+@@ -261,31 +261,31 @@
+ {: Returns the Nth character of S or ' ' if S has less than N charaters. }
+ function nthCharOf(const _s: string; _n: integer): Char;
+ 
+-{: Extract the first word of S using the given delimiters. The word is deleted
+-   from S.
+-   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
+-   into two words (which you would expect), but also 'abc'#9#9'def' is two words
+-   (which you might not expect) }
++///<summary> Extract the first word of S using the given delimiters. The word is deleted
++///          from S.
++///          NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++///          into two words (which you would expect), but also 'abc'#9#9'def' is two words
++///          (which you might not expect) </summary>
+ function ExtractFirstWord(var _s: string; const _Delimiter: string): string; overload;
+-{: Extract the first word of S using the given delimiters. The word is deleted
+-   from S.
+-   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
+-   into two words (which you would expect), but also 'abc'#9#9'def' is two words
+-   (which you might not expect) }
++///<summary> Extract the first word of S using the given delimiters. The word is deleted
++///          from S.
++///          NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++///          into two words (which you would expect), but also 'abc'#9#9'def' is two words
++///          (which you might not expect) </summary>
+ function ExtractFirstWord(var _s: string; _Delimiter: TCharSet): string; overload;
+-{: Extract the first word of S using the given delimiters. The word is deleted
+-   from S.
+-   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
+-   into two words (which you would expect), but also 'abc'#9#9'def' is two words
+-   (which you might not expect)
+-   @returns true, if a word could be extracted, false otherwise }
++///<summary> Extract the first word of S using the given delimiters. The word is deleted
++///          from S.
++///          NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++///          into two words (which you would expect), but also 'abc'#9#9'def' is two words
++///          (which you might not expect)
++///          @returns true, if a word could be extracted, false otherwise </summary>
+ function ExtractFirstWord(var _s: string; const _Delimiter: string; out _FirstWord: string): boolean; overload;
+-{: Extract the first word of S using the given delimiters. The word is deleted
+-   from S.
+-   NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
+-   into two words (which you would expect), but also 'abc'#9#9'def' is two words
+-   (which you might not expect)
+-   @returns true, if a word could be extracted, false otherwise }
++///<summary> Extract the first word of S using the given delimiters. The word is deleted
++///          from S.
++///          NOTE: duplicate delimiters are ignored, so 'abc  def' will be split
++///          into two words (which you would expect), but also 'abc'#9#9'def' is two words
++///          (which you might not expect)
++///          @returns true, if a word could be extracted, false otherwise </summary>
+ function ExtractFirstWord(var _s: string; _Delimiter: TCharSet; out _FirstWord: string): boolean; overload;
+ 
+ {: extracts the first N characters of a string }
+@@ -322,12 +322,15 @@
+   {: Helper class for building a text line }
+   TLineBuilder = class
+   private
+-    FSeparator: string;
++    FListSeparator: string;
+     FContent: string;
++    FFormatSettings: TFormatSettings;
+   public
+     {: Creates a TLineBuilder instance with the given separator
+-       @param Separator is the separator string to use, defaults to TAB (#9) }
+-    constructor Create(const _Separator: string = #9);
++       @param ListSeparator is the separator string to use, defaults to TAB (#9)
++       @param DecimalSeparator is the decimal separator to use for floating point
++              values, defaults to a dot (.). }
++    constructor Create(const _ListSeparator: string = #9; const _DecimalSeparator: char = '.');
+     {: Assigns the contents of another TLineBuilder instance }
+     procedure Assign(_Source: TLineBuilder);
+     {: Adds a string column }
+@@ -350,6 +353,8 @@
+     function ExtractFirst(out _Column: string): boolean;
+     {: allows read access to the content that has been built }
+     property Content: string read FContent;
++    property DecimalSeparator: char read FFormatSettings.DecimalSeparator write FFormatSettings.DecimalSeparator default '.';
++    property ListSeparator: string read FListSeparator write FListSeparator;
+   end;
+ 
+ implementation
+@@ -1022,10 +1027,13 @@
+ 
+ { TLineBuilder }
+ 
+-constructor TLineBuilder.Create(const _Separator: string);
++constructor TLineBuilder.Create(const _ListSeparator: string = #9; const _DecimalSeparator: char = '.');
+ begin
+   inherited Create;
+-  FSeparator := _Separator;
++  FListSeparator := _ListSeparator;
++  FFormatSettings := GetUserDefaultLocaleSettings;
++  FFormatSettings.DecimalSeparator := _DecimalSeparator;
++  FFormatSettings.ThousandSeparator := #0;
+ end;
+ 
+ procedure TLineBuilder.Add(_IntValue: integer);
+@@ -1035,13 +1043,13 @@
+ 
+ procedure TLineBuilder.Add(_FloatValue: extended; _Decimals: integer);
+ begin
+-  Add(Float2Str(_FloatValue, _Decimals));
++  Add(FloatToStrF(_FloatValue, ffFixed, 18, _Decimals, FFormatSettings));
+ end;
+ 
+ procedure TLineBuilder.Add(const _Column: string);
+ begin
+   if FContent <> '' then
+-    FContent := FContent + FSeparator;
++    FContent := FContent + FListSeparator;
+   FContent := FContent + _Column;
+ end;
+ 
+@@ -1071,7 +1079,7 @@
+   if s = '' then
+     exit;
+   if FContent <> '' then
+-    FContent := FContent + FSeparator + s
++    FContent := FContent + FListSeparator + s
+   else
+     FContent := s;
+ end;
+@@ -1090,7 +1098,7 @@
+ var
+   p: Integer;
+ begin
+-  p := Pos(FSeparator, FContent);
++  p := Pos(FListSeparator, FContent);
+   Result := p <> 0;
+   if Result then begin
+     _Column := LeftStr(FContent, p - 1);
+@@ -1106,7 +1114,7 @@
+   if s = '' then
+     exit;
+   if FContent <> '' then
+-    FContent := s + FSeparator + FContent
++    FContent := s + FListSeparator + FContent
+   else
+     FContent := s;
+ end;
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 08:59:36 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 08:59:36 +0100
+Subject: [Dzchart-svncheckins] r272 - utilities/dzLib/trunk/src
+Message-ID: <200802050759.m157xai4031585@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 08:59:35 +0100 (Tue, 05 Feb 2008)
+New Revision: 272
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* added TWinControl_SetFocus function for setting the focus to a control and capturing any errors
+* new function TApplication_GetExePath
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-02-05 07:58:28 UTC (rev 271)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-02-05 07:59:35 UTC (rev 272)
+@@ -357,6 +357,13 @@
+ {: centers a form on the given component, but makes sure the form is fully visible }
+ procedure TForm_CenterOn(_frm: TForm; _Center: TWinControl); overload;
+ 
++{: tries to focus the given control, returns false if that's not possible }
++function TWinControl_SetFocus(_Ctrl: TWinControl): boolean;
++
++{: returns the full path of the executable (without the filename but including
++   a backslash }
++function TApplication_GetExePath: string;
++
+ {: switches off "Windows Ghosting" in Win 2000 and XP
+   This is a workaround for the bug that modal forms sometimes aren't modal in W2K and XP.
+   Call in application startup. }
+@@ -1255,6 +1262,17 @@
+   TForm_CenterOn(_frm, _Center.ClientToScreen(Point(_Center.Width div 2, _Center.Height div 2)));
+ end;
+ 
++function TWinControl_SetFocus(_Ctrl: TWinControl): boolean;
++begin
++  Result := _Ctrl.CanFocus;
++  if Result then
++    try
++      _Ctrl.SetFocus;
++    except
++      Result := False;
++    end;
++end;
++
+ procedure DisableProcessWindowsGhosting;
+ var
+   DisableProcessWindowsGhostingProc: procedure;
+@@ -1426,5 +1444,10 @@
+   SendMessage(_Memo.Handle, EM_LINESCROLL, 0, cnt);
+ end;
+ 
++function TApplication_GetExePath: string;
++begin
++  Result := ExtractFilePath(Application.ExeName);
++end;
++
+ end.
+ 
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 09:09:01 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 09:09:01 +0100
+Subject: [Dzchart-svncheckins] r273 - utilities/dzCmdLineParser/trunk/src
+Message-ID: <200802050809.m15891Nm000096@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 09:09:00 +0100 (Tue, 05 Feb 2008)
+New Revision: 273
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+Log:
+special handling of EAbort exception (logged but no error message)
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-02-05 07:59:35 UTC (rev 272)
++++ utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2008-02-05 08:09:00 UTC (rev 273)
+@@ -155,13 +155,20 @@
+   try
+     FExitCode := DoExecute;
+   except
++    on e: EAbort do begin
++      // we do not want to show an error if the code called Abort because this
++      // is supposed to be a silent exception. So we log it and terminate with
++      // an exit code of 1
++      LogError(e.Message + '(' + e.ClassName +')');
++      FExitCode := 1;
++    end;
+     on e: Exception do begin
+       s := 'Exception ' + e.ClassName + ': ' + e.Message;
+       LogError(s);
+       if IsConsole then
+         WriteLn(s)
+       else
+-        ShowException(e, nil);
++        ShowException(e, ExceptAddr);
+       FExitCode := 1;
+     end;
+   end;
+
+
+
+From twm at mail.berlios.de  Tue Feb  5 09:37:51 2008
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Tue, 5 Feb 2008 09:37:51 +0100
+Subject: [Dzchart-svncheckins] r274 - utilities/dzLiveTemplates/trunk
+Message-ID: <200802050837.m158bpqb003125@sheep.berlios.de>
+
+Author: twm
+Date: 2008-02-05 09:37:48 +0100 (Tue, 05 Feb 2008)
+New Revision: 274
+
+Added:
+   utilities/dzLiveTemplates/trunk/TestCase.xml
+   utilities/dzLiveTemplates/trunk/doOnEvent.xml
+   utilities/dzLiveTemplates/trunk/template_template.xml
+Modified:
+   utilities/dzLiveTemplates/trunk/cr_live_template_integerdecl.xml
+   utilities/dzLiveTemplates/trunk/cr_live_template_stringdecl.xml
+Log:
+* bugfix: Invoke=auto had undesirable side effects
+* added TestCase template to avoid the dunit wizard which is annoying
+* changed template_template
+
+Added: utilities/dzLiveTemplates/trunk/TestCase.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/TestCase.xml	2008-02-05 08:09:00 UTC (rev 273)
++++ utilities/dzLiveTemplates/trunk/TestCase.xml	2008-02-05 08:37:48 UTC (rev 274)
+@@ -0,0 +1,63 @@
++<?xml version="1.0" encoding="utf-8" ?>
++<codetemplate	xmlns="http://schemas.borland.com/Delphi/2005/codetemplates"
++				version="1.0.0">
++	<template name="TestCase" invoke="manual">
++		<description>
++			Create a new Testcase without the clunky wizard
++		</description>
++		<author>
++			twm
++		</author>
++		<point name="unitname">
++		  <text>
++			u_SomeUnit
++		  </text>
++		  <hint>
++			unit that contains the code/class to test
++		  </hint>
++		</point>
++		<point name="testclassname">
++		  <text>
++			TestXxxxClass
++		  </text>
++		  <hint>
++			name for the testclass
++		  </hint>
++		</point>
++		<code language="Delphi" delimiter="|"><![CDATA[
++uses
++  TestFramework,
++  |unitname|;
++
++type
++  |testclassname| = class(TTestCase)
++  strict private
++  public
++	procedure SetUp; override;
++	procedure TearDown; override;
++  published
++	procedure TestSomeMethod;
++  end;
++
++implementation
++
++procedure TestTDummyClass.SetUp;
++begin
++end;
++
++procedure TestTDummyClass.TearDown;
++begin
++end;
++
++procedure TestTDummyClass.TestSomeMethod;
++begin
++end;
++
++initialization
++  // Register any test cases with the test runner
++  RegisterTest(|testclassname|.Suite);
++end.
++]]>
++		</code>
++	</template>
++</codetemplate>
+\ No newline at end of file
+
+Modified: utilities/dzLiveTemplates/trunk/cr_live_template_integerdecl.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/cr_live_template_integerdecl.xml	2008-02-05 08:09:00 UTC (rev 273)
++++ utilities/dzLiveTemplates/trunk/cr_live_template_integerdecl.xml	2008-02-05 08:37:48 UTC (rev 274)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8" ?>
+ <codetemplate xmlns="http://schemas.borland.com/Delphi/2005/codetemplates" version="1.0.0">
+-  <template name="i:" invoke="auto">
++  <template name="i:" invoke="none">
+     <description>
+       AutoComplete i: Integer declaration
+     </description>
+
+Modified: utilities/dzLiveTemplates/trunk/cr_live_template_stringdecl.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/cr_live_template_stringdecl.xml	2008-02-05 08:09:00 UTC (rev 273)
++++ utilities/dzLiveTemplates/trunk/cr_live_template_stringdecl.xml	2008-02-05 08:37:48 UTC (rev 274)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8" ?>
+ <codetemplate xmlns="http://schemas.borland.com/Delphi/2005/codetemplates" version="1.0.0">
+-  <template name="s:" invoke="auto">
++  <template name="s:" invoke="none">
+ 	<description>
+ 	  AutoComplete s: String declaration
+ 	</description>
+
+Added: utilities/dzLiveTemplates/trunk/doOnEvent.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/doOnEvent.xml	2008-02-05 08:09:00 UTC (rev 273)
++++ utilities/dzLiveTemplates/trunk/doOnEvent.xml	2008-02-05 08:37:48 UTC (rev 274)
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8" ?>
++<codetemplate	xmlns="http://schemas.borland.com/Delphi/2005/codetemplates"
++				version="1.0.0">
++	<template name="doOnEvent" invoke="manual">
++		<description>
++			create a doOnEvent procedure to call an event
++		</description>
++		<author>
++			twm
++		</author>
++		 <point name="EventName">
++				  <text>OnEventName</text>
++				  <hint>Name of the event to call</hint>
++			  </point>
++
++		<code language="Delphi" delimiter="|"><![CDATA[
++procedure do|EventName|;
++begin
++  if Assigned(F|EventName|) then
++	F|EventName|(Self,|*|);
++end;
++]]>
++		</code>
++	</template>
++</codetemplate>
+\ No newline at end of file
+
+Added: utilities/dzLiveTemplates/trunk/template_template.xml
+===================================================================
+--- utilities/dzLiveTemplates/trunk/template_template.xml	2008-02-05 08:09:00 UTC (rev 273)
++++ utilities/dzLiveTemplates/trunk/template_template.xml	2008-02-05 08:37:48 UTC (rev 274)
+@@ -0,0 +1,57 @@
++?<?xml version="1.0" encoding="utf-8" ?>
++
++<codetemplate	xmlns="http://schemas.borland.com/Delphi/2005/codetemplates"
++				version="1.0.0">
++	<template name="template_template">
++		<description>
++			code template template
++		</description>
++		<author>
++			CodeGear
++		</author>
++		<point name="templatename">
++			<hint>
++				Shortcut name for the template
++			</hint>
++		</point>
++		<point name="description">
++			<hint>
++				Text description of the template
++			</hint>
++		</point>
++		<point name="author">
++			<hint>
++				Name of the author
++			</hint>
++		</point>
++		<point name="language">
++			<text>
++			  Delphi
++			</text>
++			<hint>
++				Language that the template targets
++			</hint>
++		</point>
++		<point name="CDATAEND" editable="false">
++			<text>
++				]]&gt;
++			</text>
++		</point>
++		<code language="IDE"><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
++<codetemplate	xmlns="http://schemas.borland.com/Delphi/2005/codetemplates"
++				version="1.0.0">
++	<template name="$templatename$" invoke="manual">
++		<description>
++			$description$
++		</description>
++		<author>
++			$author$
++		</author>
++		<code language="$language$"><![CDATA[$selected$$CDATAEND$
++		</code>
++	</template>
++</codetemplate>
++]]>
++		</code>
++	</template>
++</codetemplate>
+\ No newline at end of file
+
+
+

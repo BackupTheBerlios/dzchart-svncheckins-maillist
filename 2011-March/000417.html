@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r559 - utilities/dzLib/trunk/forms
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r559%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C20110309104328.E075148146F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000418.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r559 - utilities/dzLib/trunk/forms</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r559%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C20110309104328.E075148146F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r559 - utilities/dzLib/trunk/forms">twm at mail.berlios.de
+       </A><BR>
+    <I>Wed Mar  9 11:43:28 CET 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000418.html">[Dzchart-svncheckins] r560 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#417">[ date ]</a>
+              <a href="thread.html#417">[ thread ]</a>
+              <a href="subject.html#417">[ subject ]</a>
+              <a href="author.html#417">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-03-09 11:43:28 +0100 (Wed, 09 Mar 2011)
+New Revision: 559
+
+Modified:
+   utilities/dzLib/trunk/forms/w_dzDialog.pas
+Log:
+new parameter Caption
+
+Modified: utilities/dzLib/trunk/forms/w_dzDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-02-27 12:24:20 UTC (rev 558)
++++ utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-03-09 10:43:28 UTC (rev 559)
+@@ -269,7 +269,7 @@
+       const _Buttons: array of TDialogButtonEnum; const _CustomButtons: array of string;
+       const _CustomResults: array of integer;
+       _Owner: TWinControl = nil;
+-      const _OptionDesc: string = ''; _FocusButton: Integer = -1): integer; overload;
++      const _OptionDesc: string = ''; _FocusButton: Integer = -1; _Caption: string = ''): integer; overload;
+     ///&lt;summary&gt; Creates a Tf_dzDialog instance, shows it and returns it. The created
+     ///          dialog instance must be freed by the caller. Nonmodal in this context
+     ///          means that the call returns to the caller rather than waiting for the
+@@ -335,7 +335,8 @@
+ class function Tf_dzDialog.ShowMessage(_DialogType: TMsgDlgType;
+   const _Message: string; const _Buttons: array of TDialogButtonEnum;
+   const _CustomButtons: array of string; const _CustomResults: array of integer;
+-  _Owner: TWinControl = nil; const _OptionDesc: string = ''; _FocusButton: Integer = -1): integer;
++  _Owner: TWinControl = nil; const _OptionDesc: string = ''; _FocusButton: Integer = -1;
++  _Caption: string = ''): integer;
+ var
+   frm: Tf_dzDialog;
+   i: Integer;
+@@ -355,6 +356,8 @@
+     frm.OptionDescription := _OptionDesc;
+     frm.DialogType := _DialogType;
+     frm.GenerateControls;
++	if _Caption &lt;&gt; '' then
++      frm.Caption := _Caption;
+     TForm_CenterOn(frm, _Owner);
+     Result := frm.ShowModal;
+   finally
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000418.html">[Dzchart-svncheckins] r560 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#417">[ date ]</a>
+              <a href="thread.html#417">[ thread ]</a>
+              <a href="subject.html#417">[ subject ]</a>
+              <a href="author.html#417">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

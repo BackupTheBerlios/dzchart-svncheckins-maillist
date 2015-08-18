@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r502 - in utilities/dzContextMenu/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r502%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101002125526.9EE82480FE9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000360.html">
+   <LINK REL="Next"  HREF="000362.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r502 - in utilities/dzContextMenu/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r502%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101002125526.9EE82480FE9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r502 - in utilities/dzContextMenu/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct  2 14:55:26 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000360.html">[Dzchart-svncheckins] r501 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000362.html">[Dzchart-svncheckins] r503 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#361">[ date ]</a>
+              <a href="thread.html#361">[ thread ]</a>
+              <a href="subject.html#361">[ subject ]</a>
+              <a href="author.html#361">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-02 14:55:26 +0200 (Sat, 02 Oct 2010)
+New Revision: 502
+
+Modified:
+   utilities/dzContextMenu/trunk/dzcontextmenu.ini
+   utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+   utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+Log:
+* removed with statememnts
+* Bugfix: When unregistering, removing context menus for registered extensions did not work
+
+Modified: utilities/dzContextMenu/trunk/dzcontextmenu.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/dzcontextmenu.ini	2010-10-02 12:53:25 UTC (rev 501)
++++ utilities/dzContextMenu/trunk/dzcontextmenu.ini	2010-10-02 12:55:26 UTC (rev 502)
+@@ -1,8 +1,8 @@
+ [global]
+-usercfg=C:\src\berlios\dzContextMenu\menu.ini
++usercfg={ExeDir}\menu.ini
+ [global-with-variables]
+-usercfg={CSIDL_APPDATA}\{Appname}\menu.ini
+-commoncfg={CSIDL_APPDATA}\{Appname}\menu.ini
++usercfg={AppData}\{ExeName}\menu.ini
++commoncfg={CommonAppData}\{ExeName}\menu.ini
+ [alternatively_use_non_roaming_profile]
+-menu={CSIDL_LOCAL_APPDATA}\{Appname}\menu.ini
++usercfg={LocalAppData}\{ExeName}\menu.ini
+ 
+
+Modified: utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-02 12:53:25 UTC (rev 501)
++++ utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-02 12:55:26 UTC (rev 502)
+@@ -1,12 +1,12 @@
+ [Version Info]
+ AutoIncBuild=0
+-Build=74
++Build=92
+ MajorVer=1
+ MinorVer=0
+ Release=0
+ 
+ [Version Info Keys]
+-FileVersion=1.0.0.74
++FileVersion=1.0.0.92
+ ProductVersion={today}
+ FileDescription=configurable context menu for windows explorer
+ OriginalFilename=dzContextMenu.dll
+
+Modified: utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-10-02 12:53:25 UTC (rev 501)
++++ utilities/dzContextMenu/trunk/src/u_ContextMenuHandler.pas	2010-10-02 12:55:26 UTC (rev 502)
+@@ -201,12 +201,27 @@
+   Sections: TStringList;
+   i: Integer;
+   FileType: string;
++  reg: TRegistry;
++  sl: TStringList;
++  Key: string;
+ begin
+   try
+     ClassID := GUIDToString(TContextMenu.GUID);
+     if _Register then begin
+       inherited UpdateRegistry(_Register);
+ 
++      if (Win32Platform = VER_PLATFORM_WIN32_NT) then begin
++        reg := TRegistry.Create;
++        try
++          reg.RootKey := HKEY_LOCAL_MACHINE;
++          reg.OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
++          reg.OpenKey('Approved', True);
++          reg.WriteString(ClassID, 'dzContextMenu');
++        finally
++          FreeAndNil(reg);
++        end;
++      end;
++
+       Sections := nil;
+       Ini := Tdm_ContextMenu.IniFile;
+       Sections := TStringList.Create;
+@@ -222,34 +237,41 @@
+             CreateRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu', '', ClassID);
+           end;
+         end;
+-
+       finally
+         FreeAndNil(Sections);
+       end;
+-      if (Win32Platform = VER_PLATFORM_WIN32_NT) then
+-        with TRegistry.Create do
+-          try
+-            RootKey := HKEY_LOCAL_MACHINE;
+-            OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
+-            OpenKey('Approved', True);
+-            WriteString(ClassID, 'dzContextMenu');
+-          finally
+-            Free;
+-          end;
+     end else begin
+-      DeleteRegKey(FileType + '\shellex\ContextMenuHandlers\dzContextMenu');
++      if (Win32Platform = VER_PLATFORM_WIN32_NT) then begin
++        reg := TRegistry.Create;
++        try
++          reg.RootKey := HKEY_LOCAL_MACHINE;
++          reg.OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
++          reg.OpenKey('Approved', True);
++          reg.DeleteValue(ClassID);
++        finally
++          FreeAndNil(reg);
++        end;
++      end;
+ 
+-      if (Win32Platform = VER_PLATFORM_WIN32_NT) then
+-        with TRegistry.Create do
+-          try
+-            RootKey := HKEY_LOCAL_MACHINE;
+-            OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions', True);
+-            OpenKey('Approved', True);
+-            DeleteValue(ClassID);
+-          finally
+-            Free;
++      sl := nil;
++      reg := TRegistry.Create;
++      try
++        sl := TStringList.Create;
++        reg.RootKey := HKEY_CLASSES_ROOT;
++        reg.OpenKeyReadOnly('\');
++        reg.GetKeyNames(sl);
++        reg.CloseKey;
++        for i := 0 to sl.Count - 1 do begin
++          Key := '\' + sl[i] + '\shellex\ContextMenuHandlers\dzContextMenu';
++          if reg.OpenKeyReadOnly(Key) then begin
++            reg.CloseKey;
++            reg.DeleteKey(Key);
+           end;
+-
++        end;
++      finally
++        FreeAndNil(reg);
++        FreeAndNil(sl);
++      end;
+       inherited UpdateRegistry(_Register);
+     end;
+   except
+@@ -260,7 +282,7 @@
+ 
+ initialization
+   TContextMenuFactory.Create(ComServer, TContextMenu, TContextMenu.GUID,
+-    '', 'Context Menu Shell Extension', ciMultiInstance, tmApartment);
++    '', 'dzlib Context Menu Shell Extension', ciMultiInstance, tmApartment);
+ 
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000360.html">[Dzchart-svncheckins] r501 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000362.html">[Dzchart-svncheckins] r503 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#361">[ date ]</a>
+              <a href="thread.html#361">[ thread ]</a>
+              <a href="subject.html#361">[ subject ]</a>
+              <a href="author.html#361">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

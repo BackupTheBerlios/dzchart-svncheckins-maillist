@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r185 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r185%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707221339.l6MDd6oE021928%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000058.html">
+   <LINK REL="Next"  HREF="000060.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r185 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r185%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707221339.l6MDd6oE021928%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r185 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Jul 22 15:39:06 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000058.html">[Dzchart-svncheckins] r184 - utilities/dzCmdLineParser/trunk
+</A></li>
+        <LI>Next message: <A HREF="000060.html">[Dzchart-svncheckins] r186 - utilities/dzPrepBuild/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#59">[ date ]</a>
+              <a href="thread.html#59">[ thread ]</a>
+              <a href="subject.html#59">[ subject ]</a>
+              <a href="author.html#59">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-22 15:39:05 +0200 (Sun, 22 Jul 2007)
+New Revision: 185
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzExecutor.pas
+Log:
+removed routine_id constants, there must be a better way...
+
+Modified: utilities/dzLib/trunk/src/u_dzExecutor.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzExecutor.pas	2007-07-17 09:05:43 UTC (rev 184)
++++ utilities/dzLib/trunk/src/u_dzExecutor.pas	2007-07-22 13:39:05 UTC (rev 185)
+@@ -111,7 +111,7 @@
+        This method is called by various other methods to assert that their
+        functions are allowed in the current Status.
+        @param ValidStatusSet is a set of valid Status values for the check. }
+-    procedure AssertStatus(_ValidStatusSet: TExecutorStatusSet; const _Method: string);
++    procedure AssertStatus(_ValidStatusSet: TExecutorStatusSet; const _Method: string = '');
+     {: Get method for property GetRedirectStdIn
+        @returns true if StdIn is not an empty string }
+     function GetRedirectStdIn: boolean;
+@@ -264,8 +264,6 @@
+ end;
+ 
+ function TExecutor.GetStatus: TExecutorStatus;
+-const
+-  ROUTINE_ID = '[function TExecutor.GetStatus]';
+ begin
+   if fStatus = esRunning then begin
+     Win32Check(GetExitCodeProcess(fProcessInfo.hProcess, fExitCode));
+@@ -278,27 +276,21 @@
+ end;
+ 
+ function TExecutor.GetExitCode: DWORD;
+-const
+-  ROUTINE_ID = '[function TExecutor.GetExitCode]';
+ begin
+-  AssertStatus([esRunning, esTerminated], ROUTINE_ID);
++  AssertStatus([esRunning, esTerminated]);
+   Result := fExitCode;
+ end;
+ 
+ function TExecutor.Wait(_Timeout: DWORD): DWORD;
+-const
+-  ROUTINE_ID = '[function TExecutor.Wait]';
+ begin
+-  AssertStatus([esRunning, esTerminated], ROUTINE_ID);
++  AssertStatus([esRunning, esTerminated]);
+   Result := WaitforSingleObject(ProcessHandle, _Timeout);
+ end;
+ 
+ function TExecutor.Kill: boolean;
+-const
+-  ROUTINE_ID = '[function TExecutor.Kill]';
+ begin
+   case GetStatus of
+-    esInvalid: raise ENoProcess.CreateFmt('Process has not yet been started'#13#10'%s', [ROUTINE_ID]);
++    esInvalid: raise ENoProcess.CreateFmt('Process has not yet been started'#13#10'%s', ['']);
+     esRunning: Result := TerminateProcess(fProcessInfo.hProcess, $FFFFFFFF);
+   else
+     Result := true;
+@@ -306,31 +298,23 @@
+ end;
+ 
+ function TExecutor.GetProcessHandle: THandle;
+-const
+-  ROUTINE_ID = '[function TExecutor.GetProcessHandle]';
+ begin
+-  AssertStatus([esRunning, esTerminated], ROUTINE_ID);
++  AssertStatus([esRunning, esTerminated]);
+   Result := fProcessInfo.hProcess;
+ end;
+ 
+ function TExecutor.GetThreadHandle: THandle;
+-const
+-  ROUTINE_ID = '[function TExecutor.GetThreadHandle]';
+ begin
+-  AssertStatus([esRunning, esTerminated], ROUTINE_ID);
++  AssertStatus([esRunning, esTerminated]);
+   Result := fProcessInfo.hThread;
+ end;
+ 
+ function TExecutor.GetRedirectStdIn: boolean;
+-const
+-  ROUTINE_ID = '[function TExecutor.GetRedirectStdIn]';
+ begin
+   Result := fStdIn &lt;&gt; '';
+ end;
+ 
+ function TExecutor.Execute: boolean;
+-const
+-  ROUTINE_ID = '[function TExecutor.Execute]';
+ var
+   StartupInfo: TStartupInfo;
+   SecurityAttributes: TSecurityAttributes;
+@@ -428,12 +412,10 @@
+ end;
+ 
+ function TExecutor.GetStdErr: string;
+-const
+-  ROUTINE_ID = '[function TExecutor.GetStdErr]';
+ var
+   Size: integer;
+ begin
+-  AssertStatus([esTerminated], ROUTINE_ID);
++  AssertStatus([esTerminated]);
+   if RedirectStdErr then begin
+     fErrorFile.Seek(0, soFromBeginning);
+     Size := fErrorFile.Size;
+@@ -442,16 +424,14 @@
+       fErrorFile.Read(Result[1], Size);
+     end;
+   end else
+-    raise ENotRedirected.CreateFmt('StdErr was not redirected'#13#10'%s', [ROUTINE_ID]);
++    raise ENotRedirected.Create('StdErr was not redirected');
+ end;
+ 
+ function TExecutor.GetStdOut: string;
+-const
+-  ROUTINE_ID = '[function TExecutor.GetStdErr]';
+ var
+   Size: integer;
+ begin
+-  AssertStatus([esTerminated], ROUTINE_ID);
++  AssertStatus([esTerminated]);
+   if RedirectStdOut then begin
+     fOutputFile.Seek(0, soFromBeginning);
+     Size := fOutputFile.Size;
+@@ -460,7 +440,7 @@
+       fOutputFile.Read(Result[1], Size);
+     end;
+   end else
+-    raise ENotRedirected.CreateFmt('StdOut was not redirected'#13#10'%s', [ROUTINE_ID]);
++    raise ENotRedirected.Create('StdOut was not redirected');
+ end;
+ 
+ end.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000058.html">[Dzchart-svncheckins] r184 - utilities/dzCmdLineParser/trunk
+</A></li>
+	<LI>Next message: <A HREF="000060.html">[Dzchart-svncheckins] r186 - utilities/dzPrepBuild/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#59">[ date ]</a>
+              <a href="thread.html#59">[ thread ]</a>
+              <a href="subject.html#59">[ subject ]</a>
+              <a href="author.html#59">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

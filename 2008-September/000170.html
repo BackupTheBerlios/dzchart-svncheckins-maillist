@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r303 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r303%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041119.m84BJhGW021654%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000169.html">
+   <LINK REL="Next"  HREF="000171.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r303 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r303%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041119.m84BJhGW021654%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r303 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 13:19:43 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000169.html">[Dzchart-svncheckins] r302 - in utilities/dzLib/trunk: src	translations/de translations/en translations/fr
+</A></li>
+        <LI>Next message: <A HREF="000171.html">[Dzchart-svncheckins] r304 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-04 13:19:42 +0200 (Thu, 04 Sep 2008)
+New Revision: 303
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileStreams.pas
+Log:
+* changed all pasdoc comments to xmldoc
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+
+
+Modified: utilities/dzLib/trunk/src/u_dzFileStreams.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileStreams.pas	2008-09-04 11:15:54 UTC (rev 302)
++++ utilities/dzLib/trunk/src/u_dzFileStreams.pas	2008-09-04 11:19:42 UTC (rev 303)
+@@ -191,14 +191,14 @@
+ implementation
+ 
+ uses
++  u_dzTranslator,
+   u_dzFileUtils,
+   u_dzMiscUtils;
+ 
+-resourcestring
+-  STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE = 'Cannot change filename when file is open.';
+-  STR_INVALID_FILE_FLAGS = 'Invalid file flags';
+-  STR_INVALID_FILE_ATTRIBUTES = 'Invalid file attributes';
+-  STR_0S_ERROR_SD = '%1:s (%0:d)';
++function _(const _s: string): string; inline;
++begin
++  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++end;
+ 
+ const
+   cFileAccessModeValues: array[TFileAccessModes] of DWORD =
+@@ -252,11 +252,12 @@
+ 
+ procedure TdzFile.Open;
+ var
+-  s: string;
++  LastError: Cardinal;
+ begin
+-  s := STR_0S_ERROR_SD;
+-  if not OpenNoException then
+-    RaiseLastOSErrorEx(s);
++  if not OpenNoException then begin
++    LastError := GetLastError;
++    RaiseLastOSErrorEx(LastError, _('%1:s (%0:d)'));
++  end;
+ end;
+ 
+ function TdzFile.OpenNoException: boolean;
+@@ -303,7 +304,7 @@
+     FILE_ATTRIBUTE_SYSTEM or FILE_ATTRIBUTE_TEMPORARY;
+ begin
+   if (_FileAttributes and not cValidAttributes) &lt;&gt; 0 then
+-    raise EdzFile.Create(STR_INVALID_FILE_ATTRIBUTES);
++    raise EdzFile.Create(_('Invalid file attributes'));
+   FFileAttributes := _FileAttributes;
+ end;
+ 
+@@ -315,7 +316,7 @@
+     FILE_FLAG_BACKUP_SEMANTICS or FILE_FLAG_POSIX_SEMANTICS);
+ begin
+   if (_FileFlags and not cValidFlags) &lt;&gt; 0 then
+-    raise EdzFile.Create(STR_INVALID_FILE_FLAGS);
++    raise EdzFile.Create(_('Invalid file flags'));
+   FFileFlags := _FileFlags;
+ end;
+ 
+@@ -334,7 +335,7 @@
+ procedure TdzFile.SetFilename(const _Filename: string);
+ begin
+   if Self.Handle &lt;&gt; integer(INVALID_HANDLE_VALUE) then
+-    raise EdzFile.Create(STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE);
++    raise EdzFile.Create(_('Cannot change filename when file is open.'));
+   FFilename := _Filename;
+ end;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000169.html">[Dzchart-svncheckins] r302 - in utilities/dzLib/trunk: src	translations/de translations/en translations/fr
+</A></li>
+	<LI>Next message: <A HREF="000171.html">[Dzchart-svncheckins] r304 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

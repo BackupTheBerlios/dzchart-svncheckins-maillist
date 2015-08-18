@@ -1,0 +1,384 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r433 - utilities/dzPrepBuild/trunk/testdata
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r433%20-%20utilities/dzPrepBuild/trunk/testdata&In-Reply-To=%3C201004111413.o3BEDGo7020725%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000293.html">
+   <LINK REL="Next"  HREF="000295.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r433 - utilities/dzPrepBuild/trunk/testdata</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r433%20-%20utilities/dzPrepBuild/trunk/testdata&In-Reply-To=%3C201004111413.o3BEDGo7020725%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r433 - utilities/dzPrepBuild/trunk/testdata">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr 11 16:13:16 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000293.html">[Dzchart-svncheckins] r432 - in utilities/dzPrepBuild/trunk:	buildtools src
+</A></li>
+        <LI>Next message: <A HREF="000295.html">[Dzchart-svncheckins] r434 - utilities/dzPrepBuild/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#294">[ date ]</a>
+              <a href="thread.html#294">[ thread ]</a>
+              <a href="subject.html#294">[ subject ]</a>
+              <a href="author.html#294">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-04-11 16:13:11 +0200 (Sun, 11 Apr 2010)
+New Revision: 433
+
+Added:
+   utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.dproj
+   utilities/dzPrepBuild/trunk/testdata/OriginalTestproject_Version.ini
+   utilities/dzPrepBuild/trunk/testdata/RestoreTestproject.cmd
+   utilities/dzPrepBuild/trunk/testdata/TestProject.dpr
+   utilities/dzPrepBuild/trunk/testdata/Testproject.dproj
+Removed:
+   utilities/dzPrepBuild/trunk/testdata/copyback.cmd
+Modified:
+   utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.bdsproj
+   utilities/dzPrepBuild/trunk/testdata/Testproject.bdsproj
+Log:
+testdata extended to Delphi2010 (.dproj)
+
+Modified: utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.bdsproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.bdsproj	2010-04-11 13:59:09 UTC (rev 432)
++++ utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.bdsproj	2010-04-11 14:13:11 UTC (rev 433)
+@@ -10,7 +10,7 @@
+ 	&lt;/PersonalityInfo&gt;
+ 	&lt;Delphi.Personality&gt;
+ 		&lt;Source&gt;
+-			&lt;Source Name=&quot;MainSource&quot;&gt;IncBuildNo.dpr&lt;/Source&gt;
++			&lt;Source Name=&quot;MainSource&quot;&gt;Testproject.dpr&lt;/Source&gt;
+ 		&lt;/Source&gt;
+ 		&lt;FileVersion&gt;
+ 			&lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
+
+Added: utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.dproj	2010-04-11 13:59:09 UTC (rev 432)
++++ utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.dproj	2010-04-11 14:13:11 UTC (rev 433)
+@@ -0,0 +1,105 @@
++&#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++		&lt;PropertyGroup&gt;
++			&lt;ProjectGuid&gt;{209412AC-0EC2-4F63-B92A-E78853FF142A}&lt;/ProjectGuid&gt;
++			&lt;MainSource&gt;TestProject.dpr&lt;/MainSource&gt;
++			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
++			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++			&lt;ProjectVersion&gt;12.0&lt;/ProjectVersion&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Release' or '$(Cfg_1)'!=''&quot;&gt;
++			&lt;Cfg_1&gt;true&lt;/Cfg_1&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Debug' or '$(Cfg_2)'!=''&quot;&gt;
++			&lt;Cfg_2&gt;true&lt;/Cfg_2&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
++			&lt;DCC_UsePackage&gt;rtl;vcl;vcldb;dbrtl;vclx;dbxcds;dbexpress;IndySystem;IndyCore;VclSmp;IndyProtocols;dsnap;adortl;vclactnband;vclshlctrls;JvCustomD9R;JvSystemD9R;JvCoreD9R;DJcl;JvStdCtrlsD9R;dzConfigd9;PerlRegExD2005;SynEdit_R2005;SynUni_D2005;JvAppFrmD9R;JvBandsD9R;JvBDED9R;JvCmpD9R;JvCryptD9R;JvCtrlsD9R;JvDlgsD9R;JvDockingD9R;JvDotNetCtrlsD9R;JvEDID9R;JvGlobusD9R;JvHMID9R;JvInspectorD9R;JvInterpreterD9R;JvJansD9R;JvManagedThreadsD9R;JvMMD9R;JvNetD9R;JvPageCompsD9R;JvPluginD9R;JvPrintPreviewD9R;JvTimeFrameworkD9R;JvUIBD9R;JvValidatorsD9R;JvWizardD9R;JvXPCtrlsD9R&lt;/DCC_UsePackage&gt;
++			&lt;DCC_DebugInformation&gt;false&lt;/DCC_DebugInformation&gt;
++			&lt;DCC_UnitAlias&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)&lt;/DCC_UnitAlias&gt;
++			&lt;DCC_Platform&gt;x86&lt;/DCC_Platform&gt;
++			&lt;DCC_DependencyCheckOutputName&gt;TestProject.exe&lt;/DCC_DependencyCheckOutputName&gt;
++			&lt;DCC_K&gt;false&lt;/DCC_K&gt;
++			&lt;DCC_N&gt;true&lt;/DCC_N&gt;
++			&lt;DCC_S&gt;false&lt;/DCC_S&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;1&lt;/DCC_SymbolReferenceInfo&gt;
++			&lt;DCC_E&gt;false&lt;/DCC_E&gt;
++			&lt;DCC_F&gt;false&lt;/DCC_F&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_1)'!=''&quot;&gt;
++			&lt;DCC_Define&gt;RELEASE;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_LocalDebugSymbols&gt;false&lt;/DCC_LocalDebugSymbols&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_2)'!=''&quot;&gt;
++			&lt;DCC_Define&gt;DEBUG;$(DCC_Define)&lt;/DCC_Define&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;ItemGroup&gt;
++			&lt;DelphiCompile Include=&quot;TestProject.dpr&quot;&gt;
++				&lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++			&lt;/DelphiCompile&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
++				&lt;Key&gt;Cfg_2&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
++				&lt;Key&gt;Cfg_1&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++		&lt;/ItemGroup&gt;
++		&lt;Import Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot; Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot;/&gt;
++		&lt;ProjectExtensions&gt;
++			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
++			&lt;Borland.ProjectType/&gt;
++			&lt;BorlandProject&gt;
++				&lt;Delphi.Personality&gt;
++					&lt;Source&gt;
++						&lt;Source Name=&quot;MainSource&quot;&gt;TestProject.dpr&lt;/Source&gt;
++					&lt;/Source&gt;
++					&lt;Parameters&gt;
++						&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++					&lt;/Parameters&gt;
++					&lt;VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;31&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++					&lt;/VersionInfo&gt;
++					&lt;VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;FileVersion&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;&quot;2007-07-14&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&quot;www.dummzeuch.de&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&quot;Testproject&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&quot;testproject&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&quot;Copyright 2002-2007 by Thomas Mueller&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&quot;&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&quot;testproject.exe&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&quot;Testproduct&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&quot;internal use only&quot;&lt;/VersionInfoKeys&gt;
++					&lt;/VersionInfoKeys&gt;
++				&lt;/Delphi.Personality&gt;
++			&lt;/BorlandProject&gt;
++			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
++		&lt;/ProjectExtensions&gt;
++	&lt;/Project&gt;
+
+Copied: utilities/dzPrepBuild/trunk/testdata/OriginalTestproject_Version.ini (from rev 429, utilities/dzPrepBuild/trunk/testdata/Testproject_Version.ini)
+
+Copied: utilities/dzPrepBuild/trunk/testdata/RestoreTestproject.cmd (from rev 429, utilities/dzPrepBuild/trunk/testdata/copyback.cmd)
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/copyback.cmd	2010-04-11 12:02:50 UTC (rev 429)
++++ utilities/dzPrepBuild/trunk/testdata/RestoreTestproject.cmd	2010-04-11 14:13:11 UTC (rev 433)
+@@ -0,0 +1,4 @@
++copy OriginalTestproject.dof Testproject.dof
++copy OriginalTestproject.bdsproj Testproject.bdsproj
++copy OriginalTestproject.dproj Testproject.dproj
++copy OriginalTestproject_Version.ini Testproject_version.ini
+
+Added: utilities/dzPrepBuild/trunk/testdata/TestProject.dpr
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/TestProject.dpr	2010-04-11 13:59:09 UTC (rev 432)
++++ utilities/dzPrepBuild/trunk/testdata/TestProject.dpr	2010-04-11 14:13:11 UTC (rev 433)
+@@ -0,0 +1,4 @@
++program Testproject;
++
++begin
++end.
+
+Modified: utilities/dzPrepBuild/trunk/testdata/Testproject.bdsproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/Testproject.bdsproj	2010-04-11 13:59:09 UTC (rev 432)
++++ utilities/dzPrepBuild/trunk/testdata/Testproject.bdsproj	2010-04-11 14:13:11 UTC (rev 433)
+@@ -10,7 +10,7 @@
+ 	&lt;/PersonalityInfo&gt;
+ 	&lt;Delphi.Personality&gt;
+ 		&lt;Source&gt;
+-			&lt;Source Name=&quot;MainSource&quot;&gt;IncBuildNo.dpr&lt;/Source&gt;
++			&lt;Source Name=&quot;MainSource&quot;&gt;Testproject.dpr&lt;/Source&gt;
+ 		&lt;/Source&gt;
+ 		&lt;FileVersion&gt;
+ 			&lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
+@@ -161,15 +161,15 @@
+ 		&lt;/VersionInfo&gt;
+ 		&lt;VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;&quot;2007-07-14&quot;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&quot;www.dummzeuch.de&quot;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&quot;Testproject&quot;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&quot;testproject&quot;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&quot;Copyright 2002-2007 by Thomas Mueller&quot;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&quot;&quot;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&quot;testproject.exe&quot;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&quot;Testproduct&quot;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&quot;internal use only&quot;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;2007-07-14&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;www.dummzeuch.de&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;Testproject&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;testproject&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;Copyright 2002-2007 by Thomas Mueller&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;testproject.exe&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;Testproduct&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;internal use only&lt;/VersionInfoKeys&gt;
+ 		&lt;/VersionInfoKeys&gt;
+ 		&lt;Language&gt;
+ 			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
+
+Added: utilities/dzPrepBuild/trunk/testdata/Testproject.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/Testproject.dproj	2010-04-11 13:59:09 UTC (rev 432)
++++ utilities/dzPrepBuild/trunk/testdata/Testproject.dproj	2010-04-11 14:13:11 UTC (rev 433)
+@@ -0,0 +1,105 @@
++&#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++		&lt;PropertyGroup&gt;
++			&lt;ProjectGuid&gt;{209412AC-0EC2-4F63-B92A-E78853FF142A}&lt;/ProjectGuid&gt;
++			&lt;MainSource&gt;TestProject.dpr&lt;/MainSource&gt;
++			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
++			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++			&lt;ProjectVersion&gt;12.0&lt;/ProjectVersion&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Release' or '$(Cfg_1)'!=''&quot;&gt;
++			&lt;Cfg_1&gt;true&lt;/Cfg_1&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Debug' or '$(Cfg_2)'!=''&quot;&gt;
++			&lt;Cfg_2&gt;true&lt;/Cfg_2&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
++			&lt;DCC_UsePackage&gt;rtl;vcl;vcldb;dbrtl;vclx;dbxcds;dbexpress;IndySystem;IndyCore;VclSmp;IndyProtocols;dsnap;adortl;vclactnband;vclshlctrls;JvCustomD9R;JvSystemD9R;JvCoreD9R;DJcl;JvStdCtrlsD9R;dzConfigd9;PerlRegExD2005;SynEdit_R2005;SynUni_D2005;JvAppFrmD9R;JvBandsD9R;JvBDED9R;JvCmpD9R;JvCryptD9R;JvCtrlsD9R;JvDlgsD9R;JvDockingD9R;JvDotNetCtrlsD9R;JvEDID9R;JvGlobusD9R;JvHMID9R;JvInspectorD9R;JvInterpreterD9R;JvJansD9R;JvManagedThreadsD9R;JvMMD9R;JvNetD9R;JvPageCompsD9R;JvPluginD9R;JvPrintPreviewD9R;JvTimeFrameworkD9R;JvUIBD9R;JvValidatorsD9R;JvWizardD9R;JvXPCtrlsD9R&lt;/DCC_UsePackage&gt;
++			&lt;DCC_DebugInformation&gt;false&lt;/DCC_DebugInformation&gt;
++			&lt;DCC_UnitAlias&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)&lt;/DCC_UnitAlias&gt;
++			&lt;DCC_Platform&gt;x86&lt;/DCC_Platform&gt;
++			&lt;DCC_DependencyCheckOutputName&gt;TestProject.exe&lt;/DCC_DependencyCheckOutputName&gt;
++			&lt;DCC_K&gt;false&lt;/DCC_K&gt;
++			&lt;DCC_N&gt;true&lt;/DCC_N&gt;
++			&lt;DCC_S&gt;false&lt;/DCC_S&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;1&lt;/DCC_SymbolReferenceInfo&gt;
++			&lt;DCC_E&gt;false&lt;/DCC_E&gt;
++			&lt;DCC_F&gt;false&lt;/DCC_F&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_1)'!=''&quot;&gt;
++			&lt;DCC_Define&gt;RELEASE;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_LocalDebugSymbols&gt;false&lt;/DCC_LocalDebugSymbols&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_2)'!=''&quot;&gt;
++			&lt;DCC_Define&gt;DEBUG;$(DCC_Define)&lt;/DCC_Define&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;ItemGroup&gt;
++			&lt;DelphiCompile Include=&quot;TestProject.dpr&quot;&gt;
++				&lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++			&lt;/DelphiCompile&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
++				&lt;Key&gt;Cfg_2&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
++				&lt;Key&gt;Cfg_1&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++		&lt;/ItemGroup&gt;
++		&lt;Import Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot; Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot;/&gt;
++		&lt;ProjectExtensions&gt;
++			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
++			&lt;Borland.ProjectType/&gt;
++			&lt;BorlandProject&gt;
++				&lt;Delphi.Personality&gt;
++					&lt;Source&gt;
++						&lt;Source Name=&quot;MainSource&quot;&gt;TestProject.dpr&lt;/Source&gt;
++					&lt;/Source&gt;
++					&lt;Parameters&gt;
++						&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++					&lt;/Parameters&gt;
++					&lt;VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;31&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++					&lt;/VersionInfo&gt;
++					&lt;VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;FileVersion&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;&quot;2007-07-14&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&quot;www.dummzeuch.de&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&quot;Testproject&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&quot;testproject&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&quot;Copyright 2002-2007 by Thomas Mueller&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&quot;&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&quot;testproject.exe&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&quot;Testproduct&quot;&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&quot;internal use only&quot;&lt;/VersionInfoKeys&gt;
++					&lt;/VersionInfoKeys&gt;
++				&lt;/Delphi.Personality&gt;
++			&lt;/BorlandProject&gt;
++			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
++		&lt;/ProjectExtensions&gt;
++	&lt;/Project&gt;
+
+Deleted: utilities/dzPrepBuild/trunk/testdata/copyback.cmd
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/copyback.cmd	2010-04-11 13:59:09 UTC (rev 432)
++++ utilities/dzPrepBuild/trunk/testdata/copyback.cmd	2010-04-11 14:13:11 UTC (rev 433)
+@@ -1,2 +0,0 @@
+-copy OriginalTestproject.dof Testproject.dof
+-copy OriginalTestproject.bdsproj Testproject.bdsproj
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000293.html">[Dzchart-svncheckins] r432 - in utilities/dzPrepBuild/trunk:	buildtools src
+</A></li>
+	<LI>Next message: <A HREF="000295.html">[Dzchart-svncheckins] r434 - utilities/dzPrepBuild/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#294">[ date ]</a>
+              <a href="thread.html#294">[ thread ]</a>
+              <a href="subject.html#294">[ subject ]</a>
+              <a href="author.html#294">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

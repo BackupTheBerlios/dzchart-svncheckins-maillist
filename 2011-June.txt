@@ -1,0 +1,2499 @@
+From twm at mail.berlios.de  Thu Jun  2 20:48:44 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Thu,  2 Jun 2011 20:48:44 +0200
+Subject: [Dzchart-svncheckins] r576 - utilities/dzLib/trunk/src
+Message-ID: <20110602184844.455F7480C67@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-02 20:48:43 +0200 (Thu, 02 Jun 2011)
+New Revision: 576
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzGoogleTranslate.pas
+Log:
+added GetBranding method which returns "powered by Google" as required by the API license
+
+Modified: utilities/dzLib/trunk/src/u_dzGoogleTranslate.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzGoogleTranslate.pas	2011-04-23 10:49:41 UTC (rev 575)
++++ utilities/dzLib/trunk/src/u_dzGoogleTranslate.pas	2011-06-02 18:48:43 UTC (rev 576)
+@@ -25,6 +25,9 @@
+     /// @param TargetLang is the target language code, e.g. 'de', see the API description
+     ///                   for a list of possible values. </summary>
+     constructor Create(const _SourceLang, _TargetLang: string);
++    ///<summary>The Google Translate API license requires you to display this branding near
++    ///         the input and result of translations. </summary>
++    function GetBranding: string;
+     function Translate(const _Input: string): string;
+     ///<summary> Referrer is the url to the website using the translation service </summary>
+     property Referrer: string read FReferrer write FReferrer;
+@@ -131,6 +134,11 @@
+     Result := 28591;
+ end;
+ 
++function TGoogleTranslate.GetBranding: string;
++begin
++  Result := 'powered by Google';
++end;
++
+ function TGoogleTranslate.Translate(const _Input: string): string;
+ const
+   url_template = 'http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&langpair=%s|%s&q=%s';
+
+
+
+From twm at mail.berlios.de  Thu Jun  2 20:54:14 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Thu,  2 Jun 2011 20:54:14 +0200
+Subject: [Dzchart-svncheckins] r577 - in utilities/dzLib/trunk: forms src
+Message-ID: <20110602185414.AE2CD480C67@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-02 20:54:14 +0200 (Thu, 02 Jun 2011)
+New Revision: 577
+
+Added:
+   utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas
+Modified:
+   utilities/dzLib/trunk/forms/w_dzProgress.pas
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+   utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+updated to latest changes
+
+Modified: utilities/dzLib/trunk/forms/w_dzProgress.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzProgress.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/forms/w_dzProgress.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -87,6 +87,7 @@
+ constructor Tf_dzProgress.Create(_Owner: tComponent);
+ begin
+   inherited;
++  TranslateComponent(Self, 'dzlib');
+   FProgressTimeInterval := 200;
+   FLastTickCount := 0;
+   pb_Progress.Position := 0;
+@@ -97,8 +98,6 @@
+   PopupMode := pmExplicit;
+   if _Owner is TCustomForm then
+     PopupParent := _Owner as TCustomForm;
+-
+-  TranslateComponent(Self, 'dzlib');
+ end;
+ 
+ procedure Tf_dzProgress.b_CancelClick(Sender: TObject);
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -179,6 +179,11 @@
+ /// </summary>
+ function Str2Int(_s: string; const _Source: string): integer; overload;
+ 
++///<summary>
++/// Does the same as TryStrToInt but does not change Value if the string cannot be converted.
++///</summary>
++function TryStr2Int(_s: string; var _Value: integer): boolean;
++
+ /// <summary>
+ /// Converts a string to an int64.
+ /// If s can not be converted, it returns the Default.
+@@ -618,6 +623,17 @@
+     raise EStringConvertError.CreateFmt(_('"%s" is not a valid integer value: %s'), [_s, _Source]);
+ end;
+ 
++function TryStr2Int(_s: string; var _Value: integer): boolean;
++var
++  e: integer;
++  v: integer;
++begin
++  Val(_s, v, e);
++  Result := (e = 0);
++  if Result then
++    _Value := v;
++end;
++
+ function Str2Int64(_s: string; _Default: Int64): Int64;
+ var
+   e: integer;
+@@ -738,20 +754,20 @@
+ 
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ begin
+-{$ifdef RTL220_UP}
++{$IFDEF RTL220_UP}
+   Result := TFormatSettings.Create(GetSystemDefaultLCID);
+-{$else}
++{$ELSE}
+   GetLocaleFormatSettings(GetSystemDefaultLCID, Result);
+-{$endif}
++{$ENDIF}
+ end;
+ 
+ function GetUserDefaultLocaleSettings: TFormatSettings;
+ begin
+-{$ifdef RTL220_UP}
++{$IFDEF RTL220_UP}
+   Result := TFormatSettings.Create(GetUserDefaultLCID);
+-{$else}
++{$ELSE}
+   GetLocaleFormatSettings(GetUserDefaultLCID, Result);
+-{$endif}
++{$ENDIF}
+ end;
+ 
+ function LongWord2ByteArr(_Value: LongWord; _MsbFirst: boolean = false): TBytes;
+@@ -791,7 +807,6 @@
+   bswap eax
+ end;
+ 
+-
+ initialization
+   DZ_FORMAT_DECIMAL_POINT := u_dzStringUtils.GetUserDefaultLocaleSettings;
+   DZ_FORMAT_DECIMAL_POINT.DecimalSeparator := '.';
+
+Added: utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -0,0 +1,26 @@
++unit u_dzDatasetHelpersTdbf;
++
++interface
++
++uses
++  u_dzDatasetHelpers,
++  dbf;
++
++type
++  TDataSetHelperTdbf = class(TDatasetHelper, IDatasetHelper)
++  public
++    constructor Create(_Table: TDBF); overload;
++  end;
++
++implementation
++
++{ TDataSetHelperTdbf }
++
++constructor TDataSetHelperTdbf.Create(_Table: TDBF);
++begin
++  inherited Create;
++  FDataset := _Table;
++  FTableName := _Table.TableName;
++end;
++
++end.
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -40,8 +40,21 @@
+ ///          'yyyy-mm-dd hh:mm:ss'
+ /// </summary>
+ function DateTime2Iso(_dt: TDateTime; _IncludeTime: boolean = false): string; inline;
+-function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true): string; inline;
++
+ /// <summary>
++/// Converts the time part of a TDateTime value to a string in ISO 8601 format
++/// @param dt is the TDateTime value to convert
++/// @param IncludeSeconds is a boolean that determines whether the time should be
++///                    included, defaults to true
++/// @param IncludeMilliseconds is a boolean that determines whether the milliseconds
++///                            should be incluced,
++///                            only used if IncludeSeconds is true, defaults to false
++/// @returns a string with the time in the format
++///          'hh:mm:ss.nnn'
++/// </summary>
++function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true;
++  _IncludeMilliSeconds: boolean = false): string; inline;
++/// <summary>
+ /// converts a string that contains a time in ISO 8601 format to a TDateTime value
+ /// @param s is the string to convert, it must be in the form 'hh:mm:ss' or 'hh:mm'
+ /// @returns a TDateTime value with the time
+@@ -163,13 +176,17 @@
+   Result := StrToDate(_s, Settings);
+ end;
+ 
+-function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true): string;
++function Time2Iso(_dt: TDateTime; _IncludeSeconds: boolean = true;
++  _IncludeMilliSeconds: boolean = false): string; inline;
+ var
+   fmt: string;
+ begin
+   fmt := 'hh:nn'; // do not translate
+-  if _IncludeSeconds then
+-    fmt := fmt + ':ss'; // do not translate
++  if _IncludeSeconds then begin
++    fmt := fmt + ':ss';
++    if _IncludeMilliSeconds then
++      fmt := fmt + '.zzz'; // do not translate
++  end;
+   DateTimeToString(Result, fmt, _dt);
+ end;
+ 
+
+Modified: utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -12,7 +12,7 @@
+ 
+ uses
+   u_dzTranslator,
+-  JvFormPlacement;
++  JvFormPlacement; // SIG: Wenn hier ein Compile-Error kommt, cond. Define no_jvcl ins Projekt schreiben
+ 
+ initialization
+ 
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-06-02 18:48:43 UTC (rev 576)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-06-02 18:54:14 UTC (rev 577)
+@@ -247,6 +247,17 @@
+ function TEdit_TryTextToDouble(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ function TEdit_TryTextToDouble(_ed: TEdit; out _Value: double; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ 
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: extended;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: double;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: single;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++
++function TEdit_IsTextFloat(_ed: TEdit; _MinValue, _MaxValue: extended;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++function TEdit_IsTextFloat(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++
+ ///<summary> Tries to convert the edit control text to an integer, if an error occurs, it raises
+ ///          an exception and optionally focuses the control.
+ ///          @param ed is the edit control
+@@ -385,6 +396,8 @@
+   _FocusControl: boolean = false): boolean; overload;
+ function TComboBox_GetSelected(_cmb: TCustomComboBox): string; overload;
+ 
++function TComboBox_IsSelected(_cmb: TComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++
+ ///<summary> Selects the item if it is in the list and returns the new ItemIndex
+ ///          @param cmb is the TCustomCombobox (descendant) to use
+ ///          @param Item is the item to select
+@@ -651,6 +664,8 @@
+   Consts,
+   JPEG,
+   StrUtils,
++  Types,
++  Math,
+ {$IFDEF SUPPORTS_UNICODE_STRING}
+   AnsiStrings,
+ {$ENDIF SUPPORTS_UNICODE_STRING}
+@@ -1040,6 +1055,68 @@
+   Result := TEdit_TryTextToDouble(_ed, Value, _OkColor, _ErrColor);
+ end;
+ 
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: extended;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  s: string;
++begin
++  s := _ed.Text;
++  Result := TryStr2Float(s, _Value, #0);
++  if Result then
++    _ed.Color := _OkColor
++  else
++    _ed.Color := _ErrColor;
++end;
++
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: double;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  s: string;
++begin
++  s := _ed.Text;
++  Result := TryStr2Float(s, _Value, #0);
++  if Result then
++    _ed.Color := _OkColor
++  else
++    _ed.Color := _ErrColor;
++end;
++
++function TEdit_TryTextToFloat(_ed: TEdit; out _Value: single;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  s: string;
++begin
++  s := _ed.Text;
++  Result := TryStr2Float(s, _Value, #0);
++  if Result then
++    _ed.Color := _OkColor
++  else
++    _ed.Color := _ErrColor;
++end;
++
++function TEdit_IsTextFloat(_ed: TEdit; _MinValue, _MaxValue: extended;
++  _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  Value: Extended;
++begin
++  Result := TEdit_TryTextToFloat(_ed, Value, _OkColor, _ErrColor);
++  if not Result then
++    exit;
++  Result := (CompareValue(_MinValue, Value) <> GreaterThanValue)
++    and (CompareValue(_MaxValue, Value) <> LessThanValue);
++  if Result then
++    _ed.Color := _OkColor
++  else
++    _ed.Color := _ErrColor;
++end;
++
++function TEdit_IsTextFloat(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++var
++  Value: Extended;
++begin
++  Result := TEdit_TryTextToFloat(_ed, Value, _OkColor, _ErrColor);
++end;
++
+ function TEdit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer;
+ var
+   s: string;
+@@ -1506,6 +1583,15 @@
+   end;
+ end;
+ 
++function TComboBox_IsSelected(_cmb: TComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++begin
++  Result := (_cmb.ItemIndex <> -1);
++  if Result then
++    _cmb.Color := _OkColor
++  else
++    _cmb.Color := _ErrColor;
++end;
++
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ begin
+   _Idx := _lst.ItemIndex;
+
+
+
+From twm at mail.berlios.de  Thu Jun  2 21:00:05 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Thu,  2 Jun 2011 21:00:05 +0200
+Subject: [Dzchart-svncheckins] r578 - in utilities/buildtools/trunk: .
+	templates
+Message-ID: <20110602190005.EC7DA480C67@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-02 21:00:05 +0200 (Thu, 02 Jun 2011)
+New Revision: 578
+
+Modified:
+   utilities/buildtools/trunk/gorm.exe
+   utilities/buildtools/trunk/templates/Auto_Build_Check.cmd
+   utilities/buildtools/trunk/templates/Build_Project.cmd
+   utilities/buildtools/trunk/templates/Template_version.ini
+Log:
+* new Gorm
+* Auto_Build_Check.cmd no longer shows an error if there is no src\*_version.ini file
+* Bugfix in Build_Project.cmd: EndLocal was in the wrong place
+* Typo on Template_version.ini
+
+Modified: utilities/buildtools/trunk/gorm.exe
+===================================================================
+(Binary files differ)
+
+Modified: utilities/buildtools/trunk/templates/Auto_Build_Check.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Auto_Build_Check.cmd	2011-06-02 18:54:14 UTC (rev 577)
++++ utilities/buildtools/trunk/templates/Auto_Build_Check.cmd	2011-06-02 19:00:05 UTC (rev 578)
+@@ -10,6 +10,7 @@
+ set BatchBuild=1
+ call build_project.cmd
+ 
++if not exist src\*_version.ini goto :eof
+ svn revert src\*_version.ini
+ if errorlevel 1 goto error
+ 
+
+Modified: utilities/buildtools/trunk/templates/Build_Project.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_Project.cmd	2011-06-02 18:54:14 UTC (rev 577)
++++ utilities/buildtools/trunk/templates/Build_Project.cmd	2011-06-02 19:00:05 UTC (rev 578)
+@@ -18,9 +18,9 @@
+ msbuild %project%.dproj
+ popd
+ popd
+-endlocal
+ 
+ if errorlevel 1 goto error
++endlocal
+ if "%BatchBuild%"=="1" goto nopause
+ pause
+ :nopause
+@@ -30,6 +30,7 @@
+ echo ************************************
+ echo ***** Error building %project% *****
+ echo ************************************
++endlocal
+ pause
+ goto :eof
+ 
+
+Modified: utilities/buildtools/trunk/templates/Template_version.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_version.ini	2011-06-02 18:54:14 UTC (rev 577)
++++ utilities/buildtools/trunk/templates/Template_version.ini	2011-06-02 19:00:05 UTC (rev 578)
+@@ -12,7 +12,7 @@
+ OriginalFilename=<filename here>
+ Comments=
+ CompanyName=dzlib
+-InternalName=<internale name here>
++InternalName=<internal name here>
+ LegalCopyright=Thomas Mueller, 2009--{ThisYear}
+ LegalTrademarks=T. Mueller
+ ProductName=<productname here>
+
+
+
+From twm at mail.berlios.de  Sun Jun  5 13:41:54 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Jun 2011 13:41:54 +0200
+Subject: [Dzchart-svncheckins] r579 - in utilities/dzLib/trunk: dbcreator
+	tools/DbCreator
+Message-ID: <20110605114155.3960F481259@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-05 13:41:54 +0200 (Sun, 05 Jun 2011)
+New Revision: 579
+
+Modified:
+   utilities/dzLib/trunk/dbcreator/u_dzXmlWriter.pas
+   utilities/dzLib/trunk/dbcreator/u_dzXmlWriterInterface.pas
+   utilities/dzLib/trunk/tools/DbCreator/
+Log:
+TNameValueList -> TdzNameValueList
+
+Modified: utilities/dzLib/trunk/dbcreator/u_dzXmlWriter.pas
+===================================================================
+--- utilities/dzLib/trunk/dbcreator/u_dzXmlWriter.pas	2011-06-02 19:00:05 UTC (rev 578)
++++ utilities/dzLib/trunk/dbcreator/u_dzXmlWriter.pas	2011-06-05 11:41:54 UTC (rev 579)
+@@ -49,7 +49,7 @@
+     function CreateAttribString(const _Attribs: array of string): string; overload;
+     function CreateAttribString(_Attribs: TStrings): string; overload;
+     ///<summary> @italic(Note: With this function, the attributes will always be sorted) </summary>
+-    function CreateAttribString(_Attribs: TNameValueList): string; overload;
++    function CreateAttribString(_Attribs: TdzNameValueList): string; overload;
+     ///<summary> same as CreateAttribString, but excpects the attributes to be stored as name=value pairs in the stringlist
+     ///          @italic(Note: If you add a name with an empty value to a stringlist, the class will
+     ///          ignore this entry or remove an existing entry, e.g.:
+@@ -83,7 +83,7 @@
+     ///                 ['name1', 'value1', 'name2', 'value2'] </summary>
+     procedure StartEntity(const _Name: string; const _Attribs: array of string); overload;
+     ///<summary> @italic(Note: With this function, the attributes will always be sorted) </summary>
+-    procedure StartEntity(const _Name: string; _Attribs: TNameValueList); overload;
++    procedure StartEntity(const _Name: string; _Attribs: TdzNameValueList); overload;
+     ///<summary> Same as StartEntity but excpects the attributes to be stored as name=value pairs in the stringlist
+     ///          @italic(Note: If you add a name with an empty value to a stringlist, the class will
+     ///          ignore this entry or remove an existing entry, e.g.:
+@@ -103,7 +103,7 @@
+     ///                 name and the value of attributes like this:
+     ///                 ['name1', 'value1', 'name2', 'value2'] </summary>
+     procedure WriteEntity(const _Name: string; const _Attribs: array of string); overload;
+-    procedure WriteEntity(const _Name: string; _Attribs: TNameValueList); overload;
++    procedure WriteEntity(const _Name: string; _Attribs: TdzNameValueList); overload;
+     ///<summary> Same as WriteEntity but excpects the attributes to be stored as name=value pairs in the stringlist
+     ///          @italic(Note: If you add a name with an empty value to a stringlist, the class will
+     ///          ignore this entry or remove an existing entry, e.g.:
+@@ -198,7 +198,7 @@
+   end;
+ end;
+ 
+-function TdzXmlWriter.CreateAttribString(_Attribs: TNameValueList): string;
++function TdzXmlWriter.CreateAttribString(_Attribs: TdzNameValueList): string;
+ var
+   i: integer;
+   Name, Value: string;
+@@ -230,7 +230,7 @@
+   Inc(FIndent, FDelta);
+ end;
+ 
+-procedure TdzXmlWriter.StartEntity(const _Name: string; _Attribs: TNameValueList);
++procedure TdzXmlWriter.StartEntity(const _Name: string; _Attribs: TdzNameValueList);
+ begin
+   WriteLineFmt('<%s %s>', [_Name, CreateAttribString(_Attribs)]);
+   Inc(FIndent, FDelta);
+@@ -253,7 +253,7 @@
+   WriteLineFmt('<%s %s/>', [_Name, CreateAttribString(_Attribs)]);
+ end;
+ 
+-procedure TdzXmlWriter.WriteEntity(const _Name: string; _Attribs: TNameValueList);
++procedure TdzXmlWriter.WriteEntity(const _Name: string; _Attribs: TdzNameValueList);
+ begin
+   WriteLineFmt('<%s %s/>', [_Name, CreateAttribString(_Attribs)]);
+ end;
+
+Modified: utilities/dzLib/trunk/dbcreator/u_dzXmlWriterInterface.pas
+===================================================================
+--- utilities/dzLib/trunk/dbcreator/u_dzXmlWriterInterface.pas	2011-06-02 19:00:05 UTC (rev 578)
++++ utilities/dzLib/trunk/dbcreator/u_dzXmlWriterInterface.pas	2011-06-05 11:41:54 UTC (rev 579)
+@@ -20,7 +20,7 @@
+     ///                 name and the value of attributes like this:
+     ///                 ['name1', 'value1', 'name2', 'value2'] </summary>
+     procedure StartEntity(const _Name: string; const _Attribs: array of string); overload;
+-    procedure StartEntity(const _Name: string; _Attribs: TNameValueList); overload;
++    procedure StartEntity(const _Name: string; _Attribs: TdzNameValueList); overload;
+     ///<summary> Same as StartEntity but excpects the attributes to be stored as
+     ///          name=value pairs in the stringlist
+     ///          @bold(If you add a name with an empty value to a stringlist, the class will
+@@ -41,7 +41,7 @@
+     ///                 name and the value of attributes like this:
+     ///                 ['name1', 'value1', 'name2', 'value2'] </summary>
+     procedure WriteEntity(const _Name: string; const _Attribs: array of string); overload;
+-    procedure WriteEntity(const _Name: string; _Attribs: TNameValueList); overload;
++    procedure WriteEntity(const _Name: string; _Attribs: TdzNameValueList); overload;
+     ///<summary> Same as WriteEntity but excpects the attributes to be stored as name=value pairs in the stringlist
+     ///          @bold(If you add a name with an empty value to a stringlist, the class will
+     ///                ignore this entry or remove an existing entry, e.g.:
+
+
+Property changes on: utilities/dzLib/trunk/tools/DbCreator
+___________________________________________________________________
+Added: svn:ignore
+   + dzdbCreator.exe
+dzdbCreator.map
+
+
+
+
+From twm at mail.berlios.de  Sun Jun  5 15:04:47 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Jun 2011 15:04:47 +0200
+Subject: [Dzchart-svncheckins] r580 - utilities/dzLib/trunk/dbcreator
+Message-ID: <20110605130447.5E640481259@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-05 15:04:47 +0200 (Sun, 05 Jun 2011)
+New Revision: 580
+
+Modified:
+   utilities/dzLib/trunk/dbcreator/u_dzDbCreatorCreateAccess.pas
+Log:
+better error message if a data row cannot be added
+
+Modified: utilities/dzLib/trunk/dbcreator/u_dzDbCreatorCreateAccess.pas
+===================================================================
+--- utilities/dzLib/trunk/dbcreator/u_dzDbCreatorCreateAccess.pas	2011-06-05 11:41:54 UTC (rev 579)
++++ utilities/dzLib/trunk/dbcreator/u_dzDbCreatorCreateAccess.pas	2011-06-05 13:04:47 UTC (rev 580)
+@@ -376,6 +376,7 @@
+   RowIdx: integer;
+   FieldIdx: integer;
+   Row: IdzDbTableRow;
++  s: string;
+ begin
+   if _Table.RowCount = 0 then
+     exit;
+@@ -405,8 +406,21 @@
+             end;
+             tbl.Post;
+           except
+-            tbl.Cancel;
+-            raise;
++            on e: Exception do begin
++              tbl.Cancel;
++              s := '';
++              for FieldIdx := 0 to Row.Count - 1 do begin
++                if s <> '' then
++                  s := s + ';';
++                if row.IsNull(FieldIdx) then
++                  s := s + '*NULL*'
++                else
++                  s := s + Row.Value[FieldIdx];
++              end;
++              raise Exception.CreateFmt('Error "%s" (%s) while trying to insert'#13#10
++                + '%s'#13#10
++                + 'into table %s', [e.Message, e.ClassName, s, tbl.TableName]);
++            end;
+           end;
+         end;
+       finally
+
+
+
+From twm at mail.berlios.de  Sun Jun  5 17:03:23 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  5 Jun 2011 17:03:23 +0200
+Subject: [Dzchart-svncheckins] r581 - utilities/dzLib/trunk/src
+Message-ID: <20110605150323.CD176481259@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-05 17:03:23 +0200 (Sun, 05 Jun 2011)
+New Revision: 581
+
+Added:
+   utilities/dzLib/trunk/src/u_dzAdoDbUniqueId.pas
+Log:
+Class for creating unique (longint) database ids without using autoinc fields (works for MS Access and only if only one program is accessing the database)
+
+Added: utilities/dzLib/trunk/src/u_dzAdoDbUniqueId.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzAdoDbUniqueId.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzAdoDbUniqueId.pas	2011-06-05 15:03:23 UTC (rev 581)
+@@ -0,0 +1,125 @@
++unit u_dzAdoDbUniqueId;
++
++// NOTE: This works only if only one programm accesses the database!
++
++interface
++
++uses
++  SysUtils,
++  ADODB;
++
++type
++  ITableIdProvider = interface ['{ABB6B50B-3518-46CE-A646-02EF92078533}']
++    function GetNewId(_Count: integer = 1): integer;
++  end;
++
++type
++  TAdoDbUniqueIdProvider = class
++  private
++    FIdTable: TADOTable;
++  protected
++    function GetNewId(const _TableName: string; _Count: integer): integer;
++  public
++    ///<summary> IdTable is the table containing the IDs
++   ///          It must contain two columns:
++    ///          TableName: Text
++    ///	         LastID: LongInt </summary>
++    constructor Create(_IdTable: TAdoTable);
++    destructor Destroy; override;
++    function GetTableIdProvider(const _TableName: string): ITableIdProvider;
++  end;
++
++type
++  TTableIdProvider = class(TInterfacedObject, ITableIdProvider)
++  private
++    FIdProvider: TAdoDbUniqueIdProvider;
++    FTableName: string;
++  public
++    constructor Create(_IdProvider: TAdoDbUniqueIdProvider; const _TableName: string);
++    ///<summary> Returns unique IDs for the table
++    ///          @param Count is the number of IDs requested, defaults to 1
++    ///          @returns the first of Count IDs </summary>
++    function GetNewId(_Count: integer = 1): integer;
++  end;
++
++implementation
++
++{ TAdoDbUniqueIdProvider }
++
++constructor TAdoDbUniqueIdProvider.Create(_IdTable: TAdoTable);
++begin
++  Assert(Assigned(_IdTable));
++  Assert(not _IdTable.Active);
++
++  inherited Create;
++  FIdTable := _IdTable;
++  FIdTable.LockType := ltPessimistic;
++  FIdTable.DisableControls;
++  FIdTable.Active := True;
++end;
++
++destructor TAdoDbUniqueIdProvider.Destroy;
++begin
++  if Assigned(FIdTable) then begin
++    FIdTable.Active := False;
++    FIdTable.EnableControls;
++  end;
++  inherited;
++end;
++
++function TAdoDbUniqueIdProvider.GetNewId(const _TableName: string; _Count: integer): integer;
++var
++  qry: TAdoQuery;
++begin
++  if not FIdTable.Locate('TableName', _TableName, []) then begin
++    FIdTable.Insert;
++    FIdTable['TableName'] := _TableName;
++    qry := TADOQuery.Create(nil);
++    try
++      qry.DisableControls;
++      qry.Connection := FIdTable.Connection;
++      qry.SQL.Text := 'SELECT Max(ID) as MaxId FROM ' + _TableName;
++      qry.Prepared := true;
++      qry.Open;
++      if qry.IsEmpty then
++        Result := 0
++      else
++        Result := qry.FieldByName('MaxId').AsInteger;
++    finally
++      FreeAndNil(qry);
++    end;
++  end else begin
++    FIdTable.Edit;
++    Result := FIdTable.FieldByName('LastId').AsInteger;
++  end;
++  try
++    Inc(Result, _Count);
++    FIdTable.FieldByName('LastId').AsInteger := Result;
++    FIdTable.Post;
++  except
++    FIdTable.Cancel;
++    raise;
++  end;
++end;
++
++function TAdoDbUniqueIdProvider.GetTableIdProvider(const _TableName: string): ITableIdProvider;
++begin
++  Result := TTableIdProvider.Create(Self, _TableName);
++end;
++
++{ TTableIdProvider }
++
++constructor TTableIdProvider.Create(_IdProvider: TAdoDbUniqueIdProvider; const _TableName: string);
++begin
++  inherited Create;
++  FIdProvider := _IdProvider;
++  FTableName := _TableName;
++end;
++
++function TTableIdProvider.GetNewId(_Count: integer): integer;
++begin
++  Result := FIdProvider.GetNewId(FTableName, _Count);
++end;
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Mon Jun 13 12:02:17 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 13 Jun 2011 12:02:17 +0200
+Subject: [Dzchart-svncheckins] r582 - in utilities/dzLib/trunk: src
+	translations/fr
+Message-ID: <20110613100217.3D7BF4813F6@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-13 12:02:16 +0200 (Mon, 13 Jun 2011)
+New Revision: 582
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+updated to latest changes
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-06-05 15:03:23 UTC (rev 581)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-06-13 10:02:16 UTC (rev 582)
+@@ -111,7 +111,7 @@
+     /// @param IncludePath determines whether the List of filenames includes the full path or not
+     /// @returns the number of matching files
+     /// </summary>
+-    function FindAll(_List: TStrings = nil; _IncludePath: boolean = false): integer;
++    function FindAll(_List: TStrings = nil; _IncludePath: boolean = False): integer;
+     /// <summary>
+     /// Calls FindClose so FindNext will start again. Reset does not change any
+     /// properties (e.g. Mask, MustHaveAttr, MayHaveAttr)
+@@ -277,7 +277,7 @@
+     ///                            directly DstDir or if subdirectories should
+     ///                            be created, default is false
+     /// </summary>
+-    procedure SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
++    procedure SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = False);
+     /// <summary>
+     /// calls SyncOneWay(DirA, DirB) and SyncOneWay(DirB, DirA)
+     /// (not implemented: if CheckContent=true, the content existing files will be checked and if
+@@ -388,7 +388,7 @@
+     /// @returns the name of the created directory
+     /// </summary>
+     class function CreateUniqueDirectory(_BaseDir: string = ''; const _Prefix: string = 'dz'): string;
+-    class function CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = false; _Prefix: string = 'dz'): IUniqueTempDir;
++    class function CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = False; _Prefix: string = 'dz'): IUniqueTempDir;
+ 
+     /// <summary>
+     /// Calls the Win32Api function GetTempPath but returns a string rather than
+@@ -407,7 +407,7 @@
+     ///        but just return false if moving the file fails.
+     /// @returns true, if the file could be moved, false otherwise.
+     /// </summary>
+-    class function MoveFile(const _Source, _Dest: string; _RaiseException: boolean = true): boolean;
++    class function MoveFile(const _Source, _Dest: string; _RaiseException: boolean = True): boolean;
+     /// <summary>
+     /// Moves the file Source to Dest using the Windows MoveFileEx function.
+     /// @param Source is a string containing the name of the existing file
+@@ -420,7 +420,7 @@
+     /// @returns true, if the file could be moved, false otherwise.
+     /// </summary>
+     class function MoveFileEx(const _Source, _Dest: string; _Flags: TMoveFileExFlagSet;
+-      _RaiseException: boolean = true): boolean;
++      _RaiseException: boolean = True): boolean;
+ 
+     /// <summary>
+     /// Copies the file Source to Dest using the Windows CopyFile function.
+@@ -437,8 +437,8 @@
+     /// @returns true, if the file could be copied, false otherwise.
+     /// @raises  EOSError if an error occurs and cfwRaiseException was passed
+     /// </summary>
+-    class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+-      _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean; overload;
++    class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = True;
++      _RaiseException: boolean = True; _ForceOverwrite: boolean = False): boolean; overload;
+ 
+     /// <summary>
+     /// Copies the file Source to Dest using the Windows CopyFile function.
+@@ -521,7 +521,7 @@
+     /// @returns true, if the directory was created
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// </summary>
+-    class function CreateDir(const _DirectoryName: string; _RaiseException: boolean = true): boolean;
++    class function CreateDir(const _DirectoryName: string; _RaiseException: boolean = True): boolean;
+ 
+     /// <summary>
+     /// Creates a new directory, including the creation of parent directories as needed.
+@@ -530,7 +530,7 @@
+     /// @returns true, if the directory was created
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// </summary>
+-    class function ForceDir(const _DirectoryPath: string; _RaiseException: boolean = true): boolean;
++    class function ForceDir(const _DirectoryPath: string; _RaiseException: boolean = True): boolean;
+ 
+     /// <summary>
+     /// Sets a file's readonly flag
+@@ -539,7 +539,7 @@
+     /// @returns true, if the readonly flag has been changed
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// </summary>
+-    class function SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
++    class function SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = True): boolean;
+ 
+     /// <summary>
+     /// Deletes the file using the SysUtils.DeleteFile function.
+@@ -554,8 +554,8 @@
+     /// @returns true, if the file could be deleted, false otherwise.
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// </summary>
+-    class function DeleteFile(const _Filename: string; _RaiseException: boolean = true;
+-      _Force: boolean = false): boolean;
++    class function DeleteFile(const _Filename: string; _RaiseException: boolean = True;
++      _Force: boolean = False): boolean;
+ 
+     /// <summary>
+     /// Deletes all files in a directory matching a given filemask (non-recursive)
+@@ -577,11 +577,11 @@
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// </summary>
+     class function DeleteMatchingFiles(const _Dir, _Mask: string;
+-      _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
++      _RaiseException: boolean = True; _Force: boolean = False): integer; overload;
+     class function DeleteMatchingFiles(const _Dir, _Mask: string; _ExceptMask: string = '';
+-      _RaiseException: boolean = true; _Force: boolean = false): integer; overload; deprecated;
++      _RaiseException: boolean = True; _Force: boolean = False): integer; overload; deprecated;
+     class function DeleteMatchingFiles(const _Dir, _Mask: string; const _ExceptMasks: array of string;
+-      _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
++      _RaiseException: boolean = True; _Force: boolean = False): integer; overload;
+ 
+     ///<summary>
+     /// Gets a list of directories matching the given mask.
+@@ -593,7 +593,7 @@
+     ///                    the full paths.
+     /// @returns the number of matching directories
+     ///</summary>
+-    class function FindMatchingDirs(const _Mask: string; _sl: TStrings; _IncludePath: boolean = false): integer;
++    class function FindMatchingDirs(const _Mask: string; _sl: TStrings; _IncludePath: boolean = False): integer;
+ 
+     ///<summary>
+     /// Gets a list of files matching the given mask. Only regular files will be found, no
+@@ -607,7 +607,7 @@
+     ///                    the full paths.
+     /// @returns the number of matching files
+     ///</summary>
+-    class function FindMatchingFiles(const _Mask: string; _sl: TStrings; _IncludePath: boolean = false): integer;
++    class function FindMatchingFiles(const _Mask: string; _sl: TStrings; _IncludePath: boolean = False): integer;
+ 
+     /// <summary>
+     /// tries to find a matching file
+@@ -616,19 +616,20 @@
+     /// @returns mfNotFound, if no file was found, or mfDirectory, mfFile or mfSpecial
+     ///          describing the type of the file which has been found
+     /// </summary>
+-    class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
++    class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult; overload;
++    class function FindMatchingFile(const _Mask: string): TMatchingFileResult; overload;
+ 
+     ///<summary>
+     /// Returns true, if the given file exists. Note that wildcards are not supported! If you
+     /// need wildcards, use FindMatchingFile.
+     /// @param RaiseException determines whether an exception should be raised if the file does not exist
+     /// @raises Exception if the file does not exist and RaiseException is true
+-    class function FileExists(const _Filename: string; _RaiseException: boolean = false): boolean;
++    class function FileExists(const _Filename: string; _RaiseException: boolean = False): boolean;
+ 
+     ///<summary>
+     /// @param RaiseException determines whether an exception should be raised if the directory does not exist
+     /// @raises Exception if the directory does not exist and RaiseException is true
+-    class function DirExists(const _DirName: string; _RaiseException: boolean = false): boolean;
++    class function DirExists(const _DirName: string; _RaiseException: boolean = False): boolean;
+ 
+     /// <summary>
+     /// deletes an empty directory using the SysUtils function RemoveDir
+@@ -644,15 +645,15 @@
+     /// @returns true, if the directory could be deleted, false otherwise.
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// </summary>
+-    class function RemoveDir(const _Dirname: string; _RaiseException: boolean = true;
+-      _Force: boolean = false): boolean;
++    class function RemoveDir(const _Dirname: string; _RaiseException: boolean = True;
++      _Force: boolean = False): boolean;
+ 
+     /// <summary>
+     /// function is deprecated, use DelDirTree instead!
+     /// Note the different order of parameters of the new function!
+     /// </summary>
+-    class function DelTree(const _Dirname: string; _Force: boolean = false;
+-      _RaiseException: boolean = true): boolean; deprecated;
++    class function DelTree(const _Dirname: string; _Force: boolean = False;
++      _RaiseException: boolean = True): boolean; deprecated;
+     /// <summary>
+     /// Deletes a directory with all files and subdirectories.
+     /// Note: This new function has a different order of parameters than
+@@ -666,8 +667,8 @@
+     /// @returns true, if the directory could be deleted, false otherwise.
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// </summary>
+-    class function DelDirTree(const _Dirname: string; _RaiseException: boolean = true;
+-      _Force: boolean = false): boolean;
++    class function DelDirTree(const _Dirname: string; _RaiseException: boolean = True;
++      _Force: boolean = False): boolean;
+ 
+     /// <summary>
+     /// reads a text file and returns its content as a string
+@@ -684,7 +685,7 @@
+     ///        the default is true, but you might not want that
+     /// @returns true, if the string is a valid filename, false otherwise
+     /// </summary>
+-    class function IsValidFilename(const _s: string; _AllowDot: boolean = true): boolean; overload;
++    class function IsValidFilename(const _s: string; _AllowDot: boolean = True): boolean; overload;
+     /// <summary>
+     /// checks whether the given string is a valid filename (without path), that is
+     /// does not contain one of the characters defined in INVALID_FILENAME_CHARS and
+@@ -695,7 +696,7 @@
+     ///        the default is true, but you might not want that
+     /// @returns true, if the string is a valid filename, false otherwise
+     /// </summary>
+-    class function IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean; overload;
++    class function IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = True): boolean; overload;
+ 
+     class function ContainsWildcard(const _Mask: string): boolean;
+ 
+@@ -793,11 +794,11 @@
+     /// <summary>
+     /// should the resulting filename contain a number?
+     /// </summary>
+-    property ResultContainsNumber: boolean read FResultContainsNumber write FResultContainsNumber default false;
++    property ResultContainsNumber: boolean read FResultContainsNumber write FResultContainsNumber default False;
+     /// <summary>
+     /// does the oldest file have the highest number?
+     /// </summary>
+-    property OldestIsHighest: boolean read FOldestIsHighest write FOldestIsHighest default true;
++    property OldestIsHighest: boolean read FOldestIsHighest write FOldestIsHighest default True;
+     property PrependZeros: integer read FPrependZeros write FPrependZeros default 0;
+     /// <summary>
+     /// allows read access to the file's base name as passed to the constructor
+@@ -863,7 +864,7 @@
+ 
+ class function TSimpleDirEnumerator.Execute(const _Mask: string; _List: TStrings;
+   _MayHaveAttr: TFileAttributeSet = [dfaHidden, dfaSysFile, dfaVolumeID, dfaDirectory, dfaArchive];
+-  _IncludePath: boolean = false): integer;
++  _IncludePath: boolean = False): integer;
+ var
+   enum: TSimpleDirEnumerator;
+ begin
+@@ -875,7 +876,7 @@
+   end;
+ end;
+ 
+-function TSimpleDirEnumerator.FindAll(_List: TStrings = nil; _IncludePath: boolean = false): integer;
++function TSimpleDirEnumerator.FindAll(_List: TStrings = nil; _IncludePath: boolean = False): integer;
+ var
+   s: string;
+   Path: string;
+@@ -899,10 +900,10 @@
+ 
+   function AttrOk(_EnumAttr: TFileAttributes; _SysAttr: integer): boolean;
+   begin
+-    Result := true;
++    Result := True;
+     if _EnumAttr in FMustHaveAttr then
+       if (Attr and _SysAttr) = 0 then
+-        Result := false;
++        Result := False;
+   end;
+ 
+   procedure CondAddAttr(_EnumAttr: TFileAttributes; _SysAttr: integer);
+@@ -925,7 +926,7 @@
+       Res := FindFirst(FMask, Attr, FSr);
+       Result := (Res = 0);
+       if Result then
+-        FActive := true;
++        FActive := True;
+     end else begin
+       Res := SysUtils.FindNext(FSr);
+       Result := (Res = 0);
+@@ -952,7 +953,7 @@
+     Inc(FMatchCount);
+     _Filename := sr.Name;
+     exit;
+-  until false;
++  until False;
+ end;
+ 
+ function TSimpleDirEnumerator.FindNext: boolean;
+@@ -966,7 +967,7 @@
+ begin
+   if FActive then
+     FindClose(FSr);
+-  FActive := false;
++  FActive := False;
+ end;
+ 
+ { TFileSystem }
+@@ -1050,7 +1051,7 @@
+ end;
+ 
+ class function TFileSystem.CreateDir(const _DirectoryName: string;
+-  _RaiseException: boolean = true): boolean;
++  _RaiseException: boolean = True): boolean;
+ var
+   LastError: Cardinal;
+ begin
+@@ -1077,10 +1078,10 @@
+   Pid := GetCurrentProcessId;
+   s := itpd(_BaseDir) + _Prefix + '_' + IntToStr(Pid) + '_';
+   Counter := 0;
+-  Ok := false;
++  Ok := False;
+   while not OK do begin
+     Result := s + IntToStr(Counter);
+-    OK := CreateDir(Result, false);
++    OK := CreateDir(Result, False);
+     if not OK then begin
+       Inc(Counter);
+       if Counter > 1000 then
+@@ -1098,11 +1099,11 @@
+     ///<summary> Path including trailing path delimiter </summary>
+     function PathBS: string;
+   public
+-    constructor Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = false);
++    constructor Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = False);
+     destructor Destroy; override;
+   end;
+ 
+-class function TFileSystem.CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = false; _Prefix: string = 'dz'): IUniqueTempDir;
++class function TFileSystem.CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = False; _Prefix: string = 'dz'): IUniqueTempDir;
+ var
+   s: string;
+ begin
+@@ -1235,7 +1236,7 @@
+   Result := PChar(Result); // truncate at first #0
+ end;
+ 
+-class function TFileSystem.MoveFile(const _Source, _Dest: string; _RaiseException: boolean = true): boolean;
++class function TFileSystem.MoveFile(const _Source, _Dest: string; _RaiseException: boolean = True): boolean;
+ var
+   LastError: Cardinal;
+ begin
+@@ -1273,7 +1274,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
++class function TFileSystem.SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = True): boolean;
+ var
+   Attr: integer;
+   LastError: Cardinal;
+@@ -1289,19 +1290,19 @@
+       // duplicate % so they get passed through the format function
+       RaiseLastOsErrorEx(LastError, Format(_('Error %%1:s (%%0:d) while changing the readonly flag of "%s"'), [_Filename]));
+     end;
+-    Result := false
++    Result := False
+   end else
+-    Result := true;
++    Result := True;
+ end;
+ 
+-class function TFileSystem.CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+-  _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean;
++class function TFileSystem.CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = True;
++  _RaiseException: boolean = True; _ForceOverwrite: boolean = False): boolean;
+ var
+   LastError: Cardinal;
+ begin
+   Result := Windows.CopyFile(PChar(_Source), PChar(_Dest), _FailIfExists);
+   if not Result and not _FailIfExists and _ForceOverwrite then begin
+-    SetReadonly(_Dest, False, false);
++    SetReadonly(_Dest, False, False);
+     Result := Windows.CopyFile(PChar(_Source), PChar(_Dest), _FailIfExists);
+   end;
+   if not Result and _RaiseException then begin
+@@ -1323,13 +1324,13 @@
+   FilenameOnly := ExtractFileName(_Filename);
+   Ext := ExtractFileExt(FilenameOnly);
+   Base := ChangeFileExt(FilenameOnly, '');
+-  Result := _BackupDir + Base + '_' + ReplaceChars(DateTime2Iso(now, true), ': ', '-_') + Ext;
++  Result := _BackupDir + Base + '_' + ReplaceChars(DateTime2Iso(now, True), ': ', '-_') + Ext;
+ end;
+ 
+ class function TFileSystem.BackupFile(const _Filename: string; _BackupDir: string = ''): string;
+ begin
+   Result := GenerateBackupFilename(_Filename, _BackupDir);
+-  CopyFile(_Filename, Result, true);
++  CopyFile(_Filename, Result, True);
+ end;
+ 
+ class function TFileSystem.ContainsWildcard(const _Mask: string): boolean;
+@@ -1530,8 +1531,8 @@
+   end;
+ end;
+ 
+-class function TFileSystem.DeleteFile(const _Filename: string; _RaiseException: boolean = true;
+-  _Force: boolean = false): boolean;
++class function TFileSystem.DeleteFile(const _Filename: string; _RaiseException: boolean = True;
++  _Force: boolean = False): boolean;
+ var
+   Attr: integer;
+   LastError: Cardinal;
+@@ -1574,11 +1575,11 @@
+     for i := Low(_ExceptMasks) to High(_ExceptMasks) do begin
+       Mask := LowerCase(_ExceptMasks[i]);
+       if MatchesMask(_s, Mask) then begin
+-        Result := true;
++        Result := True;
+         exit;
+       end;
+     end;
+-    Result := false;
++    Result := False;
+   end;
+ 
+ var
+@@ -1605,7 +1606,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.FileExists(const _Filename: string; _RaiseException: boolean = false): boolean;
++class function TFileSystem.FileExists(const _Filename: string; _RaiseException: boolean = False): boolean;
+ var
+   OldErrorMode: Cardinal;
+ begin
+@@ -1619,7 +1620,7 @@
+     raise Exception.CreateFmt(_('File not found: %s'), [_Filename]);
+ end;
+ 
+-class function TFileSystem.DirExists(const _DirName: string; _RaiseException: boolean = false): boolean;
++class function TFileSystem.DirExists(const _DirName: string; _RaiseException: boolean = False): boolean;
+ var
+   OldErrorMode: Cardinal;
+ begin
+@@ -1634,7 +1635,7 @@
+ end;
+ 
+ class function TFileSystem.FindMatchingDirs(const _Mask: string; _sl: TStrings;
+-  _IncludePath: boolean = false): integer;
++  _IncludePath: boolean = False): integer;
+ var
+   enum: TSimpleDirEnumerator;
+ begin
+@@ -1647,6 +1648,13 @@
+   end;
+ end;
+ 
++class function TFileSystem.FindMatchingFile(const _Mask: string): TMatchingFileResult;
++var
++  fn: string;
++begin
++  Result := FindMatchingFile(_Mask, fn);
++end;
++
+ class function TFileSystem.FindMatchingFiles(const _Mask: string; _sl: TStrings;
+   _IncludePath: boolean): integer;
+ begin
+@@ -1677,7 +1685,7 @@
+     end;
+ end;
+ 
+-class function TFileSystem.ForceDir(const _DirectoryPath: string; _RaiseException: boolean = true): boolean;
++class function TFileSystem.ForceDir(const _DirectoryPath: string; _RaiseException: boolean = True): boolean;
+ var
+   LastError: Cardinal;
+ begin
+@@ -1688,7 +1696,7 @@
+       // ForceDirectories can raise EInOutError if the directory path contains empty parts
+       if _RaiseException then
+         raise Exception.CreateFmt(_('Error creating directory "%s": %s (%s)'), [_DirectoryPath, e.Message, e.ClassName]);
+-      Result := false;
++      Result := False;
+       exit;
+     end;
+   end;
+@@ -1699,7 +1707,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.RemoveDir(const _Dirname: string; _RaiseException: boolean = true; _Force: boolean = false): boolean;
++class function TFileSystem.RemoveDir(const _Dirname: string; _RaiseException: boolean = True; _Force: boolean = False): boolean;
+ var
+   Attr: integer;
+   LastError: Cardinal;
+@@ -1718,7 +1726,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.DelTree(const _Dirname: string; _Force: boolean = false; _RaiseException: boolean = true): boolean;
++class function TFileSystem.DelTree(const _Dirname: string; _Force: boolean = False; _RaiseException: boolean = True): boolean;
+ begin
+   Result := DelDirTree(_Dirname, _RaiseException, _Force);
+ end;
+@@ -1783,7 +1791,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean;
++class function TFileSystem.IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = True): boolean;
+ var
+   i: Integer;
+   NotAllowed: TCharSet;
+@@ -1812,7 +1820,7 @@
+   Result := True;
+ end;
+ 
+-class function TFileSystem.IsValidFilename(const _s: string; _AllowDot: boolean = true): boolean;
++class function TFileSystem.IsValidFilename(const _s: string; _AllowDot: boolean = True): boolean;
+ var
+   ErrPos: integer;
+ begin
+@@ -1886,8 +1894,8 @@
+ begin
+   inherited Create;
+   FMaxGenerations := 5;
+-  FOldestIsHighest := true;
+-  FResultContainsNumber := false;
++  FOldestIsHighest := True;
++  FResultContainsNumber := False;
+   FPrependZeros := 0;
+   FBaseName := _BaseName;
+   FSuffix := _Suffix;
+@@ -1917,7 +1925,7 @@
+       TFileSystem.DeleteFile(dst);
+     if FileExists(Result) then begin
+       if _KeepOriginal then
+-        TFileSystem.CopyFile(Result, dst, true)
++        TFileSystem.CopyFile(Result, dst, True)
+       else
+         TFileSystem.MoveFile(Result, dst);
+     end;
+@@ -1954,12 +1962,12 @@
+     if not FileExists(Result) then
+       exit;
+ 
+-    SlotFound := false;
++    SlotFound := False;
+     MaxGen := FMaxGenerations - 1;
+     for i := 1 to MaxGen do begin
+       dst := GenerateFilename(i);
+       if not FileExists(dst) then begin
+-        SlotFound := true;
++        SlotFound := True;
+         break;
+       end;
+     end;
+@@ -1977,7 +1985,7 @@
+     end;
+ 
+     if _KeepOriginal then
+-      TFileSystem.CopyFile(Result, dst, true)
++      TFileSystem.CopyFile(Result, dst, True)
+     else
+       TFileSystem.MoveFile(Result, dst);
+   end;
+@@ -2000,7 +2008,7 @@
+     end;
+     Result := GenerateFilename(MaxGen);
+     if _KeepOriginal then
+-      TFileSystem.CopyFile(GenerateFilename(MaxGen - 1), Result, true);
++      TFileSystem.CopyFile(GenerateFilename(MaxGen - 1), Result, True);
+   end;
+ 
+ begin
+@@ -2125,7 +2133,7 @@
+   end;
+ end;
+ 
+-procedure TDirectorySync.SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
++procedure TDirectorySync.SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = False);
+ var
+   Filename: string;
+   EnumA: TSimpleDirEnumerator;
+@@ -2176,7 +2184,7 @@
+ 
+ { TUniqueTempDir }
+ 
+-constructor TUniqueTempDir.Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = false);
++constructor TUniqueTempDir.Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = False);
+ begin
+   inherited Create;
+   FPath := _Path;
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-06-05 15:03:23 UTC (rev 581)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-06-13 10:02:16 UTC (rev 582)
+@@ -60,7 +60,7 @@
+ ///<summary> Assigns the TBitBtn's glyph from the hex string (e.g. copied from .dfm)
+ ///          if ContainsLength is true, the first 4 bytes (8 characters) contain the length of the
+ ///          data (as is the case with the strings stored in the .dfm file) </summary>
+-procedure TBitBtn_GlyphFromString(_btn: TBitBtn; const _GlyphStr: AnsiString; _ContainsLength: boolean = true);
++procedure TBitBtn_GlyphFromString(_btn: TBitBtn; const _GlyphStr: AnsiString; _ContainsLength: boolean = True);
+ 
+ ///<summary> This is meant as a replacement to the LockWindowUpate function which shouldn't really be used
+ ///          any more.
+@@ -107,7 +107,7 @@
+ ///          @param IncludeFixed determines whether the fixed rows/columns are also included
+ ///          @returns a string containing the contents of the grid columns separated by TAB
+ ///                   rows sepearated by CRLF. </summary>
+-function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = false): string; overload;
++function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = False): string; overload;
+ 
+ ///<summary> Returns the content of a StringGrid as a string
+ ///          @param Grid is the TCustomGrid to read from.
+@@ -120,13 +120,13 @@
+ ///          @param Grid is the string grid to export
+ ///          @param Filename is the name of the text file to create
+ ///          @param IncludeFixed determines whether the fixed rows/columns are also exported </summary>
+-procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = false);
++procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = False);
+ 
+ ///<summary> exports the contents of the string grid as tab separated strings to a stream
+ ///          @param Grid is the string grid to export
+ ///          @param Stream is the stream to write to
+ ///          @param IncludeFixed determines whether the fixed rows/columns are also exported </summary>
+-procedure TGrid_ExportToStream(_Grid: TCustomGrid; _Stream: TStream; _IncludeFixed: boolean = false);
++procedure TGrid_ExportToStream(_Grid: TCustomGrid; _Stream: TStream; _IncludeFixed: boolean = False);
+ 
+ ///<summary> sets the row count, taking the fixed rows into account
+ ///          @returns the new RowCount </summary>
+@@ -203,7 +203,7 @@
+ ///                           if it does not contain a valid value
+ ///          @returns the cell's content as a double
+ ///          @raises EConvertError if the cell's content could not be converted </summary>
+-function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): double;
++function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = True): double;
+ 
+ ///<summary> Tries to convert the grid cell to an integer, if an error occurs, it raises
+ ///          an exception and optionally focuses the cell.
+@@ -214,7 +214,7 @@
+ ///                           if it does not contain a valid value
+ ///          @returns the cell's content as an integer
+ ///          @raises EConvertError if the cell's content could not be converted </summary>
+-function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
++function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = True): integer;
+ 
+ ///<summary> Deletes the top lines of the memo so it only contains Retain lines
+ ///          @param Memo is the memo to work on
+@@ -239,7 +239,7 @@
+ ///                              if it does not contain a valid value or not
+ ///          @returns the controls content as a double
+ ///          @raises EConvertError if the controls content could not be converted </summary>
+-function TEdit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
++function TEdit_TextToDouble(_ed: TCustomEdit; _FocusControl: boolean = True): double;
+ 
+ ///<summary> Tries to convert the edit control text to a double, if an error occurs, it changes it's
+ ///          color to ErrColor and returns false, otherwise it changes the color to OkColor and
+@@ -247,16 +247,16 @@
+ function TEdit_TryTextToDouble(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ function TEdit_TryTextToDouble(_ed: TEdit; out _Value: double; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ 
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: extended;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: extended;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: double;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: double;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: single;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: single;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ 
+-function TEdit_IsTextFloat(_ed: TEdit; _MinValue, _MaxValue: extended;
++function TEdit_IsTextFloat(_ed: TCustomEdit; _MinValue, _MaxValue: extended;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+-function TEdit_IsTextFloat(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++function TEdit_IsTextFloat(_ed: TCustomEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ 
+ ///<summary> Tries to convert the edit control text to an integer, if an error occurs, it raises
+ ///          an exception and optionally focuses the control.
+@@ -265,8 +265,8 @@
+ ///                              if it does not contain a valid value
+ ///          @returns the controls content as an integer
+ ///          @raises EConvertError if the controls content could not be converted </summary>
+-function TEdit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer; overload;
+-function TEdit_TextToInt(_ed: TLabeledEdit; _FocusControl: boolean = true): integer; overload;
++function TEdit_TextToInt(_ed: TCustomEdit; _FocusControl: boolean = True): integer; overload;
++function TEdit_TextToInt(_ed: TLabeledEdit; _FocusControl: boolean = True): integer; overload;
+ 
+ ///<summary> returns the contents of the tree view as a string with indentations
+ ///          @param Tree is the TTreeView to process
+@@ -382,9 +382,9 @@
+ ///          @param FocusControl is a boolean which determines whether to focus the control
+ ///                              if it does not contain a valid value, default = false
+ ///          @returns true, if these out parameters are valid </summary>
+-function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Obj: pointer; _FocusControl: boolean = false): boolean; overload; inline;
++function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Obj: pointer; _FocusControl: boolean = False): boolean; overload; inline;
+ function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Idx: integer;
+-  out _Obj: pointer; _FocusControl: boolean = false): boolean; overload;
++  out _Obj: pointer; _FocusControl: boolean = False): boolean; overload;
+ 
+ ///<summary> Gets the caption of the selected combobox item
+ ///          @param cmb is the TCustomCombobox (descendant) to read from
+@@ -393,10 +393,10 @@
+ ///                              if it does not contain a valid value, default = false
+ ///          @returns true, if an item was selected </summary>
+ function TComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean; overload;
++  _FocusControl: boolean = False): boolean; overload;
+ function TComboBox_GetSelected(_cmb: TCustomComboBox): string; overload;
+ 
+-function TComboBox_IsSelected(_cmb: TComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++function TComboBox_IsSelected(_cmb: TCustomComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ 
+ ///<summary> Selects the item if it is in the list and returns the new ItemIndex
+ ///          @param cmb is the TCustomCombobox (descendant) to use
+@@ -432,7 +432,7 @@
+ ///                              if it does not contain a valid value, default = false
+ ///          @returns true, if an item was selected </summary>
+ function TListBox_GetSelected(_lb: TCustomListBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean; overload;
++  _FocusControl: boolean = False): boolean; overload;
+ function TListBox_GetSelected(_lb: TCustomListBox): string; overload;
+ 
+ ///<summary> @Returns the number of selected items in the ListBox
+@@ -464,22 +464,22 @@
+ ///<summary> Returns the nunber of items that are checked </summary>
+ function TCheckListBox_GetCheckedCount(_clb: TCheckListBox): integer;
+ procedure TCheckListBox_DeleteDisabled(_clb: TCheckListBox);
+-procedure TCheckListBox_InvertCheckmarks(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_InvertCheckmarks(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ procedure TCheckListBox_UncheckAll(_clb: TCheckListBox);
+-procedure TCheckListBox_CheckAll(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_CheckAll(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ ///<summary> Returns the checked items and the objects associated in them
+ ///          @param clb is the TCheckListBox
+ ///          @param Checked is a TStrings to which the selected items and objects are to be added
+ ///          @param IncludeDisabled determines whether the disabled items should also be returned if they are checked
+ ///          @returns the number of Items in Checked </summary>
+-function TCheckListBox_GetChecked(_clb: TCheckListBox; _Checked: TStrings; _IncludeDisabled: boolean = false): integer; overload;
+-function TCheckListBox_GetChecked(_clb: TCheckListbox; _IncludeDisabled: boolean = false): string; overload;
++function TCheckListBox_GetChecked(_clb: TCheckListBox; _Checked: TStrings; _IncludeDisabled: boolean = False): integer; overload;
++function TCheckListBox_GetChecked(_clb: TCheckListbox; _IncludeDisabled: boolean = False): string; overload;
+ ///<summary> Returns the objects associated with the checked items
+ ///          @param clb is the TCheckListBox
+ ///          @param Objects is a TList to which the selected objects are to be added
+ ///          @param IncludeDisabled determines whether the disabled items should also be returned if they are checked
+ ///          @returns the number of Items in Objects </summary>
+-function TCheckListBox_GetCheckedObjects(_clb: TCheckListBox; _Objects: TList; _IncludeDisabled: boolean = false): integer;
++function TCheckListBox_GetCheckedObjects(_clb: TCheckListBox; _Objects: TList; _IncludeDisabled: boolean = False): integer;
+ ///<summary> Checks all items contained in the Checked string list
+ ///          @param clb is the TCheckListBox to modify
+ ///          @param Checked is a string list containing the items to be checked
+@@ -489,13 +489,13 @@
+ ///                               event should be suppressed.
+ ///          @returns the number of items that have been checked. </summary>
+ function TCheckListBox_SetChecked(_clb: TCheckListBox; _Checked: TStrings;
+-  _UncheckOthers: boolean = true; _SuppressClick: boolean = false): integer;
++  _UncheckOthers: boolean = True; _SuppressClick: boolean = False): integer;
+ 
+ ///<summary> sets the checked property without triggering an OnClickCheck event </summary>
+ procedure TCheckListBox_SetCheckedNoClick(_clb: TCheckListBox; _Idx: integer; _Checked: boolean);
+ 
+-procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
+-procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
++procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ 
+ ///<summary> Makes the given TCheckListBox readonly by assigning a special
+ ///          method to its OnClickCheck event or makes it ReadWrite again
+@@ -504,7 +504,7 @@
+ ///          @param ChangeColor determines whether to change the background color
+ ///                             to clWindow (ReadWrite) and clBtnFace (ReadOnly)
+ ///                             respectively. Defaults to true </summary>
+-procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = true);
++procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = True);
+ 
+ ///<summary> Gets the caption of the given or selected item in the RadioGroup
+ ///          @param rg is the TCustomRadioGroup descendant to read
+@@ -619,7 +619,7 @@
+ 
+ ///<summary> Unselect all items, if WithSelectEvents is false, OnSelectItem events will be temporarily
+ ///          disabled. </summary>
+-procedure TListView_UnselectAll(_lv: TListView; _WithSelectEvents: boolean = true);
++procedure TListView_UnselectAll(_lv: TListView; _WithSelectEvents: boolean = True);
+ 
+ ///<summary> Returns the number of selected items in the ListView </summary>
+ function TListView_GetSelectedCount(_lv: TListView): integer;
+@@ -683,7 +683,7 @@
+   Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+-procedure TBitBtn_GlyphFromString(_btn: TBitBtn; const _GlyphStr: AnsiString; _ContainsLength: boolean = true);
++procedure TBitBtn_GlyphFromString(_btn: TBitBtn; const _GlyphStr: AnsiString; _ContainsLength: boolean = True);
+ var
+   st: TMemoryStream;
+   s: AnsiString;
+@@ -715,7 +715,7 @@
+   TGridHack = class(TCustomGrid);
+   TDbGridHack = class(TCustomDbGrid);
+ 
+-function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = false): string;
++function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = False): string;
+ var
+   Selection: TGridRect;
+   Grid: TGridHack;
+@@ -763,7 +763,7 @@
+   end;
+ end;
+ 
+-procedure TGrid_ExportToStream(_Grid: TCustomGrid; _Stream: TStream; _IncludeFixed: boolean = false);
++procedure TGrid_ExportToStream(_Grid: TCustomGrid; _Stream: TStream; _IncludeFixed: boolean = False);
+ var
+   s: string;
+ begin
+@@ -771,7 +771,7 @@
+   TStream_WriteStringLn(_Stream, s);
+ end;
+ 
+-procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = false);
++procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = False);
+ var
+   t: Text;
+   s: string;
+@@ -856,7 +856,7 @@
+ 
+ procedure TStringGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string);
+ begin
+-  TGrid_ExportToFile(_Grid, _Filename, true);
++  TGrid_ExportToFile(_Grid, _Filename, True);
+ end;
+ 
+ procedure TStringGrid_Clear(_Grid: TStringGrid);
+@@ -923,13 +923,13 @@
+   if _Row = -1 then
+     _Row := _Grid.Row;
+   if (_Row < _Grid.FixedRows) or (_Row >= _Grid.RowCount) then begin
+-    Result := false;
++    Result := False;
+     exit;
+   end;
+   if _Grid.RowCount <= _Grid.FixedRows + 1 then begin
+     for c := 0 to _Grid.ColCount - 1 do
+       _Grid.Cells[c, _Grid.FixedRows] := '';
+-    Result := true;
++    Result := True;
+     exit;
+   end;
+ 
+@@ -941,7 +941,7 @@
+       _Grid.Cells[c, r - 1] := _Grid.Cells[c, r];
+   end;
+   _Grid.RowCount := _Grid.RowCount - 1;
+-  Result := true;
++  Result := True;
+ end;
+ 
+ function TStringGrid_InsertRow(_Grid: TStringGrid; _Row: integer = -1): integer;
+@@ -974,7 +974,7 @@
+   _Grid.RowCount := Result + 1;
+ end;
+ 
+-function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): double;
++function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = True): double;
+ var
+   s: string;
+ begin
+@@ -989,7 +989,7 @@
+   end;
+ end;
+ 
+-function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
++function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = True): integer;
+ var
+   s: string;
+ begin
+@@ -1023,7 +1023,7 @@
+   end;
+ end;
+ 
+-function TEdit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
++function TEdit_TextToDouble(_ed: TCustomEdit; _FocusControl: boolean = True): double;
+ var
+   s: string;
+ begin
+@@ -1055,7 +1055,11 @@
+   Result := TEdit_TryTextToDouble(_ed, Value, _OkColor, _ErrColor);
+ end;
+ 
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: extended;
++type
++  TEditHack = class(TCustomEdit)
++  end;
++
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: extended;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   s: string;
+@@ -1063,12 +1067,12 @@
+   s := _ed.Text;
+   Result := TryStr2Float(s, _Value, #0);
+   if Result then
+-    _ed.Color := _OkColor
++    TEditHack(_ed).Color := _OkColor
+   else
+-    _ed.Color := _ErrColor;
++    TEditHack(_ed).Color := _ErrColor;
+ end;
+ 
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: double;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: double;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   s: string;
+@@ -1076,12 +1080,12 @@
+   s := _ed.Text;
+   Result := TryStr2Float(s, _Value, #0);
+   if Result then
+-    _ed.Color := _OkColor
++    TEditHack(_ed).Color := _OkColor
+   else
+-    _ed.Color := _ErrColor;
++    TEditHack(_ed).Color := _ErrColor;
+ end;
+ 
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: single;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: single;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   s: string;
+@@ -1089,12 +1093,12 @@
+   s := _ed.Text;
+   Result := TryStr2Float(s, _Value, #0);
+   if Result then
+-    _ed.Color := _OkColor
++    TEditHack(_ed).Color := _OkColor
+   else
+-    _ed.Color := _ErrColor;
++    TEditHack(_ed).Color := _ErrColor;
+ end;
+ 
+-function TEdit_IsTextFloat(_ed: TEdit; _MinValue, _MaxValue: extended;
++function TEdit_IsTextFloat(_ed: TCustomEdit; _MinValue, _MaxValue: extended;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   Value: Extended;
+@@ -1105,19 +1109,19 @@
+   Result := (CompareValue(_MinValue, Value) <> GreaterThanValue)
+     and (CompareValue(_MaxValue, Value) <> LessThanValue);
+   if Result then
+-    _ed.Color := _OkColor
++    TEditHack(_ed).Color := _OkColor
+   else
+-    _ed.Color := _ErrColor;
++    TEditHack(_ed).Color := _ErrColor;
+ end;
+ 
+-function TEdit_IsTextFloat(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++function TEdit_IsTextFloat(_ed: TCustomEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   Value: Extended;
+ begin
+   Result := TEdit_TryTextToFloat(_ed, Value, _OkColor, _ErrColor);
+ end;
+ 
+-function TEdit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer;
++function TEdit_TextToInt(_ed: TCustomEdit; _FocusControl: boolean = True): integer;
+ var
+   s: string;
+ begin
+@@ -1130,7 +1134,7 @@
+   end;
+ end;
+ 
+-function TEdit_TextToInt(_ed: TLabeledEdit; _FocusControl: boolean = true): integer;
++function TEdit_TextToInt(_ed: TLabeledEdit; _FocusControl: boolean = True): integer;
+ var
+   s: string;
+ begin
+@@ -1180,7 +1184,7 @@
+ var
+   i: integer;
+ begin
+-  Result := false;
++  Result := False;
+   for i := low(_Arr) to High(_Arr) do begin
+     Result := _Arr[i] = _Element;
+     if Result then
+@@ -1444,7 +1448,7 @@
+   Painter: TStatusBarPainter;
+   pnl: TStatusPanel;
+ begin
+-  _StatusBar.SimplePanel := false;
++  _StatusBar.SimplePanel := False;
+   _StatusBar.Panels.Clear;
+   pnl := _StatusBar.Panels.Add;
+   pnl.Style := psOwnerDraw;
+@@ -1479,6 +1483,10 @@
+   _Control.Enabled := _Enabled;
+ end;
+ 
++type
++  TComboBoxHack = class(TCustomCombobox)
++  end;
++
+ procedure TComboBox_SetDropdownWidth(_cmb: TCustomCombobox; _Pixels: integer);
+ begin
+   _cmb.HandleNeeded;
+@@ -1496,7 +1504,7 @@
+       exit;
+     end;
+   end;
+-  Result := false;
++  Result := False;
+ end;
+ 
+ function TComboBox_GetObjectCaption(_cmb: TCustomCombobox; _Obj: pointer; out _s: string): boolean;
+@@ -1510,10 +1518,10 @@
+       exit;
+     end;
+   end;
+-  Result := false;
++  Result := False;
+ end;
+ 
+-function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Obj: pointer; _FocusControl: boolean = false): boolean;
++function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Obj: pointer; _FocusControl: boolean = False): boolean;
+ var
+   Idx: integer;
+ begin
+@@ -1521,7 +1529,7 @@
+ end;
+ 
+ function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Idx: integer;
+-  out _Obj: pointer; _FocusControl: boolean = false): boolean;
++  out _Obj: pointer; _FocusControl: boolean = False): boolean;
+ begin
+   _Idx := _cmb.ItemIndex;
+   Result := (_Idx <> -1);
+@@ -1532,7 +1540,7 @@
+ end;
+ 
+ function TComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean;
++  _FocusControl: boolean = False): boolean;
+ var
+   Idx: integer;
+ begin
+@@ -1551,7 +1559,7 @@
+ end;
+ 
+ function TListBox_GetSelected(_lb: TCustomListBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean;
++  _FocusControl: boolean = False): boolean;
+ var
+   Idx: integer;
+ begin
+@@ -1583,13 +1591,13 @@
+   end;
+ end;
+ 
+-function TComboBox_IsSelected(_cmb: TComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++function TComboBox_IsSelected(_cmb: TCustomComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ begin
+   Result := (_cmb.ItemIndex <> -1);
+   if Result then
+-    _cmb.Color := _OkColor
++    TComboBoxHack(_cmb).Color := _OkColor
+   else
+-    _cmb.Color := _ErrColor;
++    TComboBoxHack(_cmb).Color := _ErrColor;
+ end;
+ 
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+@@ -1632,7 +1640,7 @@
+   i: Integer;
+ begin
+   for i := 0 to _lb.Items.count - 1 do
+-    _lb.Selected[i] := false;
++    _lb.Selected[i] := False;
+ end;
+ 
+ procedure TListbox_ClearWithObjects(_lst: TCustomListBox);
+@@ -1651,7 +1659,7 @@
+       Inc(Result);
+ end;
+ 
+-procedure TCheckListBox_CheckAll(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_CheckAll(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ var
+   i: Integer;
+ begin
+@@ -1667,7 +1675,7 @@
+     _clb.Checked[i] := False;
+ end;
+ 
+-procedure TCheckListBox_InvertCheckmarks(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_InvertCheckmarks(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ var
+   i: Integer;
+ begin
+@@ -1675,22 +1683,22 @@
+     _clb.Checked[i] := not _clb.Checked[i] and (_IncludeDisabled or _clb.ItemEnabled[i]);
+ end;
+ 
+-procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ var
+   i: Integer;
+ begin
+   for i := 0 to _clb.Items.Count - 1 do
+     if _clb.Selected[i] and (_IncludeDisabled or _clb.ItemEnabled[i]) then
+-      _clb.Checked[i] := true;
++      _clb.Checked[i] := True;
+ end;
+ 
+-procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ var
+   i: Integer;
+ begin
+   for i := 0 to _clb.Items.Count - 1 do
+     if _clb.Selected[i] and (_IncludeDisabled or _clb.ItemEnabled[i]) then
+-      _clb.Checked[i] := false;
++      _clb.Checked[i] := False;
+ end;
+ 
+ procedure TCheckListBox_DeleteDisabled(_clb: TCheckListBox);
+@@ -1716,7 +1724,7 @@
+ end;
+ 
+ function TCheckListBox_SetChecked(_clb: TCheckListBox; _Checked: TStrings;
+-  _UncheckOthers: boolean = true; _SuppressClick: boolean = false): integer;
++  _UncheckOthers: boolean = True; _SuppressClick: boolean = False): integer;
+ var
+   i: integer;
+   Idx: integer;
+@@ -1739,7 +1747,7 @@
+   end;
+ end;
+ 
+-function TCheckListBox_GetChecked(_clb: TCheckListBox; _Checked: TStrings; _IncludeDisabled: boolean = false): integer;
++function TCheckListBox_GetChecked(_clb: TCheckListBox; _Checked: TStrings; _IncludeDisabled: boolean = False): integer;
+ var
+   i: Integer;
+ begin
+@@ -1749,7 +1757,7 @@
+   Result := _Checked.Count;
+ end;
+ 
+-function TCheckListBox_GetChecked(_clb: TCheckListbox; _IncludeDisabled: boolean = false): string; overload;
++function TCheckListBox_GetChecked(_clb: TCheckListbox; _IncludeDisabled: boolean = False): string; overload;
+ var
+   sl: TStringList;
+ begin
+@@ -1762,7 +1770,7 @@
+   end;
+ end;
+ 
+-function TCheckListBox_GetCheckedObjects(_clb: TCheckListBox; _Objects: TList; _IncludeDisabled: boolean = false): integer;
++function TCheckListBox_GetCheckedObjects(_clb: TCheckListBox; _Objects: TList; _IncludeDisabled: boolean = False): integer;
+ var
+   i: Integer;
+ begin
+@@ -1841,7 +1849,7 @@
+   _ctrl.Top := 0;
+   _ctrl.Left := 0;
+   _ctrl.Parent := Panel;
+-  Panel.Enabled := false;
++  Panel.Enabled := False;
+ end;
+ 
+ function TListBox_Select(_lb: TCustomListBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+@@ -2014,7 +2022,7 @@
+   Min, Max: integer;
+   Grid: THackGrid;
+ begin
+-  Result := false;
++  Result := False;
+   if not _Grid.HandleAllocated then
+     exit;
+   Grid := THackGrid(_Grid);
+@@ -2075,11 +2083,11 @@
+   Chk: THackCheckBox;
+ begin
+   Chk := THackCheckBox(_Chk);
+-  Chk.ClicksDisabled := true;
++  Chk.ClicksDisabled := True;
+   try
+     Chk.Checked := _Checked;
+   finally
+-    Chk.ClicksDisabled := false;
++    Chk.ClicksDisabled := False;
+   end;
+ end;
+ 
+@@ -2428,7 +2436,7 @@
+   THackButtonControl(_bctrl).Caption := _Value;
+ end;
+ 
+-procedure TListView_UnselectAll(_lv: TListView; _WithSelectEvents: boolean = true);
++procedure TListView_UnselectAll(_lv: TListView; _WithSelectEvents: boolean = True);
+ var
+   i: Integer;
+   Event: TLVSelectItemEvent;
+@@ -2438,7 +2446,7 @@
+     _lv.OnSelectItem := nil;
+   try
+     for i := 0 to _lv.Items.Count - 1 do
+-      _lv.Items[i].Selected := false;
++      _lv.Items[i].Selected := False;
+   finally
+     _lv.OnSelectItem := Event;
+   end;
+@@ -2590,12 +2598,12 @@
+ begin
+   inherited Create;
+   FCtrl := _Ctrl;
+-  SendMessage(FCtrl.Handle, WM_SETREDRAW, integer(LongBool(false)), 0);
++  SendMessage(FCtrl.Handle, WM_SETREDRAW, integer(LongBool(False)), 0);
+ end;
+ 
+ destructor TWinControlLocker.Destroy;
+ begin
+-  SendMessage(FCtrl.Handle, WM_SETREDRAW, integer(LongBool(true)), 0);
++  SendMessage(FCtrl.Handle, WM_SETREDRAW, integer(LongBool(True)), 0);
+   RedrawWindow(FCtrl.Handle, nil, 0, RDW_ERASE or RDW_INVALIDATE or RDW_ALLCHILDREN);
+   inherited;
+ end;
+@@ -2609,7 +2617,7 @@
+ var
+   gblCheckListBoxHelper: TCheckListBoxHelper = nil;
+ 
+-procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = true);
++procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = True);
+ begin
+   if _ReadOnly then begin
+     if not Assigned(gblCheckListBoxHelper) then
+@@ -2651,7 +2659,7 @@
+   inherited;
+   if RightButton.Visible and (RightButton.Hint = '') then begin
+     RightButton.Hint := _('Ctrl+Return to ''click'' right button.');
+-    ShowHint := true;
++    ShowHint := True;
+   end;
+ end;
+ {$ENDIF DELPHI2009_UP}
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2011-06-05 15:03:23 UTC (rev 581)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2011-06-13 10:02:16 UTC (rev 582)
+@@ -120,6 +120,7 @@
+ msgid "%dm %ds"
+ msgstr "%dm %ds"
+ 
++# Label: ignore
+ #. Seconds only
+ #: u_dzConvertUtils.pas:736
+ #, object-pascal-format
+
+
+
+From twm at mail.berlios.de  Mon Jun 13 12:04:57 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 13 Jun 2011 12:04:57 +0200
+Subject: [Dzchart-svncheckins] r583 - utilities/buildtools/trunk
+Message-ID: <20110613100457.B80F34813F6@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-13 12:04:57 +0200 (Mon, 13 Jun 2011)
+New Revision: 583
+
+Modified:
+   utilities/buildtools/trunk/doExtractTranslations.cmd
+Log:
+better handling of non existing translation languages
+
+Modified: utilities/buildtools/trunk/doExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/doExtractTranslations.cmd	2011-06-13 10:02:16 UTC (rev 582)
++++ utilities/buildtools/trunk/doExtractTranslations.cmd	2011-06-13 10:04:57 UTC (rev 583)
+@@ -48,6 +48,12 @@
+ @echo ** handling language %LNG% **
+ 
+ @rem merge translations
++set LocaleDir=locale\%LNG%\lc_messages
++if exist %LocaleDir%\default.po goto PoExists
++echo %LNG% skipped, %LocaleDir%\default.po does not exist.
++goto :eof
++
++:PoExists
+ %~dp0\msgmerge --no-wrap --update locale\%LNG%\lc_messages\default.po default.po
+ 
+ @rem compile
+
+
+
+From twm at mail.berlios.de  Sun Jun 26 15:36:44 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 26 Jun 2011 15:36:44 +0200
+Subject: [Dzchart-svncheckins] r584 - in utilities/dzLib/trunk: src tests
+	tests/dzStringPool tests/dzStringPool/dcu tests/dzStringPool/src
+Message-ID: <20110626133644.F0F684823E8@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-26 15:36:44 +0200 (Sun, 26 Jun 2011)
+New Revision: 584
+
+Added:
+   utilities/dzLib/trunk/src/u_dzStringPool.pas
+   utilities/dzLib/trunk/tests/dzStringPool/
+   utilities/dzLib/trunk/tests/dzStringPool/dcu/
+   utilities/dzLib/trunk/tests/dzStringPool/src/
+   utilities/dzLib/trunk/tests/dzStringPool/src/dzStringPoolTest.dpr
+   utilities/dzLib/trunk/tests/dzStringPool/src/dzStringPoolTest.dproj
+   utilities/dzLib/trunk/tests/dzStringPool/src/u_dzStringPoolDebugger.pas
+   utilities/dzLib/trunk/tests/dzStringPool/src/u_dzStringPoolTest.pas
+Log:
+New TStringPool class for interning strings with unit tests.
+
+Added: utilities/dzLib/trunk/src/u_dzStringPool.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringPool.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzStringPool.pas	2011-06-26 13:36:44 UTC (rev 584)
+@@ -0,0 +1,91 @@
++unit u_dzStringPool;
++
++interface
++
++uses
++  SysUtils,
++  Classes;
++
++type
++  ///<summary> This class will maintain a sorted list of all string that
++  ///          were ever passed to its Intern function and always return
++  ///          a string that refers to a single memory area containing the
++  ///          string thus resulting it greatly reduced memory requirements
++  ///          if an application uses many duplicate strings.
++  ///          (see string interning)
++  ///          This is a rather trivial implemenation internally using
++  ///          sorted TStringList.
++  ///          Note: An instance of this class is not thread safe when used by
++  ///                several threads but you can create one instance per thread
++  ///                which will eliminate duplicates whithin this thread.
++  ///          Note: There is also an InternString function that internally
++  ///                uses a global instance of this class. As noted above
++  ///                this will not be thread safe. </summary>
++  TStringPool = class
++{$IFDEF DebugStringPool}
++  protected
++{$ELSE}
++  private
++{$ENDIF}
++    FList: TStringList;
++    FMakeStringsUnique: boolean;
++  public
++    ///<summary> @param MakeStringsUnique is a boolean determining whether
++    ///                                   strings are made unique (by
++    ///                                   calling UniqueString) before adding
++    ///                                   them to the list. This should not be
++    ///                                   necessary in most applications. </summary>
++    constructor Create(_MakeStringsUnique: boolean = false);
++    destructor Destroy; override;
++    ///<summary> Intern the given string, that is: Consolidate duplicates. </summary>
++    procedure Intern(var _s: string);
++  end;
++
++procedure InternString(var _s: string);
++
++implementation
++
++var
++  StringPool: TStringPool = nil;
++
++procedure InternString(var _s: string);
++begin
++  if not Assigned(StringPool) then
++    StringPool := TStringPool.Create();
++  StringPool.Intern(_s);
++end;
++
++{ TStringPool }
++
++constructor TStringPool.Create(_MakeStringsUnique: boolean = false);
++begin
++  inherited Create;
++  FList := TStringList.Create;
++  FList.Sorted := True;
++  FMakeStringsUnique := _MakeStringsUnique;
++end;
++
++destructor TStringPool.Destroy;
++begin
++  FreeAndNil(FList);
++  inherited;
++end;
++
++procedure TStringPool.Intern(var _s: string);
++var
++  Idx: Integer;
++begin
++  if FList.Find(_s, Idx) then
++    _s := FList[Idx]
++  else begin
++    if FMakeStringsUnique then
++      UniqueString(_s);
++    FList.Add(_s);
++  end;
++end;
++
++initialization
++finalization
++  FreeAndNil(StringPool);
++end.
++
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzStringPool
+___________________________________________________________________
+Added: svn:ignore
+   + dzStringPoolTest.exe
+
+Added: bugtraq:number
+   + true
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzStringPool/dcu
+___________________________________________________________________
+Added: svn:ignore
+   + *.dcu
+
+Added: bugtraq:number
+   + true
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzStringPool/src
+___________________________________________________________________
+Added: svn:ignore
+   + dunit.ini
+dzStringPoolTest.res
+
+Added: bugtraq:number
+   + true
+
+Added: utilities/dzLib/trunk/tests/dzStringPool/src/dzStringPoolTest.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/dzStringPool/src/dzStringPoolTest.dpr	                        (rev 0)
++++ utilities/dzLib/trunk/tests/dzStringPool/src/dzStringPoolTest.dpr	2011-06-26 13:36:44 UTC (rev 584)
+@@ -0,0 +1,35 @@
++program dzStringPoolTest;
++{
++
++  Delphi DUnit Test Project
++  -------------------------
++  This project contains the DUnit test framework and the GUI/Console test runners.
++  Add "CONSOLE_TESTRUNNER" to the conditional defines entry in the project options 
++  to use the console test runner.  Otherwise the GUI test runner will be used by 
++  default.
++
++}
++
++{$IFDEF CONSOLE_TESTRUNNER}
++{$APPTYPE CONSOLE}
++{$ENDIF}
++
++uses
++  Forms,
++  TestFramework,
++  GUITestRunner,
++  TextTestRunner,
++  u_dzStringPoolTest in 'u_dzStringPoolTest.pas',
++  u_dzStringPool in '..\..\..\src\u_dzStringPool.pas',
++  u_dzStringPoolDebugger in 'u_dzStringPoolDebugger.pas';
++
++{$R *.RES}
++
++begin
++  Application.Initialize;
++  if IsConsole then
++    TextTestRunner.RunRegisteredTests
++  else
++    GUITestRunner.RunRegisteredTests;
++end.
++
+
+Added: utilities/dzLib/trunk/tests/dzStringPool/src/dzStringPoolTest.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/dzStringPool/src/dzStringPoolTest.dproj	                        (rev 0)
++++ utilities/dzLib/trunk/tests/dzStringPool/src/dzStringPoolTest.dproj	2011-06-26 13:36:44 UTC (rev 584)
+@@ -0,0 +1,46 @@
++?<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <PropertyGroup>
++    <ProjectGuid>{5477d34c-248c-4ec1-ad16-2dfea28df2ff}</ProjectGuid>
++    <MainSource>dzStringPoolTest.dpr</MainSource>
++    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
++    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++    <DCC_DependencyCheckOutputName>..\dzStringPoolTest.exe</DCC_DependencyCheckOutputName>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_DebugInformation>False</DCC_DebugInformation>
++    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++    <DCC_Define>RELEASE</DCC_Define>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_Define>DEBUG;_CONSOLE_TESTRUNNER;DebugStringPool;no_translation</DCC_Define>
++    <DCC_UnitSearchPath>$(BDS)\lib\Debug;$(BDS)\Source\DUnit\src;..\..\..\jedi_inc</DCC_UnitSearchPath>
++    <DCC_ResourcePath>$(BDS)\lib\Debug;$(BDS)\Source\DUnit\src;..\..\..\jedi_inc</DCC_ResourcePath>
++    <DCC_ObjPath>$(BDS)\lib\Debug;$(BDS)\Source\DUnit\src;..\..\..\jedi_inc</DCC_ObjPath>
++    <DCC_IncludePath>$(BDS)\lib\Debug;$(BDS)\Source\DUnit\src;..\..\..\jedi_inc</DCC_IncludePath>
++    <DCC_Optimize>False</DCC_Optimize>
++    <DCC_ExeOutput>..</DCC_ExeOutput>
++    <DCC_DcuOutput>..\dcu</DCC_DcuOutput>
++    <DCC_ObjOutput>..\dcu</DCC_ObjOutput>
++    <DCC_HppOutput>..\dcu</DCC_HppOutput>
++  </PropertyGroup>
++  <ProjectExtensions>
++    <Borland.Personality>Delphi.Personality</Borland.Personality>
++    <Borland.ProjectType />
++    <BorlandProject>
++<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">False</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1031</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionIn
+ foKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">dzStringPoolTest.dpr</Source></Source></Delphi.Personality><UnitTesting><TestFramework>DUnit / Delphi Win32</TestFramework><TestRunner>GUI</TestRunner></UnitTesting></BorlandProject></BorlandProject>
++  </ProjectExtensions>
++  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
++  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
++  <ItemGroup>
++    <DelphiCompile Include="dzStringPoolTest.dpr">
++      <MainSource>MainSource</MainSource>
++    </DelphiCompile>
++    <DCCReference Include="..\..\..\src\u_dzStringPool.pas" />
++    <DCCReference Include="u_dzStringPoolDebugger.pas" />
++    <DCCReference Include="u_dzStringPoolTest.pas" />
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/dzStringPool/src/u_dzStringPoolDebugger.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzStringPool/src/u_dzStringPoolDebugger.pas	                        (rev 0)
++++ utilities/dzLib/trunk/tests/dzStringPool/src/u_dzStringPoolDebugger.pas	2011-06-26 13:36:44 UTC (rev 584)
+@@ -0,0 +1,17 @@
++unit u_dzStringPoolDebugger;
++
++interface
++
++uses
++  Classes,
++  u_dzStringPool;
++
++type
++  TDebugStringPool = class(TStringPool)
++  public
++    property List: TStringList read FList;
++  end;
++
++implementation
++
++end.
+
+Added: utilities/dzLib/trunk/tests/dzStringPool/src/u_dzStringPoolTest.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzStringPool/src/u_dzStringPoolTest.pas	                        (rev 0)
++++ utilities/dzLib/trunk/tests/dzStringPool/src/u_dzStringPoolTest.pas	2011-06-26 13:36:44 UTC (rev 584)
+@@ -0,0 +1,98 @@
++unit u_dzStringPoolTest;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  TestFramework,
++  u_dzStringPool,
++  u_dzStringPoolDebugger;
++
++type
++{$M+}
++  TestStringPool = class(TTestCase)
++  strict private
++    FPool: TStringPool;
++  public
++    procedure SetUp; override;
++    procedure TearDown; override;
++  published
++    procedure TestUnique;
++    procedure TestMany;
++  end;
++
++implementation
++
++uses
++  u_dzStringUtils;
++
++{ TestTEngineStateQuotedParam }
++
++procedure TestStringPool.SetUp;
++begin
++  inherited;
++  FPool := TStringPool.Create();
++end;
++
++procedure TestStringPool.TearDown;
++begin
++  FreeAndNil(FPool);
++  inherited;
++end;
++
++procedure TestStringPool.TestMany;
++var
++  i: Integer;
++  s: string;
++  sl: TStringList;
++begin
++  sl := TStringList.Create;
++  try
++    for i := 1 to 1000 do begin
++      s := 'hallo';
++      UniqueString(s);
++      FPool.Intern(s);
++      sl.Add(s);
++    end;
++
++    for i := 1 to sl.Count - 1 do begin
++      CheckEquals(Integer(Pointer(sl[0])), Integer(Pointer(sl[i])));
++    end;
++
++    CheckEquals(1, TDebugStringPool(FPool).List.Count);
++  finally
++    FreeAndNil(sl);
++  end;
++end;
++
++procedure TestStringPool.TestUnique;
++var
++  s1: string;
++  s2: string;
++begin
++  s1 := 'hallo';
++  UniqueString(s1);
++  FPool.Intern(s1);
++  CheckEquals(2, GetStringReferenceCount(s1));
++
++  s2 := s1;
++  CheckEquals(3, GetStringReferenceCount(s1));
++  CheckEquals(3, GetStringReferenceCount(s2));
++
++  UniqueString(s2);
++  CheckEquals(1, GetStringReferenceCount(s2));
++
++  FPool.Intern(s2);
++  CheckEquals(Integer(Pointer(s1)), Integer(Pointer(s2)));
++  CheckEquals(3, GetStringReferenceCount(s1));
++  CheckEquals(3, GetStringReferenceCount(s2));
++
++  CheckEquals(1, TDebugStringPool(FPool).List.Count);
++end;
++
++initialization
++  // Register any test cases with the test runner
++  RegisterTest(TestStringPool.Suite);
++end.
++
+
+
+
+From twm at mail.berlios.de  Sun Jun 26 17:30:51 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 26 Jun 2011 17:30:51 +0200
+Subject: [Dzchart-svncheckins] r585 - utilities/dzLib/trunk/forms
+Message-ID: <20110626153052.3D1AD482442@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-26 17:30:51 +0200 (Sun, 26 Jun 2011)
+New Revision: 585
+
+Modified:
+   utilities/dzLib/trunk/forms/w_dzDialog.pas
+Log:
+use the parent's font if it is a TForm
+
+Modified: utilities/dzLib/trunk/forms/w_dzDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-06-26 13:36:44 UTC (rev 584)
++++ utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-06-26 15:30:51 UTC (rev 585)
+@@ -372,6 +372,8 @@
+ begin
+   frm := Tf_dzDialog.Create(_Owner);
+   try
++    if Assigned(_Owner) and (_Owner is TForm) then
++      frm.Font := TForm(_Owner).Font;
+     frm.ShowDetailButton := false;
+     frm.SetVisibleButtons(_Buttons);
+     frm.SetFocusButton(_FocusButton);
+@@ -422,6 +424,8 @@
+ begin
+   frm := Tf_dzDialog.Create(_Owner);
+   try
++    if Assigned(_Owner) and (_Owner is TForm) then
++      frm.Font := TForm(_Owner).Font;
+     if Assigned(_e) then begin
+       frm.ExceptionClass := _e.ClassName;
+       // frm.ExcptionAddress := ExceptAddr;
+
+
+
+From twm at mail.berlios.de  Sun Jun 26 17:34:45 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 26 Jun 2011 17:34:45 +0200
+Subject: [Dzchart-svncheckins] r586 - utilities/buildtools/trunk/templates
+Message-ID: <20110626153445.B3BA8482442@sheep.berlios.de>
+
+Author: twm
+Date: 2011-06-26 17:34:45 +0200 (Sun, 26 Jun 2011)
+New Revision: 586
+
+Modified:
+   utilities/buildtools/trunk/templates/Template_version.ini
+Log:
+removed duplicate "-"
+
+Modified: utilities/buildtools/trunk/templates/Template_version.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_version.ini	2011-06-26 15:30:51 UTC (rev 585)
++++ utilities/buildtools/trunk/templates/Template_version.ini	2011-06-26 15:34:45 UTC (rev 586)
+@@ -13,6 +13,6 @@
+ Comments=
+ CompanyName=dzlib
+ InternalName=<internal name here>
+-LegalCopyright=Thomas Mueller, 2009--{ThisYear}
++LegalCopyright=Thomas Mueller, 2009-{ThisYear}
+ LegalTrademarks=T. Mueller
+ ProductName=<productname here>
+
+
+

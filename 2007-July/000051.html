@@ -1,0 +1,419 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r177 - utilities/dzPrepBuild/trunk/testdata
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r177%20-%20utilities/dzPrepBuild/trunk/testdata&In-Reply-To=%3C200707141726.l6EHQ9Iv028754%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000050.html">
+   <LINK REL="Next"  HREF="000052.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r177 - utilities/dzPrepBuild/trunk/testdata</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r177%20-%20utilities/dzPrepBuild/trunk/testdata&In-Reply-To=%3C200707141726.l6EHQ9Iv028754%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r177 - utilities/dzPrepBuild/trunk/testdata">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jul 14 19:26:09 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000050.html">[Dzchart-svncheckins] r176 - in utilities/dzPrepBuild/trunk: . src
+</A></li>
+        <LI>Next message: <A HREF="000052.html">[Dzchart-svncheckins] r178 - utilities/dzPrepBuild/trunk/testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-14 19:26:03 +0200 (Sat, 14 Jul 2007)
+New Revision: 177
+
+Modified:
+   utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.bdsproj
+   utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.dof
+   utilities/dzPrepBuild/trunk/testdata/Testproject.dof
+Log:
+removed references to iCD. It wasn't really a problem since this is only text and no source code at all, but ..
+
+Modified: utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.bdsproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.bdsproj	2007-07-14 14:48:54 UTC (rev 176)
++++ utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.bdsproj	2007-07-14 17:26:03 UTC (rev 177)
+@@ -1,4 +1,4 @@
+-&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+ &lt;BorlandProject&gt;
+ 	&lt;PersonalityInfo&gt;
+ 		&lt;Option&gt;
+@@ -100,10 +100,11 @@
+ 			&lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
+ 			&lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
+ 			&lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;  &lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
+-      &lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
+-    &lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
++		&lt;/Compiler&gt;
+ 		&lt;Linker&gt;
+ 			&lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
+ 			&lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
+@@ -114,8 +115,9 @@
+ 			&lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
+ 			&lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
+ 			&lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;  &lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
+-    &lt;/Linker&gt;
++			&lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;
++			&lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
++		&lt;/Linker&gt;
+ 		&lt;Directories&gt;
+ 			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
+@@ -137,17 +139,18 @@
+ 			&lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
+ 			&lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
+ 			&lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;  &lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
+-    &lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++		&lt;/Parameters&gt;
+ 		&lt;VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;1&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Build&quot;&gt;22&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
+@@ -157,20 +160,21 @@
+ 			&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
+ 		&lt;/VersionInfo&gt;
+ 		&lt;VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.21&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;dummzeuch.de&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;increment build number and create rc file&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;IncBuildNo&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2005 by Thomas Mueller&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;iCD. GmbH&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;Dof2Rc Tool&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;dof2rc&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;Copyright 2002-2005 by iCD. GmbH&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;IncBuildNo.exe&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;IncBuildNo&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
+-		&lt;/VersionInfoKeys&gt;  &lt;Language&gt;
+-      &lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
+-      &lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
+-      &lt;Language Name=&quot;RootDir&quot;&gt;&lt;/Language&gt;
+-    &lt;/Language&gt;
+-  &lt;/Delphi.Personality&gt;
++			&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;dof2rc.exe&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;Dof2Rc&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;internal use only&lt;/VersionInfoKeys&gt;
++		&lt;/VersionInfoKeys&gt;
++		&lt;Language&gt;
++			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
++			&lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
++			&lt;Language Name=&quot;RootDir&quot;&gt;&lt;/Language&gt;
++		&lt;/Language&gt;
++	&lt;/Delphi.Personality&gt;
+ &lt;/BorlandProject&gt;
+
+Modified: utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.dof
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.dof	2007-07-14 14:48:54 UTC (rev 176)
++++ utilities/dzPrepBuild/trunk/testdata/OriginalTestproject.dof	2007-07-14 17:26:03 UTC (rev 177)
+@@ -1,5 +1,6 @@
+ [FileVersion]
+ Version=7.0
++
+ [Compiler]
+ A=8
+ B=0
+@@ -79,6 +80,7 @@
+ UnsafeType=0
+ UnsafeCode=0
+ UnsafeCast=0
++
+ [Linker]
+ MapFile=0
+ OutputObjs=0
+@@ -89,29 +91,32 @@
+ MaxStackSize=1048576
+ ImageBase=4194304
+ ExeDescription=
++
+ [Directories]
+ OutputDir=q:\Dof2Rc
+ UnitOutputDir=q:\Dof2Rc\dcu
+ PackageDLLOutputDir=
+ PackageDCPOutputDir=
+-SearchPath=.\libs\headwork\units;.\libs\3rd\tregexpr\source
++SearchPath=.\libs\3rd\tregexpr\source
+ Packages=vcl;rtl;vclx;vclshlctrls;visualclx;indy
+ Conditionals=englisch;debug
+ DebugSourceDirs=
+ UsePackages=0
++
+ [Parameters]
+-RunParams=--comment=&quot;internal use only&quot; --product=&quot;%s DEMO&quot; --build s:\utils\dof2rc\Dof2Rc.dpr
++RunParams=
+ HostApplication=
+ Launcher=
+ UseLauncher=0
+ DebugCWD=
++
+ [Version Info]
+ IncludeVerInfo=1
+ AutoIncBuild=1
+ MajorVer=1
+ MinorVer=0
+ Release=0
+-Build=21
++Build=22
+ Debug=0
+ PreRelease=0
+ Special=0
+@@ -119,73 +124,16 @@
+ DLL=0
+ Locale=1033
+ CodePage=1252
++
+ [Version Info Keys]
+-CompanyName=iCD. GmbH
+-FileDescription=Dof2Rc Tool
++CompanyName=www.dummzeuch.de
++FileDescription=Testproject
+ FileVersion=1.0.0.21
+-InternalName=dof2rc
+-LegalCopyright=Copyright 2002-2005 by iCD. GmbH
++InternalName=testproject
++LegalCopyright=Copyright 2002-2007 by Thomas Mueller
+ LegalTrademarks=
+-OriginalFilename=dof2rc.exe
+-ProductName=Dof2Rc
++OriginalFilename=testproject.exe
++ProductName=Testproduct
+ ProductVersion=1.0.0.0
+ Comments=internal use only
+-[Excluded Packages]
+-q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
+-c:\program files\borland\delphi7\Bin\dclite70.bpl=Borland Integrated Translation Environment
+-c:\program files\borland\delphi7\Bin\dclnet70.bpl=Borland Internet Components
+-c:\program files\borland\delphi7\Bin\dclsoap70.bpl=Borland SOAP Components
+-c:\program files\borland\delphi7\Bin\dclocx70.bpl=Borland Sample Imported ActiveX Controls
+-c:\program files\borland\delphi7\Bin\dcldbx70.bpl=Borland dbExpress Components
+-c:\program files\borland\delphi7\Bin\dcldbxcds70.bpl=Borland SimpleDataset Component (DBX)
+-c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+-c:\program files\borland\delphi7\Bin\dclie70.bpl=Internet Explorer Components
+-c:\program files\borland\delphi7\Bin\dclbde70.bpl=Borland BDE DB Components
+-c:\program files\borland\delphi7\Bin\dcltee70.bpl=TeeChart Components
+-c:\program files\borland\delphi7\Bin\dclib70.bpl=InterBase Data Access Components
+-c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
+-c:\program files\borland\delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
+-c:\program files\borland\delphi7\Bin\dclmid70.bpl=Borland MyBase DataAccess Components
+-C:\WINNT\System32\ibevnt70.bpl=Borland Interbase Event Alerter Component
+-c:\program files\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
+-Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.2
+-Q:\bpl\dcldummzeuchchart.bpl=dummzeuch.de Charts - designtime package
+-Q:\bpl\dclrxbd7.bpl=RX Library BDE Database Components
+-Q:\bpl\olectra.bpl=Olectra Chart Components (Active X)
+-Q:\bpl\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
+-c:\program files\borland\delphi7\bin\dclRave70.bpl=Rave Reports BE 5.0 Package
+-c:\program files\borland\delphi7\Bin\dclaxserver70.bpl=Microsoft Office 97 Sample Automation Server Wrapper Components
+-Q:\bpl\JclDebugIde70.bpl=JCL Debug IDE extension for Delphi 7
+-C:\Program Files\Castalia Free for Delphi\JacobsLadder7.bpl=Castalia for Delphi 7
+-C:\Program Files\CompDiff\Delphi7\CompDiff.bpl=Component Diff Tool for Delphi
+-C:\Program Files\Castalia for Delphi Trial\LadderFlyout7.bpl=Castalia Flyout Bar for Delphi 7
+-C:\Program Files\Castalia for Delphi Trial\LadderForms7.bpl=Castalia Form Designer for Delphi 7
+-C:\Program Files\Castalia for Delphi Trial\LadderStat7.bpl=Castalia Statistics for Delphi 7
+-[HistoryLists\hlConditionals]
+-Count=2
+-Item0=englisch;debug
+-Item1=englisch
+-[HistoryLists\hlUnitAliases]
+-Count=1
+-Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-[HistoryLists\hlSearchPath]
+-Count=9
+-Item0=.\libs\headwork\units;.\libs\3rd\tregexpr\source
+-Item1=.\libs\headwork\units;.\libs\3rd\regexpr\source
+-Item2=S:\3rd\xml\ucl;.\libs\headwork\units;.\libs\3rd\regexpr\source
+-Item3=S:\3rd\xml\ucl;libs\headwork\units;.\libs\3rd\regexpr\source
+-Item4=S:\3rd\xml\ucl;.\libs\headwork;.\libs\3rd\regexpr\source
+-Item5=S:\3rd\regexpr;S:\3rd\xml\ucl;S:\headwork
+-Item6=S:\3rd\regexpr;S:\3rd\xml\ucl;S:\headwork\components
+-Item7=S:\3rd\regexpr;S:\3rd\xml\ucl
+-Item8=S:\3rd\regexpr
+-[HistoryLists\hlUnitOutputDirectory]
+-Count=3
+-Item0=q:\Dof2Rc\dcu
+-Item1=Q:\test\dcu
+-Item2=Q:\
+-[HistoryLists\hlOutputDirectorry]
+-Count=3
+-Item0=q:\Dof2Rc
+-Item1=Q:\test
+-Item2=Q:\
++
+
+Modified: utilities/dzPrepBuild/trunk/testdata/Testproject.dof
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/Testproject.dof	2007-07-14 14:48:54 UTC (rev 176)
++++ utilities/dzPrepBuild/trunk/testdata/Testproject.dof	2007-07-14 17:26:03 UTC (rev 177)
+@@ -97,14 +97,14 @@
+ UnitOutputDir=q:\Dof2Rc\dcu
+ PackageDLLOutputDir=
+ PackageDCPOutputDir=
+-SearchPath=.\libs\headwork\units;.\libs\3rd\tregexpr\source
++SearchPath=.\libs\3rd\tregexpr\source
+ Packages=vcl;rtl;vclx;vclshlctrls;visualclx;indy
+ Conditionals=englisch;debug
+ DebugSourceDirs=
+ UsePackages=0
+ 
+ [Parameters]
+-RunParams=--comment=&quot;internal use only&quot; --product=&quot;%s DEMO&quot; --build s:\utils\dof2rc\Dof2Rc.dpr
++RunParams=
+ HostApplication=
+ Launcher=
+ UseLauncher=0
+@@ -126,79 +126,14 @@
+ CodePage=1252
+ 
+ [Version Info Keys]
+-CompanyName=iCD. GmbH
+-FileDescription=Dof2Rc Tool
++CompanyName=www.dummzeuch.de
++FileDescription=Testproject
+ FileVersion=1.0.0.21
+-InternalName=dof2rc
+-LegalCopyright=Copyright 2002-2005 by iCD. GmbH
++InternalName=testproject
++LegalCopyright=Copyright 2002-2007 by Thomas Mueller
+ LegalTrademarks=
+-OriginalFilename=dof2rc.exe
+-ProductName=Dof2Rc
++OriginalFilename=testproject.exe
++ProductName=Testproduct
+ ProductVersion=1.0.0.0
+ Comments=internal use only
+ 
+-[Excluded Packages]
+-q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
+-c:\program files\borland\delphi7\Bin\dclite70.bpl=Borland Integrated Translation Environment
+-c:\program files\borland\delphi7\Bin\dclnet70.bpl=Borland Internet Components
+-c:\program files\borland\delphi7\Bin\dclsoap70.bpl=Borland SOAP Components
+-c:\program files\borland\delphi7\Bin\dclocx70.bpl=Borland Sample Imported ActiveX Controls
+-c:\program files\borland\delphi7\Bin\dcldbx70.bpl=Borland dbExpress Components
+-c:\program files\borland\delphi7\Bin\dcldbxcds70.bpl=Borland SimpleDataset Component (DBX)
+-c:\program files\borland\delphi7\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+-c:\program files\borland\delphi7\Bin\dclie70.bpl=Internet Explorer Components
+-c:\program files\borland\delphi7\Bin\dclbde70.bpl=Borland BDE DB Components
+-c:\program files\borland\delphi7\Bin\dcltee70.bpl=TeeChart Components
+-c:\program files\borland\delphi7\Bin\dclib70.bpl=InterBase Data Access Components
+-c:\program files\borland\delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
+-c:\program files\borland\delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
+-c:\program files\borland\delphi7\Bin\dclmid70.bpl=Borland MyBase DataAccess Components
+-C:\WINNT\System32\ibevnt70.bpl=Borland Interbase Event Alerter Component
+-c:\program files\borland\delphi7\Bin\dclIntraweb_50_70.bpl=Intraweb 5.0 Design Package for Delphi 7
+-Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.2
+-Q:\bpl\dcldummzeuchchart.bpl=dummzeuch.de Charts - designtime package
+-Q:\bpl\dclrxbd7.bpl=RX Library BDE Database Components
+-Q:\bpl\olectra.bpl=Olectra Chart Components (Active X)
+-Q:\bpl\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
+-c:\program files\borland\delphi7\bin\dclRave70.bpl=Rave Reports BE 5.0 Package
+-c:\program files\borland\delphi7\Bin\dclaxserver70.bpl=Microsoft Office 97 Sample Automation Server Wrapper Components
+-Q:\bpl\JclDebugIde70.bpl=JCL Debug IDE extension for Delphi 7
+-C:\Program Files\Castalia Free for Delphi\JacobsLadder7.bpl=Castalia for Delphi 7
+-C:\Program Files\CompDiff\Delphi7\CompDiff.bpl=Component Diff Tool for Delphi
+-C:\Program Files\Castalia for Delphi Trial\LadderFlyout7.bpl=Castalia Flyout Bar for Delphi 7
+-C:\Program Files\Castalia for Delphi Trial\LadderForms7.bpl=Castalia Form Designer for Delphi 7
+-C:\Program Files\Castalia for Delphi Trial\LadderStat7.bpl=Castalia Statistics for Delphi 7
+-
+-[HistoryLists\hlConditionals]
+-Count=2
+-Item0=englisch;debug
+-Item1=englisch
+-
+-[HistoryLists\hlUnitAliases]
+-Count=1
+-Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-
+-[HistoryLists\hlSearchPath]
+-Count=9
+-Item0=.\libs\headwork\units;.\libs\3rd\tregexpr\source
+-Item1=.\libs\headwork\units;.\libs\3rd\regexpr\source
+-Item2=S:\3rd\xml\ucl;.\libs\headwork\units;.\libs\3rd\regexpr\source
+-Item3=S:\3rd\xml\ucl;libs\headwork\units;.\libs\3rd\regexpr\source
+-Item4=S:\3rd\xml\ucl;.\libs\headwork;.\libs\3rd\regexpr\source
+-Item5=S:\3rd\regexpr;S:\3rd\xml\ucl;S:\headwork
+-Item6=S:\3rd\regexpr;S:\3rd\xml\ucl;S:\headwork\components
+-Item7=S:\3rd\regexpr;S:\3rd\xml\ucl
+-Item8=S:\3rd\regexpr
+-
+-[HistoryLists\hlUnitOutputDirectory]
+-Count=3
+-Item0=q:\Dof2Rc\dcu
+-Item1=Q:\test\dcu
+-Item2=Q:\
+-
+-[HistoryLists\hlOutputDirectorry]
+-Count=3
+-Item0=q:\Dof2Rc
+-Item1=Q:\test
+-Item2=Q:\
+-
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000050.html">[Dzchart-svncheckins] r176 - in utilities/dzPrepBuild/trunk: . src
+</A></li>
+	<LI>Next message: <A HREF="000052.html">[Dzchart-svncheckins] r178 - utilities/dzPrepBuild/trunk/testdata
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

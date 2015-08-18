@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r128 - in utilities/dzAutoSave/trunk: Delphi7	source
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r128%20-%20in%20utilities/dzAutoSave/trunk%3A%20Delphi7%0A%09source&In-Reply-To=%3C200701011539.l01Fd1Rv026533%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000003.html">
+   <LINK REL="Next"  HREF="000005.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r128 - in utilities/dzAutoSave/trunk: Delphi7	source</H1>
+    <B>twm at BerliOS</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r128%20-%20in%20utilities/dzAutoSave/trunk%3A%20Delphi7%0A%09source&In-Reply-To=%3C200701011539.l01Fd1Rv026533%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r128 - in utilities/dzAutoSave/trunk: Delphi7	source">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Jan  1 16:39:01 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000003.html">[Dzchart-svncheckins] r127 - in utilities/dzAutoSave/trunk: Delphi6	source
+</A></li>
+        <LI>Next message: <A HREF="000005.html">[Dzchart-svncheckins] r129 - in utilities/dzAutoSave/trunk: Delphi5	source
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#4">[ date ]</a>
+              <a href="thread.html#4">[ thread ]</a>
+              <a href="subject.html#4">[ subject ]</a>
+              <a href="author.html#4">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-01-01 16:39:00 +0100 (Mon, 01 Jan 2007)
+New Revision: 128
+
+Added:
+   utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dof
+   utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dpk
+Modified:
+   utilities/dzAutoSave/trunk/Delphi7/
+   utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+Log:
+* Bugfix: Removed Delphi2006 properties from .dfm
+* added Delphi7 packages with lib suffix 70
+
+
+Property changes on: utilities/dzAutoSave/trunk/Delphi7
+___________________________________________________________________
+Name: svn:ignore
+   + dzAutoSave.cfg
+dzAutoSave.res
+
+
+Copied: utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dof (from rev 127, utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dof)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dof	2007-01-01 15:24:17 UTC (rev 127)
++++ utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dof	2007-01-01 15:39:00 UTC (rev 128)
+@@ -0,0 +1,161 @@
++[FileVersion]
++Version=7.0
++[Compiler]
++A=8
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++NamespacePrefix=
++SymbolDeprecated=1
++SymbolLibrary=1
++SymbolPlatform=1
++UnitLibrary=1
++UnitPlatform=1
++UnitDeprecated=1
++HResultCompat=1
++HidingMember=1
++HiddenVirtual=1
++Garbage=1
++BoundsError=1
++ZeroNilCompat=1
++StringConstTruncated=1
++ForLoopVarVarPar=1
++TypedConstVarPar=1
++AsgToTypedConst=1
++CaseLabelRange=1
++ForVariable=1
++ConstructingAbstract=1
++ComparisonFalse=1
++ComparisonTrue=1
++ComparingSignedUnsigned=1
++CombiningSignedUnsigned=1
++UnsupportedConstruct=1
++FileOpen=1
++FileOpenUnitSrc=1
++BadGlobalSymbol=1
++DuplicateConstructorDestructor=1
++InvalidDirective=1
++PackageNoLink=1
++PackageThreadVar=1
++ImplicitImport=1
++HPPEMITIgnored=1
++NoRetVal=1
++UseBeforeDef=1
++ForLoopVarUndef=1
++UnitNameMismatch=1
++NoCFGFileFound=1
++MessageDirective=1
++ImplicitVariants=1
++UnicodeToLocale=1
++LocaleToUnicode=1
++ImagebaseMultiple=1
++SuspiciousTypecast=1
++PrivatePropAccessor=1
++UnsafeType=1
++UnsafeCode=1
++UnsafeCast=1
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=dummzeuch.de Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=
++PackageDLLOutputDir=
++PackageDCPOutputDir=
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Launcher=
++UseLauncher=0
++DebugCWD=C:\Program Files\Borland\Delphi7\Projects
++[Language]
++ActiveLang=
++ProjectLang=
++RootDir=
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=2
++Release=1
++Build=12
++Debug=0
++PreRelease=0
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.2.1.12
++InternalName=
++LegalCopyright=Copyright &#169; 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[Excluded Packages]
++q:\bpl\UnicodeConvDelphi7.bpl=Unicode Converter Library (UCL)
++Q:\bpl\AutoSave6.bpl=Auto Save Wizard
++Q:\bpl\Xdom_3_1Delphi7.bpl=Extended Document Object Model (XDOM 3.1)
++Q:\bpl\CompBAR7.bpl=Component Bar Expert 1.0.4
++Q:\bpl\keyboardmakro7.bpl=Keyboard Makro Manager for Delphi 7
++Q:\bpl\dclusr70.bpl=Borland User Components
++D:\out\bpl\dclrx70.bpl=RX Library Controls and Tools
++D:\out\bpl\dclrxdb70.bpl=RX Library Database Components
++D:\out\bpl\dclrxbd70.bpl=RX Library BDE Database Components
++Q:\bpl\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
++Q:\bpl\dclRB77.bpl=ReportBuilder Standard
++Q:\bpl\JclDebugIde70.bpl=JCL Debug IDE extension for Delphi 7
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Copied: utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dpk (from rev 127, utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dpk)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi6/dzAutoSave.dpk	2007-01-01 15:24:17 UTC (rev 127)
++++ utilities/dzAutoSave/trunk/Delphi7/dzAutoSave.dpk	2007-01-01 15:39:00 UTC (rev 128)
+@@ -0,0 +1,40 @@
++package dzAutoSave;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'dummzeuch.de Auto Save Wizard'}
++{$LIBSUFFIX '70'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl,
++  designide;
++
++contains
++  dzAutoSaveReg in '..\source\dzAutoSaveReg.pas',
++  dzAutoWizard in '..\source\dzAutoWizard.pas',
++  dzAutoConfig in '..\source\dzAutoConfig.pas' {TAutoSaveForm},
++  dzAutoUtil in '..\source\dzAutoUtil.pas';
++
++end.
+
+Modified: utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 15:24:17 UTC (rev 127)
++++ utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 15:39:00 UTC (rev 128)
+@@ -1,6 +1,7 @@
+ object AutoSaveForm: TAutoSaveForm
+   Left = 322
+   Top = 214
++  AutoScroll = False
+   BorderIcons = [biSystemMenu]
+   Caption = 'Auto Save Properties'
+   ClientHeight = 248
+@@ -180,10 +181,6 @@
+     end
+     object TabSheet2: TTabSheet
+       Caption = 'Help'
+-      ExplicitLeft = 0
+-      ExplicitTop = 0
+-      ExplicitWidth = 0
+-      ExplicitHeight = 0
+       object Memo1: TMemo
+         Left = 7
+         Top = 7
+@@ -225,10 +222,6 @@
+     object TabSheet3: TTabSheet
+       Caption = 'Files'
+       ImageIndex = 2
+-      ExplicitLeft = 0
+-      ExplicitTop = 0
+-      ExplicitWidth = 0
+-      ExplicitHeight = 0
+       object FileList: TListBox
+         Left = 0
+         Top = 0
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000003.html">[Dzchart-svncheckins] r127 - in utilities/dzAutoSave/trunk: Delphi6	source
+</A></li>
+	<LI>Next message: <A HREF="000005.html">[Dzchart-svncheckins] r129 - in utilities/dzAutoSave/trunk: Delphi5	source
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#4">[ date ]</a>
+              <a href="thread.html#4">[ thread ]</a>
+              <a href="subject.html#4">[ subject ]</a>
+              <a href="author.html#4">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

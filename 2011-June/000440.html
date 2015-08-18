@@ -1,0 +1,1303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r582 - in utilities/dzLib/trunk: src	translations/fr
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-June/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r582%20-%20in%20utilities/dzLib/trunk%3A%20src%0A%09translations/fr&In-Reply-To=%3C20110613100217.3D7BF4813F6%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000439.html">
+   <LINK REL="Next"  HREF="000441.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r582 - in utilities/dzLib/trunk: src	translations/fr</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r582%20-%20in%20utilities/dzLib/trunk%3A%20src%0A%09translations/fr&In-Reply-To=%3C20110613100217.3D7BF4813F6%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r582 - in utilities/dzLib/trunk: src	translations/fr">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Jun 13 12:02:17 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000439.html">[Dzchart-svncheckins] r581 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000441.html">[Dzchart-svncheckins] r583 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#440">[ date ]</a>
+              <a href="thread.html#440">[ thread ]</a>
+              <a href="subject.html#440">[ subject ]</a>
+              <a href="author.html#440">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-06-13 12:02:16 +0200 (Mon, 13 Jun 2011)
+New Revision: 582
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+updated to latest changes
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-06-05 15:03:23 UTC (rev 581)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-06-13 10:02:16 UTC (rev 582)
+@@ -111,7 +111,7 @@
+     /// @param IncludePath determines whether the List of filenames includes the full path or not
+     /// @returns the number of matching files
+     /// &lt;/summary&gt;
+-    function FindAll(_List: TStrings = nil; _IncludePath: boolean = false): integer;
++    function FindAll(_List: TStrings = nil; _IncludePath: boolean = False): integer;
+     /// &lt;summary&gt;
+     /// Calls FindClose so FindNext will start again. Reset does not change any
+     /// properties (e.g. Mask, MustHaveAttr, MayHaveAttr)
+@@ -277,7 +277,7 @@
+     ///                            directly DstDir or if subdirectories should
+     ///                            be created, default is false
+     /// &lt;/summary&gt;
+-    procedure SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
++    procedure SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = False);
+     /// &lt;summary&gt;
+     /// calls SyncOneWay(DirA, DirB) and SyncOneWay(DirB, DirA)
+     /// (not implemented: if CheckContent=true, the content existing files will be checked and if
+@@ -388,7 +388,7 @@
+     /// @returns the name of the created directory
+     /// &lt;/summary&gt;
+     class function CreateUniqueDirectory(_BaseDir: string = ''; const _Prefix: string = 'dz'): string;
+-    class function CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = false; _Prefix: string = 'dz'): IUniqueTempDir;
++    class function CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = False; _Prefix: string = 'dz'): IUniqueTempDir;
+ 
+     /// &lt;summary&gt;
+     /// Calls the Win32Api function GetTempPath but returns a string rather than
+@@ -407,7 +407,7 @@
+     ///        but just return false if moving the file fails.
+     /// @returns true, if the file could be moved, false otherwise.
+     /// &lt;/summary&gt;
+-    class function MoveFile(const _Source, _Dest: string; _RaiseException: boolean = true): boolean;
++    class function MoveFile(const _Source, _Dest: string; _RaiseException: boolean = True): boolean;
+     /// &lt;summary&gt;
+     /// Moves the file Source to Dest using the Windows MoveFileEx function.
+     /// @param Source is a string containing the name of the existing file
+@@ -420,7 +420,7 @@
+     /// @returns true, if the file could be moved, false otherwise.
+     /// &lt;/summary&gt;
+     class function MoveFileEx(const _Source, _Dest: string; _Flags: TMoveFileExFlagSet;
+-      _RaiseException: boolean = true): boolean;
++      _RaiseException: boolean = True): boolean;
+ 
+     /// &lt;summary&gt;
+     /// Copies the file Source to Dest using the Windows CopyFile function.
+@@ -437,8 +437,8 @@
+     /// @returns true, if the file could be copied, false otherwise.
+     /// @raises  EOSError if an error occurs and cfwRaiseException was passed
+     /// &lt;/summary&gt;
+-    class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+-      _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean; overload;
++    class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = True;
++      _RaiseException: boolean = True; _ForceOverwrite: boolean = False): boolean; overload;
+ 
+     /// &lt;summary&gt;
+     /// Copies the file Source to Dest using the Windows CopyFile function.
+@@ -521,7 +521,7 @@
+     /// @returns true, if the directory was created
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+-    class function CreateDir(const _DirectoryName: string; _RaiseException: boolean = true): boolean;
++    class function CreateDir(const _DirectoryName: string; _RaiseException: boolean = True): boolean;
+ 
+     /// &lt;summary&gt;
+     /// Creates a new directory, including the creation of parent directories as needed.
+@@ -530,7 +530,7 @@
+     /// @returns true, if the directory was created
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+-    class function ForceDir(const _DirectoryPath: string; _RaiseException: boolean = true): boolean;
++    class function ForceDir(const _DirectoryPath: string; _RaiseException: boolean = True): boolean;
+ 
+     /// &lt;summary&gt;
+     /// Sets a file's readonly flag
+@@ -539,7 +539,7 @@
+     /// @returns true, if the readonly flag has been changed
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+-    class function SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
++    class function SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = True): boolean;
+ 
+     /// &lt;summary&gt;
+     /// Deletes the file using the SysUtils.DeleteFile function.
+@@ -554,8 +554,8 @@
+     /// @returns true, if the file could be deleted, false otherwise.
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+-    class function DeleteFile(const _Filename: string; _RaiseException: boolean = true;
+-      _Force: boolean = false): boolean;
++    class function DeleteFile(const _Filename: string; _RaiseException: boolean = True;
++      _Force: boolean = False): boolean;
+ 
+     /// &lt;summary&gt;
+     /// Deletes all files in a directory matching a given filemask (non-recursive)
+@@ -577,11 +577,11 @@
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+     class function DeleteMatchingFiles(const _Dir, _Mask: string;
+-      _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
++      _RaiseException: boolean = True; _Force: boolean = False): integer; overload;
+     class function DeleteMatchingFiles(const _Dir, _Mask: string; _ExceptMask: string = '';
+-      _RaiseException: boolean = true; _Force: boolean = false): integer; overload; deprecated;
++      _RaiseException: boolean = True; _Force: boolean = False): integer; overload; deprecated;
+     class function DeleteMatchingFiles(const _Dir, _Mask: string; const _ExceptMasks: array of string;
+-      _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
++      _RaiseException: boolean = True; _Force: boolean = False): integer; overload;
+ 
+     ///&lt;summary&gt;
+     /// Gets a list of directories matching the given mask.
+@@ -593,7 +593,7 @@
+     ///                    the full paths.
+     /// @returns the number of matching directories
+     ///&lt;/summary&gt;
+-    class function FindMatchingDirs(const _Mask: string; _sl: TStrings; _IncludePath: boolean = false): integer;
++    class function FindMatchingDirs(const _Mask: string; _sl: TStrings; _IncludePath: boolean = False): integer;
+ 
+     ///&lt;summary&gt;
+     /// Gets a list of files matching the given mask. Only regular files will be found, no
+@@ -607,7 +607,7 @@
+     ///                    the full paths.
+     /// @returns the number of matching files
+     ///&lt;/summary&gt;
+-    class function FindMatchingFiles(const _Mask: string; _sl: TStrings; _IncludePath: boolean = false): integer;
++    class function FindMatchingFiles(const _Mask: string; _sl: TStrings; _IncludePath: boolean = False): integer;
+ 
+     /// &lt;summary&gt;
+     /// tries to find a matching file
+@@ -616,19 +616,20 @@
+     /// @returns mfNotFound, if no file was found, or mfDirectory, mfFile or mfSpecial
+     ///          describing the type of the file which has been found
+     /// &lt;/summary&gt;
+-    class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
++    class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult; overload;
++    class function FindMatchingFile(const _Mask: string): TMatchingFileResult; overload;
+ 
+     ///&lt;summary&gt;
+     /// Returns true, if the given file exists. Note that wildcards are not supported! If you
+     /// need wildcards, use FindMatchingFile.
+     /// @param RaiseException determines whether an exception should be raised if the file does not exist
+     /// @raises Exception if the file does not exist and RaiseException is true
+-    class function FileExists(const _Filename: string; _RaiseException: boolean = false): boolean;
++    class function FileExists(const _Filename: string; _RaiseException: boolean = False): boolean;
+ 
+     ///&lt;summary&gt;
+     /// @param RaiseException determines whether an exception should be raised if the directory does not exist
+     /// @raises Exception if the directory does not exist and RaiseException is true
+-    class function DirExists(const _DirName: string; _RaiseException: boolean = false): boolean;
++    class function DirExists(const _DirName: string; _RaiseException: boolean = False): boolean;
+ 
+     /// &lt;summary&gt;
+     /// deletes an empty directory using the SysUtils function RemoveDir
+@@ -644,15 +645,15 @@
+     /// @returns true, if the directory could be deleted, false otherwise.
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+-    class function RemoveDir(const _Dirname: string; _RaiseException: boolean = true;
+-      _Force: boolean = false): boolean;
++    class function RemoveDir(const _Dirname: string; _RaiseException: boolean = True;
++      _Force: boolean = False): boolean;
+ 
+     /// &lt;summary&gt;
+     /// function is deprecated, use DelDirTree instead!
+     /// Note the different order of parameters of the new function!
+     /// &lt;/summary&gt;
+-    class function DelTree(const _Dirname: string; _Force: boolean = false;
+-      _RaiseException: boolean = true): boolean; deprecated;
++    class function DelTree(const _Dirname: string; _Force: boolean = False;
++      _RaiseException: boolean = True): boolean; deprecated;
+     /// &lt;summary&gt;
+     /// Deletes a directory with all files and subdirectories.
+     /// Note: This new function has a different order of parameters than
+@@ -666,8 +667,8 @@
+     /// @returns true, if the directory could be deleted, false otherwise.
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+-    class function DelDirTree(const _Dirname: string; _RaiseException: boolean = true;
+-      _Force: boolean = false): boolean;
++    class function DelDirTree(const _Dirname: string; _RaiseException: boolean = True;
++      _Force: boolean = False): boolean;
+ 
+     /// &lt;summary&gt;
+     /// reads a text file and returns its content as a string
+@@ -684,7 +685,7 @@
+     ///        the default is true, but you might not want that
+     /// @returns true, if the string is a valid filename, false otherwise
+     /// &lt;/summary&gt;
+-    class function IsValidFilename(const _s: string; _AllowDot: boolean = true): boolean; overload;
++    class function IsValidFilename(const _s: string; _AllowDot: boolean = True): boolean; overload;
+     /// &lt;summary&gt;
+     /// checks whether the given string is a valid filename (without path), that is
+     /// does not contain one of the characters defined in INVALID_FILENAME_CHARS and
+@@ -695,7 +696,7 @@
+     ///        the default is true, but you might not want that
+     /// @returns true, if the string is a valid filename, false otherwise
+     /// &lt;/summary&gt;
+-    class function IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean; overload;
++    class function IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = True): boolean; overload;
+ 
+     class function ContainsWildcard(const _Mask: string): boolean;
+ 
+@@ -793,11 +794,11 @@
+     /// &lt;summary&gt;
+     /// should the resulting filename contain a number?
+     /// &lt;/summary&gt;
+-    property ResultContainsNumber: boolean read FResultContainsNumber write FResultContainsNumber default false;
++    property ResultContainsNumber: boolean read FResultContainsNumber write FResultContainsNumber default False;
+     /// &lt;summary&gt;
+     /// does the oldest file have the highest number?
+     /// &lt;/summary&gt;
+-    property OldestIsHighest: boolean read FOldestIsHighest write FOldestIsHighest default true;
++    property OldestIsHighest: boolean read FOldestIsHighest write FOldestIsHighest default True;
+     property PrependZeros: integer read FPrependZeros write FPrependZeros default 0;
+     /// &lt;summary&gt;
+     /// allows read access to the file's base name as passed to the constructor
+@@ -863,7 +864,7 @@
+ 
+ class function TSimpleDirEnumerator.Execute(const _Mask: string; _List: TStrings;
+   _MayHaveAttr: TFileAttributeSet = [dfaHidden, dfaSysFile, dfaVolumeID, dfaDirectory, dfaArchive];
+-  _IncludePath: boolean = false): integer;
++  _IncludePath: boolean = False): integer;
+ var
+   enum: TSimpleDirEnumerator;
+ begin
+@@ -875,7 +876,7 @@
+   end;
+ end;
+ 
+-function TSimpleDirEnumerator.FindAll(_List: TStrings = nil; _IncludePath: boolean = false): integer;
++function TSimpleDirEnumerator.FindAll(_List: TStrings = nil; _IncludePath: boolean = False): integer;
+ var
+   s: string;
+   Path: string;
+@@ -899,10 +900,10 @@
+ 
+   function AttrOk(_EnumAttr: TFileAttributes; _SysAttr: integer): boolean;
+   begin
+-    Result := true;
++    Result := True;
+     if _EnumAttr in FMustHaveAttr then
+       if (Attr and _SysAttr) = 0 then
+-        Result := false;
++        Result := False;
+   end;
+ 
+   procedure CondAddAttr(_EnumAttr: TFileAttributes; _SysAttr: integer);
+@@ -925,7 +926,7 @@
+       Res := FindFirst(FMask, Attr, FSr);
+       Result := (Res = 0);
+       if Result then
+-        FActive := true;
++        FActive := True;
+     end else begin
+       Res := SysUtils.FindNext(FSr);
+       Result := (Res = 0);
+@@ -952,7 +953,7 @@
+     Inc(FMatchCount);
+     _Filename := sr.Name;
+     exit;
+-  until false;
++  until False;
+ end;
+ 
+ function TSimpleDirEnumerator.FindNext: boolean;
+@@ -966,7 +967,7 @@
+ begin
+   if FActive then
+     FindClose(FSr);
+-  FActive := false;
++  FActive := False;
+ end;
+ 
+ { TFileSystem }
+@@ -1050,7 +1051,7 @@
+ end;
+ 
+ class function TFileSystem.CreateDir(const _DirectoryName: string;
+-  _RaiseException: boolean = true): boolean;
++  _RaiseException: boolean = True): boolean;
+ var
+   LastError: Cardinal;
+ begin
+@@ -1077,10 +1078,10 @@
+   Pid := GetCurrentProcessId;
+   s := itpd(_BaseDir) + _Prefix + '_' + IntToStr(Pid) + '_';
+   Counter := 0;
+-  Ok := false;
++  Ok := False;
+   while not OK do begin
+     Result := s + IntToStr(Counter);
+-    OK := CreateDir(Result, false);
++    OK := CreateDir(Result, False);
+     if not OK then begin
+       Inc(Counter);
+       if Counter &gt; 1000 then
+@@ -1098,11 +1099,11 @@
+     ///&lt;summary&gt; Path including trailing path delimiter &lt;/summary&gt;
+     function PathBS: string;
+   public
+-    constructor Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = false);
++    constructor Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = False);
+     destructor Destroy; override;
+   end;
+ 
+-class function TFileSystem.CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = false; _Prefix: string = 'dz'): IUniqueTempDir;
++class function TFileSystem.CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = False; _Prefix: string = 'dz'): IUniqueTempDir;
+ var
+   s: string;
+ begin
+@@ -1235,7 +1236,7 @@
+   Result := PChar(Result); // truncate at first #0
+ end;
+ 
+-class function TFileSystem.MoveFile(const _Source, _Dest: string; _RaiseException: boolean = true): boolean;
++class function TFileSystem.MoveFile(const _Source, _Dest: string; _RaiseException: boolean = True): boolean;
+ var
+   LastError: Cardinal;
+ begin
+@@ -1273,7 +1274,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
++class function TFileSystem.SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = True): boolean;
+ var
+   Attr: integer;
+   LastError: Cardinal;
+@@ -1289,19 +1290,19 @@
+       // duplicate % so they get passed through the format function
+       RaiseLastOsErrorEx(LastError, Format(_('Error %%1:s (%%0:d) while changing the readonly flag of &quot;%s&quot;'), [_Filename]));
+     end;
+-    Result := false
++    Result := False
+   end else
+-    Result := true;
++    Result := True;
+ end;
+ 
+-class function TFileSystem.CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+-  _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean;
++class function TFileSystem.CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = True;
++  _RaiseException: boolean = True; _ForceOverwrite: boolean = False): boolean;
+ var
+   LastError: Cardinal;
+ begin
+   Result := Windows.CopyFile(PChar(_Source), PChar(_Dest), _FailIfExists);
+   if not Result and not _FailIfExists and _ForceOverwrite then begin
+-    SetReadonly(_Dest, False, false);
++    SetReadonly(_Dest, False, False);
+     Result := Windows.CopyFile(PChar(_Source), PChar(_Dest), _FailIfExists);
+   end;
+   if not Result and _RaiseException then begin
+@@ -1323,13 +1324,13 @@
+   FilenameOnly := ExtractFileName(_Filename);
+   Ext := ExtractFileExt(FilenameOnly);
+   Base := ChangeFileExt(FilenameOnly, '');
+-  Result := _BackupDir + Base + '_' + ReplaceChars(DateTime2Iso(now, true), ': ', '-_') + Ext;
++  Result := _BackupDir + Base + '_' + ReplaceChars(DateTime2Iso(now, True), ': ', '-_') + Ext;
+ end;
+ 
+ class function TFileSystem.BackupFile(const _Filename: string; _BackupDir: string = ''): string;
+ begin
+   Result := GenerateBackupFilename(_Filename, _BackupDir);
+-  CopyFile(_Filename, Result, true);
++  CopyFile(_Filename, Result, True);
+ end;
+ 
+ class function TFileSystem.ContainsWildcard(const _Mask: string): boolean;
+@@ -1530,8 +1531,8 @@
+   end;
+ end;
+ 
+-class function TFileSystem.DeleteFile(const _Filename: string; _RaiseException: boolean = true;
+-  _Force: boolean = false): boolean;
++class function TFileSystem.DeleteFile(const _Filename: string; _RaiseException: boolean = True;
++  _Force: boolean = False): boolean;
+ var
+   Attr: integer;
+   LastError: Cardinal;
+@@ -1574,11 +1575,11 @@
+     for i := Low(_ExceptMasks) to High(_ExceptMasks) do begin
+       Mask := LowerCase(_ExceptMasks[i]);
+       if MatchesMask(_s, Mask) then begin
+-        Result := true;
++        Result := True;
+         exit;
+       end;
+     end;
+-    Result := false;
++    Result := False;
+   end;
+ 
+ var
+@@ -1605,7 +1606,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.FileExists(const _Filename: string; _RaiseException: boolean = false): boolean;
++class function TFileSystem.FileExists(const _Filename: string; _RaiseException: boolean = False): boolean;
+ var
+   OldErrorMode: Cardinal;
+ begin
+@@ -1619,7 +1620,7 @@
+     raise Exception.CreateFmt(_('File not found: %s'), [_Filename]);
+ end;
+ 
+-class function TFileSystem.DirExists(const _DirName: string; _RaiseException: boolean = false): boolean;
++class function TFileSystem.DirExists(const _DirName: string; _RaiseException: boolean = False): boolean;
+ var
+   OldErrorMode: Cardinal;
+ begin
+@@ -1634,7 +1635,7 @@
+ end;
+ 
+ class function TFileSystem.FindMatchingDirs(const _Mask: string; _sl: TStrings;
+-  _IncludePath: boolean = false): integer;
++  _IncludePath: boolean = False): integer;
+ var
+   enum: TSimpleDirEnumerator;
+ begin
+@@ -1647,6 +1648,13 @@
+   end;
+ end;
+ 
++class function TFileSystem.FindMatchingFile(const _Mask: string): TMatchingFileResult;
++var
++  fn: string;
++begin
++  Result := FindMatchingFile(_Mask, fn);
++end;
++
+ class function TFileSystem.FindMatchingFiles(const _Mask: string; _sl: TStrings;
+   _IncludePath: boolean): integer;
+ begin
+@@ -1677,7 +1685,7 @@
+     end;
+ end;
+ 
+-class function TFileSystem.ForceDir(const _DirectoryPath: string; _RaiseException: boolean = true): boolean;
++class function TFileSystem.ForceDir(const _DirectoryPath: string; _RaiseException: boolean = True): boolean;
+ var
+   LastError: Cardinal;
+ begin
+@@ -1688,7 +1696,7 @@
+       // ForceDirectories can raise EInOutError if the directory path contains empty parts
+       if _RaiseException then
+         raise Exception.CreateFmt(_('Error creating directory &quot;%s&quot;: %s (%s)'), [_DirectoryPath, e.Message, e.ClassName]);
+-      Result := false;
++      Result := False;
+       exit;
+     end;
+   end;
+@@ -1699,7 +1707,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.RemoveDir(const _Dirname: string; _RaiseException: boolean = true; _Force: boolean = false): boolean;
++class function TFileSystem.RemoveDir(const _Dirname: string; _RaiseException: boolean = True; _Force: boolean = False): boolean;
+ var
+   Attr: integer;
+   LastError: Cardinal;
+@@ -1718,7 +1726,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.DelTree(const _Dirname: string; _Force: boolean = false; _RaiseException: boolean = true): boolean;
++class function TFileSystem.DelTree(const _Dirname: string; _Force: boolean = False; _RaiseException: boolean = True): boolean;
+ begin
+   Result := DelDirTree(_Dirname, _RaiseException, _Force);
+ end;
+@@ -1783,7 +1791,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean;
++class function TFileSystem.IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = True): boolean;
+ var
+   i: Integer;
+   NotAllowed: TCharSet;
+@@ -1812,7 +1820,7 @@
+   Result := True;
+ end;
+ 
+-class function TFileSystem.IsValidFilename(const _s: string; _AllowDot: boolean = true): boolean;
++class function TFileSystem.IsValidFilename(const _s: string; _AllowDot: boolean = True): boolean;
+ var
+   ErrPos: integer;
+ begin
+@@ -1886,8 +1894,8 @@
+ begin
+   inherited Create;
+   FMaxGenerations := 5;
+-  FOldestIsHighest := true;
+-  FResultContainsNumber := false;
++  FOldestIsHighest := True;
++  FResultContainsNumber := False;
+   FPrependZeros := 0;
+   FBaseName := _BaseName;
+   FSuffix := _Suffix;
+@@ -1917,7 +1925,7 @@
+       TFileSystem.DeleteFile(dst);
+     if FileExists(Result) then begin
+       if _KeepOriginal then
+-        TFileSystem.CopyFile(Result, dst, true)
++        TFileSystem.CopyFile(Result, dst, True)
+       else
+         TFileSystem.MoveFile(Result, dst);
+     end;
+@@ -1954,12 +1962,12 @@
+     if not FileExists(Result) then
+       exit;
+ 
+-    SlotFound := false;
++    SlotFound := False;
+     MaxGen := FMaxGenerations - 1;
+     for i := 1 to MaxGen do begin
+       dst := GenerateFilename(i);
+       if not FileExists(dst) then begin
+-        SlotFound := true;
++        SlotFound := True;
+         break;
+       end;
+     end;
+@@ -1977,7 +1985,7 @@
+     end;
+ 
+     if _KeepOriginal then
+-      TFileSystem.CopyFile(Result, dst, true)
++      TFileSystem.CopyFile(Result, dst, True)
+     else
+       TFileSystem.MoveFile(Result, dst);
+   end;
+@@ -2000,7 +2008,7 @@
+     end;
+     Result := GenerateFilename(MaxGen);
+     if _KeepOriginal then
+-      TFileSystem.CopyFile(GenerateFilename(MaxGen - 1), Result, true);
++      TFileSystem.CopyFile(GenerateFilename(MaxGen - 1), Result, True);
+   end;
+ 
+ begin
+@@ -2125,7 +2133,7 @@
+   end;
+ end;
+ 
+-procedure TDirectorySync.SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
++procedure TDirectorySync.SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = False);
+ var
+   Filename: string;
+   EnumA: TSimpleDirEnumerator;
+@@ -2176,7 +2184,7 @@
+ 
+ { TUniqueTempDir }
+ 
+-constructor TUniqueTempDir.Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = false);
++constructor TUniqueTempDir.Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = False);
+ begin
+   inherited Create;
+   FPath := _Path;
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-06-05 15:03:23 UTC (rev 581)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-06-13 10:02:16 UTC (rev 582)
+@@ -60,7 +60,7 @@
+ ///&lt;summary&gt; Assigns the TBitBtn's glyph from the hex string (e.g. copied from .dfm)
+ ///          if ContainsLength is true, the first 4 bytes (8 characters) contain the length of the
+ ///          data (as is the case with the strings stored in the .dfm file) &lt;/summary&gt;
+-procedure TBitBtn_GlyphFromString(_btn: TBitBtn; const _GlyphStr: AnsiString; _ContainsLength: boolean = true);
++procedure TBitBtn_GlyphFromString(_btn: TBitBtn; const _GlyphStr: AnsiString; _ContainsLength: boolean = True);
+ 
+ ///&lt;summary&gt; This is meant as a replacement to the LockWindowUpate function which shouldn't really be used
+ ///          any more.
+@@ -107,7 +107,7 @@
+ ///          @param IncludeFixed determines whether the fixed rows/columns are also included
+ ///          @returns a string containing the contents of the grid columns separated by TAB
+ ///                   rows sepearated by CRLF. &lt;/summary&gt;
+-function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = false): string; overload;
++function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = False): string; overload;
+ 
+ ///&lt;summary&gt; Returns the content of a StringGrid as a string
+ ///          @param Grid is the TCustomGrid to read from.
+@@ -120,13 +120,13 @@
+ ///          @param Grid is the string grid to export
+ ///          @param Filename is the name of the text file to create
+ ///          @param IncludeFixed determines whether the fixed rows/columns are also exported &lt;/summary&gt;
+-procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = false);
++procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = False);
+ 
+ ///&lt;summary&gt; exports the contents of the string grid as tab separated strings to a stream
+ ///          @param Grid is the string grid to export
+ ///          @param Stream is the stream to write to
+ ///          @param IncludeFixed determines whether the fixed rows/columns are also exported &lt;/summary&gt;
+-procedure TGrid_ExportToStream(_Grid: TCustomGrid; _Stream: TStream; _IncludeFixed: boolean = false);
++procedure TGrid_ExportToStream(_Grid: TCustomGrid; _Stream: TStream; _IncludeFixed: boolean = False);
+ 
+ ///&lt;summary&gt; sets the row count, taking the fixed rows into account
+ ///          @returns the new RowCount &lt;/summary&gt;
+@@ -203,7 +203,7 @@
+ ///                           if it does not contain a valid value
+ ///          @returns the cell's content as a double
+ ///          @raises EConvertError if the cell's content could not be converted &lt;/summary&gt;
+-function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): double;
++function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = True): double;
+ 
+ ///&lt;summary&gt; Tries to convert the grid cell to an integer, if an error occurs, it raises
+ ///          an exception and optionally focuses the cell.
+@@ -214,7 +214,7 @@
+ ///                           if it does not contain a valid value
+ ///          @returns the cell's content as an integer
+ ///          @raises EConvertError if the cell's content could not be converted &lt;/summary&gt;
+-function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
++function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = True): integer;
+ 
+ ///&lt;summary&gt; Deletes the top lines of the memo so it only contains Retain lines
+ ///          @param Memo is the memo to work on
+@@ -239,7 +239,7 @@
+ ///                              if it does not contain a valid value or not
+ ///          @returns the controls content as a double
+ ///          @raises EConvertError if the controls content could not be converted &lt;/summary&gt;
+-function TEdit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
++function TEdit_TextToDouble(_ed: TCustomEdit; _FocusControl: boolean = True): double;
+ 
+ ///&lt;summary&gt; Tries to convert the edit control text to a double, if an error occurs, it changes it's
+ ///          color to ErrColor and returns false, otherwise it changes the color to OkColor and
+@@ -247,16 +247,16 @@
+ function TEdit_TryTextToDouble(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ function TEdit_TryTextToDouble(_ed: TEdit; out _Value: double; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ 
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: extended;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: extended;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: double;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: double;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: single;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: single;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ 
+-function TEdit_IsTextFloat(_ed: TEdit; _MinValue, _MaxValue: extended;
++function TEdit_IsTextFloat(_ed: TCustomEdit; _MinValue, _MaxValue: extended;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+-function TEdit_IsTextFloat(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
++function TEdit_IsTextFloat(_ed: TCustomEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean; overload;
+ 
+ ///&lt;summary&gt; Tries to convert the edit control text to an integer, if an error occurs, it raises
+ ///          an exception and optionally focuses the control.
+@@ -265,8 +265,8 @@
+ ///                              if it does not contain a valid value
+ ///          @returns the controls content as an integer
+ ///          @raises EConvertError if the controls content could not be converted &lt;/summary&gt;
+-function TEdit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer; overload;
+-function TEdit_TextToInt(_ed: TLabeledEdit; _FocusControl: boolean = true): integer; overload;
++function TEdit_TextToInt(_ed: TCustomEdit; _FocusControl: boolean = True): integer; overload;
++function TEdit_TextToInt(_ed: TLabeledEdit; _FocusControl: boolean = True): integer; overload;
+ 
+ ///&lt;summary&gt; returns the contents of the tree view as a string with indentations
+ ///          @param Tree is the TTreeView to process
+@@ -382,9 +382,9 @@
+ ///          @param FocusControl is a boolean which determines whether to focus the control
+ ///                              if it does not contain a valid value, default = false
+ ///          @returns true, if these out parameters are valid &lt;/summary&gt;
+-function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Obj: pointer; _FocusControl: boolean = false): boolean; overload; inline;
++function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Obj: pointer; _FocusControl: boolean = False): boolean; overload; inline;
+ function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Idx: integer;
+-  out _Obj: pointer; _FocusControl: boolean = false): boolean; overload;
++  out _Obj: pointer; _FocusControl: boolean = False): boolean; overload;
+ 
+ ///&lt;summary&gt; Gets the caption of the selected combobox item
+ ///          @param cmb is the TCustomCombobox (descendant) to read from
+@@ -393,10 +393,10 @@
+ ///                              if it does not contain a valid value, default = false
+ ///          @returns true, if an item was selected &lt;/summary&gt;
+ function TComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean; overload;
++  _FocusControl: boolean = False): boolean; overload;
+ function TComboBox_GetSelected(_cmb: TCustomComboBox): string; overload;
+ 
+-function TComboBox_IsSelected(_cmb: TComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++function TComboBox_IsSelected(_cmb: TCustomComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ 
+ ///&lt;summary&gt; Selects the item if it is in the list and returns the new ItemIndex
+ ///          @param cmb is the TCustomCombobox (descendant) to use
+@@ -432,7 +432,7 @@
+ ///                              if it does not contain a valid value, default = false
+ ///          @returns true, if an item was selected &lt;/summary&gt;
+ function TListBox_GetSelected(_lb: TCustomListBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean; overload;
++  _FocusControl: boolean = False): boolean; overload;
+ function TListBox_GetSelected(_lb: TCustomListBox): string; overload;
+ 
+ ///&lt;summary&gt; @Returns the number of selected items in the ListBox
+@@ -464,22 +464,22 @@
+ ///&lt;summary&gt; Returns the nunber of items that are checked &lt;/summary&gt;
+ function TCheckListBox_GetCheckedCount(_clb: TCheckListBox): integer;
+ procedure TCheckListBox_DeleteDisabled(_clb: TCheckListBox);
+-procedure TCheckListBox_InvertCheckmarks(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_InvertCheckmarks(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ procedure TCheckListBox_UncheckAll(_clb: TCheckListBox);
+-procedure TCheckListBox_CheckAll(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_CheckAll(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ ///&lt;summary&gt; Returns the checked items and the objects associated in them
+ ///          @param clb is the TCheckListBox
+ ///          @param Checked is a TStrings to which the selected items and objects are to be added
+ ///          @param IncludeDisabled determines whether the disabled items should also be returned if they are checked
+ ///          @returns the number of Items in Checked &lt;/summary&gt;
+-function TCheckListBox_GetChecked(_clb: TCheckListBox; _Checked: TStrings; _IncludeDisabled: boolean = false): integer; overload;
+-function TCheckListBox_GetChecked(_clb: TCheckListbox; _IncludeDisabled: boolean = false): string; overload;
++function TCheckListBox_GetChecked(_clb: TCheckListBox; _Checked: TStrings; _IncludeDisabled: boolean = False): integer; overload;
++function TCheckListBox_GetChecked(_clb: TCheckListbox; _IncludeDisabled: boolean = False): string; overload;
+ ///&lt;summary&gt; Returns the objects associated with the checked items
+ ///          @param clb is the TCheckListBox
+ ///          @param Objects is a TList to which the selected objects are to be added
+ ///          @param IncludeDisabled determines whether the disabled items should also be returned if they are checked
+ ///          @returns the number of Items in Objects &lt;/summary&gt;
+-function TCheckListBox_GetCheckedObjects(_clb: TCheckListBox; _Objects: TList; _IncludeDisabled: boolean = false): integer;
++function TCheckListBox_GetCheckedObjects(_clb: TCheckListBox; _Objects: TList; _IncludeDisabled: boolean = False): integer;
+ ///&lt;summary&gt; Checks all items contained in the Checked string list
+ ///          @param clb is the TCheckListBox to modify
+ ///          @param Checked is a string list containing the items to be checked
+@@ -489,13 +489,13 @@
+ ///                               event should be suppressed.
+ ///          @returns the number of items that have been checked. &lt;/summary&gt;
+ function TCheckListBox_SetChecked(_clb: TCheckListBox; _Checked: TStrings;
+-  _UncheckOthers: boolean = true; _SuppressClick: boolean = false): integer;
++  _UncheckOthers: boolean = True; _SuppressClick: boolean = False): integer;
+ 
+ ///&lt;summary&gt; sets the checked property without triggering an OnClickCheck event &lt;/summary&gt;
+ procedure TCheckListBox_SetCheckedNoClick(_clb: TCheckListBox; _Idx: integer; _Checked: boolean);
+ 
+-procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
+-procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
++procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ 
+ ///&lt;summary&gt; Makes the given TCheckListBox readonly by assigning a special
+ ///          method to its OnClickCheck event or makes it ReadWrite again
+@@ -504,7 +504,7 @@
+ ///          @param ChangeColor determines whether to change the background color
+ ///                             to clWindow (ReadWrite) and clBtnFace (ReadOnly)
+ ///                             respectively. Defaults to true &lt;/summary&gt;
+-procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = true);
++procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = True);
+ 
+ ///&lt;summary&gt; Gets the caption of the given or selected item in the RadioGroup
+ ///          @param rg is the TCustomRadioGroup descendant to read
+@@ -619,7 +619,7 @@
+ 
+ ///&lt;summary&gt; Unselect all items, if WithSelectEvents is false, OnSelectItem events will be temporarily
+ ///          disabled. &lt;/summary&gt;
+-procedure TListView_UnselectAll(_lv: TListView; _WithSelectEvents: boolean = true);
++procedure TListView_UnselectAll(_lv: TListView; _WithSelectEvents: boolean = True);
+ 
+ ///&lt;summary&gt; Returns the number of selected items in the ListView &lt;/summary&gt;
+ function TListView_GetSelectedCount(_lv: TListView): integer;
+@@ -683,7 +683,7 @@
+   Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+-procedure TBitBtn_GlyphFromString(_btn: TBitBtn; const _GlyphStr: AnsiString; _ContainsLength: boolean = true);
++procedure TBitBtn_GlyphFromString(_btn: TBitBtn; const _GlyphStr: AnsiString; _ContainsLength: boolean = True);
+ var
+   st: TMemoryStream;
+   s: AnsiString;
+@@ -715,7 +715,7 @@
+   TGridHack = class(TCustomGrid);
+   TDbGridHack = class(TCustomDbGrid);
+ 
+-function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = false): string;
++function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = False): string;
+ var
+   Selection: TGridRect;
+   Grid: TGridHack;
+@@ -763,7 +763,7 @@
+   end;
+ end;
+ 
+-procedure TGrid_ExportToStream(_Grid: TCustomGrid; _Stream: TStream; _IncludeFixed: boolean = false);
++procedure TGrid_ExportToStream(_Grid: TCustomGrid; _Stream: TStream; _IncludeFixed: boolean = False);
+ var
+   s: string;
+ begin
+@@ -771,7 +771,7 @@
+   TStream_WriteStringLn(_Stream, s);
+ end;
+ 
+-procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = false);
++procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = False);
+ var
+   t: Text;
+   s: string;
+@@ -856,7 +856,7 @@
+ 
+ procedure TStringGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string);
+ begin
+-  TGrid_ExportToFile(_Grid, _Filename, true);
++  TGrid_ExportToFile(_Grid, _Filename, True);
+ end;
+ 
+ procedure TStringGrid_Clear(_Grid: TStringGrid);
+@@ -923,13 +923,13 @@
+   if _Row = -1 then
+     _Row := _Grid.Row;
+   if (_Row &lt; _Grid.FixedRows) or (_Row &gt;= _Grid.RowCount) then begin
+-    Result := false;
++    Result := False;
+     exit;
+   end;
+   if _Grid.RowCount &lt;= _Grid.FixedRows + 1 then begin
+     for c := 0 to _Grid.ColCount - 1 do
+       _Grid.Cells[c, _Grid.FixedRows] := '';
+-    Result := true;
++    Result := True;
+     exit;
+   end;
+ 
+@@ -941,7 +941,7 @@
+       _Grid.Cells[c, r - 1] := _Grid.Cells[c, r];
+   end;
+   _Grid.RowCount := _Grid.RowCount - 1;
+-  Result := true;
++  Result := True;
+ end;
+ 
+ function TStringGrid_InsertRow(_Grid: TStringGrid; _Row: integer = -1): integer;
+@@ -974,7 +974,7 @@
+   _Grid.RowCount := Result + 1;
+ end;
+ 
+-function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): double;
++function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = True): double;
+ var
+   s: string;
+ begin
+@@ -989,7 +989,7 @@
+   end;
+ end;
+ 
+-function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): integer;
++function TStringGrid_CellToInt(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = True): integer;
+ var
+   s: string;
+ begin
+@@ -1023,7 +1023,7 @@
+   end;
+ end;
+ 
+-function TEdit_TextToDouble(_ed: TEdit; _FocusControl: boolean = true): double;
++function TEdit_TextToDouble(_ed: TCustomEdit; _FocusControl: boolean = True): double;
+ var
+   s: string;
+ begin
+@@ -1055,7 +1055,11 @@
+   Result := TEdit_TryTextToDouble(_ed, Value, _OkColor, _ErrColor);
+ end;
+ 
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: extended;
++type
++  TEditHack = class(TCustomEdit)
++  end;
++
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: extended;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   s: string;
+@@ -1063,12 +1067,12 @@
+   s := _ed.Text;
+   Result := TryStr2Float(s, _Value, #0);
+   if Result then
+-    _ed.Color := _OkColor
++    TEditHack(_ed).Color := _OkColor
+   else
+-    _ed.Color := _ErrColor;
++    TEditHack(_ed).Color := _ErrColor;
+ end;
+ 
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: double;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: double;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   s: string;
+@@ -1076,12 +1080,12 @@
+   s := _ed.Text;
+   Result := TryStr2Float(s, _Value, #0);
+   if Result then
+-    _ed.Color := _OkColor
++    TEditHack(_ed).Color := _OkColor
+   else
+-    _ed.Color := _ErrColor;
++    TEditHack(_ed).Color := _ErrColor;
+ end;
+ 
+-function TEdit_TryTextToFloat(_ed: TEdit; out _Value: single;
++function TEdit_TryTextToFloat(_ed: TCustomEdit; out _Value: single;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   s: string;
+@@ -1089,12 +1093,12 @@
+   s := _ed.Text;
+   Result := TryStr2Float(s, _Value, #0);
+   if Result then
+-    _ed.Color := _OkColor
++    TEditHack(_ed).Color := _OkColor
+   else
+-    _ed.Color := _ErrColor;
++    TEditHack(_ed).Color := _ErrColor;
+ end;
+ 
+-function TEdit_IsTextFloat(_ed: TEdit; _MinValue, _MaxValue: extended;
++function TEdit_IsTextFloat(_ed: TCustomEdit; _MinValue, _MaxValue: extended;
+   _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   Value: Extended;
+@@ -1105,19 +1109,19 @@
+   Result := (CompareValue(_MinValue, Value) &lt;&gt; GreaterThanValue)
+     and (CompareValue(_MaxValue, Value) &lt;&gt; LessThanValue);
+   if Result then
+-    _ed.Color := _OkColor
++    TEditHack(_ed).Color := _OkColor
+   else
+-    _ed.Color := _ErrColor;
++    TEditHack(_ed).Color := _ErrColor;
+ end;
+ 
+-function TEdit_IsTextFloat(_ed: TEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++function TEdit_IsTextFloat(_ed: TCustomEdit; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ var
+   Value: Extended;
+ begin
+   Result := TEdit_TryTextToFloat(_ed, Value, _OkColor, _ErrColor);
+ end;
+ 
+-function TEdit_TextToInt(_ed: TEdit; _FocusControl: boolean = true): integer;
++function TEdit_TextToInt(_ed: TCustomEdit; _FocusControl: boolean = True): integer;
+ var
+   s: string;
+ begin
+@@ -1130,7 +1134,7 @@
+   end;
+ end;
+ 
+-function TEdit_TextToInt(_ed: TLabeledEdit; _FocusControl: boolean = true): integer;
++function TEdit_TextToInt(_ed: TLabeledEdit; _FocusControl: boolean = True): integer;
+ var
+   s: string;
+ begin
+@@ -1180,7 +1184,7 @@
+ var
+   i: integer;
+ begin
+-  Result := false;
++  Result := False;
+   for i := low(_Arr) to High(_Arr) do begin
+     Result := _Arr[i] = _Element;
+     if Result then
+@@ -1444,7 +1448,7 @@
+   Painter: TStatusBarPainter;
+   pnl: TStatusPanel;
+ begin
+-  _StatusBar.SimplePanel := false;
++  _StatusBar.SimplePanel := False;
+   _StatusBar.Panels.Clear;
+   pnl := _StatusBar.Panels.Add;
+   pnl.Style := psOwnerDraw;
+@@ -1479,6 +1483,10 @@
+   _Control.Enabled := _Enabled;
+ end;
+ 
++type
++  TComboBoxHack = class(TCustomCombobox)
++  end;
++
+ procedure TComboBox_SetDropdownWidth(_cmb: TCustomCombobox; _Pixels: integer);
+ begin
+   _cmb.HandleNeeded;
+@@ -1496,7 +1504,7 @@
+       exit;
+     end;
+   end;
+-  Result := false;
++  Result := False;
+ end;
+ 
+ function TComboBox_GetObjectCaption(_cmb: TCustomCombobox; _Obj: pointer; out _s: string): boolean;
+@@ -1510,10 +1518,10 @@
+       exit;
+     end;
+   end;
+-  Result := false;
++  Result := False;
+ end;
+ 
+-function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Obj: pointer; _FocusControl: boolean = false): boolean;
++function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Obj: pointer; _FocusControl: boolean = False): boolean;
+ var
+   Idx: integer;
+ begin
+@@ -1521,7 +1529,7 @@
+ end;
+ 
+ function TComboBox_GetSelectedObject(_cmb: TCustomCombobox; out _Idx: integer;
+-  out _Obj: pointer; _FocusControl: boolean = false): boolean;
++  out _Obj: pointer; _FocusControl: boolean = False): boolean;
+ begin
+   _Idx := _cmb.ItemIndex;
+   Result := (_Idx &lt;&gt; -1);
+@@ -1532,7 +1540,7 @@
+ end;
+ 
+ function TComboBox_GetSelected(_cmb: TCustomComboBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean;
++  _FocusControl: boolean = False): boolean;
+ var
+   Idx: integer;
+ begin
+@@ -1551,7 +1559,7 @@
+ end;
+ 
+ function TListBox_GetSelected(_lb: TCustomListBox; out _Item: string;
+-  _FocusControl: boolean = false): boolean;
++  _FocusControl: boolean = False): boolean;
+ var
+   Idx: integer;
+ begin
+@@ -1583,13 +1591,13 @@
+   end;
+ end;
+ 
+-function TComboBox_IsSelected(_cmb: TComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
++function TComboBox_IsSelected(_cmb: TCustomComboBox; _OkColor: TColor = clWindow; _ErrColor: TColor = clYellow): boolean;
+ begin
+   Result := (_cmb.ItemIndex &lt;&gt; -1);
+   if Result then
+-    _cmb.Color := _OkColor
++    TComboBoxHack(_cmb).Color := _OkColor
+   else
+-    _cmb.Color := _ErrColor;
++    TComboBoxHack(_cmb).Color := _ErrColor;
+ end;
+ 
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+@@ -1632,7 +1640,7 @@
+   i: Integer;
+ begin
+   for i := 0 to _lb.Items.count - 1 do
+-    _lb.Selected[i] := false;
++    _lb.Selected[i] := False;
+ end;
+ 
+ procedure TListbox_ClearWithObjects(_lst: TCustomListBox);
+@@ -1651,7 +1659,7 @@
+       Inc(Result);
+ end;
+ 
+-procedure TCheckListBox_CheckAll(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_CheckAll(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ var
+   i: Integer;
+ begin
+@@ -1667,7 +1675,7 @@
+     _clb.Checked[i] := False;
+ end;
+ 
+-procedure TCheckListBox_InvertCheckmarks(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_InvertCheckmarks(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ var
+   i: Integer;
+ begin
+@@ -1675,22 +1683,22 @@
+     _clb.Checked[i] := not _clb.Checked[i] and (_IncludeDisabled or _clb.ItemEnabled[i]);
+ end;
+ 
+-procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_CheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ var
+   i: Integer;
+ begin
+   for i := 0 to _clb.Items.Count - 1 do
+     if _clb.Selected[i] and (_IncludeDisabled or _clb.ItemEnabled[i]) then
+-      _clb.Checked[i] := true;
++      _clb.Checked[i] := True;
+ end;
+ 
+-procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = false);
++procedure TCheckListBox_UncheckSelected(_clb: TCheckListBox; _IncludeDisabled: boolean = False);
+ var
+   i: Integer;
+ begin
+   for i := 0 to _clb.Items.Count - 1 do
+     if _clb.Selected[i] and (_IncludeDisabled or _clb.ItemEnabled[i]) then
+-      _clb.Checked[i] := false;
++      _clb.Checked[i] := False;
+ end;
+ 
+ procedure TCheckListBox_DeleteDisabled(_clb: TCheckListBox);
+@@ -1716,7 +1724,7 @@
+ end;
+ 
+ function TCheckListBox_SetChecked(_clb: TCheckListBox; _Checked: TStrings;
+-  _UncheckOthers: boolean = true; _SuppressClick: boolean = false): integer;
++  _UncheckOthers: boolean = True; _SuppressClick: boolean = False): integer;
+ var
+   i: integer;
+   Idx: integer;
+@@ -1739,7 +1747,7 @@
+   end;
+ end;
+ 
+-function TCheckListBox_GetChecked(_clb: TCheckListBox; _Checked: TStrings; _IncludeDisabled: boolean = false): integer;
++function TCheckListBox_GetChecked(_clb: TCheckListBox; _Checked: TStrings; _IncludeDisabled: boolean = False): integer;
+ var
+   i: Integer;
+ begin
+@@ -1749,7 +1757,7 @@
+   Result := _Checked.Count;
+ end;
+ 
+-function TCheckListBox_GetChecked(_clb: TCheckListbox; _IncludeDisabled: boolean = false): string; overload;
++function TCheckListBox_GetChecked(_clb: TCheckListbox; _IncludeDisabled: boolean = False): string; overload;
+ var
+   sl: TStringList;
+ begin
+@@ -1762,7 +1770,7 @@
+   end;
+ end;
+ 
+-function TCheckListBox_GetCheckedObjects(_clb: TCheckListBox; _Objects: TList; _IncludeDisabled: boolean = false): integer;
++function TCheckListBox_GetCheckedObjects(_clb: TCheckListBox; _Objects: TList; _IncludeDisabled: boolean = False): integer;
+ var
+   i: Integer;
+ begin
+@@ -1841,7 +1849,7 @@
+   _ctrl.Top := 0;
+   _ctrl.Left := 0;
+   _ctrl.Parent := Panel;
+-  Panel.Enabled := false;
++  Panel.Enabled := False;
+ end;
+ 
+ function TListBox_Select(_lb: TCustomListBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+@@ -2014,7 +2022,7 @@
+   Min, Max: integer;
+   Grid: THackGrid;
+ begin
+-  Result := false;
++  Result := False;
+   if not _Grid.HandleAllocated then
+     exit;
+   Grid := THackGrid(_Grid);
+@@ -2075,11 +2083,11 @@
+   Chk: THackCheckBox;
+ begin
+   Chk := THackCheckBox(_Chk);
+-  Chk.ClicksDisabled := true;
++  Chk.ClicksDisabled := True;
+   try
+     Chk.Checked := _Checked;
+   finally
+-    Chk.ClicksDisabled := false;
++    Chk.ClicksDisabled := False;
+   end;
+ end;
+ 
+@@ -2428,7 +2436,7 @@
+   THackButtonControl(_bctrl).Caption := _Value;
+ end;
+ 
+-procedure TListView_UnselectAll(_lv: TListView; _WithSelectEvents: boolean = true);
++procedure TListView_UnselectAll(_lv: TListView; _WithSelectEvents: boolean = True);
+ var
+   i: Integer;
+   Event: TLVSelectItemEvent;
+@@ -2438,7 +2446,7 @@
+     _lv.OnSelectItem := nil;
+   try
+     for i := 0 to _lv.Items.Count - 1 do
+-      _lv.Items[i].Selected := false;
++      _lv.Items[i].Selected := False;
+   finally
+     _lv.OnSelectItem := Event;
+   end;
+@@ -2590,12 +2598,12 @@
+ begin
+   inherited Create;
+   FCtrl := _Ctrl;
+-  SendMessage(FCtrl.Handle, WM_SETREDRAW, integer(LongBool(false)), 0);
++  SendMessage(FCtrl.Handle, WM_SETREDRAW, integer(LongBool(False)), 0);
+ end;
+ 
+ destructor TWinControlLocker.Destroy;
+ begin
+-  SendMessage(FCtrl.Handle, WM_SETREDRAW, integer(LongBool(true)), 0);
++  SendMessage(FCtrl.Handle, WM_SETREDRAW, integer(LongBool(True)), 0);
+   RedrawWindow(FCtrl.Handle, nil, 0, RDW_ERASE or RDW_INVALIDATE or RDW_ALLCHILDREN);
+   inherited;
+ end;
+@@ -2609,7 +2617,7 @@
+ var
+   gblCheckListBoxHelper: TCheckListBoxHelper = nil;
+ 
+-procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = true);
++procedure TCheckListBox_Readonly(_clb: TCheckListBox; _ReadOnly: boolean; _ChangeColor: boolean = True);
+ begin
+   if _ReadOnly then begin
+     if not Assigned(gblCheckListBoxHelper) then
+@@ -2651,7 +2659,7 @@
+   inherited;
+   if RightButton.Visible and (RightButton.Hint = '') then begin
+     RightButton.Hint := _('Ctrl+Return to ''click'' right button.');
+-    ShowHint := true;
++    ShowHint := True;
+   end;
+ end;
+ {$ENDIF DELPHI2009_UP}
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2011-06-05 15:03:23 UTC (rev 581)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2011-06-13 10:02:16 UTC (rev 582)
+@@ -120,6 +120,7 @@
+ msgid &quot;%dm %ds&quot;
+ msgstr &quot;%dm %ds&quot;
+ 
++# Label: ignore
+ #. Seconds only
+ #: u_dzConvertUtils.pas:736
+ #, object-pascal-format
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000439.html">[Dzchart-svncheckins] r581 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000441.html">[Dzchart-svncheckins] r583 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#440">[ date ]</a>
+              <a href="thread.html#440">[ thread ]</a>
+              <a href="subject.html#440">[ subject ]</a>
+              <a href="author.html#440">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

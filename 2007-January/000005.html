@@ -1,0 +1,480 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r129 - in utilities/dzAutoSave/trunk: Delphi5	source
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r129%20-%20in%20utilities/dzAutoSave/trunk%3A%20Delphi5%0A%09source&In-Reply-To=%3C200701011827.l01IRg50026052%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000004.html">
+   <LINK REL="Next"  HREF="000006.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r129 - in utilities/dzAutoSave/trunk: Delphi5	source</H1>
+    <B>twm at BerliOS</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r129%20-%20in%20utilities/dzAutoSave/trunk%3A%20Delphi5%0A%09source&In-Reply-To=%3C200701011827.l01IRg50026052%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r129 - in utilities/dzAutoSave/trunk: Delphi5	source">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Jan  1 19:27:42 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000004.html">[Dzchart-svncheckins] r128 - in utilities/dzAutoSave/trunk: Delphi7	source
+</A></li>
+        <LI>Next message: <A HREF="000006.html">[Dzchart-svncheckins] r130 - utilities/dzBdsIdeScript/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-01-01 19:27:42 +0100 (Mon, 01 Jan 2007)
+New Revision: 129
+
+Added:
+   utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dof
+   utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dpk
+Removed:
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof
+   utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk
+Modified:
+   utilities/dzAutoSave/trunk/Delphi5/
+   utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+Log:
+* renamed packages to dzAutoSave50, since Delphi5 does not support lib suffixes
+* removed some more unsupported properties from the .dfm file
+
+
+Property changes on: utilities/dzAutoSave/trunk/Delphi5
+___________________________________________________________________
+Name: svn:ignore
+   + dzAutoSave50.cfg
+dzAutoSave50.res
+
+
+Deleted: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.bpg	2007-01-01 18:27:42 UTC (rev 129)
+@@ -1,22 +0,0 @@
+-#------------------------------------------------------------------------------
+-VERSION = BWS.01
+-#------------------------------------------------------------------------------
+-!ifndef ROOT
+-ROOT = $(MAKEDIR)\..
+-!endif
+-#------------------------------------------------------------------------------
+-MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+-DCC = $(ROOT)\bin\dcc32.exe $**
+-BRCC = $(ROOT)\bin\brcc32.exe $**
+-#------------------------------------------------------------------------------
+-PROJECTS = AutoSave5.bpl
+-#------------------------------------------------------------------------------
+-default: $(PROJECTS)
+-#------------------------------------------------------------------------------
+-
+-
+-
+-AutoSave5.bpl: AutoSave5.dpk
+-  $(DCC)
+-
+-
+
+Deleted: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 18:27:42 UTC (rev 129)
+@@ -1,150 +0,0 @@
+-[FileVersion]
+-Version=7.0
+-[Compiler]
+-A=8
+-B=0
+-C=1
+-D=1
+-E=0
+-F=0
+-G=1
+-H=1
+-I=1
+-J=1
+-K=0
+-L=1
+-M=0
+-N=1
+-O=1
+-P=1
+-Q=1
+-R=1
+-S=0
+-T=1
+-U=0
+-V=1
+-W=0
+-X=1
+-Y=1
+-Z=1
+-ShowHints=1
+-ShowWarnings=1
+-UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-NamespacePrefix=
+-SymbolDeprecated=1
+-SymbolLibrary=1
+-SymbolPlatform=1
+-UnitLibrary=1
+-UnitPlatform=1
+-UnitDeprecated=1
+-HResultCompat=1
+-HidingMember=1
+-HiddenVirtual=1
+-Garbage=1
+-BoundsError=1
+-ZeroNilCompat=1
+-StringConstTruncated=1
+-ForLoopVarVarPar=1
+-TypedConstVarPar=1
+-AsgToTypedConst=1
+-CaseLabelRange=1
+-ForVariable=1
+-ConstructingAbstract=1
+-ComparisonFalse=1
+-ComparisonTrue=1
+-ComparingSignedUnsigned=1
+-CombiningSignedUnsigned=1
+-UnsupportedConstruct=1
+-FileOpen=1
+-FileOpenUnitSrc=1
+-BadGlobalSymbol=1
+-DuplicateConstructorDestructor=1
+-InvalidDirective=1
+-PackageNoLink=1
+-PackageThreadVar=1
+-ImplicitImport=1
+-HPPEMITIgnored=1
+-NoRetVal=1
+-UseBeforeDef=1
+-ForLoopVarUndef=1
+-UnitNameMismatch=1
+-NoCFGFileFound=1
+-MessageDirective=1
+-ImplicitVariants=1
+-UnicodeToLocale=1
+-LocaleToUnicode=1
+-ImagebaseMultiple=1
+-SuspiciousTypecast=1
+-PrivatePropAccessor=1
+-UnsafeType=1
+-UnsafeCode=1
+-UnsafeCast=1
+-[Linker]
+-MapFile=0
+-OutputObjs=0
+-ConsoleApp=1
+-DebugInfo=0
+-RemoteSymbols=0
+-MinStackSize=16384
+-MaxStackSize=1048576
+-ImageBase=253755392
+-ExeDescription=Auto Save Wizard
+-[Directories]
+-OutputDir=
+-UnitOutputDir=Q:\bpl\dcu
+-PackageDLLOutputDir=Q:\bpl
+-PackageDCPOutputDir=Q:\bpl\dcp
+-SearchPath=
+-Packages=
+-Conditionals=
+-DebugSourceDirs=
+-UsePackages=0
+-[Parameters]
+-RunParams=
+-HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+-Launcher=
+-UseLauncher=0
+-DebugCWD=
+-[Language]
+-ActiveLang=
+-ProjectLang=
+-RootDir=
+-[Version Info]
+-IncludeVerInfo=1
+-AutoIncBuild=1
+-MajorVer=1
+-MinorVer=1
+-Release=0
+-Build=2
+-Debug=1
+-PreRelease=1
+-Special=0
+-Private=0
+-DLL=1
+-Locale=1033
+-CodePage=1252
+-[Version Info Keys]
+-CompanyName=Tempest Software, Inc.
+-FileDescription=Auto Save Wizard
+-FileVersion=1.1.0.2
+-InternalName=
+-LegalCopyright=Copyright &#169; 1999 Tempest Software,Inc.
+-LegalTrademarks=
+-OriginalFilename=autosave60.bpl
+-ProductName=Auto Save Wizard
+-ProductVersion=1.0.0.0
+-Comments=
+-[Excluded Packages]
+-c:\program files\borland\delphi7\Bin\dclite50.bpl=Borland Integrated Translation Environment
+-[HistoryLists\hlUnitAliases]
+-Count=1
+-Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-[HistoryLists\hlUnitOutputDirectory]
+-Count=1
+-Item0=Q:\bpl\dcu
+-[HistoryLists\hlBPLOutput]
+-Count=1
+-Item0=Q:\bpl
+-[HistoryLists\hlDCPOutput]
+-Count=1
+-Item0=Q:\bpl\dcp
+
+Deleted: utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 18:27:42 UTC (rev 129)
+@@ -1,38 +0,0 @@
+-package AutoSave5;
+-
+-{$R *.RES}
+-{$ALIGN ON}
+-{$ASSERTIONS ON}
+-{$BOOLEVAL OFF}
+-{$DEBUGINFO ON}
+-{$EXTENDEDSYNTAX ON}
+-{$IMPORTEDDATA ON}
+-{$IOCHECKS ON}
+-{$LOCALSYMBOLS ON}
+-{$LONGSTRINGS ON}
+-{$OPENSTRINGS ON}
+-{$OPTIMIZATION ON}
+-{$OVERFLOWCHECKS ON}
+-{$RANGECHECKS ON}
+-{$REFERENCEINFO ON}
+-{$SAFEDIVIDE OFF}
+-{$STACKFRAMES OFF}
+-{$TYPEDADDRESS ON}
+-{$VARSTRINGCHECKS ON}
+-{$WRITEABLECONST ON}
+-{$MINENUMSIZE 1}
+-{$IMAGEBASE $F200000}
+-{$DESCRIPTION 'Auto Save Wizard'}
+-{$DESIGNONLY}
+-{$IMPLICITBUILD OFF}
+-
+-requires
+-  vcl50;
+-
+-contains
+-  AutoSaveReg in 'AutoSaveReg.pas',
+-  AutoWizard in 'AutoWizard.pas',
+-  AutoConfig in 'AutoConfig.pas' {TAutoSaveForm},
+-  AutoUtil in 'AutoUtil.pas';
+-
+-end.
+
+Copied: utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dof (from rev 128, utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dof	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dof	2007-01-01 18:27:42 UTC (rev 129)
+@@ -0,0 +1,90 @@
++[Compiler]
++A=1
++B=0
++C=1
++D=1
++E=0
++F=0
++G=1
++H=1
++I=1
++J=1
++K=0
++L=1
++M=0
++N=1
++O=1
++P=1
++Q=1
++R=1
++S=0
++T=1
++U=0
++V=1
++W=0
++X=1
++Y=1
++Z=1
++ShowHints=1
++ShowWarnings=1
++UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[Linker]
++MapFile=0
++OutputObjs=0
++ConsoleApp=1
++DebugInfo=0
++RemoteSymbols=0
++MinStackSize=16384
++MaxStackSize=1048576
++ImageBase=253755392
++ExeDescription=Auto Save Wizard
++[Directories]
++OutputDir=
++UnitOutputDir=
++PackageDLLOutputDir=
++PackageDCPOutputDir=
++SearchPath=
++Packages=
++Conditionals=
++DebugSourceDirs=
++UsePackages=0
++[Parameters]
++RunParams=
++HostApplication=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++[Version Info]
++IncludeVerInfo=1
++AutoIncBuild=1
++MajorVer=1
++MinorVer=1
++Release=0
++Build=3
++Debug=1
++PreRelease=1
++Special=0
++Private=0
++DLL=1
++Locale=1033
++CodePage=1252
++[Version Info Keys]
++CompanyName=Tempest Software, Inc.
++FileDescription=Auto Save Wizard
++FileVersion=1.1.0.3
++InternalName=
++LegalCopyright=Copyright &#169; 1999 Tempest Software,Inc.
++LegalTrademarks=
++OriginalFilename=autosave60.bpl
++ProductName=Auto Save Wizard
++ProductVersion=1.0.0.0
++Comments=
++[HistoryLists\hlUnitAliases]
++Count=1
++Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
++[HistoryLists\hlUnitOutputDirectory]
++Count=1
++Item0=Q:\bpl\dcu
++[HistoryLists\hlBPLOutput]
++Count=1
++Item0=Q:\bpl
++[HistoryLists\hlDCPOutput]
++Count=1
++Item0=Q:\bpl\dcp
+
+Copied: utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dpk (from rev 128, utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk)
+===================================================================
+--- utilities/dzAutoSave/trunk/Delphi5/AutoSave5.dpk	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/Delphi5/dzAutoSave50.dpk	2007-01-01 18:27:42 UTC (rev 129)
+@@ -0,0 +1,38 @@
++package dzAutoSave50;
++
++{$R *.RES}
++{$ALIGN ON}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS ON}
++{$RANGECHECKS ON}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS ON}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST ON}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $F200000}
++{$DESCRIPTION 'Auto Save Wizard'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  vcl50;
++
++contains
++  dzAutoSaveReg in '..\source\dzAutoSaveReg.pas',
++  dzAutoWizard in '..\source\dzAutoWizard.pas',
++  dzAutoConfig in '..\source\dzAutoConfig.pas' {TAutoSaveForm},
++  dzAutoUtil in '..\source\dzAutoUtil.pas';
++
++end.
+
+Modified: utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm
+===================================================================
+--- utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 15:39:00 UTC (rev 128)
++++ utilities/dzAutoSave/trunk/source/dzAutoConfig.dfm	2007-01-01 18:27:42 UTC (rev 129)
+@@ -15,9 +15,6 @@
+   OldCreateOrder = True
+   Position = poScreenCenter
+   OnCreate = FormCreate
+-  DesignSize = (
+-    349
+-    248)
+   PixelsPerInch = 96
+   TextHeight = 13
+   object b_Cancel: TButton
+@@ -41,9 +38,6 @@
+     TabOrder = 0
+     object TabSheet1: TTabSheet
+       Caption = 'General'
+-      DesignSize = (
+-        324
+-        167)
+       object Label2: TLabel
+         Left = 91
+         Top = 90
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000004.html">[Dzchart-svncheckins] r128 - in utilities/dzAutoSave/trunk: Delphi7	source
+</A></li>
+	<LI>Next message: <A HREF="000006.html">[Dzchart-svncheckins] r130 - utilities/dzBdsIdeScript/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

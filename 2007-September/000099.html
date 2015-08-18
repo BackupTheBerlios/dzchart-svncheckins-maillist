@@ -1,0 +1,684 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r229 - in utilities/ccpack/trunk: Delphi2005	examples/CustomBox examples/CustomBox/Delphi2005	examples/CustomFrame/Delphi2005
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r229%20-%20in%20utilities/ccpack/trunk%3A%20Delphi2005%0A%09examples/CustomBox%20examples/CustomBox/Delphi2005%0A%09examples/CustomFrame/Delphi2005&In-Reply-To=%3C200709301639.l8UGd3dJ010244%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000098.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r229 - in utilities/ccpack/trunk: Delphi2005	examples/CustomBox examples/CustomBox/Delphi2005	examples/CustomFrame/Delphi2005</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r229%20-%20in%20utilities/ccpack/trunk%3A%20Delphi2005%0A%09examples/CustomBox%20examples/CustomBox/Delphi2005%0A%09examples/CustomFrame/Delphi2005&In-Reply-To=%3C200709301639.l8UGd3dJ010244%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r229 - in utilities/ccpack/trunk: Delphi2005	examples/CustomBox examples/CustomBox/Delphi2005	examples/CustomFrame/Delphi2005">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep 30 18:39:03 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000098.html">[Dzchart-svncheckins] r228 -	utilities/ccpack/trunk/examples/CustomFrame/Delphi2006
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#99">[ date ]</a>
+              <a href="thread.html#99">[ thread ]</a>
+              <a href="subject.html#99">[ subject ]</a>
+              <a href="author.html#99">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-09-30 18:38:53 +0200 (Sun, 30 Sep 2007)
+New Revision: 229
+
+Added:
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2005/
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2005/CCCustomBoxPackage.bdsproj
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2005/CCCustomBoxPackage.dpk
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2005/FourLists.bdsproj
+   utilities/ccpack/trunk/examples/CustomBox/Delphi2005/FourLists.dpr
+Modified:
+   utilities/ccpack/trunk/Delphi2005/
+   utilities/ccpack/trunk/Delphi2005/ccpack.bdsproj
+   utilities/ccpack/trunk/Delphi2005/ccpack.dpk
+   utilities/ccpack/trunk/Delphi2005/ccpackdsg.bdsproj
+   utilities/ccpack/trunk/Delphi2005/ccpackdsg.dpk
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/CCCustomFrameExample.bdsproj
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/CCCustomFrameExample.dpk
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/FamilyData.bdsproj
+   utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/FamilyData.dpr
+Log:
+packages and examples for Delphi 2005
+
+
+Property changes on: utilities/ccpack/trunk/Delphi2005
+___________________________________________________________________
+Name: svn:ignore
+   + ccpack.cfg
+ccpack.res
+ccpackdsg.cfg
+ccpackdsg.res
+
+
+Modified: utilities/ccpack/trunk/Delphi2005/ccpack.bdsproj
+===================================================================
+--- utilities/ccpack/trunk/Delphi2005/ccpack.bdsproj	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/Delphi2005/ccpack.bdsproj	2007-09-30 16:38:53 UTC (rev 229)
+@@ -120,7 +120,7 @@
+ 		&lt;/Linker&gt;
+ 		&lt;Directories&gt;
+ 			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\dcu&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
+
+Modified: utilities/ccpack/trunk/Delphi2005/ccpack.dpk
+===================================================================
+--- utilities/ccpack/trunk/Delphi2005/ccpack.dpk	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/Delphi2005/ccpack.dpk	2007-09-30 16:38:53 UTC (rev 229)
+@@ -32,7 +32,7 @@
+   rtl;
+ 
+ contains
+-  ccBoxes in '..\ccBoxes.pas',
+-  ccreg in '..\ccreg.pas';
++  ccBoxes in '..\src\ccBoxes.pas',
++  ccreg in '..\src\ccreg.pas';
+ 
+ end.
+
+Modified: utilities/ccpack/trunk/Delphi2005/ccpackdsg.bdsproj
+===================================================================
+--- utilities/ccpack/trunk/Delphi2005/ccpackdsg.bdsproj	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/Delphi2005/ccpackdsg.bdsproj	2007-09-30 16:38:53 UTC (rev 229)
+@@ -120,7 +120,7 @@
+ 		&lt;/Linker&gt;
+ 		&lt;Directories&gt;
+ 			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\dcu&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;SearchPath&quot;&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10&lt;/Directories&gt;
+@@ -137,12 +137,13 @@
+ 			&lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
+ 			&lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
+ 			&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;  &lt;Parameters Name=&quot;RemoteHost&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
+-    &lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteHost&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
++		&lt;/Parameters&gt;
+ 		&lt;Language&gt;
+ 			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
+ 			&lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
+
+Modified: utilities/ccpack/trunk/Delphi2005/ccpackdsg.dpk
+===================================================================
+--- utilities/ccpack/trunk/Delphi2005/ccpackdsg.dpk	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/Delphi2005/ccpackdsg.dpk	2007-09-30 16:38:53 UTC (rev 229)
+@@ -34,9 +34,9 @@
+   designide;
+ 
+ contains
+-  ccwizres in '..\ccwizres.pas',
+-  ccwdlg in '..\ccwdlg.pas' {CCWDialog},
+-  ccwiz in '..\ccwiz.pas',
+-  ccregprc in '..\ccregprc.pas';
++  ccwizres in '..\src\ccwizres.pas',
++  ccwdlg in '..\src\ccwdlg.pas' {CCWDialog},
++  ccwiz in '..\src\ccwiz.pas',
++  ccregprc in '..\src\ccregprc.pas';
+ 
+ end.
+
+
+Property changes on: utilities/ccpack/trunk/examples/CustomBox/Delphi2005
+___________________________________________________________________
+Name: svn:ignore
+   + CCCustomBoxPackage.cfg
+CCCustomBoxPackage.res
+FourLists.cfg
+FourLists.res
+
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi2005/CCCustomBoxPackage.bdsproj
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi2005/CCCustomBoxPackage.bdsproj	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi2005/CCCustomBoxPackage.bdsproj	2007-09-30 16:38:53 UTC (rev 229)
+@@ -0,0 +1,160 @@
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;BorlandProject&gt;
++  &lt;PersonalityInfo&gt;
++    &lt;Option&gt;
++      &lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
++      &lt;Option Name=&quot;ProjectType&quot;&gt;VCLApplication&lt;/Option&gt;
++      &lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
++      &lt;Option Name=&quot;GUID&quot;&gt;{D3C0F1DA-260A-4D40-8006-C6DB151C720E}&lt;/Option&gt;
++    &lt;/Option&gt;
++  &lt;/PersonalityInfo&gt;
++  &lt;Delphi.Personality&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;CCCustomBoxPackage.dpk&lt;/Source&gt;
++    &lt;/Source&gt;
++    &lt;FileVersion&gt;
++      &lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
++    &lt;/FileVersion&gt;
++    &lt;Compiler&gt;
++      &lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;J&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Q&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;R&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;T&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitPlatform&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
++    &lt;/Compiler&gt;
++    &lt;Linker&gt;
++      &lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
++      &lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
++      &lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
++      &lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;
++    &lt;/Linker&gt;
++    &lt;Directories&gt;
++      &lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\dcu&lt;/Directories&gt;
++      &lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;Packages&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;UsePackages&quot;&gt;False&lt;/Directories&gt;
++    &lt;/Directories&gt;
++    &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;HostApplication&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemoteHost&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++    &lt;/VersionInfoKeys&gt;
++  &lt;/Delphi.Personality&gt;
++&lt;/BorlandProject&gt;
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi2005/CCCustomBoxPackage.dpk
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi2005/CCCustomBoxPackage.dpk	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi2005/CCCustomBoxPackage.dpk	2007-09-30 16:38:53 UTC (rev 229)
+@@ -0,0 +1,35 @@
++package CCCustomBoxPackage;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$IMPLICITBUILD ON}
++
++requires
++  rtl,
++  vcl,
++  ccpack;
++
++contains
++  CCCustomBox in '..\src\CCCustomBox.pas' {CustomBox};
++
++end.
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi2005/FourLists.bdsproj
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi2005/FourLists.bdsproj	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi2005/FourLists.bdsproj	2007-09-30 16:38:53 UTC (rev 229)
+@@ -0,0 +1,160 @@
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;BorlandProject&gt;
++  &lt;PersonalityInfo&gt;
++    &lt;Option&gt;
++      &lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
++      &lt;Option Name=&quot;ProjectType&quot;&gt;VCLApplication&lt;/Option&gt;
++      &lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
++      &lt;Option Name=&quot;GUID&quot;&gt;{BE289775-3B57-492B-8982-3BCD0F9363FA}&lt;/Option&gt;
++    &lt;/Option&gt;
++  &lt;/PersonalityInfo&gt;
++  &lt;Delphi.Personality&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;FourLists.dpr&lt;/Source&gt;
++    &lt;/Source&gt;
++    &lt;FileVersion&gt;
++      &lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
++    &lt;/FileVersion&gt;
++    &lt;Compiler&gt;
++      &lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;J&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Q&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;R&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;T&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitPlatform&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
++      &lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
++    &lt;/Compiler&gt;
++    &lt;Linker&gt;
++      &lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
++      &lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
++      &lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
++      &lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
++      &lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
++      &lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;
++    &lt;/Linker&gt;
++    &lt;Directories&gt;
++      &lt;Directories Name=&quot;OutputDir&quot;&gt;..&lt;/Directories&gt;
++      &lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\dcu&lt;/Directories&gt;
++      &lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;Packages&quot;&gt;rtl;vcl;dbrtl;vcldb;vclx;VclSmp;vclactnband;ccpack;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CCCustomBoxPackage.dcp&lt;/Directories&gt;
++      &lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;&lt;/Directories&gt;
++      &lt;Directories Name=&quot;UsePackages&quot;&gt;True&lt;/Directories&gt;
++    &lt;/Directories&gt;
++    &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;HostApplication&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemoteHost&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++    &lt;/VersionInfoKeys&gt;
++  &lt;/Delphi.Personality&gt;
++&lt;/BorlandProject&gt;
+
+Added: utilities/ccpack/trunk/examples/CustomBox/Delphi2005/FourLists.dpr
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomBox/Delphi2005/FourLists.dpr	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/examples/CustomBox/Delphi2005/FourLists.dpr	2007-09-30 16:38:53 UTC (rev 229)
+@@ -0,0 +1,13 @@
++program FourLists;
++
++uses
++  Forms,
++  w_FourLists in '..\src\w_FourLists.pas' {Form1};
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.CreateForm(TForm1, Form1);
++  Application.Run;
++end.
+
+
+Property changes on: utilities/ccpack/trunk/examples/CustomFrame/Delphi2005
+___________________________________________________________________
+Name: svn:ignore
+   + CCCustomFrameExample.cfg
+CCCustomFrameExample.res
+FamilyData.cfg
+FamilyData.res
+
+
+Modified: utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/CCCustomFrameExample.bdsproj
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/CCCustomFrameExample.bdsproj	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/CCCustomFrameExample.bdsproj	2007-09-30 16:38:53 UTC (rev 229)
+@@ -120,7 +120,7 @@
+ 		&lt;/Linker&gt;
+ 		&lt;Directories&gt;
+ 			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\dcu&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
+@@ -137,12 +137,13 @@
+ 			&lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
+ 			&lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
+ 			&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;  &lt;Parameters Name=&quot;RemoteHost&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
+-    &lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteHost&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
++		&lt;/Parameters&gt;
+ 		&lt;Language&gt;
+ 			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
+ 			&lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
+
+Modified: utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/CCCustomFrameExample.dpk
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/CCCustomFrameExample.dpk	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/CCCustomFrameExample.dpk	2007-09-30 16:38:53 UTC (rev 229)
+@@ -31,6 +31,6 @@
+   ccpack;
+ 
+ contains
+-  CustomFrameExample in '..\CustomFrameExample.pas';
++  CustomFrameExample in '..\src\CustomFrameExample.pas';
+ 
+ end.
+
+Modified: utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/FamilyData.bdsproj
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/FamilyData.bdsproj	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/FamilyData.bdsproj	2007-09-30 16:38:53 UTC (rev 229)
+@@ -119,8 +119,8 @@
+ 			&lt;Linker Name=&quot;ExeDescription&quot;&gt;&lt;/Linker&gt;
+ 		&lt;/Linker&gt;
+ 		&lt;Directories&gt;
+-			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;OutputDir&quot;&gt;..&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\dcu&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
+@@ -137,12 +137,13 @@
+ 			&lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
+ 			&lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
+ 			&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;  &lt;Parameters Name=&quot;RemoteHost&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
+-    &lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteHost&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemotePath&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteLauncher&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteCWD&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;RemoteDebug&quot;&gt;False&lt;/Parameters&gt;
++		&lt;/Parameters&gt;
+ 		&lt;Language&gt;
+ 			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
+ 			&lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
+
+Modified: utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/FamilyData.dpr
+===================================================================
+--- utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/FamilyData.dpr	2007-09-30 16:11:54 UTC (rev 228)
++++ utilities/ccpack/trunk/examples/CustomFrame/Delphi2005/FamilyData.dpr	2007-09-30 16:38:53 UTC (rev 229)
+@@ -2,7 +2,7 @@
+ 
+ uses
+   Forms,
+-  w_Family in '..\w_Family.pas' {f_Family};
++  w_Family in '..\src\w_Family.pas' {f_Family};
+ 
+ {$R *.res}
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000098.html">[Dzchart-svncheckins] r228 -	utilities/ccpack/trunk/examples/CustomFrame/Delphi2006
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#99">[ date ]</a>
+              <a href="thread.html#99">[ thread ]</a>
+              <a href="subject.html#99">[ subject ]</a>
+              <a href="author.html#99">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

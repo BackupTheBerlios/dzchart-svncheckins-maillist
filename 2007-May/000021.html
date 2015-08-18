@@ -1,0 +1,1271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r146 - in utilities/dzBdsIdeScript/trunk: .	src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r146%20-%20in%20utilities/dzBdsIdeScript/trunk%3A%20.%0A%09src&In-Reply-To=%3C200705171646.l4HGkfXS013935%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000020.html">
+   <LINK REL="Next"  HREF="000022.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r146 - in utilities/dzBdsIdeScript/trunk: .	src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r146%20-%20in%20utilities/dzBdsIdeScript/trunk%3A%20.%0A%09src&In-Reply-To=%3C200705171646.l4HGkfXS013935%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r146 - in utilities/dzBdsIdeScript/trunk: .	src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu May 17 18:46:41 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000020.html">[Dzchart-svncheckins] r145 - in utilities/dzBdsIdeScript/trunk: .	dcu src
+</A></li>
+        <LI>Next message: <A HREF="000022.html">[Dzchart-svncheckins] r147 - utilities
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#21">[ date ]</a>
+              <a href="thread.html#21">[ thread ]</a>
+              <a href="subject.html#21">[ subject ]</a>
+              <a href="author.html#21">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-05-17 18:46:27 +0200 (Thu, 17 May 2007)
+New Revision: 146
+
+Added:
+   utilities/dzBdsIdeScript/trunk/DWS2.dpk
+   utilities/dzBdsIdeScript/trunk/DWS2.dproj
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.dfm
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.pas
+Removed:
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj
+Modified:
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dproj
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.groupproj
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dproj
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BaseExpert.pas
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas
+Log:
+added configuration dialog, everything seems to work now
+
+Copied: utilities/dzBdsIdeScript/trunk/DWS2.dpk (from rev 145, utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk)
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/DWS2.dpk	2007-05-17 16:46:27 UTC (rev 146)
+@@ -0,0 +1,42 @@
++package DWS2;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'dummzeuch.de - BDS IDE scripting using Delphi Web Script 2'}
++{$LIBSUFFIX '100'}
++{$LIBVERSION 'script'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl,
++  dws2VCLRuntime,
++  dws2Runtime,
++  dws2ClassesLibrary,
++  dzBdsIdeScriptInterfaces;
++
++contains
++  de.dummzeuch.ScriptHandler.DWS2 in 'src\de.dummzeuch.ScriptHandler.DWS2.pas';
++
++end.
++
+
+Copied: utilities/dzBdsIdeScript/trunk/DWS2.dproj (from rev 145, utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj)
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/DWS2.dproj	2007-05-17 16:46:27 UTC (rev 146)
+@@ -0,0 +1,39 @@
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{5606ee84-b6ae-4659-8779-dc746861e8b7}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;DWS2.dpk&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\DWS2100.bpl.script&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;script&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - BDS IDE scripting using Delphi Web Script 2&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;Fa!
+ lse&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;DWS2.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Per!
+ sonality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;DWS2.dpk&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dws2ClassesLibrary.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dws2Runtime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dws2VCLRuntime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzBdsIdeScriptInterfaces.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\rtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;src\de.dummzeuch.ScriptHandler.DWS2.pas&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Deleted: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.bdsproj	2007-05-17 16:46:27 UTC (rev 146)
+@@ -1,205 +0,0 @@
+-&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+-&lt;BorlandProject&gt;
+-	&lt;PersonalityInfo&gt;
+-		&lt;Option&gt;
+-			&lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
+-			&lt;Option Name=&quot;ProjectType&quot;&gt;VCLApplication&lt;/Option&gt;
+-			&lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
+-			&lt;Option Name=&quot;GUID&quot;&gt;{1FC34ED7-A042-45E8-9DE5-424028824E9F}&lt;/Option&gt;
+-		&lt;/Option&gt;
+-	&lt;/PersonalityInfo&gt;
+-	&lt;Delphi.Personality&gt;
+-		&lt;Source&gt;
+-			&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScript.dpk&lt;/Source&gt;
+-		&lt;/Source&gt;
+-		&lt;FileVersion&gt;
+-			&lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
+-		&lt;/FileVersion&gt;
+-		&lt;Compiler&gt;
+-			&lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;J&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;Q&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;R&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;T&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnitPlatform&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
+-			&lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
+-		&lt;/Compiler&gt;
+-		&lt;Linker&gt;
+-			&lt;Linker Name=&quot;MapFile&quot;&gt;0&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
+-			&lt;Linker Name=&quot;ExeDescription&quot;&gt;BDS IDE Scripting using Delphi Web Script II&lt;/Linker&gt;
+-		&lt;/Linker&gt;
+-		&lt;Directories&gt;
+-			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;Packages&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;D:\source\berlios.BdsIdeScript\dws2\Source\&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;UsePackages&quot;&gt;False&lt;/Directories&gt;
+-		&lt;/Directories&gt;
+-		&lt;Parameters&gt;
+-			&lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;HostApplication&quot;&gt;$(BDS)\Bin\bds.exe&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+-			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
+-		&lt;/Parameters&gt;
+-		&lt;Language&gt;
+-			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
+-			&lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
+-			&lt;Language Name=&quot;RootDir&quot;&gt;&lt;/Language&gt;
+-		&lt;/Language&gt;
+-		&lt;VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
+-		&lt;/VersionInfo&gt;
+-		&lt;VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
+-		&lt;/VersionInfoKeys&gt;  
+-    
+-    
+-    
+-    &lt;Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\dzBdsIdeScript100.bpl.1.0&quot;&gt;BDS IDE Scripting using Delphi Web Script II&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;
+-  &lt;/Delphi.Personality&gt;
+-	&lt;ModelSupport&gt;True&lt;/ModelSupport&gt;
+-&lt;/BorlandProject&gt;
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk	2007-05-17 16:46:27 UTC (rev 146)
+@@ -37,6 +37,7 @@
+ 
+ contains
+   de.dummzeuch.experts.BdsIdeScriptExpert.Expert in 'src\de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas' {dm_dzBdsIdeScriptExpert: TDataModule},
+-  de.dummzeuch.experts.BaseExpert in 'src\de.dummzeuch.experts.BaseExpert.pas' {dm_DzBaseExpert: TDataModule};
++  de.dummzeuch.experts.BaseExpert in 'src\de.dummzeuch.experts.BaseExpert.pas' {dm_DzBaseExpert: TDataModule},
++  de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm in 'src\de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.pas' {f_ConfigForm};
+ 
+ end.
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dproj	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dproj	2007-05-17 16:46:27 UTC (rev 146)
+@@ -19,12 +19,14 @@
+   &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+     &lt;Version&gt;7.0&lt;/Version&gt;
+     &lt;DCC_WriteableConstants&gt;True&lt;/DCC_WriteableConstants&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ProjectExtensions&gt;
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;$(BDS)\Bin\bds.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - BDS IDE Scripting Expert&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;1.1&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;!
+ &gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;&lt;/Exclude!
+ d_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScript.dp!
+ k&lt;/Sourc
+e&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;$(BDS)\Bin\bds.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - BDS IDE Scripting Expert&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/Version!
+ Info&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages /&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScript.dpk&lt;/Source&gt;&lt;/!
+ Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;ItemGroup&gt;
+@@ -40,6 +42,9 @@
+     &lt;DCCReference Include=&quot;src\de.dummzeuch.experts.BaseExpert.pas&quot;&gt;
+       &lt;Form&gt;dm_DzBaseExpert&lt;/Form&gt;
+     &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;src\de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.pas&quot;&gt;
++      &lt;Form&gt;f_ConfigForm&lt;/Form&gt;
++    &lt;/DCCReference&gt;
+     &lt;DCCReference Include=&quot;src\de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas&quot;&gt;
+       &lt;Form&gt;dm_dzBdsIdeScriptExpert&lt;/Form&gt;
+     &lt;/DCCReference&gt;
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.groupproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.groupproj	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.groupproj	2007-05-17 16:46:27 UTC (rev 146)
+@@ -28,22 +28,22 @@
+   &lt;Target Name=&quot;dzBdsIdeScript:Make&quot;&gt;
+     &lt;MSBuild Projects=&quot;dzBdsIdeScript.dproj&quot; Targets=&quot;Make&quot; /&gt;
+   &lt;/Target&gt;
+-  &lt;Target Name=&quot;dzBdsIdeScript_DWS2&quot;&gt;
+-    &lt;MSBuild Projects=&quot;dzBdsIdeScript_DWS2.dproj&quot; Targets=&quot;&quot; /&gt;
++  &lt;Target Name=&quot;DWS2&quot;&gt;
++    &lt;MSBuild Projects=&quot;DWS2.dproj&quot; Targets=&quot;&quot; /&gt;
+   &lt;/Target&gt;
+-  &lt;Target Name=&quot;dzBdsIdeScript_DWS2:Clean&quot;&gt;
+-    &lt;MSBuild Projects=&quot;dzBdsIdeScript_DWS2.dproj&quot; Targets=&quot;Clean&quot; /&gt;
++  &lt;Target Name=&quot;DWS2:Clean&quot;&gt;
++    &lt;MSBuild Projects=&quot;DWS2.dproj&quot; Targets=&quot;Clean&quot; /&gt;
+   &lt;/Target&gt;
+-  &lt;Target Name=&quot;dzBdsIdeScript_DWS2:Make&quot;&gt;
+-    &lt;MSBuild Projects=&quot;dzBdsIdeScript_DWS2.dproj&quot; Targets=&quot;Make&quot; /&gt;
++  &lt;Target Name=&quot;DWS2:Make&quot;&gt;
++    &lt;MSBuild Projects=&quot;DWS2.dproj&quot; Targets=&quot;Make&quot; /&gt;
+   &lt;/Target&gt;
+   &lt;Target Name=&quot;Build&quot;&gt;
+-    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces;dzBdsIdeScript;dzBdsIdeScript_DWS2&quot; /&gt;
++    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces;dzBdsIdeScript;DWS2&quot; /&gt;
+   &lt;/Target&gt;
+   &lt;Target Name=&quot;Clean&quot;&gt;
+-    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces:Clean;dzBdsIdeScript:Clean;dzBdsIdeScript_DWS2:Clean&quot; /&gt;
++    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces:Clean;dzBdsIdeScript:Clean;DWS2:Clean&quot; /&gt;
+   &lt;/Target&gt;
+   &lt;Target Name=&quot;Make&quot;&gt;
+-    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces:Make;dzBdsIdeScript:Make;dzBdsIdeScript_DWS2:Make&quot; /&gt;
++    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces:Make;dzBdsIdeScript:Make;DWS2:Make&quot; /&gt;
+   &lt;/Target&gt;
+ &lt;/Project&gt;
+\ No newline at end of file
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dproj	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dproj	2007-05-17 16:46:27 UTC (rev 146)
+@@ -24,14 +24,14 @@
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - interfaces for dzBdsIdeScript&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;1.1&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;!
+ &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScriptInterfaces.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.!
+ Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - interfaces for dzBdsIdeScript&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;Versi!
+ onInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScriptInterfaces.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;ItemGroup&gt;
+     &lt;DelphiCompile Include=&quot;dzBdsIdeScriptInterfaces.dpk&quot;&gt;
+       &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+     &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\rtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\rtl.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;src\de.dummzeuch.ScriptHandler.Manager.pas&quot; /&gt;
+   &lt;/ItemGroup&gt;
+ &lt;/Project&gt;
+\ No newline at end of file
+
+Deleted: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk	2007-05-17 16:46:27 UTC (rev 146)
+@@ -1,41 +0,0 @@
+-package dzBdsIdeScript_DWS2;
+-
+-{$R *.res}
+-{$ALIGN 8}
+-{$ASSERTIONS ON}
+-{$BOOLEVAL OFF}
+-{$DEBUGINFO ON}
+-{$EXTENDEDSYNTAX ON}
+-{$IMPORTEDDATA ON}
+-{$IOCHECKS ON}
+-{$LOCALSYMBOLS ON}
+-{$LONGSTRINGS ON}
+-{$OPENSTRINGS ON}
+-{$OPTIMIZATION ON}
+-{$OVERFLOWCHECKS OFF}
+-{$RANGECHECKS OFF}
+-{$REFERENCEINFO ON}
+-{$SAFEDIVIDE OFF}
+-{$STACKFRAMES OFF}
+-{$TYPEDADDRESS OFF}
+-{$VARSTRINGCHECKS ON}
+-{$WRITEABLECONST OFF}
+-{$MINENUMSIZE 1}
+-{$IMAGEBASE $400000}
+-{$DESCRIPTION 'dummzeuch.de - BDS IDE scripting using Delphi Web Script 2'}
+-{$LIBSUFFIX '100'}
+-{$DESIGNONLY}
+-{$IMPLICITBUILD OFF}
+-
+-requires
+-  rtl,
+-  dws2VCLRuntime,
+-  dws2Runtime,
+-  dws2ClassesLibrary,
+-  dzBdsIdeScriptInterfaces;
+-
+-contains
+-  de.dummzeuch.ScriptHandler.DWS2 in 'src\de.dummzeuch.ScriptHandler.DWS2.pas';
+-
+-end.
+-
+
+Deleted: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj	2007-05-17 16:46:27 UTC (rev 146)
+@@ -1,40 +0,0 @@
+-&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+-&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;ProjectGuid&gt;{5606ee84-b6ae-4659-8779-dc746861e8b7}&lt;/ProjectGuid&gt;
+-    &lt;MainSource&gt;dzBdsIdeScript_DWS2.dpk&lt;/MainSource&gt;
+-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+-    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzBdsIdeScript_DWS2100.bpl&lt;/DCC_DependencyCheckOutputName&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
+-    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
+-    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
+-    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ProjectExtensions&gt;
+-    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+-    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
+-    &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;1.1&lt;/Package_Options&gt;  &lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - BDS IDE scripting using Delphi Web Script 2&lt;/Package_Options&gt;
+-    &lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademar!
+ ks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScript_DWS2.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+-  &lt;/ProjectExtensions&gt;
+-  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+-  &lt;ItemGroup&gt;
+-    &lt;DelphiCompile Include=&quot;dzBdsIdeScript_DWS2.dpk&quot;&gt;
+-      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+-    &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2ClassesLibrary.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2Runtime.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2VCLRuntime.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dzBdsIdeScriptInterfaces.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\rtl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;src\de.dummzeuch.ScriptHandler.DWS2.pas&quot; /&gt;
+-  &lt;/ItemGroup&gt;
+-&lt;/Project&gt;
+\ No newline at end of file
+
+Modified: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BaseExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BaseExpert.pas	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BaseExpert.pas	2007-05-17 16:46:27 UTC (rev 146)
+@@ -24,6 +24,13 @@
+     function GetDelphiCustomMenu(const _Caption: string): TMenuItem;
+     function TryGetDelphiCustomMenu(const _Caption: string; out _Item: TMenuItem): Boolean;
+     procedure DeleteDelphiCustomMenu(const _Caption: string);
++    procedure WriteRegistryString(const _SubBranch, _Entry, _Value: string);
++  protected
++    procedure WriteRegistryStringList(const _SubBranch, _ListBranch: string; _Values: TStrings);
++    function ReadRegistryString(const _SubBranch, _Entry: string): string;
++    procedure ReadRegistryStringList(const _SubBranch, _ListBranch: string;
++      _Values: TStrings);
++  protected // methods for accessing the current editor window
+     function GetSelectedText: string;
+     function GetSourceEditor: IOTASourceEditor;
+     procedure InsertText(const _Text: string);
+@@ -34,6 +41,13 @@
+ 
+ {$R *.dfm}
+ 
++uses
++  Registry;
++
++const
++  REGISTRY_ENGINES_COUNT = 'Count';
++  REGISTRY_ENGINES_ITEMS_D = 'Item%d';
++
+ type
+   TMsgWindow = class(TInterfacedObject, IMsgWindow)
+   private
+@@ -119,7 +133,8 @@
+ begin
+   Result := nil;
+   CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then Exit;
++  if not Assigned(CurrMod) then
++    Exit;
+   for i := 0 to CurrMod.GetModuleFileCount - 1 do
+     if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor, Result) = S_OK then
+       Exit;
+@@ -200,6 +215,80 @@
+   Result := Assigned(_Item);
+ end;
+ 
++function Tdm_DzBaseExpert.ReadRegistryString(const _SubBranch, _Entry: string): string;
++var
++  Reg: TRegistry;
++begin
++  Result := '';
++  Reg := TRegistry.Create;
++  try
++    if not Reg.OpenKeyReadOnly(GetBaseRegistryKey + '\' + _SubBranch) then
++      exit;
++    if Reg.ValueExists(_Entry) then
++      Result := Reg.ReadString(_Entry);
++    Reg.CloseKey;
++  finally
++    Reg.Free;
++  end;
++end;
++
++procedure Tdm_DzBaseExpert.WriteRegistryString(const _SubBranch, _Entry, _Value: string);
++var
++  Reg: TRegistry;
++begin
++  Reg := TRegistry.Create;
++  try
++    if not Reg.OpenKey(GetBaseRegistryKey + '\' + _SubBranch, True) then
++      raise exception.Create('could not open registry branch');
++    Reg.WriteString(_Entry, _Value);
++    Reg.CloseKey;
++  finally
++    Reg.Free;
++  end;
++end;
++
++procedure Tdm_DzBaseExpert.ReadRegistryStringList(const _SubBranch, _ListBranch: string; _Values: TStrings);
++var
++  Reg: TRegistry;
++  i: Integer;
++  cnt: Integer;
++begin
++  _Values.Clear;
++  Reg := TRegistry.Create;
++  try
++    if not Reg.OpenKeyReadOnly(GetBaseRegistryKey + '\' + _SubBranch + '\' + _ListBranch) then
++      exit;
++    if Reg.ValueExists(REGISTRY_ENGINES_COUNT) then begin
++      cnt := Reg.ReadInteger(REGISTRY_ENGINES_COUNT);
++      for i := 0 to cnt - 1 do begin
++        if Reg.ValueExists(Format(REGISTRY_ENGINES_ITEMS_D, [i])) then
++          _Values.Add(Reg.ReadString(Format(REGISTRY_ENGINES_ITEMS_D, [i])));
++      end;
++    end;
++    Reg.CloseKey;
++  finally
++    Reg.Free;
++  end;
++end;
++
++procedure Tdm_DzBaseExpert.WriteRegistryStringList(const _SubBranch, _ListBranch: string; _Values: TStrings);
++var
++  Reg: TRegistry;
++  i: Integer;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.OpenKey(GetBaseRegistryKey + '\' + _SubBranch + '\' + _ListBranch, True);
++    Reg.WriteInteger(REGISTRY_ENGINES_COUNT, _Values.Count);
++    for i := 0 to _Values.Count - 1 do begin
++      Reg.WriteString(Format(REGISTRY_ENGINES_ITEMS_D, [i]), _Values[i]);
++    end;
++    Reg.CloseKey;
++  finally
++    Reg.Free;
++  end;
++end;
++
+ { TMsgWindow }
+ 
+ procedure TMsgWindow.Clear;
+
+Added: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.dfm	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.dfm	2007-05-17 16:46:27 UTC (rev 146)
+@@ -0,0 +1,111 @@
++object f_ConfigForm: Tf_ConfigForm
++  Left = 0
++  Top = 0
++  Caption = 'Configure BDS IDE Script Expert'
++  ClientHeight = 218
++  ClientWidth = 417
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'Tahoma'
++  Font.Style = []
++  OldCreateOrder = False
++  Position = poScreenCenter
++  DesignSize = (
++    417
++    218)
++  PixelsPerInch = 96
++  TextHeight = 13
++  object l_ScriptsDir: TLabel
++    Left = 8
++    Top = 8
++    Width = 79
++    Height = 13
++    Caption = 'Scripts Directory'
++  end
++  object l_ScriptingEngines: TLabel
++    Left = 8
++    Top = 56
++    Width = 81
++    Height = 13
++    Caption = 'Scripting Engines'
++  end
++  object ed_ScriptsDir: TEdit
++    Left = 8
++    Top = 24
++    Width = 369
++    Height = 21
++    Anchors = [akLeft, akTop, akRight]
++    TabOrder = 0
++  end
++  object b_ScriptsDir: TButton
++    Left = 384
++    Top = 22
++    Width = 27
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = '&amp;...'
++    TabOrder = 1
++    OnClick = b_ScriptsDirClick
++  end
++  object b_OK: TButton
++    Left = 256
++    Top = 184
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Caption = 'OK'
++    Default = True
++    ModalResult = 1
++    TabOrder = 5
++  end
++  object b_Cancel: TButton
++    Left = 336
++    Top = 184
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Cancel = True
++    Caption = 'Cancel'
++    ModalResult = 2
++    TabOrder = 6
++  end
++  object b_Add: TButton
++    Left = 336
++    Top = 72
++    Width = 75
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = '&amp;Add'
++    TabOrder = 3
++    OnClick = b_AddClick
++  end
++  object b_Delete: TButton
++    Left = 336
++    Top = 104
++    Width = 75
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = 'Delete'
++    TabOrder = 4
++    OnClick = b_DeleteClick
++  end
++  object lb_ScriptingEngines: TListBox
++    Left = 8
++    Top = 72
++    Width = 321
++    Height = 97
++    Anchors = [akLeft, akTop, akRight, akBottom]
++    ItemHeight = 13
++    TabOrder = 2
++  end
++  object od_Select: TOpenDialog
++    Filter = 
++      'Scripting engine packages (*.bpl.script)|*.bpl.script|All Files ' +
++      '(*.*)|*.*'
++    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
++    Left = 352
++    Top = 136
++  end
++end
+
+Added: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.pas	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm.pas	2007-05-17 16:46:27 UTC (rev 146)
+@@ -0,0 +1,103 @@
++unit de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls,
++  CheckLst,
++  Mask;
++
++type
++  Tf_ConfigForm = class(TForm)
++    l_ScriptsDir: TLabel;
++    ed_ScriptsDir: TEdit;
++    b_ScriptsDir: TButton;
++    b_OK: TButton;
++    b_Cancel: TButton;
++    l_ScriptingEngines: TLabel;
++    b_Add: TButton;
++    b_Delete: TButton;
++    lb_ScriptingEngines: TListBox;
++    od_Select: TOpenDialog;
++    procedure b_ScriptsDirClick(Sender: TObject);
++    procedure b_AddClick(Sender: TObject);
++    procedure b_DeleteClick(Sender: TObject);
++  private
++  public
++    class function Execute(_Owner: TComponent; var _ScriptsDir: string; _Engines: TStrings): boolean;
++  end;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  FileCtrl;
++
++procedure Tf_ConfigForm.b_AddClick(Sender: TObject);
++var
++  s: string;
++  Handle: Cardinal;
++begin
++  if not od_Select.Execute then
++    exit;
++  s := od_Select.FileName;
++  Handle := LoadPackage(s);
++  lb_ScriptingEngines.Items.AddObject(s, pointer(Handle));
++end;
++
++procedure Tf_ConfigForm.b_DeleteClick(Sender: TObject);
++var
++  Idx: integer;
++  Handle: Cardinal;
++begin
++  Idx := lb_ScriptingEngines.ItemIndex;
++  if Idx = -1 then
++    exit;
++
++  Handle := Integer(lb_ScriptingEngines.Items.Objects[Idx]);
++  UnloadPackage(Handle);
++  lb_ScriptingEngines.Items.Delete(Idx);
++end;
++
++procedure Tf_ConfigForm.b_ScriptsDirClick(Sender: TObject);
++var
++  Root: WideString;
++  Dir: string;
++begin
++  Root := '';
++  Dir := ed_ScriptsDir.Text;
++  if not SelectDirectory('Select Scripts Directory', Root, Dir) then
++    exit;
++  ed_ScriptsDir.Text := Dir;
++end;
++
++class function Tf_ConfigForm.Execute(_Owner: TComponent; var _ScriptsDir: string; _Engines: TStrings): boolean;
++var
++  frm: Tf_ConfigForm;
++begin
++  frm := Tf_ConfigForm.Create(_Owner);
++  try
++    frm.ed_ScriptsDir.Text := _ScriptsDir;
++    frm.lb_ScriptingEngines.Items.Assign(_Engines);
++    Result := (mroK = frm.ShowModal);
++    if not Result then
++      exit;
++    _ScriptsDir := frm.ed_ScriptsDir.Text;
++    _Engines.Assign(frm.lb_ScriptingEngines.Items);
++  finally
++    frm.Free;
++  end;
++end;
++
++end.
++
+
+Modified: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas	2007-05-06 14:47:58 UTC (rev 145)
++++ utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas	2007-05-17 16:46:27 UTC (rev 146)
+@@ -22,24 +22,36 @@
+     TheTimer: TTimer;
+     procedure DataModuleCreate(Sender: TObject);
+     procedure DataModuleDestroy(Sender: TObject);
+-    procedure RunScriptSubItemClick(Sender: TObject);
+-    procedure RunScriptExplainClick(Sender: TObject);
+     procedure TheTimerTimer(Sender: TObject);
+   private
+     {: contains all TMenuItems created for scripts }
+     FScriptItems: TList;
+     {: contains the names of all script files }
+     FScripts: TStringList;
++    FScriptsDir: string;
++    FEngines: TStringList;
+     {: frees all items in the script menu and clears the FScriptItems list }
+     procedure FreeScriptMenuItems;
+     {: initializes the FScripts list of available script files }
+     procedure InitScriptList;
+-    {: recreates the script menu items, called once on startup and
+-       after that periodically in the TheTimeTimer event }
+-    procedure RefreshMenuItems;
+-    {: enables the refresh timer based on the setting in the registry }
+-    procedure SetTimerRefreshing;
+-//    procedure LoadScriptHandlers;
++    {: creates the main menu item and assigns its OnClick event,
++       called in the constructor and after that periodically in the TheTimeTimer event }
++    procedure InitScriptMenu;
++    {: reads the configuration from the registry and loads the configured
++       scripting engines }
++    procedure ReadConfigAndLoadEngines;
++    {: writes the configuration to the registry }
++    procedure WriteConfig;
++    procedure LoadEngines;
++  private
++    {: assigned to the OnClick handler of the main menu item,
++       recreates the dropdown menu }
++    procedure MenuDropDown(_Sender: TObject);
++    {: assigned to all script menu items, calls the associated script }
++    procedure MenuScriptClick(Sender: TObject);
++    {: assigend to the configure menu item, opens the configuration dialog }
++    procedure MenuConfigClick(Sender: TObject);
++    procedure UnloadEngines;
+   end;
+ 
+ implementation
+@@ -47,120 +59,135 @@
+ {$R *.DFM}
+ 
+ uses
+-  Registry;
++  Registry,
++  de.dummzeuch.experts.BdsIdeScriptExpert.ConfigForm;
+ 
+ const
+   MESSAGE_WINDOW_TITLE = 'BdsIdeScript';
+   CUSTOM_MENU_CAPTION = 'Scripts';
+   REGISTRY_BRANCH = 'dzBdsIdeScript';
++  REGISTRY_SCRIPTSDIR_NAME = 'ScriptsDir';
++  REGISTRY_ENGINES_BRANCH = 'Engines';
+ 
+ procedure Tdm_dzBdsIdeScriptExpert.DataModuleCreate(Sender: TObject);
+ begin
+   FScriptItems := TList.Create;
+   FScripts := TStringList.Create;
++  FEngines := TStringList.Create;
+ 
+-//  LoadScriptHandlers;
+-  RefreshMenuItems;
++  ReadConfigAndLoadEngines;
++  InitScriptMenu;
+ end;
+ 
+ procedure Tdm_dzBdsIdeScriptExpert.DataModuleDestroy(Sender: TObject);
+ begin
+   FreeScriptMenuItems;
+   DeleteDelphiCustomMenu(CUSTOM_MENU_CAPTION);
++  UnloadEngines;
++  FEngines.Free;
+   FScripts.Free;
+   FScriptItems.Free;
+ end;
+ 
+-procedure ListFiles(const Path: string; Strings: TStrings);
++procedure Tdm_dzBdsIdeScriptExpert.ReadConfigAndLoadEngines;
++begin
++  FScriptsDir := ReadRegistryString(REGISTRY_BRANCH, REGISTRY_SCRIPTSDIR_NAME);
++  ReadRegistryStringList(REGISTRY_BRANCH, REGISTRY_ENGINES_BRANCH, FEngines);
++  LoadEngines;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.WriteConfig;
++begin
++  WriteRegistryString(REGISTRY_BRANCH, REGISTRY_SCRIPTSDIR_NAME, FScriptsDir);
++  WriteRegistryStringList(REGISTRY_BRANCH, REGISTRY_ENGINES_BRANCH, FEngines);
++end;
++
++procedure ListFiles(const _Mask: string; _Files: TStrings);
+ var
+   Found: Integer;
+   SearchRec: TSearchRec;
+ begin
+-  Found := FindFirst(Path, faAnyFile, SearchRec);
+-  while Found = 0 do begin
+-    if (SearchRec.Attr and faDirectory) &lt;&gt; faDirectory then
+-      Strings.Add(SearchRec.Name);
+-    Found := FindNext(SearchRec);
++  Found := FindFirst(_Mask, faAnyFile, SearchRec);
++  try
++    while Found = 0 do begin
++      if (SearchRec.Attr and faDirectory) &lt;&gt; faDirectory then
++        _Files.Add(SearchRec.Name);
++      Found := FindNext(SearchRec);
++    end;
++  finally
++    FindClose(SearchRec);
+   end;
+-  FindClose(SearchRec);
+ end;
+ 
+ procedure Tdm_dzBdsIdeScriptExpert.InitScriptList;
+ var
+-  Folder: string;
+   i: Integer;
+-  Reg: TRegistry;
+   Handler: IScriptHandler;
+   HandlerIdx: Integer;
++  Dir: string;
+ begin
+-  Reg := TRegistry.Create;
+-  try
+-    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH, True);
+-    if not Reg.ValueExists('ScriptFolder') then
+-      { Add the IDE's folder. }
+-      Reg.WriteString('ScriptFolder',
+-        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Scripts')
+-    else
+-      Folder := Reg.ReadString('ScriptFolder');
+-  finally
+-    Reg.Free;
+-  end;
+-  Folder := IncludeTrailingPathDelimiter(Folder);
++  Dir := IncludeTrailingPathDelimiter(FScriptsDir);
+ 
+   FScripts.Clear;
+   for HandlerIdx := 0 to GetScriptManager.Count - 1 do begin
+     Handler := GetScriptManager.GetHandlers(HandlerIdx);
+-    ListFiles(Folder + '*' + Handler.GetScriptExtension, FScripts);
++    ListFiles(Dir + '*' + Handler.GetScriptExtension, FScripts);
+     for i := 0 to FScripts.Count - 1 do
+-      FScripts[i] := Folder + FScripts[i];
++      FScripts[i] := Dir + FScripts[i];
+   end;
+ end;
+ 
+-//procedure Tdm_dzBdsIdeScriptExpert.LoadScriptHandlers;
+-//var
+-//  Packages: TStringList;
+-//  Filename: string;
+-//  i: Integer;
+-//begin
+-//  Filename := GetModuleName(hInstance);
+-//  Packages := TStringList.Create;
+-//  try
+-//    ListFiles(ExtractFilePath(Filename) + 'dzBdsIdeScript_*.bpl.*', Packages);
+-//    for i := 0 to Packages.Count - 1 do begin
+-//      LoadPackage(Packages[i]);
+-//    end;
+-//  finally
+-//    Packages.Free;
+-//  end;
+-//end;
++procedure Tdm_dzBdsIdeScriptExpert.MenuConfigClick(Sender: TObject);
++begin
++  if Tf_ConfigForm.Execute(Self, FScriptsDir, FEngines) then
++    WriteConfig;
++end;
+ 
+-procedure Tdm_dzBdsIdeScriptExpert.RunScriptExplainClick(Sender: TObject);
++procedure Tdm_dzBdsIdeScriptExpert.LoadEngines;
++var
++  Handle: Cardinal;
++  i: Integer;
+ begin
+-  ShowMessage(
+-    'Scripts should be placed in the folder pointed by '#13 +
+-    'the registry value at:'#13#13 +
+-    'HKCU\' + GetBaseRegistryKey + '\' + REGISTRY_BRANCH +
+-    #13#13'The value should be assigned to &quot;ScriptFolder&quot;.' +
+-    #13#13'You can always refresh the script list by clicking this item.'
+-    );
+-  RefreshMenuItems;
++  for i := FEngines.Count - 1 downto 0 do begin
++    try
++      if FEngines.Objects[i] = nil then begin
++        Handle := LoadPackage(FEngines[i]);
++        FEngines.Objects[i] := Pointer(Handle);
++      end;
++    except
++      FEngines.Delete(i);
++    end;
++  end;
+ end;
+ 
++procedure Tdm_dzBdsIdeScriptExpert.UnloadEngines;
++var
++  i: Integer;
++begin
++  for i := 0 to FEngines.Count - 1 do begin
++    if FEngines.Objects[i] &lt;&gt; nil then
++      try
++        UnloadPackage(Cardinal(FEngines.Objects[i]));
++        FEngines.Objects[i] := nil;
++      except
++        // ignore
++      end;
++  end;
++end;
++
+ procedure Tdm_dzBdsIdeScriptExpert.TheTimerTimer(Sender: TObject);
+ begin
+-  RefreshMenuItems;
++  InitScriptMenu;
+ end;
+ 
+-procedure Tdm_dzBdsIdeScriptExpert.RefreshMenuItems;
++procedure Tdm_dzBdsIdeScriptExpert.MenuDropDown(_Sender: TObject);
+ var
+   i: Integer;
+-  Item, ScriptMenu: TMenuItem;
++  Item: TMenuItem;
++  ScriptMenu: TMenuItem;
+ begin
+-  ScriptMenu := GetDelphiCustomMenu(CUSTOM_MENU_CAPTION);
+-  if ScriptMenu = nil then begin { The menu may not exist yet. }
+-    TheTimer.Enabled := True;
+-    Exit;
+-  end;
++  if not TryGetDelphiCustomMenu(CUSTOM_MENU_CAPTION, ScriptMenu) then
++    exit;
+ 
+   InitScriptList;
+   FreeScriptMenuItems;
+@@ -170,18 +197,34 @@
+     FScriptItems.Add(Item);
+     Item.Caption := ChangeFileExt(ExtractFileName(FScripts[i]), '');
+     Item.Tag := i;
+-    Item.OnClick := RunScriptSubItemClick;
++    Item.OnClick := MenuScriptClick;
+     ScriptMenu.Add(Item);
+   end;
+ 
+   Item := TMenuItem.Create(nil);
+   FScriptItems.Add(Item);
+-  Item.Caption := '(customize)';
+-  Item.OnClick := RunScriptExplainClick;
++  Item.Caption := '-';
+   ScriptMenu.Add(Item);
+-  SetTimerRefreshing;
++
++  Item := TMenuItem.Create(nil);
++  FScriptItems.Add(Item);
++  Item.Caption := 'Configure ...';
++  Item.OnClick := MenuConfigClick;
++  ScriptMenu.Add(Item);
+ end;
+ 
++procedure Tdm_dzBdsIdeScriptExpert.InitScriptMenu;
++var
++  ScriptMenu: TMenuItem;
++begin
++  ScriptMenu := GetDelphiCustomMenu(CUSTOM_MENU_CAPTION);
++  if not Assigned(ScriptMenu) then begin
++    TheTimer.Enabled := True;
++    Exit;
++  end;
++  ScriptMenu.OnClick := MenuDropDown;
++end;
++
+ procedure Tdm_dzBdsIdeScriptExpert.FreeScriptMenuItems;
+ var
+   i: Integer;
+@@ -193,24 +236,6 @@
+   FScriptItems.Clear;
+ end;
+ 
+-procedure Tdm_dzBdsIdeScriptExpert.SetTimerRefreshing;
+-var
+-  Reg: TRegistry;
+-begin
+-  Reg := TRegistry.Create;
+-  try
+-    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH + '\Options', True);
+-    if Reg.ValueExists('Refresh') then begin
+-      TheTimer.Enabled := Reg.ReadBool('Refresh');
+-    end else begin
+-      Reg.WriteBool('Refresh', True);
+-      TheTimer.Enabled := True;
+-    end;
+-  finally
+-    Reg.Free;
+-  end;
+-end;
+-
+ type
+   TMsgWindowWrapper = class(TInterfacedObject, IMessageOutput)
+   private
+@@ -220,7 +245,7 @@
+     constructor Create(_MsgWindow: IMsgWindow);
+   end;
+ 
+-procedure Tdm_dzBdsIdeScriptExpert.RunScriptSubItemClick(Sender: TObject);
++procedure Tdm_dzBdsIdeScriptExpert.MenuScriptClick(Sender: TObject);
+ var
+   Code: TStringList;
+   FileName: string;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000020.html">[Dzchart-svncheckins] r145 - in utilities/dzBdsIdeScript/trunk: .	dcu src
+</A></li>
+	<LI>Next message: <A HREF="000022.html">[Dzchart-svncheckins] r147 - utilities
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#21">[ date ]</a>
+              <a href="thread.html#21">[ thread ]</a>
+              <a href="subject.html#21">[ subject ]</a>
+              <a href="author.html#21">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

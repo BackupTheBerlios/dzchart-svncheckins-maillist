@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r533 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-November/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r533%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101106110609.32113480648%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000392.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r533 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r533%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101106110609.32113480648%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r533 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Nov  6 12:06:08 CET 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000392.html">[Dzchart-svncheckins] r534 - in utilities/dzLib/trunk: src tests	tests/GoogletranslateTest tests/GoogletranslateTest/dcu	tests/GoogletranslateTest/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#391">[ date ]</a>
+              <a href="thread.html#391">[ thread ]</a>
+              <a href="subject.html#391">[ subject ]</a>
+              <a href="author.html#391">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-11-06 12:06:08 +0100 (Sat, 06 Nov 2010)
+New Revision: 533
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzBeep.pas
+Log:
+Bugfix: Sequences could not contain pauses and illegal frequencies (&lt;37 and &gt;32767) did not do anything, now they play with the smallest/largest allowed frequency
+
+Modified: utilities/dzLib/trunk/src/u_dzBeep.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzBeep.pas	2010-10-30 12:18:19 UTC (rev 532)
++++ utilities/dzLib/trunk/src/u_dzBeep.pas	2010-11-06 11:06:08 UTC (rev 533)
+@@ -12,7 +12,8 @@
+   TBeepSequenceEntry = record
+     Frequency: Cardinal;
+     Duration: Cardinal;
+-    class function Create(_Frequence, _Duration: Cardinal): TBeepSequenceEntry; static;
++    class function Create(_Frequency, _Duration: Cardinal): TBeepSequenceEntry; static;
++    procedure Init(_Frequency, _Duration: Cardinal); inline;
+   end;
+ 
+   TBeepSequenceList = array of TBeepSequenceEntry;
+@@ -102,8 +103,16 @@
+     // If we can't get the mutex, we set a new sequence
+     if FMutex.WaitFor(0) = wrSignaled then begin
+       try
+-        for i := Low(FSequence) to High(FSequence) do
+-          Windows.Beep(FSequence[i].Frequency, FSequence[i].Duration);
++        for i := Low(FSequence) to High(FSequence) do begin
++          if FSequence[i].Frequency = 0 then
++            Sleep(FSequence[i].Duration)
++          else if FSequence[i].Frequency &lt; 37 then
++            Windows.Beep(37, FSequence[i].Duration)
++          else if FSequence[i].Frequency &gt; 32767 then begin
++            Windows.Beep(32767, FSequence[i].Duration);
++          end else
++            Windows.Beep(FSequence[i].Frequency, FSequence[i].Duration);
++        end;
+       finally
+         FMutex.Release;
+       end;
+@@ -121,13 +130,17 @@
+ 
+ { TBeepSequenceEntry }
+ 
+-class function TBeepSequenceEntry.Create(_Frequence,
+-  _Duration: Cardinal): TBeepSequenceEntry;
++class function TBeepSequenceEntry.Create(_Frequency, _Duration: Cardinal): TBeepSequenceEntry;
+ begin
+-  Result.Frequency := _Frequence;
+-  Result.Duration := _Duration;
++  Result.Init(_Frequency, _Duration);
+ end;
+ 
++procedure TBeepSequenceEntry.Init(_Frequency, _Duration: Cardinal);
++begin
++  Frequency := _Frequency;
++  Duration := _Duration;
++end;
++
+ initialization
+   Beeper := TBeeper.Create;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000392.html">[Dzchart-svncheckins] r534 - in utilities/dzLib/trunk: src tests	tests/GoogletranslateTest tests/GoogletranslateTest/dcu	tests/GoogletranslateTest/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#391">[ date ]</a>
+              <a href="thread.html#391">[ thread ]</a>
+              <a href="subject.html#391">[ subject ]</a>
+              <a href="author.html#391">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

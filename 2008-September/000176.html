@@ -1,0 +1,473 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r309 - utilities/dzCmdLineParser/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r309%20-%20utilities/dzCmdLineParser/trunk/src&In-Reply-To=%3C200809050944.m859iCDm030704%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000175.html">
+   <LINK REL="Next"  HREF="000177.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r309 - utilities/dzCmdLineParser/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r309%20-%20utilities/dzCmdLineParser/trunk/src&In-Reply-To=%3C200809050944.m859iCDm030704%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r309 - utilities/dzCmdLineParser/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep  5 11:44:12 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000175.html">[Dzchart-svncheckins] r308 - in utilities/dzCmdLineParser/trunk: .	translations/de
+</A></li>
+        <LI>Next message: <A HREF="000177.html">[Dzchart-svncheckins] r310 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#176">[ date ]</a>
+              <a href="thread.html#176">[ thread ]</a>
+              <a href="subject.html#176">[ subject ]</a>
+              <a href="author.html#176">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-05 11:44:10 +0200 (Fri, 05 Sep 2008)
+New Revision: 309
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzOptionFoundList.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzOptionNameList.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzParamDescList.pas
+   utilities/dzCmdLineParser/trunk/src/u_dzParamFoundList.pas
+Log:
+* changed all pasdoc comments to xmldoc
+* replaced resource strings with calls to DGetText(..., 'dzCmdLineParser')
+* removed AddDomainForResourceString since there are no more resource strings being used
+
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2008-09-05 09:24:13 UTC (rev 308)
++++ utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2008-09-05 09:44:10 UTC (rev 309)
+@@ -29,80 +29,82 @@
+     FOptionsFoundList: TOptionFoundList;
+     procedure EvaluateCmdLine(_Options, _Params: TStrings);
+   public
+-    {: Creates a TdzGetOpt instance.
+-       @param ProgName is an optional parameter, if not given, the value of
+-                       ParamStr(0) is used. }
++    ///&lt;summary&gt; Creates a TdzGetOpt instance. &lt;/summary&gt;
++    ///          @param ProgName is an optional parameter, if not given, the value of
++    ///                          ParamStr(0) is used. }
+     constructor Create(const _ProgName: string = '');
+-    {: standard destructor }
++    ///&lt;summary&gt; standard destructor &lt;/summary&gt;
+     destructor Destroy; override;
+-    {: registers a program option
+-       @param Names is an array of string containing the names of the option
+-                    (usually one long, descriptive name and one short, one
+-                    character name)
+-       @param Description is a string describing the option for the usage string
+-       @param HasValue is a boolean which tells the parser whether to expect
+-                       a parameter for this option.
+-       Note: One character option names are case sensitive, that is -o and -O
+-             are not the same, but longer option names are not, that is
+-             --help and --HELP are the same. }
++    ///&lt;summary&gt; registers a commandline option
++    ///          @param Names is an array of string containing the names of the option
++    ///                       (usually one long, descriptive name and one short, one
++    ///                       character name)
++    ///                       Note: One character option names are case sensitive,
++    ///                       that is -o and -O are not the same, but longer option
++    ///                       names are not, that is --help and --HELP are the same.
++    ///          @param Description is a string describing the option for the usage string
++    ///          @param HasValue is a boolean which tells the parser whether to expect
++    ///                          a parameter for this option. &lt;/summary&gt;
+     procedure RegisterOption(const _Names: array of string; const _Description: string; _HasValue: boolean = false); overload;
+     procedure RegisterOption(const _Name, _Description: string; _HasValue: boolean = false); overload;
+-    {: registers the options --help, -?, -h and -H for displaying help }
++    ///&lt;summary&gt; registers the standard options --help, -?, -h and -H for displaying help &lt;/summary&gt;
+     procedure RegisterHelpOptions;
+-    {: registers a program parameter
+-       @param Name is the name of the parameter as displayed in the usage string.
+-       @param Description is the description of the parameter for the usage.
+-       @param MinCount is the minimum number of parameters to expect
+-       @param MaxCount is the maximum number of parameters to expect
+-       Note: only the last parameter should really have MinCount and MaxCount &lt;&gt; 1 }
++    ///&lt;summary&gt; registers a commandline parameter
++    ///          @param Name is the name of the parameter as displayed in the usage string.
++    ///          @param Description is the description of the parameter for the usage.
++    ///          @param MinCount is the minimum number of parameters to expect
++    ///          @param MaxCount is the maximum number of parameters to expect
++    ///          Note: only the last parameter should really have MinCount and MaxCount &lt;&gt; 1 &lt;/summary&gt;
+     procedure RegisterParam(const _Name, _Description: string; _MinCount: integer = 1; _MaxCount: integer = 1);
+-    {: parses the commandline
+-       This method uses the information given to it via the RegisterOption and
+-       RegisterParameter methods to parse the commandline. After it has been
+-       called the methods OptionPassed and ParamPassed can be used to retrieve
+-       the actual parameters.
+-       @param CmdLine is a string giving the commandline.
+-                      NOTE: Do not pass System.CmdLine since it contains the
+-                      program's name as the first &quot;parameter&quot;.
+-                      If you want to parse the commandline as passed by
+-                      windows, call the overloaded Parse method without
+-                      parameters. It handles this. }
++    ///&lt;summary&gt; parses the commandline
++    ///          This method uses the information given to it via the RegisterOption and
++    ///          RegisterParameter methods to parse the commandline. After it has been
++    ///          called the methods OptionPassed and ParamPassed can be used to retrieve
++    ///          the actual parameters.
++    ///          @param CmdLine is a string giving the commandline.
++    ///                         NOTE: Do not pass System.CmdLine since it contains the
++    ///                         program's name as the first &quot;parameter&quot;.
++    ///                         If you want to parse the commandline as passed by
++    ///                         windows, call the overloaded Parse method without
++    ///                         parameters. It handles this. &lt;/summary&gt;
+     procedure Parse(const _CmdLine: string); overload;
+-    {: parses the commandline
+-       This method uses the information given to it via the RegisterOption and
+-       RegisterParameter methods to parse the commandline. After it has been
+-       called the methods OptionPassed and ParamPassed can be used to retrieve
+-       the actual parameters. }
++    ///&lt;summary&gt; parses the commandline
++    ///          This method uses the information given to it via the RegisterOption and
++    ///          RegisterParameter methods to parse the commandline. After it has been
++    ///          called the methods OptionPassed and ParamPassed can be used to retrieve
++    ///          the actual parameters. &lt;/summary&gt;
+     procedure Parse; overload;
+-    {: checks whether the option given by the short or long name was passed on the commandline,
+-       The order of the (same) options on the commandline is preserved,
+-       eg: '-a abc -b -a def' will return ('abc', 'def') for OptionFound('a').
+-       @param Name is one of the names of the option
+-       @param Values is a TStrings class which will return the option's values, if any.
+-                     It can be nil if the values are of no interest.
+-       @returns the number of matching options found on the commandline, the
+-                value -1 has a special meaning: The option name is unknown
+-                to the parser. }
++    ///&lt;summary&gt; checks whether the option given by the short or long name was passed on the commandline,
++    ///          The order of the (same) options on the commandline is preserved,
++    ///          eg: '-a abc -b -a def' will return ('abc', 'def') for OptionFound('a').
++    ///          @param Name is one of the names of the option
++    ///          @param Values is a TStrings class which will return the option's values, if any.
++    ///                        It can be nil if the values are of no interest.
++    ///          @returns the number of matching options found on the commandline, the
++    ///                   value -1 has a special meaning: The option name is unknown
++    ///                   to the parser. &lt;/summary&gt;
+     function OptionPassed(const _Name: string; _Values: TStrings): integer; overload;
+     function OptionPassed(const _Name: string; var _Value: string): boolean; overload;
+     function OptionPassed(const _Name: string): boolean; overload;
+-    {: returns true if any of the help options (--help, -?, -h, -H) was passed on the commandline. }
++    ///&lt;summary&gt; returns true if any of the help options (--help, -?, -h, -H) was passed on the commandline. &lt;/summary&gt;
+     function HelpOptionFound: boolean;
+-    {: Same for parameters, note that parameters will be filled left to right,
+-       eg. if you register a parameter that can be given 5 times and one that
+-       can be given 2 times and then pass 4 parameters, you will get
+-       4 values for the first parameter and none fo the second. }
++    ///&lt;summary&gt; checks whether the parameter given by the name was passed on the commandline,
++    ///          note that parameters will be filled left to right, eg. if you register
++    ///          a parameter that can be given 5 times and one that can be given 2
++    ///          times and then pass 4 parameters, you will get 4 values for the
++    ///          first parameter and none fo the second. &lt;/summary&gt;
+     function ParamPassed(const _ParamName: string; _Values: TStrings): integer; overload;
+     function ParamPassed(const _ParamName: string; var _Value: string): boolean; overload;
+-    {: returns a commandline with all the parameters and option, e.g. [--option1=value1] &lt;param1&gt; [&lt;param2&gt;] }
++    ///&lt;summary&gt; returns a commandline with all the parameters and option, e.g. [--option1=value1] &lt;param1&gt; [&lt;param2&gt;] &lt;/summary&gt;
+     function GetCmdLineDesc: string;
+-    {: returns a description for all the options and parameters }
++    ///&lt;summary&gt; returns a description for all the options and parameters &lt;/summary&gt;
+     function GetOptionHelp(_Indent: integer = 20): string;
+     function GetParamHelp(_Indent: integer = 20): string;
+-    {: the program's name as either passed to the constructor or read from
+-       ParamStr(0). }
++    ///&lt;summary&gt; the program's name as either passed to the constructor or read from ParamStr(0). &lt;/summary&gt;
+     property ProgName: string read FProgName;
++    ///&lt;summary&gt; List of all parameters found &lt;/summary&gt;
+     property ParamsFoundList: TParamFoundList read FParamsFoundList;
++    ///&lt;summary&gt; List of all Options found &lt;/summary&gt;
+     property OptionsFoundList: TOptionFoundList read FOptionsFoundList;
+   end;
+ 
+@@ -112,14 +114,10 @@
+   u_dzCmdLineParser,
+   u_dzTranslator;
+ 
+-resourcestring
+-  RS_NOT_A_REGISTERED_OPTION_S = '%s is not a registered option.';
+-  RS_TOO_MANY_PARAMETERS = 'There are too many parameters.';
+-  RS_NOT_ENOUGH_PARAMETERS_SD = 'There are not enough %s parameters (min: %d)';
+-  RS_DISPLAY_PARAMETER_HELP = 'display parameter help';
+-  RS_OPTION_IS_UNKNOWN_S = 'Option %s is unknown';
+-  RS_OPTION_REQUIRES_VALUE_S = 'Option %s requires a value.';
+-  RS_OPTIONS = '[options]';
++function _(const _s: string): string; inline;
++begin
++  DGetText(_s, 'dzCmdLineParser');
++end;
+ 
+ { TdzGetOpt }
+ 
+@@ -155,7 +153,7 @@
+   s: string;
+ begin
+   if FOptionDescList.Count &lt;&gt; 0 then
+-    Result := RS_OPTIONS
++    Result := _('[options]')
+   else
+     Result := '';
+   for i := 0 to FParamDescList.Count - 1 do begin
+@@ -214,7 +212,7 @@
+   PrimaryName: string;
+ begin
+   if not FOptionNameList.Find(PChar(_Name), Idx) then
+-    raise EUnknownOption.CreateFmt(RS_NOT_A_REGISTERED_OPTION_S, [_Name]);
++    raise EUnknownOption.CreateFmt(_('%s is not a registered option.'), [_Name]);
+ 
+   Result := 0;
+   PrimaryName := FOptionNameList[Idx].GetPrimaryName;
+@@ -293,7 +291,7 @@
+   while FoundIdx &lt; _Params.Count do begin
+     DesCount := FParamDescList.Count;
+     if (DescIdx &gt;= DesCount) then
+-      raise ETooManyParams.Create(RS_TOO_MANY_PARAMETERS);
++      raise ETooManyParams.Create(_('There are too many parameters.'));
+     pd := FParamDescList[DescIdx];
+     Cnt := 0;
+     while ((Cnt &lt; pd.MaxCount) or (pd.MaxCount = -1)) and (FoundIdx &lt; _Params.Count) do begin
+@@ -303,24 +301,24 @@
+       Inc(FoundIdx);
+     end;
+     if Cnt &lt; pd.MinCount then
+-      raise ETooFewParams.CreateFmt(RS_NOT_ENOUGH_PARAMETERS_SD, [pd.Name, pd.MinCount]);
++      raise ETooFewParams.CreateFmt(_('There are not enough %s parameters (min: %d)'), [pd.Name, pd.MinCount]);
+     Inc(DescIdx);
+   end;
+   while DescIdx &lt; FParamDescList.Count do begin
+     pd := FParamDescList[DescIdx];
+     if pd.MinCount &gt; 0 then
+-      raise ETooFewParams.CreateFmt(RS_NOT_ENOUGH_PARAMETERS_SD, [pd.Name, pd.MinCount]);
++      raise ETooFewParams.CreateFmt(_('There are not enough %s parameters (min: %d)'), [pd.Name, pd.MinCount]);
+     Inc(DescIdx);
+   end;
+ 
+   FoundIdx := 0;
+   while FoundIdx &lt; _Options.Count do begin
+     if not FOptionNameList.Find(_Options.Names[FoundIdx], OptName) then
+-      raise EUnknownOption.CreateFmt(RS_OPTION_IS_UNKNOWN_S, [_Options.Names[Foundidx]]);
++      raise EUnknownOption.CreateFmt(_('Option %s is unknown'), [_Options.Names[Foundidx]]);
+     s := _Options.ValueFromIndex[FoundIdx];
+     OptDesc := OptName.OptionDesc;
+     if OptDesc.HasValue and (s = '') then
+-      raise EOptionValue.CreateFmt(RS_OPTION_REQUIRES_VALUE_S, [OptName.Name]);
++      raise EOptionValue.CreateFmt(_('Option %s requires a value.'), [OptName.Name]);
+     FOptionsFoundList.Add(TOptionFound.Create(OptDesc, OptName.Name, s));
+     Inc(FoundIdx);
+   end;
+@@ -364,7 +362,7 @@
+ 
+ procedure TGetOpt.RegisterHelpOptions;
+ begin
+-  RegisterOption(['help', '?', 'h', 'H'], RS_DISPLAY_PARAMETER_HELP, false);
++  RegisterOption(['help', '?', 'h', 'H'], _('display parameter help'), false);
+ end;
+ 
+ procedure TGetOpt.RegisterOption(const _Name, _Description: string; _HasValue: boolean);
+@@ -390,7 +388,5 @@
+   FParamDescList.Add(TParamDesc.Create(_Name, _Description, _MinCount, _MaxCount));
+ end;
+ 
+-initialization
+-  AddDomainForResourceString('dzCmdLineParser');
+ end.
+ 
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas	2008-09-05 09:24:13 UTC (rev 308)
++++ utilities/dzCmdLineParser/trunk/src/u_dzOptionDescList.pas	2008-09-05 09:44:10 UTC (rev 309)
+@@ -38,26 +38,26 @@
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+ 
+ type
+-  {: List for storing TOptionDesc items sorted by String }
++  ///&lt;summary&gt; List for storing TOptionDesc items sorted by String &lt;/summary&gt;
+   TOptionDescList = class(_DZ_SORTED_OBJECT_LIST_TEMPLATE_)
+   protected
+-    {: return the key of an item for comparison }
++    ///&lt;summary&gt; return the key of an item for comparison &lt;/summary&gt;
+     function KeyOf(const _Item: TOptionDesc): string; override;
+-    {: compare the keys of two items, must return a value
+-       &lt; 0 if Key1 &lt; Key2, = 0 if Key1 = Key2 and &gt; 0 if Key1 &gt; Key2 }
++    ///&lt;summary&gt; compare the keys of two items, must return a value
++    ///          &lt; 0 if Key1 &lt; Key2, = 0 if Key1 = Key2 and &gt; 0 if Key1 &gt; Key2 &lt;/summary&gt;
+     function Compare(const _Key1, _Key2: string): integer; override;
+   end;
+ 
+ implementation
+ 
+ uses
+-  StrUtils;
++  StrUtils,
++  u_dzTranslator;
+ 
+-resourcestring
+-  RS_OPTION_NAME_CANNOT_BE_EMPTY = 'Option name cannot be empty.';
+-  RS_OPTION_NAME_MUST_START_WITH_ALPHANUMERIC = 'Option name must start with an alphanumeric character.';
+-  RS_OPTION_NAME_CONTAINS_INVALID_CHAR_SD = 'Option name contains invalid character &quot;%s&quot; (%d).';
+-  RS_VALUE = 'value';
++function _(const _s: string): string; inline;
++begin
++  DGetText(_s, 'dzCmdLineParser');
++end;
+ 
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+ 
+@@ -102,13 +102,13 @@
+   i: integer;
+ begin
+   if _Name = '' then
+-    raise EOptionName.Create(RS_OPTION_NAME_CANNOT_BE_EMPTY);
++    raise EOptionName.Create(_('Option name cannot be empty.'));
+   { TODO -otwm : Maybe '$', '#' and some other chars should be allowed }
+   if not (_Name[1] in ['a'..'z', 'A'..'Z', '0'..'9', '?']) then
+-    raise EOptionName.Create(RS_OPTION_NAME_MUST_START_WITH_ALPHANUMERIC);
++    raise EOptionName.Create(_('Option name must start with an alphanumeric character.'));
+   for i := 2 to Length(_Name) do
+     if not (_Name[i] in ['a'..'z', 'A'..'Z', '0'..'9', '-', '_']) then
+-      raise EOptionName.CreateFmt(RS_OPTION_NAME_CONTAINS_INVALID_CHAR_SD, [_Name[i], Ord(_Name[i])]);
++      raise EOptionName.CreateFmt(_('Option name contains invalid character &quot;%s&quot; (%d).'), [_Name[i], Ord(_Name[i])]);
+ end;
+ 
+ function TOptionDesc.CreateDescription(const _OptionName: string): string;
+@@ -118,12 +118,12 @@
+     1: begin
+         Result := '-' + _OptionName;
+         if FHasValue then
+-          Result := Result + ' ' + RS_VALUE;
++          Result := Result + ' ' + _('value');
+       end;
+   else begin
+       Result := '--' + _OptionName;
+       if FHasValue then
+-        Result := Result + '=' + RS_VALUE;
++        Result := Result + '=' + _('value');
+     end
+   end;
+ end;
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzOptionFoundList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzOptionFoundList.pas	2008-09-05 09:24:13 UTC (rev 308)
++++ utilities/dzCmdLineParser/trunk/src/u_dzOptionFoundList.pas	2008-09-05 09:44:10 UTC (rev 309)
+@@ -29,13 +29,13 @@
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+ 
+ type
+-  {: List for storing TOptionFound items sorted by String }
++  ///&lt;summary&gt; List for storing TOptionFound items sorted by String &lt;/summary&gt;
+   TOptionFoundList = class(_DZ_SORTED_OBJECT_LIST_TEMPLATE_)
+   protected
+-    {: return the key of an item for comparison }
++     ///&lt;summary&gt; return the key of an item for comparison &lt;/summary&gt;
+     function KeyOf(const _Item: TOptionFound): string; override;
+-    {: compare the keys of two items, must return a value
+-       &lt; 0 if Key1 &lt; Key2, = 0 if Key1 = Key2 and &gt; 0 if Key1 &gt; Key2 }
++     ///&lt;summary&gt; compare the keys of two items, must return a value
++     ///          &lt; 0 if Key1 &lt; Key2, = 0 if Key1 = Key2 and &gt; 0 if Key1 &gt; Key2 &lt;/summary&gt;
+     function Compare(const _Key1, _Key2: string): integer; override;
+   end;
+ 
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzOptionNameList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzOptionNameList.pas	2008-09-05 09:24:13 UTC (rev 308)
++++ utilities/dzCmdLineParser/trunk/src/u_dzOptionNameList.pas	2008-09-05 09:44:10 UTC (rev 309)
+@@ -28,13 +28,13 @@
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+ 
+ type
+-  {: List for storing TOptionName items sorted by string }
++  ///&lt;summary&gt; List for storing TOptionName items sorted by string &lt;/summary&gt;
+   TOptionNameList = class(_DZ_SORTED_OBJECT_LIST_TEMPLATE_)
+   protected
+-    {: return the key of an item for comparison }
++    ///&lt;summary&gt; return the key of an item for comparison &lt;/summary&gt;
+     function KeyOf(const _Item: TOptionName): string; override;
+-    {: compare the keys of two items, must return a value
+-       &lt; 0 if Key1 &lt; Key2, = 0 if Key1 = Key2 and &gt; 0 if Key1 &gt; Key2 }
++    ///&lt;summary&gt; compare the keys of two items, must return a value
++    ///          &lt; 0 if Key1 &lt; Key2, = 0 if Key1 = Key2 and &gt; 0 if Key1 &gt; Key2 &lt;/summary&gt;
+     function Compare(const _Key1, _Key2: string): integer; override;
+   end;
+ 
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzParamDescList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzParamDescList.pas	2008-09-05 09:24:13 UTC (rev 308)
++++ utilities/dzCmdLineParser/trunk/src/u_dzParamDescList.pas	2008-09-05 09:44:10 UTC (rev 309)
+@@ -25,13 +25,11 @@
+ {$DEFINE __DZ_OBJECT_LIST_TEMPLATE__}
+ type
+   _LIST_ANCESTOR_ = TObject;
+-//  _LIST_CONTAINER_ = TList;
+-//  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
+   _ITEM_TYPE_ = TParamDesc;
+ {$INCLUDE 't_dzObjectListTemplate.tpl'}
+ 
+ type
+-  {: List for storing TParamDesc items }
++  ///&lt;summary&gt; List for storing TParamDesc items &lt;/summary&gt;
+   TParamDescList = class(_DZ_OBJECT_LIST_TEMPLATE_)
+ 
+   end;
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzParamFoundList.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzParamFoundList.pas	2008-09-05 09:24:13 UTC (rev 308)
++++ utilities/dzCmdLineParser/trunk/src/u_dzParamFoundList.pas	2008-09-05 09:44:10 UTC (rev 309)
+@@ -20,13 +20,11 @@
+ {$DEFINE __DZ_OBJECT_LIST_TEMPLATE__}
+ type
+   _LIST_ANCESTOR_ = TObject;
+-//  _LIST_CONTAINER_ = TList;
+-//  _LIST_CONTAINER_ITEM_TYPE_ = pointer;
+   _ITEM_TYPE_ = TParamFound;
+ {$INCLUDE 't_dzObjectListTemplate.tpl'}
+ 
+ type
+-  {: List for storing TParamFound items }
++  ///&lt;summary&gt; List for storing TParamFound items &lt;/summary&gt;
+   TParamFoundList = class(_DZ_OBJECT_LIST_TEMPLATE_)
+ 
+   end;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000175.html">[Dzchart-svncheckins] r308 - in utilities/dzCmdLineParser/trunk: .	translations/de
+</A></li>
+	<LI>Next message: <A HREF="000177.html">[Dzchart-svncheckins] r310 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#176">[ date ]</a>
+              <a href="thread.html#176">[ thread ]</a>
+              <a href="subject.html#176">[ subject ]</a>
+              <a href="author.html#176">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

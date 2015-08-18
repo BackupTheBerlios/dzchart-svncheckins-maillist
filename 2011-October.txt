@@ -1,0 +1,86 @@
+From twm at mail.berlios.de  Sun Oct  2 19:21:09 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun,  2 Oct 2011 19:21:09 +0200
+Subject: [Dzchart-svncheckins] r608 - utilities/buildtools/trunk
+Message-ID: <20111002172109.DDF31481229@sheep.berlios.de>
+
+Author: twm
+Date: 2011-10-02 19:21:09 +0200 (Sun, 02 Oct 2011)
+New Revision: 608
+
+Added:
+   utilities/buildtools/trunk/InitForDelphiXE.cmd
+Removed:
+   utilities/buildtools/trunk/InitForDelphi2011.cmd
+Log:
+Delphi 2011 -> Delphi XE
+
+Deleted: utilities/buildtools/trunk/InitForDelphi2011.cmd
+===================================================================
+--- utilities/buildtools/trunk/InitForDelphi2011.cmd	2011-09-13 18:25:30 UTC (rev 607)
++++ utilities/buildtools/trunk/InitForDelphi2011.cmd	2011-10-02 17:21:09 UTC (rev 608)
+@@ -1,2 +0,0 @@
+- at rem init for Delphi 2011 (XE) batch compile
+-call "%ProgramFiles%\Embarcadero\RAD Studio\8.0\bin\rsvars.bat"
+
+Copied: utilities/buildtools/trunk/InitForDelphiXE.cmd (from rev 601, utilities/buildtools/trunk/InitForDelphi2011.cmd)
+===================================================================
+--- utilities/buildtools/trunk/InitForDelphiXE.cmd	                        (rev 0)
++++ utilities/buildtools/trunk/InitForDelphiXE.cmd	2011-10-02 17:21:09 UTC (rev 608)
+@@ -0,0 +1,2 @@
++ at rem init for Delphi 2011 (XE) batch compile
++call "%ProgramFiles%\Embarcadero\RAD Studio\8.0\bin\rsvars.bat"
+
+
+
+From twm at mail.berlios.de  Sun Oct 23 15:52:38 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 23 Oct 2011 15:52:38 +0200
+Subject: [Dzchart-svncheckins] r609 - utilities
+Message-ID: <20111023135239.0EE8C481370@sheep.berlios.de>
+
+Author: twm
+Date: 2011-10-23 15:52:38 +0200 (Sun, 23 Oct 2011)
+New Revision: 609
+
+Removed:
+   utilities/dzCmdLineParser/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Oct 23 15:53:18 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 23 Oct 2011 15:53:18 +0200
+Subject: [Dzchart-svncheckins] r610 - utilities
+Message-ID: <20111023135318.B6BC5481370@sheep.berlios.de>
+
+Author: twm
+Date: 2011-10-23 15:53:18 +0200 (Sun, 23 Oct 2011)
+New Revision: 610
+
+Removed:
+   utilities/dzContextMenu/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Oct 23 16:31:03 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 23 Oct 2011 16:31:03 +0200
+Subject: [Dzchart-svncheckins] r611 - utilities
+Message-ID: <20111023143103.9A151481370@sheep.berlios.de>
+
+Author: twm
+Date: 2011-10-23 16:31:03 +0200 (Sun, 23 Oct 2011)
+New Revision: 611
+
+Removed:
+   utilities/IniFileFormatter/
+Log:
+moved to sourceforge
+
+
+

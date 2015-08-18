@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r549 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r549%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110220155549.2D343480E5C%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000406.html">
+   <LINK REL="Next"  HREF="000408.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r549 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r549%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110220155549.2D343480E5C%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r549 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Feb 20 16:55:48 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000406.html">[Dzchart-svncheckins] r548 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000408.html">[Dzchart-svncheckins] r550 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#407">[ date ]</a>
+              <a href="thread.html#407">[ thread ]</a>
+              <a href="subject.html#407">[ subject ]</a>
+              <a href="author.html#407">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-02-20 16:55:48 +0100 (Sun, 20 Feb 2011)
+New Revision: 549
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+new function CreateUniqueTempDir which creates a temporary directory which will automatically be deleted when the retuned interface goes out of scope
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-02-20 15:42:33 UTC (rev 548)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-02-20 15:55:48 UTC (rev 549)
+@@ -309,6 +309,10 @@
+     property OnQueryFileSync: TOnQueryFileSync read FOnQueryFileSync write FOnQueryFileSync;
+   end;
+ 
++  IUniqueTempDir = interface ['{D9A4A428-66AE-4BBC-B1CA-22CE4DE2FACB}']
++    function Path: string;
++  end;
++
+   /// &lt;summary&gt;
+   /// This class owns all utility functions as class methods so they don't pollute the name space
+   /// &lt;/summary&gt;
+@@ -379,6 +383,7 @@
+     /// @returns the name of the created directory
+     /// &lt;/summary&gt;
+     class function CreateUniqueDirectory(_BaseDir: string = ''; const _Prefix: string = 'dz'): string;
++    class function CreateUniqueTempDir(_Prefix: string = 'dz'): IUniqueTempDir;
+ 
+     /// &lt;summary&gt;
+     /// Calls the Win32Api function GetTempPath but returns a string rather than
+@@ -1027,6 +1032,24 @@
+   end;
+ end;
+ 
++type
++  TUniqueTempDir = class(TInterfacedObject, IUniqueTempDir)
++  private
++    FPath: string;
++    function Path: string;
++  public
++    constructor Create(const _Path: string);
++    destructor Destroy; override;
++  end;
++
++class function TFileSystem.CreateUniqueTempDir(_Prefix: string): IUniqueTempDir;
++var
++  s: string;
++begin
++  s := CreateUniqueDirectory(GetTempPath, _Prefix);
++  Result := TUniqueTempDir.Create(s);
++end;
++
+ class function TFileSystem.GetTempFileName(_Directory: string = ''; const _Prefix: string = 'dz';
+   _Unique: word = 0): string;
+ var
+@@ -2035,5 +2058,25 @@
+   SyncOneWay(_DirB, _DirA);
+ end;
+ 
++{ TUniqueTempDir }
++
++constructor TUniqueTempDir.Create(const _Path: string);
++begin
++  inherited Create;
++  FPath := _Path;
++end;
++
++destructor TUniqueTempDir.Destroy;
++begin
++  // delete directory, fail silently on errors
++  TFileSystem.DelDirTree(FPath, False);
++  inherited;
++end;
++
++function TUniqueTempDir.Path: string;
++begin
++  Result := FPath;
++end;
++
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000406.html">[Dzchart-svncheckins] r548 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000408.html">[Dzchart-svncheckins] r550 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#407">[ date ]</a>
+              <a href="thread.html#407">[ thread ]</a>
+              <a href="subject.html#407">[ subject ]</a>
+              <a href="author.html#407">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

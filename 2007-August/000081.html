@@ -1,0 +1,494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r208 - in utilities/Delphi7Help4Bds/trunk:	packages/Delphi2007 src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r208%20-%20in%20utilities/Delphi7Help4Bds/trunk%3A%0A%09packages/Delphi2007%20src&In-Reply-To=%3C200708131814.l7DIEZYq023308%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000080.html">
+   <LINK REL="Next"  HREF="000082.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r208 - in utilities/Delphi7Help4Bds/trunk:	packages/Delphi2007 src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r208%20-%20in%20utilities/Delphi7Help4Bds/trunk%3A%0A%09packages/Delphi2007%20src&In-Reply-To=%3C200708131814.l7DIEZYq023308%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r208 - in utilities/Delphi7Help4Bds/trunk:	packages/Delphi2007 src">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Aug 13 20:14:35 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000080.html">[Dzchart-svncheckins] r207 - utilities/Delphi7Help4Bds/tags
+</A></li>
+        <LI>Next message: <A HREF="000082.html">[Dzchart-svncheckins] r209 - utilities/dzStateEngine/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#81">[ date ]</a>
+              <a href="thread.html#81">[ thread ]</a>
+              <a href="subject.html#81">[ subject ]</a>
+              <a href="author.html#81">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-08-13 20:14:20 +0200 (Mon, 13 Aug 2007)
+New Revision: 208
+
+Modified:
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj
+   utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas
+   utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm
+   utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas
+Log:
+* added MSDN help
+* added ctrl-alt-F1
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj	2007-08-12 18:02:04 UTC (rev 207)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj	2007-08-13 18:14:20 UTC (rev 208)
+@@ -25,7 +25,7 @@
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch Delphi 7 help for BDS expert&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;63&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name!
+ =&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;www.dummzeuch.de&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;Delphi 7 help for BDS expert&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.63&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;Delphi 7 help for BDS expert&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2006 Thomas Mueller&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;Delphi7HelpForBdsExpert.bpl&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;Delphi 7 help for BDS&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Co!
+ mments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Na!
+ me=&quot;Main
+Source&quot;&gt;Delphi7HelpForBdsExpert.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch Delphi 7 help for BDS expert&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;64&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name!
+ =&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;www.dummzeuch.de&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;Delphi 7 help for BDS expert&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.64&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;Delphi 7 help for BDS expert&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2006 Thomas Mueller&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;Delphi7HelpForBdsExpert.bpl&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;Delphi 7 help for BDS&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Co!
+ mments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Na!
+ me=&quot;Main
+Source&quot;&gt;Delphi7HelpForBdsExpert.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;ItemGroup&gt;
+
+Modified: utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas	2007-08-12 18:02:04 UTC (rev 207)
++++ utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas	2007-08-13 18:14:20 UTC (rev 208)
+@@ -28,6 +28,8 @@
+       var BindingResult: TKeyBindingResult);
+     procedure CallAltF1(const Context: IOTAKeyContext; KeyCode: TShortCut;
+       var BindingResult: TKeyBindingResult);
++    procedure CallCtrlAltF1(const Context: IOTAKeyContext; KeyCode: TShortCut;
++      var BindingResult: TKeyBindingResult);
+     function GetAction(const _Which: string; out _Url: string): boolean;
+   public
+     procedure CallHelp(_Which: string; const Context: IOTAKeyContext;
+@@ -54,6 +56,7 @@
+   BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssCtrl])], CallCtrlF1, nil);
+   BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssShift])], CallShiftF1, nil);
+   BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssAlt])], CallAltF1, nil);
++  BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssCtrl, ssAlt])], CallCtrlAltF1, nil);
+ end;
+ 
+ function TCtrlF1Help.GetBindingType: TBindingType;
+@@ -75,26 +78,26 @@
+ var
+   Reg: TRegistry;
+ begin
+-  Result := false;
++  Result := False;
+   Reg := TRegistry.Create;
+   try
+     Reg.RootKey := HKEY_CURRENT_USER;
+-    if Reg.OpenKey('software\dummzeuch\Delphi7HelpForBds', true) then
++    if Reg.OpenKey('Software\dummzeuch\Delphi7HelpForBds', true) then
+       try
+         try
+           _Url := Reg.ReadString('HelpFile' + _Which);
+           if _Url = '-' then begin
+-            Result := false;
+-            exit;
++            Result := False;
++            Exit;
+           end;
+           Result := (_Url &lt;&gt; '');
+           if Result then begin
+             if LeftStr(_Url, 5) = 'http:' then
+-              exit;
++              Exit;
+             if LeftStr(_Url, 8) = 'winhelp:' then
+-              exit;
++              Exit;
+             if LeftStr(_Url, 8) = 'chmhelp:' then
+-              exit;
++              Exit;
+             _Url := 'winhelp:' + _Url;
+             Reg.WriteString('HelpFile' + _Which, _Url);
+             exit;
+@@ -107,7 +110,7 @@
+         if Result then
+           Reg.WriteString('HelpFile' + _Which, _Url)
+         else
+-          Result := false;
++          Result := False;
+       finally
+         Reg.CloseKey;
+       end;
+@@ -122,6 +125,12 @@
+   CallHelp('AltF1', Context, KeyCode, BindingResult);
+ end;
+ 
++procedure TCtrlF1Help.CallCtrlAltF1(const Context: IOTAKeyContext;
++  KeyCode: TShortCut; var BindingResult: TKeyBindingResult);
++begin
++  CallHelp('CtrlAltF1', Context, KeyCode, BindingResult);
++end;
++
+ procedure TCtrlF1Help.CallCtrlF1(
+   const Context: IOTAKeyContext; KeyCode: TShortCut;
+   var BindingResult: TKeyBindingResult);
+@@ -142,51 +151,63 @@
+ begin
+   if not GetAction(_Which, Url) then begin
+     BindingResult := krUnhandled;
+-    exit;
++    Exit;
+   end;
+ 
+   EditView := Context.EditBuffer.TopView;
+   ep := EditView.Position;
+   CursorPos := EditView.CursorPos;
+   EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
+-  if (Element = atWhiteSpace) or (Element = atSymbol) then begin
+-    Dec(CursorPos.Col);
+-    EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
+-    if Element = atWhiteSpace then begin
+-      Inc(CursorPos.Col, 2);
++
++  if EditView.Block.Size &gt; 0 then begin
++    // Check for selected text as Keyword :)
++    Keyword:= EditView.Block.Text;
++  end else begin
++    if (Element = atWhiteSpace) or (Element = atSymbol) then begin
++      Dec(CursorPos.Col);
+       EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
++      if Element = atWhiteSpace then begin
++        Inc(CursorPos.Col, 2);
++        EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
++      end;
+     end;
+-  end;
+-  if Element in [atIdentifier, atReservedWord] then begin
+-    // The cursor can be anywhere on the word, or at the end of a word
+-    // If cursor is at the middle of a word, then extract the word
+-    if ep.IsWordCharacter then begin
+-      ep.Save;
+-      try
+-        EndCol := CursorPos.Col;
+-        while (ep.IsWordCharacter) and (ep.Column &gt; 1) do
+-          ep.MoveRelative(0, -1);
+-        if ep.IsWordCharacter then
+-          StartCol := ep.Column // Start of a line...
+-        else
+-          StartCol := ep.Column + 1;
+-        WordLen := EndCol - StartCol;
+-        ep.Move(ep.Row, EndCol);
+-        while ep.IsWordCharacter do begin
+-          ep.MoveRelative(0, 1);
+-          Inc(WordLen);
++  
++    if Element in [atIdentifier, atReservedWord] then begin
++      // The cursor can be anywhere on the word, or at the end of a word
++      // If cursor is at the middle of a word, then extract the word
++      if ep.IsWordCharacter then begin
++        ep.Save;
++        try
++          EndCol := CursorPos.Col;
++          while (ep.IsWordCharacter) and (ep.Column &gt; 1) do
++            ep.MoveRelative(0, -1);
++          if ep.IsWordCharacter then
++            StartCol := ep.Column // Start of a line...
++          else
++            StartCol := ep.Column + 1;
++          WordLen := EndCol - StartCol;
++          ep.Move(ep.Row, EndCol);
++          while ep.IsWordCharacter do begin
++            ep.MoveRelative(0, 1);
++            Inc(WordLen);
++          end;
++          ep.MoveRelative(0, -WordLen);
++          Keyword := ep.Read(WordLen);
++        finally
++          ep.Restore;
+         end;
+-        ep.MoveRelative(0, -WordLen);
+-        Keyword := ep.Read(WordLen);
+-      finally
+-        ep.Restore;
++      end else begin
++        // If cursor is at the end of a word, then extract it
++        Keyword := ep.RipText('_', rfBackward or rfIncludeAlphaChars or rfIncludeNumericChars);
+       end;
+     end else begin
+-      // If cursor is at the end of a word, then extract it
+-      Keyword := ep.RipText('_', rfBackward or rfIncludeAlphaChars or rfIncludeNumericChars);
++      // Cannot extract keyword :(
++    
++      //Keyword := '';
++      BindingResult := krUnhandled;
++      Exit;
+     end;
+-  end else
+-    Keyword := '';
++  end;
+ 
+   if LeftStr(Url, 8) = 'winhelp:' then begin
+     Url := Copy(Url, 9);
+
+Modified: utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm	2007-08-12 18:02:04 UTC (rev 207)
++++ utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm	2007-08-13 18:14:20 UTC (rev 208)
+@@ -1,9 +1,11 @@
+ object f_Delphi7HelpForBds: Tf_Delphi7HelpForBds
+   Left = 354
+   Top = 151
+-  Width = 473
+-  Height = 313
++  BorderIcons = [biSystemMenu, biMinimize]
++  BorderStyle = bsSingle
+   Caption = 'Delphi 7 help for BDS Wizard'
++  ClientHeight = 297
++  ClientWidth = 467
+   Color = clBtnFace
+   Font.Charset = DEFAULT_CHARSET
+   Font.Color = clWindowText
+@@ -12,15 +14,16 @@
+   Font.Style = []
+   OldCreateOrder = False
+   DesignSize = (
+-    465
+-    289)
++    467
++    297)
+   PixelsPerInch = 96
+   TextHeight = 13
+   object l_Blurb: TLabel
+     Left = 8
+     Top = 8
+-    Width = 437
++    Width = 439
+     Height = 25
++    Margins.Bottom = 0
+     Anchors = [akLeft, akTop, akRight]
+     AutoSize = False
+     Caption = 
+@@ -28,11 +31,12 @@
+       'wizard. Please specify below  the action you want to execute wit' +
+       'h this shortcut.'
+     WordWrap = True
++    ExplicitWidth = 437
+   end
+   object ed_Helpfile: TEdit
+     Left = 24
+-    Top = 72
+-    Width = 405
++    Top = 80
++    Width = 407
+     Height = 21
+     Anchors = [akLeft, akTop, akRight]
+     TabOrder = 4
+@@ -40,9 +44,9 @@
+   end
+   object b_SelectHlp: TButton
+     Left = 432
+-    Top = 72
++    Top = 80
+     Width = 25
+-    Height = 25
++    Height = 21
+     Anchors = [akTop, akRight]
+     Caption = '...'
+     TabOrder = 5
+@@ -50,7 +54,7 @@
+   end
+   object b_OK: TButton
+     Left = 304
+-    Top = 256
++    Top = 264
+     Width = 75
+     Height = 25
+     Anchors = [akRight, akBottom]
+@@ -61,7 +65,7 @@
+   end
+   object b_Cancel: TButton
+     Left = 384
+-    Top = 256
++    Top = 264
+     Width = 75
+     Height = 25
+     Anchors = [akRight, akBottom]
+@@ -72,8 +76,8 @@
+   end
+   object rb_Winhelp: TRadioButton
+     Left = 8
+-    Top = 48
+-    Width = 397
++    Top = 56
++    Width = 420
+     Height = 17
+     Caption = 'Open a *.&amp;HLP file'
+     Checked = True
+@@ -83,7 +87,7 @@
+   end
+   object rb_WebUrl: TRadioButton
+     Left = 8
+-    Top = 160
++    Top = 176
+     Width = 397
+     Height = 17
+     Caption = 
+@@ -103,8 +107,8 @@
+   end
+   object cmb_WebUrl: TComboBox
+     Left = 24
+-    Top = 184
+-    Width = 401
++    Top = 192
++    Width = 407
+     Height = 21
+     ItemHeight = 13
+     TabOrder = 8
+@@ -113,12 +117,15 @@
+     OnEnter = cmb_WebUrlEnter
+     Items.Strings = (
+       '<A HREF="http://www.google.com/search?q=delphi+">http://www.google.com/search?q=delphi+</A>'
+-      '<A HREF="http://groups.google.com/groups/search?q=delphi+">http://groups.google.com/groups/search?q=delphi+</A>')
++      '<A HREF="http://groups.google.com/groups/search?q=delphi+">http://groups.google.com/groups/search?q=delphi+</A>'
++      
++        '<A HREF="http://search.msdn.microsoft.com/search/Default.aspx?brand=msdn&amp;">http://search.msdn.microsoft.com/search/Default.aspx?brand=msdn&amp;</A>' +
++        'refinement=117&amp;lang=en-us&amp;query=')
+   end
+   object rb_ChmHelp: TRadioButton
+     Left = 8
+-    Top = 104
+-    Width = 397
++    Top = 112
++    Width = 420
+     Height = 17
+     Caption = 'Open a *.&amp;CHM file'
+     TabOrder = 1
+@@ -126,8 +133,8 @@
+   end
+   object ed_ChmFile: TEdit
+     Left = 24
+-    Top = 128
+-    Width = 405
++    Top = 136
++    Width = 407
+     Height = 21
+     Anchors = [akLeft, akTop, akRight]
+     TabOrder = 6
+@@ -135,9 +142,9 @@
+   end
+   object b_SelectChm: TButton
+     Left = 432
+-    Top = 128
++    Top = 136
+     Width = 25
+-    Height = 25
++    Height = 21
+     Anchors = [akTop, akRight]
+     Caption = '...'
+     TabOrder = 7
+@@ -148,15 +155,15 @@
+     Filter = 'help files (*.hlp)|*.hlp|all files|*.*'
+     FilterIndex = 0
+     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+-    Left = 168
+-    Top = 80
++    Left = 360
++    Top = 120
+   end
+   object od_ChmFile: TOpenDialog
+     DefaultExt = 'hlp'
+     Filter = 'HTML help files (*.chm)|*.chm|all files|*.*'
+     FilterIndex = 0
+     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+-    Left = 168
+-    Top = 136
++    Left = 360
++    Top = 63
+   end
+ end
+
+Modified: utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas	2007-08-12 18:02:04 UTC (rev 207)
++++ utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas	2007-08-13 18:14:20 UTC (rev 208)
+@@ -41,7 +41,7 @@
+     procedure ed_ChmFileChange(Sender: TObject);
+   private
+   public
+-    class function Execute(out _Url: string): boolean;
++    class function Execute(out _Url: string): Boolean;
+   end;
+ 
+ implementation
+@@ -80,26 +80,26 @@
+   rb_Winhelp.Checked := true;
+ end;
+ 
+-class function Tf_Delphi7HelpForBds.Execute(out _Url: string): boolean;
++class function Tf_Delphi7HelpForBds.Execute(out _Url: string): Boolean;
+ var
+   frm: Tf_Delphi7HelpForBds;
+ begin
+   frm := Tf_Delphi7HelpForBds.Create(nil);
+   try
+     if mrOk = frm.ShowModal then begin
+-      Result := true;
++      Result := True;
+       if frm.rb_Winhelp.Checked then begin
+         _Url := 'winhelp:' + frm.ed_Helpfile.Text;
+       end else if frm.rb_WebUrl.Checked then begin
+         _Url := frm.cmb_WebUrl.Text;
+       end else if frm.rb_ChmHelp.Checked then
+         _Url := 'chmhelp:' + frm.ed_ChmFile.Text
+-      else
++      else          
+         _Url := '-';
+     end else
+-      Result := false;
++      Result := False;
+   finally
+-    frm.free
++    frm.Free;
+   end;
+ end;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000080.html">[Dzchart-svncheckins] r207 - utilities/Delphi7Help4Bds/tags
+</A></li>
+	<LI>Next message: <A HREF="000082.html">[Dzchart-svncheckins] r209 - utilities/dzStateEngine/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#81">[ date ]</a>
+              <a href="thread.html#81">[ thread ]</a>
+              <a href="subject.html#81">[ subject ]</a>
+              <a href="author.html#81">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r498 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r498%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101001173758.D79D448109B%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000356.html">
+   <LINK REL="Next"  HREF="000358.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r498 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r498%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20101001173758.D79D448109B%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r498 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 19:37:58 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000356.html">[Dzchart-svncheckins] r497 - 3rd/jcl/2.000/trunk/source/common
+</A></li>
+        <LI>Next message: <A HREF="000358.html">[Dzchart-svncheckins] r499 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#357">[ date ]</a>
+              <a href="thread.html#357">[ thread ]</a>
+              <a href="subject.html#357">[ subject ]</a>
+              <a href="author.html#357">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 19:37:58 +0200 (Fri, 01 Oct 2010)
+New Revision: 498
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVersionInfo.pas
+Log:
+* Bugfix: Company was never read from version info
+* Added InternalName and OriginalFilename
+* now uses TJclFileVersionInfo.FileHasVersionInfo to prevent raising and capturing an annoying exception
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVersionInfo.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVersionInfo.pas	2010-10-01 16:52:00 UTC (rev 497)
++++ utilities/dzLib/trunk/src/u_dzVersionInfo.pas	2010-10-01 17:37:58 UTC (rev 498)
+@@ -13,7 +13,8 @@
+   EAIInvalidVersionInfo = class(EApplicationInfo);
+ 
+ type
+-  TFileProperty = (FpProductName, FpProductVersion, FpFileDescription, FpFileVersion, FpCopyright, FpCompanyName);
++  TFileProperty = (FpProductName, FpProductVersion, FpFileDescription, FpFileVersion, FpCopyright, FpCompanyName,
++    fpInternalName, fpOriginalFilename);
+   TFilePropertySet = set of TFileProperty;
+ 
+ type
+@@ -60,6 +61,8 @@
+     function Company: string;
+     ///&lt;summary&gt; The LegalCopyRight string from the file version resources &lt;/summary&gt;
+     function LegalCopyRight: string;
++    function InternalName: string;
++    function OriginalFilename: string;
+   end;
+ 
+ type
+@@ -89,6 +92,8 @@
+     function Company: string;
+     ///&lt;summary&gt; The LegalCopyRight string from the file version resources &lt;/summary&gt;
+     function LegalCopyRight: string;
++    function InternalName: string;
++    function OriginalFilename: string;
+   public
+     constructor Create;
+     destructor Destroy; override;
+@@ -129,7 +134,8 @@
+   IniFiles,
+   JclFileUtils,
+   u_dzTranslator,
+-  u_dzOsUtils;
++  u_dzOsUtils,
++  JclResources;
+ 
+ { TCustomFileInfo }
+ 
+@@ -172,16 +178,25 @@
+ var
+   fi: TJclFileVersionInfo;
+ begin
+-  result := '';
++  Result := '';
+ 
+   if not (_Property in FFilePropertiesRead) then begin
+     try
+       case _Property of
+         FpProductName,
+           FpProductVersion,
++          FpCompanyName,
+           FpFileDescription,
+           FpFileVersion,
+-          FpCopyright: begin
++          FpCopyright,
++          fpInternalName,
++          fpOriginalFilename: begin
++            if not TJclFileVersionInfo.FileHasVersionInfo(FileName) then begin
++              if FAllowExceptions then
++                raise EJclFileVersionInfoError.CreateRes(@RsFileUtilsNoVersionInfo);
++              exit;
++            end;
++
+             fi := TJclFileVersionInfo.Create(FileName);
+             try
+               FFileProperties[FpFileVersion] := fi.FileVersion;
+@@ -190,6 +205,8 @@
+               FFileProperties[FpProductVersion] := fi.ProductVersion;
+               FFileProperties[FpCopyright] := fi.LegalCopyright;
+               FFileProperties[FpCompanyName] := fi.CompanyName;
++              FFileProperties[fpOriginalFilename] := fi.OriginalFilename;
++              FFileProperties[fpInternalName] := fi.InternalName;
+ 
+               Include(FFilePropertiesRead, FpFileVersion);
+               Include(FFilePropertiesRead, FpFileDescription);
+@@ -197,6 +214,8 @@
+               Include(FFilePropertiesRead, FpProductName);
+               Include(FFilePropertiesRead, FpCopyright);
+               Include(FFilePropertiesRead, FpCompanyName);
++              Include(FFilePropertiesRead, fpOriginalFilename);
++              Include(FFilePropertiesRead, fpInternalName);
+             finally
+               fi.Free;
+             end;
+@@ -212,6 +231,11 @@
+   Result := FFileProperties[_Property];
+ end;
+ 
++function TCustomFileInfo.InternalName: string;
++begin
++  Result := GetFileProperty(fpInternalName);
++end;
++
+ function TCustomFileInfo.Company: string;
+ begin
+   Result := GetFileProperty(FpCompanyName);
+@@ -222,6 +246,11 @@
+   Result := GetFileProperty(FpCopyright);
+ end;
+ 
++function TCustomFileInfo.OriginalFilename: string;
++begin
++  Result := GetFileProperty(fpOriginalFilename);
++end;
++
+ function TCustomFileInfo.FileVersion: string;
+ begin
+   Result := GetFileProperty(FpFileVersion);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000356.html">[Dzchart-svncheckins] r497 - 3rd/jcl/2.000/trunk/source/common
+</A></li>
+	<LI>Next message: <A HREF="000358.html">[Dzchart-svncheckins] r499 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#357">[ date ]</a>
+              <a href="thread.html#357">[ thread ]</a>
+              <a href="subject.html#357">[ subject ]</a>
+              <a href="author.html#357">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

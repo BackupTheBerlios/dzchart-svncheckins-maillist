@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r355 - utilities/dzLib/trunk/lockfree
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r355%20-%20utilities/dzLib/trunk/lockfree&In-Reply-To=%3C200909251519.n8PFJxGR018390%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000220.html">
+   <LINK REL="Next"  HREF="000222.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r355 - utilities/dzLib/trunk/lockfree</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r355%20-%20utilities/dzLib/trunk/lockfree&In-Reply-To=%3C200909251519.n8PFJxGR018390%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r355 - utilities/dzLib/trunk/lockfree">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 17:19:59 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000220.html">[Dzchart-svncheckins] r354 - utilities/dzLib/trunk/forms
+</A></li>
+        <LI>Next message: <A HREF="000222.html">[Dzchart-svncheckins] r356 - utilities/dzLib/trunk/dbcreator
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#221">[ date ]</a>
+              <a href="thread.html#221">[ thread ]</a>
+              <a href="subject.html#221">[ subject ]</a>
+              <a href="author.html#221">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 17:19:57 +0200 (Fri, 25 Sep 2009)
+New Revision: 355
+
+Added:
+   utilities/dzLib/trunk/lockfree/u_dzInterlocked.pas
+Log:
+functions for interlocked AND and OR operations on 32 bit values
+
+
+Added: utilities/dzLib/trunk/lockfree/u_dzInterlocked.pas
+===================================================================
+--- utilities/dzLib/trunk/lockfree/u_dzInterlocked.pas	2009-09-25 15:17:21 UTC (rev 354)
++++ utilities/dzLib/trunk/lockfree/u_dzInterlocked.pas	2009-09-25 15:19:57 UTC (rev 355)
+@@ -0,0 +1,90 @@
++unit u_dzInterlocked;
++
++interface
++
++uses
++  Windows;
++
++///&lt;summary&gt; Tries to interlocked mask the Destination with an AND and an OR mask.
++///          @returns true if the operation succeeded &lt;/summary&gt;
++function TryInterlockedMask(var _Destination: LongWord; _AndMask, _OrMask: LongWord): boolean;
++
++///&lt;summary&gt; Calls TryInterlockedMask until it succeeds, sleeps for
++///          1 millisecond every time it fails. &lt;/summary&gt;
++procedure InterlockedMaskSleep(var _Destination: LongWord; _AndMask, _OrMask: LongWord); inline;
++///&lt;summary&gt; Interlocked ANDs the Destination MASK, waits until the operation succeeded, sleeps for
++///          1 millisecond every time it fails. &lt;/summary&gt;
++procedure InterlockedAndSleep(var _Destination: LongWord; _Mask: LongWord); inline;
++///&lt;summary&gt; Interlocked ORs the Destination MASK, waits until the operation succeeded, sleeps for
++///          1 millisecond every time it fails. &lt;/summary&gt;
++procedure InterlockedOrSleep(var _Destination: LongWord; _Mask: LongWord); inline;
++
++///&lt;summary&gt; Calls TryInterlockedMask until it succeeds &lt;/summary&gt;
++procedure InterlockedMaskSpin(var _Destination: LongWord; _AndMask, _OrMask: LongWord); inline;
++///&lt;summary&gt; Interlocked ANDs the Destination MASK, waits until the operation succeeded. &lt;/summary&gt;
++procedure InterlockedAndSpin(var _Destination: LongWord; _Mask: LongWord); inline;
++///&lt;summary&gt; Interlocked ORs the Destination MASK, waits until the operation succeeded. &lt;/summary&gt;
++procedure InterlockedOrSpin(var _Destination: LongWord; _Mask: LongWord); inline;
++
++implementation
++
++// InterlockedCompareExchange implements the following as an atomar operation:
++// function InterlockedCompareExchange(var _Destination: integer; _NewValue, _OldValue: integer);
++// begin
++//   Result := _Destination;
++//   if _Destination = OldValue then
++//     _Destination := NewValue;
++// end;
++// redeclared to take LongWord parameters
++
++function InterlockedCompareExchange(var _Destination: LongWord; _NewValue, _OldValue: LongWord): LongWord; cdecl;
++  external kernel32 name 'InterlockedCompareExchange';
++
++function TryInterlockedMask(var _Destination: LongWord; _AndMask, _OrMask: LongWord): boolean;
++var
++  OldValue: LongWord;
++  NewValue: LongWord;
++  CurValue: LongWord;
++begin
++  OldValue := _Destination;
++  NewValue := OldValue and _AndMask or _OrMask;
++  CurValue := InterlockedCompareExchange(_Destination, NewValue, OldValue);
++  Result := (OldValue = CurValue);
++end;
++
++procedure InterlockedMaskSleep(var _Destination: LongWord; _AndMask, _OrMask: LongWord); inline;
++begin
++  while not TryInterlockedMask(_Destination, _AndMask, _OrMask) do
++    Sleep(1);
++end;
++
++procedure InterlockedAndSleep(var _Destination: LongWord; _Mask: LongWord); inline;
++begin
++  InterlockedMaskSleep(_Destination, _Mask, 0);
++end;
++
++procedure InterlockedOrSleep(var _Destination: LongWord; _Mask: LongWord); inline;
++begin
++  InterlockedMaskSleep(_Destination, $FFFFFFFF, _Mask);
++end;
++
++procedure InterlockedMaskSpin(var _Destination: LongWord; _AndMask, _OrMask: LongWord); inline;
++begin
++  while not TryInterlockedMask(_Destination, _AndMask, _OrMask) do
++    ; // wait busily we don't this thread to give up its whole timeslice just because another thread,
++      // which is running on a different CPU just changed the value.
++      // Since the other thread should be already done, it is very likely that the second call will succeed.
++end;
++
++procedure InterlockedAndSpin(var _Destination: LongWord; _Mask: LongWord); inline;
++begin
++  InterlockedMaskSpin(_Destination, _Mask, 0);
++end;
++
++procedure InterlockedOrSpin(var _Destination: LongWord; _Mask: LongWord); inline;
++begin
++  InterlockedMaskSpin(_Destination, $FFFFFFFF, _Mask);
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000220.html">[Dzchart-svncheckins] r354 - utilities/dzLib/trunk/forms
+</A></li>
+	<LI>Next message: <A HREF="000222.html">[Dzchart-svncheckins] r356 - utilities/dzLib/trunk/dbcreator
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#221">[ date ]</a>
+              <a href="thread.html#221">[ thread ]</a>
+              <a href="subject.html#221">[ subject ]</a>
+              <a href="author.html#221">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,3441 @@
+From twm at mail.berlios.de  Sun Aug 12 13:18:09 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 13:18:09 +0200
+Subject: [Dzchart-svncheckins] r198 - utilities
+Message-ID: <200708121118.l7CBI9ln015194@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 13:18:07 +0200 (Sun, 12 Aug 2007)
+New Revision: 198
+
+Added:
+   utilities/Delphi7Help4Bds/
+Log:
+Created folder remotely
+
+
+
+From twm at mail.berlios.de  Sun Aug 12 13:18:50 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 13:18:50 +0200
+Subject: [Dzchart-svncheckins] r199 - in utilities/Delphi7Help4Bds: . trunk
+	trunk/packages trunk/packages/Delphi2005
+	trunk/packages/Delphi2006 trunk/packages/Delphi2007 trunk/src
+Message-ID: <200708121118.l7CBIofA019401@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 13:18:38 +0200 (Sun, 12 Aug 2007)
+New Revision: 199
+
+Added:
+   utilities/Delphi7Help4Bds/trunk/
+   utilities/Delphi7Help4Bds/trunk/dcu/
+   utilities/Delphi7Help4Bds/trunk/packages/
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.dpk
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dpk
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dsk
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.res
+   utilities/Delphi7Help4Bds/trunk/src/
+   utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas
+   utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm
+   utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas
+Log:
+initial import
+
+Added: utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,177 @@
++?<?xml version="1.0" encoding="utf-8"?>
++<BorlandProject>
++	<PersonalityInfo>
++		<Option>
++			<Option Name="Personality">Delphi.Personality</Option>
++			<Option Name="ProjectType"></Option>
++			<Option Name="Version">1.0</Option>
++			<Option Name="GUID">{F6D649BB-A6DB-4E8E-B031-F33E85960E63}</Option>
++		</Option>
++	</PersonalityInfo>
++	<Delphi.Personality>
++		<Source>
++			<Source Name="MainSource">Delphi7HelpForBdsExpert.dpk</Source>
++		</Source>
++		<FileVersion>
++			<FileVersion Name="Version">7.0</FileVersion>
++		</FileVersion>
++		<Compiler>
++			<Compiler Name="A">8</Compiler>
++			<Compiler Name="B">0</Compiler>
++			<Compiler Name="C">1</Compiler>
++			<Compiler Name="D">1</Compiler>
++			<Compiler Name="E">0</Compiler>
++			<Compiler Name="F">0</Compiler>
++			<Compiler Name="G">1</Compiler>
++			<Compiler Name="H">1</Compiler>
++			<Compiler Name="I">1</Compiler>
++			<Compiler Name="J">0</Compiler>
++			<Compiler Name="K">0</Compiler>
++			<Compiler Name="L">1</Compiler>
++			<Compiler Name="M">0</Compiler>
++			<Compiler Name="N">1</Compiler>
++			<Compiler Name="O">1</Compiler>
++			<Compiler Name="P">1</Compiler>
++			<Compiler Name="Q">0</Compiler>
++			<Compiler Name="R">0</Compiler>
++			<Compiler Name="S">0</Compiler>
++			<Compiler Name="T">0</Compiler>
++			<Compiler Name="U">0</Compiler>
++			<Compiler Name="V">1</Compiler>
++			<Compiler Name="W">0</Compiler>
++			<Compiler Name="X">1</Compiler>
++			<Compiler Name="Y">1</Compiler>
++			<Compiler Name="Z">1</Compiler>
++			<Compiler Name="ShowHints">True</Compiler>
++			<Compiler Name="ShowWarnings">True</Compiler>
++			<Compiler Name="UnitAliases">WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;</Compiler>
++			<Compiler Name="NamespacePrefix"></Compiler>
++			<Compiler Name="GenerateDocumentation">False</Compiler>
++			<Compiler Name="DefaultNamespace"></Compiler>
++			<Compiler Name="SymbolDeprecated">True</Compiler>
++			<Compiler Name="SymbolLibrary">True</Compiler>
++			<Compiler Name="SymbolPlatform">True</Compiler>
++			<Compiler Name="SymbolExperimental">True</Compiler>
++			<Compiler Name="UnitLibrary">True</Compiler>
++			<Compiler Name="UnitPlatform">True</Compiler>
++			<Compiler Name="UnitDeprecated">True</Compiler>
++			<Compiler Name="UnitExperimental">True</Compiler>
++			<Compiler Name="HResultCompat">True</Compiler>
++			<Compiler Name="HidingMember">True</Compiler>
++			<Compiler Name="HiddenVirtual">True</Compiler>
++			<Compiler Name="Garbage">True</Compiler>
++			<Compiler Name="BoundsError">True</Compiler>
++			<Compiler Name="ZeroNilCompat">True</Compiler>
++			<Compiler Name="StringConstTruncated">True</Compiler>
++			<Compiler Name="ForLoopVarVarPar">True</Compiler>
++			<Compiler Name="TypedConstVarPar">True</Compiler>
++			<Compiler Name="AsgToTypedConst">True</Compiler>
++			<Compiler Name="CaseLabelRange">True</Compiler>
++			<Compiler Name="ForVariable">True</Compiler>
++			<Compiler Name="ConstructingAbstract">True</Compiler>
++			<Compiler Name="ComparisonFalse">True</Compiler>
++			<Compiler Name="ComparisonTrue">True</Compiler>
++			<Compiler Name="ComparingSignedUnsigned">True</Compiler>
++			<Compiler Name="CombiningSignedUnsigned">True</Compiler>
++			<Compiler Name="UnsupportedConstruct">True</Compiler>
++			<Compiler Name="FileOpen">True</Compiler>
++			<Compiler Name="FileOpenUnitSrc">True</Compiler>
++			<Compiler Name="BadGlobalSymbol">True</Compiler>
++			<Compiler Name="DuplicateConstructorDestructor">True</Compiler>
++			<Compiler Name="InvalidDirective">True</Compiler>
++			<Compiler Name="PackageNoLink">True</Compiler>
++			<Compiler Name="PackageThreadVar">True</Compiler>
++			<Compiler Name="ImplicitImport">True</Compiler>
++			<Compiler Name="HPPEMITIgnored">True</Compiler>
++			<Compiler Name="NoRetVal">True</Compiler>
++			<Compiler Name="UseBeforeDef">True</Compiler>
++			<Compiler Name="ForLoopVarUndef">True</Compiler>
++			<Compiler Name="UnitNameMismatch">True</Compiler>
++			<Compiler Name="NoCFGFileFound">True</Compiler>
++			<Compiler Name="ImplicitVariants">True</Compiler>
++			<Compiler Name="UnicodeToLocale">True</Compiler>
++			<Compiler Name="LocaleToUnicode">True</Compiler>
++			<Compiler Name="ImagebaseMultiple">True</Compiler>
++			<Compiler Name="SuspiciousTypecast">True</Compiler>
++			<Compiler Name="PrivatePropAccessor">True</Compiler>
++			<Compiler Name="UnsafeType">False</Compiler>
++			<Compiler Name="UnsafeCode">False</Compiler>
++			<Compiler Name="UnsafeCast">False</Compiler>
++			<Compiler Name="OptionTruncated">True</Compiler>
++			<Compiler Name="WideCharReduced">True</Compiler>
++			<Compiler Name="DuplicatesIgnored">True</Compiler>
++			<Compiler Name="UnitInitSeq">True</Compiler>
++			<Compiler Name="LocalPInvoke">True</Compiler>
++			<Compiler Name="MessageDirective">True</Compiler>
++			<Compiler Name="CodePage"></Compiler>
++		</Compiler>
++		<Linker>
++			<Linker Name="MapFile">0</Linker>
++			<Linker Name="OutputObjs">0</Linker>
++			<Linker Name="GenerateHpps">False</Linker>
++			<Linker Name="ConsoleApp">1</Linker>
++			<Linker Name="DebugInfo">False</Linker>
++			<Linker Name="RemoteSymbols">False</Linker>
++			<Linker Name="GenerateDRC">False</Linker>
++			<Linker Name="MinStackSize">16384</Linker>
++			<Linker Name="MaxStackSize">1048576</Linker>
++			<Linker Name="ImageBase">4194304</Linker>
++			<Linker Name="ExeDescription">dummzeuch Delphi 7 help for BDS expert</Linker>
++		</Linker>
++		<Directories>
++			<Directories Name="OutputDir"></Directories>
++			<Directories Name="UnitOutputDir"></Directories>
++			<Directories Name="PackageDLLOutputDir"></Directories>
++			<Directories Name="PackageDCPOutputDir"></Directories>
++			<Directories Name="SearchPath"></Directories>
++			<Directories Name="Packages"></Directories>
++			<Directories Name="Conditionals"></Directories>
++			<Directories Name="DebugSourceDirs"></Directories>
++			<Directories Name="UsePackages">False</Directories>
++		</Directories>
++		<Parameters>
++			<Parameters Name="RunParams">-pDelphi</Parameters>
++			<Parameters Name="HostApplication">C:\Program Files\Borland\BDS\4.0\Bin\bds.exe</Parameters>
++			<Parameters Name="Launcher"></Parameters>
++			<Parameters Name="UseLauncher">False</Parameters>
++			<Parameters Name="DebugCWD"></Parameters>
++			<Parameters Name="Debug Symbols Search Path"></Parameters>
++			<Parameters Name="LoadAllSymbols">True</Parameters>
++			<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++		</Parameters>
++		<Language>
++			<Language Name="ActiveLang"></Language>
++			<Language Name="ProjectLang">$00000000</Language>
++			<Language Name="RootDir"></Language>
++		</Language>
++		<VersionInfo>
++			<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
++			<VersionInfo Name="AutoIncBuild">True</VersionInfo>
++			<VersionInfo Name="MajorVer">1</VersionInfo>
++			<VersionInfo Name="MinorVer">0</VersionInfo>
++			<VersionInfo Name="Release">0</VersionInfo>
++			<VersionInfo Name="Build">60</VersionInfo>
++			<VersionInfo Name="Debug">False</VersionInfo>
++			<VersionInfo Name="PreRelease">False</VersionInfo>
++			<VersionInfo Name="Special">False</VersionInfo>
++			<VersionInfo Name="Private">False</VersionInfo>
++			<VersionInfo Name="DLL">False</VersionInfo>
++			<VersionInfo Name="Locale">1031</VersionInfo>
++			<VersionInfo Name="CodePage">1252</VersionInfo>
++		</VersionInfo>
++		<VersionInfoKeys>
++			<VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys>
++			<VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys>
++			<VersionInfoKeys Name="FileVersion">1.0.0.60</VersionInfoKeys>
++			<VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys>
++			<VersionInfoKeys Name="LegalCopyright">copyright 2006 Thomas Mueller</VersionInfoKeys>
++			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
++			<VersionInfoKeys Name="OriginalFilename">Delphi7HelpForBdsExpert.bpl</VersionInfoKeys>
++			<VersionInfoKeys Name="ProductName">Delphi 7 help for BDS</VersionInfoKeys>
++			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
++		</VersionInfoKeys>
++	</Delphi.Personality>
++	<StarTeamAssociation></StarTeamAssociation>
++	<StarTeamNonRelativeFiles></StarTeamNonRelativeFiles>
++</BorlandProject>
+
+Added: utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.dpk
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,37 @@
++package Delphi7HelpForBdsExpert;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'dummzeuch Delphi 7 help for BDS expert'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl,
++  designide;
++
++contains
++  u_Delphi7HelpForBds in 'u_Delphi7HelpForBds.pas',
++  w_Delphi7HelpForBds in 'w_Delphi7HelpForBds.pas' {f_Delphi7HelpForBds};
++
++end.
+
+Added: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,177 @@
++?<?xml version="1.0" encoding="utf-8"?>
++<BorlandProject>
++	<PersonalityInfo>
++		<Option>
++			<Option Name="Personality">Delphi.Personality</Option>
++			<Option Name="ProjectType"></Option>
++			<Option Name="Version">1.0</Option>
++			<Option Name="GUID">{F6D649BB-A6DB-4E8E-B031-F33E85960E63}</Option>
++		</Option>
++	</PersonalityInfo>
++	<Delphi.Personality>
++		<Source>
++			<Source Name="MainSource">Delphi7HelpForBdsExpert.dpk</Source>
++		</Source>
++		<FileVersion>
++			<FileVersion Name="Version">7.0</FileVersion>
++		</FileVersion>
++		<Compiler>
++			<Compiler Name="A">8</Compiler>
++			<Compiler Name="B">0</Compiler>
++			<Compiler Name="C">1</Compiler>
++			<Compiler Name="D">1</Compiler>
++			<Compiler Name="E">0</Compiler>
++			<Compiler Name="F">0</Compiler>
++			<Compiler Name="G">1</Compiler>
++			<Compiler Name="H">1</Compiler>
++			<Compiler Name="I">1</Compiler>
++			<Compiler Name="J">0</Compiler>
++			<Compiler Name="K">0</Compiler>
++			<Compiler Name="L">1</Compiler>
++			<Compiler Name="M">0</Compiler>
++			<Compiler Name="N">1</Compiler>
++			<Compiler Name="O">1</Compiler>
++			<Compiler Name="P">1</Compiler>
++			<Compiler Name="Q">0</Compiler>
++			<Compiler Name="R">0</Compiler>
++			<Compiler Name="S">0</Compiler>
++			<Compiler Name="T">0</Compiler>
++			<Compiler Name="U">0</Compiler>
++			<Compiler Name="V">1</Compiler>
++			<Compiler Name="W">0</Compiler>
++			<Compiler Name="X">1</Compiler>
++			<Compiler Name="Y">1</Compiler>
++			<Compiler Name="Z">1</Compiler>
++			<Compiler Name="ShowHints">True</Compiler>
++			<Compiler Name="ShowWarnings">True</Compiler>
++			<Compiler Name="UnitAliases">WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;</Compiler>
++			<Compiler Name="NamespacePrefix"></Compiler>
++			<Compiler Name="GenerateDocumentation">False</Compiler>
++			<Compiler Name="DefaultNamespace"></Compiler>
++			<Compiler Name="SymbolDeprecated">True</Compiler>
++			<Compiler Name="SymbolLibrary">True</Compiler>
++			<Compiler Name="SymbolPlatform">True</Compiler>
++			<Compiler Name="SymbolExperimental">True</Compiler>
++			<Compiler Name="UnitLibrary">True</Compiler>
++			<Compiler Name="UnitPlatform">True</Compiler>
++			<Compiler Name="UnitDeprecated">True</Compiler>
++			<Compiler Name="UnitExperimental">True</Compiler>
++			<Compiler Name="HResultCompat">True</Compiler>
++			<Compiler Name="HidingMember">True</Compiler>
++			<Compiler Name="HiddenVirtual">True</Compiler>
++			<Compiler Name="Garbage">True</Compiler>
++			<Compiler Name="BoundsError">True</Compiler>
++			<Compiler Name="ZeroNilCompat">True</Compiler>
++			<Compiler Name="StringConstTruncated">True</Compiler>
++			<Compiler Name="ForLoopVarVarPar">True</Compiler>
++			<Compiler Name="TypedConstVarPar">True</Compiler>
++			<Compiler Name="AsgToTypedConst">True</Compiler>
++			<Compiler Name="CaseLabelRange">True</Compiler>
++			<Compiler Name="ForVariable">True</Compiler>
++			<Compiler Name="ConstructingAbstract">True</Compiler>
++			<Compiler Name="ComparisonFalse">True</Compiler>
++			<Compiler Name="ComparisonTrue">True</Compiler>
++			<Compiler Name="ComparingSignedUnsigned">True</Compiler>
++			<Compiler Name="CombiningSignedUnsigned">True</Compiler>
++			<Compiler Name="UnsupportedConstruct">True</Compiler>
++			<Compiler Name="FileOpen">True</Compiler>
++			<Compiler Name="FileOpenUnitSrc">True</Compiler>
++			<Compiler Name="BadGlobalSymbol">True</Compiler>
++			<Compiler Name="DuplicateConstructorDestructor">True</Compiler>
++			<Compiler Name="InvalidDirective">True</Compiler>
++			<Compiler Name="PackageNoLink">True</Compiler>
++			<Compiler Name="PackageThreadVar">True</Compiler>
++			<Compiler Name="ImplicitImport">True</Compiler>
++			<Compiler Name="HPPEMITIgnored">True</Compiler>
++			<Compiler Name="NoRetVal">True</Compiler>
++			<Compiler Name="UseBeforeDef">True</Compiler>
++			<Compiler Name="ForLoopVarUndef">True</Compiler>
++			<Compiler Name="UnitNameMismatch">True</Compiler>
++			<Compiler Name="NoCFGFileFound">True</Compiler>
++			<Compiler Name="ImplicitVariants">True</Compiler>
++			<Compiler Name="UnicodeToLocale">True</Compiler>
++			<Compiler Name="LocaleToUnicode">True</Compiler>
++			<Compiler Name="ImagebaseMultiple">True</Compiler>
++			<Compiler Name="SuspiciousTypecast">True</Compiler>
++			<Compiler Name="PrivatePropAccessor">True</Compiler>
++			<Compiler Name="UnsafeType">False</Compiler>
++			<Compiler Name="UnsafeCode">False</Compiler>
++			<Compiler Name="UnsafeCast">False</Compiler>
++			<Compiler Name="OptionTruncated">True</Compiler>
++			<Compiler Name="WideCharReduced">True</Compiler>
++			<Compiler Name="DuplicatesIgnored">True</Compiler>
++			<Compiler Name="UnitInitSeq">True</Compiler>
++			<Compiler Name="LocalPInvoke">True</Compiler>
++			<Compiler Name="MessageDirective">True</Compiler>
++			<Compiler Name="CodePage"></Compiler>
++		</Compiler>
++		<Linker>
++			<Linker Name="MapFile">0</Linker>
++			<Linker Name="OutputObjs">0</Linker>
++			<Linker Name="GenerateHpps">False</Linker>
++			<Linker Name="ConsoleApp">1</Linker>
++			<Linker Name="DebugInfo">False</Linker>
++			<Linker Name="RemoteSymbols">False</Linker>
++			<Linker Name="GenerateDRC">False</Linker>
++			<Linker Name="MinStackSize">16384</Linker>
++			<Linker Name="MaxStackSize">1048576</Linker>
++			<Linker Name="ImageBase">4194304</Linker>
++			<Linker Name="ExeDescription">dummzeuch Delphi 7 help for BDS expert</Linker>
++		</Linker>
++		<Directories>
++			<Directories Name="OutputDir"></Directories>
++			<Directories Name="UnitOutputDir"></Directories>
++			<Directories Name="PackageDLLOutputDir"></Directories>
++			<Directories Name="PackageDCPOutputDir"></Directories>
++			<Directories Name="SearchPath"></Directories>
++			<Directories Name="Packages"></Directories>
++			<Directories Name="Conditionals"></Directories>
++			<Directories Name="DebugSourceDirs"></Directories>
++			<Directories Name="UsePackages">False</Directories>
++		</Directories>
++		<Parameters>
++			<Parameters Name="RunParams">-pDelphi</Parameters>
++			<Parameters Name="HostApplication">C:\Program Files\Borland\BDS\4.0\Bin\bds.exe</Parameters>
++			<Parameters Name="Launcher"></Parameters>
++			<Parameters Name="UseLauncher">False</Parameters>
++			<Parameters Name="DebugCWD"></Parameters>
++			<Parameters Name="Debug Symbols Search Path"></Parameters>
++			<Parameters Name="LoadAllSymbols">True</Parameters>
++			<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++		</Parameters>
++		<Language>
++			<Language Name="ActiveLang"></Language>
++			<Language Name="ProjectLang">$00000000</Language>
++			<Language Name="RootDir"></Language>
++		</Language>
++		<VersionInfo>
++			<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
++			<VersionInfo Name="AutoIncBuild">True</VersionInfo>
++			<VersionInfo Name="MajorVer">1</VersionInfo>
++			<VersionInfo Name="MinorVer">0</VersionInfo>
++			<VersionInfo Name="Release">0</VersionInfo>
++			<VersionInfo Name="Build">60</VersionInfo>
++			<VersionInfo Name="Debug">False</VersionInfo>
++			<VersionInfo Name="PreRelease">False</VersionInfo>
++			<VersionInfo Name="Special">False</VersionInfo>
++			<VersionInfo Name="Private">False</VersionInfo>
++			<VersionInfo Name="DLL">False</VersionInfo>
++			<VersionInfo Name="Locale">1031</VersionInfo>
++			<VersionInfo Name="CodePage">1252</VersionInfo>
++		</VersionInfo>
++		<VersionInfoKeys>
++			<VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys>
++			<VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys>
++			<VersionInfoKeys Name="FileVersion">1.0.0.60</VersionInfoKeys>
++			<VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys>
++			<VersionInfoKeys Name="LegalCopyright">copyright 2006 Thomas Mueller</VersionInfoKeys>
++			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
++			<VersionInfoKeys Name="OriginalFilename">Delphi7HelpForBdsExpert.bpl</VersionInfoKeys>
++			<VersionInfoKeys Name="ProductName">Delphi 7 help for BDS</VersionInfoKeys>
++			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
++		</VersionInfoKeys>
++	</Delphi.Personality>
++	<StarTeamAssociation></StarTeamAssociation>
++	<StarTeamNonRelativeFiles></StarTeamNonRelativeFiles>
++</BorlandProject>
+
+Added: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,37 @@
++package Delphi7HelpForBdsExpert;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'dummzeuch Delphi 7 help for BDS expert'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl,
++  designide;
++
++contains
++  u_Delphi7HelpForBds in 'u_Delphi7HelpForBds.pas',
++  w_Delphi7HelpForBds in 'w_Delphi7HelpForBds.pas' {f_Delphi7HelpForBds};
++
++end.
+
+Added: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dpk
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,41 @@
++package Delphi7HelpForBdsExpert;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'dummzeuch Delphi 7 help for BDS expert'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl,
++  designide,
++  vcl,
++  xmlrtl,
++  vclactnband,
++  vclx;
++
++contains
++  w_Delphi7HelpForBds in '..\..\src\w_Delphi7HelpForBds.pas',
++  u_Delphi7HelpForBds in '..\..\src\u_Delphi7HelpForBds.pas';
++
++end.
+
+Added: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,87 @@
++?<?xml version="1.0" encoding="utf-8"?>
++<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <PropertyGroup>
++    <ProjectGuid>{f6d649bb-a6db-4e8e-b031-f33e85960e63}</ProjectGuid>
++    <MainSource>Delphi7HelpForBdsExpert.dpk</MainSource>
++    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
++    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
++    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
++    <DCC_DependencyCheckOutputName>C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\Delphi7HelpForBdsExpert.bpl</DCC_DependencyCheckOutputName>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_DebugInformation>False</DCC_DebugInformation>
++    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
++    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
++    <DCC_Define>RELEASE</DCC_Define>
++  </PropertyGroup>
++  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
++    <Version>7.0</Version>
++    <DCC_DcuOutput>..\..\dcu</DCC_DcuOutput>
++    <DCC_ObjOutput>..\..\dcu</DCC_ObjOutput>
++    <DCC_HppOutput>..\..\dcu</DCC_HppOutput>
++  </PropertyGroup>
++  <ProjectExtensions>
++    <Borland.Personality>Delphi.Personality</Borland.Personality>
++    <Borland.ProjectType>Package</Borland.ProjectType>
++    <BorlandProject>
++<BorlandProject> <Delphi.Personality>   <Parameters>
++      <Parameters Name="RunParams">-pDelphi</Parameters>
++      <Parameters Name="HostApplication">C:\Program Files\Borland\BDS\4.0\Bin\bds.exe</Parameters>
++      <Parameters Name="UseLauncher">False</Parameters>
++      <Parameters Name="LoadAllSymbols">True</Parameters>
++      <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++    </Parameters>
++    <Package_Options>
++      <Package_Options Name="PackageDescription">dummzeuch Delphi 7 help for BDS expert</Package_Options>
++      <Package_Options Name="ImplicitBuild">False</Package_Options>
++      <Package_Options Name="DesigntimeOnly">True</Package_Options>
++      <Package_Options Name="RuntimeOnly">False</Package_Options>
++    </Package_Options>
++    <VersionInfo>
++      <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
++      <VersionInfo Name="AutoIncBuild">True</VersionInfo>
++      <VersionInfo Name="MajorVer">1</VersionInfo>
++      <VersionInfo Name="MinorVer">0</VersionInfo>
++      <VersionInfo Name="Release">0</VersionInfo>
++      <VersionInfo Name="Build">60</VersionInfo>
++      <VersionInfo Name="Debug">False</VersionInfo>
++      <VersionInfo Name="PreRelease">False</VersionInfo>
++      <VersionInfo Name="Special">False</VersionInfo>
++      <VersionInfo Name="Private">False</VersionInfo>
++      <VersionInfo Name="DLL">False</VersionInfo>
++      <VersionInfo Name="Locale">1031</VersionInfo>
++      <VersionInfo Name="CodePage">1252</VersionInfo>
++    </VersionInfo>
++    <VersionInfoKeys>
++      <VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys>
++      <VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys>
++      <VersionInfoKeys Name="FileVersion">1.0.0.60</VersionInfoKeys>
++      <VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys>
++      <VersionInfoKeys Name="LegalCopyright">copyright 2006 Thomas Mueller</VersionInfoKeys>
++      <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
++      <VersionInfoKeys Name="OriginalFilename">Delphi7HelpForBdsExpert.bpl</VersionInfoKeys>
++      <VersionInfoKeys Name="ProductName">Delphi 7 help for BDS</VersionInfoKeys>
++      <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
++      <VersionInfoKeys Name="Comments"></VersionInfoKeys>
++    </VersionInfoKeys>
++    <Source>
++      <Source Name="MainSource">Delphi7HelpForBdsExpert.dpk</Source>
++    </Source>
++  </Delphi.Personality> </BorlandProject></BorlandProject>
++  </ProjectExtensions>
++  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
++  <ItemGroup>
++    <DelphiCompile Include="Delphi7HelpForBdsExpert.dpk">
++      <MainSource>MainSource</MainSource>
++    </DelphiCompile>
++    <DCCReference Include="..\..\src\designide.dcp" />
++    <DCCReference Include="..\..\src\rtl.dcp" />
++    <DCCReference Include="..\..\src\u_Delphi7HelpForBds.pas" />
++    <DCCReference Include="..\..\src\vcl.dcp" />
++    <DCCReference Include="..\..\src\vclactnband.dcp" />
++    <DCCReference Include="..\..\src\vclx.dcp" />
++    <DCCReference Include="..\..\src\w_Delphi7HelpForBds.pas" />
++    <DCCReference Include="..\..\src\xmlrtl.dcp" />
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+
+Added: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dsk
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dsk	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dsk	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,690 @@
++[Closed Files]
++File_0=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterExpert.pas',0,1,151,79,11,0,0,,
++File_1=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterEditCapitalization.pas',0,1,1,1,1,0,0,,
++File_2=TSourceModule,'C:\source\sf.gexperts.formatter\source\engine\GX_CodeFormatterSettings.pas',0,1,255,1,281,0,0,,
++File_3=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterConfigHandler.pas',0,1,152,48,173,0,0,,
++File_4=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterConfig.pas',0,1,673,45,692,0,0,,{1
++File_5=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_Formatter.pas',0,1,4,20,27,0,0,,
++File_6=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterGXConfigWrapper.pas',0,1,1,1,1,0,0,,
++File_7=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_eCodeFormatter.pas',0,1,34,1,1,0,0,,
++File_8=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_AboutExperimental.pas',0,1,1,1,1,0,0,,
++File_9=TSourceModule,'C:\source\sf.gexperts.formatter\gxsource\Framework\GX_About.pas',0,1,1,1,1,0,0,,
++
++[Modules]
++Module0=C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dproj
++Count=1
++EditWindowCount=1
++
++[C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dproj]
++ModuleType=TBaseProject
++
++[EditWindow0]
++ViewCount=1
++CurrentEditView=C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dpk
++View0=0
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=10000
++Height=9507
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=10000
++ClientHeight=9507
++DockedToMainForm=1
++MessageView=MessageView at EditWindow0
++BorlandEditorCodeExplorer=BorlandEditorCodeExplorer at EditWindow0
++TopPanelSize=0
++LeftPanelSize=1993
++LeftPanelClients=DockSite3
++LeftPanelData=00000800010200000000FE0900000000000002A71C0000000000000100000000FE09000009000000446F636B5369746533FFFFFFFF
++RightPanelSize=0
++BottomPanelSize=1837
++BottomPanelClients=MessageView at EditWindow0,DockSite1
++BottomPanelData=0000080001020100000009000000446F636B53697465312232000000000000022D070000000000000100000000223200000B0000004D65737361676556696577FFFFFFFF
++BottomMiddlePanelSize=0
++TabDockLeftClients=StructureView=0,TemplateView=1
++TabDockRightClients=DockSite2=0,DockSite0=1
++
++[View0]
++CustomEditViewType=TEditView
++Module=C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dpk
++CursorX=1
++CursorY=1
++TopLine=1
++LeftCol=1
++Elisions=
++Bookmarks=
++EditViewName=C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dpk
++
++[Watches]
++Count=0
++
++[WatchWindow]
++WatchColumnWidth=120
++WatchShowColumnHeaders=1
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=3830
++Height=1382
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3830
++ClientHeight=1382
++TBDockHeight=208
++LRDockWidth=13606
++Dockable=1
++StayOnTop=0
++
++[Breakpoints]
++Count=0
++
++[AddressBreakpoints]
++Count=0
++
++[Main Window]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=0
++State=2
++Left=132
++Top=285
++Width=8916
++Height=8520
++MaxLeft=-8
++MaxTop=-11
++MaxWidth=10066
++MaxHeight=10088
++ClientWidth=10000
++ClientHeight=9792
++BottomPanelSize=9204
++BottomPanelClients=EditWindow0
++BottomPanelData=0000080000000000000000000000000000000000000000000000000100000000000000000C0000004564697457696E646F775F30FFFFFFFF
++
++[ProjectManager]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=4094
++Height=7083
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=4094
++ClientHeight=7083
++TBDockHeight=5910
++LRDockWidth=2349
++Dockable=1
++StayOnTop=0
++
++[ToolForm]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=1993
++Height=7061
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=1993
++ClientHeight=7061
++TBDockHeight=7368
++LRDockWidth=1993
++Dockable=1
++StayOnTop=0
++
++[TemplateView]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=0
++Top=0
++Width=2481
++Height=362
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=2481
++ClientHeight=362
++TBDockHeight=362
++LRDockWidth=2481
++Dockable=1
++StayOnTop=0
++Name=120
++Description=334
++filter=1
++
++[DebugLogView]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=3830
++Height=1382
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3830
++ClientHeight=1382
++TBDockHeight=406
++LRDockWidth=4955
++Dockable=1
++StayOnTop=0
++
++[ThreadStatusWindow]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=3830
++Height=1382
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3830
++ClientHeight=1382
++TBDockHeight=208
++LRDockWidth=7411
++Dockable=1
++StayOnTop=0
++Column0Width=145
++Column1Width=100
++Column2Width=115
++Column3Width=250
++
++[LocalVarsWindow]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=3830
++Height=1382
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3830
++ClientHeight=1382
++TBDockHeight=1546
++LRDockWidth=3490
++Dockable=1
++StayOnTop=0
++
++[CallStackWindow]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=3830
++Height=1382
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3830
++ClientHeight=1382
++TBDockHeight=2072
++LRDockWidth=3490
++Dockable=1
++StayOnTop=0
++
++[TFileExplorerForm]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=0
++State=0
++Left=620
++Top=844
++Width=2002
++Height=3081
++MaxLeft=-8
++MaxTop=-11
++ClientWidth=1935
++ClientHeight=2818
++TBDockHeight=6206
++LRDockWidth=2845
++Dockable=1
++StayOnTop=0
++
++[FindReferencsForm]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=2275
++Height=877
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=2275
++ClientHeight=877
++TBDockHeight=2325
++LRDockWidth=2821
++Dockable=1
++StayOnTop=0
++
++[RefactoringForm]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=2275
++Height=877
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=2275
++ClientHeight=877
++TBDockHeight=3202
++LRDockWidth=2821
++Dockable=1
++StayOnTop=0
++
++[ToDo List]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=0
++State=0
++Left=6518
++Top=3355
++Width=2341
++Height=1206
++MaxLeft=-8
++MaxTop=-11
++ClientWidth=2275
++ClientHeight=943
++TBDockHeight=1162
++LRDockWidth=3681
++Dockable=1
++StayOnTop=0
++Column0Width=314
++Column1Width=30
++Column2Width=150
++Column3Width=172
++Column4Width=129
++SortOrder=4
++ShowHints=1
++ShowChecked=1
++
++[DataExplorer]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=4028
++Height=5592
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=4028
++ClientHeight=5592
++TBDockHeight=4868
++LRDockWidth=7155
++Dockable=1
++StayOnTop=0
++
++[PropertyInspector]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=1993
++Height=8980
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=1993
++ClientHeight=8980
++TBDockHeight=7105
++LRDockWidth=2457
++Dockable=1
++StayOnTop=0
++SplitPos=79
++
++[ModelViewTool]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=4028
++Height=5592
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=4028
++ClientHeight=5592
++TBDockHeight=4868
++LRDockWidth=5310
++Dockable=1
++StayOnTop=0
++
++[MetricsView]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=-4
++Top=-20
++Width=3565
++Height=4825
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3565
++ClientHeight=4825
++TBDockHeight=4825
++LRDockWidth=3565
++Dockable=1
++StayOnTop=0
++
++[QAView]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=-4
++Top=-20
++Width=13606
++Height=208
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=13606
++ClientHeight=208
++TBDockHeight=208
++LRDockWidth=13606
++Dockable=1
++StayOnTop=0
++
++[RefactoringsView]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=-4
++Top=-20
++Width=3565
++Height=4825
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3565
++ClientHeight=4825
++TBDockHeight=4825
++LRDockWidth=3565
++Dockable=1
++StayOnTop=0
++
++[UsagesView]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=-4
++Top=-20
++Width=3565
++Height=2303
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3565
++ClientHeight=2303
++TBDockHeight=2303
++LRDockWidth=3565
++Dockable=1
++StayOnTop=0
++
++[BreakpointWindow]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=0
++Width=3830
++Height=1382
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3830
++ClientHeight=1382
++TBDockHeight=1557
++LRDockWidth=8751
++Dockable=1
++StayOnTop=0
++Column0Width=141
++Column1Width=75
++Column2Width=200
++Column3Width=200
++Column4Width=75
++Column5Width=75
++
++[StructureView]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=0
++Top=0
++Width=1902
++Height=8980
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=1902
++ClientHeight=8980
++TBDockHeight=8980
++LRDockWidth=1902
++Dockable=1
++StayOnTop=0
++
++[fmGrepResults]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=0
++State=0
++Left=2688
++Top=3147
++Width=4624
++Height=3684
++MaxLeft=-8
++MaxTop=-11
++ClientWidth=4557
++ClientHeight=3421
++TBDockHeight=3684
++LRDockWidth=4624
++Dockable=1
++StayOnTop=0
++
++[fmMacroLibrary]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=0
++State=0
++Left=3325
++Top=2818
++Width=3358
++Height=4342
++MaxLeft=-8
++MaxTop=-11
++ClientWidth=3292
++ClientHeight=4079
++TBDockHeight=4342
++LRDockWidth=3358
++Dockable=1
++StayOnTop=0
++
++[MessageView at EditWindow0]
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=22
++Width=10000
++Height=1656
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=10000
++ClientHeight=1656
++TBDockHeight=1656
++LRDockWidth=4326
++Dockable=1
++StayOnTop=0
++
++[BorlandEditorCodeExplorer at EditWindow0]
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=0
++State=0
++Left=0
++Top=0
++Width=1828
++Height=6173
++MaxLeft=-8
++MaxTop=-11
++ClientWidth=1762
++ClientHeight=5910
++TBDockHeight=6173
++LRDockWidth=1828
++Dockable=1
++StayOnTop=0
++
++[DockHosts]
++DockHostCount=4
++
++[DockSite0]
++HostDockSite=RightTabDock
++DockSiteType=1
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=0
++Top=0
++Width=2341
++Height=1414
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=2275
++ClientHeight=1151
++TBDockHeight=1414
++LRDockWidth=2341
++Dockable=1
++StayOnTop=0
++TabPosition=1
++ActiveTabID=RefactoringForm
++TabDockClients=RefactoringForm,FindReferencsForm,QAView,MetricsView,RefactoringsView,UsagesView
++
++[DockSite1]
++HostDockSite=DockBottomPanel
++DockSiteType=1
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=0
++Top=0
++Width=3830
++Height=1656
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=3830
++ClientHeight=1656
++TBDockHeight=1656
++LRDockWidth=3830
++Dockable=1
++StayOnTop=0
++TabPosition=1
++ActiveTabID=DebugLogView
++TabDockClients=DebugLogView,BreakpointWindow,ThreadStatusWindow,CallStackWindow,WatchWindow,LocalVarsWindow
++
++[DockSite2]
++HostDockSite=RightTabDock
++DockSiteType=1
++PercentageSizes=1
++Create=1
++Visible=0
++Docked=1
++State=0
++Left=4
++Top=19
++Width=4094
++Height=7357
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=4094
++ClientHeight=7357
++TBDockHeight=6129
++LRDockWidth=4094
++Dockable=1
++StayOnTop=0
++TabPosition=1
++ActiveTabID=ProjectManager
++TabDockClients=ProjectManager,ModelViewTool,DataExplorer
++
++[DockSite3]
++HostDockSite=DockLeftPanel
++DockSiteType=1
++PercentageSizes=1
++Create=1
++Visible=1
++Docked=1
++State=0
++Left=0
++Top=22
++Width=1993
++Height=7336
++MaxLeft=-1
++MaxTop=-1
++ClientWidth=1993
++ClientHeight=7336
++TBDockHeight=7336
++LRDockWidth=1993
++Dockable=1
++StayOnTop=0
++TabPosition=0
++ActiveTabID=ToolForm
++TabDockClients=PropertyInspector,ToolForm
++
+
+Added: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.res
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.res
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,208 @@
++unit u_Delphi7HelpForBds;
++
++interface
++
++procedure Register;
++
++implementation
++
++uses
++  SysUtils,
++  StrUtils,
++  Windows,
++  Classes,
++  ShellApi,
++  ToolsAPI,
++  Menus,
++  Controls,
++  Registry,
++  w_Delphi7HelpForBds;
++
++type
++  TCtrlF1Help = class(TNotifierObject, IOTAKeyboardBinding)
++  private
++    procedure CallCtrlF1(const Context: IOTAKeyContext; KeyCode: TShortCut;
++      var BindingResult: TKeyBindingResult);
++    procedure CallShiftF1(const Context: IOTAKeyContext; KeyCode: TShortCut;
++      var BindingResult: TKeyBindingResult);
++    procedure CallAltF1(const Context: IOTAKeyContext; KeyCode: TShortCut;
++      var BindingResult: TKeyBindingResult);
++    function GetAction(const _Which: string; out _Url: string): boolean;
++  public
++    procedure CallHelp(_Which: string; const Context: IOTAKeyContext;
++      KeyCode: TShortCut; var BindingResult: TKeyBindingResult);
++  protected // IOTAKeyBoardBinding
++    function GetBindingType: TBindingType;
++    function GetDisplayName: string;
++    function GetName: string;
++    procedure BindKeyboard(const BindingServices: IOTAKeyBindingServices);
++  end;
++
++procedure Register;
++var
++  KS: IOTAKeyboardServices;
++begin
++  if Supports(BorlandIDEServices, IOTAKeyBoardServices, KS) then
++    KS.AddKeyboardBinding(TCtrlF1Help.Create);
++end;
++
++{ TMSDNHelpExpertBinding }
++
++procedure TCtrlF1Help.BindKeyboard(const BindingServices: IOTAKeyBindingServices);
++begin
++  BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssCtrl])], CallCtrlF1, nil);
++  BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssShift])], CallShiftF1, nil);
++  BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssAlt])], CallAltF1, nil);
++end;
++
++function TCtrlF1Help.GetBindingType: TBindingType;
++begin
++  Result := btPartial;
++end;
++
++function TCtrlF1Help.GetDisplayName: string;
++begin
++  Result := 'twm''s Delphi 7 help for BDS expert';
++end;
++
++function TCtrlF1Help.GetName: string;
++begin
++  Result := 'dummzeuch.experts.Delphi7HelpForBds';
++end;
++
++function TCtrlF1Help.GetAction(const _Which: string; out _Url: string): boolean;
++var
++  Reg: TRegistry;
++begin
++  Result := false;
++  Reg := TRegistry.Create;
++  try
++    Reg.RootKey := HKEY_CURRENT_USER;
++    if Reg.OpenKey('software\dummzeuch\Delphi7HelpForBds', true) then
++      try
++        try
++          _Url := Reg.ReadString('HelpFile' + _Which);
++          if _Url = '-' then begin
++            Result := false;
++            exit;
++          end;
++          Result := (_Url <> '');
++          if Result then begin
++            if LeftStr(_Url, 5) = 'http:' then
++              exit;
++            if LeftStr(_Url, 8) = 'winhelp:' then
++              exit;
++            _Url := 'winhelp:' + _Url;
++            Reg.WriteString('HelpFile' + _Which, _Url);
++            exit;
++          end;
++        except
++          // ignore
++        end;
++
++        Result := Tf_Delphi7HelpForBds.Execute(_Url);
++        if Result then
++          Reg.WriteString('HelpFile' + _Which, _Url)
++        else
++          Result := false;
++      finally
++        Reg.CloseKey;
++      end;
++  finally
++    Reg.Free;
++  end;
++end;
++
++procedure TCtrlF1Help.CallAltF1(const Context: IOTAKeyContext;
++  KeyCode: TShortCut; var BindingResult: TKeyBindingResult);
++begin
++  CallHelp('AltF1', Context, KeyCode, BindingResult);
++end;
++
++procedure TCtrlF1Help.CallCtrlF1(
++  const Context: IOTAKeyContext; KeyCode: TShortCut;
++  var BindingResult: TKeyBindingResult);
++begin
++  CallHelp('CtrlF1', Context, KeyCode, BindingResult);
++end;
++
++procedure TCtrlF1Help.CallHelp(_Which: string;
++  const Context: IOTAKeyContext; KeyCode: TShortCut;
++  var BindingResult: TKeyBindingResult);
++var
++  ep: IOTAEditPosition;
++  EditView: IOTAEditView;
++  CursorPos: TOTAEditPos;
++  StartCol, EndCol, WordLen, Element, LineFlag: Integer;
++  Keyword: string;
++  Url: string;
++begin
++  if not GetAction(_Which, Url) then begin
++    BindingResult := krUnhandled;
++    exit;
++  end;
++
++  EditView := Context.EditBuffer.TopView;
++  ep := EditView.Position;
++  CursorPos := EditView.CursorPos;
++  EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
++  if (Element = atWhiteSpace) or (Element = atSymbol) then begin
++    Dec(CursorPos.Col);
++    EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
++    if Element = atWhiteSpace then begin
++      Inc(CursorPos.Col, 2);
++      EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
++    end;
++  end;
++  if Element in [atIdentifier, atReservedWord] then begin
++    // The cursor can be anywhere on the word, or at the end of a word
++    // If cursor is at the middle of a word, then extract the word
++    if ep.IsWordCharacter then begin
++      ep.Save;
++      try
++        EndCol := CursorPos.Col;
++        while (ep.IsWordCharacter) and (ep.Column > 1) do
++          ep.MoveRelative(0, -1);
++        if ep.IsWordCharacter then
++          StartCol := ep.Column // Start of a line...
++        else
++          StartCol := ep.Column + 1;
++        WordLen := EndCol - StartCol;
++        ep.Move(ep.Row, EndCol);
++        while ep.IsWordCharacter do begin
++          ep.MoveRelative(0, 1);
++          Inc(WordLen);
++        end;
++        ep.MoveRelative(0, -WordLen);
++        Keyword := ep.Read(WordLen);
++      finally
++        ep.Restore;
++      end;
++    end else begin
++      // If cursor is at the end of a word, then extract it
++      Keyword := ep.RipText('_', rfBackward or rfIncludeAlphaChars or rfIncludeNumericChars);
++    end;
++  end else
++    Keyword := '';
++
++  if LeftStr(Url, 8) = 'winhelp:' then begin
++    Url := Copy(Url, 9);
++    if Keyword <> '' then
++      WinHelp(0, PChar(Url), HELP_KEY, integer(pchar(Keyword)))
++    else
++      WinHelp(0, PChar(Url), HELP_FINDER, 0);
++    BindingResult := krHandled;
++  end else if LeftStr(Url, 5) = 'http:' then begin
++    ShellExecute(0, 'open', PChar(Url + Keyword), nil, nil, SW_SHOWNORMAL);
++    BindingResult := krHandled;
++  end;
++end;
++
++procedure TCtrlF1Help.CallShiftF1(const Context: IOTAKeyContext;
++  KeyCode: TShortCut; var BindingResult: TKeyBindingResult);
++begin
++  CallHelp('ShiftF1', Context, KeyCode, BindingResult);
++end;
++
++end.
++
+
+Added: utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,126 @@
++object f_Delphi7HelpForBds: Tf_Delphi7HelpForBds
++  Left = 354
++  Top = 151
++  Caption = 'Delphi 7 help for BDS Wizard'
++  ClientHeight = 234
++  ClientWidth = 444
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'Tahoma'
++  Font.Style = []
++  OldCreateOrder = False
++  DesignSize = (
++    444
++    234)
++  PixelsPerInch = 96
++  TextHeight = 13
++  object l_Blurb: TLabel
++    Left = 8
++    Top = 8
++    Width = 428
++    Height = 25
++    Anchors = [akLeft, akTop, akRight]
++    AutoSize = False
++    Caption = 
++      'This is the first time you have called the Delphi7 help for BDS ' +
++      'wizard. Please specify below  the action you want to execute wit' +
++      'h this shortcut.'
++    WordWrap = True
++  end
++  object ed_Helpfile: TEdit
++    Left = 24
++    Top = 72
++    Width = 381
++    Height = 21
++    Anchors = [akLeft, akTop, akRight]
++    TabOrder = 0
++    OnClick = ed_HelpfileClick
++  end
++  object b_Select: TButton
++    Left = 411
++    Top = 70
++    Width = 25
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = '...'
++    TabOrder = 1
++    OnClick = b_SelectClick
++  end
++  object b_OK: TButton
++    Left = 280
++    Top = 200
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Caption = 'OK'
++    Default = True
++    ModalResult = 1
++    TabOrder = 2
++  end
++  object b_Cancel: TButton
++    Left = 360
++    Top = 200
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Cancel = True
++    Caption = 'Cancel'
++    ModalResult = 2
++    TabOrder = 3
++  end
++  object rb_Winhelp: TRadioButton
++    Left = 8
++    Top = 48
++    Width = 397
++    Height = 17
++    Caption = 'Open a *.hlp file'
++    Checked = True
++    TabOrder = 5
++    TabStop = True
++    OnClick = rb_WinhelpClick
++  end
++  object rb_WebUrl: TRadioButton
++    Left = 8
++    Top = 112
++    Width = 397
++    Height = 17
++    Caption = 
++      'Open a Web URL (the current word from the editor will be appende' +
++      'd)'
++    TabOrder = 6
++    OnClick = rb_WebUrlClick
++  end
++  object rb_DoNothing: TRadioButton
++    Left = 8
++    Top = 176
++    Width = 153
++    Height = 17
++    Caption = 'Do nothing'
++    TabOrder = 4
++    TabStop = True
++  end
++  object cmb_WebUrl: TComboBox
++    Left = 24
++    Top = 136
++    Width = 381
++    Height = 21
++    ItemHeight = 13
++    TabOrder = 7
++    Text = 'http://www.google.com/search?q=delphi+'
++    OnClick = cmb_WebUrlClick
++    OnEnter = cmb_WebUrlEnter
++    Items.Strings = (
++      'http://www.google.com/search?q=delphi+'
++      'http://groups.google.com/groups/search?q=delphi+')
++  end
++  object od_HelpFile: TOpenDialog
++    DefaultExt = 'hlp'
++    Filter = 'help files (*.hlp)|*.hlp|all files|*.*'
++    FilterIndex = 0
++    Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
++    Left = 168
++    Top = 80
++  end
++end
+
+Added: utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas	2007-08-12 11:18:07 UTC (rev 198)
++++ utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas	2007-08-12 11:18:38 UTC (rev 199)
+@@ -0,0 +1,97 @@
++unit w_Delphi7HelpForBds;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls;
++
++type
++  Tf_Delphi7HelpForBds = class(TForm)
++    l_Blurb: TLabel;
++    ed_Helpfile: TEdit;
++    b_Select: TButton;
++    b_OK: TButton;
++    b_Cancel: TButton;
++    od_HelpFile: TOpenDialog;
++    rb_Winhelp: TRadioButton;
++    rb_WebUrl: TRadioButton;
++    rb_DoNothing: TRadioButton;
++    cmb_WebUrl: TComboBox;
++    procedure cmb_WebUrlEnter(Sender: TObject);
++    procedure cmb_WebUrlClick(Sender: TObject);
++    procedure ed_HelpfileClick(Sender: TObject);
++    procedure rb_WebUrlClick(Sender: TObject);
++    procedure rb_WinhelpClick(Sender: TObject);
++    procedure b_SelectClick(Sender: TObject);
++  private
++  public
++    class function Execute(out _Url: string): boolean;
++  end;
++
++implementation
++
++{$R *.dfm}
++
++procedure Tf_Delphi7HelpForBds.b_SelectClick(Sender: TObject);
++begin
++  if od_HelpFile.Execute then
++    ed_Helpfile.Text := od_HelpFile.FileName;
++end;
++
++procedure Tf_Delphi7HelpForBds.cmb_WebUrlClick(Sender: TObject);
++begin
++  rb_WebUrl.Checked := true;
++end;
++
++procedure Tf_Delphi7HelpForBds.cmb_WebUrlEnter(Sender: TObject);
++begin
++  rb_WebUrl.Checked := true;
++end;
++
++procedure Tf_Delphi7HelpForBds.ed_HelpfileClick(Sender: TObject);
++begin
++  rb_Winhelp.Checked := true;
++end;
++
++class function Tf_Delphi7HelpForBds.Execute(out _Url: string): boolean;
++var
++  frm: Tf_Delphi7HelpForBds;
++begin
++  frm := Tf_Delphi7HelpForBds.Create(nil);
++  try
++    if mrOk = frm.ShowModal then begin
++      Result := true;
++      if frm.rb_Winhelp.Checked then begin
++        _Url := 'winhelp:' + frm.ed_Helpfile.Text;
++      end else if frm.rb_WebUrl.Checked then begin
++        _Url := frm.cmb_WebUrl.Text;
++      end else
++        _Url := '-';
++    end else
++      Result := false;
++  finally
++    frm.free
++  end;
++end;
++
++procedure Tf_Delphi7HelpForBds.rb_WebUrlClick(Sender: TObject);
++begin
++  cmb_WebUrl.SetFocus;
++end;
++
++procedure Tf_Delphi7HelpForBds.rb_WinhelpClick(Sender: TObject);
++begin
++  ed_Helpfile.SetFocus;
++end;
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Sun Aug 12 13:22:33 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 13:22:33 +0200
+Subject: [Dzchart-svncheckins] r200 -
+	utilities/Delphi7Help4Bds/trunk/packages/Delphi2007
+Message-ID: <200708121122.l7CBMXbc021684@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 13:22:29 +0200 (Sun, 12 Aug 2007)
+New Revision: 200
+
+Removed:
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dsk
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.res
+Log:
+deleted *.dsk and *.res files
+
+Deleted: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dsk
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dsk	2007-08-12 11:18:38 UTC (rev 199)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dsk	2007-08-12 11:22:29 UTC (rev 200)
+@@ -1,690 +0,0 @@
+-[Closed Files]
+-File_0=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterExpert.pas',0,1,151,79,11,0,0,,
+-File_1=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterEditCapitalization.pas',0,1,1,1,1,0,0,,
+-File_2=TSourceModule,'C:\source\sf.gexperts.formatter\source\engine\GX_CodeFormatterSettings.pas',0,1,255,1,281,0,0,,
+-File_3=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterConfigHandler.pas',0,1,152,48,173,0,0,,
+-File_4=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterConfig.pas',0,1,673,45,692,0,0,,{1
+-File_5=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_Formatter.pas',0,1,4,20,27,0,0,,
+-File_6=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_CodeFormatterGXConfigWrapper.pas',0,1,1,1,1,0,0,,
+-File_7=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_eCodeFormatter.pas',0,1,34,1,1,0,0,,
+-File_8=TSourceModule,'C:\source\sf.gexperts.formatter\source\GX_AboutExperimental.pas',0,1,1,1,1,0,0,,
+-File_9=TSourceModule,'C:\source\sf.gexperts.formatter\gxsource\Framework\GX_About.pas',0,1,1,1,1,0,0,,
+-
+-[Modules]
+-Module0=C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dproj
+-Count=1
+-EditWindowCount=1
+-
+-[C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dproj]
+-ModuleType=TBaseProject
+-
+-[EditWindow0]
+-ViewCount=1
+-CurrentEditView=C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dpk
+-View0=0
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=10000
+-Height=9507
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=10000
+-ClientHeight=9507
+-DockedToMainForm=1
+-MessageView=MessageView at EditWindow0
+-BorlandEditorCodeExplorer=BorlandEditorCodeExplorer at EditWindow0
+-TopPanelSize=0
+-LeftPanelSize=1993
+-LeftPanelClients=DockSite3
+-LeftPanelData=00000800010200000000FE0900000000000002A71C0000000000000100000000FE09000009000000446F636B5369746533FFFFFFFF
+-RightPanelSize=0
+-BottomPanelSize=1837
+-BottomPanelClients=MessageView at EditWindow0,DockSite1
+-BottomPanelData=0000080001020100000009000000446F636B53697465312232000000000000022D070000000000000100000000223200000B0000004D65737361676556696577FFFFFFFF
+-BottomMiddlePanelSize=0
+-TabDockLeftClients=StructureView=0,TemplateView=1
+-TabDockRightClients=DockSite2=0,DockSite0=1
+-
+-[View0]
+-CustomEditViewType=TEditView
+-Module=C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dpk
+-CursorX=1
+-CursorY=1
+-TopLine=1
+-LeftCol=1
+-Elisions=
+-Bookmarks=
+-EditViewName=C:\source\Delphi7Help4BDS\packages\Delphi2007\Delphi7HelpForBdsExpert.dpk
+-
+-[Watches]
+-Count=0
+-
+-[WatchWindow]
+-WatchColumnWidth=120
+-WatchShowColumnHeaders=1
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=3830
+-Height=1382
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3830
+-ClientHeight=1382
+-TBDockHeight=208
+-LRDockWidth=13606
+-Dockable=1
+-StayOnTop=0
+-
+-[Breakpoints]
+-Count=0
+-
+-[AddressBreakpoints]
+-Count=0
+-
+-[Main Window]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=0
+-State=2
+-Left=132
+-Top=285
+-Width=8916
+-Height=8520
+-MaxLeft=-8
+-MaxTop=-11
+-MaxWidth=10066
+-MaxHeight=10088
+-ClientWidth=10000
+-ClientHeight=9792
+-BottomPanelSize=9204
+-BottomPanelClients=EditWindow0
+-BottomPanelData=0000080000000000000000000000000000000000000000000000000100000000000000000C0000004564697457696E646F775F30FFFFFFFF
+-
+-[ProjectManager]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=4094
+-Height=7083
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=4094
+-ClientHeight=7083
+-TBDockHeight=5910
+-LRDockWidth=2349
+-Dockable=1
+-StayOnTop=0
+-
+-[ToolForm]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=1993
+-Height=7061
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=1993
+-ClientHeight=7061
+-TBDockHeight=7368
+-LRDockWidth=1993
+-Dockable=1
+-StayOnTop=0
+-
+-[TemplateView]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=2481
+-Height=362
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=2481
+-ClientHeight=362
+-TBDockHeight=362
+-LRDockWidth=2481
+-Dockable=1
+-StayOnTop=0
+-Name=120
+-Description=334
+-filter=1
+-
+-[DebugLogView]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=3830
+-Height=1382
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3830
+-ClientHeight=1382
+-TBDockHeight=406
+-LRDockWidth=4955
+-Dockable=1
+-StayOnTop=0
+-
+-[ThreadStatusWindow]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=3830
+-Height=1382
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3830
+-ClientHeight=1382
+-TBDockHeight=208
+-LRDockWidth=7411
+-Dockable=1
+-StayOnTop=0
+-Column0Width=145
+-Column1Width=100
+-Column2Width=115
+-Column3Width=250
+-
+-[LocalVarsWindow]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=3830
+-Height=1382
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3830
+-ClientHeight=1382
+-TBDockHeight=1546
+-LRDockWidth=3490
+-Dockable=1
+-StayOnTop=0
+-
+-[CallStackWindow]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=3830
+-Height=1382
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3830
+-ClientHeight=1382
+-TBDockHeight=2072
+-LRDockWidth=3490
+-Dockable=1
+-StayOnTop=0
+-
+-[TFileExplorerForm]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=0
+-State=0
+-Left=620
+-Top=844
+-Width=2002
+-Height=3081
+-MaxLeft=-8
+-MaxTop=-11
+-ClientWidth=1935
+-ClientHeight=2818
+-TBDockHeight=6206
+-LRDockWidth=2845
+-Dockable=1
+-StayOnTop=0
+-
+-[FindReferencsForm]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=2275
+-Height=877
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=2275
+-ClientHeight=877
+-TBDockHeight=2325
+-LRDockWidth=2821
+-Dockable=1
+-StayOnTop=0
+-
+-[RefactoringForm]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=2275
+-Height=877
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=2275
+-ClientHeight=877
+-TBDockHeight=3202
+-LRDockWidth=2821
+-Dockable=1
+-StayOnTop=0
+-
+-[ToDo List]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=0
+-State=0
+-Left=6518
+-Top=3355
+-Width=2341
+-Height=1206
+-MaxLeft=-8
+-MaxTop=-11
+-ClientWidth=2275
+-ClientHeight=943
+-TBDockHeight=1162
+-LRDockWidth=3681
+-Dockable=1
+-StayOnTop=0
+-Column0Width=314
+-Column1Width=30
+-Column2Width=150
+-Column3Width=172
+-Column4Width=129
+-SortOrder=4
+-ShowHints=1
+-ShowChecked=1
+-
+-[DataExplorer]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=4028
+-Height=5592
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=4028
+-ClientHeight=5592
+-TBDockHeight=4868
+-LRDockWidth=7155
+-Dockable=1
+-StayOnTop=0
+-
+-[PropertyInspector]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=1993
+-Height=8980
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=1993
+-ClientHeight=8980
+-TBDockHeight=7105
+-LRDockWidth=2457
+-Dockable=1
+-StayOnTop=0
+-SplitPos=79
+-
+-[ModelViewTool]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=4028
+-Height=5592
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=4028
+-ClientHeight=5592
+-TBDockHeight=4868
+-LRDockWidth=5310
+-Dockable=1
+-StayOnTop=0
+-
+-[MetricsView]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=-4
+-Top=-20
+-Width=3565
+-Height=4825
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3565
+-ClientHeight=4825
+-TBDockHeight=4825
+-LRDockWidth=3565
+-Dockable=1
+-StayOnTop=0
+-
+-[QAView]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=-4
+-Top=-20
+-Width=13606
+-Height=208
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=13606
+-ClientHeight=208
+-TBDockHeight=208
+-LRDockWidth=13606
+-Dockable=1
+-StayOnTop=0
+-
+-[RefactoringsView]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=-4
+-Top=-20
+-Width=3565
+-Height=4825
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3565
+-ClientHeight=4825
+-TBDockHeight=4825
+-LRDockWidth=3565
+-Dockable=1
+-StayOnTop=0
+-
+-[UsagesView]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=-4
+-Top=-20
+-Width=3565
+-Height=2303
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3565
+-ClientHeight=2303
+-TBDockHeight=2303
+-LRDockWidth=3565
+-Dockable=1
+-StayOnTop=0
+-
+-[BreakpointWindow]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=3830
+-Height=1382
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3830
+-ClientHeight=1382
+-TBDockHeight=1557
+-LRDockWidth=8751
+-Dockable=1
+-StayOnTop=0
+-Column0Width=141
+-Column1Width=75
+-Column2Width=200
+-Column3Width=200
+-Column4Width=75
+-Column5Width=75
+-
+-[StructureView]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=1902
+-Height=8980
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=1902
+-ClientHeight=8980
+-TBDockHeight=8980
+-LRDockWidth=1902
+-Dockable=1
+-StayOnTop=0
+-
+-[fmGrepResults]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=0
+-State=0
+-Left=2688
+-Top=3147
+-Width=4624
+-Height=3684
+-MaxLeft=-8
+-MaxTop=-11
+-ClientWidth=4557
+-ClientHeight=3421
+-TBDockHeight=3684
+-LRDockWidth=4624
+-Dockable=1
+-StayOnTop=0
+-
+-[fmMacroLibrary]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=0
+-State=0
+-Left=3325
+-Top=2818
+-Width=3358
+-Height=4342
+-MaxLeft=-8
+-MaxTop=-11
+-ClientWidth=3292
+-ClientHeight=4079
+-TBDockHeight=4342
+-LRDockWidth=3358
+-Dockable=1
+-StayOnTop=0
+-
+-[MessageView at EditWindow0]
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=22
+-Width=10000
+-Height=1656
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=10000
+-ClientHeight=1656
+-TBDockHeight=1656
+-LRDockWidth=4326
+-Dockable=1
+-StayOnTop=0
+-
+-[BorlandEditorCodeExplorer at EditWindow0]
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=0
+-State=0
+-Left=0
+-Top=0
+-Width=1828
+-Height=6173
+-MaxLeft=-8
+-MaxTop=-11
+-ClientWidth=1762
+-ClientHeight=5910
+-TBDockHeight=6173
+-LRDockWidth=1828
+-Dockable=1
+-StayOnTop=0
+-
+-[DockHosts]
+-DockHostCount=4
+-
+-[DockSite0]
+-HostDockSite=RightTabDock
+-DockSiteType=1
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=2341
+-Height=1414
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=2275
+-ClientHeight=1151
+-TBDockHeight=1414
+-LRDockWidth=2341
+-Dockable=1
+-StayOnTop=0
+-TabPosition=1
+-ActiveTabID=RefactoringForm
+-TabDockClients=RefactoringForm,FindReferencsForm,QAView,MetricsView,RefactoringsView,UsagesView
+-
+-[DockSite1]
+-HostDockSite=DockBottomPanel
+-DockSiteType=1
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=0
+-Top=0
+-Width=3830
+-Height=1656
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=3830
+-ClientHeight=1656
+-TBDockHeight=1656
+-LRDockWidth=3830
+-Dockable=1
+-StayOnTop=0
+-TabPosition=1
+-ActiveTabID=DebugLogView
+-TabDockClients=DebugLogView,BreakpointWindow,ThreadStatusWindow,CallStackWindow,WatchWindow,LocalVarsWindow
+-
+-[DockSite2]
+-HostDockSite=RightTabDock
+-DockSiteType=1
+-PercentageSizes=1
+-Create=1
+-Visible=0
+-Docked=1
+-State=0
+-Left=4
+-Top=19
+-Width=4094
+-Height=7357
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=4094
+-ClientHeight=7357
+-TBDockHeight=6129
+-LRDockWidth=4094
+-Dockable=1
+-StayOnTop=0
+-TabPosition=1
+-ActiveTabID=ProjectManager
+-TabDockClients=ProjectManager,ModelViewTool,DataExplorer
+-
+-[DockSite3]
+-HostDockSite=DockLeftPanel
+-DockSiteType=1
+-PercentageSizes=1
+-Create=1
+-Visible=1
+-Docked=1
+-State=0
+-Left=0
+-Top=22
+-Width=1993
+-Height=7336
+-MaxLeft=-1
+-MaxTop=-1
+-ClientWidth=1993
+-ClientHeight=7336
+-TBDockHeight=7336
+-LRDockWidth=1993
+-Dockable=1
+-StayOnTop=0
+-TabPosition=0
+-ActiveTabID=ToolForm
+-TabDockClients=PropertyInspector,ToolForm
+-
+
+Deleted: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.res
+===================================================================
+(Binary files differ)
+
+
+
+From twm at mail.berlios.de  Sun Aug 12 13:36:57 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 13:36:57 +0200
+Subject: [Dzchart-svncheckins] r201 -
+	utilities/Delphi7Help4Bds/trunk/packages/Delphi2005
+Message-ID: <200708121136.l7CBavvK023919@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 13:36:05 +0200 (Sun, 12 Aug 2007)
+New Revision: 201
+
+Modified:
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.dpk
+Log:
+adapted to new directory structure
+
+
+Property changes on: utilities/Delphi7Help4Bds/trunk/packages/Delphi2005
+___________________________________________________________________
+Name: svn:ignore
+   + Delphi7HelpForBdsExpert.cfg
+Delphi7HelpForBdsExpert.res
+
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 11:22:29 UTC (rev 200)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 11:36:05 UTC (rev 201)
+@@ -120,7 +120,7 @@
+ 		</Linker>
+ 		<Directories>
+ 			<Directories Name="OutputDir"></Directories>
+-			<Directories Name="UnitOutputDir"></Directories>
++			<Directories Name="UnitOutputDir">..\..\dcu</Directories>
+ 			<Directories Name="PackageDLLOutputDir"></Directories>
+ 			<Directories Name="PackageDCPOutputDir"></Directories>
+ 			<Directories Name="SearchPath"></Directories>
+@@ -138,6 +138,11 @@
+ 			<Parameters Name="Debug Symbols Search Path"></Parameters>
+ 			<Parameters Name="LoadAllSymbols">True</Parameters>
+ 			<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
++			<Parameters Name="RemoteHost"></Parameters>
++			<Parameters Name="RemotePath"></Parameters>
++			<Parameters Name="RemoteLauncher"></Parameters>
++			<Parameters Name="RemoteCWD"></Parameters>
++			<Parameters Name="RemoteDebug">False</Parameters>
+ 		</Parameters>
+ 		<Language>
+ 			<Language Name="ActiveLang"></Language>
+@@ -164,7 +169,7 @@
+ 			<VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys>
+ 			<VersionInfoKeys Name="FileVersion">1.0.0.60</VersionInfoKeys>
+ 			<VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys>
+-			<VersionInfoKeys Name="LegalCopyright">copyright 2006 Thomas Mueller</VersionInfoKeys>
++			<VersionInfoKeys Name="LegalCopyright">copyright 2006-2007 by Thomas Mueller</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
+ 			<VersionInfoKeys Name="OriginalFilename">Delphi7HelpForBdsExpert.bpl</VersionInfoKeys>
+ 			<VersionInfoKeys Name="ProductName">Delphi 7 help for BDS</VersionInfoKeys>
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.dpk
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:22:29 UTC (rev 200)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:36:05 UTC (rev 201)
+@@ -28,10 +28,11 @@
+ 
+ requires
+   rtl,
+-  designide;
++  designide,
++  vcl;
+ 
+ contains
+-  u_Delphi7HelpForBds in 'u_Delphi7HelpForBds.pas',
+-  w_Delphi7HelpForBds in 'w_Delphi7HelpForBds.pas' {f_Delphi7HelpForBds};
++  w_Delphi7HelpForBds in '..\..\src\w_Delphi7HelpForBds.pas',
++  u_Delphi7HelpForBds in '..\..\src\u_Delphi7HelpForBds.pas';
+ 
+ end.
+
+
+
+From twm at mail.berlios.de  Sun Aug 12 14:47:57 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 14:47:57 +0200
+Subject: [Dzchart-svncheckins] r202 -
+	utilities/Delphi7Help4Bds/trunk/packages/Delphi2006
+Message-ID: <200708121247.l7CClvi1027435@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 14:45:33 +0200 (Sun, 12 Aug 2007)
+New Revision: 202
+
+Modified:
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk
+Log:
+adapted to new directory structure
+
+
+Property changes on: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006
+___________________________________________________________________
+Name: svn:ignore
+   + Delphi7HelpForBdsExpert.cfg
+Delphi7HelpForBdsExpert.res
+
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 11:36:05 UTC (rev 201)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 12:45:33 UTC (rev 202)
+@@ -120,7 +120,7 @@
+ 		</Linker>
+ 		<Directories>
+ 			<Directories Name="OutputDir"></Directories>
+-			<Directories Name="UnitOutputDir"></Directories>
++			<Directories Name="UnitOutputDir">..\..\dcu</Directories>
+ 			<Directories Name="PackageDLLOutputDir"></Directories>
+ 			<Directories Name="PackageDCPOutputDir"></Directories>
+ 			<Directories Name="SearchPath"></Directories>
+@@ -150,7 +150,7 @@
+ 			<VersionInfo Name="MajorVer">1</VersionInfo>
+ 			<VersionInfo Name="MinorVer">0</VersionInfo>
+ 			<VersionInfo Name="Release">0</VersionInfo>
+-			<VersionInfo Name="Build">60</VersionInfo>
++			<VersionInfo Name="Build">61</VersionInfo>
+ 			<VersionInfo Name="Debug">False</VersionInfo>
+ 			<VersionInfo Name="PreRelease">False</VersionInfo>
+ 			<VersionInfo Name="Special">False</VersionInfo>
+@@ -162,7 +162,7 @@
+ 		<VersionInfoKeys>
+ 			<VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys>
+ 			<VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys>
+-			<VersionInfoKeys Name="FileVersion">1.0.0.60</VersionInfoKeys>
++			<VersionInfoKeys Name="FileVersion">1.0.0.61</VersionInfoKeys>
+ 			<VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalCopyright">copyright 2006 Thomas Mueller</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:36:05 UTC (rev 201)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk	2007-08-12 12:45:33 UTC (rev 202)
+@@ -31,7 +31,7 @@
+   designide;
+ 
+ contains
+-  u_Delphi7HelpForBds in 'u_Delphi7HelpForBds.pas',
+-  w_Delphi7HelpForBds in 'w_Delphi7HelpForBds.pas' {f_Delphi7HelpForBds};
++  u_Delphi7HelpForBds in '..\..\src\u_Delphi7HelpForBds.pas',
++  w_Delphi7HelpForBds in '..\..\src\w_Delphi7HelpForBds.pas' {f_Delphi7HelpForBds};
+ 
+ end.
+
+
+
+From twm at mail.berlios.de  Sun Aug 12 19:41:43 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 19:41:43 +0200
+Subject: [Dzchart-svncheckins] r204 -
+	utilities/Delphi7Help4Bds/trunk/packages/Delphi2006
+Message-ID: <200708121741.l7CHfh2x026274@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 19:41:40 +0200 (Sun, 12 Aug 2007)
+New Revision: 204
+
+Modified:
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj
+Log:
+rebuilt for Delphi 2006
+
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 17:22:37 UTC (rev 203)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 17:41:40 UTC (rev 204)
+@@ -150,7 +150,7 @@
+ 			<VersionInfo Name="MajorVer">1</VersionInfo>
+ 			<VersionInfo Name="MinorVer">0</VersionInfo>
+ 			<VersionInfo Name="Release">0</VersionInfo>
+-			<VersionInfo Name="Build">61</VersionInfo>
++			<VersionInfo Name="Build">62</VersionInfo>
+ 			<VersionInfo Name="Debug">False</VersionInfo>
+ 			<VersionInfo Name="PreRelease">False</VersionInfo>
+ 			<VersionInfo Name="Special">False</VersionInfo>
+@@ -162,7 +162,7 @@
+ 		<VersionInfoKeys>
+ 			<VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys>
+ 			<VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys>
+-			<VersionInfoKeys Name="FileVersion">1.0.0.61</VersionInfoKeys>
++			<VersionInfoKeys Name="FileVersion">1.0.0.62</VersionInfoKeys>
+ 			<VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalCopyright">copyright 2006 Thomas Mueller</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
+
+
+
+From twm at mail.berlios.de  Sun Aug 12 19:58:43 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 19:58:43 +0200
+Subject: [Dzchart-svncheckins] r205 - in utilities/Delphi7Help4Bds/trunk:
+	packages/Delphi2005 src
+Message-ID: <200708121758.l7CHwhT4027331@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 19:58:39 +0200 (Sun, 12 Aug 2007)
+New Revision: 205
+
+Modified:
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj
+   utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm
+Log:
+removed properties not supported by Delphi 2005 and build it for that version
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 17:41:40 UTC (rev 204)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2005/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 17:58:39 UTC (rev 205)
+@@ -155,7 +155,7 @@
+ 			<VersionInfo Name="MajorVer">1</VersionInfo>
+ 			<VersionInfo Name="MinorVer">0</VersionInfo>
+ 			<VersionInfo Name="Release">0</VersionInfo>
+-			<VersionInfo Name="Build">60</VersionInfo>
++			<VersionInfo Name="Build">62</VersionInfo>
+ 			<VersionInfo Name="Debug">False</VersionInfo>
+ 			<VersionInfo Name="PreRelease">False</VersionInfo>
+ 			<VersionInfo Name="Special">False</VersionInfo>
+@@ -167,7 +167,7 @@
+ 		<VersionInfoKeys>
+ 			<VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys>
+ 			<VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys>
+-			<VersionInfoKeys Name="FileVersion">1.0.0.60</VersionInfoKeys>
++			<VersionInfoKeys Name="FileVersion">1.0.0.62</VersionInfoKeys>
+ 			<VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalCopyright">copyright 2006-2007 by Thomas Mueller</VersionInfoKeys>
+ 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
+
+Modified: utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm	2007-08-12 17:41:40 UTC (rev 204)
++++ utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm	2007-08-12 17:58:39 UTC (rev 205)
+@@ -1,9 +1,9 @@
+ object f_Delphi7HelpForBds: Tf_Delphi7HelpForBds
+   Left = 354
+   Top = 151
++  Width = 473
++  Height = 313
+   Caption = 'Delphi 7 help for BDS Wizard'
+-  ClientHeight = 307
+-  ClientWidth = 444
+   Color = clBtnFace
+   Font.Charset = DEFAULT_CHARSET
+   Font.Color = clWindowText
+@@ -12,16 +12,15 @@
+   Font.Style = []
+   OldCreateOrder = False
+   DesignSize = (
+-    444
+-    307)
++    465
++    289)
+   PixelsPerInch = 96
+   TextHeight = 13
+   object l_Blurb: TLabel
+     Left = 8
+     Top = 8
+-    Width = 428
++    Width = 437
+     Height = 25
+-    Margins.Bottom = 0
+     Anchors = [akLeft, akTop, akRight]
+     AutoSize = False
+     Caption = 
+@@ -33,54 +32,52 @@
+   object ed_Helpfile: TEdit
+     Left = 24
+     Top = 72
+-    Width = 381
++    Width = 405
+     Height = 21
+     Anchors = [akLeft, akTop, akRight]
+-    TabOrder = 0
++    TabOrder = 4
+     OnClick = ed_HelpfileClick
+   end
+   object b_SelectHlp: TButton
+-    Left = 411
+-    Top = 70
++    Left = 432
++    Top = 72
+     Width = 25
+     Height = 25
+     Anchors = [akTop, akRight]
+     Caption = '...'
+-    TabOrder = 1
++    TabOrder = 5
+     OnClick = b_SelectHlpClick
+   end
+   object b_OK: TButton
+-    Left = 280
+-    Top = 273
++    Left = 304
++    Top = 256
+     Width = 75
+     Height = 25
+     Anchors = [akRight, akBottom]
+     Caption = 'OK'
+     Default = True
+     ModalResult = 1
+-    TabOrder = 2
+-    ExplicitTop = 200
++    TabOrder = 9
+   end
+   object b_Cancel: TButton
+-    Left = 360
+-    Top = 273
++    Left = 384
++    Top = 256
+     Width = 75
+     Height = 25
+     Anchors = [akRight, akBottom]
+     Cancel = True
+     Caption = 'Cancel'
+     ModalResult = 2
+-    TabOrder = 3
+-    ExplicitTop = 200
++    TabOrder = 10
+   end
+   object rb_Winhelp: TRadioButton
+     Left = 8
+     Top = 48
+     Width = 397
+     Height = 17
+-    Caption = 'Open a *.hlp file'
++    Caption = 'Open a *.&HLP file'
+     Checked = True
+-    TabOrder = 5
++    TabOrder = 0
+     TabStop = True
+     OnClick = rb_WinhelpClick
+   end
+@@ -90,9 +87,9 @@
+     Width = 397
+     Height = 17
+     Caption = 
+-      'Open a Web URL (the current word from the editor will be appende' +
+-      'd)'
+-    TabOrder = 6
++      'Open a &Web URL (the current word from the editor will be append' +
++      'ed)'
++    TabOrder = 2
+     OnClick = rb_WebUrlClick
+   end
+   object rb_DoNothing: TRadioButton
+@@ -100,17 +97,17 @@
+     Top = 224
+     Width = 153
+     Height = 17
+-    Caption = 'Do nothing'
+-    TabOrder = 4
++    Caption = 'Do &nothing'
++    TabOrder = 3
+     TabStop = True
+   end
+   object cmb_WebUrl: TComboBox
+     Left = 24
+     Top = 184
+-    Width = 381
++    Width = 401
+     Height = 21
+     ItemHeight = 13
+-    TabOrder = 7
++    TabOrder = 8
+     Text = 'http://www.google.com/search?q=delphi+'
+     OnClick = cmb_WebUrlClick
+     OnEnter = cmb_WebUrlEnter
+@@ -123,27 +120,27 @@
+     Top = 104
+     Width = 397
+     Height = 17
+-    Caption = 'Open a *.chm file'
+-    TabOrder = 8
++    Caption = 'Open a *.&CHM file'
++    TabOrder = 1
+     OnClick = rb_ChmHelpClick
+   end
+   object ed_ChmFile: TEdit
+     Left = 24
+     Top = 128
+-    Width = 381
++    Width = 405
+     Height = 21
+     Anchors = [akLeft, akTop, akRight]
+-    TabOrder = 9
++    TabOrder = 6
+     OnChange = ed_ChmFileChange
+   end
+   object b_SelectChm: TButton
+-    Left = 411
+-    Top = 126
++    Left = 432
++    Top = 128
+     Width = 25
+     Height = 25
+     Anchors = [akTop, akRight]
+     Caption = '...'
+-    TabOrder = 10
++    TabOrder = 7
+     OnClick = b_SelectChmClick
+   end
+   object od_HelpFile: TOpenDialog
+
+
+
+From twm at mail.berlios.de  Sun Aug 12 20:01:35 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 20:01:35 +0200
+Subject: [Dzchart-svncheckins] r206 - utilities/Delphi7Help4Bds
+Message-ID: <200708121801.l7CI1ZMq027534@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 20:01:32 +0200 (Sun, 12 Aug 2007)
+New Revision: 206
+
+Added:
+   utilities/Delphi7Help4Bds/tags/
+Log:
+Created folder remotely
+
+
+
+From twm at mail.berlios.de  Sun Aug 12 20:02:07 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 12 Aug 2007 20:02:07 +0200
+Subject: [Dzchart-svncheckins] r207 - utilities/Delphi7Help4Bds/tags
+Message-ID: <200708121802.l7CI2742027548@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-12 20:02:04 +0200 (Sun, 12 Aug 2007)
+New Revision: 207
+
+Added:
+   utilities/Delphi7Help4Bds/tags/2007-08-12/
+Log:
+Copied remotely
+
+Copied: utilities/Delphi7Help4Bds/tags/2007-08-12 (from rev 206, utilities/Delphi7Help4Bds/trunk)
+
+
+
+From twm at mail.berlios.de  Mon Aug 13 20:14:35 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 13 Aug 2007 20:14:35 +0200
+Subject: [Dzchart-svncheckins] r208 - in utilities/Delphi7Help4Bds/trunk:
+	packages/Delphi2007 src
+Message-ID: <200708131814.l7DIEZYq023308@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-13 20:14:20 +0200 (Mon, 13 Aug 2007)
+New Revision: 208
+
+Modified:
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj
+   utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas
+   utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm
+   utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas
+Log:
+* added MSDN help
+* added ctrl-alt-F1
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj	2007-08-12 18:02:04 UTC (rev 207)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2007/Delphi7HelpForBdsExpert.dproj	2007-08-13 18:14:20 UTC (rev 208)
+@@ -25,7 +25,7 @@
+     <Borland.Personality>Delphi.Personality</Borland.Personality>
+     <Borland.ProjectType>Package</Borland.ProjectType>
+     <BorlandProject>
+-<BorlandProject><Delphi.Personality><Parameters><Parameters Name="HostApplication">C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe</Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><Package_Options><Package_Options Name="PackageDescription">dummzeuch Delphi 7 help for BDS expert</Package_Options><Package_Options Name="ImplicitBuild">False</Package_Options><Package_Options Name="DesigntimeOnly">True</Package_Options><Package_Options Name="RuntimeOnly">False</Package_Options></Package_Options><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">63</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name!
+ ="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1031</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys><VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.63</VersionInfoKeys><VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright">copyright 2006 Thomas Mueller</VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename">Delphi7HelpForBdsExpert.bpl</VersionInfoKeys><VersionInfoKeys Name="ProductName">Delphi 7 help for BDS</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Co!
+ mments"></VersionInfoKeys></VersionInfoKeys><Source><Source Na!
+ me="Main
+Source">Delphi7HelpForBdsExpert.dpk</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
++<BorlandProject><Delphi.Personality><Parameters><Parameters Name="HostApplication">C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe</Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><Package_Options><Package_Options Name="PackageDescription">dummzeuch Delphi 7 help for BDS expert</Package_Options><Package_Options Name="ImplicitBuild">False</Package_Options><Package_Options Name="DesigntimeOnly">True</Package_Options><Package_Options Name="RuntimeOnly">False</Package_Options></Package_Options><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">64</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name!
+ ="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1031</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">www.dummzeuch.de</VersionInfoKeys><VersionInfoKeys Name="FileDescription">Delphi 7 help for BDS expert</VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.64</VersionInfoKeys><VersionInfoKeys Name="InternalName">Delphi 7 help for BDS expert</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright">copyright 2006 Thomas Mueller</VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename">Delphi7HelpForBdsExpert.bpl</VersionInfoKeys><VersionInfoKeys Name="ProductName">Delphi 7 help for BDS</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Co!
+ mments"></VersionInfoKeys></VersionInfoKeys><Source><Source Na!
+ me="Main
+Source">Delphi7HelpForBdsExpert.dpk</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
+   </ProjectExtensions>
+   <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+   <ItemGroup>
+
+Modified: utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas	2007-08-12 18:02:04 UTC (rev 207)
++++ utilities/Delphi7Help4Bds/trunk/src/u_Delphi7HelpForBds.pas	2007-08-13 18:14:20 UTC (rev 208)
+@@ -28,6 +28,8 @@
+       var BindingResult: TKeyBindingResult);
+     procedure CallAltF1(const Context: IOTAKeyContext; KeyCode: TShortCut;
+       var BindingResult: TKeyBindingResult);
++    procedure CallCtrlAltF1(const Context: IOTAKeyContext; KeyCode: TShortCut;
++      var BindingResult: TKeyBindingResult);
+     function GetAction(const _Which: string; out _Url: string): boolean;
+   public
+     procedure CallHelp(_Which: string; const Context: IOTAKeyContext;
+@@ -54,6 +56,7 @@
+   BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssCtrl])], CallCtrlF1, nil);
+   BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssShift])], CallShiftF1, nil);
+   BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssAlt])], CallAltF1, nil);
++  BindingServices.AddKeyBinding([Shortcut(VK_F1, [ssCtrl, ssAlt])], CallCtrlAltF1, nil);
+ end;
+ 
+ function TCtrlF1Help.GetBindingType: TBindingType;
+@@ -75,26 +78,26 @@
+ var
+   Reg: TRegistry;
+ begin
+-  Result := false;
++  Result := False;
+   Reg := TRegistry.Create;
+   try
+     Reg.RootKey := HKEY_CURRENT_USER;
+-    if Reg.OpenKey('software\dummzeuch\Delphi7HelpForBds', true) then
++    if Reg.OpenKey('Software\dummzeuch\Delphi7HelpForBds', true) then
+       try
+         try
+           _Url := Reg.ReadString('HelpFile' + _Which);
+           if _Url = '-' then begin
+-            Result := false;
+-            exit;
++            Result := False;
++            Exit;
+           end;
+           Result := (_Url <> '');
+           if Result then begin
+             if LeftStr(_Url, 5) = 'http:' then
+-              exit;
++              Exit;
+             if LeftStr(_Url, 8) = 'winhelp:' then
+-              exit;
++              Exit;
+             if LeftStr(_Url, 8) = 'chmhelp:' then
+-              exit;
++              Exit;
+             _Url := 'winhelp:' + _Url;
+             Reg.WriteString('HelpFile' + _Which, _Url);
+             exit;
+@@ -107,7 +110,7 @@
+         if Result then
+           Reg.WriteString('HelpFile' + _Which, _Url)
+         else
+-          Result := false;
++          Result := False;
+       finally
+         Reg.CloseKey;
+       end;
+@@ -122,6 +125,12 @@
+   CallHelp('AltF1', Context, KeyCode, BindingResult);
+ end;
+ 
++procedure TCtrlF1Help.CallCtrlAltF1(const Context: IOTAKeyContext;
++  KeyCode: TShortCut; var BindingResult: TKeyBindingResult);
++begin
++  CallHelp('CtrlAltF1', Context, KeyCode, BindingResult);
++end;
++
+ procedure TCtrlF1Help.CallCtrlF1(
+   const Context: IOTAKeyContext; KeyCode: TShortCut;
+   var BindingResult: TKeyBindingResult);
+@@ -142,51 +151,63 @@
+ begin
+   if not GetAction(_Which, Url) then begin
+     BindingResult := krUnhandled;
+-    exit;
++    Exit;
+   end;
+ 
+   EditView := Context.EditBuffer.TopView;
+   ep := EditView.Position;
+   CursorPos := EditView.CursorPos;
+   EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
+-  if (Element = atWhiteSpace) or (Element = atSymbol) then begin
+-    Dec(CursorPos.Col);
+-    EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
+-    if Element = atWhiteSpace then begin
+-      Inc(CursorPos.Col, 2);
++
++  if EditView.Block.Size > 0 then begin
++    // Check for selected text as Keyword :)
++    Keyword:= EditView.Block.Text;
++  end else begin
++    if (Element = atWhiteSpace) or (Element = atSymbol) then begin
++      Dec(CursorPos.Col);
+       EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
++      if Element = atWhiteSpace then begin
++        Inc(CursorPos.Col, 2);
++        EditView.GetAttributeAtPos(CursorPos, True, Element, LineFlag);
++      end;
+     end;
+-  end;
+-  if Element in [atIdentifier, atReservedWord] then begin
+-    // The cursor can be anywhere on the word, or at the end of a word
+-    // If cursor is at the middle of a word, then extract the word
+-    if ep.IsWordCharacter then begin
+-      ep.Save;
+-      try
+-        EndCol := CursorPos.Col;
+-        while (ep.IsWordCharacter) and (ep.Column > 1) do
+-          ep.MoveRelative(0, -1);
+-        if ep.IsWordCharacter then
+-          StartCol := ep.Column // Start of a line...
+-        else
+-          StartCol := ep.Column + 1;
+-        WordLen := EndCol - StartCol;
+-        ep.Move(ep.Row, EndCol);
+-        while ep.IsWordCharacter do begin
+-          ep.MoveRelative(0, 1);
+-          Inc(WordLen);
++  
++    if Element in [atIdentifier, atReservedWord] then begin
++      // The cursor can be anywhere on the word, or at the end of a word
++      // If cursor is at the middle of a word, then extract the word
++      if ep.IsWordCharacter then begin
++        ep.Save;
++        try
++          EndCol := CursorPos.Col;
++          while (ep.IsWordCharacter) and (ep.Column > 1) do
++            ep.MoveRelative(0, -1);
++          if ep.IsWordCharacter then
++            StartCol := ep.Column // Start of a line...
++          else
++            StartCol := ep.Column + 1;
++          WordLen := EndCol - StartCol;
++          ep.Move(ep.Row, EndCol);
++          while ep.IsWordCharacter do begin
++            ep.MoveRelative(0, 1);
++            Inc(WordLen);
++          end;
++          ep.MoveRelative(0, -WordLen);
++          Keyword := ep.Read(WordLen);
++        finally
++          ep.Restore;
+         end;
+-        ep.MoveRelative(0, -WordLen);
+-        Keyword := ep.Read(WordLen);
+-      finally
+-        ep.Restore;
++      end else begin
++        // If cursor is at the end of a word, then extract it
++        Keyword := ep.RipText('_', rfBackward or rfIncludeAlphaChars or rfIncludeNumericChars);
+       end;
+     end else begin
+-      // If cursor is at the end of a word, then extract it
+-      Keyword := ep.RipText('_', rfBackward or rfIncludeAlphaChars or rfIncludeNumericChars);
++      // Cannot extract keyword :(
++    
++      //Keyword := '';
++      BindingResult := krUnhandled;
++      Exit;
+     end;
+-  end else
+-    Keyword := '';
++  end;
+ 
+   if LeftStr(Url, 8) = 'winhelp:' then begin
+     Url := Copy(Url, 9);
+
+Modified: utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm	2007-08-12 18:02:04 UTC (rev 207)
++++ utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.dfm	2007-08-13 18:14:20 UTC (rev 208)
+@@ -1,9 +1,11 @@
+ object f_Delphi7HelpForBds: Tf_Delphi7HelpForBds
+   Left = 354
+   Top = 151
+-  Width = 473
+-  Height = 313
++  BorderIcons = [biSystemMenu, biMinimize]
++  BorderStyle = bsSingle
+   Caption = 'Delphi 7 help for BDS Wizard'
++  ClientHeight = 297
++  ClientWidth = 467
+   Color = clBtnFace
+   Font.Charset = DEFAULT_CHARSET
+   Font.Color = clWindowText
+@@ -12,15 +14,16 @@
+   Font.Style = []
+   OldCreateOrder = False
+   DesignSize = (
+-    465
+-    289)
++    467
++    297)
+   PixelsPerInch = 96
+   TextHeight = 13
+   object l_Blurb: TLabel
+     Left = 8
+     Top = 8
+-    Width = 437
++    Width = 439
+     Height = 25
++    Margins.Bottom = 0
+     Anchors = [akLeft, akTop, akRight]
+     AutoSize = False
+     Caption = 
+@@ -28,11 +31,12 @@
+       'wizard. Please specify below  the action you want to execute wit' +
+       'h this shortcut.'
+     WordWrap = True
++    ExplicitWidth = 437
+   end
+   object ed_Helpfile: TEdit
+     Left = 24
+-    Top = 72
+-    Width = 405
++    Top = 80
++    Width = 407
+     Height = 21
+     Anchors = [akLeft, akTop, akRight]
+     TabOrder = 4
+@@ -40,9 +44,9 @@
+   end
+   object b_SelectHlp: TButton
+     Left = 432
+-    Top = 72
++    Top = 80
+     Width = 25
+-    Height = 25
++    Height = 21
+     Anchors = [akTop, akRight]
+     Caption = '...'
+     TabOrder = 5
+@@ -50,7 +54,7 @@
+   end
+   object b_OK: TButton
+     Left = 304
+-    Top = 256
++    Top = 264
+     Width = 75
+     Height = 25
+     Anchors = [akRight, akBottom]
+@@ -61,7 +65,7 @@
+   end
+   object b_Cancel: TButton
+     Left = 384
+-    Top = 256
++    Top = 264
+     Width = 75
+     Height = 25
+     Anchors = [akRight, akBottom]
+@@ -72,8 +76,8 @@
+   end
+   object rb_Winhelp: TRadioButton
+     Left = 8
+-    Top = 48
+-    Width = 397
++    Top = 56
++    Width = 420
+     Height = 17
+     Caption = 'Open a *.&HLP file'
+     Checked = True
+@@ -83,7 +87,7 @@
+   end
+   object rb_WebUrl: TRadioButton
+     Left = 8
+-    Top = 160
++    Top = 176
+     Width = 397
+     Height = 17
+     Caption = 
+@@ -103,8 +107,8 @@
+   end
+   object cmb_WebUrl: TComboBox
+     Left = 24
+-    Top = 184
+-    Width = 401
++    Top = 192
++    Width = 407
+     Height = 21
+     ItemHeight = 13
+     TabOrder = 8
+@@ -113,12 +117,15 @@
+     OnEnter = cmb_WebUrlEnter
+     Items.Strings = (
+       'http://www.google.com/search?q=delphi+'
+-      'http://groups.google.com/groups/search?q=delphi+')
++      'http://groups.google.com/groups/search?q=delphi+'
++      
++        'http://search.msdn.microsoft.com/search/Default.aspx?brand=msdn&' +
++        'refinement=117&lang=en-us&query=')
+   end
+   object rb_ChmHelp: TRadioButton
+     Left = 8
+-    Top = 104
+-    Width = 397
++    Top = 112
++    Width = 420
+     Height = 17
+     Caption = 'Open a *.&CHM file'
+     TabOrder = 1
+@@ -126,8 +133,8 @@
+   end
+   object ed_ChmFile: TEdit
+     Left = 24
+-    Top = 128
+-    Width = 405
++    Top = 136
++    Width = 407
+     Height = 21
+     Anchors = [akLeft, akTop, akRight]
+     TabOrder = 6
+@@ -135,9 +142,9 @@
+   end
+   object b_SelectChm: TButton
+     Left = 432
+-    Top = 128
++    Top = 136
+     Width = 25
+-    Height = 25
++    Height = 21
+     Anchors = [akTop, akRight]
+     Caption = '...'
+     TabOrder = 7
+@@ -148,15 +155,15 @@
+     Filter = 'help files (*.hlp)|*.hlp|all files|*.*'
+     FilterIndex = 0
+     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+-    Left = 168
+-    Top = 80
++    Left = 360
++    Top = 120
+   end
+   object od_ChmFile: TOpenDialog
+     DefaultExt = 'hlp'
+     Filter = 'HTML help files (*.chm)|*.chm|all files|*.*'
+     FilterIndex = 0
+     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+-    Left = 168
+-    Top = 136
++    Left = 360
++    Top = 63
+   end
+ end
+
+Modified: utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas	2007-08-12 18:02:04 UTC (rev 207)
++++ utilities/Delphi7Help4Bds/trunk/src/w_Delphi7HelpForBds.pas	2007-08-13 18:14:20 UTC (rev 208)
+@@ -41,7 +41,7 @@
+     procedure ed_ChmFileChange(Sender: TObject);
+   private
+   public
+-    class function Execute(out _Url: string): boolean;
++    class function Execute(out _Url: string): Boolean;
+   end;
+ 
+ implementation
+@@ -80,26 +80,26 @@
+   rb_Winhelp.Checked := true;
+ end;
+ 
+-class function Tf_Delphi7HelpForBds.Execute(out _Url: string): boolean;
++class function Tf_Delphi7HelpForBds.Execute(out _Url: string): Boolean;
+ var
+   frm: Tf_Delphi7HelpForBds;
+ begin
+   frm := Tf_Delphi7HelpForBds.Create(nil);
+   try
+     if mrOk = frm.ShowModal then begin
+-      Result := true;
++      Result := True;
+       if frm.rb_Winhelp.Checked then begin
+         _Url := 'winhelp:' + frm.ed_Helpfile.Text;
+       end else if frm.rb_WebUrl.Checked then begin
+         _Url := frm.cmb_WebUrl.Text;
+       end else if frm.rb_ChmHelp.Checked then
+         _Url := 'chmhelp:' + frm.ed_ChmFile.Text
+-      else
++      else          
+         _Url := '-';
+     end else
+-      Result := false;
++      Result := False;
+   finally
+-    frm.free
++    frm.Free;
+   end;
+ end;
+ 
+
+
+
+From twm at mail.berlios.de  Mon Aug 13 20:15:21 2007
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Mon, 13 Aug 2007 20:15:21 +0200
+Subject: [Dzchart-svncheckins] r209 - utilities/dzStateEngine/trunk
+Message-ID: <200708131815.l7DIFLiv023403@sheep.berlios.de>
+
+Author: twm
+Date: 2007-08-13 20:15:19 +0200 (Mon, 13 Aug 2007)
+New Revision: 209
+
+Modified:
+   utilities/dzStateEngine/trunk/
+Log:
+changed to use https rather than ssh for dzTemplates external
+
+
+Property changes on: utilities/dzStateEngine/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs\dztemplates svn+ssh://twm at svn.berlios.de/svnroot/repos/dztemplates/trunk
+
+   + libs\dztemplates https://twm at svn.berlios.de/svnroot/repos/dztemplates/trunk
+
+
+
+

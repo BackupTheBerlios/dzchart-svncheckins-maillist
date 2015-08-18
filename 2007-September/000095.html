@@ -1,0 +1,480 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r225 - in utilities/ccpack/trunk: Delphi2007	src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r225%20-%20in%20utilities/ccpack/trunk%3A%20Delphi2007%0A%09src&In-Reply-To=%3C200709301346.l8UDkVQ9002951%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000094.html">
+   <LINK REL="Next"  HREF="000096.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r225 - in utilities/ccpack/trunk: Delphi2007	src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r225%20-%20in%20utilities/ccpack/trunk%3A%20Delphi2007%0A%09src&In-Reply-To=%3C200709301346.l8UDkVQ9002951%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r225 - in utilities/ccpack/trunk: Delphi2007	src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep 30 15:46:31 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000094.html">[Dzchart-svncheckins] r224 - utilities/ccpack/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000096.html">[Dzchart-svncheckins] r226 - in utilities/ccpack/trunk: Delphi7	examples/CustomBox examples/CustomBox/Delphi7	examples/CustomBox/src examples/CustomFrame	examples/CustomFrame/Delphi7
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#95">[ date ]</a>
+              <a href="thread.html#95">[ thread ]</a>
+              <a href="subject.html#95">[ subject ]</a>
+              <a href="author.html#95">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-09-30 15:46:29 +0200 (Sun, 30 Sep 2007)
+New Revision: 225
+
+Modified:
+   utilities/ccpack/trunk/Delphi2007/ccpackdsg.dproj
+   utilities/ccpack/trunk/src/ccwiz.pas
+   utilities/ccpack/trunk/src/ccwizres.pas
+Log:
+* Bugfix: Module name should not contain the leading 'T'
+* moved all wildcard replacements to ReplaceWildcards method
+* NewImplSource now acutally uses its parameters (must test whether this works with other Delphi versions)
+
+
+Modified: utilities/ccpack/trunk/Delphi2007/ccpackdsg.dproj
+===================================================================
+--- utilities/ccpack/trunk/Delphi2007/ccpackdsg.dproj	2007-09-30 11:46:35 UTC (rev 224)
++++ utilities/ccpack/trunk/Delphi2007/ccpackdsg.dproj	2007-09-30 13:46:29 UTC (rev 225)
+@@ -32,7 +32,7 @@
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\Program files\Borland\BDS\4.0\Bin\bds.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;Custom Containers Pack - designtime&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=!
+ &quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;$(BDS)\Bin\bds.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;Custom Containers Pack - designtime&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo!
+ &gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
+       
+       
+       
+@@ -42,120 +42,9 @@
+       
+       
+       
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCoreD10D.bpl&quot;&gt;JVCL Core Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDBD10D.bpl&quot;&gt;JVCL Database Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvStdCtrlsD10D.bpl&quot;&gt;JVCL Standard Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCtrlsD10D.bpl&quot;&gt;JVCL Visual Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCmpD10D.bpl&quot;&gt;JVCL Non-Visual Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCustomD10D.bpl&quot;&gt;JVCL Custom Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDlgsD10D.bpl&quot;&gt;JVCL Dialog Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvCryptD10D.bpl&quot;&gt;JVCL Encryption and Compression&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvMMD10D.bpl&quot;&gt;JVCL Multimedia and Image Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvNetD10D.bpl&quot;&gt;JVCL Network Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvAppFrmD10D.bpl&quot;&gt;JVCL Application and Form Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBDED10D.bpl&quot;&gt;JVCL BDE Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvInterpreterD10D.bpl&quot;&gt;JVCL Interpreter Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvBandsD10D.bpl&quot;&gt;JVCL Band Objects&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPluginD10D.bpl&quot;&gt;JVCL Plugin Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvJansD10D.bpl&quot;&gt;JVCL Jans Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvGlobusD10D.bpl&quot;&gt;JVCL Globus Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPrintPreviewD10D.bpl&quot;&gt;JVCL Print Preview Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvPageCompsD10D.bpl&quot;&gt;JVCL Page Style Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvValidatorsD10D.bpl&quot;&gt;JVCL Validators and Error Provider Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvUIBD10D.bpl&quot;&gt;JVCL Unified Interbase Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvWizardD10D.bpl&quot;&gt;JVCL Wizard&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvTimeFrameworkD10D.bpl&quot;&gt;JVCL Time Framework&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvHMID10D.bpl&quot;&gt;JVCL HMI Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvManagedThreadsD10D.bpl&quot;&gt;JVCL Managed Threads&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvXPCtrlsD10D.bpl&quot;&gt;JVCL XP Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDockingD10D.bpl&quot;&gt;JVCL Docking Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsD10D.bpl&quot;&gt;JVCL DotNet Controls&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvEDID10D.bpl&quot;&gt;JVCL EDI Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\JvRuntimeDesignD10D.bpl&quot;&gt;JVCL Runtime Design Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\developer\My Documents\Borland Studio Projects\Bpl\CivEvoButtons.bpl&quot;&gt;(untitled)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\ccpackdsg100.bpl&quot;&gt;Custom Containers Pack - designtime&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+     &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;ccpackdsg.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+@@ -163,15 +52,15 @@
+     &lt;DelphiCompile Include=&quot;ccpackdsg.dpk&quot;&gt;
+       &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+     &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\examples\test\ccpack.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\examples\test\designide.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\examples\test\rtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\examples\test\vcl.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\src\ccregprc.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\src\ccwdlg.pas&quot;&gt;
+       &lt;Form&gt;CCWDialog&lt;/Form&gt;
+     &lt;/DCCReference&gt;
+     &lt;DCCReference Include=&quot;..\src\ccwiz.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\src\ccwizres.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;ccpack.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;designide.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;rtl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;vcl.dcp&quot; /&gt;
+   &lt;/ItemGroup&gt;
+ &lt;/Project&gt;
+\ No newline at end of file
+
+Modified: utilities/ccpack/trunk/src/ccwiz.pas
+===================================================================
+--- utilities/ccpack/trunk/src/ccwiz.pas	2007-09-30 11:46:35 UTC (rev 224)
++++ utilities/ccpack/trunk/src/ccwiz.pas	2007-09-30 13:46:29 UTC (rev 225)
+@@ -66,6 +66,8 @@
+     FClassName: string;
+     FUnitIdent: string;
+     FFileName: string;
++    procedure ReplaceWildcards(var Source: string;
++      const _ModuleIdent, _FormIdent, _AncestorIdent, AddUnit: string);
+   public
+     constructor Create(ABaseClassName: string);
+     { IOTACreator }
+@@ -207,7 +209,7 @@
+   s := ABaseClassName;
+   System.Delete(s, 1, 1); // delete 'T' from the class name
+   FBaseClassName := s;
+-  (BorlandIDEServices as IOTAModuleServices).GetNewModuleAndClassName(ABaseClassName, FUnitIdent, FClassName, FFileName);
++  (BorlandIDEServices as IOTAModuleServices).GetNewModuleAndClassName(s, FUnitIdent, FClassName, FFileName);
+   if (Length(CCWDialog.CCeditClassName.Text) &gt; 2) and (CCWDialog.CCeditClassName.Text &lt;&gt; '') then
+     FClassName := CCWDialog.CCeditClassName.Text;
+ end;
+@@ -281,47 +283,48 @@
+   Result := True;
+ end;
+ 
+-function TCCModuleCreator.NewFormFile(const FormIdent,
+-  AncestorIdent: string): IOTAFile;
++procedure TCCModuleCreator.ReplaceWildcards(var Source: string;
++  const _ModuleIdent, _FormIdent, _AncestorIdent, AddUnit: string);
+ begin
++  Source := StringReplace(Source, '%UnitIdent%', _ModuleIdent, [rfReplaceAll]);
++  Source := StringReplace(Source, '%AddUnit%', AddUnit, [rfReplaceAll]);
++  Source := StringReplace(Source, '%ClassName%', FClassName, [rfReplaceAll]);
++  Source := StringReplace(Source, '%FormName%', _FormIdent, [rfReplaceAll]);
++  Source := StringReplace(Source, '%AncestorName%', _AncestorIdent, [rfReplaceAll]);
++end;
++
++function TCCModuleCreator.NewFormFile(const FormIdent, AncestorIdent: string): IOTAFile;
++begin
+   Result := nil;
+ end;
+ 
+-function TCCModuleCreator.NewImplSource(const ModuleIdent, FormIdent,
+-  AncestorIdent: string): IOTAFile;
++function TCCModuleCreator.NewImplSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+ var
+   Source: string;
+   AddUnit: string;
+ begin
+-  if GetBaseContainer(FindCustomContainerClass('T' + GetAncestorName)) &gt; 1 then // XxxBox
++  if GetBaseContainer(FindCustomContainerClass('T' + AncestorIdent)) &gt; 1 then // XxxBox
+     AddUnit := ', ccBoxes'
+   else
+     AddUnit := '';
+ 
+-  if IsBaseContainer(FindCustomContainerClass('T' + GetAncestorName)) = -1 then
+-    AddUnit := AddUnit + ', ' + GetCustomContainerUnit('T' + GetAncestorName)
+-  else
+-    AddUnit := AddUnit + '';
++  if IsBaseContainer(FindCustomContainerClass('T' + AncestorIdent)) = -1 then
++    AddUnit := AddUnit + ', ' + GetCustomContainerUnit('T' + AncestorIdent);
+ 
+   if CCWDialog.CCradio.ItemIndex = 1 then
+     Source := sCCSourceContainerReg
+   else
+-    if GetBaseContainer(FindCustomContainerClass('T' + GetAncestorName)) &lt; 2 then // Form or DataModule
++    if GetBaseContainer(FindCustomContainerClass('T' + AncestorIdent)) &lt; 2 then // Form or DataModule
+       Source := sCCSourceForm
+     else
+       Source := sCCSourceContainer;
+ 
+-  Source := StringReplace(Source, '%UnitIdent%', FUnitIdent, [rfReplaceAll]);
+-  Source := StringReplace(Source, '%AddUnit%', AddUnit, [rfReplaceAll]);
+-  Source := StringReplace(Source, '%ClassName%', FClassName, [rfReplaceAll]);
+-  Source := StringReplace(Source, '%FormName%', GetFormName, [rfReplaceAll]);
+-  Source := StringReplace(Source, '%AncestorName%', GetAncestorName, [rfReplaceAll]);
++  ReplaceWildcards(Source, ModuleIdent, FormIdent, AncestorIdent, AddUnit);
+ 
+   Result := TOTAFile.Create(Source);
+ end;
+ 
+-function TCCModuleCreator.NewIntfSource(const ModuleIdent, FormIdent,
+-  AncestorIdent: string): IOTAFile;
++function TCCModuleCreator.NewIntfSource(const ModuleIdent, FormIdent, AncestorIdent: string): IOTAFile;
+ begin
+   Result := nil;
+ end;
+
+Modified: utilities/ccpack/trunk/src/ccwizres.pas
+===================================================================
+--- utilities/ccpack/trunk/src/ccwizres.pas	2007-09-30 11:46:35 UTC (rev 224)
++++ utilities/ccpack/trunk/src/ccwizres.pas	2007-09-30 13:46:29 UTC (rev 225)
+@@ -28,91 +28,91 @@
+ 
+ resourcestring
+   sCCSourceContainerReg =
+-    'unit %UnitIdent%;'+#13#10+
++    'unit %UnitIdent%;'#13#10+
+     #13#10+
+-    'interface'+#13#10+
++    'interface'#13#10+
+     #13#10+
+-    'uses'+#13#10+
+-    '  Windows, Messages, SysUtils, Classes, Graphics, Controls,'+#13#10+
+-    '  Forms, Dialogs%AddUnit%;'+#13#10+
++    'uses'#13#10+
++    '  Windows, Messages, SysUtils, Classes, Graphics, Controls,'#13#10+
++    '  Forms, Dialogs%AddUnit%;'#13#10+
+     #13#10+
+-    'type'+#13#10+
+-    '  %ClassName% = class(T%AncestorName%)'+#13#10+
+-    '  private'+#13#10+
+-    '  protected'+#13#10+
+-    '  public'+#13#10+
+-    '  published'+#13#10+
+-    '  end;'+#13#10+
++    'type'#13#10+
++    '  %ClassName% = class(T%AncestorName%)'#13#10+
++    '  private'#13#10+
++    '  protected'#13#10+
++    '  public'#13#10+
++    '  published'#13#10+
++    '  end;'#13#10+
+     #13#10+
+-    'procedure Register;'+#13#10+
++    'procedure Register;'#13#10+
+     #13#10+
+-    'implementation'+#13#10+
++    'implementation'#13#10+
+     #13#10+
+-    'uses'+#13#10+
+-    '  CCReg;'+#13#10+
++    'uses'#13#10+
++    '  CCReg;'#13#10+
+     #13#10+
+-    'procedure Register;'+#13#10+
+-    'begin'+#13#10+
+-    '  RegisterCustomContainer(%ClassName%);'+#13#10+
+-    'end;'+#13#10+
++    'procedure Register;'#13#10+
++    'begin'#13#10+
++    '  RegisterCustomContainer(%ClassName%);'#13#10+
++    'end;'#13#10+
+     #13#10+
+-    'end.'+#13#10;
++    'end.'#13#10;
+ 
+   sCCSourceForm =
+-    'unit %UnitIdent%;'+#13#10+
++    'unit %UnitIdent%;'#13#10+
+     #13#10+
+-    'interface'+#13#10+
++    'interface'#13#10+
+     #13#10+
+-    'uses'+#13#10+
+-    '  Windows, Messages, SysUtils, Classes, Graphics, Controls,'+#13#10+
+-    '  Forms, Dialogs%AddUnit%;'+#13#10+
++    'uses'#13#10+
++    '  Windows, Messages, SysUtils, Classes, Graphics, Controls,'#13#10+
++    '  Forms, Dialogs%AddUnit%;'#13#10+
+     #13#10+
+-    'type'+#13#10+
+-    '  %ClassName% = class(T%AncestorName%)'+#13#10+
+-    '  private'+#13#10+
+-    '  protected'+#13#10+
+-    '  public'+#13#10+
+-    '  published'+#13#10+
+-    '  end;'+#13#10+
++    'type'#13#10+
++    '  %ClassName% = class(T%AncestorName%)'#13#10+
++    '  private'#13#10+
++    '  protected'#13#10+
++    '  public'#13#10+
++    '  published'#13#10+
++    '  end;'#13#10+
+     #13#10+
+-    'var'+#13#10+
+-    '  %FormName%: %ClassName%;'+#13#10+
++    'var'#13#10+
++    '  %FormName%: %ClassName%;'#13#10+
+     #13#10+
+-    'implementation'+#13#10+
++    'implementation'#13#10+
+     #13#10+
+-    '{$R *.DFM}'+#13#10+
++    '{$R *.DFM}'#13#10+
+     #13#10+
+-    'end.'+#13#10;
++    'end.'#13#10;
+ 
+   sCCSourceContainer =
+-    'unit %UnitIdent%;'+#13#10+
++    'unit %UnitIdent%;'#13#10+
+     #13#10+
+-    'interface'+#13#10+
++    'interface'#13#10+
+     #13#10+
+-    'uses'+#13#10+
+-    '  Windows, Messages, SysUtils, Classes, Graphics, Controls,'+#13#10+
+-    '  Forms, Dialogs%AddUnit%;'+#13#10+
++    'uses'#13#10+
++    '  Windows, Messages, SysUtils, Classes, Graphics, Controls,'#13#10+
++    '  Forms, Dialogs%AddUnit%;'#13#10+
+     #13#10+
+-    'type'+#13#10+
+-    '  %ClassName% = class(T%AncestorName%)'+#13#10+
+-    '  private'+#13#10+
+-    '  protected'+#13#10+
+-    '  public'+#13#10+
+-    '  published'+#13#10+
+-    '  end;'+#13#10+
++    'type'#13#10+
++    '  %ClassName% = class(T%AncestorName%)'#13#10+
++    '  private'#13#10+
++    '  protected'#13#10+
++    '  public'#13#10+
++    '  published'#13#10+
++    '  end;'#13#10+
+     #13#10+
+-    'procedure Register;'+#13#10+
++    'procedure Register;'#13#10+
+     #13#10+
+-    'implementation'+#13#10+
++    'implementation'#13#10+
+     #13#10+
+-    '{$R *.DFM}'+#13#10+
++    '{$R *.DFM}'#13#10+
+     #13#10+
+-    'procedure Register;'+#13#10+
+-    'begin'+#13#10+
+-    '  RegisterComponents(''Composites'', [%ClassName%]);'+#13#10+
+-    'end;'+#13#10+
++    'procedure Register;'#13#10+
++    'begin'#13#10+
++    '  RegisterComponents(''Composites'', [%ClassName%]);'#13#10+
++    'end;'#13#10+
+     #13#10+
+-    'end.'+#13#10;
++    'end.'#13#10;
+ 
+ implementation
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000094.html">[Dzchart-svncheckins] r224 - utilities/ccpack/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000096.html">[Dzchart-svncheckins] r226 - in utilities/ccpack/trunk: Delphi7	examples/CustomBox examples/CustomBox/Delphi7	examples/CustomBox/src examples/CustomFrame	examples/CustomFrame/Delphi7
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#95">[ date ]</a>
+              <a href="thread.html#95">[ thread ]</a>
+              <a href="subject.html#95">[ subject ]</a>
+              <a href="author.html#95">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

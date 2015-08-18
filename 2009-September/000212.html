@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r346 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r346%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251451.n8PEpuvn013940%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000211.html">
+   <LINK REL="Next"  HREF="000213.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r346 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r346%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251451.n8PEpuvn013940%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r346 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 16:51:56 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000211.html">[Dzchart-svncheckins] r345 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000213.html">[Dzchart-svncheckins] r347 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#212">[ date ]</a>
+              <a href="thread.html#212">[ thread ]</a>
+              <a href="subject.html#212">[ subject ]</a>
+              <a href="author.html#212">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 16:51:55 +0200 (Fri, 25 Sep 2009)
+New Revision: 346
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzShellApiUtils.pas
+Log:
+new methods
+ - GetCommonAppData / GetCommonAppDataDir
+ - GetLocalAppData / GetLocalAppDataDir
+ - GetAppData / GetAppDataDir
+
+Modified: utilities/dzLib/trunk/src/u_dzShellApiUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzShellApiUtils.pas	2009-09-25 14:50:50 UTC (rev 345)
++++ utilities/dzLib/trunk/src/u_dzShellApiUtils.pas	2009-09-25 14:51:55 UTC (rev 346)
+@@ -2,7 +2,7 @@
+ ///&lt;summary&gt; implements an object with utility functions regarding the ShellAPI &lt;/summary&gt;
+ unit u_dzShellApiUtils;
+ 
+-{$i jedi.inc}
++{$I jedi.inc}
+ 
+ interface
+ 
+@@ -46,10 +46,22 @@
+     ///&lt;summary&gt; returns the 'common files' folder &lt;/summary&gt;
+     function GetCommonFiles: string;
+     class function GetCommonFilesDir(_ApplicationHandle: THandle = 0): string;
+-    ///&lt;summary&gt; returngs the 'program files' folder &lt;/summary&gt;
++    ///&lt;summary&gt; returns the 'program files' folder &lt;/summary&gt;
+     function GetProgramFiles: string;
+     class function GetProgramFilesDir(_ApplicationHandle: THandle = 0): string;
++    ///&lt;summary&gt; @returns the 'common files\Application Data' folder &lt;/summary&gt;
++    function GetCommonAppData: string;
++    class function GetCommonAppDataDir(_ApplicationHandle: THandle = 0): string;
+ 
++    ///&lt;summary&gt; @returns the '&lt;home&gt;\Local Settings\Application Data' folder,
++    ///          or '' for oder Windows versions &lt;/summary&gt;
++    function GetLocalAppData: string;
++    class function GetLocalAppDataDir(_ApplicationHandle: THandle = 0): string;
++
++    ///&lt;summary&gt; @returns the '&lt;home&gt;\Application Data' folder &lt;/summary&gt;
++    function GetAppData: string;
++    class function GetAppDataDir(_ApplicationHandle: THandle = 0): string;
++
+     function GetSystem32: string;
+     class function GetSystem32Dir: string;
+ 
+@@ -77,12 +89,11 @@
+ begin
+   Result := 0;
+   Hdl := LoadLibrary('SHFOLDER.DLL');
+-  if Hdl &lt;&gt; 0 then
+-    begin
+-      @SHGetFolderPath := GetProcAddress(Hdl, 'SHGetFolderPathA');
+-      if @SHGetFolderPath &lt;&gt; nil then
+-        Result := Hdl;
+-    end;
++  if Hdl &lt;&gt; 0 then begin
++    @SHGetFolderPath := GetProcAddress(Hdl, 'SHGetFolderPathA');
++    if @SHGetFolderPath &lt;&gt; nil then
++      Result := Hdl;
++  end;
+ end;
+ 
+ function TWindowsShell.GetSpecialFolder(_CSIDL: Integer): string;
+@@ -94,18 +105,15 @@
+ begin
+   ZeroMemory(@Path, SizeOf(Path));
+   Hdl := LoadSHFolder(SHGetFolderPath);
+-  if Hdl &lt;&gt; 0 then
+-    begin
+-      if Succeeded(SHGetFolderPath(Application.Handle, _CSIDL, 0, SHGFP_TYPE_CURRENT, Path)) then
+-        Result := Path;
+-      FreeLibrary(Hdl);
+-    end
+-  else
+-    begin
+-      if Succeeded(SHGetspecialfolderLocation(Application.Handle, _CSIDL, PIdl)) then
+-        SHGetPathFromIDList(Pidl, Path);
++  if Hdl &lt;&gt; 0 then begin
++    if Succeeded(SHGetFolderPath(Application.Handle, _CSIDL, 0, SHGFP_TYPE_CURRENT, Path)) then
+       Result := Path;
+-    end;
++    FreeLibrary(Hdl);
++  end else begin
++    if Succeeded(SHGetspecialfolderLocation(Application.Handle, _CSIDL, PIdl)) then
++      SHGetPathFromIDList(Pidl, Path);
++    Result := Path;
++  end;
+ end;
+ 
+ { TWindowsShell }
+@@ -160,6 +168,36 @@
+   Result := GetSpecialFolder(CSIDL_MYPICTURES);
+ end;
+ 
++function TWindowsShell.GetAppData: string;
++begin
++  Result := GetSpecialFolder(CSIDL_APPDATA);
++end;
++
++class function TWindowsShell.GetAppDataDir(_ApplicationHandle: THandle): string;
++begin
++  with TWindowsShell.Create(_ApplicationHandle) do
++    try
++      Result := GetAppData;
++    finally
++      Free;
++    end;
++end;
++
++function TWindowsShell.GetCommonAppData: string;
++begin
++  Result := GetSpecialFolder(CSIDL_COMMON_APPDATA);
++end;
++
++class function TWindowsShell.GetCommonAppDataDir(_ApplicationHandle: THandle): string;
++begin
++  with TWindowsShell.Create(_ApplicationHandle) do
++    try
++      Result := GetCommonAppData;
++    finally
++      Free;
++    end;
++end;
++
+ function TWindowsShell.GetCommonFiles: string;
+ begin
+   Result := GetSpecialFolder(CSIDL_PROGRAM_FILES_COMMON);
+@@ -175,6 +213,21 @@
+     end;
+ end;
+ 
++function TWindowsShell.GetLocalAppData: string;
++begin
++  Result := GetSpecialFolder(CSIDL_LOCAL_APPDATA);
++end;
++
++class function TWindowsShell.GetLocalAppDataDir(_ApplicationHandle: THandle): string;
++begin
++  with TWindowsShell.Create(_ApplicationHandle) do
++    try
++      Result := GetLocalAppData;
++    finally
++      Free;
++    end;
++end;
++
+ function TWindowsShell.GetProgramFiles: string;
+ begin
+   Result := GetSpecialFolder(CSIDL_PROGRAM_FILES);
+@@ -235,18 +288,16 @@
+   GetSystemWindowsDirectoryA: TGetSystemWindowsDirectoryA;
+ begin
+   HModule := LoadLibrary(kernel32);
+-  if HModule = 0 then
+-    begin
++  if HModule = 0 then begin
++    Result := GetSysWindowsDir;
++    exit;
++  end;
++  try
++    GetSystemWindowsDirectoryA := GetProcAddress(HModule, 'GetSystemWindowsDirectoryA');
++    if not Assigned(GetSystemWindowsDirectoryA) then begin
+       Result := GetSysWindowsDir;
+       exit;
+     end;
+-  try
+-    GetSystemWindowsDirectoryA := GetProcAddress(HModule, 'GetSystemWindowsDirectoryA');
+-    if not Assigned(GetSystemWindowsDirectoryA) then
+-      begin
+-        Result := GetSysWindowsDir;
+-        exit;
+-      end;
+     SetLength(Result, MAX_PATH);
+     GetSystemWindowsDirectoryA(PChar(Result), Length(Result));
+     Result := PChar(Result);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000211.html">[Dzchart-svncheckins] r345 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000213.html">[Dzchart-svncheckins] r347 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#212">[ date ]</a>
+              <a href="thread.html#212">[ thread ]</a>
+              <a href="subject.html#212">[ subject ]</a>
+              <a href="author.html#212">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

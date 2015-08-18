@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r430 - utilities/dzPrepBuild/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r430%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201004111256.o3BCuaZG014286%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000290.html">
+   <LINK REL="Next"  HREF="000292.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r430 - utilities/dzPrepBuild/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r430%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201004111256.o3BCuaZG014286%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r430 - utilities/dzPrepBuild/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr 11 14:56:36 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000290.html">[Dzchart-svncheckins] r429 - utilities/dzPrepBuild/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000292.html">[Dzchart-svncheckins] r431 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#291">[ date ]</a>
+              <a href="thread.html#291">[ thread ]</a>
+              <a href="subject.html#291">[ subject ]</a>
+              <a href="author.html#291">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-04-11 14:56:34 +0200 (Sun, 11 Apr 2010)
+New Revision: 430
+
+Modified:
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/u_AbstractVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas
+Log:
+minor changes (reordered fields/properties, corrected comments)
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 12:02:50 UTC (rev 429)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 12:56:34 UTC (rev 430)
+@@ -1,4 +1,4 @@
+ [Version Info]
+-Build=143
+-FileVersion=1.1.0.143
++Build=144
++FileVersion=1.1.0.144
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2010-04-11 12:02:50 UTC (rev 429)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2010-04-11 12:56:34 UTC (rev 430)
+@@ -24,4 +24,7 @@
+ ProductName=PrepBuild
+ ProductVersion=2010-04-11
+ Comments=Use at your own risk
++SVNURL=<A HREF="https://twm@svn.berlios.de/svnroot/repos/dzchart/utilities/dzPrepBuild/trunk">https://twm@svn.berlios.de/svnroot/repos/dzchart/utilities/dzPrepBuild/trunk</A>
++SVNVersionRange=427:429
++SVNLocalModifications=no
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_AbstractVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_AbstractVersionInfo.pas	2010-04-11 12:02:50 UTC (rev 429)
++++ utilities/dzPrepBuild/trunk/src/u_AbstractVersionInfo.pas	2010-04-11 12:56:34 UTC (rev 430)
+@@ -9,18 +9,19 @@
+ type
+   TAbstractVersionInfo = class(TInterfacedObject)
+   private
++    FMajorVer: integer;
++    FMinorVer: integer;
++    FRelease: integer;
++    FBuild: integer;
++
+     FFileVersion: string;
+     FProductVersion: string;
+     FProductName: string;
+-    FMinorVer: integer;
+     FLegalTrademarks: string;
+-    FRelease: integer;
+     FLegalCopyright: string;
+-    FMajorVer: integer;
+     FCompanyName: string;
+     FAutoIncBuild: boolean;
+     FFileDescription: string;
+-    FBuild: integer;
+     FInternalName: string;
+     FOriginalFilename: string;
+     FComments: string;
+@@ -62,7 +63,12 @@
+     procedure UpdateFileVersion;
+     //
+     property AutoIncBuild: boolean read GetAutoIncBuild write SetAutoIncBuild;
++    //
++    property MajorVer: integer read GetMajorVer write SetMajorVer;
++    property MinorVer: integer read GetMinorVer write SetMinorVer;
++    property Release: integer read GetRelease write SetRelease;
+     property Build: integer read GetBuild write SetBuild;
++    //
+     property Comments: string read GetComments write SetComments;
+     property CompanyName: string read GetCompanyName write SetCompanyName;
+     property FileDescription: string read GetFileDescription write SetFileDescription;
+@@ -70,12 +76,9 @@
+     property InternalName: string read GetInternalName write SetInternalName;
+     property LegalCopyright: string read GetLegalCopyright write SetLegalCopyright;
+     property LegalTrademarks: string read GetLegalTrademarks write SetLegalTrademarks;
+-    property MajorVer: integer read GetMajorVer write SetMajorVer;
+-    property MinorVer: integer read GetMinorVer write SetMinorVer;
+     property OriginalFilename: string read GetOriginalFilename write SetOriginalFilename;
+     property ProductName: string read GetProductName write SetProductName;
+     property ProductVersion: string read GetProductVersion write SetProductVersion;
+-    property Release: integer read GetRelease write SetRelease;
+   end;
+ 
+ implementation
+@@ -83,7 +86,12 @@
+ procedure TAbstractVersionInfo.Assign(const _VersionInfo: IVersionInfo);
+ begin
+   AutoIncBuild := _VersionInfo.AutoIncBuild;
++
++  MajorVer := _VersionInfo.MajorVer;
++  MinorVer := _VersionInfo.MinorVer;
++  Release := _VersionInfo.Release;
+   Build := _VersionInfo.Build;
++
+   Comments := _VersionInfo.Comments;
+   CompanyName := _VersionInfo.CompanyName;
+   FileDescription := _VersionInfo.FileDescription;
+@@ -91,12 +99,9 @@
+   InternalName := _VersionInfo.InternalName;
+   LegalCopyright := _VersionInfo.LegalCopyright;
+   LegalTrademarks := _VersionInfo.LegalTrademarks;
+-  MajorVer := _VersionInfo.MajorVer;
+-  MinorVer := _VersionInfo.MinorVer;
+   OriginalFilename := _VersionInfo.OriginalFilename;
+   ProductName := _VersionInfo.ProductName;
+   ProductVersion := _VersionInfo.ProductVersion;
+-  Release := _VersionInfo.Release;
+ end;
+ 
+ function TAbstractVersionInfo.GetAutoIncBuild: boolean;
+
+Modified: utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas	2010-04-11 12:02:50 UTC (rev 429)
++++ utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas	2010-04-11 12:56:34 UTC (rev 430)
+@@ -9,7 +9,7 @@
+   u_IniVersionInfo;
+ 
+ type
+-  {: This is a specialized versoin of TIniVersionInfo which readds a
++  {: This is a specialized version of TIniVersionInfo which reads a
+      &lt;projectname&gt;.dof file, that was used by Delphi up to version 7. }
+   TDofVersionInfo = class(TIniVersionInfo, IVersionInfo)
+   private
+
+Modified: utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas	2010-04-11 12:02:50 UTC (rev 429)
++++ utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas	2010-04-11 12:56:34 UTC (rev 430)
+@@ -106,6 +106,10 @@
+ begin
+   AutoIncBuild := ReadBool(FInfoSection, 'AutoIncBuild', False);
+   Build := ReadInteger(FInfoSection, 'Build', 0);
++  MajorVer := ReadInteger(FInfoSection, 'MajorVer', 0);
++  MinorVer := ReadInteger(FInfoSection, 'MinorVer', 0);
++  Release := ReadInteger(FInfoSection, 'Release', 0);
++
+   Comments := ReadString(FInfoKeysSection, 'Comments', '');
+   CompanyName := ReadString(FInfoKeysSection, 'CompanyName', '');
+   FileDescription := ReadString(FInfoKeysSection, 'FileDescription', '');
+@@ -113,12 +117,9 @@
+   InternalName := ReadString(FInfoKeysSection, 'InternalName', '');
+   LegalCopyright := ReadString(FInfoKeysSection, 'LegalCopyright', '');
+   LegalTrademarks := ReadString(FInfoKeysSection, 'LegalTrademarks', '');
+-  MajorVer := ReadInteger(FInfoSection, 'MajorVer', 0);
+-  MinorVer := ReadInteger(FInfoSection, 'MinorVer', 0);
+   OriginalFilename := ReadString(FInfoKeysSection, 'OriginalFilename', '');
+   ProductName := ReadString(FInfoKeysSection, 'ProductName', '');
+   ProductVersion := ReadString(FInfoKeysSection, 'ProductVersion', '');
+-  Release := ReadInteger(FInfoSection, 'Release', 0);
+ end;
+ 
+ procedure TIniVersionInfo.WriteValues;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000290.html">[Dzchart-svncheckins] r429 - utilities/dzPrepBuild/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000292.html">[Dzchart-svncheckins] r431 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#291">[ date ]</a>
+              <a href="thread.html#291">[ thread ]</a>
+              <a href="subject.html#291">[ subject ]</a>
+              <a href="author.html#291">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r202 -	utilities/Delphi7Help4Bds/trunk/packages/Delphi2006
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r202%20-%0A%09utilities/Delphi7Help4Bds/trunk/packages/Delphi2006&In-Reply-To=%3C200708121247.l7CClvi1027435%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000075.html">
+   <LINK REL="Next"  HREF="000077.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r202 -	utilities/Delphi7Help4Bds/trunk/packages/Delphi2006</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r202%20-%0A%09utilities/Delphi7Help4Bds/trunk/packages/Delphi2006&In-Reply-To=%3C200708121247.l7CClvi1027435%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r202 -	utilities/Delphi7Help4Bds/trunk/packages/Delphi2006">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Aug 12 14:47:57 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000075.html">[Dzchart-svncheckins] r201 -	utilities/Delphi7Help4Bds/trunk/packages/Delphi2005
+</A></li>
+        <LI>Next message: <A HREF="000077.html">[Dzchart-svncheckins] r204 -	utilities/Delphi7Help4Bds/trunk/packages/Delphi2006
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#76">[ date ]</a>
+              <a href="thread.html#76">[ thread ]</a>
+              <a href="subject.html#76">[ subject ]</a>
+              <a href="author.html#76">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-08-12 14:45:33 +0200 (Sun, 12 Aug 2007)
+New Revision: 202
+
+Modified:
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj
+   utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk
+Log:
+adapted to new directory structure
+
+
+Property changes on: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006
+___________________________________________________________________
+Name: svn:ignore
+   + Delphi7HelpForBdsExpert.cfg
+Delphi7HelpForBdsExpert.res
+
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 11:36:05 UTC (rev 201)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.bdsproj	2007-08-12 12:45:33 UTC (rev 202)
+@@ -120,7 +120,7 @@
+ 		&lt;/Linker&gt;
+ 		&lt;Directories&gt;
+ 			&lt;Directories Name=&quot;OutputDir&quot;&gt;&lt;/Directories&gt;
+-			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\..\dcu&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;&lt;/Directories&gt;
+ 			&lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
+@@ -150,7 +150,7 @@
+ 			&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
+-			&lt;VersionInfo Name=&quot;Build&quot;&gt;60&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Build&quot;&gt;61&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
+ 			&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
+@@ -162,7 +162,7 @@
+ 		&lt;VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;www.dummzeuch.de&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;Delphi 7 help for BDS expert&lt;/VersionInfoKeys&gt;
+-			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.60&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.61&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;Delphi 7 help for BDS expert&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2006 Thomas Mueller&lt;/VersionInfoKeys&gt;
+ 			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
+
+Modified: utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk
+===================================================================
+--- utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk	2007-08-12 11:36:05 UTC (rev 201)
++++ utilities/Delphi7Help4Bds/trunk/packages/Delphi2006/Delphi7HelpForBdsExpert.dpk	2007-08-12 12:45:33 UTC (rev 202)
+@@ -31,7 +31,7 @@
+   designide;
+ 
+ contains
+-  u_Delphi7HelpForBds in 'u_Delphi7HelpForBds.pas',
+-  w_Delphi7HelpForBds in 'w_Delphi7HelpForBds.pas' {f_Delphi7HelpForBds};
++  u_Delphi7HelpForBds in '..\..\src\u_Delphi7HelpForBds.pas',
++  w_Delphi7HelpForBds in '..\..\src\w_Delphi7HelpForBds.pas' {f_Delphi7HelpForBds};
+ 
+ end.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000075.html">[Dzchart-svncheckins] r201 -	utilities/Delphi7Help4Bds/trunk/packages/Delphi2005
+</A></li>
+	<LI>Next message: <A HREF="000077.html">[Dzchart-svncheckins] r204 -	utilities/Delphi7Help4Bds/trunk/packages/Delphi2006
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#76">[ date ]</a>
+              <a href="thread.html#76">[ thread ]</a>
+              <a href="subject.html#76">[ subject ]</a>
+              <a href="author.html#76">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

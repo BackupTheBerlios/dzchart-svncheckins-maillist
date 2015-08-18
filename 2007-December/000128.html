@@ -1,0 +1,531 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r259 - in utilities/dzLib/trunk: src tests	tests/dcu tests/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r259%20-%20in%20utilities/dzLib/trunk%3A%20src%20tests%0A%09tests/dcu%20tests/src&In-Reply-To=%3C200712212136.lBLLaT8H027554%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000127.html">
+   <LINK REL="Next"  HREF="000129.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r259 - in utilities/dzLib/trunk: src tests	tests/dcu tests/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r259%20-%20in%20utilities/dzLib/trunk%3A%20src%20tests%0A%09tests/dcu%20tests/src&In-Reply-To=%3C200712212136.lBLLaT8H027554%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r259 - in utilities/dzLib/trunk: src tests	tests/dcu tests/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Dec 21 22:36:29 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000127.html">[Dzchart-svncheckins] r258 - in utilities/dzLib/trunk: . tests	tests/dzconvertutils tests/dzfileutils tests/src
+</A></li>
+        <LI>Next message: <A HREF="000129.html">[Dzchart-svncheckins] r260 - in utilities/dzLib/trunk: src tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-12-21 22:36:26 +0100 (Fri, 21 Dec 2007)
+New Revision: 259
+
+Removed:
+   utilities/dzLib/trunk/tests/dzconvertutils/
+   utilities/dzLib/trunk/tests/dzfileutils/
+Modified:
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/tests/dcu/
+   utilities/dzLib/trunk/tests/src/
+   utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas
+Log:
+* added more /// comments
+* deprecated TFileSystem.DelTree because it had an order of arguments that is inconsistent with the other methods. Replaced by DelDirTree which is consistent
+* TFileSystem.BackupFile is now a function that returns the name of the created backup file
+* corrected unit test for TFileSystem.MoveFileWithProgress. Since the test was using a file that could be moved by renaming it rather than copying/deleting the callback function is never called and therefore cannot cancel the operation. So the test actually succeeded all the time while I thought it failed.
+* deleted unused subdirs dzconvertutils and dzfileutils
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-12-16 15:42:58 UTC (rev 258)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-12-21 21:36:26 UTC (rev 259)
+@@ -139,8 +139,20 @@
+ /// &lt;/summary&gt;
+ function isNumberN(const _s: string; _Base: TBaseN): integer;
+ 
++/// &lt;summary&gt;
++/// Converts a string of the form '-hh:mm:ss', 'hh:mm:ss',
++/// '+hh:mm:ss', 'mm:ss' or 'ss' to a number of seconds.
++/// &lt;/summary&gt;
+ function TimeStrToSeconds(const _Zeit: string): integer;
++/// &lt;summary&gt;
++/// deprecated, use SecondsToTimeStr instead
++/// &lt;/summary&gt;
+ function SecondsToStr(_Seconds: integer): string; deprecated;
++/// &lt;summary&gt;
++/// Converts a number of seconds to a string of the form
++/// 'hh:mm:ss'. The string will always contain hours and minutes
++/// even if Seconds &lt; 60.
++/// &lt;/summary&gt;
+ function SecondsToTimeStr(_Seconds: integer): string;
+ {$IFDEF Delphi7up}
+ function TimeToSeconds(_Zeit: TDateTime): integer; deprecated;
+@@ -221,6 +233,14 @@
+ /// @returns true, if s could be converted, false otherwise }
+ /// &lt;/summary&gt;
+ function TryStr2Float(_s: string; out _flt: extended; _DecSeparator: char = '.'): boolean; overload;
++/// &lt;summary&gt;
++/// tries to convert a string to a float, returns false if it fails
++/// @param s is the string to convert
++/// @param flt is the float, only valid if the function returns true
++/// @param DecSeparator is the decimal separator to use, defaults to '.',
++///        if passed as #0, GuessDecimalSeparator is called to guess it
++/// @returns true, if s could be converted, false otherwise }
++/// &lt;/summary&gt;
+ function TryStr2Float(_s: string; out _flt: double; _DecSeparator: char = '.'): boolean; overload;
+ 
+ /// &lt;summary&gt;
+@@ -252,6 +272,12 @@
+ /// &lt;/summary&gt;
+ function Float2Str(_flt: extended; _Decimals: integer): string; overload;
+ 
++/// &lt;summary&gt;
++/// Tries to round a floating point value to a word value
++/// @param flt is the value to convert
++/// @param wrd returns the word value, only valid if result = true
++/// @returns true, if the result can be stored i a word, false otherwise.
++/// &lt;/summary&gt;
+ function TryRound(_flt: extended; out _wrd: word): boolean;
+ 
+ /// &lt;summary&gt;
+@@ -286,9 +312,12 @@
+ function SecondsToHumanReadableString(_Seconds: Int64): string;
+ 
+ /// &lt;summary&gt;
++/// returns the default locale settings as read from the user's regional settings }
++/// &lt;/summary&gt;
++function GetUserDefaultLocaleSettings: TFormatSettings;
++/// &lt;summary&gt;
+ /// returns the default locale settings as read from the system's regional settings }
+ /// &lt;/summary&gt;
+-function GetUserDefaultLocaleSettings: TFormatSettings;
+ function GetSystemDefaultLocaleSettings: TFormatSettings;
+ 
+ implementation
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-12-16 15:42:58 UTC (rev 258)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-12-21 21:36:26 UTC (rev 259)
+@@ -70,7 +70,7 @@
+     /// MustHaveAttr is set to [] and MayHaveAttr is set to include all possible
+     /// attributes, so calling FindNext will find any files or subdirectories,
+     /// but the special '.' and '..' directories
+-    /// @param(Mask is the file search mask)
++    /// @param Mask is the file search mask
+     /// &lt;/summary&gt;
+     constructor Create(const _Mask: string);
+     /// &lt;summary&gt;
+@@ -94,7 +94,7 @@
+     /// calls. If it returns true, use the SR property to get information about
+     /// the file. See the overloaded @link(FindNext) version if you need only
+     /// the filename.
+-    /// @Returns(true, if a matching file was found, false otherwise)
++    /// @Returns true, if a matching file was found, false otherwise
+     /// &lt;/summary&gt;
+     function FindNext: boolean; overload;
+     /// &lt;summary&gt;
+@@ -110,6 +110,7 @@
+     /// properties (e.g. Mask, MustHaveAttr, MayHaveAttr)
+     /// &lt;/summary&gt;
+     procedure Reset;
++    /// &lt;summary&gt;
+     /// Returns the number of matches so far, that is the number of successful
+     /// calls to FindNext
+     /// &lt;/summary&gt;
+@@ -145,16 +146,16 @@
+     /// possible return values for the callback function
+     /// &lt;/summary&gt;
+     TProgressResult = (
+-      prContinue, /// &lt; continue with the copy/move operation
+-      prCancel,   /// &lt; cancel the operation, cannot be resumed
+-      prStop,     /// &lt; stop the operation, can be resumed, if cfwRestartable was passed
+-      prQuiet);   /// &lt; continue the operation, do not call the callback
++      prContinue, // continue with the copy/move operation
++      prCancel,   // cancel the operation, cannot be resumed
++      prStop,     // stop the operation, can be resumed, if cfwRestartable was passed
++      prQuiet);   // continue the operation, do not call the callback
+     /// &lt;summary&gt;
+     /// reason for calling the callback function
+     /// &lt;/summary&gt;
+     TProgressReason = (
+-      prChunkFinished, /// &lt; a chunk of the file has been copied
+-      prStreamSwitch); /// &lt; started to copy a new stream (set in the first callback)
++      prChunkFinished, // a chunk of the file has been copied
++      prStreamSwitch); // started to copy a new stream (set in the first callback)
+   {*)}
+   protected
+     FTotalFileSize: LARGE_INTEGER;
+@@ -349,6 +350,7 @@
+     /// @returns a string with the TEMP directory
+     /// &lt;/summary&gt;
+     class function GetTempPath: string;
++
+     /// &lt;summary&gt;
+     /// Moves the file Source to Dest using the Windows MoveFile function.
+     /// @param Source is a string containing the name of the existing file
+@@ -360,6 +362,7 @@
+     /// @returns true, if the file could be moved, false otherwise.
+     /// &lt;/summary&gt;
+     class function MoveFile(const _Source, _Dest: string; _RaiseException: boolean = true): boolean;
++
+     /// &lt;summary&gt;
+     /// Copies the file Source to Dest using the Windows CopyFile function.
+     /// @param Source is a string containing the name of the existing file
+@@ -373,61 +376,67 @@
+     /// @param ForceOverwrite is a boolean which controls whether the function removes
+     ///        a read-only flag from the destination file if necessary.
+     /// @returns true, if the file could be copied, false otherwise.
++    /// @raises  EOSError if an error occurs and cfwRaiseException was passed
+     /// &lt;/summary&gt;
+     class function CopyFile(const _Source, _Dest: string; _FailIfExists: boolean = true;
+       _RaiseException: boolean = true; _ForceOverwrite: boolean = false): boolean; overload;
++
+     /// &lt;summary&gt;
+     /// Copies the file Source to Dest using the Windows CopyFile function.
+-    /// @param(Source is a string containing the name of the existing file)
+-    /// @param(Dest is a string containing the destination file name)
+-    /// @param(Flags is a set of TCopyFileFlags specifying whether the copy operation
++    /// @param Source is a string containing the name of the existing file
++    /// @param Dest is a string containing the destination file name
++    /// @param Flags is a set of TCopyFileFlags specifying whether the copy operation
+     ///        cfFailIfExists: fail if the destination file already exists.
+     ///        cfForceOverwrite: remove a read-only flag from the destination file if necessary.
+     ///        cfRaiseException: retrieve the Windows error and raise an exception if it fails.
+     ///          If not set, it will not raise an exception but just return false if
+-    ///          copying the file fails.)
+-    /// @returns(true, if the file could be copied, false otherwise.)
++    ///          copying the file fails.
++    /// @returns true, if the file could be copied, false otherwise.
++    /// @raises  EOSError if an error occurs and cfwRaiseException was passed
+     /// &lt;/summary&gt;
+     class function CopyFile(const _Source, _Dest: string;
+       _Flags: TCopyFileFlagSet = [cfRaiseException]): boolean; overload;
++
+     /// &lt;summary&gt;
+     /// Copies the file Source to Dest using the Windows CopyFileEx function which
+     /// allows for a progress callback
+-    /// @param(Source is a string containing the name of the existing file)
+-    /// @param(Dest is a string containing the destination file name)
+-    /// @param(Flags is a set of TCopyFileWithProgressFlags specifying whether the copy operation
++    /// @param Source is a string containing the name of the existing file
++    /// @param Dest is a string containing the destination file name
++    /// @param Flags is a set of TCopyFileWithProgressFlags specifying whether the copy operation
+     ///        cfwFailIfExists: fail if the destination file already exists.
+     ///        cfwRestartable: stores information in the destination file that allows
+     ///          to restart a stopped copy operation
+     ///        cfwRaiseException: retrieve the Windows error and raise an exception if it fails.
+     ///          If not set, it will not raise an exception but just return cfwAborted
+-    ///          or cfwError if copying the file fails. (set by default))
++    ///          or cfwError if copying the file fails. (set by default)
+     /// @returns cfeOK, if the copying succeeds, cfeAborted if the copying was aborted or
+     ///          stopped in the callback function and cfeError on any other error.
+     /// @raises  EOSError if an error occurs and cfwRaiseException was passed
+     /// &lt;/summary&gt;
+     class function CopyFileWithProgress(const _Source, _Dest: string; _Progress: TCopyFileProgressEvt;
+       _Flags: TCopyFileWithProgressFlagSet = [cfwRaiseException]): TCopyFileWithProgressResult;
++
+     /// &lt;summary&gt;
+     /// Copies the file Source to Dest using the Windows MoveFileWithProgress function which
+     /// allows for a progress callback
+     /// NOTE: If the file can be moved rather than copied, no call to the callback
+     ///       function will occur!
+-    /// @param(Source is a string containing the name of the existing file)
+-    /// @param(Dest is a string containing the destination file name)
+-    /// @param(Flags is a set of TCopyFileWithProgressFlags specifying whether the copy operation
++    /// @param Source is a string containing the name of the existing file
++    /// @param Dest is a string containing the destination file name
++    /// @param Flags is a set of TCopyFileWithProgressFlags specifying whether the copy operation
+     ///        cfwFailIfExists: fail if the destination file already exists.
+     ///        cfwRestartable: stores information in the destination file that allows
+     ///          to restart a stopped copy operation
+     ///        cfwRaiseException: retrieve the Windows error and raise an exception if it fails.
+     ///          If not set, it will not raise an exception but just return cfwAborted
+-    ///          or cfwError if copying the file fails. (set by default))
++    ///          or cfwError if copying the file fails. (set by default)
+     /// @returns cfeOK, if the copying succeeds, cfeAborted if the copying was aborted or
+     ///          stopped in the callback function and cfeError on any other error.
+     /// @raises  EOSError if an error occurs and cfwRaiseException was passed
+     /// &lt;/summary&gt;
+     class function MoveFileWithProgress(const _Source, _Dest: string; _Progress: TCopyFileProgressEvt;
+       _Flags: TMoveFileWithProgressFlagSet = [mfwRaiseException]): TCopyFileWithProgressResult;
++
+     /// &lt;summary&gt;
+     /// Creates a directory (parent directories must already exist)
+     /// @param DirectoryName is the name for the new directory
+@@ -436,6 +445,7 @@
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+     class function CreateDir(const _DirectoryName: string; _RaiseException: boolean = true): boolean;
++
+     /// &lt;summary&gt;
+     /// Creates a new directory, including the creation of parent directories as needed.
+     /// @param DirectoryPath is the name for the new directory
+@@ -444,25 +454,32 @@
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+     class function ForceDir(const _DirectoryPath: string; _RaiseException: boolean = true): boolean;
++
+     /// &lt;summary&gt;
+     /// Sets a file's readonly flag
+     /// @param Filename is the file to change
+     /// @param Set determines whether to set or clear the flag
++    /// @returns true, if the readonly flag has been changed
++    /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+     class function SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
++
+     /// &lt;summary&gt;
+     /// Deletes the file using the SysUtils.DeleteFile function.
+     /// @param Filename is a string containing the name of the file
+     /// @param RaiseException is a boolean which controls whether the function
+     ///        retrieves the Windows error and raises an exception
+     ///        if it fails. If false, it will not raise an exception
+-    ///        but just return false if moving the file fails. 
++    ///        but just return false if moving the file fails.
+     /// @param Force is a boolean which controls whether this function will try to delete
+     ///        readonly files, If true, it will use SetFileAttr to reset the
+     ///        readonly attribut and try to delete the file again.
+     /// @returns true, if the file could be deleted, false otherwise.
++    /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+-    class function DeleteFile(const _Filename: string; _RaiseException: boolean = true; _Force: boolean = false): boolean;
++    class function DeleteFile(const _Filename: string; _RaiseException: boolean = true;
++      _Force: boolean = false): boolean;
++
+     /// &lt;summary&gt;
+     /// Deletes all files in a directory matching a given filemask (non-recursive)
+     /// @param Dir is a string containting the directory in which the files are to be
+@@ -477,9 +494,11 @@
+     ///              readonly files, If true, it will use SetFileAttr to reset the
+     ///              readonly attribut and try to delete the file again.
+     /// @returns the number of files that could not be deleted.
++    /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+     class function DeleteMatchingFiles(const _Dir, _Mask: string;
+       _RaiseException: boolean = true; _Force: boolean = false): integer;
++
+     /// &lt;summary&gt;
+     /// tries to find a matching file
+     /// @param Mask is the filename mask to match
+@@ -488,20 +507,53 @@
+     ///          describing the type of the file which has been found
+     /// &lt;/summary&gt;
+     class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
++
++    /// &lt;summary&gt;
++    /// deletes an empty directory using the SysUtils function RemoveDir
++    /// The function will fail if the directory is not empty.
++    /// @param DirName is the name of the directory to delete
++    /// @param RaiseExceptin is a boolean which controls whether the function
++    ///                      retrieves the Windows error and raises an exception
++    ///                      if it fails. If false, it will not raise an exception
++    ///                      but just return false if deleting the directory fails.
++    /// @param Force is a boolean which controls whether this function will try to delete
++    ///              readonly directories, If true, it will use SetFileAttr to reset the
++    ///              readonly attribut and try to delete the directory again.
++    /// @returns true, if the directory could be deleted, false otherwise.
++    /// @raises EOSError if there was an error and RaiseException was true
++    /// &lt;/summary&gt;
+     class function RemoveDir(const _Dirname: string; _RaiseException: boolean = true;
+       _Force: boolean = false): boolean;
++
+     /// &lt;summary&gt;
++    /// function is deprecated, use DelDirTree instead!
++    /// Note the different order of parameters of the new function!
++    /// &lt;/summary&gt;
++    class function DelTree(const _Dirname: string; _Force: boolean = false;
++      _RaiseException: boolean = true): boolean; deprecated;
++    /// &lt;summary&gt;
+     /// Deletes a directory with all files and subdirectories.
+-    /// @param(Dirname is the name of the directory to delete)
+-    /// @param(Force specifies whether it should also delete readonly files)
++    /// Note: This new function has a different order of parameters than
++    ///       the old DelTree function.
++    /// @param Dirname is the name of the directory to delete
++    /// @param RaiseExceptin is a boolean which controls whether the function
++    ///                      retrieves the Windows error and raises an exception
++    ///                      if it fails. If false, it will not raise an exception
++    ///                      but just return false if deleting the directory fails.
++    /// @param Force specifies whether it should also delete readonly files
++    /// @returns true, if the directory could be deleted, false otherwise.
++    /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+-    class function DelTree(const _Dirname: string; _Force: boolean = false; _RaiseException: boolean = true): boolean;
++    class function DelDirTree(const _Dirname: string; _RaiseException: boolean = true;
++      _Force: boolean = false): boolean;
++
+     /// &lt;summary&gt;
+     /// reads a text file and returns its content as a string
+     /// @param Filename is the name of the file to read
+     /// @returns the file's content as a string
+     /// &lt;/summary&gt;
+     class function ReadTextFile(const _Filename: string): string;
++
+     /// &lt;summary&gt;
+     /// checks whether the given string is a valid filename (without path), that is
+     /// does not contain one of the characters defined in INVALID_FILENAME_CHARS
+@@ -518,15 +570,23 @@
+     /// @returns true, if the string is a valid filename, false otherwise
+     /// &lt;/summary&gt;
+     class function IsValidFilename(const _s: string; out _ErrPos: integer): boolean; overload;
++
+     /// &lt;summary&gt;
+     /// creates a backup of the file appending the current date and time to the base
+-    /// file name.
++    /// file name. See also TFileGenerationHandler.
+     /// @param Filename is the name of the file to back up
+     /// @param BackupDir is a directory in which to create the backup file, if empty
+     ///                  the same directory as the original file is used
++    /// @returns the full filename of the created backup file
+     /// &lt;/summary&gt;
+-    class procedure BackupFile(const _Filename: string; _BackupDir: string = '');
++    class function BackupFile(const _Filename: string; _BackupDir: string = ''): string;
++
++    /// &lt;summary&gt;
++    /// @returns a TFileInfoRec containing the filename, filesize and last access
++    ///          timestamp of the file
++    /// &lt;/summary&gt;
+     class function GetFileInfo(const _Filename: string): TFileInfoRec;
++
+     /// &lt;summary&gt;
+     /// Returns the free space (in bytes) on the disk with the given drive letter
+     /// &lt;/summary&gt;
+@@ -540,7 +600,7 @@
+   TOnGenerateFilename = procedure(_Sender: TObject; _Generation: integer; var _Filename: string) of object;
+ type
+   /// &lt;summary&gt;
+-  /// This class handles keeping gernations of files, e.g. log files. The default
++  /// This class handles keeping generations of files, e.g. log files. The default
+   /// is to keep 10 generations
+   /// &lt;/summary&gt;
+   TFileGenerationHandler = class
+@@ -558,7 +618,8 @@
+     /// @param BaseName is the base filename to which by default _&lt;n&gt; followed by
+     ///                 the Suffix will be appended
+     /// @param Suffix is the suffix for the filename, usually an extension which
+-    ///               must include the dot (.)
++    ///               must include the dot (.), but it is also possible to pass
++    ///               an arbitrary string like '_backup'.
+     /// &lt;/summary&gt;
+     constructor Create(const _BaseName, _Suffix: string);
+     /// &lt;summary&gt;
+@@ -925,7 +986,7 @@
+   end;
+ end;
+ 
+-class procedure TFileSystem.BackupFile(const _Filename: string; _BackupDir: string = '');
++class function TFileSystem.BackupFile(const _Filename: string; _BackupDir: string = ''): string;
+ var
+   Ext: string;
+   FilenameOnly: string;
+@@ -937,7 +998,8 @@
+   FilenameOnly := ExtractFileName(_Filename);
+   Ext := ExtractFileExt(FilenameOnly);
+   Base := ChangeFileExt(FilenameOnly, '');
+-  CopyFile(_Filename, _BackupDir + Base + '_' + ReplaceChars(DateTime2Iso(now, true), ': ', '-_') + Ext, true);
++  Result := _BackupDir + Base + '_' + ReplaceChars(DateTime2Iso(now, true), ': ', '-_') + Ext;
++  CopyFile(_Filename, Result, true);
+ end;
+ 
+ class function TFileSystem.CopyFile(const _Source, _Dest: string; _Flags: TCopyFileFlagSet): boolean;
+@@ -1179,6 +1241,12 @@
+ end;
+ 
+ class function TFileSystem.DelTree(const _Dirname: string; _Force: boolean = false; _RaiseException: boolean = true): boolean;
++begin
++  Result := DelDirTree(_Dirname, _RaiseException, _Force);
++end;
++
++class function TFileSystem.DelDirTree(const _Dirname: string; _RaiseException,
++  _Force: boolean): boolean;
+ var
+   sr: TSearchRec;
+   Filename: string;
+
+
+Property changes on: utilities/dzLib/trunk/tests/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+
+Property changes on: utilities/dzLib/trunk/tests/src
+___________________________________________________________________
+Name: svn:ignore
+   + DUnitTests_dzLib.res
+
+
+Modified: utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas	2007-12-16 15:42:58 UTC (rev 258)
++++ utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas	2007-12-21 21:36:26 UTC (rev 259)
+@@ -173,7 +173,7 @@
+ 
+ procedure TFileSystemTestCase.TearDown;
+ begin
+-  TFileSystem.DelTree(FTestDir);
++  TFileSystem.DelDirTree(FTestDir);
+   inherited;
+ end;
+ 
+@@ -232,8 +232,11 @@
+   Res: TFileSystem.TCopyFileWithProgressResult;
+ begin
+   Res := TFileSystem.MoveFileWithProgress(FSourceFile, FDestFile, ProgressCancel, []);
+-  Check(Res = cfwOK, 'aborted expected');
+-  CheckFalse(FileExists(FDestFile), 'destination file exists');
++  // Note: This move operation does not get cancelled because the file can be
++  // renamed rather than copied and deleted. In that case the callback function
++  // is never being called.
++  Check(Res = cfwOK, 'OK expected');
++  CheckTrue(FileExists(FDestFile), 'destination file exists');
+ end;
+ 
+ procedure TestTFileSystem.TestCopyFileWithProgressCancel;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000127.html">[Dzchart-svncheckins] r258 - in utilities/dzLib/trunk: . tests	tests/dzconvertutils tests/dzfileutils tests/src
+</A></li>
+	<LI>Next message: <A HREF="000129.html">[Dzchart-svncheckins] r260 - in utilities/dzLib/trunk: src tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

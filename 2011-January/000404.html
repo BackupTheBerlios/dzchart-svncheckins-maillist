@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r546 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r546%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110129113306.7B8A3480F6B%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000403.html">
+   <LINK REL="Next"  HREF="000405.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r546 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r546%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110129113306.7B8A3480F6B%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r546 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jan 29 12:33:06 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000403.html">[Dzchart-svncheckins] r545 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000405.html">[Dzchart-svncheckins] r547 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#404">[ date ]</a>
+              <a href="thread.html#404">[ thread ]</a>
+              <a href="subject.html#404">[ subject ]</a>
+              <a href="author.html#404">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-01-29 12:33:06 +0100 (Sat, 29 Jan 2011)
+New Revision: 546
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+* Bugfix TFilesystem.RemoveFileExtFull did not work correctly with filenames without extensions
+* new class functions TFilesystem.GetVolumeName, .GetRemoteVolumeName and .GetLocalVolumeNames
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-01-29 11:31:30 UTC (rev 545)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-01-29 11:33:06 UTC (rev 546)
+@@ -676,6 +676,9 @@
+     /// Returns the free space (in bytes) on the disk with the given drive letter
+     /// &lt;/summary&gt;
+     class function DiskFree(_DriveLetter: AnsiChar): Int64;
++    class function GetVolumeName(_DriveLetter: AnsiChar): string;
++    class function GetRemoteVolumeName(const _Share: string): string;
++    class procedure GetLocalVolumeNames(_sl: TStrings; _HdOnly: boolean = False; _IgnoreEmpty: Boolean = True);
+ 
+     ///&lt;summary&gt; changes the &quot;full&quot; file extension where &quot;full&quot; means it handles multiple
+     ///          extensions like .doc.exe &lt;/summary&gt;
+@@ -930,6 +933,60 @@
+   SetLength(Result, Res);
+ end;
+ 
++// declared wrongly in WINDOWS
++
++function GetVolumeInformation(lpRootPathName: PChar;
++  lpVolumeNameBuffer: PChar; nVolumeNameSize: DWORD; lpVolumeSerialNumber: PDWORD;
++  lpMaximumComponentLength, lpFileSystemFlags: LPDWORD;
++  lpFileSystemNameBuffer: PChar; nFileSystemNameSize: DWORD): BOOL; stdcall; external kernel32 name 'GetVolumeInformationA';
++
++class function TFileSystem.GetVolumeName(_DriveLetter: AnsiChar): string;
++begin
++  Result := GetRemoteVolumeName(_DriveLetter + ':\');
++end;
++
++class function TFileSystem.GetRemoteVolumeName(const _Share: string): string;
++var
++  Res: LongBool;
++begin
++  SetLength(Result, MAX_PATH + 1);
++  Res := GetVolumeInformation(PChar(itpd(_Share)), PChar(Result), Length(Result), nil, nil, nil, nil, 0);
++  if Res then begin
++    Result := PChar(Result);
++  end else
++    Result := '';
++end;
++
++class procedure TFileSystem.GetLocalVolumeNames(_sl: TStrings; _HdOnly: boolean = False; _IgnoreEmpty: Boolean = True);
++type
++  TDriveType = (dtUnknown, dtNoDrive, dtFloppy, dtFixed, dtNetwork, dtCDROM, dtRAM);
++var
++  DriveBits: set of 0..25;
++  DriveNum: Integer;
++  DriveChar: Char;
++  DriveType: TDriveType;
++  s: string;
++begin
++  Integer(DriveBits) := Windows.GetLogicalDrives;
++  for DriveNum := 0 to 25 do begin
++    if not (DriveNum in DriveBits) then
++      Continue;
++    DriveChar := Char(DriveNum + Ord('a'));
++    DriveType := TDriveType(Windows.GetDriveType(PChar(DriveChar + ':\')));
++    if not _HdOnly or (DriveType = dtFixed) then begin
++      s := GetVolumeName(DriveChar);
++      if s &lt;&gt; '' then begin
++        _sl.AddObject(s, Pointer(DriveNum));
++      end else begin
++        if not _IgnoreEmpty then begin
++          s := _('&lt;no volume name&gt;');
++          _sl.AddObject(s, Pointer(DriveNum));
++        end;
++      end;
++    end;
++  end;
++end;
++
+ class function TFileSystem.CreateDir(const _DirectoryName: string;
+   _RaiseException: boolean = true): boolean;
+ var
+@@ -1646,7 +1703,7 @@
+   fn := ExtractFileName(_Filename);
+   p := Pos('.', fn);
+   if p = 0 then
+-    Result := ''
++    Result := fn
+   else
+     Result := LeftStr(fn, p - 1);
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000403.html">[Dzchart-svncheckins] r545 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000405.html">[Dzchart-svncheckins] r547 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#404">[ date ]</a>
+              <a href="thread.html#404">[ thread ]</a>
+              <a href="subject.html#404">[ subject ]</a>
+              <a href="author.html#404">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,397 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r231 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r231%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200711011406.lA1E62aR013419%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000100.html">
+   <LINK REL="Next"  HREF="000102.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r231 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r231%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200711011406.lA1E62aR013419%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r231 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Nov  1 15:06:02 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000100.html">[Dzchart-svncheckins] r230 - in utilities/dzPrepBuild/trunk: .	buildtools src
+</A></li>
+        <LI>Next message: <A HREF="000102.html">[Dzchart-svncheckins] r233 - in utilities/dzCmdLineParser/trunk: .	src tests
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#101">[ date ]</a>
+              <a href="thread.html#101">[ thread ]</a>
+              <a href="subject.html#101">[ subject ]</a>
+              <a href="author.html#101">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-11-01 15:05:57 +0100 (Thu, 01 Nov 2007)
+New Revision: 231
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/src/u_dzTranslator.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* u_dzConvertUtils: added OneKibiByte constant and friends
+* u_dzConvertUtils: added FileSizeToHumanReadableString
+* u_dzConvertUtils: added SecondsToHumanReadableString
+* extended TDirectorySync
+* added cond. NO_TRANSLATION_HINT to u_dzTranslator, so you can now get rid of the hint if you don't want any translation
+* u_VclUtils: Added 3 overloaded TListBox_DeleteSelected functions
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-11-01 13:52:18 UTC (rev 230)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2007-11-01 14:05:57 UTC (rev 231)
+@@ -185,31 +185,6 @@
+    @returns a string representation of the floating point value }
+ function Float2Str(_flt: extended; _Decimals: integer): string; overload;
+ 
+-// these contants refer to the &quot;Xx binary byte&quot; units as defined by the
+-// International Electronical Commission (IEC) and endorsed by the
+-// IEE and CiPM
+-const
+-  OneKibiByte = Int64(1024);
+-  OneMebiByte = Int64(1024) * OneKibiByte;
+-  OneGibiByte = Int64(1024) * OneMebiByte;
+-  OneTebiByte = Int64(1024) * OneGibiByte;
+-  OnePebiByte = Int64(1024) * OneTebiByte;
+-  OneExbiByte = Int64(1024) * OnePebiByte;
+-
+-{: Converts a file size to a human readable string, e.g. 536870912000 = 5.00 GiB (gibibyte) }
+-function FileSizeToHumanReadableString(_FileSize: Int64): string;
+-
+-const
+-  SecondsPerMinute = 60;
+-  MinutesPerHour = 60;
+-  SecondsPerHour = SecondsPerMinute * MinutesPerHour;
+-  HoursPerDay = 24;
+-  MinutesPerDay = HoursPerDay * MinutesPerHour;
+-  SecondsPerDay = MinutesPerDay * SecondsPerMinute;
+-
+-{: returns a human readable string of the form '5d 23h' or '25h 15m' or '20m 21s' }
+-function SecondsToHumanReadableString(_Seconds: Int64): string;
+-
+ implementation
+ 
+ uses
+@@ -547,36 +522,6 @@
+     raise EStringConvertError.CreateFmt(STR_X_IS_NOT_A_VALID_FLOAT_VALUE_SS, [_s, _Source]);
+ end;
+ 
+-function FileSizeToHumanReadableString(_FileSize: Int64): string;
+-begin
+-  if _FileSize &gt; 5 * OneExbiByte then
+-    Result := Format(_('%.2f EiB'), [_FileSize / OneExbiByte])
+-  else if _FileSize &gt; 5 * OnePebiByte then
+-    Result := Format(_('%.2f PiB'), [_FileSize / OnePebiByte])
+-  else if _FileSize &gt; 5 * OneTebiByte then
+-    Result := Format(_('%.2f TiB'), [_FileSize / OneTebiByte])
+-  else if _FileSize &gt; 5 * OneGibiByte then
+-    Result := Format(_('%.2f GiB'), [_FileSize / OneGibiByte])
+-  else if _FileSize &gt; 5 * OneMebiByte then
+-    Result := Format(_('%.2f MiB'), [_FileSize / OneMebiByte])
+-  else if _FileSize &gt; 5 * OneKibiByte then
+-    Result := Format(_('%.2f KiB'), [_FileSize / OneKibiByte])
+-  else
+-    Result := Format(_('%d Bytes'), [_FileSize]);
+-end;
+-
+-function SecondsToHumanReadableString(_Seconds: Int64): string;
+-begin
+-  if _Seconds &gt; SecondsPerDay then
+-    Result := Format('%dd %dh', [_Seconds div SecondsPerDay, (_Seconds div SecondsPerHour) mod HoursPerDay])
+-  else if _Seconds &gt; Round(1.5 * SecondsPerHour) then
+-    Result := Format('%dh %dm', [_Seconds div SecondsPerHour, (_Seconds div SecondsPerMinute) mod MinutesPerHour])
+-  else if _Seconds &gt; Round(1.5 * SecondsPerMinute) then
+-    Result := Format('%dm %ds', [_Seconds div SecondsPerMinute, _Seconds mod SecondsPerMinute])
+-  else
+-    Result := Format('%ds', [_Seconds]);
+-end;
+-
+ initialization
+   DZ_FORMAT_DECIMAL_POINT := GetUserDefaultLocaleSettings;
+   DZ_FORMAT_DECIMAL_POINT.DecimalSeparator := '.';
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-11-01 13:52:18 UTC (rev 230)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-11-01 14:05:57 UTC (rev 231)
+@@ -154,25 +154,21 @@
+   {: defines the action to take if a file already exists but has a different content }
+   TFileExistsAction = (feaIgnore, feaOverwrite);
+   TOnSyncing = procedure(_Sender: TObject; const _SrcDir, _DstDir: string) of object;
+-  TOnSyncingFile = procedure(_Sender: TObject; const _SrcDir, _DstDir: string; _Total, _Done: Int64) of object;
+   {: called if a destination file already exists
+      @param Action is the action to take, default is feaIgnore }
+   TOnFileExists = procedure(_Sender: TObject; const _SrcFile, _DstFile: TFileInfoRec; var _Action: TFileExistsAction) of object;
+   {: Synchronizes two directories }
+   TDirectorySync = class
+   private
+-    FCurrentSource: string;
+-    FCurrentDest: string;
+     FOnSyncingDir: TOnSyncing;
+-    FOnSyncingFile: TOnSyncingFile;
++    FOnSyncingFile: TOnSyncing;
+     FOnFileExists: TOnFileExists;
+ //    FOnDifferentFileExists: TOnDifferentFileExists;
+ //    FCheckContent: boolean;
+ //    procedure doOnDifferentFileExists(const _Filename: string; var _Action: TFileExistsAction);
+     procedure doOnSyncingDir(const _SrcDir, _DstDir: string);
+-    procedure doOnSyncingFile(const _SrcFile, _DstFile: string; _Total, _Done: Int64);
++    procedure doOnSyncingFile(const _SrcFile, _DstFile: string);
+     function doOnFileExists(const _SrcDir, _DstDir, _Filename: string): TFileExistsAction;
+-    procedure ProgressStatusCallback(_Status: TCopyProgressStatus; var _Continue: TCopyProgressStatus.TProgressResult);
+   public
+     {: Checks if there are files in the source directory that are already in
+        the destination directory, for each file that exists, the OnFileExists
+@@ -180,11 +176,8 @@
+     procedure CheckOneWay(const _SrcDir, _DstDir: string);
+     {: copies all files from DirA to DirB if they don't already exists
+        (not implemented: if CheckContent=true, the content existing files will be checked and if
+-                         it doesn't match, OnDifferentFileExists is called )
+-       @param FlattenDirHierarchy determines whether all files should be copied
+-                                  directly DstDir or if subdirectories should
+-                                  be created, default is false }
+-    procedure SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
++                         it doesn't match, OnDifferentFileExists is called ) }
++    procedure SyncOneWay(const _SrcDir, _DstDir: string);
+     {: calls SyncOneWay(DirA, DirB) and SyncOneWay(DirB, DirA)
+        (not implemented: if CheckContent=true, the content existing files will be checked and if
+                          it doesn't match, OnDifferentFileExists is called ) }
+@@ -198,7 +191,7 @@
+     property OnSyncingDir: TOnSyncing read FOnSyncingDir write FOnSyncingDir;
+     {: called when a file is being copied, to abort synchronization,
+       raise an exception (e.g. SysUtils.Abort), and catch it in the calling method }
+-    property OnSyncingFile: TOnSyncingFile read FOnSyncingFile write FOnSyncingFile;
++    property OnSyncingFile: TOnSyncing read FOnSyncingFile write FOnSyncingFile;
+     {: called from CheckOneWay if a destination file already exists }
+     property OnFileExists: TOnFileExists read FOnFileExists write FOnFileExists;
+   end;
+@@ -1312,23 +1305,12 @@
+     FOnSyncingDir(Self, _SrcDir, _DstDir);
+ end;
+ 
+-procedure TDirectorySync.doOnSyncingFile(const _SrcFile, _DstFile: string; _Total, _Done: Int64);
++procedure TDirectorySync.doOnSyncingFile(const _SrcFile, _DstFile: string);
+ begin
+   if Assigned(FOnSyncingFile) then
+-    FOnSyncingFile(self, _SrcFile, _DstFile, _Total, _Done);
++    FOnSyncingFile(self, _SrcFile, _DstFile);
+ end;
+ 
+-procedure TDirectorySync.ProgressStatusCallback(_Status: TCopyProgressStatus;
+-  var _Continue: TCopyProgressStatus.TProgressResult);
+-begin
+-  try
+-    doOnSyncingFile(FCurrentSource, FCurrentDest, _Status.TotalFileSize.QuadPart, _Status.TotalBytesTransferred.QuadPart);
+-  except
+-    on e: EAbort do
+-      _Continue := prCancel;
+-  end;
+-end;
+-
+ procedure TDirectorySync.CheckOneWay(const _SrcDir, _DstDir: string);
+ var
+   Filename: string;
+@@ -1343,11 +1325,12 @@
+   try
+     while EnumA.FindNext(Filename) do begin
+       if (EnumA.Sr.Attr and SysUtils.faDirectory) &lt;&gt; 0 then begin
+-        CheckOneWay(SrcDirBS + Filename, DstDirBS + Filename);
++        if DirectoryExists(DstDirBS + Filename) then
++          CheckOneWay(SrcDirBS + Filename, DstDirBS + Filename);
+       end else if FileExists(DstDirBS + Filename) then begin
+         doOnFileExists(SrcDirBS, DstDirBS, Filename);
+       end else begin
+-        doOnSyncingFile(SrcDirBS + Filename, DstDirBS + Filename, EnumA.Sr.Size, 0);
++        doOnSyncingFile(SrcDirBS + Filename, DstDirBS + Filename);
+       end;
+     end;
+   finally
+@@ -1355,7 +1338,7 @@
+   end;
+ end;
+ 
+-procedure TDirectorySync.SyncOneWay(const _SrcDir, _DstDir: string; _FlattenDirHierarchy: boolean = false);
++procedure TDirectorySync.SyncOneWay(const _SrcDir, _DstDir: string);
+ var
+   Filename: string;
+   EnumA: TSimpleDirEnumerator;
+@@ -1368,27 +1351,18 @@
+   EnumA := TSimpleDirEnumerator.Create(SrcDirBS + '*.*');
+   try
+     while EnumA.FindNext(Filename) do begin
+-      FCurrentSource := SrcDirBS + Filename;
+       if (EnumA.Sr.Attr and SysUtils.faDirectory) &lt;&gt; 0 then begin
+-        if _FlattenDirHierarchy then
+-          FCurrentDest := _DstDir
+-        else begin
+-          FCurrentDest := DstDirBS + Filename;
+-          if not DirectoryExists(FCurrentDest) then
+-            TFileSystem.CreateDir(FCurrentDest);
++        if not DirectoryExists(DstDirBS + Filename) then
++          TFileSystem.CreateDir(DstDirBS + Filename);
++        SyncOneWay(SrcDirBS + Filename, DstDirBS + Filename);
++      end else if FileExists(DstDirBS + Filename) then begin
++        if doOnFileExists(SrcDirBS, DstDirBS, Filename) = feaOverwrite then begin
++          doOnSyncingFile(SrcDirBS + Filename, DstDirBS + Filename);
++          TFileSystem.CopyFile(SrcDirBS + Filename, DstDirBS + Filename, false, true);
+         end;
+-        SyncOneWay(FCurrentSource, FCurrentDest, _FlattenDirHierarchy);
+       end else begin
+-        FCurrentDest := DstDirBS + Filename;
+-        if FileExists(FCurrentDest) then begin
+-          if doOnFileExists(SrcDirBS, DstDirBS, Filename) = feaOverwrite then begin
+-            if cfwOK &lt;&gt; TFileSystem.CopyFileWithProgress(FCurrentSource, FCurrentDest, ProgressStatusCallback, [cfwRaiseException]) then
+-              SysUtils.Abort;
+-          end;
+-        end else begin
+-          if cfwOK &lt;&gt; TFileSystem.CopyFileWithProgress(FCurrentSource, FCurrentDest, ProgressStatusCallback, [cfwRaiseException, cfwFailIfExists]) then
+-            SysUtils.Abort;
+-        end;
++        doOnSyncingFile(SrcDirBS + Filename, DstDirBS + Filename);
++        TFileSystem.CopyFile(SrcDirBS + Filename, DstDirBS + Filename, true, true);
+       end;
+     end;
+   finally
+
+Modified: utilities/dzLib/trunk/src/u_dzTranslator.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTranslator.pas	2007-11-01 13:52:18 UTC (rev 230)
++++ utilities/dzLib/trunk/src/u_dzTranslator.pas	2007-11-01 14:05:57 UTC (rev 231)
+@@ -7,10 +7,8 @@
+ // for now uses gnugettext
+ {$DEFINE gnugettext}
+ {$ELSE}
+-{$IFNDEF NO_TRANSLATION_HINT}
+ {$MESSAGE HINT 'translation is turned off, remove NO_TRANSLATION define to turn it on'}
+ {$ENDIF}
+-{$ENDIF}
+ 
+ interface
+ 
+@@ -141,21 +139,7 @@
+ {$IFDEF gnugettext}
+ initialization
+   // translate runtime library
+-{$IFDEF DELPHI6}
+-  AddDomainForResourceString('delphi6');
+-{$ELSE}{$IFDEF DELPHI7}
+-  AddDomainForResourceString('delphi7');
+-{$ELSE}{$IFDEF DELPHI10}
+-  AddDomainForResourceString('delphi2006');
+-{$ELSE}{$IFDEF DELPHI11}
+-  // currently we don't have translations for Delphi2007, so we use the ones from Delphi2006 and pray... ;-)
+-  AddDomainForResourceString('delphi2006');
+-{$ELSE}
+-  'unknown Delphi version!'
+-{$ENDIF}
+-{$ENDIF}
+-{$ENDIF}
+-{$ENDIF}
++  AddDomainForResourceString('delphi');
+ 
+   // ignore these VCL properties / classes
+   TP_GlobalIgnoreClassProperty(TControl, 'ImeName');
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-11-01 13:52:18 UTC (rev 230)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-11-01 14:05:57 UTC (rev 231)
+@@ -242,22 +242,13 @@
+ function TComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+ 
+ {: Gets the object pointer of the selected listbox item
+-   @param lst is the TCustomListbox (descendant) to read from
++   @param cmb is the TCustomListbox (descendant) to read from
+    @param Idx is the listbox's ItemIndex, only valid if the function returns true
+    @param Obj is the value of the object pointer of the selected item, only valid
+           if the function returns true
+    @returns true, if these values are valid }
+ function TListBox_GetSelectedObject(_lst: TCustomListbox; out _Idx: integer; out _Obj: pointer): boolean;
+ 
+-{: Deletes the selected listbox item
+-   @param lst is the TCustomListbox (descendant) to read from
+-   @param Idx is the listbox's ItemIndex, only valid if the function returns true
+-          if the function returns true
+-   @returns true, if these values are valid }
+-function TListBox_DeleteSelected(_lst: TCustomListbox; out _Idx: integer): boolean; overload;
+-function TListBox_DeleteSelected(_lst: TCustomListbox): boolean; overload;
+-function TListBox_DeleteSelected(_lst: TCustomListBox; out _s: string): boolean; overload;
+-
+ {: Gets the caption of the given or selected item in the RadioGroup
+    @param rg is the TCustomRadioGroup descendant to read
+    @param Caption returns a string with the requested caption with
+@@ -848,33 +839,6 @@
+     _Obj := _lst.Items.Objects[_Idx];
+ end;
+ 
+-function TListBox_DeleteSelected(_lst: TCustomListbox; out _Idx: integer): boolean;
+-begin
+-  _Idx := _lst.ItemIndex;
+-  Result := _Idx &lt;&gt; -1;
+-  if Result then
+-    _lst.Items.Delete(_Idx);
+-end;
+-
+-function TListBox_DeleteSelected(_lst: TCustomListBox; out _s: string): boolean; overload;
+-var
+-  Idx: Integer;
+-begin
+-  Idx := _lst.ItemIndex;
+-  Result := Idx &lt;&gt; -1;
+-  if Result then begin
+-    _s := _lst.Items[Idx];
+-    _lst.Items.Delete(Idx);
+-  end;
+-end;
+-
+-function TListBox_DeleteSelected(_lst: TCustomListbox): boolean;
+-var
+-  Idx: integer;
+-begin
+-  Result := TListBox_DeleteSelected(_lst, Idx);
+-end;
+-
+ function TComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+ begin
+   Result := _Cmb.Items.IndexOf(_Item);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000100.html">[Dzchart-svncheckins] r230 - in utilities/dzPrepBuild/trunk: .	buildtools src
+</A></li>
+	<LI>Next message: <A HREF="000102.html">[Dzchart-svncheckins] r233 - in utilities/dzCmdLineParser/trunk: .	src tests
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#101">[ date ]</a>
+              <a href="thread.html#101">[ thread ]</a>
+              <a href="subject.html#101">[ subject ]</a>
+              <a href="author.html#101">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

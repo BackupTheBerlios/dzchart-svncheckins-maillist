@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r314 - utilities/dzCmdLineParser/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r314%20-%20utilities/dzCmdLineParser/trunk/src&In-Reply-To=%3C200809051300.m85D0hfI008536%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000180.html">
+   <LINK REL="Next"  HREF="000182.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r314 - utilities/dzCmdLineParser/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r314%20-%20utilities/dzCmdLineParser/trunk/src&In-Reply-To=%3C200809051300.m85D0hfI008536%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r314 - utilities/dzCmdLineParser/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep  5 15:00:43 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000180.html">[Dzchart-svncheckins] r313 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000182.html">[Dzchart-svncheckins] r315 - utilities/dzCmdLineParser/trunk/tests
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#181">[ date ]</a>
+              <a href="thread.html#181">[ thread ]</a>
+              <a href="subject.html#181">[ subject ]</a>
+              <a href="author.html#181">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-05 15:00:42 +0200 (Fri, 05 Sep 2008)
+New Revision: 314
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas
+Log:
+replaced resource strings with calls to DGetText(..., 'dzCmdLineParser')
+
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas	2008-09-05 12:55:53 UTC (rev 313)
++++ utilities/dzCmdLineParser/trunk/src/u_dzCmdLineParserStates.pas	2008-09-05 13:00:42 UTC (rev 314)
+@@ -107,10 +107,13 @@
+ implementation
+ 
+ uses
+-  SysUtils;
++  SysUtils,
++  u_dzTranslator;
+ 
+-resourcestring
+-  RS_INVALID_CHARACTER_S = 'Invalid character &quot;%s&quot;.';
++function _(const _s: string): string; inline;
++begin
++  Result := DGetText(_s, 'dzCmdLineParser');
++end;
+ 
+ { TEngineStateAbstract }
+ 
+@@ -191,7 +194,7 @@
+         Result := TEngineStateParam.Create;
+       end;
+     #0:
+-      Result := TEngineStateError.Create(Format(RS_INVALID_CHARACTER_S, [c]));
++      Result := TEngineStateError.Create(Format(_('Invalid character &quot;%s&quot;.'), [c]));
+   else
+     _Context.AddToParameter(c);
+     Result := self;
+@@ -211,7 +214,7 @@
+   end else if c = '-' then
+     Result := TEngineStateDoubleDash.Create
+   else
+-    Result := TEngineStateError.Create(Format(RS_INVALID_CHARACTER_S, [c]));
++    Result := TEngineStateError.Create(Format(_('Invalid character &quot;%s&quot;.'), [c]));
+ end;
+ 
+ { TEngineStateDoubleDash }
+@@ -225,7 +228,7 @@
+     _Context.AddToOption(c);
+     Result := TEngineStateLongOption.Create;
+   end else
+-    Result := TEngineStateError.Create(Format(RS_INVALID_CHARACTER_S, [c]));
++    Result := TEngineStateError.Create(Format(_('Invalid character &quot;%s&quot;.'), [c]));
+ end;
+ 
+ { TEngineStateShortOption }
+@@ -248,7 +251,7 @@
+         Result := TEngineStateSpace.Create;
+       end;
+   else
+-    Result := TEngineStateError.Create(Format(RS_INVALID_CHARACTER_S, [c]));
++    Result := TEngineStateError.Create(Format(_('Invalid character &quot;%s&quot;.'), [c]));
+   end;
+ end;
+ 
+@@ -264,7 +267,7 @@
+         _Context.HandleCmdLinePart;
+         Result := TEngineStateSpace.Create;
+       end else
+-    Result := TEngineStateError.Create(Format(RS_INVALID_CHARACTER_S, [c]));
++    Result := TEngineStateError.Create(Format(_('Invalid character &quot;%s&quot;.'), [c]));
+   end;
+ end;
+ 
+@@ -307,7 +310,7 @@
+         Result := TEngineStateShortParam.Create;
+       end;
+     #0:
+-      Result := TEngineStateError.Create(Format(RS_INVALID_CHARACTER_S, [c]));
++      Result := TEngineStateError.Create(Format(_('Invalid character &quot;%s&quot;.'), [c]));
+   else
+     _Context.AddToParameter(c);
+     Result := self;
+@@ -329,7 +332,7 @@
+         Result := TEngineStateSpace.Create;
+       end;
+     '&quot;', '''':
+-      Result := TEngineStateError.Create(Format(RS_INVALID_CHARACTER_S, [c]));
++      Result := TEngineStateError.Create(Format(_('Invalid character &quot;%s&quot;.'), [c]));
+   else
+     _Context.AddToOption(c);
+     Result := TEngineStateLongOption.Create;
+@@ -371,7 +374,7 @@
+         Result := TEngineStateLongParam.Create;
+       end;
+     #0:
+-      Result := TEngineStateError.Create(Format(RS_INVALID_CHARACTER_S, [c]));
++      Result := TEngineStateError.Create(Format(_('Invalid character &quot;%s&quot;.'), [c]));
+   else
+     _Context.AddToParameter(c);
+     Result := TEngineStateQuotedLongParam.Create;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000180.html">[Dzchart-svncheckins] r313 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000182.html">[Dzchart-svncheckins] r315 - utilities/dzCmdLineParser/trunk/tests
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#181">[ date ]</a>
+              <a href="thread.html#181">[ thread ]</a>
+              <a href="subject.html#181">[ subject ]</a>
+              <a href="author.html#181">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

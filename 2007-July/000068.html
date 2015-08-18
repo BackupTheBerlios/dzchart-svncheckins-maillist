@@ -1,0 +1,311 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r194 - utilities/dzLib/trunk/tests/dzfileutils
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r194%20-%20utilities/dzLib/trunk/tests/dzfileutils&In-Reply-To=%3C200707270857.l6R8vwwV003714%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000067.html">
+   <LINK REL="Next"  HREF="000069.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r194 - utilities/dzLib/trunk/tests/dzfileutils</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r194%20-%20utilities/dzLib/trunk/tests/dzfileutils&In-Reply-To=%3C200707270857.l6R8vwwV003714%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r194 - utilities/dzLib/trunk/tests/dzfileutils">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Jul 27 10:57:58 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000067.html">[Dzchart-svncheckins] r193 - in utilities/dzLib/trunk: . forms
+</A></li>
+        <LI>Next message: <A HREF="000069.html">[Dzchart-svncheckins] r195 - utilities/dzLib/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#68">[ date ]</a>
+              <a href="thread.html#68">[ thread ]</a>
+              <a href="subject.html#68">[ subject ]</a>
+              <a href="author.html#68">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-27 10:57:52 +0200 (Fri, 27 Jul 2007)
+New Revision: 194
+
+Modified:
+   utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr
+   utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj
+   utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas
+Log:
+additional unit tests
+
+Modified: utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr	2007-07-27 08:57:17 UTC (rev 193)
++++ utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr	2007-07-27 08:57:52 UTC (rev 194)
+@@ -25,7 +25,9 @@
+   u_dzStringUtils in '..\..\src\u_dzStringUtils.pas',
+   u_dzConvertUtils in '..\..\src\u_dzConvertUtils.pas',
+   u_dzTranslator in '..\..\src\u_dzTranslator.pas',
+-  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas';
++  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
++  u_dzUnitTestUtils in '..\..\src\u_dzUnitTestUtils.pas',
++  u_dzVariantUtils in '..\..\src\u_dzVariantUtils.pas';
+ 
+ {$R *.RES}
+ 
+
+Modified: utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj	2007-07-27 08:57:17 UTC (rev 193)
++++ utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj	2007-07-27 08:57:52 UTC (rev 194)
+@@ -34,45 +34,7 @@
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType /&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject xmlns=&quot;&quot;&gt; &lt;Delphi.Personality&gt;   &lt;Parameters&gt;
+-      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
+-      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
+-    &lt;/Parameters&gt;
+-    &lt;VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;
+-      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
+-    &lt;/VersionInfo&gt;
+-    &lt;VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
+-      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
+-    &lt;/VersionInfoKeys&gt;
+-    &lt;Source&gt;
+-      &lt;Source Name=&quot;MainSource&quot;&gt;DUnitTest_dzFileUtils.dpr&lt;/Source&gt;
+-    &lt;/Source&gt;
+-  &lt;/Delphi.Personality&gt;   &lt;UnitTesting&gt;   &lt;TestFramework&gt;DUnit / Delphi Win32&lt;/TestFramework&gt;
+-    &lt;TestRunner&gt;GUI&lt;/TestRunner&gt;
+-  &lt;/UnitTesting&gt;
+-&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionI!
+ nfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;DUnitTest_dzFileUtils.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;UnitTesting&gt;&lt;TestFramework&gt;DUnit / Delphi Win32&lt;/TestFramework&gt;&lt;TestRunner&gt;GUI&lt;/TestRunner&gt;&lt;/UnitTesting&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;ItemGroup&gt;
+@@ -80,10 +42,13 @@
+       &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+     &lt;/DelphiCompile&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzConvertUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzDateUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzFileUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzMiscUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzStringUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzTranslator.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzUnitTestUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzVariantUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;Testu_dzFileUtils.pas&quot; /&gt;
+   &lt;/ItemGroup&gt;
+ &lt;/Project&gt;
+\ No newline at end of file
+
+Modified: utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas	2007-07-27 08:57:17 UTC (rev 193)
++++ utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas	2007-07-27 08:57:52 UTC (rev 194)
+@@ -7,10 +7,11 @@
+   Classes,
+   SysUtils,
+   TestFramework,
+-  u_dzFileUtils;
++  u_dzFileUtils,
++  u_dzUnitTestUtils;
+ 
+ type
+-  TFileSystemTestCase = class(TTestCase)
++  TFileSystemTestCase = class(TdzTestCase)
+   protected
+     FTestDir: string;
+     procedure SetUp; override;
+@@ -41,6 +42,7 @@
+ 
+   TestTDirectorySync = class(TFileSystemTestCase)
+   private
++    FLargeContent: string;
+     FDirA: string;
+     FDirB: string;
+     FSync: TDirectorySync;
+@@ -55,8 +57,9 @@
+     FCallbacks: TStringList;
+     FExistingFiles: TStringList;
+     procedure OnSyncDirAbort(_Sender: TObject; const _Src, _Dst: string);
+-    procedure OnSyncCallback(_Sender: TObject; const _Src, _Dst: string);
+-    procedure OnFileExistsCallback(_Sender: TObject; const _Src, _Dst: TFileInfoRec);
++    procedure OnDirSyncCallback(_Sender: TObject; const _Src, _Dst: string);
++    procedure OnFileSyncCallback(_Sender: TObject; const _Src, _Dst: string; _Total, _Done: Int64);
++    procedure OnFileExistsCallback(_Sender: TObject; const _SrcFile, _DstFile: TFileInfoRec; var _Action: TFileExistsAction);
+     procedure CheckSameText(const _Expected, _Actual, _Msg: string);
+   protected
+     procedure SetUp; override;
+@@ -572,9 +575,11 @@
+   TFileSystem.CreateDir(FDirA);
+   TFileSystem.CreateDir(FDirB);
+ 
++  FLargeContent := StringOfChar('a', 5 * 1024 * 1024);
++
+   FFile1 := CreateTestfile('a\file1.txt', 'File1');
+   FFile2 := CreateTestfile('a\.txt', 'File2');
+-  FFile3 := CreateTestfile('a\file3', 'File3');
++  FFile3 := CreateTestfile('a\file3', FLargeContent);
+   TFileSystem.CreateDir(FDirA + '\Sub1');
+   TFileSystem.CreateDir(FDirA + '\Sub2');
+   FFile4 := CreateTestfile('a\Sub2\file4.txt', 'File4');
+@@ -622,7 +627,7 @@
+   CheckEquals(10, cnt, 'number of files and subdirs');
+   CheckTestfile('b\' + ExtractFileName(FFile1), 'File1');
+   CheckTestfile('b\' + ExtractFileName(FFile2), 'File2');
+-  CheckTestfile('b\' + ExtractFileName(FFile3), 'File3');
++  CheckTestfile('b\' + ExtractFileName(FFile3), FLargeContent);
+   CheckSubdirExists('b\Sub1');
+   CheckSubdirExists('b\Sub2');
+   CheckTestfile('b\Sub2\' + ExtractFileName(FFile4), 'File4');
+@@ -637,27 +642,46 @@
+ end;
+ 
+ procedure TestTDirectorySync.TestSyncOneWayCallback;
++var
++  Expected: TStringList;
++  i: Integer;
+ begin
+-  FSync.OnSyncingDir := OnSyncCallback;
+-  FSync.OnSyncingFile := OnSyncCallback;
++  FSync.OnSyncingDir := OnDirSyncCallback;
++  FSync.OnSyncingFile := OnFileSyncCallback;
+   FSync.SyncOneWay(FDirA, FDirB);
+-  CheckEquals(9, FCallbacks.Count, 'callback count');
+-  CheckEquals(FDirA + ' -&gt; ' + FDirB, FCallbacks[0], 'callback 0');
+-  CheckEquals(FDirA + '.txt -&gt; ' + FDirB + '.txt', FCallbacks[1], 'callback 1');
+-  CheckEquals(FDirA + 'file1.txt -&gt; ' + FDirB + 'file1.txt', FCallbacks[2], 'callback 2');
+-  CheckEquals(FDirA + 'file3 -&gt; ' + FDirB + 'file3', FCallbacks[3], 'callback 3');
+-  CheckEquals(FDirA + 'Sub1 -&gt; ' + FDirB + 'Sub1', FCallbacks[4], 'callback 4');
+-  CheckEquals(FDirA + 'Sub2 -&gt; ' + FDirB + 'Sub2', FCallbacks[5], 'callback 5');
+-  CheckEquals(FDirA + 'Sub2\file4.txt -&gt; ' + FDirB + 'Sub2\file4.txt', FCallbacks[6], 'callback 6');
+-  CheckEquals(FDirA + 'Sub5 -&gt; ' + FDirB + 'Sub5', FCallbacks[7], 'callback 7');
+-  CheckEquals(FDirA + 'Sub6 -&gt; ' + FDirB + 'Sub6', FCallbacks[8], 'callback 8');
++
++  Expected := TStringList.Create;
++  try
++    Expected.Add(FDirA + ' -&gt; ' + FDirB);
++    Expected.Add(FDirA + '.txt -&gt; ' + FDirB + '.txt (0 of 7)');
++    Expected.Add(FDirA + '.txt -&gt; ' + FDirB + '.txt (7 of 7)');
++    Expected.Add(FDirA + 'file1.txt -&gt; ' + FDirB + 'file1.txt (0 of 7)');
++    Expected.Add(FDirA + 'file1.txt -&gt; ' + FDirB + 'file1.txt (7 of 7)');
++    for i := 0 to 80 do
++      Expected.Add(FDirA + 'file3 -&gt; ' + FDirB + Format('file3 (%d of 5242882)', [i * 65536]));
++    Expected.Add(FDirA + 'file3 -&gt; ' + FDirB + 'file3 (5242882 of 5242882)');
++    Expected.Add(FDirA + 'Sub1 -&gt; ' + FDirB + 'Sub1');
++    Expected.Add(FDirA + 'Sub2 -&gt; ' + FDirB + 'Sub2');
++    Expected.Add(FDirA + 'Sub2\file4.txt -&gt; ' + FDirB + 'Sub2\file4.txt (0 of 7)');
++    Expected.Add(FDirA + 'Sub2\file4.txt -&gt; ' + FDirB + 'Sub2\file4.txt (7 of 7)');
++    Expected.Add(FDirA + 'Sub5 -&gt; ' + FDirB + 'Sub5');
++    Expected.Add(FDirA + 'Sub6 -&gt; ' + FDirB + 'Sub6');
++    CheckEqualsMultiline(Expected.Text, FCallbacks.Text);
++  finally
++    Expected.Free;
++  end;
+ end;
+ 
+-procedure TestTDirectorySync.OnSyncCallback(_Sender: TObject; const _Src, _Dst: string);
++procedure TestTDirectorySync.OnDirSyncCallback(_Sender: TObject; const _Src, _Dst: string);
+ begin
+   FCallbacks.Add(_Src + ' -&gt; ' + _Dst);
+ end;
+ 
++procedure TestTDirectorySync.OnFileSyncCallback(_Sender: TObject; const _Src, _Dst: string; _Total, _Done: Int64);
++begin
++  FCallbacks.Add(_Src + ' -&gt; ' + _Dst + ' (' + IntToStr(_Done) + ' of ' + IntToStr(_Total) + ')');
++end;
++
+ procedure TestTDirectorySync.OnSyncDirAbort(_Sender: TObject; const _Src, _Dst: string);
+ begin
+   SysUtils.Abort;
+@@ -669,11 +693,11 @@
+     FailNotEquals(_Expected, _Actual, _Msg);
+ end;
+ 
+-procedure TestTDirectorySync.OnFileExistsCallback(_Sender: TObject; const _Src, _Dst: TFileInfoRec);
++procedure TestTDirectorySync.OnFileExistsCallback(_Sender: TObject; const _SrcFile, _DstFile: TFileInfoRec; var _Action: TFileExistsAction);
+ begin
+-  FExistingFiles.Add(_Src.Filename + ' &lt;&gt; ' + _Dst.Filename);
+-  CheckEquals(_Src.Size, _Dst.Size, 'Size');
+-  CheckEquals(_Src.Timestamp, _Dst.Timestamp, 'Timestamp');
++  FExistingFiles.Add(_SrcFile.Filename + ' &lt;&gt; ' + _DstFile.Filename);
++  CheckEquals(_SrcFile.Size, _DstFile.Size, 'Size');
++  CheckEquals(_SrcFile.Timestamp, _DstFile.Timestamp, 'Timestamp');
+ end;
+ 
+ procedure TestTDirectorySync.TestCheckOneWay;
+@@ -731,7 +755,7 @@
+   CheckEquals(10, cnt, 'number of files and subdirs');
+   CheckTestfile('b\' + ExtractFileName(FFile1), 'File1');
+   CheckTestfile('b\' + ExtractFileName(FFile2), 'File2');
+-  CheckTestfile('b\' + ExtractFileName(FFile3), 'File3');
++  CheckTestfile('b\' + ExtractFileName(FFile3), FLargeContent);
+   CheckSubdirExists('b\Sub1');
+   CheckSubdirExists('b\Sub2');
+   CheckTestfile('b\Sub2\' + ExtractFileName(FFile4), 'File4');
+@@ -755,7 +779,7 @@
+   CheckEquals(10, cnt, 'number of files and subdirs');
+   CheckTestfile('a\' + ExtractFileName(FFile1), 'File1');
+   CheckTestfile('a\' + ExtractFileName(FFile2), 'File2');
+-  CheckTestfile('a\' + ExtractFileName(FFile3), 'File3');
++  CheckTestfile('a\' + ExtractFileName(FFile3), FLargeContent);
+   CheckSubdirExists('a\Sub1');
+   CheckSubdirExists('a\Sub2');
+   CheckTestfile('a\Sub2\' + ExtractFileName(FFile4), 'File4');
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000067.html">[Dzchart-svncheckins] r193 - in utilities/dzLib/trunk: . forms
+</A></li>
+	<LI>Next message: <A HREF="000069.html">[Dzchart-svncheckins] r195 - utilities/dzLib/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#68">[ date ]</a>
+              <a href="thread.html#68">[ thread ]</a>
+              <a href="subject.html#68">[ subject ]</a>
+              <a href="author.html#68">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

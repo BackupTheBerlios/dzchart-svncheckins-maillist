@@ -1,0 +1,913 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r596 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r596%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110827111319.23EF9481160%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000452.html">
+   <LINK REL="Next"  HREF="000454.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r596 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r596%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110827111319.23EF9481160%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r596 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Aug 27 13:13:19 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000452.html">[Dzchart-svncheckins] r595 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000454.html">[Dzchart-svncheckins] r597 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#453">[ date ]</a>
+              <a href="thread.html#453">[ thread ]</a>
+              <a href="subject.html#453">[ subject ]</a>
+              <a href="author.html#453">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-08-27 13:13:18 +0200 (Sat, 27 Aug 2011)
+New Revision: 596
+
+Added:
+   utilities/dzLib/trunk/src/u_dzDatasetHelpersADO.pas
+   utilities/dzLib/trunk/src/u_dzDatasetHelpersBDE.pas
+   utilities/dzLib/trunk/src/u_dzDatasetHelpersTopaz.pas
+Modified:
+   utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+   utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas
+Log:
+Split into a generic, TDataset based class and specialized descendants for BDE, ADO, TDBF and Topaz
+
+Modified: utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2011-08-27 11:12:17 UTC (rev 595)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2011-08-27 11:13:18 UTC (rev 596)
+@@ -8,9 +8,7 @@
+ uses
+   SysUtils,
+   Classes,
+-  AdoDb,
+   DB,
+-  DBTables,
+   u_dzTranslator,
+   u_dzGuidUtils,
+   u_dzNameValueList;
+@@ -28,48 +26,50 @@
+     ///&lt;summary&gt; returns the field value as a string, return the default if it cannot be converted
+     ///          Note that strings are automatically trimmed. &lt;/summary&gt;
+     function FieldAsString(const _Fieldname, _Default: string): string; overload;
+-    function TryFieldAsString(const _Fieldname: string; out _Value: string): boolean;
++    function TryFieldAsString(const _Fieldname: string; out _Value: string): Boolean;
++    ///&lt;summary&gt; in addition to TryFieldAsString also checks whether the string is non-empty &lt;/summary&gt;
++    function TryFieldAsNonEmptyString(const _Fieldname: string; out _Value: string): Boolean;
+     ///&lt;summary&gt; sets the field as a string, if the value is empty set it to NULL &lt;/summary&gt;
+     procedure SetFieldStringNotEmpty(const _Fieldname: string; const _Value: string);
+ 
+     ///&lt;summary&gt; returns the field value as an integer, raise an exception if it cannot be converted &lt;/summary&gt;
+-    function FieldAsInteger(const _Fieldname: string): integer; overload;
++    function FieldAsInteger(const _Fieldname: string): Integer; overload;
+     ///&lt;summary&gt; returns the field value as an integer, return the default if it cannot be converted &lt;/summary&gt;
+-    function FieldAsInteger(const _Fieldname: string; _Default: integer): integer; overload;
++    function FieldAsInteger(const _Fieldname: string; _Default: Integer): Integer; overload;
+     ///&lt;summary&gt; returns the field value as an integer, raise an exception with the given error message if it cannot be converted &lt;/summary&gt;
+-    function FieldAsInteger(const _Fieldname: string; const _Error: string): integer; overload;
+-    function TryFieldAsInteger(const _Fieldname: string; out _Value: integer): boolean;
++    function FieldAsInteger(const _Fieldname: string; const _Error: string): Integer; overload;
++    function TryFieldAsInteger(const _Fieldname: string; out _Value: Integer): Boolean;
+ 
+     ///&lt;summary&gt; returns the field value as a double, raise an exception if it cannot be converted &lt;/summary&gt;
+-    function FieldAsDouble(const _Fieldname: string): double; overload;
++    function FieldAsDouble(const _Fieldname: string): Double; overload;
+     ///&lt;summary&gt; returns the field value as a double, return the default if it cannot be converted &lt;/summary&gt;
+-    function FieldAsDouble(const _Fieldname: string; const _Default: double): double; overload;
++    function FieldAsDouble(const _Fieldname: string; const _Default: Double): Double; overload;
+     ///&lt;summary&gt; returns the field value as a double, raise an exception with the given error message if it cannot be converted &lt;/summary&gt;
+-    function FieldAsDouble(const _Fieldname: string; const _Error: string): double; overload;
+-    function TryFieldAsDouble(const _Fieldname: string; out _Value: double): boolean;
++    function FieldAsDouble(const _Fieldname: string; const _Error: string): Double; overload;
++    function TryFieldAsDouble(const _Fieldname: string; out _Value: Double): Boolean;
+ 
+     ///&lt;summary&gt; returns the field value as an extended, raise an exception if it cannot be converted &lt;/summary&gt;
+-    function FieldAsExtended(const _Fieldname: string): extended; overload;
++    function FieldAsExtended(const _Fieldname: string): Extended; overload;
+     ///&lt;summary&gt; returns the field value as a extended, return the default if it cannot be converted &lt;/summary&gt;
+-    function FieldAsExtended(const _Fieldname: string; const _Default: extended): extended; overload;
++    function FieldAsExtended(const _Fieldname: string; const _Default: Extended): Extended; overload;
+     ///&lt;summary&gt; returns the field value as a extended, raise an exception with the given error message if it cannot be converted &lt;/summary&gt;
+-    function FieldAsExtended(const _Fieldname: string; const _Error: string): extended; overload;
+-    function TryFieldAsExtended(const _Fieldname: string; out _Value: extended): boolean;
++    function FieldAsExtended(const _Fieldname: string; const _Error: string): Extended; overload;
++    function TryFieldAsExtended(const _Fieldname: string; out _Value: Extended): Boolean;
+ 
+     ///&lt;summary&gt; returns the field value as a TDateTime, raise an exception if it cannot be converted &lt;/summary&gt;
+     function FieldAsDate(const _Fieldname: string): TDateTime; overload;
+     function FieldAsDate(const _Fieldname: string; _Default: TDateTime): TDateTime; overload;
+-    function TryFieldAsDate(const _Fieldname: string; out _Date: TDateTime): boolean;
++    function TryFieldAsDate(const _Fieldname: string; out _Date: TDateTime): Boolean;
+ 
+     ///&lt;summary&gt; returns the field value as a boolean, raise an exception if it cannot be converted &lt;/summary&gt;
+-    function FieldAsBoolean(const _FieldName: string): boolean; overload;
++    function FieldAsBoolean(const _FieldName: string): Boolean; overload;
+     ///&lt;summary&gt; returns the field value as a boolean, return the default if it cannot be converted &lt;/summary&gt;
+-    function FieldAsBoolean(const _FieldName: string; _Default: boolean): boolean; overload;
++    function FieldAsBoolean(const _FieldName: string; _Default: Boolean): Boolean; overload;
+     ///&lt;summary&gt; returns the field value as a TNullableGuid record, note that the guid might be
+     ///          invalid if the field contained NULL &lt;/summary&gt;
+     function FieldAsGuid(const _FieldName: string): TNullableGuid;
+     ///&lt;summary&gt; tries to convert the field to a GUID, returns false, if that's not possible &lt;/summary&gt;
+-    function TryFieldAsGuid(const _Fieldname: string; out _Value: TNullableGuid): boolean;
++    function TryFieldAsGuid(const _Fieldname: string; out _Value: TNullableGuid): Boolean;
+     ///&lt;summary&gt; Opens the dataset &lt;/summary&gt;
+     procedure Open;
+     ///&lt;summary&gt; Closes the dataset &lt;/summary&gt;
+@@ -80,16 +80,17 @@
+     ///&lt;summary&gt; Moves to the last record of the dataset &lt;/summary&gt;
+     procedure Last;
+     ///&lt;summary&gt; Moves to the next record of the dataset, returns true if not EOF &lt;/summary&gt;
+-    function Next: boolean;
++    function Next: Boolean;
+     ///&lt;summary&gt; Moves to the previous record of the dataset, returns true if not BOF &lt;/summary&gt;
+-    function Prior: boolean;
++    function Prior: Boolean;
+     ///&lt;summary&gt; Moves by Distance records (can be negative), returns the number of records actually moved &lt;/summary&gt;
+-    function MoveBy(_Distance: integer): integer;
++    function MoveBy(_Distance: Integer): Integer;
+     ///&lt;summary&gt; Returns true if at the end of the dataset &lt;/summary&gt;
+-    function Eof: boolean;
++    function Eof: Boolean;
+     ///&lt;summary&gt; Returns true if at the beginning of the dataset &lt;/summary&gt;
+-    function Bof: boolean;
++    function Bof: Boolean;
+ 
++    procedure Append;
+     ///&lt;summary&gt; insert a new record into the dataset &lt;/summary&gt;
+     procedure Insert;
+     ///&lt;summary&gt; put the current record into edit mode &lt;/summary&gt;
+@@ -102,10 +103,14 @@
+     ///&lt;summary&gt; cancel changes to the current record (must call Insert or Edit first) &lt;/summary&gt;
+     procedure Cancel;
+ 
+-    function IsEmpty: boolean;
+-    function Locate(const _KeyFields: string; const _KeyValues: Variant; _Options: TLocateOptions): boolean;
++    function IsEmpty: Boolean;
++
++    procedure DisableControls;
++    procedure EnableControls;
++
++    function Locate(const _KeyFields: string; const _KeyValues: Variant; _Options: TLocateOptions): Boolean;
+     procedure SetParamByName(const _Param: string; _Value: variant);
+-    function TrySetParamByName(const _Param: string; _Value: variant): boolean;
++    function TrySetParamByName(const _Param: string; _Value: variant): Boolean;
+ 
+     ///&lt;summary&gt; returns the field value as variant (getter method for FieldValues property) &lt;/summary&gt;
+     function GetFieldValue(const _FieldName: string): Variant;
+@@ -115,10 +120,13 @@
+     ///          @param Fieldname is name of the field to set
+     ///          @param Value is the new value
+     ///          @returns true, if the field exists, false otherwise &lt;/summary&gt;
+-    function TrySetFieldValue(const _FieldName: string; const _Value: Variant): boolean;
++    function TrySetFieldValue(const _FieldName: string; const _Value: Variant): Boolean;
+     procedure ClearField(const _Fieldname: string);
+ 
+-    function HasField(const _Fieldname: string): boolean;
++    function GetActive: Boolean;
++    procedure SetActive(const _Value: Boolean);
++
++    function HasField(const _Fieldname: string): Boolean;
+     function Fields: TFields;
+ 
+     ///&lt;summary&gt; Copies all values of the current record to the given NameValueList, ignoring
+@@ -133,57 +141,52 @@
+     procedure FromNameValueList(_Values: TNameValueList);
+     ///&lt;summary&gt; allows access to field values as variants &lt;/summary&gt;
+     property FieldValues[const _FieldName: string]: Variant read GetFieldValue write SetFieldValue; default;
++    property Active: Boolean read GetActive write SetActive;
+   end;
+ 
+ type
+-  ///&lt;summary&gt; implements the IDatasetHelper interface &lt;/summary&gt;
++  ///&lt;summary&gt; implements the IDatasetHelper interface
++  ///          Note: You might want to instantiate a TDatasetHelperBDE,
++  ///                TDatasetHelperADO or TDatasetHelperTDBF instead. &lt;/summary&gt;
+   TDatasetHelper = class(TInterfacedObject, IDatasetHelper)
+   private
+     function FieldByName(const _Fieldname: string): TField;
++    function GetActive: Boolean;
++    procedure SetActive(const _Value: Boolean);
+   protected
+     FDataset: TDataset;
+     FTableName: string;
+-  public
+-    ///&lt;summary&gt; creates a TDatasetHelper for accessing a TQuery, TTable, TAdoTable or TAdoQuery &lt;/summary&gt;
+-    constructor Create(_Table: TAdoTable); overload;
+-    constructor Create(_Table: TTable); overload;
+-    ///&lt;summary&gt; creates a TDatasetHelper for accessing a query
+-    ///          @param Query is the TAdoQuery to access
+-    ///          @param Tablename is the table name to use for automatically
+-    ///                           generated error messages &lt;/summary&gt;
+-    constructor Create(_Query: TAdoQuery; const _Tablename: string); overload;
+-    constructor Create(_Query: TQuery; const _TableName: string); overload;
+-    constructor Create(_AdoDataset: TADODataSet; const _TableName: string); overload;
+-  public // implementation of IDatasetHelper, see there for a description
++  protected // implementation of IDatasetHelper, see there for a description
+     function FieldAsString(const _Fieldname: string): string; overload;
+     function FieldAsString(const _Fieldname, _Default: string): string; overload;
+-    function TryFieldAsString(const _Fieldname: string; out _Value: string): boolean;
++    function TryFieldAsString(const _Fieldname: string; out _Value: string): Boolean;
++    function TryFieldAsNonEmptyString(const _Fieldname: string; out _Value: string): Boolean;
+     procedure SetFieldStringNotEmpty(const _Fieldname: string; const _Value: string);
+ 
+-    function FieldAsInteger(const _Fieldname: string): integer; overload;
+-    function FieldAsInteger(const _Fieldname: string; _Default: integer): integer; overload;
+-    function FieldAsInteger(const _Fieldname: string; const _Error: string): integer; overload;
+-    function TryFieldAsInteger(const _Fieldname: string; out _Value: integer): boolean;
++    function FieldAsInteger(const _Fieldname: string): Integer; overload;
++    function FieldAsInteger(const _Fieldname: string; _Default: Integer): Integer; overload;
++    function FieldAsInteger(const _Fieldname: string; const _Error: string): Integer; overload;
++    function TryFieldAsInteger(const _Fieldname: string; out _Value: Integer): Boolean;
+ 
+-    function FieldAsDouble(const _Fieldname: string): double; overload;
+-    function FieldAsDouble(const _Fieldname: string; const _Default: double): double; overload;
+-    function FieldAsDouble(const _Fieldname: string; const _Error: string): double; overload;
+-    function TryFieldAsDouble(const _Fieldname: string; out _Value: double): boolean;
++    function FieldAsDouble(const _Fieldname: string): Double; overload;
++    function FieldAsDouble(const _Fieldname: string; const _Default: Double): Double; overload;
++    function FieldAsDouble(const _Fieldname: string; const _Error: string): Double; overload;
++    function TryFieldAsDouble(const _Fieldname: string; out _Value: Double): Boolean;
+ 
+-    function FieldAsExtended(const _Fieldname: string): extended; overload;
+-    function FieldAsExtended(const _Fieldname: string; const _Default: extended): extended; overload;
+-    function FieldAsExtended(const _Fieldname: string; const _Error: string): extended; overload;
+-    function TryFieldAsExtended(const _Fieldname: string; out _Value: extended): boolean;
++    function FieldAsExtended(const _Fieldname: string): Extended; overload;
++    function FieldAsExtended(const _Fieldname: string; const _Default: Extended): Extended; overload;
++    function FieldAsExtended(const _Fieldname: string; const _Error: string): Extended; overload;
++    function TryFieldAsExtended(const _Fieldname: string; out _Value: Extended): Boolean;
+ 
+     function FieldAsDate(const _Fieldname: string): TDateTime; overload;
+     function FieldAsDate(const _Fieldname: string; _Default: TDateTime): TDateTime; overload;
+-    function TryFieldAsDate(const _Fieldname: string; out _Date: TDateTime): boolean;
++    function TryFieldAsDate(const _Fieldname: string; out _Date: TDateTime): Boolean;
+ 
+-    function FieldAsBoolean(const _FieldName: string): boolean; overload;
+-    function FieldAsBoolean(const _FieldName: string; _Default: boolean): boolean; overload;
++    function FieldAsBoolean(const _FieldName: string): Boolean; overload;
++    function FieldAsBoolean(const _FieldName: string; _Default: Boolean): Boolean; overload;
+ 
+     function FieldAsGuid(const _FieldName: string): TNullableGuid;
+-    function TryFieldAsGuid(const _Fieldname: string; out _Value: TNullableGuid): boolean;
++    function TryFieldAsGuid(const _Fieldname: string; out _Value: TNullableGuid): Boolean;
+ 
+     procedure Open;
+     procedure Close;
+@@ -191,13 +194,14 @@
+     procedure First;
+     procedure Last;
+ 
+-    function Next: boolean;
+-    function Prior: boolean;
+-    function MoveBy(_Distance: integer): integer;
++    function Next: Boolean;
++    function Prior: Boolean;
++    function MoveBy(_Distance: Integer): Integer;
+ 
+-    function Eof: boolean;
+-    function Bof: boolean;
++    function Eof: Boolean;
++    function Bof: Boolean;
+ 
++    procedure Append;
+     procedure Insert;
+     procedure Edit;
+ 
+@@ -206,21 +210,28 @@
+     procedure Post;
+     procedure Cancel;
+ 
+-    function IsEmpty: boolean;
++    function IsEmpty: Boolean;
+ 
+-    function Locate(const _KeyFields: string; const _KeyValues: Variant; _Options: TLocateOptions): boolean;
+-    procedure SetParamByName(const _Param: string; _Value: variant);
+-    function TrySetParamByName(const _Param: string; _Value: variant): boolean;
++    procedure DisableControls;
++    procedure EnableControls;
+ 
++    function Locate(const _KeyFields: string; const _KeyValues: Variant; _Options: TLocateOptions): Boolean;
++    procedure SetParamByName(const _Param: string; _Value: variant); virtual;
++    function TrySetParamByName(const _Param: string; _Value: variant): Boolean; virtual;
++
+     function GetFieldValue(const _FieldName: string): Variant;
+     procedure SetFieldValue(const _FieldName: string; const _Value: Variant);
+-    function TrySetFieldValue(const _FieldName: string; const _Value: Variant): boolean;
++    function TrySetFieldValue(const _FieldName: string; const _Value: Variant): Boolean;
+     procedure ClearField(const _Fieldname: string);
+     function Fields: TFields;
+-    function HasField(const _Fieldname: string): boolean;
++    function HasField(const _Fieldname: string): Boolean;
+     procedure ToNameValueList(_Values: TNameValueList; const _Ignore: array of string);
+     procedure FromNameValueList(_Values: TNameValueList);
++
++    property Active: Boolean read GetActive write SetActive;
+     property FieldValues[const _FieldName: string]: Variant read GetFieldValue write SetFieldValue; default;
++  public
++    constructor Create(_Dataset: TDataset; const _TableName: string);
+   end;
+ 
+ implementation
+@@ -237,35 +248,10 @@
+ 
+ { TDatasetHelper }
+ 
+-constructor TDatasetHelper.Create(_Table: TTable);
++constructor TDatasetHelper.Create(_Dataset: TDataset; const _TableName: string);
+ begin
+-  FDataset := _Table;
+-  FTableName := _Table.TableName;
+-end;
+-
+-constructor TDatasetHelper.Create(_Query: TQuery; const _TableName: string);
+-begin
+-  FDataset := _Query;
+-  FTableName := _TableName;
+-end;
+-
+-constructor TDatasetHelper.Create(_Table: TAdoTable);
+-begin
+   inherited Create;
+-  FDataset := _Table;
+-  FTableName := _Table.TableName;
+-end;
+-
+-constructor TDatasetHelper.Create(_Query: TAdoQuery; const _Tablename: string);
+-begin
+-  inherited Create;
+-  FDataset := _Query;
+-  FTableName := _Tablename;
+-end;
+-
+-constructor TDatasetHelper.Create(_AdoDataset: TADODataSet; const _TableName: string);
+-begin
+-  FDataset := _AdoDataset;
++  FDataset := _Dataset;
+   FTableName := _TableName;
+ end;
+ 
+@@ -292,52 +278,52 @@
+     Result := _Default;
+ end;
+ 
+-function TDatasetHelper.TryFieldAsDate(const _Fieldname: string; out _Date: TDateTime): boolean;
++function TDatasetHelper.TryFieldAsDate(const _Fieldname: string; out _Date: TDateTime): Boolean;
+ begin
+   Result := not IsEmpty and TryVar2DateTime(FieldByName(_FieldName).Value, _Date);
+ end;
+ 
+-function TDatasetHelper.TryFieldAsExtended(const _Fieldname: string; out _Value: extended): boolean;
++function TDatasetHelper.TryFieldAsExtended(const _Fieldname: string; out _Value: Extended): Boolean;
+ begin
+   Result := not IsEmpty and TryVar2Ext(FieldByName(_FieldName).Value, _Value);
+ end;
+ 
+-function TDatasetHelper.TryFieldAsGuid(const _Fieldname: string; out _Value: TNullableGuid): boolean;
++function TDatasetHelper.TryFieldAsGuid(const _Fieldname: string; out _Value: TNullableGuid): Boolean;
+ begin
+   if IsEmpty then
+-    Result := false
++    Result := False
+   else begin
+     _Value.AssignVariant(FieldByName(_FieldName).Value);
+     Result := _Value.IsValid;
+   end;
+ end;
+ 
+-function TDatasetHelper.TryFieldAsInteger(const _Fieldname: string; out _Value: integer): boolean;
++function TDatasetHelper.TryFieldAsInteger(const _Fieldname: string; out _Value: Integer): Boolean;
+ begin
+   Result := not IsEmpty and TryVar2Int(FieldByName(_FieldName).Value, _Value);
+ end;
+ 
+-function TDatasetHelper.FieldAsDouble(const _Fieldname: string): double;
++function TDatasetHelper.FieldAsDouble(const _Fieldname: string): Double;
+ begin
+   Result := Var2DblEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname);
+ end;
+ 
+-function TDatasetHelper.FieldAsDouble(const _Fieldname, _Error: string): double;
++function TDatasetHelper.FieldAsDouble(const _Fieldname, _Error: string): Double;
+ begin
+   Result := Var2DblEx(FieldByName(_FieldName).Value, _Error);
+ end;
+ 
+-function TDatasetHelper.FieldAsExtended(const _Fieldname: string): extended;
++function TDatasetHelper.FieldAsExtended(const _Fieldname: string): Extended;
+ begin
+   Result := Var2ExtEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname);
+ end;
+ 
+-function TDatasetHelper.FieldAsExtended(const _Fieldname: string; const _Default: extended): extended;
++function TDatasetHelper.FieldAsExtended(const _Fieldname: string; const _Default: Extended): Extended;
+ begin
+   Result := Var2Ext(FieldByName(_FieldName).Value, _Default);
+ end;
+ 
+-function TDatasetHelper.FieldAsExtended(const _Fieldname, _Error: string): extended;
++function TDatasetHelper.FieldAsExtended(const _Fieldname, _Error: string): Extended;
+ begin
+   Result := Var2ExtEx(FieldByName(_FieldName).Value, _Error);
+ end;
+@@ -347,12 +333,12 @@
+   Result.AssignVariant(FieldByName(_FieldName).Value);
+ end;
+ 
+-function TDatasetHelper.FieldAsInteger(const _Fieldname: string): integer;
++function TDatasetHelper.FieldAsInteger(const _Fieldname: string): Integer;
+ begin
+   Result := Var2IntEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname);
+ end;
+ 
+-function TDatasetHelper.FieldAsInteger(const _Fieldname, _Error: string): integer;
++function TDatasetHelper.FieldAsInteger(const _Fieldname, _Error: string): Integer;
+ begin
+   Result := Var2IntEx(FieldByName(_FieldName).Value, _Error);
+ end;
+@@ -362,28 +348,33 @@
+   Result := Trim(Var2StrEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname));
+ end;
+ 
+-function TDatasetHelper.TryFieldAsString(const _Fieldname: string; out _Value: string): boolean;
++function TDatasetHelper.TryFieldAsString(const _Fieldname: string; out _Value: string): Boolean;
+ begin
+   Result := not IsEmpty and TryVar2Str(FieldByName(_FieldName).Value, _Value);
+ end;
+ 
+-function TDatasetHelper.FieldAsBoolean(const _FieldName: string): boolean;
++function TDatasetHelper.TryFieldAsNonEmptyString(const _Fieldname: string; out _Value: string): Boolean;
+ begin
++  Result := TryFieldAsString(_Fieldname, _Value) and (_Value &lt;&gt; '');
++end;
++
++function TDatasetHelper.FieldAsBoolean(const _FieldName: string): Boolean;
++begin
+   Result := FieldAsInteger(_FieldName) &lt;&gt; 0;
+ end;
+ 
+-function TDatasetHelper.FieldAsDouble(const _Fieldname: string; const _Default: double): double;
++function TDatasetHelper.FieldAsDouble(const _Fieldname: string; const _Default: Double): Double;
+ begin
+   if not TryFieldAsDouble(_Fieldname, Result) then
+     Result := _Default;
+ end;
+ 
+-function TDatasetHelper.TryFieldAsDouble(const _Fieldname: string; out _Value: double): boolean;
++function TDatasetHelper.TryFieldAsDouble(const _Fieldname: string; out _Value: Double): Boolean;
+ begin
+   Result := not IsEmpty and TryVar2Dbl(FieldByName(_FieldName).Value, _Value);
+ end;
+ 
+-function TDatasetHelper.FieldAsInteger(const _Fieldname: string; _Default: integer): integer;
++function TDatasetHelper.FieldAsInteger(const _Fieldname: string; _Default: Integer): Integer;
+ begin
+   if not TryFieldAsInteger(_Fieldname, Result) then
+     Result := _Default;
+@@ -394,7 +385,7 @@
+   Result := Trim(Var2Str(FieldByName(_FieldName).Value, _Default));
+ end;
+ 
+-function TDatasetHelper.FieldAsBoolean(const _FieldName: string; _Default: boolean): boolean;
++function TDatasetHelper.FieldAsBoolean(const _FieldName: string; _Default: Boolean): Boolean;
+ begin
+   Result := FieldAsInteger(_FieldName, BoolToInt(_Default)) &lt;&gt; 0;
+ end;
+@@ -419,14 +410,14 @@
+ 
+ procedure TDatasetHelper.ToNameValueList(_Values: TNameValueList; const _Ignore: array of string);
+ 
+-  function IsIgnored(const _s: string): boolean;
++  function IsIgnored(const _s: string): Boolean;
+   var
+     s: string;
+   begin
+-    Result := false;
++    Result := False;
+     for s in _Ignore do begin
+       if SameText(s, _s) then begin
+-        Result := true;
++        Result := True;
+         exit;
+       end;
+     end;
+@@ -449,19 +440,24 @@
+ 
+ procedure TDatasetHelper.FromNameValueList(_Values: TNameValueList);
+ var
+-  i: integer;
++  i: Integer;
+ begin
+   for i := 0 to _Values.Count - 1 do
+     FieldValues[_Values[i].Name] := _Values[i].Value;
+ end;
+ 
+-function TDatasetHelper.Eof: boolean;
++function TDatasetHelper.Eof: Boolean;
+ begin
+   Result := FDataset.Eof;
+ end;
+ 
+-function TDatasetHelper.Bof: boolean;
++procedure TDatasetHelper.Append;
+ begin
++  FDataset.Append;
++end;
++
++function TDatasetHelper.Bof: Boolean;
++begin
+   Result := FDataset.Bof;
+ end;
+ 
+@@ -470,13 +466,13 @@
+   FDataset.First;
+ end;
+ 
+-function TDatasetHelper.Next: boolean;
++function TDatasetHelper.Next: Boolean;
+ begin
+   FDataset.Next;
+   Result := not FDataset.Eof;
+ end;
+ 
+-function TDatasetHelper.Prior: boolean;
++function TDatasetHelper.Prior: Boolean;
+ begin
+   FDataset.Prior;
+   Result := not FDataset.Bof;
+@@ -487,12 +483,22 @@
+   FDataset.Open;
+ end;
+ 
++function TDatasetHelper.GetActive: Boolean;
++begin
++  Result := FDataset.Active;
++end;
++
++procedure TDatasetHelper.SetActive(const _Value: Boolean);
++begin
++  FDataset.Active := _Value;
++end;
++
+ function TDatasetHelper.GetFieldValue(const _FieldName: string): Variant;
+ begin
+   Result := FieldByName(_FieldName).Value;
+ end;
+ 
+-function TDatasetHelper.HasField(const _Fieldname: string): boolean;
++function TDatasetHelper.HasField(const _Fieldname: string): Boolean;
+ begin
+   Result := (FDataset.FindField(_Fieldname) &lt;&gt; nil);
+ end;
+@@ -507,7 +513,7 @@
+   FieldByName(_FieldName).Value := _Value;
+ end;
+ 
+-function TDatasetHelper.TrySetFieldValue(const _FieldName: string; const _Value: Variant): boolean;
++function TDatasetHelper.TrySetFieldValue(const _FieldName: string; const _Value: Variant): Boolean;
+ var
+   Field: TField;
+ begin
+@@ -517,49 +523,14 @@
+     Field.Value := _Value;
+ end;
+ 
+-type
+-  THackAdoDataset = class(TCustomAdoDataset)
+-  end;
+-
+ procedure TDatasetHelper.SetParamByName(const _Param: string; _Value: variant);
+-var
+-  i: Integer;
+-  Hack: THackAdoDataset;
+-  Query: TQuery;
+ begin
+-  // Do not use ParamByName -&gt; only works if param is unique
+-  if FDataset is TCustomAdoDataset then begin
+-    Hack := THackAdoDataset(FDataset);
+-    for i := 0 to Hack.Parameters.Count - 1 do begin
+-      if SameText(Hack.Parameters[i].Name, _Param) then
+-        Hack.Parameters[i].Value := _Value;
+-    end;
+-  end else if FDataset is TQuery then begin
+-    Query := (FDataset as TQuery);
+-    for i := 0 to Query.Params.Count - 1 do
+-      if SameText(Query.Params[i].Name, _Param) then
+-        Query.Params[i].Value := _Value;
+-  end else
+-    raise Exception.CreateFmt(_('SetParamByName is not supported for a %s (only TQuery and TAdoDataset descendants).'), [FDataset.ClassName]);
++  raise Exception.CreateFmt(_('SetParamByName is not supported for a %s.'), [FDataset.ClassName]);
+ end;
+ 
+-function TDatasetHelper.TrySetParamByName(const _Param: string; _Value: variant): boolean;
+-var
+-  AdoParam: TParameter;
+-  BdeParam: TParam;
++function TDatasetHelper.TrySetParamByName(const _Param: string; _Value: variant): Boolean;
+ begin
+-  if FDataset is TCustomAdoDataset then begin
+-    AdoParam := THackAdoDataset(FDataset).Parameters.FindParam(_Param);
+-    Result := Assigned(AdoParam);
+-    if Result then
+-      AdoParam.Value := _Value
+-  end else if FDataset is TQuery then begin
+-    BdeParam := (FDataset as TQuery).Params.FindParam(_Param);
+-    Result := Assigned(BdeParam);
+-    if Result then
+-      BdeParam.Value := _Value;
+-  end else
+-    raise Exception.CreateFmt(_('SetParamByName is not supported for a %s (only TQuery and TAdoDataset descendants).'), [FDataset.ClassName]);
++  raise Exception.CreateFmt(_('TrySetParamByName is not supported for a %s.'), [FDataset.ClassName]);
+ end;
+ 
+ procedure TDatasetHelper.Cancel;
+@@ -577,23 +548,33 @@
+   FDataset.Insert;
+ end;
+ 
+-function TDatasetHelper.IsEmpty: boolean;
++function TDatasetHelper.IsEmpty: Boolean;
+ begin
+   Result := FDataset.IsEmpty;
+ end;
+ 
++procedure TDatasetHelper.EnableControls;
++begin
++  FDataset.EnableControls;
++end;
++
++procedure TDatasetHelper.DisableControls;
++begin
++  FDataset.DisableControls;
++end;
++
+ procedure TDatasetHelper.Last;
+ begin
+   FDataset.Last;
+ end;
+ 
+ function TDatasetHelper.Locate(const _KeyFields: string; const _KeyValues: Variant;
+-  _Options: TLocateOptions): boolean;
++  _Options: TLocateOptions): Boolean;
+ begin
+   Result := FDataset.Locate(_KeyFields, _KeyValues, _Options);
+ end;
+ 
+-function TDatasetHelper.MoveBy(_Distance: integer): integer;
++function TDatasetHelper.MoveBy(_Distance: Integer): Integer;
+ begin
+   Result := FDataset.MoveBy(_Distance);
+ end;
+
+Added: utilities/dzLib/trunk/src/u_dzDatasetHelpersADO.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpersADO.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpersADO.pas	2011-08-27 11:13:18 UTC (rev 596)
+@@ -0,0 +1,81 @@
++unit u_dzDatasetHelpersADO;
++
++interface
++
++uses
++  SysUtils,
++  db,
++  AdoDb,
++  u_dzTranslator,
++  u_dzDatasetHelpers;
++
++type
++  TDataSetHelperADO = class(TDatasetHelper)
++  protected
++    procedure SetParamByName(const _Param: string; _Value: variant); override;
++    function TrySetParamByName(const _Param: string; _Value: variant): Boolean; override;
++  public
++    ///&lt;summary&gt; creates a TDatasetHelper for accessing a TQuery, TTable, TAdoTable or TAdoQuery &lt;/summary&gt;
++    constructor Create(_Table: TAdoTable); overload;
++    ///&lt;summary&gt; creates a TDatasetHelper for accessing a query
++    ///          @param Query is the TAdoQuery to access
++    ///          @param Tablename is the table name to use for automatically
++    ///                           generated error messages &lt;/summary&gt;
++    constructor Create(_Query: TAdoQuery; const _Tablename: string); overload;
++    constructor Create(_AdoDataset: TADODataSet; const _TableName: string); overload;
++  end;
++
++implementation
++
++{ TDataSetHelperADO }
++
++constructor TDataSetHelperADO.Create(_Table: TAdoTable);
++begin
++  inherited Create(_Table, _Table.TableName);
++end;
++
++type
++  THackAdoDataset = class(TCustomAdoDataset)
++  end;
++
++constructor TDataSetHelperADO.Create(_Query: TAdoQuery; const _Tablename: string);
++begin
++  inherited Create(_Query, _Tablename);
++end;
++
++constructor TDataSetHelperADO.Create(_AdoDataset: TADODataSet; const _TableName: string);
++begin
++  inherited Create(_AdoDataset, _TableName);
++end;
++
++procedure TDataSetHelperADO.SetParamByName(const _Param: string; _Value: variant);
++var
++  i: Integer;
++  Hack: THackAdoDataset;
++begin
++  // Do not use ParamByName -&gt; only works if param is unique
++  if FDataset is TCustomAdoDataset then begin
++    Hack := THackAdoDataset(FDataset);
++    for i := 0 to Hack.Parameters.Count - 1 do begin
++      if SameText(Hack.Parameters[i].Name, _Param) then
++        Hack.Parameters[i].Value := _Value;
++    end;
++  end else
++    raise Exception.CreateFmt(_('SetParamByName is not supported for a %s (only TADODataSet descendants).'), [FDataset.ClassName]);
++end;
++
++function TDataSetHelperADO.TrySetParamByName(const _Param: string; _Value: variant): Boolean;
++var
++  AdoParam: TParameter;
++begin
++  if FDataset is TCustomAdoDataset then begin
++    AdoParam := THackAdoDataset(FDataset).Parameters.FindParam(_Param);
++    Result := Assigned(AdoParam);
++    if Result then
++      AdoParam.Value := _Value
++  end else
++    raise Exception.CreateFmt(_('TrySetParamByName is not supported for a %s (only TADODataSet descendants).'), [FDataset.ClassName]);
++end;
++
++end.
++
+
+Added: utilities/dzLib/trunk/src/u_dzDatasetHelpersBDE.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpersBDE.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpersBDE.pas	2011-08-27 11:13:18 UTC (rev 596)
+@@ -0,0 +1,58 @@
++unit u_dzDatasetHelpersBDE;
++
++interface
++
++uses
++  SysUtils,
++  db,
++  DBTables,
++  u_dzTranslator,
++  u_dzDatasetHelpers;
++
++type
++  TDataSetHelperBDE = class(TDatasetHelper)
++  protected
++    procedure SetParamByName(const _Param: string; _Value: variant); override;
++    function TrySetParamByName(const _Param: string; _Value: variant): Boolean; override;
++  public
++    constructor Create(_Table: TTable); overload;
++  end;
++
++implementation
++
++{ TDataSetHelperBDE }
++
++constructor TDataSetHelperBDE.Create(_Table: TTable);
++begin
++  inherited Create(_Table, _Table.TableName);
++end;
++
++procedure TDataSetHelperBDE.SetParamByName(const _Param: string; _Value: variant);
++var
++  i: Integer;
++  Query: TQuery;
++begin
++  if FDataset is TQuery then begin
++    Query := (FDataset as TQuery);
++    for i := 0 to Query.Params.Count - 1 do
++      if SameText(Query.Params[i].Name, _Param) then
++        Query.Params[i].Value := _Value;
++  end else
++    raise Exception.CreateFmt(_('SetParamByName is not supported for a %s (only TQuery descendants).'), [FDataset.ClassName]);
++end;
++
++function TDataSetHelperBDE.TrySetParamByName(const _Param: string; _Value: variant): Boolean;
++var
++  BdeParam: TParam;
++begin
++  if FDataset is TQuery then begin
++    BdeParam := (FDataset as TQuery).Params.FindParam(_Param);
++    Result := Assigned(BdeParam);
++    if Result then
++      BdeParam.Value := _Value;
++  end else
++    raise Exception.CreateFmt(_('TrySetParamByName is not supported for a %s (only TQuery descendants).'), [FDataset.ClassName]);
++end;
++
++end.
++
+
+Modified: utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas	2011-08-27 11:12:17 UTC (rev 595)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpersTdbf.pas	2011-08-27 11:13:18 UTC (rev 596)
+@@ -7,7 +7,7 @@
+   dbf;
+ 
+ type
+-  TDataSetHelperTdbf = class(TDatasetHelper, IDatasetHelper)
++  TDataSetHelperTdbf = class(TDatasetHelper)
+   public
+     constructor Create(_Table: TDBF); overload;
+   end;
+@@ -18,9 +18,7 @@
+ 
+ constructor TDataSetHelperTdbf.Create(_Table: TDBF);
+ begin
+-  inherited Create;
+-  FDataset := _Table;
+-  FTableName := _Table.TableName;
++  inherited Create(_Table, _Table.TableName);
+ end;
+ 
+ end.
+
+Added: utilities/dzLib/trunk/src/u_dzDatasetHelpersTopaz.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpersTopaz.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpersTopaz.pas	2011-08-27 11:13:18 UTC (rev 596)
+@@ -0,0 +1,29 @@
++unit u_dzDatasetHelpersTopaz;
++
++interface
++
++uses
++  SysUtils,
++  u_dzDatasetHelpers,
++  tzprimds,
++  ucommon,
++  utzcds,
++  utzfds;
++
++type
++  TDataSetHelperTopaz = class(TDatasetHelper)
++  public
++    constructor Create(_Table: TTzDbf); overload;
++  end;
++
++implementation
++
++{ TDataSetHelperTopaz }
++
++constructor TDataSetHelperTopaz.Create(_Table: TTzDbf);
++begin
++  inherited Create(_Table, Extractfilename(_Table.DbfFileName));
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000452.html">[Dzchart-svncheckins] r595 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000454.html">[Dzchart-svncheckins] r597 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#453">[ date ]</a>
+              <a href="thread.html#453">[ thread ]</a>
+              <a href="subject.html#453">[ subject ]</a>
+              <a href="author.html#453">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

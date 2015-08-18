@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r485 - utilities/buildtools/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r485%20-%20utilities/buildtools/trunk&In-Reply-To=%3C20101001122737.1A1F248108F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000345.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r485 - utilities/buildtools/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r485%20-%20utilities/buildtools/trunk&In-Reply-To=%3C20101001122737.1A1F248108F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r485 - utilities/buildtools/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 14:27:37 CEST 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000345.html">[Dzchart-svncheckins] r486 - in utilities/buildtools/trunk: .	templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#344">[ date ]</a>
+              <a href="thread.html#344">[ thread ]</a>
+              <a href="subject.html#344">[ subject ]</a>
+              <a href="author.html#344">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 14:27:36 +0200 (Fri, 01 Oct 2010)
+New Revision: 485
+
+Modified:
+   utilities/buildtools/trunk/AppendTranslations.cmd
+   utilities/buildtools/trunk/ExtractTranslations.cmd
+Log:
+now tries to be more intelligent when determining the project directory
+
+
+Modified: utilities/buildtools/trunk/AppendTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/AppendTranslations.cmd	2010-09-30 09:23:04 UTC (rev 484)
++++ utilities/buildtools/trunk/AppendTranslations.cmd	2010-10-01 12:27:36 UTC (rev 485)
+@@ -6,26 +6,74 @@
+ echo * %0 running in
+ cd
+ 
++rem determine the project directory that is the one in which
++rem the directory buildtools is located
++call :GetDrvAndDir %0
++set MyDir=%result%
++call :GetDrvAndDir %MyDir%
++set ProjectDir=%result%
++
+ if exist locale goto locexists
+ echo subdirectory locale does not exist, no translation added
+ goto :eof
+ 
+ :locexists
+ 
+-if not exist libs\dzlib\translations\de\dzlib.po goto nodzlib
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">- at echo</A> compile German dzlib.po
+-%~dp0\msgfmt libs\dzlib\translations\de\dzlib.po -o locale\de\lc_messages\dzlib.mo
+-:nodzlib
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> German:
++set LNG=de
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at call</A> :HandLng
+ 
+-if not exist libs\dxgettext\translations\de\delphi2007.po goto nodelphi
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">- at echo</A> compile German delphi2007.po
+-%~dp0\msgfmt libs\dxgettext\translations\de\delphi2007.po -o locale\de\lc_messages\delphi2007.mo
+-:nodelphi
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">- at echo</A> compile German default.po
+-%~dp0\msgfmt locale\de\lc_messages\default.po -o locale\de\lc_messages\default.mo
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> French:
++set LNG=fr
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at call</A> :HandLng
+ 
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> English:
++set LNG=en
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at call</A> :HandLng
++
+ @echo bind all translations to the executable
+ %~dp0\assemble --dxgettext %1.exe
+ echo off
+ 
+ echo * %0 exiting
++goto :eof
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> subroutine for handling a language
++:HandLng
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> ** handling language %LNG% **
++if exist locale\%LNG%\lc_messages goto lcmsgexists
++mkdir locale\%LNG%\lc_messages
++:lcmsgexists
++
++if not exist %ProjectDir%\libs\dspack\translations\%LNG%\dspack.po goto nodspack
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile %LNG% dspack.po
++%~dp0\msgfmt %ProjectDir%\libs\dspack\translations\%LNG%\dspack.po -o locale\%LNG%\lc_messages\dspack.mo
++:nodspack
++
++if not exist %ProjectDir%\libs\dzlib\translations\%LNG%\dzlib.po goto nodzlib
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile %LNG% dzlib.po
++%~dp0\msgfmt %ProjectDir%\libs\dzlib\translations\%LNG%\dzlib.po -o locale\%LNG%\lc_messages\dzlib.mo
++:nodzlib
++
++if not exist %ProjectDir%\libs\sigunits\translations\%LNG%\sigunits.po goto nosigunits
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile %LNG% sigunits.po
++%~dp0\msgfmt %ProjectDir%\libs\sigunits\translations\%LNG%\sigunits.po -o locale\%LNG%\lc_messages\sigunits.mo
++:nosigunits
++
++if not exist %ProjectDir%\libs\dxgettext\translations\%LNG%\delphi2007.po goto nodelphi
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile %LNG% delphi2007.po
++%~dp0\msgfmt %ProjectDir%\libs\dxgettext\translations\%LNG%\delphi2007.po -o locale\%LNG%\lc_messages\delphi2007.mo
++:nodelphi
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile %LNG% default.po
++%~dp0\msgfmt %ProjectDir%\locale\%LNG%\lc_messages\default.po -o locale\%LNG%\lc_messages\default.mo
++
++goto :eof
++
++:GetDrvAndDir
++rem extract directory
++set directory=%~dp1
++rem remove backslash (=last character)
++set result=%directory:~0,-1%
++goto :eof
+
+Modified: utilities/buildtools/trunk/ExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/ExtractTranslations.cmd	2010-09-30 09:23:04 UTC (rev 484)
++++ utilities/buildtools/trunk/ExtractTranslations.cmd	2010-10-01 12:27:36 UTC (rev 485)
+@@ -1,14 +1,18 @@
+ @echo off
+ @rem this file must be copied to the main project directory since it does not work inside the buildtools subdir
++
+ rem set the following if you don't need French, English or German translations:
+ rem set SKIPDE=1
+ rem set SKIPFR=1
+ rem set SKIPEN=1
++
+ if not exist buildtools\doextracttranslations.cmd goto error
+ call buildtools\doextracttranslations.cmd
+ goto ende
++
+ :error
+ echo this file must be copied to the main project directory since it does not work inside the buildtools subdir
++
+ :ende
+ pause
+ &quot;buildtools\gorm.exe&quot; locale\de\lc_messages\default.po
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000345.html">[Dzchart-svncheckins] r486 - in utilities/buildtools/trunk: .	templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#344">[ date ]</a>
+              <a href="thread.html#344">[ thread ]</a>
+              <a href="subject.html#344">[ subject ]</a>
+              <a href="author.html#344">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

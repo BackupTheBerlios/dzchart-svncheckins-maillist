@@ -1,0 +1,336 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r343 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r343%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251447.n8PElm1C013157%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000208.html">
+   <LINK REL="Next"  HREF="000210.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r343 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r343%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200909251447.n8PElm1C013157%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r343 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 16:47:48 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000208.html">[Dzchart-svncheckins] r342 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000210.html">[Dzchart-svncheckins] r344 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#209">[ date ]</a>
+              <a href="thread.html#209">[ thread ]</a>
+              <a href="subject.html#209">[ subject ]</a>
+              <a href="author.html#209">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 16:47:44 +0200 (Fri, 25 Sep 2009)
+New Revision: 343
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+* additional optional parameter MayHaveAttr for TSimpleDirEnumerator.Create
+* Paramter FilesSkipped of TFileSystem.CopyMatchingFiles is now optional
+* new optional parameter ExceptMask for TFileSystem.DeleteMatchingFiles
+* new TFileSystem methods
+ - FileExists
+ - IsFileReadonly
+* new function etpd (short for ExcludeTrailingPathDelimiter)
+
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2009-09-25 14:44:22 UTC (rev 342)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2009-09-25 14:47:44 UTC (rev 343)
+@@ -73,7 +73,7 @@
+     /// but the special '.' and '..' directories
+     /// @param Mask is the file search mask and should include a path
+     /// &lt;/summary&gt;
+-    constructor Create(const _Mask: string);
++    constructor Create(const _Mask: string; _MayHaveAttr: TFileAttributeSet = [faHidden, faSysFile, faVolumeID, faDirectory, faArchive]);
+     /// &lt;summary&gt;
+     /// Destructor, will call FindClose if necessary
+     /// &lt;/summary&gt;
+@@ -81,7 +81,7 @@
+     /// &lt;summary&gt;
+     /// creates a TSimpleDirEnumerator, calls its FindAll method and frees it
+     /// &lt;/summary&gt;
+-    class function Execute(const _Mask: string; _List: TStrings): integer;
++    class function Execute(const _Mask: string; _List: TStrings; _MayHaveAttr: TFileAttributeSet = [faHidden, faSysFile, faVolumeID, faDirectory, faArchive]): integer;
+     /// &lt;summary&gt;
+     /// Calls SysUtils.FindFirst on first call and SysUtls.FindNext in later
+     /// calls.
+@@ -431,10 +431,10 @@
+     ///   the file is skipped or an exception is raised
+     /// * If cfFailIfExists is not set and cfForceOverwrite is set, the function
+     ///   will also try to overwrite readonly files.
+-    /// if FilesSkipped is given, all skipped files will be added to that list
++    /// if FilesSkipped is given, all skipped files will be added to that list (may be nil)
+     ///&lt;/summary&gt;
+     class function CopyMatchingFiles(const _Mask, _SrcDir, _DestDir: string; _Flags: TCopyFileFlagset;
+-      _FilesSkipped: TStrings): integer;
++      _FilesSkipped: TStrings = nil): integer;
+ 
+     /// &lt;summary&gt;
+     /// Copies the file Source to Dest using the Windows MoveFileWithProgress function which
+@@ -513,11 +513,14 @@
+     /// @param Force is a boolean which controls whether this function will try to delete
+     ///              readonly files, If true, it will use SetFileAttr to reset the
+     ///              readonly attribut and try to delete the file again.
++    /// @param ExceptMask is a string contaning a mask for files not to delete even if they
++    ///                   match the Mask, defaults to an empty string meaning no exceptions.
++    ///                   The comparison is case insensitive.
+     /// @returns the number of files that could not be deleted.
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+     class function DeleteMatchingFiles(const _Dir, _Mask: string;
+-      _RaiseException: boolean = true; _Force: boolean = false): integer;
++      _RaiseException: boolean = true; _Force: boolean = false; _ExceptMask: string = ''): integer;
+ 
+     /// &lt;summary&gt;
+     /// tries to find a matching file
+@@ -528,6 +531,8 @@
+     /// &lt;/summary&gt;
+     class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
+ 
++    class function FileExists(const _Filename: string): boolean;
++
+     /// &lt;summary&gt;
+     /// deletes an empty directory using the SysUtils function RemoveDir
+     /// The function will fail if the directory is not empty.
+@@ -595,6 +600,9 @@
+     /// &lt;/summary&gt;
+     class function IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean; overload;
+ 
++    /// &lt;summary&gt; Returns true if the file exists and is readonly &lt;/summary&gt;
++    class function IsFileReadonly(const _Filename: string): boolean;
++
+     /// &lt;summary&gt;
+     /// creates a backup of the file appending the current date and time to the base
+     /// file name. See also TFileGenerationHandler.
+@@ -686,9 +694,15 @@
+ /// &lt;/summary&gt;
+ function itpd(const _Dirname: string): string; inline;
+ 
++///&lt;summary&gt;
++/// This is an abbreviation for ExcludeTrailingPathDelimiter
++///&lt;/summary&gt;
++function etpd(const _Dirname: string): string; inline;
++
+ implementation
+ 
+ uses
++  Masks,
+   u_dzMiscUtils,
+   u_dzStringUtils,
+   u_dzDateUtils;
+@@ -703,13 +717,18 @@
+   Result := IncludeTrailingPathDelimiter(_Dirname);
+ end;
+ 
++function etpd(const _Dirname: string): string; inline;
++begin
++  Result := ExcludeTrailingPathDelimiter(_Dirname);
++end;
++
+ { TSimpleDirEnumerator }
+ 
+-constructor TSimpleDirEnumerator.Create(const _Mask: string);
++constructor TSimpleDirEnumerator.Create(const _Mask: string; _MayHaveAttr: TFileAttributeSet = [faHidden, faSysFile, faVolumeID, faDirectory, faArchive]);
+ begin
+   FMask := _Mask;
+   FMustHaveAttr := [];
+-  FMayHaveAttr := [faHidden, faSysFile, faVolumeID, faDirectory, faArchive];
++  FMayHaveAttr := _MayHaveAttr;
+ end;
+ 
+ destructor TSimpleDirEnumerator.Destroy;
+@@ -718,15 +737,16 @@
+   inherited;
+ end;
+ 
+-class function TSimpleDirEnumerator.Execute(const _Mask: string; _List: TStrings): integer;
++class function TSimpleDirEnumerator.Execute(const _Mask: string; _List: TStrings;
++  _MayHaveAttr: TFileAttributeSet = [faHidden, faSysFile, faVolumeID, faDirectory, faArchive]): integer;
+ var
+   enum: TSimpleDirEnumerator;
+ begin
+-  enum := TSimpleDirEnumerator.Create(_Mask);
++  enum := TSimpleDirEnumerator.Create(_Mask, _MayHaveAttr);
+   try
+     Result := enum.FindAll(_List);
+   finally
+-    enum.Free;
++    FreeAndNil(enum);
+   end;
+ end;
+ 
+@@ -1142,12 +1162,12 @@
+     end else
+       Result := cfwOK;
+   finally
+-    Redir.Free;
++    FreeAndNil(Redir);
+   end;
+ end;
+ 
+ class function TFileSystem.CopyMatchingFiles(const _Mask, _SrcDir, _DestDir: string;
+-  _Flags: TCopyFileFlagset; _FilesSkipped: TStrings): integer;
++  _Flags: TCopyFileFlagset; _FilesSkipped: TStrings = nil): integer;
+ var
+   Files: TStringList;
+   s: string;
+@@ -1159,7 +1179,7 @@
+   DestDirBs := itpd(_DestDir);
+   Files := TStringList.Create;
+   try
+-    TSimpleDirEnumerator.Execute(SrcDirBs + _Mask, Files);
++    TSimpleDirEnumerator.Execute(SrcDirBs + _Mask, Files, [faHidden, faSysFile, faArchive]);
+     for s in Files do begin
+       if CopyFile(SrcDirBs + s, DestDirBs + s, _Flags) then
+         Inc(Result)
+@@ -1169,7 +1189,7 @@
+       end;
+     end;
+   finally
+-    Files.Free;
++    FreeAndNil(Files);
+   end;
+ end;
+ 
+@@ -1218,7 +1238,7 @@
+     end else
+       Result := cfwOK;
+   finally
+-    Redir.Free;
++    FreeAndNil(Redir);
+   end;
+ end;
+ 
+@@ -1243,7 +1263,7 @@
+ end;
+ 
+ class function TFileSystem.DeleteMatchingFiles(const _Dir, _Mask: string;
+-  _RaiseException: boolean = true; _Force: boolean = false): integer;
++  _RaiseException: boolean = true; _Force: boolean = false; _ExceptMask: string = ''): integer;
+ var
+   sr: TSearchRec;
+   Dir: string;
+@@ -1251,20 +1271,35 @@
+   Assert(_Dir &lt;&gt; '', 'Dir parameter must not be an empty string');
+   Assert(_Mask &lt;&gt; '', 'Dir parameter must not be an empty string');
+ 
++  _ExceptMask := LowerCase(_ExceptMask);
+   Result := 0;
+   Dir := IncludeTrailingPathDelimiter(_Dir);
+   if 0 = FindFirst(Dir + _Mask, faAnyFile, sr) then
+     try
+       repeat
+-        if (sr.Name &lt;&gt; '.') and (sr.Name &lt;&gt; '..') and ((sr.Attr and (SysUtils.faVolumeID or SysUtils.faDirectory)) = 0) then
+-          if not DeleteFile(Dir + sr.Name, _RaiseException, _Force) then
+-            Inc(Result);
++        if (sr.Name &lt;&gt; '.') and (sr.Name &lt;&gt; '..') then
++          if ((sr.Attr and (SysUtils.faVolumeID or SysUtils.faDirectory)) = 0) then
++            if (_ExceptMask = '') or not MatchesMask(LowerCase(sr.Name), _ExceptMask) then
++              if not DeleteFile(Dir + sr.Name, _RaiseException, _Force) then
++                Inc(Result);
+       until 0 &lt;&gt; FindNext(sr);
+     finally
+       FindClose(sr);
+     end;
+ end;
+ 
++class function TFileSystem.FileExists(const _Filename: string): boolean;
++var
++  OldErrorMode: Cardinal;
++begin
++  OldErrorMode := SetErrorMode(SEM_NOOPENFILEERRORBOX);
++  try
++    Result := SysUtils.FileExists(_Filename);
++  finally
++    SetErrorMode(OldErrorMode)
++  end;
++end;
++
+ class function TFileSystem.FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
+ var
+   sr: TSearchRec;
+@@ -1380,10 +1415,21 @@
+     sl.LoadFromFile(_Filename);
+     Result := sl.Text;
+   finally
+-    sl.Free;
++    FreeAndNil(sl);
+   end;
+ end;
+ 
++class function TFileSystem.IsFileReadonly(const _Filename: string): boolean;
++var
++  Attributes: Word;
++begin
++  Result := False;
++  if FileExists(_Filename) then begin
++    Attributes := FileGetAttr(_Filename);
++    Result := ((Attributes and SysUtils.faReadOnly) &lt;&gt; 0);
++  end;
++end;
++
+ class function TFileSystem.IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean;
+ var
+   i: Integer;
+@@ -1658,7 +1704,7 @@
+       end;
+     end;
+   finally
+-    EnumA.Free;
++    FreeAndNil(EnumA);
+   end;
+ end;
+ 
+@@ -1699,7 +1745,7 @@
+       end;
+     end;
+   finally
+-    EnumA.Free;
++    FreeAndNil(EnumA);
+   end;
+ end;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000208.html">[Dzchart-svncheckins] r342 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000210.html">[Dzchart-svncheckins] r344 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#209">[ date ]</a>
+              <a href="thread.html#209">[ thread ]</a>
+              <a href="subject.html#209">[ subject ]</a>
+              <a href="author.html#209">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

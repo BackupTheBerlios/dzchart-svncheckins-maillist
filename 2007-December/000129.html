@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r260 - in utilities/dzLib/trunk: src tests/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r260%20-%20in%20utilities/dzLib/trunk%3A%20src%20tests/src&In-Reply-To=%3C200712221408.lBME8E8n003751%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000128.html">
+   <LINK REL="Next"  HREF="000130.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r260 - in utilities/dzLib/trunk: src tests/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r260%20-%20in%20utilities/dzLib/trunk%3A%20src%20tests/src&In-Reply-To=%3C200712221408.lBME8E8n003751%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r260 - in utilities/dzLib/trunk: src tests/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Dec 22 15:08:14 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000128.html">[Dzchart-svncheckins] r259 - in utilities/dzLib/trunk: src tests	tests/dcu tests/src
+</A></li>
+        <LI>Next message: <A HREF="000130.html">[Dzchart-svncheckins] r261 - in utilities/dzLib/trunk: src tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#129">[ date ]</a>
+              <a href="thread.html#129">[ thread ]</a>
+              <a href="subject.html#129">[ subject ]</a>
+              <a href="author.html#129">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-12-22 15:08:00 +0100 (Sat, 22 Dec 2007)
+New Revision: 260
+
+Added:
+   utilities/dzLib/trunk/tests/src/Testu_dzDateUtils.pas
+Modified:
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/src/u_dzUnitTestUtils.pas
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+   utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas
+Log:
+* added more comments
+* Bugfix: forgot to replace a call to DelTree with DelDirTree
+* removed Overload declarations from TdzTestCase methods
+* added a SuitePath to the dzFileUtils tests
+* added unit tests for dzDateUtils
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2007-12-21 21:36:26 UTC (rev 259)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2007-12-22 14:08:00 UTC (rev 260)
+@@ -1,12 +1,36 @@
+ {GXFormatter.config=twm}
++/// implements some utility functions for converting TDateTime to and from strings
++/// in ISO 6801 format (note that these function do not implement the complete
++/// standard but only the extended form without omitting date parts.
+ unit u_dzDateUtils;
+ 
+ {$i jedi.inc}
+ 
+ interface
+ 
+-function DateTime2Iso(_dt: TDateTime; _IncludeTime: boolean = false): string;
++/// &lt;summary&gt;
++/// Converts a TDateTime value to a string in ISO 8601 format
++/// @param dt is the TDateTime value to convert
++/// @param IncludeTime is a boolean that determines whether the time should be
++///                    included, defaults to false
++/// @returns a string with the date (and optionally the time) in the format
++///          'yyyy-mm-dd hh:mm:ss'
++/// &lt;/summary&gt;
++function DateTime2Iso(_dt: TDateTime; _IncludeTime: boolean = false): string; inline;
++
++/// &lt;summary&gt;
++/// converts a string that contains a time in ISO 8601 format to a TDateTime value
++/// @param s is the string to convert, it must be in the form 'hh:mm:ss' or 'hh:mm'
++/// @returns a TDateTime value with the time
++/// &lt;/summary&gt;
+ function Iso2Time(_s: string): TDateTime;
++
++/// &lt;summary&gt;
++/// converts a string that contains a date in ISO 8601 format to a TDateTime value
++/// @param s is the string to convert, it must be in the form 'yyyy-mm-dd', it must
++///          not contain a time
++/// @returns a TDateTime value with the date
++/// &lt;/summary&gt;
+ function Iso2Date(_s: string): TDateTime;
+ 
+ implementation
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-12-21 21:36:26 UTC (rev 259)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2007-12-22 14:08:00 UTC (rev 260)
+@@ -1265,7 +1265,7 @@
+         end else begin
+           Filename := IncludeTrailingPathDelimiter(_Dirname) + sr.Name;
+           if (sr.Attr and SysUtils.faDirectory) &lt;&gt; 0 then begin
+-            Result := DelTree(Filename, _Force, _RaiseException);
++            Result := DelDirTree(Filename, _RaiseException, _Force);
+             if not Result then
+               exit;
+           end else begin
+
+Modified: utilities/dzLib/trunk/src/u_dzUnitTestUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzUnitTestUtils.pas	2007-12-21 21:36:26 UTC (rev 259)
++++ utilities/dzLib/trunk/src/u_dzUnitTestUtils.pas	2007-12-22 14:08:00 UTC (rev 260)
+@@ -21,31 +21,31 @@
+     /// &lt;summary&gt;
+     /// Checks whether the value is a variant of a floating point type (includes integer)
+     /// &lt;/summary&gt;
+-    procedure CheckVariantIsFloat(_Value: variant; _Msg: string);
++    procedure CheckVariantIsFloat(_Value: variant; _Msg: string = '');
+     /// &lt;summary&gt;
+     /// Checks whether the value is a variant of an (signed) integer type (excludes LongWord and Int64)
+     /// &lt;/summary&gt;
+-    procedure CheckVariantIsInteger(_Value: variant; _Msg: string);
++    procedure CheckVariantIsInteger(_Value: variant; _Msg: string = '');
+     /// &lt;summary&gt;
+     /// Checks whether the value is a variant of an (signed) int64 type (includes LongWord and Int64)
+     /// &lt;/summary&gt;
+-    procedure CheckVariantIsInt64(_Value: variant; _Msg: string);
++    procedure CheckVariantIsInt64(_Value: variant; _Msg: string = '');
+     /// &lt;summary&gt;
+     /// Checks whether the value is a variant of an (unsigned) integer type (excludes all signed integer types)
+     /// &lt;/summary&gt;
+-    procedure CheckVariantIsLongWord(_Value: variant; _Msg: string);
++    procedure CheckVariantIsLongWord(_Value: variant; _Msg: string = '');
+     /// &lt;summary&gt;
+     /// Checks whether the value is a non Null variant
+     /// &lt;/summary&gt;
+-    procedure CheckVariantIsNotNull(_Value: variant; _Msg: string); overload;
++    procedure CheckVariantIsNotNull(_Value: variant; _Msg: string = '');
+     /// &lt;summary&gt;
+     /// Checks whether the value is a Null variant
+     /// &lt;/summary&gt;
+-    procedure CheckVariantIsNull(_Value: variant; _Msg: string); overload;
++    procedure CheckVariantIsNull(_Value: variant; _Msg: string = '');
+     /// &lt;summary&gt;
+     /// Checks whether the value is a variant of a string type
+     /// &lt;/summary&gt;
+-    procedure CheckVariantIsString(_Value: variant; _Msg: string); overload;
++    procedure CheckVariantIsString(_Value: variant; _Msg: string='');
+     /// &lt;summary&gt;
+     /// Called by the CheckVAriantIsXxxx functions to show errors
+     /// &lt;/summary&gt;
+@@ -57,15 +57,15 @@
+     /// &lt;summary&gt;
+     /// Checks whether the date part of two TDateTime values is equal
+     /// &lt;/summary&gt;
+-    procedure CheckEqualsDate(_Expected, _Actual: TDateTime; const _Message: string);
++    procedure CheckEqualsDate(_Expected, _Actual: TDateTime; const _Message: string = '');
+     /// &lt;summary&gt;
+     /// Checks whether two TDateTime values are equal
+     /// &lt;/summary&gt;
+-    procedure CheckEqualsDateTime(_Expected, _Actual: TDateTime; const _Message: string);
++    procedure CheckEqualsDateTime(_Expected, _Actual: TDateTime; const _Message: string = '');
+     /// &lt;summary&gt;
+     /// Checks whether the time part of two TDateTime values is equal
+     /// &lt;/summary&gt;
+-    procedure CheckEqualsTime(_Expected, _Actual: TDateTime; const _Message: string);
++    procedure CheckEqualsTime(_Expected, _Actual: TDateTime; const _Message: string = '');
+     /// &lt;summary&gt;
+     /// Checks multiline strings for equality
+     /// &lt;/summary&gt;
+
+Modified: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2007-12-21 21:36:26 UTC (rev 259)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2007-12-22 14:08:00 UTC (rev 260)
+@@ -25,12 +25,12 @@
+   u_dzStringUtils in '..\..\src\u_dzStringUtils.pas',
+   u_dzConvertUtils in '..\..\src\u_dzConvertUtils.pas',
+   u_dzTranslator in '..\..\src\u_dzTranslator.pas',
+-  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
+   u_dzUnitTestUtils in '..\..\src\u_dzUnitTestUtils.pas',
+   u_dzVariantUtils in '..\..\src\u_dzVariantUtils.pas',
+   Testu_dzConvertUtils in 'Testu_dzConvertUtils.pas',
+-  Testu_dzClassUtils in 'Testu_dzClassUtils.pas',
+-  u_dzClassUtils in '..\..\src\u_dzClassUtils.pas';
++  Testu_dzDateUtils in 'Testu_dzDateUtils.pas',
++  u_dzClassUtils in '..\..\src\u_dzClassUtils.pas',
++  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas';
+ 
+ {$R *.RES}
+ 
+
+Modified: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2007-12-21 21:36:26 UTC (rev 259)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2007-12-22 14:08:00 UTC (rev 260)
+@@ -52,8 +52,8 @@
+     &lt;DCCReference Include=&quot;..\..\src\u_dzTranslator.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzUnitTestUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzVariantUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;Testu_dzClassUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;Testu_dzConvertUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;Testu_dzDateUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;Testu_dzFileUtils.pas&quot; /&gt;
+   &lt;/ItemGroup&gt;
+ &lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/src/Testu_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzDateUtils.pas	2007-12-21 21:36:26 UTC (rev 259)
++++ utilities/dzLib/trunk/tests/src/Testu_dzDateUtils.pas	2007-12-22 14:08:00 UTC (rev 260)
+@@ -0,0 +1,46 @@
++unit Testu_dzDateUtils;
++
++interface
++
++uses
++  Windows,
++  Classes,
++  SysUtils,
++  TestFramework,
++  u_dzDateUtils,
++  u_dzUnitTestUtils;
++
++type
++  TestDateUtils = class(TdzTestCase)
++  published
++    procedure TestDateTime2Iso;
++    procedure TestIso2Date;
++    procedure TestIso2Time;
++  end;
++
++implementation
++
++{ TestDateUtils }
++
++procedure TestDateUtils.TestDateTime2Iso;
++begin
++  CheckEquals('1966-05-05', DateTime2Iso(EncodeDate(1966, 5, 5)));
++  CheckEquals('2000-01-31', DateTime2Iso(EncodeDate(2000, 1, 31)));
++  CheckEquals('1966-05-05 20:15:01', DateTime2Iso(EncodeDate(1966, 5, 5) + EncodeTime(20, 15, 1, 0), true));
++end;
++
++procedure TestDateUtils.TestIso2Date;
++begin
++  CheckEqualsDate(EncodeDate(1966, 5, 5), Iso2Date('1966-05-05'));
++end;
++
++procedure TestDateUtils.TestIso2Time;
++begin
++  CheckEqualsTime(EncodeTime(20, 15, 1, 0), Iso2Time('20:15:01'));
++  CheckEqualsTime(EncodeTime(20, 15, 0, 0), Iso2Time('20:15'));
++end;
++
++initialization
++  RegisterTest(TestDateUtils.Suite);
++end.
++
+
+Modified: utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas	2007-12-21 21:36:26 UTC (rev 259)
++++ utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas	2007-12-22 14:08:00 UTC (rev 260)
+@@ -797,13 +797,13 @@
+ end;
+ 
+ initialization
+-  RegisterTest(TestTFileSystem.Suite);
+-  RegisterTest(TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_NotKeep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_Keep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber_NotKeep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber_NotKeep.Suite);
+-  RegisterTest(TestTDirectorySync.Suite);
++  RegisterTest('FileUtils', TestTFileSystem.Suite);
++  RegisterTest('FileUtils\Generations', TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_NotKeep.Suite);
++  RegisterTest('FileUtils\Generations', TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_Keep.Suite);
++  RegisterTest('FileUtils\Generations', TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep.Suite);
++  RegisterTest('FileUtils\Generations', TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep.Suite);
++  RegisterTest('FileUtils\Generations', TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber_NotKeep.Suite);
++  RegisterTest('FileUtils\Generations', TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber_NotKeep.Suite);
++  RegisterTest('FileUtils', TestTDirectorySync.Suite);
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000128.html">[Dzchart-svncheckins] r259 - in utilities/dzLib/trunk: src tests	tests/dcu tests/src
+</A></li>
+	<LI>Next message: <A HREF="000130.html">[Dzchart-svncheckins] r261 - in utilities/dzLib/trunk: src tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#129">[ date ]</a>
+              <a href="thread.html#129">[ thread ]</a>
+              <a href="subject.html#129">[ subject ]</a>
+              <a href="author.html#129">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

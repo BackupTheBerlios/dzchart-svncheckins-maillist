@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r508 - in utilities/dzLib/trunk:	Packages/Delphi2011 components
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r508%20-%20in%20utilities/dzLib/trunk%3A%0A%09Packages/Delphi2011%20components&In-Reply-To=%3C20101002170311.7EC05480FE9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000366.html">
+   <LINK REL="Next"  HREF="000368.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r508 - in utilities/dzLib/trunk:	Packages/Delphi2011 components</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r508%20-%20in%20utilities/dzLib/trunk%3A%0A%09Packages/Delphi2011%20components&In-Reply-To=%3C20101002170311.7EC05480FE9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r508 - in utilities/dzLib/trunk:	Packages/Delphi2011 components">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct  2 19:03:11 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000366.html">[Dzchart-svncheckins] r507 - in utilities/dzLib/trunk:	Packages/Delphi2007 Packages/dcu components
+</A></li>
+        <LI>Next message: <A HREF="000368.html">[Dzchart-svncheckins] r509 - in 3rd/jcl/2.000/trunk: lib/d10	lib/d14 packages/d10
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#367">[ date ]</a>
+              <a href="thread.html#367">[ thread ]</a>
+              <a href="subject.html#367">[ subject ]</a>
+              <a href="author.html#367">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-02 19:03:11 +0200 (Sat, 02 Oct 2010)
+New Revision: 508
+
+Modified:
+   utilities/dzLib/trunk/Packages/Delphi2011/
+   utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dproj
+   utilities/dzLib/trunk/components/c_dzShellControls.pas
+   utilities/dzLib/trunk/components/u_dzShellControlsReg.pas
+Log:
+also register TdzShellComboBox, TdzShellListView
+
+
+Property changes on: utilities/dzLib/trunk/Packages/Delphi2011
+___________________________________________________________________
+Modified: svn:ignore
+   - dzComponentsD.res
+dzComponentsR.res
+
+   + dzComponentsD.res
+dzComponentsR.res
+*.tvsconfig
+
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dproj
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dproj	2010-10-02 16:46:57 UTC (rev 507)
++++ utilities/dzLib/trunk/Packages/Delphi2011/dzComponentsR.dproj	2010-10-02 17:03:11 UTC (rev 508)
+@@ -26,6 +26,7 @@
+ 			&lt;Base&gt;true&lt;/Base&gt;
+ 		&lt;/PropertyGroup&gt;
+ 		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_UnitSearchPath&gt;..\..\..\jcl\source\include;..\..\..\jcl\source\common;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
+ 			&lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+ 			&lt;DCC_Description&gt;dzCompoments runtime package&lt;/DCC_Description&gt;
+ 			&lt;RuntimeOnlyPackage&gt;true&lt;/RuntimeOnlyPackage&gt;
+@@ -48,7 +49,6 @@
+ 			&lt;Version&gt;7.0&lt;/Version&gt;
+ 			&lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+ 			&lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+-			&lt;DCC_UnitSearchPath&gt;..\..\jedi_inc;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
+ 			&lt;DCC_ResourcePath&gt;..\..\jedi_inc;$(DCC_ResourcePath)&lt;/DCC_ResourcePath&gt;
+ 			&lt;DCC_ObjPath&gt;..\..\jedi_inc;$(DCC_ObjPath)&lt;/DCC_ObjPath&gt;
+ 			&lt;DCC_IncludePath&gt;..\..\jedi_inc;$(DCC_IncludePath)&lt;/DCC_IncludePath&gt;
+
+Modified: utilities/dzLib/trunk/components/c_dzShellControls.pas
+===================================================================
+--- utilities/dzLib/trunk/components/c_dzShellControls.pas	2010-10-02 16:46:57 UTC (rev 507)
++++ utilities/dzLib/trunk/components/c_dzShellControls.pas	2010-10-02 17:03:11 UTC (rev 508)
+@@ -11,6 +11,8 @@
+ 
+ unit c_dzShellControls;
+ 
++{$I 'jedi.inc'}
++
+ interface
+ 
+ uses
+@@ -862,7 +864,7 @@
+   end;
+   { This is a hack bug fix to get around Windows Shell Controls returning
+     spurious &quot;?&quot;s in date/time detail fields } 
+-  if (Length(Result) &gt; 1) and (Result[1] = '?') and (Result[2] in ['0'..'9']) then
++  if (Length(Result) &gt; 1) and (Result[1] = '?') and (AnsiChar(Result[2]) in ['0'..'9']) then
+     Result := StringReplace(Result,'?','',[rfReplaceAll]);
+ end;
+ 
+@@ -932,7 +934,7 @@
+     begin
+       ICmd := LongInt(Command) - 1;
+       HR := CM.GetCommandString(ICmd, GCS_VERBA, nil, ZVerb, SizeOf(ZVerb));
+-      Verb := StrPas(ZVerb);
++      Verb := String(StrPas(ZVerb));
+       Handled := False;
+       if Supports(Owner, IShellCommandVerb, SCV) then
+       begin
+@@ -1498,7 +1500,11 @@
+     FThread := TShellChangeThread.Create(FOnChange);
+     FThread.SetDirectoryOptions(FRoot,
+       LongBool(FWatchSubTree), NotifyOptionFlags);
++{$IFDEF DELPHIXE_UP}
++    FThread.Start;
++{$ELSE}
+     FThread.Resume;
++{$ENDIF}
+   end;
+ end;
+ 
+
+Modified: utilities/dzLib/trunk/components/u_dzShellControlsReg.pas
+===================================================================
+--- utilities/dzLib/trunk/components/u_dzShellControlsReg.pas	2010-10-02 16:46:57 UTC (rev 507)
++++ utilities/dzLib/trunk/components/u_dzShellControlsReg.pas	2010-10-02 17:03:11 UTC (rev 508)
+@@ -12,7 +12,7 @@
+ 
+ procedure Register;
+ begin
+-  RegisterComponents('dzlib', [TdzShellTreeView]);
++  RegisterComponents('dzlib', [TdzShellTreeView, TdzShellComboBox, TdzShellListView]);
+ end;
+ 
+ end.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000366.html">[Dzchart-svncheckins] r507 - in utilities/dzLib/trunk:	Packages/Delphi2007 Packages/dcu components
+</A></li>
+	<LI>Next message: <A HREF="000368.html">[Dzchart-svncheckins] r509 - in 3rd/jcl/2.000/trunk: lib/d10	lib/d14 packages/d10
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#367">[ date ]</a>
+              <a href="thread.html#367">[ thread ]</a>
+              <a href="subject.html#367">[ subject ]</a>
+              <a href="author.html#367">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,1400 @@
+From twm at mail.berlios.de  Wed Mar  9 11:43:28 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed,  9 Mar 2011 11:43:28 +0100
+Subject: [Dzchart-svncheckins] r559 - utilities/dzLib/trunk/forms
+Message-ID: <20110309104328.E075148146F@sheep.berlios.de>
+
+Author: twm
+Date: 2011-03-09 11:43:28 +0100 (Wed, 09 Mar 2011)
+New Revision: 559
+
+Modified:
+   utilities/dzLib/trunk/forms/w_dzDialog.pas
+Log:
+new parameter Caption
+
+Modified: utilities/dzLib/trunk/forms/w_dzDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-02-27 12:24:20 UTC (rev 558)
++++ utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-03-09 10:43:28 UTC (rev 559)
+@@ -269,7 +269,7 @@
+       const _Buttons: array of TDialogButtonEnum; const _CustomButtons: array of string;
+       const _CustomResults: array of integer;
+       _Owner: TWinControl = nil;
+-      const _OptionDesc: string = ''; _FocusButton: Integer = -1): integer; overload;
++      const _OptionDesc: string = ''; _FocusButton: Integer = -1; _Caption: string = ''): integer; overload;
+     ///<summary> Creates a Tf_dzDialog instance, shows it and returns it. The created
+     ///          dialog instance must be freed by the caller. Nonmodal in this context
+     ///          means that the call returns to the caller rather than waiting for the
+@@ -335,7 +335,8 @@
+ class function Tf_dzDialog.ShowMessage(_DialogType: TMsgDlgType;
+   const _Message: string; const _Buttons: array of TDialogButtonEnum;
+   const _CustomButtons: array of string; const _CustomResults: array of integer;
+-  _Owner: TWinControl = nil; const _OptionDesc: string = ''; _FocusButton: Integer = -1): integer;
++  _Owner: TWinControl = nil; const _OptionDesc: string = ''; _FocusButton: Integer = -1;
++  _Caption: string = ''): integer;
+ var
+   frm: Tf_dzDialog;
+   i: Integer;
+@@ -355,6 +356,8 @@
+     frm.OptionDescription := _OptionDesc;
+     frm.DialogType := _DialogType;
+     frm.GenerateControls;
++	if _Caption <> '' then
++      frm.Caption := _Caption;
+     TForm_CenterOn(frm, _Owner);
+     Result := frm.ShowModal;
+   finally
+
+
+
+From twm at mail.berlios.de  Wed Mar  9 11:45:48 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed,  9 Mar 2011 11:45:48 +0100
+Subject: [Dzchart-svncheckins] r560 - utilities/dzLib/trunk/src
+Message-ID: <20110309104548.83B6348146F@sheep.berlios.de>
+
+Author: twm
+Date: 2011-03-09 11:45:48 +0100 (Wed, 09 Mar 2011)
+New Revision: 560
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzClassUtils.pas
+Log:
+* new function TStrings_DeleteString
+* new procedure TIniFile_WriteStrings
+* new function TIniFile_ReadDate
+* new function TIniFile_TryReadDate
+* new procedure TIniFile_WriteDate
+* TStrings_FreeAllObjects now also sets object pointers to NIL
+
+
+Modified: utilities/dzLib/trunk/src/u_dzClassUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzClassUtils.pas	2011-03-09 10:43:28 UTC (rev 559)
++++ utilities/dzLib/trunk/src/u_dzClassUtils.pas	2011-03-09 10:45:48 UTC (rev 560)
+@@ -44,6 +44,11 @@
+ /// </summary>
+ function TStrings_FreeAllObjects(_Strings: TStrings): TStrings;
+ 
++///<summary>
++/// searches the TStrings for the given string and deletes it if it can find it
++/// @returns true, if it was found and deleted, false if not </summary>
++function TStrings_DeleteString(_Strings: TStrings; const _s: string): boolean;
++
+ /// <summary>
+ /// frees the object and delets the entry from the list
+ /// </summary>
+@@ -163,6 +168,7 @@
+ /// @returns the number of strings read
+ /// </summary>
+ function TIniFile_ReadStrings(_Ini: TCustomIniFile; const _Section: string; _st: TStrings): integer;
++procedure TIniFile_WriteStrings(_Ini: TCustomIniFile; const _Section: string; _st: TStrings);
+ 
+ ///<summary>
+ /// Tries to read a floating point value from the ini-file, always using '.' as decimal separator.
+@@ -181,6 +187,18 @@
+ /// Reads an integer from the ini-file, raises an exception if the value is not an integer </summary>
+ function TIniFile_ReadInt(_Ini: TCustomIniFile; const _Section, _Ident: string): integer;
+ 
++///<summary>
++/// Reads a date in ISO format from the ini-file, raises an exception if the value is not a valid date </summary>
++function TIniFile_ReadDate(_Ini: TCustomIniFile; const _Section, _Ident: string): TDateTime;
++///<summary>
++/// Tries to read a date in ISO format from the ini-file
++/// @returns true, if the date could be read and converted </summary>
++function TIniFile_TryReadDate(_Ini: TCustomIniFile; const _Section, _Ident: string; out _Value: TDateTime): boolean;
++
++///<summary>
++/// Writes a date in ISO format to the ini file </summary>
++procedure TIniFile_WriteDate(_Ini: TCustomIniFile; const _Section, _Ident: string; const _Value: TDateTime);
++
+ /// <summary>
+ /// Reads the given section from the given .INI file and returns it as a TStrings
+ /// @raises Exception if the section does not exist. </summary>
+@@ -191,7 +209,8 @@
+ uses
+   StrUtils,
+   u_dzConvertUtils,
+-  u_dzStringUtils;
++  u_dzStringUtils,
++  u_dzDateUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+@@ -258,8 +277,10 @@
+ var
+   i: Integer;
+ begin
+-  for i := 0 to _Strings.Count - 1 do
++  for i := 0 to _Strings.Count - 1 do begin
+     _Strings.Objects[i].Free;
++    _Strings.Objects[i] := nil;
++  end;
+   Result := _Strings;
+ end;
+ 
+@@ -268,6 +289,16 @@
+   TStrings_FreeAllObjects(_Strings).Free;
+ end;
+ 
++function TStrings_DeleteString(_Strings: TStrings; const _s: string): boolean;
++var
++  Idx: integer;
++begin
++  Idx := _Strings.IndexOf(_s);
++  Result := (Idx <> -1);
++  if Result then
++    _Strings.Delete(Idx);
++end;
++
+ procedure TStrings_DeleteAndFreeObject(_Strings: TStrings; _Idx: integer);
+ begin
+   _Strings.Objects[_Idx].Free;
+@@ -429,6 +460,18 @@
+     _st.Add(_Ini.ReadString(_Section, 'Item' + IntToStr(i), ''));
+ end;
+ 
++procedure TIniFile_WriteStrings(_Ini: TCustomIniFile; const _Section: string; _st: TStrings);
++var
++  i: integer;
++begin
++  Assert(Assigned(_Ini));
++  Assert(Assigned(_st));
++
++  _Ini.WriteInteger(_Section, 'Count', _st.Count);
++  for i := 0 to _st.Count - 1 do
++    _Ini.WriteString(_Section, 'Item' + IntToStr(i), _st[i]);
++end;
++
+ function TIniFile_TryReadFloat(_Ini: TCustomIniFile; const _Section, _Ident: string; out _Value: extended): boolean;
+ var
+   s: string;
+@@ -448,7 +491,7 @@
+ begin
+   s := _Ini.ReadString(_Section, _Ident, '');
+   if not TryStr2Float(s, Result) then
+-    raise Exception.CreateFmt(_('Invalid floating point value %s in ini file for [%s]%s'), [s, _Section, _Ident]);
++    raise Exception.CreateFmt(_('Invalid floating point value "%s" in ini file for [%s]%s'), [s, _Section, _Ident]);
+ end;
+ 
+ procedure TIniFile_WriteFloat(_Ini: TCustomIniFile; const _Section, _Ident: string; _Value: extended);
+@@ -456,6 +499,28 @@
+   _Ini.WriteString(_Section, _Ident, Float2Str(_Value));
+ end;
+ 
++function TIniFile_TryReadDate(_Ini: TCustomIniFile; const _Section, _Ident: string; out _Value: TDateTime): boolean;
++var
++  s: string;
++begin
++  s := _Ini.ReadString(_Section, _Ident, '');
++  Result := TryIso2Date(s, _Value);
++end;
++
++function TIniFile_ReadDate(_Ini: TCustomIniFile; const _Section, _Ident: string): TDateTime;
++var
++  s: string;
++begin
++  s := _Ini.ReadString(_Section, _Ident, '');
++  if not TryIso2Date(s, Result) then
++    raise Exception.CreateFmt(_('Invalid date value "%s" in ini file for [%s]%s'), [s, _Section, _Ident]);
++end;
++
++procedure TIniFile_WriteDate(_Ini: TCustomIniFile; const _Section, _Ident: string; const _Value: TDateTime);
++begin
++  _Ini.WriteString(_Section, _Ident, DateTime2Iso(_Value));
++end;
++
+ function TIniFile_ReadInt(_Ini: TCustomIniFile; const _Section, _Ident: string): integer;
+ var
+   s: string;
+
+
+
+From twm at mail.berlios.de  Wed Mar  9 11:47:25 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed,  9 Mar 2011 11:47:25 +0100
+Subject: [Dzchart-svncheckins] r561 - utilities/dzLib/trunk/src
+Message-ID: <20110309104725.4820548146F@sheep.berlios.de>
+
+Author: twm
+Date: 2011-03-09 11:47:25 +0100 (Wed, 09 Mar 2011)
+New Revision: 561
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+TGrid_SetRowNoClick has now a TCustomGrid rather than a TDrawGrid parameter
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-03-09 10:45:48 UTC (rev 560)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-03-09 10:47:25 UTC (rev 561)
+@@ -19,6 +19,7 @@
+   ExtCtrls,
+   CheckLst,
+   StdCtrls,
++  ExtCtrls,
+   Grids,
+   DbGrids,
+   Buttons,
+@@ -145,7 +146,7 @@
+ function TGrid_SetNonfixedColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
+ 
+ ///<summary> sets the grid's current row without triggering an OnClick event
+-procedure TGrid_SetRowNoClick(_Grid: TDrawGrid; _Row: integer);
++procedure TGrid_SetRowNoClick(_Grid: TCustomGrid; _Row: integer);
+ 
+ ///<summary> sets the row count to FixedRows + 1 and clears all non-fixed cells </summary>
+ procedure TStringGrid_Clear(_Grid: TStringGrid);
+@@ -619,6 +620,7 @@
+ 
+ uses
+   Menus, // for StripHotKey function
++  Messages,
+   Consts,
+   JPEG,
+   StrUtils,
+@@ -793,16 +795,19 @@
+   TGrid_SetColCount(_Grid, _ColCount);
+ end;
+ 
+-procedure TGrid_SetRowNoClick(_Grid: TDrawGrid; _Row: integer);
++procedure TGrid_SetRowNoClick(_Grid: TCustomGrid; _Row: integer);
+ var
+   Event: TNotifyEvent;
++var
++  Grid: TGridHack;
+ begin
+-  Event := _Grid.OnClick;
++  Grid := TGridHack(_Grid);
++  Event := Grid.OnClick;
+   try
+-    _Grid.OnClick := nil;
+-    _Grid.Row := _Row;
++    Grid.OnClick := nil;
++    Grid.Row := _Row;
+   finally
+-    _Grid.OnClick := Event;
++    Grid.OnClick := Event;
+   end;
+ end;
+ 
+
+
+
+From twm at mail.berlios.de  Wed Mar  9 11:49:22 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed,  9 Mar 2011 11:49:22 +0100
+Subject: [Dzchart-svncheckins] r562 - utilities/dzLib/trunk/src
+Message-ID: <20110309104923.1DA2948146F@sheep.berlios.de>
+
+Author: twm
+Date: 2011-03-09 11:49:22 +0100 (Wed, 09 Mar 2011)
+New Revision: 562
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+* new method IUniqueTempDir.PathBS
+* new class method TFilesystem.MoveFileEx
+* TFileSystem.CreateUniqueTempDir now has the option to delete the directory only if it is empty
+
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-03-09 10:47:25 UTC (rev 561)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-03-09 10:49:22 UTC (rev 562)
+@@ -311,6 +311,8 @@
+ 
+   IUniqueTempDir = interface ['{D9A4A428-66AE-4BBC-B1CA-22CE4DE2FACB}']
+     function Path: string;
++    ///<summary> Path including trailing path delimiter </summary>
++    function PathBS: string;
+   end;
+ 
+   /// <summary>
+@@ -322,6 +324,9 @@
+   type
+     TCopyFileFlags = (cfFailIfExists, cfForceOverwrite, cfRaiseException);
+     TCopyFileFlagSet = set of TCopyFileFlags;
++    TMoveFileExFlags = (mfCopyAllowed, {mfCreateHardlink,} mfDelayUntilReboot, mfFailIfNotTrackable,
++      mfReplaceExisting, mfWriteThrough);
++    TMoveFileexFlagSet = set of TMoveFileExFlags;
+     TMatchingFileResult = (mfNotFound, mfDirectory, mfFile, mfSpecial);
+     TCopyFileWithProgressFlags = (cfwFailIfExists, cfwRestartable, cfwRaiseException);
+     TCopyFileWithProgressFlagSet = set of TCopyFileWithProgressFlags;
+@@ -383,7 +388,7 @@
+     /// @returns the name of the created directory
+     /// </summary>
+     class function CreateUniqueDirectory(_BaseDir: string = ''; const _Prefix: string = 'dz'): string;
+-    class function CreateUniqueTempDir(_Prefix: string = 'dz'): IUniqueTempDir;
++    class function CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = false; _Prefix: string = 'dz'): IUniqueTempDir;
+ 
+     /// <summary>
+     /// Calls the Win32Api function GetTempPath but returns a string rather than
+@@ -403,6 +408,19 @@
+     /// @returns true, if the file could be moved, false otherwise.
+     /// </summary>
+     class function MoveFile(const _Source, _Dest: string; _RaiseException: boolean = true): boolean;
++    /// <summary>
++    /// Moves the file Source to Dest using the Windows MoveFileEx function.
++    /// @param Source is a string containing the name of the existing file
++    /// @param Dest is a string containing the destination file name
++    /// @Param Flags is a set of flags corresponding to the Windows MoveEx flags
++    /// @param RaiseException is a boolean which controls whether the function
++    ///        retrieves the Windows error and raises an exception
++    ///        if it fails. If false, it will not raise an exception
++    ///        but just return false if moving the file fails.
++    /// @returns true, if the file could be moved, false otherwise.
++    /// </summary>
++    class function MoveFileEx(const _Source, _Dest: string; _Flags: TMoveFileExFlagSet;
++      _RaiseException: boolean = true): boolean;
+ 
+     /// <summary>
+     /// Copies the file Source to Dest using the Windows CopyFile function.
+@@ -968,7 +986,7 @@
+ var
+   DriveBits: set of 0..25;
+   DriveNum: Integer;
+-  DriveChar: AnsiChar;
++  DriveChar: Char;
+   DriveType: TDriveType;
+   s: string;
+ begin
+@@ -976,7 +994,7 @@
+   for DriveNum := 0 to 25 do begin
+     if not (DriveNum in DriveBits) then
+       Continue;
+-    DriveChar := AnsiChar(DriveNum + Ord('a'));
++    DriveChar := Char(DriveNum + Ord('a'));
+     DriveType := TDriveType(Windows.GetDriveType(PChar(DriveChar + ':\')));
+     if not _HdOnly or (DriveType = dtFixed) then begin
+       s := GetVolumeName(DriveChar);
+@@ -1036,18 +1054,21 @@
+   TUniqueTempDir = class(TInterfacedObject, IUniqueTempDir)
+   private
+     FPath: string;
++    FDeleteOnlyIfEmpty: Boolean;
+     function Path: string;
++    ///<summary> Path including trailing path delimiter </summary>
++    function PathBS: string;
+   public
+-    constructor Create(const _Path: string);
++    constructor Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = false);
+     destructor Destroy; override;
+   end;
+ 
+-class function TFileSystem.CreateUniqueTempDir(_Prefix: string): IUniqueTempDir;
++class function TFileSystem.CreateUniqueTempDir(_DeleteOnlyIfEmpty: boolean = false; _Prefix: string = 'dz'): IUniqueTempDir;
+ var
+   s: string;
+ begin
+   s := CreateUniqueDirectory(GetTempPath, _Prefix);
+-  Result := TUniqueTempDir.Create(s);
++  Result := TUniqueTempDir.Create(s, _DeleteOnlyIfEmpty);
+ end;
+ 
+ class function TFileSystem.GetTempFileName(_Directory: string = ''; const _Prefix: string = 'dz';
+@@ -1187,6 +1208,32 @@
+   end;
+ end;
+ 
++class function TFileSystem.MoveFileEx(const _Source, _Dest: string; _Flags: TMoveFileExFlagSet;
++  _RaiseException: boolean): boolean;
++var
++  LastError: Cardinal;
++  Flags: DWORD;
++begin
++  Flags := 0;
++  if mfCopyAllowed in _Flags then
++    Flags := Flags or MOVEFILE_COPY_ALLOWED;
++  if mfDelayUntilReboot in _Flags then
++    Flags := Flags or MOVEFILE_DELAY_UNTIL_REBOOT;
++  if mfFailIfNotTrackable in _Flags then
++    Flags := Flags or MOVEFILE_FAIL_IF_NOT_TRACKABLE;
++  if mfReplaceExisting in _Flags then
++    Flags := Flags or MOVEFILE_REPLACE_EXISTING;
++  if mfWriteThrough in _Flags then
++    Flags := Flags or MOVEFILE_WRITE_THROUGH;
++
++  Result := Windows.MoveFileEx(PChar(_Source), PChar(_Dest), Flags);
++  if not Result and _RaiseException then begin
++    LastError := GetLastError;
++    // duplicate % so they get passed through the format function
++    RaiseLastOsErrorEx(LastError, Format(_('Error %%1:s (%%0:d) while trying to move "%s" to "%s".'), [_Source, _Dest]));
++  end;
++end;
++
+ class function TFileSystem.SetReadonly(const _Filename: string; _Set: boolean; _RaiseException: boolean = true): boolean;
+ var
+   Attr: integer;
+@@ -2060,16 +2107,20 @@
+ 
+ { TUniqueTempDir }
+ 
+-constructor TUniqueTempDir.Create(const _Path: string);
++constructor TUniqueTempDir.Create(const _Path: string; _DeleteOnlyIfEmpty: boolean = false);
+ begin
+   inherited Create;
+   FPath := _Path;
++  FDeleteOnlyIfEmpty := _DeleteOnlyIfEmpty;
+ end;
+ 
+ destructor TUniqueTempDir.Destroy;
+ begin
+   // delete directory, fail silently on errors
+-  TFileSystem.DelDirTree(FPath, False);
++  if FDeleteOnlyIfEmpty then
++    TFileSystem.RemoveDir(FPath, False)
++  else
++    TFileSystem.DelDirTree(FPath, False);
+   inherited;
+ end;
+ 
+@@ -2078,5 +2129,10 @@
+   Result := FPath;
+ end;
+ 
++function TUniqueTempDir.PathBS: string;
++begin
++  Result := itpd(FPath);
++end;
++
+ end.
+ 
+
+
+
+From twm at mail.berlios.de  Wed Mar  9 11:50:32 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed,  9 Mar 2011 11:50:32 +0100
+Subject: [Dzchart-svncheckins] r563 - utilities/dzLib/trunk/src
+Message-ID: <20110309105032.736E448146F@sheep.berlios.de>
+
+Author: twm
+Date: 2011-03-09 11:50:32 +0100 (Wed, 09 Mar 2011)
+New Revision: 563
+
+Added:
+   utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas
+Log:
+ignore classes from jvcl from translation: TJvFormStorage
+
+Added: utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzTranslatorJVCL.pas	2011-03-09 10:50:32 UTC (rev 563)
+@@ -0,0 +1,22 @@
++{.GXFormatter.config=twm}
++///<summary> Add this unit to ignore some JVCL classes and properties from translation </summary>
++unit u_dzTranslatorJVCL;
++
++interface
++
++uses
++  SysUtils,
++  Classes;
++
++implementation
++
++uses
++  u_dzTranslator,
++  JvFormPlacement;
++
++initialization
++
++  // Ignore TFormStorage properties
++  TP_TryGlobalIgnoreClass(TJvFormStorage);
++end.
++
+
+
+
+From twm at mail.berlios.de  Wed Mar  9 11:51:38 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed,  9 Mar 2011 11:51:38 +0100
+Subject: [Dzchart-svncheckins] r564 - in utilities/dzLib/trunk/translations:
+	de en fr
+Message-ID: <20110309105138.893C948146F@sheep.berlios.de>
+
+Author: twm
+Date: 2011-03-09 11:51:38 +0100 (Wed, 09 Mar 2011)
+New Revision: 564
+
+Modified:
+   utilities/dzLib/trunk/translations/de/dzlib.po
+   utilities/dzLib/trunk/translations/en/dzlib.po
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+corrected / new translations
+
+Modified: utilities/dzLib/trunk/translations/de/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/de/dzlib.po	2011-03-09 10:50:32 UTC (rev 563)
++++ utilities/dzLib/trunk/translations/de/dzlib.po	2011-03-09 10:51:38 UTC (rev 564)
+@@ -6,7 +6,7 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: dzLib 1.0\n"
+-"POT-Creation-Date: 2010-11-20 12:52\n"
++"POT-Creation-Date: 2011-03-01 09:46\n"
+ "PO-Revision-Date: 2010-07-13 10:18+0100\n"
+ "Last-Translator: Thomas Mueller <info at schniering.com>\n"
+ "Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+@@ -17,22 +17,27 @@
+ "X-Poedit-Language: German\n"
+ "X-Poedit-Country: GERMANY\n"
+ 
+-#: u_dzClassUtils.pas:382
++#: u_dzClassUtils.pas:397
+ msgid "no matching object found"
+ msgstr "kein passendes Objekt gefunden"
+ 
+-#: u_dzClassUtils.pas:420
++#: u_dzClassUtils.pas:435
+ #, object-pascal-format
+ msgid "Invalid empty string value in ini file for [%s]%s"
+ msgstr "Ung?ltige Leerstring-Wert in ini-Datei f?r [%s]%s"
+ 
+-#: u_dzClassUtils.pas:451
++#: u_dzClassUtils.pas:466
+ #, object-pascal-format
+-msgid "Invalid floating point value %s in ini file for [%s]%s"
+-msgstr "Ung?ltiger Flie?komawert %s in ini-Datei f?r [%s]%s"
++msgid "Invalid floating point value \"%s\" in ini file for [%s]%s"
++msgstr "Ung?ltiger Flie?kommawert \"%s\" in ini-Datei f?r [%s]%s"
+ 
+-#: u_dzClassUtils.pas:465
++#: u_dzClassUtils.pas:488
+ #, object-pascal-format
++msgid "Invalid date value \"%s\" in ini file for [%s]%s"
++msgstr "Ung?ltiger Datumswert \"%s\" in ini-Datei f?r [%s]%s"
++
++#: u_dzClassUtils.pas:502
++#, object-pascal-format
+ msgid "Invalid integer value \"%s\" in ini file for [%s]%s"
+ msgstr "Ung?ltiger Ganzzahlwert \"%s\" in ini-Datei f?r [%s]%s"
+ 
+@@ -293,76 +298,76 @@
+ msgid "StdOut was not redirected"
+ msgstr "StdOut wurde nicht umgeleitet"
+ 
+-#: u_dzFileStreams.pas:259
++#: u_dzFileStreams.pas:257
+ #, object-pascal-format
+ msgid "%%1:s (%%0:d) trying to open \"%s\""
+ msgstr "%%1:s (%%0:d) beim ?ffnen von \"%s\""
+ 
+-#: u_dzFileStreams.pas:307
++#: u_dzFileStreams.pas:305
+ msgid "Invalid file attributes"
+ msgstr "Ung?ltige Dateiattribute"
+ 
+-#: u_dzFileStreams.pas:319
++#: u_dzFileStreams.pas:317
+ msgid "Invalid file flags"
+ msgstr "Ung?ltige Dateiflags"
+ 
+-#: u_dzFileStreams.pas:338
+-msgid "Cannot change filename when file is open."
+-msgstr "Kann Dateinamen nicht ?ndern wenn Datei ge?ffnet ist."
+-
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:919
++#: u_dzFileUtils.pas:927
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:935
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath (zweiter)"
+ 
++#: u_dzFileUtils.pas:987
++msgid "<no volume name>"
++msgstr "<kein Volume-Name>"
++
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:944 u_dzFileUtils.pas:1502
++#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) creating directory \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses \"%s\""
+ 
+-#: u_dzFileUtils.pas:968
++#: u_dzFileUtils.pas:1030
+ #, object-pascal-format
+ msgid "Could not find a unique directory name based on \"%s\""
+ msgstr "Konnte keinen eindeutigen Verzeichnisnamen basierend auf \"%s\" finden."
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:986
++#: u_dzFileUtils.pas:1066
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von Windows.GetTempFileName"
+ 
+-#: u_dzFileUtils.pas:1041 u_dzFileUtils.pas:1047
++#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
+ #, object-pascal-format
+ msgid "File not found: \"%s\""
+ msgstr "Datei nicht gefunden: \"%s\""
+ 
+-#: u_dzFileUtils.pas:1092
++#: u_dzFileUtils.pas:1172
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von Windows.GetShortPathname"
+ 
+-#: u_dzFileUtils.pas:1094
++#: u_dzFileUtils.pas:1174
+ #, object-pascal-format
+ msgid "Short pathname is longer than MAX_PATH (%d) characters"
+ msgstr "Kurzer Pfad ist l?nger als MAX_PATH (%d) Zeichen"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1106
++#: u_dzFileUtils.pas:1186
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
+ msgstr "Fehler %%1:s (%%0:d) beim Verschieben von \"%s\" nach \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1124
++#: u_dzFileUtils.pas:1204
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim ?ndern des Schreibschutz-Flags von \"%s\""
+@@ -370,50 +375,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1144 u_dzFileUtils.pas:1270 u_dzFileUtils.pas:1343
++#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
+ msgstr "Fehler %%1:s (%%0:d) beim Kopieren von \"%s\" nach \"%s\"."
+ 
+-#: u_dzFileUtils.pas:1258
++#: u_dzFileUtils.pas:1338
+ #, object-pascal-format
+ msgid "Error %s (%s) in progress callback while trying to copy \"%s\" to \"%s\"."
+ msgstr "Fehler %s (%s) im Fortschritts-Callback beim Kopieren von \"%s\" nach \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1373
++#: u_dzFileUtils.pas:1453
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim L?schen der Datei \"%s\""
+ 
+-#: u_dzFileUtils.pas:1443
++#: u_dzFileUtils.pas:1523
+ #, object-pascal-format
+ msgid "File not found: %s"
+ msgstr "Datei nicht gefunden: %s"
+ 
+-#: u_dzFileUtils.pas:1457
++#: u_dzFileUtils.pas:1537
+ #, object-pascal-format
+ msgid "Directory not found: %s"
+ msgstr "Verzeichnis nicht gefunden: \"%s\""
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1494
++#: u_dzFileUtils.pas:1574
+ #, object-pascal-format
+ msgid "Error creating directory \"%s\": %s (%s)"
+ msgstr "Fehler beim Erstellen des Verzeichnisses \"%s\": %s (%s)"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1521
++#: u_dzFileUtils.pas:1601
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting directory \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim L?schen des Verzeichnisses \"%s\""
+ 
+-#: u_dzFileUtils.pas:1539
++#: u_dzFileUtils.pas:1619
+ #, object-pascal-format
+ msgid "\"%s\" does not exist or is not a directory"
+ msgstr "\"%s\" existiert nicht oder ist kein Verzeichnis"
+ 
+-#: u_dzFileUtils.pas:1813
++#: u_dzFileUtils.pas:1893
+ msgid "Combination of ResultContainsNumber and KeepOriginal is not allowed"
+ msgstr "Kombination von ResultContainsNumber und KeepOriginal ist nicht erlaubt"
+ 
+@@ -542,7 +547,7 @@
+ msgid "RESOURCEDLL \"%s\" is not valid (Check #3)"
+ msgstr "RESOURCEDLL \"%s\" ist nicht g?ltig (Pr?fung #3)"
+ 
+-#: u_dzRingBuffer.pas:247 u_dzRingBuffer.pas:258
++#: u_dzRingBuffer.pas:249 u_dzRingBuffer.pas:260
+ #, object-pascal-format
+ msgid "Index %d out of bounds."
+ msgstr "Index %d nicht im g?ltigen Bereich."
+@@ -607,30 +612,30 @@
+ msgid "Variant can not be converted to %s"
+ msgstr "Variant kann nicht nach %s konvertiert werden"
+ 
+-#: u_dzVclUtils.pas:636
++#: u_dzVclUtils.pas:647
+ #, object-pascal-format
+ msgid "Glyph string contained invalid character at position %d."
+ msgstr "Der Glyph-Text beinhaltet ein ung?ltiges Zeichen an Position %d."
+ 
+-#: u_dzVclUtils.pas:894 u_dzVclUtils.pas:941
++#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid floating point value."
+ msgstr "\"%s\" ist kein g?ltiger Flie?kommawert."
+ 
+-#: u_dzVclUtils.pas:909 u_dzVclUtils.pas:973 u_dzVclUtils.pas:986
++#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid integer value."
+ msgstr "\"%s\" ist kein g?ltiger Integerwert."
+ 
+-#: u_dzVclUtils.pas:1382
++#: u_dzVclUtils.pas:1407
+ msgid "No item selected in combobox"
+ msgstr "Kein Eintrag der Combobox ausgew?hlt"
+ 
+-#: u_dzVclUtils.pas:1401
++#: u_dzVclUtils.pas:1426
+ msgid "No item selected in listbox"
+ msgstr "Kein Eintrag der Listbox ausgew?hlt"
+ 
+-#: u_dzVclUtils.pas:1965
++#: u_dzVclUtils.pas:1990
+ msgid "JPEG Files"
+ msgstr "JPEG Dateien"
+ 
+@@ -739,21 +744,21 @@
+ msgid "Do you really want to abort?"
+ msgstr "Wollen Sie wirklich abbrechen?"
+ 
+-#: w_dzProgress.pas:170
++#: w_dzProgress.pas:171
+ #, no-object-pascal-format
+ msgid "must not contain a % at the end"
+ msgstr "darf am Ende kein % enthalten"
+ 
+-#: w_dzProgress.pas:179
++#: w_dzProgress.pas:180
+ #, no-object-pascal-format
+ msgid "\"%\" must be followed by \"d\" or \"%\"."
+ msgstr "Auf \"%\" muss \"d\" oder \"%\" folgen"
+ 
+-#: w_dzProgress.pas:185
++#: w_dzProgress.pas:186
+ msgid "too many parameters"
+ msgstr "Zuviele Parameter"
+ 
+-#: w_dzProgress.pas:197
++#: w_dzProgress.pas:198
+ #, object-pascal-format
+ msgid "Invalid FormCaption, %s"
+ msgstr "Ung?ltige Formular?berschrift \"%s\""
+
+Modified: utilities/dzLib/trunk/translations/en/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/en/dzlib.po	2011-03-09 10:50:32 UTC (rev 563)
++++ utilities/dzLib/trunk/translations/en/dzlib.po	2011-03-09 10:51:38 UTC (rev 564)
+@@ -6,7 +6,7 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: dzLib 1.0\n"
+-"POT-Creation-Date: 2010-11-20 12:52\n"
++"POT-Creation-Date: 2011-03-01 09:46\n"
+ "PO-Revision-Date: 2010-07-13 10:18+0100\n"
+ "Last-Translator: Thomas Mueller <info at schniering.com>\n"
+ "Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+@@ -17,22 +17,27 @@
+ "X-Poedit-Language: English\n"
+ "X-Poedit-Country: UNITED STATES\n"
+ 
+-#: u_dzClassUtils.pas:382
++#: u_dzClassUtils.pas:397
+ msgid "no matching object found"
+ msgstr "no matching object found"
+ 
+-#: u_dzClassUtils.pas:420
++#: u_dzClassUtils.pas:435
+ #, object-pascal-format
+ msgid "Invalid empty string value in ini file for [%s]%s"
+ msgstr "Invalid empty string value in ini file for [%s]%s"
+ 
+-#: u_dzClassUtils.pas:451
++#: u_dzClassUtils.pas:466
+ #, object-pascal-format
+-msgid "Invalid floating point value %s in ini file for [%s]%s"
+-msgstr "Invalid floating point value %s in ini file for [%s]%s"
++msgid "Invalid floating point value \"%s\" in ini file for [%s]%s"
++msgstr "Invalid floating point value \"%s\" in ini file for [%s]%s"
+ 
+-#: u_dzClassUtils.pas:465
++#: u_dzClassUtils.pas:488
+ #, object-pascal-format
++msgid "Invalid date value \"%s\" in ini file for [%s]%s"
++msgstr "Invalid date value \"%s\" in ini file for [%s]%s"
++
++#: u_dzClassUtils.pas:502
++#, object-pascal-format
+ msgid "Invalid integer value \"%s\" in ini file for [%s]%s"
+ msgstr "Invalid integer value \"%s\" in ini file for [%s]%s"
+ 
+@@ -293,76 +298,76 @@
+ msgid "StdOut was not redirected"
+ msgstr "StdOut was not redirected"
+ 
+-#: u_dzFileStreams.pas:259
++#: u_dzFileStreams.pas:257
+ #, object-pascal-format
+ msgid "%%1:s (%%0:d) trying to open \"%s\""
+ msgstr "%%1:s (%%0:d) trying to open \"%s\""
+ 
+-#: u_dzFileStreams.pas:307
++#: u_dzFileStreams.pas:305
+ msgid "Invalid file attributes"
+ msgstr "Invalid file attributes"
+ 
+-#: u_dzFileStreams.pas:319
++#: u_dzFileStreams.pas:317
+ msgid "Invalid file flags"
+ msgstr "Invalid file flags"
+ 
+-#: u_dzFileStreams.pas:338
+-msgid "Cannot change filename when file is open."
+-msgstr "Cannot change filename when file is open."
+-
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:919
++#: u_dzFileUtils.pas:927
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:935
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ 
++#: u_dzFileUtils.pas:987
++msgid "<no volume name>"
++msgstr "<no volume name>"
++
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:944 u_dzFileUtils.pas:1502
++#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) creating directory \"%s\""
+ msgstr "Error %%1:s (%%0:d) creating directory \"%s\""
+ 
+-#: u_dzFileUtils.pas:968
++#: u_dzFileUtils.pas:1030
+ #, object-pascal-format
+ msgid "Could not find a unique directory name based on \"%s\""
+ msgstr "Could not find a unique directory name based on \"%s\""
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:986
++#: u_dzFileUtils.pas:1066
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ 
+-#: u_dzFileUtils.pas:1041 u_dzFileUtils.pas:1047
++#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
+ #, object-pascal-format
+ msgid "File not found: \"%s\""
+ msgstr "File not found: \"%s\""
+ 
+-#: u_dzFileUtils.pas:1092
++#: u_dzFileUtils.pas:1172
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ 
+-#: u_dzFileUtils.pas:1094
++#: u_dzFileUtils.pas:1174
+ #, object-pascal-format
+ msgid "Short pathname is longer than MAX_PATH (%d) characters"
+ msgstr "Short pathname is longer than MAX_PATH (%d) characters"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1106
++#: u_dzFileUtils.pas:1186
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
+ msgstr "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1124
++#: u_dzFileUtils.pas:1204
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
+ msgstr "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
+@@ -370,50 +375,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1144 u_dzFileUtils.pas:1270 u_dzFileUtils.pas:1343
++#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
+ msgstr "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
+ 
+-#: u_dzFileUtils.pas:1258
++#: u_dzFileUtils.pas:1338
+ #, object-pascal-format
+ msgid "Error %s (%s) in progress callback while trying to copy \"%s\" to \"%s\"."
+ msgstr "Error %s (%s) in progress callback while trying to copy \"%s\" to \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1373
++#: u_dzFileUtils.pas:1453
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+ msgstr "Error %%1:s (%%0:d) deleting file \"%s\""
+ 
+-#: u_dzFileUtils.pas:1443
++#: u_dzFileUtils.pas:1523
+ #, object-pascal-format
+ msgid "File not found: %s"
+ msgstr "File not found: %s"
+ 
+-#: u_dzFileUtils.pas:1457
++#: u_dzFileUtils.pas:1537
+ #, object-pascal-format
+ msgid "Directory not found: %s"
+ msgstr "Directory not found: %s"
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1494
++#: u_dzFileUtils.pas:1574
+ #, object-pascal-format
+ msgid "Error creating directory \"%s\": %s (%s)"
+ msgstr "Error creating directory \"%s\": %s (%s)"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1521
++#: u_dzFileUtils.pas:1601
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting directory \"%s\""
+ msgstr "Error %%1:s (%%0:d) deleting directory \"%s\""
+ 
+-#: u_dzFileUtils.pas:1539
++#: u_dzFileUtils.pas:1619
+ #, object-pascal-format
+ msgid "\"%s\" does not exist or is not a directory"
+ msgstr "\"%s\" does not exist or is not a directory"
+ 
+-#: u_dzFileUtils.pas:1813
++#: u_dzFileUtils.pas:1893
+ msgid "Combination of ResultContainsNumber and KeepOriginal is not allowed"
+ msgstr "Combination of ResultContainsNumber and KeepOriginal is not allowed"
+ 
+@@ -542,7 +547,7 @@
+ msgid "RESOURCEDLL \"%s\" is not valid (Check #3)"
+ msgstr "RESOURCEDLL \"%s\" is not valid (Check #3)"
+ 
+-#: u_dzRingBuffer.pas:247 u_dzRingBuffer.pas:258
++#: u_dzRingBuffer.pas:249 u_dzRingBuffer.pas:260
+ #, object-pascal-format
+ msgid "Index %d out of bounds."
+ msgstr "Index %d out of bounds."
+@@ -607,30 +612,30 @@
+ msgid "Variant can not be converted to %s"
+ msgstr "Variant can not be converted to %s"
+ 
+-#: u_dzVclUtils.pas:636
++#: u_dzVclUtils.pas:647
+ #, object-pascal-format
+ msgid "Glyph string contained invalid character at position %d."
+ msgstr "Glyph string contained invalid character at position %d."
+ 
+-#: u_dzVclUtils.pas:894 u_dzVclUtils.pas:941
++#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid floating point value."
+ msgstr "\"%s\" is not a valid floating point value."
+ 
+-#: u_dzVclUtils.pas:909 u_dzVclUtils.pas:973 u_dzVclUtils.pas:986
++#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid integer value."
+ msgstr "\"%s\" is not a valid integer value."
+ 
+-#: u_dzVclUtils.pas:1382
++#: u_dzVclUtils.pas:1407
+ msgid "No item selected in combobox"
+ msgstr "No item selected in combobox"
+ 
+-#: u_dzVclUtils.pas:1401
++#: u_dzVclUtils.pas:1426
+ msgid "No item selected in listbox"
+ msgstr "No item selected in listbox"
+ 
+-#: u_dzVclUtils.pas:1965
++#: u_dzVclUtils.pas:1990
+ msgid "JPEG Files"
+ msgstr "JPEG Files"
+ 
+@@ -739,21 +744,21 @@
+ msgid "Do you really want to abort?"
+ msgstr "Do you really want to abort?"
+ 
+-#: w_dzProgress.pas:170
++#: w_dzProgress.pas:171
+ #, no-object-pascal-format
+ msgid "must not contain a % at the end"
+ msgstr "must not contain a % at the end"
+ 
+-#: w_dzProgress.pas:179
++#: w_dzProgress.pas:180
+ #, no-object-pascal-format
+ msgid "\"%\" must be followed by \"d\" or \"%\"."
+ msgstr "\"%\" must be followed by \"d\" or \"%\"."
+ 
+-#: w_dzProgress.pas:185
++#: w_dzProgress.pas:186
+ msgid "too many parameters"
+ msgstr "too many parameters"
+ 
+-#: w_dzProgress.pas:197
++#: w_dzProgress.pas:198
+ #, object-pascal-format
+ msgid "Invalid FormCaption, %s"
+ msgstr "Invalid FormCaption, %s"
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2011-03-09 10:50:32 UTC (rev 563)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2011-03-09 10:51:38 UTC (rev 564)
+@@ -6,7 +6,7 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: dzLib\n"
+-"POT-Creation-Date: 2010-11-20 12:52\n"
++"POT-Creation-Date: 2011-03-01 09:46\n"
+ "PO-Revision-Date: 2010-10-10 20:17+0100\n"
+ "Last-Translator: RH\n"
+ "Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+@@ -17,21 +17,26 @@
+ "X-Poedit-Language: French\n"
+ "X-Poedit-Country: FRANCE\n"
+ 
+-#: u_dzClassUtils.pas:382
++#: u_dzClassUtils.pas:397
+ msgid "no matching object found"
+ msgstr "aucun objet correspondant trouv?"
+ 
+-#: u_dzClassUtils.pas:420
++#: u_dzClassUtils.pas:435
+ #, object-pascal-format
+ msgid "Invalid empty string value in ini file for [%s]%s"
+ msgstr "Cha?ne valeur non valide dans le fichier ini pour [%s]%s"
+ 
+-#: u_dzClassUtils.pas:451
+-#, object-pascal-format
+-msgid "Invalid floating point value %s in ini file for [%s]%s"
++#: u_dzClassUtils.pas:466
++#, fuzzy, object-pascal-format
++msgid "Invalid floating point value \"%s\" in ini file for [%s]%s"
+ msgstr "valeur du point flottante non valide %s dans le fichier ini pour [%s]%s"
+ 
+-#: u_dzClassUtils.pas:465
++#: u_dzClassUtils.pas:488
++#, fuzzy, object-pascal-format
++msgid "Invalid date value \"%s\" in ini file for [%s]%s"
++msgstr "valeur enti?re non valide \"%s\" dans le fichier ini pour [%s]%s"
++
++#: u_dzClassUtils.pas:502
+ #, object-pascal-format
+ msgid "Invalid integer value \"%s\" in ini file for [%s]%s"
+ msgstr "valeur enti?re non valide \"%s\" dans le fichier ini pour [%s]%s"
+@@ -294,76 +299,76 @@
+ msgid "StdOut was not redirected"
+ msgstr "StdOut n'a pas ?t? redirig?"
+ 
+-#: u_dzFileStreams.pas:259
++#: u_dzFileStreams.pas:257
+ #, object-pascal-format
+ msgid "%%1:s (%%0:d) trying to open \"%s\""
+ msgstr "%%1:s (%%0:d) lors de la ouverture de \"%s\""
+ 
+-#: u_dzFileStreams.pas:307
++#: u_dzFileStreams.pas:305
+ msgid "Invalid file attributes"
+ msgstr "Attributs fichiers non valide"
+ 
+-#: u_dzFileStreams.pas:319
++#: u_dzFileStreams.pas:317
+ msgid "Invalid file flags"
+ msgstr "Flags fichiers non valide"
+ 
+-#: u_dzFileStreams.pas:338
+-msgid "Cannot change filename when file is open."
+-msgstr "Ne peut pas changer le nom de fichier quand le fichier est ouvert."
+-
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:919
++#: u_dzFileUtils.pas:927
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:935
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ 
++#: u_dzFileUtils.pas:987
++msgid "<no volume name>"
++msgstr ""
++
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:944 u_dzFileUtils.pas:1502
++#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) creating directory \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de la cr?ation du r?pertoire \"%s\""
+ 
+-#: u_dzFileUtils.pas:968
++#: u_dzFileUtils.pas:1030
+ #, object-pascal-format
+ msgid "Could not find a unique directory name based on \"%s\""
+ msgstr "Impossible de trouver un nom de r?pertoire unique sur la base de \"%s\""
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:986
++#: u_dzFileUtils.pas:1066
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ 
+-#: u_dzFileUtils.pas:1041 u_dzFileUtils.pas:1047
++#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
+ #, object-pascal-format
+ msgid "File not found: \"%s\""
+ msgstr "Fichier non trouv?: \"%s\""
+ 
+-#: u_dzFileUtils.pas:1092
++#: u_dzFileUtils.pas:1172
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ 
+-#: u_dzFileUtils.pas:1094
++#: u_dzFileUtils.pas:1174
+ #, object-pascal-format
+ msgid "Short pathname is longer than MAX_PATH (%d) characters"
+ msgstr "La longueur du chemin de fichier d?passe MAX_PATH (%d) caract?res"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1106
++#: u_dzFileUtils.pas:1186
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
+ msgstr "Erreur %%1:s (%%0:d) lors du d?placement de \"%s\" vers \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1124
++#: u_dzFileUtils.pas:1204
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors du changement de l'indicateur lecture seule de \"%s\""
+@@ -371,50 +376,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1144 u_dzFileUtils.pas:1270 u_dzFileUtils.pas:1343
++#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
+ msgstr "Erreur %%1:s (%%0:d) lors de la copie de \"%s\" vers \"%s\"."
+ 
+-#: u_dzFileUtils.pas:1258
++#: u_dzFileUtils.pas:1338
+ #, object-pascal-format
+ msgid "Error %s (%s) in progress callback while trying to copy \"%s\" to \"%s\"."
+ msgstr "Erreur %s?(%s)  dans processus callback en essayant de copier \"%s\" vers \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1373
++#: u_dzFileUtils.pas:1453
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de l'effacement du fichier \"%s\""
+ 
+-#: u_dzFileUtils.pas:1443
++#: u_dzFileUtils.pas:1523
+ #, object-pascal-format
+ msgid "File not found: %s"
+ msgstr "Fichier non trouv?: %s"
+ 
+-#: u_dzFileUtils.pas:1457
++#: u_dzFileUtils.pas:1537
+ #, object-pascal-format
+ msgid "Directory not found: %s"
+ msgstr "R?pertoire non trouv?: %s"
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1494
++#: u_dzFileUtils.pas:1574
+ #, object-pascal-format
+ msgid "Error creating directory \"%s\": %s (%s)"
+ msgstr "Erreur lors de la creation du r?pertoire \"%s\": %s (%s)"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1521
++#: u_dzFileUtils.pas:1601
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting directory \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de l'effacement du r?pertoire \"%s\""
+ 
+-#: u_dzFileUtils.pas:1539
++#: u_dzFileUtils.pas:1619
+ #, object-pascal-format
+ msgid "\"%s\" does not exist or is not a directory"
+ msgstr "\"%s\" n'existe pas ou n'est pas un r?p?rtoire"
+ 
+-#: u_dzFileUtils.pas:1813
++#: u_dzFileUtils.pas:1893
+ msgid "Combination of ResultContainsNumber and KeepOriginal is not allowed"
+ msgstr "Combinaison de ResultContainsNumber et KeepOriginal n'est pas possible"
+ 
+@@ -557,7 +562,7 @@
+ msgid "RESOURCEDLL \"%s\" is not valid (Check #3)"
+ msgstr "RESOURCEDLL \"%s\" n'est pas valide (Check # 3)"
+ 
+-#: u_dzRingBuffer.pas:247 u_dzRingBuffer.pas:258
++#: u_dzRingBuffer.pas:249 u_dzRingBuffer.pas:260
+ #, object-pascal-format
+ msgid "Index %d out of bounds."
+ msgstr "Indice %d en dehors des limites."
+@@ -622,31 +627,31 @@
+ msgid "Variant can not be converted to %s"
+ msgstr "Un variant ne peut pas ?tre converti en %s"
+ 
+-#: u_dzVclUtils.pas:636
++#: u_dzVclUtils.pas:647
+ #, object-pascal-format
+ msgid "Glyph string contained invalid character at position %d."
+ msgstr "Glyph cha?ne contenue un caract?re non valide ? position %d."
+ 
+-#: u_dzVclUtils.pas:894 u_dzVclUtils.pas:941
++#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid floating point value."
+ msgstr "\"%s\" n'est pas une valeur d?cimale correcte."
+ 
+ # Integer = Dezimalzahl?
+-#: u_dzVclUtils.pas:909 u_dzVclUtils.pas:973 u_dzVclUtils.pas:986
++#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid integer value."
+ msgstr "\"%s\" n'est pas une valeur d?cimale correcte."
+ 
+-#: u_dzVclUtils.pas:1382
++#: u_dzVclUtils.pas:1407
+ msgid "No item selected in combobox"
+ msgstr "Aucun ?l?ment s?lectionn? dans combobox"
+ 
+-#: u_dzVclUtils.pas:1401
++#: u_dzVclUtils.pas:1426
+ msgid "No item selected in listbox"
+ msgstr "Aucun ?l?ment s?lectionn? dans listbox"
+ 
+-#: u_dzVclUtils.pas:1965
++#: u_dzVclUtils.pas:1990
+ msgid "JPEG Files"
+ msgstr "Fichiers JPEG"
+ 
+@@ -756,21 +761,21 @@
+ msgid "Do you really want to abort?"
+ msgstr "Voulez-vous vraiment faire abandonnerr?"
+ 
+-#: w_dzProgress.pas:170
++#: w_dzProgress.pas:171
+ #, no-object-pascal-format
+ msgid "must not contain a % at the end"
+ msgstr "ne doit pas contenir un % ? la fin"
+ 
+-#: w_dzProgress.pas:179
++#: w_dzProgress.pas:180
+ #, no-object-pascal-format
+ msgid "\"%\" must be followed by \"d\" or \"%\"."
+ msgstr "\"%\" doit ?tre suivi par \"d\" ou \"%\"."
+ 
+-#: w_dzProgress.pas:185
++#: w_dzProgress.pas:186
+ msgid "too many parameters"
+ msgstr "trop de param?tres"
+ 
+-#: w_dzProgress.pas:197
++#: w_dzProgress.pas:198
+ #, object-pascal-format
+ msgid "Invalid FormCaption, %s"
+ msgstr "FormCaption non valide, %s"
+@@ -847,3 +852,5 @@
+ msgid "There is no script named %s in this db type"
+ msgstr "Il n'ya pas de script %s dans ce type db"
+ 
++#~ msgid "Cannot change filename when file is open."
++#~ msgstr "Ne peut pas changer le nom de fichier quand le fichier est ouvert."
+
+
+
+From twm at mail.berlios.de  Wed Mar  9 12:09:19 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Wed,  9 Mar 2011 12:09:19 +0100
+Subject: [Dzchart-svncheckins] r565 - utilities/dzLib/trunk/src
+Message-ID: <20110309110919.432E248146F@sheep.berlios.de>
+
+Author: twm
+Date: 2011-03-09 12:09:19 +0100 (Wed, 09 Mar 2011)
+New Revision: 565
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+removed duplicate units from uses clause
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-03-09 10:51:38 UTC (rev 564)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-03-09 11:09:19 UTC (rev 565)
+@@ -16,7 +16,6 @@
+   Messages,
+   Controls,
+   ComCtrls,
+-  ExtCtrls,
+   CheckLst,
+   StdCtrls,
+   ExtCtrls,
+@@ -620,7 +619,6 @@
+ 
+ uses
+   Menus, // for StripHotKey function
+-  Messages,
+   Consts,
+   JPEG,
+   StrUtils,
+
+
+

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r555 - utilities/buildtools/trunk/templates
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r555%20-%20utilities/buildtools/trunk/templates&In-Reply-To=%3C20110227110854.D1BFB481387%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000412.html">
+   <LINK REL="Next"  HREF="000414.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r555 - utilities/buildtools/trunk/templates</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r555%20-%20utilities/buildtools/trunk/templates&In-Reply-To=%3C20110227110854.D1BFB481387%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r555 - utilities/buildtools/trunk/templates">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Feb 27 12:08:54 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000412.html">[Dzchart-svncheckins] r554 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000414.html">[Dzchart-svncheckins] r556 - utilities/IniFileFormatter/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#413">[ date ]</a>
+              <a href="thread.html#413">[ thread ]</a>
+              <a href="subject.html#413">[ subject ]</a>
+              <a href="author.html#413">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-02-27 12:08:54 +0100 (Sun, 27 Feb 2011)
+New Revision: 555
+
+Added:
+   utilities/buildtools/trunk/templates/OpenInIDE.cmd
+Log:
+script to open the current project in the ide
+
+Added: utilities/buildtools/trunk/templates/OpenInIDE.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/OpenInIDE.cmd	                        (rev 0)
++++ utilities/buildtools/trunk/templates/OpenInIDE.cmd	2011-02-27 11:08:54 UTC (rev 555)
+@@ -0,0 +1,23 @@
++REM - nimmt an, dass das uebergeordnete Verzeichnis gleichzeitig der Name des Projekts ist,
++REM - extrahiert ihn und ruft dann bds mit %projekt%.dproj auf.
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> off
++
++setlocal
++call :GetLastDir %0
++set project=%result%
++start &quot;Delphi XE&quot; &quot;%ProgramFiles%\Embarcadero\RAD Studio\8.0\bin\bds.exe&quot; -pDelphi src\%project%.dproj
++endlocal
++goto :eof
++
++:GetLastDir
++rem Pfad extrahieren
++set directory=%~p1%
++rem backslash (=letztes Zeichen)  entfernen
++set directory=%directory:~0,-1%
++rem &quot;Dateienamen&quot; (= letztes Verzeichnis des Pfades) extrahieren
++call :LastItem %directory%
++goto :eof
++
++:LastItem
++set result=%~n1%
++goto :eof
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000412.html">[Dzchart-svncheckins] r554 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000414.html">[Dzchart-svncheckins] r556 - utilities/IniFileFormatter/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#413">[ date ]</a>
+              <a href="thread.html#413">[ thread ]</a>
+              <a href="subject.html#413">[ subject ]</a>
+              <a href="author.html#413">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

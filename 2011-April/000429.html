@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r571 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r571%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110423102529.84FD24814C9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000428.html">
+   <LINK REL="Next"  HREF="000430.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r571 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r571%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110423102529.84FD24814C9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r571 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Apr 23 12:25:29 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000428.html">[Dzchart-svncheckins] r570 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000430.html">[Dzchart-svncheckins] r572 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#429">[ date ]</a>
+              <a href="thread.html#429">[ thread ]</a>
+              <a href="subject.html#429">[ subject ]</a>
+              <a href="author.html#429">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-04-23 12:25:29 +0200 (Sat, 23 Apr 2011)
+New Revision: 571
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+new procedures
+* FindMatchingDirs
+* FindMatchingFiles
+* ContainsWildcard
+* GenerateBackupFilename
+
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-04-23 10:24:29 UTC (rev 570)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-04-23 10:25:29 UTC (rev 571)
+@@ -583,6 +583,32 @@
+     class function DeleteMatchingFiles(const _Dir, _Mask: string; const _ExceptMasks: array of string;
+       _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
+ 
++    ///&lt;summary&gt;
++    /// Gets a list of directories matching the given mask.
++    /// @param Mask is the name mask to match, note that it can contain wildcards only in the
++    ///             last part of the name (e.g. 'c:\grmpf*\trallala' will NOT work)
++    /// @param sl is a TStrings to which all matching directories will be added (it will not be cleared)
++    ///           it can be NIL if the caller only wants the count, not the actual list.
++    /// @param IncludePath determines whether the list should contain only the directory names or
++    ///                    the full paths.
++    /// @returns the number of matching directories
++    ///&lt;/summary&gt;
++    class function FindMatchingDirs(const _Mask: string; _sl: TStrings; _IncludePath: boolean = false): integer;
++
++    ///&lt;summary&gt;
++    /// Gets a list of files matching the given mask. Only regular files will be found, no
++    /// directories, no hidden files, no readonly files (files with faArchive will be found).
++    /// See TSimpleDirEnumerator if you need more flexibility.
++    /// @param Mask is the name mask to match, note that it can contain wildcards only in the
++    ///             last part of the name (e.g. 'c:\grmpf*\trallala' will NOT work)
++    /// @param sl is a TStrings to which all matching files will be added (it will not be cleared)
++    ///           it can be NIL if the caller only wants the count, not the actual list.
++    /// @param IncludePath determines whether the list should contain only the file names or
++    ///                    the full paths.
++    /// @returns the number of matching files
++    ///&lt;/summary&gt;
++    class function FindMatchingFiles(const _Mask: string; _sl: TStrings; _IncludePath: boolean = false): integer;
++
+     /// &lt;summary&gt;
+     /// tries to find a matching file
+     /// @param Mask is the filename mask to match
+@@ -593,6 +619,8 @@
+     class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
+ 
+     ///&lt;summary&gt;
++    /// Returns true, if the given file exists. Note that wildcards are not supported! If you
++    /// need wildcards, use FindMatchingFile.
+     /// @param RaiseException determines whether an exception should be raised if the file does not exist
+     /// @raises Exception if the file does not exist and RaiseException is true
+     class function FileExists(const _Filename: string; _RaiseException: boolean = false): boolean;
+@@ -669,12 +697,14 @@
+     /// &lt;/summary&gt;
+     class function IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean; overload;
+ 
++    class function ContainsWildcard(const _Mask: string): boolean;
++
+     /// &lt;summary&gt; Returns true if the file exists and is readonly &lt;/summary&gt;
+     class function IsFileReadonly(const _Filename: string): boolean;
+ 
+     /// &lt;summary&gt;
+     /// creates a backup of the file appending the current date and time to the base
+-    /// file name. See also TFileGenerationHandler.
++    /// file name. See also TFileGenerationHandler and GenerateBackupFilename
+     /// @param Filename is the name of the file to back up
+     /// @param BackupDir is a directory in which to create the backup file, if empty
+     ///                  the same directory as the original file is used
+@@ -682,6 +712,15 @@
+     /// &lt;/summary&gt;
+     class function BackupFile(const _Filename: string; _BackupDir: string = ''): string;
+ 
++    ///&lt;summary&gt;
++    /// Generates a backup of the filename by appending the current date and time to the base
++    /// @param Filename is the name of the file to back up
++    /// @param BackupDir is a directory in which to create the backup file, if empty
++    ///                  the same directory as the original file is used
++    /// @returns the full filename for the backup file
++    ///&lt;/summary&gt;
++    class function GenerateBackupFilename(const _Filename: string; _BackupDir: string = ''): string;
++
+     /// &lt;summary&gt;
+     /// @returns a TFileInfoRec containing the filename, filesize and last access
+     ///          timestamp of the file
+@@ -1272,7 +1311,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.BackupFile(const _Filename: string; _BackupDir: string = ''): string;
++class function TFileSystem.GenerateBackupFilename(const _Filename: string; _BackupDir: string = ''): string;
+ var
+   Ext: string;
+   FilenameOnly: string;
+@@ -1285,9 +1324,19 @@
+   Ext := ExtractFileExt(FilenameOnly);
+   Base := ChangeFileExt(FilenameOnly, '');
+   Result := _BackupDir + Base + '_' + ReplaceChars(DateTime2Iso(now, true), ': ', '-_') + Ext;
++end;
++
++class function TFileSystem.BackupFile(const _Filename: string; _BackupDir: string = ''): string;
++begin
++  Result := GenerateBackupFilename(_Filename, _BackupDir);
+   CopyFile(_Filename, Result, true);
+ end;
+ 
++class function TFileSystem.ContainsWildcard(const _Mask: string): boolean;
++begin
++  Result := (Pos('?', _Mask) &gt; 0) or (Pos('*', _Mask) &gt; 0);
++end;
++
+ class function TFileSystem.CopyFile(const _Source, _Dest: string; _Flags: TCopyFileFlagSet): boolean;
+ begin
+   Result := CopyFile(_Source, _Dest,
+@@ -1584,6 +1633,26 @@
+     raise Exception.CreateFmt(_('Directory not found: %s'), [_DirName]);
+ end;
+ 
++class function TFileSystem.FindMatchingDirs(const _Mask: string; _sl: TStrings;
++  _IncludePath: boolean = false): integer;
++var
++  enum: TSimpleDirEnumerator;
++begin
++  enum := TSimpleDirEnumerator.Create(_Mask, [dfaDirectory, dfaArchive]);
++  try
++    enum.MustHaveAttr := [dfaDirectory];
++    Result := enum.FindAll(_sl, _IncludePath);
++  finally
++    FreeAndNil(enum);
++  end;
++end;
++
++class function TFileSystem.FindMatchingFiles(const _Mask: string; _sl: TStrings;
++  _IncludePath: boolean): integer;
++begin
++  Result := TSimpleDirEnumerator.Execute(_Mask, _sl, [dfaArchive], _IncludePath);
++end;
++
+ class function TFileSystem.FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
+ var
+   sr: TSearchRec;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000428.html">[Dzchart-svncheckins] r570 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000430.html">[Dzchart-svncheckins] r572 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#429">[ date ]</a>
+              <a href="thread.html#429">[ thread ]</a>
+              <a href="subject.html#429">[ subject ]</a>
+              <a href="author.html#429">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

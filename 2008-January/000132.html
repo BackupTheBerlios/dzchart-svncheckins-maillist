@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r263 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r263%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200801081515.m08FFM2n023955%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000133.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r263 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r263%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200801081515.m08FFM2n023955%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r263 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Tue Jan  8 16:15:22 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000133.html">[Dzchart-svncheckins] r264 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#132">[ date ]</a>
+              <a href="thread.html#132">[ thread ]</a>
+              <a href="subject.html#132">[ subject ]</a>
+              <a href="author.html#132">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-01-08 16:15:19 +0100 (Tue, 08 Jan 2008)
+New Revision: 263
+
+Added:
+   utilities/dzLib/trunk/src/u_dzSpinLock.pas
+Log:
+new TSpinlock class (untested) for lightweight synchronization
+
+Added: utilities/dzLib/trunk/src/u_dzSpinLock.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzSpinLock.pas	2007-12-23 14:28:01 UTC (rev 262)
++++ utilities/dzLib/trunk/src/u_dzSpinLock.pas	2008-01-08 15:15:19 UTC (rev 263)
+@@ -0,0 +1,63 @@
++unit u_dzSpinLock;
++
++interface
++
++uses
++  Windows;
++
++type
++  /// This is a very simple thread synchronisation class that allows to limit
++  /// access to a resource. It uses InterlockedIncrement/Decrement and busy
++  /// waiting, so only use it for very small sections of code e.g.:
++  ///
++  /// Lock.Acquire;
++  /// try
++  ///   SharedVariable := NewValue;
++  /// finally
++  ///   Lock.Release;
++  /// end;
++  ///
++  /// For more complex code, use a Mutex or
++  TSpinLock = class
++  private
++    FLock: integer;
++  public
++    constructor Create;
++    /// try to acquire the lock and sleep (spin) until successfull
++    procedure Acquire;
++    /// try to aquire the lock and return false if it could not be acquired
++    function TryAcquire: boolean;
++    /// release the lock
++    procedure Release;
++  end;
++
++implementation
++
++{ TSimpleSyncRec }
++
++constructor TSpinLock.Create;
++begin
++  inherited Create;
++  FLock := -1;
++end;
++
++procedure TSpinLock.Acquire;
++begin
++  while not TryAcquire do
++    Sleep(1);
++end;
++
++function TSpinLock.TryAcquire: boolean;
++begin
++  Result := (InterlockedIncrement(FLock) = 0);
++  if not Result then
++    InterlockedDecrement(FLock);
++end;
++
++procedure TSpinLock.Release;
++begin
++  InterlockedDecrement(FLock);
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000133.html">[Dzchart-svncheckins] r264 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#132">[ date ]</a>
+              <a href="thread.html#132">[ thread ]</a>
+              <a href="subject.html#132">[ subject ]</a>
+              <a href="author.html#132">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

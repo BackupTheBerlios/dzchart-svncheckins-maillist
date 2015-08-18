@@ -1,0 +1,906 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r133 - in utilities: . dzTranslationManager	dzTranslationManager/trunk dzTranslationManager/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r133%20-%20in%20utilities%3A%20.%20dzTranslationManager%0A%09dzTranslationManager/trunk%20dzTranslationManager/trunk/src&In-Reply-To=%3C200702190930.l1J9UH1l009044%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000010.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r133 - in utilities: . dzTranslationManager	dzTranslationManager/trunk dzTranslationManager/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r133%20-%20in%20utilities%3A%20.%20dzTranslationManager%0A%09dzTranslationManager/trunk%20dzTranslationManager/trunk/src&In-Reply-To=%3C200702190930.l1J9UH1l009044%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r133 - in utilities: . dzTranslationManager	dzTranslationManager/trunk dzTranslationManager/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Feb 19 10:30:17 CET 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000010.html">[Dzchart-svncheckins] r134 - in	utilities/dzTranslationManager/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-02-19 10:29:25 +0100 (Mon, 19 Feb 2007)
+New Revision: 133
+
+Added:
+   utilities/dzTranslationManager/
+   utilities/dzTranslationManager/trunk/
+   utilities/dzTranslationManager/trunk/out/
+   utilities/dzTranslationManager/trunk/src/
+   utilities/dzTranslationManager/trunk/src/TranslationManager.bdsproj
+   utilities/dzTranslationManager/trunk/src/TranslationManager.dpr
+   utilities/dzTranslationManager/trunk/src/u_TranslationMerger.pas
+   utilities/dzTranslationManager/trunk/src/w_TranslationManager.dfm
+   utilities/dzTranslationManager/trunk/src/w_TranslationManager.pas
+Log:
+initial checkin
+
+Added: utilities/dzTranslationManager/trunk/src/TranslationManager.bdsproj
+===================================================================
+--- utilities/dzTranslationManager/trunk/src/TranslationManager.bdsproj	2007-01-25 21:19:05 UTC (rev 132)
++++ utilities/dzTranslationManager/trunk/src/TranslationManager.bdsproj	2007-02-19 09:29:25 UTC (rev 133)
+@@ -0,0 +1,191 @@
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;BorlandProject&gt;
++	&lt;PersonalityInfo&gt;
++		&lt;Option&gt;
++			&lt;Option Name=&quot;Personality&quot;&gt;Delphi.Personality&lt;/Option&gt;
++			&lt;Option Name=&quot;ProjectType&quot;&gt;&lt;/Option&gt;
++			&lt;Option Name=&quot;Version&quot;&gt;1.0&lt;/Option&gt;
++			&lt;Option Name=&quot;GUID&quot;&gt;{436AD788-BC38-4529-9E15-9DCC1AB75091}&lt;/Option&gt;
++		&lt;/Option&gt;
++	&lt;/PersonalityInfo&gt;
++	&lt;Delphi.Personality&gt;
++		&lt;Source&gt;
++			&lt;Source Name=&quot;MainSource&quot;&gt;TranslationManager.dpr&lt;/Source&gt;
++		&lt;/Source&gt;
++		&lt;FileVersion&gt;
++			&lt;FileVersion Name=&quot;Version&quot;&gt;7.0&lt;/FileVersion&gt;
++		&lt;/FileVersion&gt;
++		&lt;Compiler&gt;
++			&lt;Compiler Name=&quot;A&quot;&gt;8&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;B&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;C&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;D&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;E&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;F&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;G&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;H&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;I&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;J&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;K&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;L&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;M&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;N&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;O&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;P&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Q&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;R&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;S&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;T&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;U&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;V&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;W&quot;&gt;0&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;X&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Y&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Z&quot;&gt;1&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ShowHints&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ShowWarnings&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitAliases&quot;&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NamespacePrefix&quot;&gt;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;GenerateDocumentation&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DefaultNamespace&quot;&gt;&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolDeprecated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolLibrary&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolPlatform&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SymbolExperimental&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitLibrary&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitPlatform&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitDeprecated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitExperimental&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HResultCompat&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HidingMember&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HiddenVirtual&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;Garbage&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;BoundsError&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ZeroNilCompat&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;StringConstTruncated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForLoopVarVarPar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;TypedConstVarPar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;AsgToTypedConst&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CaseLabelRange&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForVariable&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ConstructingAbstract&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparisonFalse&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparisonTrue&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ComparingSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CombiningSignedUnsigned&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsupportedConstruct&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;FileOpen&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;FileOpenUnitSrc&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;BadGlobalSymbol&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DuplicateConstructorDestructor&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;InvalidDirective&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PackageNoLink&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PackageThreadVar&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImplicitImport&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;HPPEMITIgnored&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NoRetVal&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UseBeforeDef&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ForLoopVarUndef&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitNameMismatch&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;NoCFGFileFound&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImplicitVariants&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnicodeToLocale&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;LocaleToUnicode&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;ImagebaseMultiple&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;SuspiciousTypecast&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;PrivatePropAccessor&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeType&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeCode&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnsafeCast&quot;&gt;False&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;OptionTruncated&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;WideCharReduced&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;DuplicatesIgnored&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;UnitInitSeq&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;LocalPInvoke&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;MessageDirective&quot;&gt;True&lt;/Compiler&gt;
++			&lt;Compiler Name=&quot;CodePage&quot;&gt;&lt;/Compiler&gt;
++		&lt;/Compiler&gt;
++		&lt;Linker&gt;
++			&lt;Linker Name=&quot;MapFile&quot;&gt;3&lt;/Linker&gt;
++			&lt;Linker Name=&quot;OutputObjs&quot;&gt;0&lt;/Linker&gt;
++			&lt;Linker Name=&quot;GenerateHpps&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ConsoleApp&quot;&gt;1&lt;/Linker&gt;
++			&lt;Linker Name=&quot;DebugInfo&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;RemoteSymbols&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;GenerateDRC&quot;&gt;False&lt;/Linker&gt;
++			&lt;Linker Name=&quot;MinStackSize&quot;&gt;16384&lt;/Linker&gt;
++			&lt;Linker Name=&quot;MaxStackSize&quot;&gt;1048576&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ImageBase&quot;&gt;4194304&lt;/Linker&gt;
++			&lt;Linker Name=&quot;ExeDescription&quot;&gt;iCD. rxlib extension - designtime&lt;/Linker&gt;
++		&lt;/Linker&gt;
++		&lt;Directories&gt;
++			&lt;Directories Name=&quot;OutputDir&quot;&gt;..&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UnitOutputDir&quot;&gt;..\out&lt;/Directories&gt;
++			&lt;Directories Name=&quot;PackageDLLOutputDir&quot;&gt;Q:\bpl&lt;/Directories&gt;
++			&lt;Directories Name=&quot;PackageDCPOutputDir&quot;&gt;Q:\bpl\dcp&lt;/Directories&gt;
++			&lt;Directories Name=&quot;SearchPath&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;Packages&quot;&gt;rtl;vcl;vclx;dbrtl;vcldb;xmlrtl;vclactnband;VclSmp;bdertl;rxctl2006;adortl;vcldbx;vclie;inet;inetdbbde;inetdbxpress;Utilities_D2006;hkrxlib10;headwork10&lt;/Directories&gt;
++			&lt;Directories Name=&quot;Conditionals&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;DebugSourceDirs&quot;&gt;&lt;/Directories&gt;
++			&lt;Directories Name=&quot;UsePackages&quot;&gt;False&lt;/Directories&gt;
++		&lt;/Directories&gt;
++		&lt;Parameters&gt;
++			&lt;Parameters Name=&quot;RunParams&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;HostApplication&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;Launcher&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;DebugCWD&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;Debug Symbols Search Path&quot;&gt;&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++			&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++		&lt;/Parameters&gt;
++		&lt;Language&gt;
++			&lt;Language Name=&quot;ActiveLang&quot;&gt;&lt;/Language&gt;
++			&lt;Language Name=&quot;ProjectLang&quot;&gt;$00000000&lt;/Language&gt;
++			&lt;Language Name=&quot;RootDir&quot;&gt;&lt;/Language&gt;
++		&lt;/Language&gt;
++		&lt;VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Build&quot;&gt;19&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++			&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++		&lt;/VersionInfo&gt;
++		&lt;VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;dummzeuch.de&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;dxGetText Translation Manager&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.19&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2006 by Thomas Mueller&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;TranslationManager.exe&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++			&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++		&lt;/VersionInfoKeys&gt;  &lt;Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;q:\bpl\Utilities_D2006.bpl&quot;&gt;Open XML Utilities Library&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclhkreportbuilder10.bpl&quot;&gt;iCD. ReportBuilder components - designtime package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclRBP9A.bpl&quot;&gt;ReportBuilder Professional&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\Olectra_BDS4.bpl&quot;&gt;Olectra Chart 6&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\DCLPsRBDA.bpl&quot;&gt;Pragnaan ReportBuilder Export Devices&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclRBADO9A.bpl&quot;&gt;ReportBuilder Data Access for ADO&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclRBBDE9A.bpl&quot;&gt;ReportBuilder Data Access for BDE&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclRBDBE9A.bpl&quot;&gt;ReportBuilder Data Access for dbExpress&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclRBIBE9A.bpl&quot;&gt;ReportBuilder Data Access for Interbase Express&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;q:\bpl\dclrxbd2006.bpl&quot;&gt;RX Library BDE Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclhkadodb10.bpl&quot;&gt;iCD. ADO components - designtime package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclhkdialogs10.bpl&quot;&gt;iCD. Folder Select Dialog - designtime package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;Q:\bpl\dclhkformedit10.bpl&quot;&gt;iCD. enduser form edit components - designtime&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;
++  &lt;/Delphi.Personality&gt;
++&lt;/BorlandProject&gt;
+
+Added: utilities/dzTranslationManager/trunk/src/TranslationManager.dpr
+===================================================================
+--- utilities/dzTranslationManager/trunk/src/TranslationManager.dpr	2007-01-25 21:19:05 UTC (rev 132)
++++ utilities/dzTranslationManager/trunk/src/TranslationManager.dpr	2007-02-19 09:29:25 UTC (rev 133)
+@@ -0,0 +1,16 @@
++program TranslationManager;
++
++uses
++  Forms,
++  w_TranslationManager in 'w_TranslationManager.pas' {f_TranslationManager},
++  u_TranslationMerger in 'u_TranslationMerger.pas',
++  poparser in '..\libs\dxgettext\dxgettext\dxgettext\poparser.pas',
++  gnugettext in '..\libs\dxgettext\lib\gnugettext.pas';
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.CreateForm(Tf_TranslationManager, f_TranslationManager);
++  Application.Run;
++end.
+
+Added: utilities/dzTranslationManager/trunk/src/u_TranslationMerger.pas
+===================================================================
+--- utilities/dzTranslationManager/trunk/src/u_TranslationMerger.pas	2007-01-25 21:19:05 UTC (rev 132)
++++ utilities/dzTranslationManager/trunk/src/u_TranslationMerger.pas	2007-02-19 09:29:25 UTC (rev 133)
+@@ -0,0 +1,72 @@
++{GXFormatter.config=headwork}
++unit u_TranslationMerger;
++
++interface
++
++uses
++  poparser;
++
++type
++  {: Merges several translation sources. It always keeps the first
++     translation it finds unless it is fuzzy and a new one isn't.
++     Empty MsgIds and MsgStrs are ignored. }
++  TTranslationMerger = class
++  private
++    FTranslations: TPoEntryList;
++  public
++    constructor Create;
++    destructor Destroy; override;
++    procedure AddTranslationSource(const _Filename: string);
++    function DetachTranslations: TPoEntryList;
++  end;
++
++implementation
++
++{ TTranslationMerger }
++
++procedure TTranslationMerger.AddTranslationSource(const _Filename: string);
++var
++  NewList: TPoEntryList;
++  NewEntry: TPoEntry;
++  Existing: TPoEntry;
++begin
++  NewList := TPoEntryList.Create;
++  NewList.LoadFromFile(_Filename);
++  NewEntry := NewList.FindFirst;
++  while NewEntry &lt;&gt; nil do
++    begin
++      if (NewEntry.MsgId &lt;&gt; '') and (NewEntry.MsgStr &lt;&gt; '') then
++        begin
++          Existing := FTranslations.Find(NewEntry.MsgId);
++          if Existing = nil then
++            FTranslations.Add(NewEntry)
++          else if Existing.Fuzzy and not NewEntry.Fuzzy then
++            begin
++              FTranslations.Delete(Existing.MsgId);
++              FTranslations.Add(NewEntry);
++            end;
++        end;
++      NewEntry := NewList.FindNext(NewEntry);
++    end;
++end;
++
++constructor TTranslationMerger.Create;
++begin
++  inherited Create;
++  FTranslations := TPoEntryList.Create;
++end;
++
++destructor TTranslationMerger.Destroy;
++begin
++  FTranslations.Free;
++  inherited;
++end;
++
++function TTranslationMerger.DetachTranslations: TPoEntryList;
++begin
++  Result := FTranslations;
++  FTranslations := TPoEntryList.Create;
++end;
++
++end.
++
+
+Added: utilities/dzTranslationManager/trunk/src/w_TranslationManager.dfm
+===================================================================
+--- utilities/dzTranslationManager/trunk/src/w_TranslationManager.dfm	2007-01-25 21:19:05 UTC (rev 132)
++++ utilities/dzTranslationManager/trunk/src/w_TranslationManager.dfm	2007-02-19 09:29:25 UTC (rev 133)
+@@ -0,0 +1,175 @@
++object f_TranslationManager: Tf_TranslationManager
++  Left = 395
++  Top = 210
++  Caption = 'Translation manager'
++  ClientHeight = 298
++  ClientWidth = 417
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'Tahoma'
++  Font.Style = []
++  OldCreateOrder = False
++  Position = poOwnerFormCenter
++  OnCreate = FormCreate
++  OnDestroy = FormDestroy
++  DesignSize = (
++    417
++    298)
++  PixelsPerInch = 96
++  TextHeight = 13
++  object l_Template: TLabel
++    Left = 8
++    Top = 8
++    Width = 102
++    Height = 13
++    Caption = 'Template file (empty)'
++  end
++  object l_OutputFile: TLabel
++    Left = 8
++    Top = 208
++    Width = 53
++    Height = 13
++    Anchors = [akLeft, akBottom]
++    Caption = 'Output File'
++  end
++  object l_TranslationFiles: TLabel
++    Left = 8
++    Top = 56
++    Width = 247
++    Height = 13
++    Caption = 'Translation files to use (first non-fuzzy match used)'
++  end
++  object ed_Template: TEdit
++    Left = 8
++    Top = 24
++    Width = 369
++    Height = 21
++    Anchors = [akLeft, akTop, akRight]
++    TabOrder = 0
++  end
++  object clb_TranslationFiles: TCheckListBox
++    Left = 8
++    Top = 72
++    Width = 369
++    Height = 121
++    Anchors = [akLeft, akTop, akRight, akBottom]
++    ItemHeight = 13
++    TabOrder = 2
++  end
++  object ed_OutputFile: TEdit
++    Left = 8
++    Top = 224
++    Width = 369
++    Height = 21
++    Anchors = [akLeft, akRight, akBottom]
++    TabOrder = 7
++  end
++  object b_SelectTemplate: TButton
++    Left = 384
++    Top = 22
++    Width = 25
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = '...'
++    TabOrder = 1
++    OnClick = b_SelectTemplateClick
++  end
++  object b_AddTranslationFile: TButton
++    Left = 384
++    Top = 72
++    Width = 25
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = '+'
++    TabOrder = 3
++    OnClick = b_AddTranslationFileClick
++  end
++  object b_OutputFile: TButton
++    Left = 384
++    Top = 222
++    Width = 25
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Caption = '...'
++    TabOrder = 8
++    OnClick = b_OutputFileClick
++  end
++  object b_DeleteTranslationFile: TButton
++    Left = 384
++    Top = 104
++    Width = 25
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = '-'
++    TabOrder = 4
++    OnClick = b_DeleteTranslationFileClick
++  end
++  object b_Translate: TButton
++    Left = 256
++    Top = 264
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Caption = 'Translate'
++    Default = True
++    TabOrder = 9
++    OnClick = b_TranslateClick
++  end
++  object b_Exit: TButton
++    Left = 336
++    Top = 264
++    Width = 75
++    Height = 25
++    Anchors = [akRight, akBottom]
++    Cancel = True
++    Caption = 'Exit'
++    TabOrder = 10
++    OnClick = b_ExitClick
++  end
++  object b_Up: TButton
++    Left = 384
++    Top = 136
++    Width = 25
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = 'Up'
++    TabOrder = 5
++    OnClick = b_UpClick
++  end
++  object b_Down: TButton
++    Left = 384
++    Top = 168
++    Width = 25
++    Height = 25
++    Anchors = [akTop, akRight]
++    Caption = 'Dn'
++    TabOrder = 6
++    OnClick = b_DownClick
++  end
++  object od_OutputFile: TOpenDialog
++    DefaultExt = 'po'
++    Filter = 'po files (*.po)|*.po|all files (*.*)|*.*'
++    FilterIndex = 0
++    Options = [ofHideReadOnly, ofPathMustExist, ofEnableSizing]
++    Left = 320
++    Top = 224
++  end
++  object od_TemplateFile: TOpenDialog
++    DefaultExt = 'po'
++    Filter = 'po files (*.po)|*.po|all files (*.*)|*.*'
++    FilterIndex = 0
++    Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
++    Left = 312
++    Top = 8
++  end
++  object od_AddTranslation: TOpenDialog
++    DefaultExt = 'po'
++    Filter = 'po files (*.po)|*.po|all files (*.*)|*.*'
++    FilterIndex = 0
++    Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing]
++    Left = 312
++    Top = 72
++  end
++end
+
+Added: utilities/dzTranslationManager/trunk/src/w_TranslationManager.pas
+===================================================================
+--- utilities/dzTranslationManager/trunk/src/w_TranslationManager.pas	2007-01-25 21:19:05 UTC (rev 132)
++++ utilities/dzTranslationManager/trunk/src/w_TranslationManager.pas	2007-02-19 09:29:25 UTC (rev 133)
+@@ -0,0 +1,346 @@
++{GXFormatter.config=headwork}
++unit w_TranslationManager;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls,
++  CheckLst;
++
++type
++  Tf_TranslationManager = class(TForm)
++    ed_Template: TEdit;
++    l_Template: TLabel;
++    l_OutputFile: TLabel;
++    l_TranslationFiles: TLabel;
++    clb_TranslationFiles: TCheckListBox;
++    ed_OutputFile: TEdit;
++    b_SelectTemplate: TButton;
++    b_AddTranslationFile: TButton;
++    b_OutputFile: TButton;
++    b_DeleteTranslationFile: TButton;
++    b_Translate: TButton;
++    b_Exit: TButton;
++    od_OutputFile: TOpenDialog;
++    od_TemplateFile: TOpenDialog;
++    od_AddTranslation: TOpenDialog;
++    b_Up: TButton;
++    b_Down: TButton;
++    procedure b_ExitClick(Sender: TObject);
++    procedure b_SelectTemplateClick(Sender: TObject);
++    procedure b_OutputFileClick(Sender: TObject);
++    procedure b_AddTranslationFileClick(Sender: TObject);
++    procedure b_DeleteTranslationFileClick(Sender: TObject);
++    procedure b_UpClick(Sender: TObject);
++    procedure b_DownClick(Sender: TObject);
++    procedure FormCreate(Sender: TObject);
++    procedure FormDestroy(Sender: TObject);
++    procedure b_TranslateClick(Sender: TObject);
++  private
++  public
++  end;
++
++var
++  f_TranslationManager: Tf_TranslationManager;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  Registry,
++  ShlObj,
++  ShellApi,
++  poparser,
++  u_TranslationMerger;
++
++const
++  REG_KEY = 'software\dummzeuch.de\TranslationManager';
++
++procedure Tf_TranslationManager.b_AddTranslationFileClick(Sender: TObject);
++var
++  Idx: integer;
++  s: string;
++  i: Integer;
++begin
++  Idx := clb_TranslationFiles.ItemIndex;
++  if Idx &lt;&gt; -1 then
++    begin
++      s := clb_TranslationFiles.Items[Idx];
++      od_AddTranslation.FileName := s;
++    end;
++  if od_AddTranslation.Execute then
++    for i := 0 to od_AddTranslation.Files.Count - 1 do
++      begin
++        Inc(Idx);
++        clb_TranslationFiles.Items.Insert(Idx, od_AddTranslation.Files[i]);
++        clb_TranslationFiles.Checked[Idx] := true;
++      end;
++end;
++
++procedure Tf_TranslationManager.b_DeleteTranslationFileClick(Sender: TObject);
++var
++  Idx: Integer;
++  s: string;
++begin
++  Idx := clb_TranslationFiles.ItemIndex;
++  if Idx = -1 then
++    exit;
++  s := clb_TranslationFiles.Items[Idx];
++  if IdYes = MessageDlg('Really remove translation file'#13#10
++    + s + #13#10
++    + 'from List?', mtConfirmation, [mbYes, mbNo], 0) then
++    clb_TranslationFiles.Items.Delete(Idx);
++end;
++
++procedure Tf_TranslationManager.b_DownClick(Sender: TObject);
++var
++  Idx: integer;
++  s: string;
++begin
++  Idx := clb_TranslationFiles.ItemIndex;
++  if (Idx = -1) or (Idx &gt;= clb_TranslationFiles.Items.Count - 1) then
++    exit;
++  s := clb_TranslationFiles.Items[Idx];
++  clb_TranslationFiles.Items[Idx] := clb_TranslationFiles.Items[Idx + 1];
++  clb_TranslationFiles.Items[Idx + 1] := s;
++  clb_TranslationFiles.ItemIndex := Idx + 1;
++end;
++
++procedure Tf_TranslationManager.b_ExitClick(Sender: TObject);
++begin
++  Close;
++end;
++
++procedure Tf_TranslationManager.b_OutputFileClick(Sender: TObject);
++begin
++  od_OutputFile.FileName := ed_OutputFile.Text;
++  if od_OutputFile.Execute then
++    ed_OutputFile.Text := od_OutputFile.FileName;
++end;
++
++procedure Tf_TranslationManager.b_SelectTemplateClick(Sender: TObject);
++begin
++  od_TemplateFile.FileName := ed_Template.Text;
++  if od_TemplateFile.Execute then
++    ed_Template.Text := od_TemplateFile.FileName;
++end;
++
++function ShellExecEx(const _FileName: string; const _Parameters: string): Boolean;
++var
++  Sei: TShellExecuteInfo;
++begin
++  FillChar(Sei, SizeOf(Sei), #0);
++  Sei.cbSize := SizeOf(Sei);
++  Sei.fMask := SEE_MASK_DOENVSUBST or SEE_MASK_FLAG_NO_UI;
++  Sei.lpFile := PChar(_FileName);
++  Sei.lpParameters := Pointer(_Parameters);
++  Sei.lpVerb := nil;
++  Sei.nShow := SW_SHOW;
++  Result := ShellExecuteEx(@Sei);
++end;
++
++function GetTempDir: string;
++begin
++  SetLength(Result, MAX_PATH);
++  GetTempPath(Length(Result), PChar(Result));
++  Result := PChar(Result);
++end;
++
++function GenerateUniqeTempFile: string;
++var
++  TempDir: string;
++begin
++  TempDir := GetTempDir;
++  SetLength(Result, MAX_PATH);
++  GetTempFileName(PChar(TempDir), 'dz', 0, PChar(Result));
++  Result := PChar(Result);
++end;
++
++procedure Tf_TranslationManager.b_TranslateClick(Sender: TObject);
++var
++  Merger: TTranslationMerger;
++  Translations: TPoEntryList;
++  i: integer;
++  s: string;
++  Template: TPoEntryList;
++  TemplateEntry: TPoEntry;
++  Translation: TPoEntry;
++begin
++  Merger := TTranslationMerger.Create;
++  try
++    for i := 0 to clb_TranslationFiles.Items.Count - 1 do
++      begin
++        if not clb_TranslationFiles.Checked[i] then
++          continue;
++        s := clb_TranslationFiles.Items[i];
++        Merger.AddTranslationSource(s);
++      end;
++    Translations := Merger.DetachTranslations;
++  finally
++    Merger.Free;
++  end;
++
++  Template := TPoEntryList.Create;
++  try
++    Template.LoadFromFile(ed_Template.Text);
++    TemplateEntry := Template.FindFirst;
++    while TemplateEntry &lt;&gt; nil do
++      begin
++        Translation := Translations.Find(TemplateEntry.MsgId);
++        if Translation &lt;&gt; nil then
++          begin
++            TemplateEntry.Fuzzy := Translation.Fuzzy;
++            TemplateEntry.MsgStr := Translation.MsgStr;
++          end;
++        TemplateEntry := Template.FindNext(TemplateEntry);
++      end;
++    Template.SaveToFile(ed_OutputFile.Text);
++  finally
++    Template.Free;
++  end;
++end;
++
++procedure Tf_TranslationManager.b_UpClick(Sender: TObject);
++var
++  Idx: integer;
++  s: string;
++begin
++  Idx := clb_TranslationFiles.ItemIndex;
++  if Idx &lt; 1 then
++    exit;
++  s := clb_TranslationFiles.Items[Idx];
++  clb_TranslationFiles.Items[Idx] := clb_TranslationFiles.Items[Idx - 1];
++  clb_TranslationFiles.Items[Idx - 1] := s;
++  clb_TranslationFiles.ItemIndex := Idx - 1;
++end;
++
++function TryReadInteger(_Reg: TRegistry; const _Name: string; out _Value: integer): boolean;
++begin
++  Result := _Reg.ValueExists(_Name);
++  if Result then
++    _Value := _Reg.ReadInteger(_Name);
++end;
++
++function GetProgramFilesDir: string;
++type
++  TSHGetFolderPath = function(hwnd: HWND; csidl: Integer; hToken: THandle; dwFlags: DWORD; pszPath: PChar): HResult; Stdcall;
++
++  function LoadSHFolder(var SHGetFolderPath: TSHGetFolderPath): Integer;
++  var
++    Hdl: Hwnd;
++  begin
++    Result := 0;
++    Hdl := LoadLibrary('SHFOLDER.DLL');
++    if Hdl &lt;&gt; 0 then
++      begin
++        @SHGetFolderPath := GetProcAddress(Hdl, 'SHGetFolderPathA');
++        if @SHGetFolderPath &lt;&gt; nil then
++          Result := Hdl;
++      end;
++  end;
++
++const
++  CSIDL_PROGRAM_FILES = $26;
++  SHGFP_TYPE_CURRENT = 0;
++var
++  Path: array[0..MAX_PATH] of Char;
++  Pidl: PItemIDList;
++  Hdl: Hwnd;
++  SHGetFolderPath: TSHGetFolderPath;
++begin
++  ZeroMemory(@Path, SizeOf(Path));
++  Hdl := LoadSHFolder(SHGetFolderPath);
++  if Hdl &lt;&gt; 0 then
++    begin
++      if Succeeded(SHGetFolderPath(Application.Handle, CSIDL_PROGRAM_FILES, 0, SHGFP_TYPE_CURRENT, Path)) then
++        Result := Path;
++      FreeLibrary(Hdl);
++    end
++  else
++    begin
++      if Succeeded(SHGetspecialfolderLocation(Application.Handle, CSIDL_PROGRAM_FILES, PIdl)) then
++        SHGetPathFromIDList(Pidl, Path);
++      Result := Path;
++    end;
++end;
++
++procedure Tf_TranslationManager.FormCreate(Sender: TObject);
++var
++  Reg: TRegistry;
++  Cnt: Integer;
++  i: Integer;
++  s: string;
++  Entry: string;
++  Idx: integer;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.RootKey := HKEY_CURRENT_USER;
++    Reg.OpenKey(REG_KEY, true);
++    try
++      ed_Template.Text := Reg.ReadString('Template');
++      ed_OutputFile.Text := Reg.ReadString('Output');
++      if not TryReadInteger(Reg, 'TranslationCount', Cnt) then
++        Cnt := 0;
++      Idx := 0;
++      for i := 0 to Cnt - 1 do
++        begin
++          Entry := 'Translation_' + IntToStr(i);
++          s := Reg.ReadString(Entry + '_Filename');
++          if s &lt;&gt; '' then
++            begin
++              clb_TranslationFiles.Items.Add(s);
++              clb_TranslationFiles.Checked[Idx] := Reg.ReadBool(Entry + '_Checked');
++              Inc(Idx);
++            end;
++        end;
++    finally
++      Reg.CloseKey;
++    end;
++  finally
++    Reg.Free;
++  end;
++end;
++
++procedure Tf_TranslationManager.FormDestroy(Sender: TObject);
++var
++  Reg: TRegistry;
++  Cnt: Integer;
++  i: Integer;
++  Entry: string;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.RootKey := HKEY_CURRENT_USER;
++    Reg.OpenKey(REG_KEY, true);
++    try
++      Reg.WriteString('Template', ed_Template.Text);
++      Reg.WriteString('Output', ed_OutputFile.Text);
++      Cnt := clb_TranslationFiles.Items.Count;
++      Reg.WriteInteger('TranslationCount', Cnt);
++      for i := 0 to Cnt - 1 do
++        begin
++          Entry := 'Translation_' + IntToStr(i);
++          Reg.WriteString(Entry + '_Filename', clb_TranslationFiles.Items[i]);
++          Reg.WriteBool(Entry + '_Checked', clb_TranslationFiles.Checked[i]);
++        end;
++    finally
++      Reg.CloseKey;
++    end;
++  finally
++    Reg.Free;
++  end;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000010.html">[Dzchart-svncheckins] r134 - in	utilities/dzTranslationManager/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

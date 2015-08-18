@@ -1,0 +1,508 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r405 - in utilities/buildtools: . trunk	trunk/templates
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r405%20-%20in%20utilities/buildtools%3A%20.%20trunk%0A%09trunk/templates&In-Reply-To=%3C201003131141.o2DBfrLE032436%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000265.html">
+   <LINK REL="Next"  HREF="000267.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r405 - in utilities/buildtools: . trunk	trunk/templates</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r405%20-%20in%20utilities/buildtools%3A%20.%20trunk%0A%09trunk/templates&In-Reply-To=%3C201003131141.o2DBfrLE032436%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r405 - in utilities/buildtools: . trunk	trunk/templates">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 13 12:41:53 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000265.html">[Dzchart-svncheckins] r404 - utilities
+</A></li>
+        <LI>Next message: <A HREF="000267.html">[Dzchart-svncheckins] r406 - utilities/dzCmdLineParser/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#266">[ date ]</a>
+              <a href="thread.html#266">[ thread ]</a>
+              <a href="subject.html#266">[ subject ]</a>
+              <a href="author.html#266">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-13 12:40:24 +0100 (Sat, 13 Mar 2010)
+New Revision: 405
+
+Added:
+   utilities/buildtools/trunk/
+   utilities/buildtools/trunk/!ReadMe.txt
+   utilities/buildtools/trunk/AppendJclDebug.cmd
+   utilities/buildtools/trunk/AppendTranslations.cmd
+   utilities/buildtools/trunk/ExtractTranslations.cmd
+   utilities/buildtools/trunk/MakeJclDbg.exe
+   utilities/buildtools/trunk/PostBuild.cmd
+   utilities/buildtools/trunk/PrepBuild.exe
+   utilities/buildtools/trunk/assemble.exe
+   utilities/buildtools/trunk/cygexpat-0.dll
+   utilities/buildtools/trunk/cyggettextlib-0-14-1.dll
+   utilities/buildtools/trunk/cyggettextpo-0.dll
+   utilities/buildtools/trunk/cyggettextsrc-0-14-1.dll
+   utilities/buildtools/trunk/cygiconv-2.dll
+   utilities/buildtools/trunk/cygintl-2.dll
+   utilities/buildtools/trunk/cygintl-3.dll
+   utilities/buildtools/trunk/cygwin1.dll
+   utilities/buildtools/trunk/doExtractTranslations.cmd
+   utilities/buildtools/trunk/dxgettext.exe
+   utilities/buildtools/trunk/gorm.exe
+   utilities/buildtools/trunk/msgcat.exe
+   utilities/buildtools/trunk/msgfmt.exe
+   utilities/buildtools/trunk/msgmerge.exe
+   utilities/buildtools/trunk/msgremove.exe
+   utilities/buildtools/trunk/prep.cmd
+   utilities/buildtools/trunk/templates/
+   utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd
+   utilities/buildtools/trunk/templates/Template_Icon.rc
+   utilities/buildtools/trunk/templates/Template_version.ini
+   utilities/buildtools/trunk/templates/schniering.ico
+   utilities/buildtools/trunk/upx.exe
+Log:
+
+
+Added: utilities/buildtools/trunk/!ReadMe.txt
+===================================================================
+--- utilities/buildtools/trunk/!ReadMe.txt	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/!ReadMe.txt	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,5 @@
++Pre-Build events:
++..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd
++
++Post-Build events:
++..\buildtools\makejcldbg -e $(OUTPUTDIR)\$(OUTPUTNAME).map
+
+Added: utilities/buildtools/trunk/AppendJclDebug.cmd
+===================================================================
+--- utilities/buildtools/trunk/AppendJclDebug.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/AppendJclDebug.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,8 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> add jcldebug information from the .map file
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> copy this file to the projects root directory if
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> you want it automatically called by postbuild.cmd
++echo * %0 running in
++cd
++
++%~dp0\makejcldbg -e %1.map
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> * %0 exiting
+
+Added: utilities/buildtools/trunk/AppendTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/AppendTranslations.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/AppendTranslations.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,23 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * compile translations
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * bind them to the executable
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> copy this file to the projects root directory if
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> you want it automatically called by postbuild.cmd
++
++echo * %0 running in
++cd
++
++if exist locale goto locexists
++echo subdirectory locale does not exist, no translation added
++goto :eof
++
++:locexists
++
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile German default.po
++%~dp0\msgfmt locale\de\lc_messages\default.po -o locale\de\lc_messages\default.mo
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> bind all translations to the executable
++%~dp0\assemble --dxgettext %1.exe
++echo off
++
++echo * %0 exiting
+
+Added: utilities/buildtools/trunk/ExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/ExtractTranslations.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/ExtractTranslations.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,3 @@
++call doextracttranslations.cmd
++pause
++&quot;%ProgramFiles%\poEdit\bin\poedit.exe&quot; locale\de\lc_messages\default.po
+
+Added: utilities/buildtools/trunk/MakeJclDbg.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/MakeJclDbg.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/PostBuild.cmd
+===================================================================
+--- utilities/buildtools/trunk/PostBuild.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/PostBuild.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,39 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> postbuild.cmd sollte wie folgt als PostBuild-Event aufgerufen werden:
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> ..\buildtools\postbuild.cmd $(OUTPUTDIR)$(OUTPUTNAME)
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A>
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> off
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> %0 running in
++cd
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> needs one parameter: The basename of the executable file (without .exe)
++set EXEFILEBASE=%1
++if &quot;%EXEFILEBASE%&quot;==&quot;&quot; goto NeedPara
++
++set OUTPUTDIR=%~dp1
++
++pushd %OUTPUTDIR%
++
++if not exist %~dp0\AppendJclDebug.cmd goto NoDebug
++  echo appending JclDebug information
++  call %~dp0\AppendJclDebug.cmd %EXEFILEBASE%
++  goto afterdebug
++:NoDebug
++echo no jcldebug information appended
++:afterdebug
++
++if not exist %~dp0\AppendTranslations.cmd goto NoTrans
++  echo appending translations
++  call %~dp0\AppendTranslations.cmd %EXEFILEBASE%
++  goto aftertrans
++:NoTrans
++echo no translations appended
++:aftertrans
++
++popd
++
++echo %0 exiting
++goto :EOF
++
++:NeedPara
++echo needs the base filename of the executable as parameter
+
+Added: utilities/buildtools/trunk/PrepBuild.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/PrepBuild.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/assemble.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/assemble.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygexpat-0.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygexpat-0.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cyggettextlib-0-14-1.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cyggettextlib-0-14-1.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cyggettextpo-0.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cyggettextpo-0.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cyggettextsrc-0-14-1.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cyggettextsrc-0-14-1.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygiconv-2.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygiconv-2.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygintl-2.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygintl-2.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygintl-3.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygintl-3.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/cygwin1.dll
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/cygwin1.dll
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/doExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/doExtractTranslations.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/doExtractTranslations.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,50 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> This batch will
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * call dxgettext to extract all strings to translate
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * compile all .po files and copy them to locale\...
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * do the same for the sigunits, dzlib and delphi2007 files in libs
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> off
++echo * %0 running in
++cd
++
++set MASKS=*.pas *.dfm *.inc *.tpl
++set POFILES=
++set OUTDIR=.
++
++set BASE=.
++dxgettext %MASKS% -r -b %BASE%\src -o %BASE%
++msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
++move %BASE%\filtered.po %BASE%\default.po
++set POFILES=%POFILES% %BASE%\default.po
++msgcat -o default.po %POFILES%
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> German:
++set LNG=de
++call :HandLng
++
++goto skipfr
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> French:
++set LNG=fr
++call :HandLng
++:skipfr
++
++goto skipen
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> English:
++set LNG=en
++call :HandLng
++:skipen
++
++echo * %0 exiting
++goto :eof
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> subroutine for handling a language
++:HandLng
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> ** handling language %LNG% **
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> merge translations
++msgmerge --no-wrap --update locale\%LNG%\lc_messages\default.po default.po
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> compile
++msgfmt locale\%LNG%\lc_messages\default.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\default.mo
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> add Delphi, sigunits and dzlib translations
++msgfmt libs\dxgettext\translations\%LNG%\delphi2007.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\delphi2007.mo
++msgfmt libs\sigunits\translations\%LNG%\sigunits.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\sigunits.mo
++msgfmt libs\dzlib\translations\%LNG%\dzlib.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\dzlib.mo
+
+Added: utilities/buildtools/trunk/dxgettext.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/dxgettext.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/gorm.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/gorm.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/msgcat.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/msgcat.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/msgfmt.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/msgfmt.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/msgmerge.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/msgmerge.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/msgremove.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/msgremove.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/prep.cmd
+===================================================================
+--- utilities/buildtools/trunk/prep.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/prep.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,3 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> off
++%~dp0\PrepBuild --writerc=%dzProject%_Version.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc=&quot;%dzVersion.FileDesc%&quot; --InternalName=&quot;%dzVersion.InternalName%&quot; --OriginalName=&quot;%dzVersion.OriginalName%&quot; --Product=&quot;%dzVersion.Product%&quot; --ProductVersion=&quot;%dzDate%&quot; --Company=&quot;%dzVersion.Company%&quot; --Copyright=&quot;%dzVersion.Copyright%&quot; --Trademark=&quot;%dzVersion.Trademark%&quot; --Comments=&quot;%dzVersion.Comments%&quot;
++brcc32 %dzProject%_Version.rc
+
+Added: utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,8 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> builds a project using msbuild
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> Copy this to the project's root directory and
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> change the projectname below
++call &quot;%ProgramFiles%\CodeGear\RAD Studio\5.0\bin\rsvars.bat&quot;
++pushd src
++msbuild &lt;projectname&gt;.dproj
++pause
++popd
+
+Added: utilities/buildtools/trunk/templates/Template_Icon.rc
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_Icon.rc	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/templates/Template_Icon.rc	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1 @@
++MAINICON ICON LOADONCALL MOVEABLE DISCARDABLE IMPURE &lt;programname&gt;.ico
+
+Added: utilities/buildtools/trunk/templates/Template_version.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_version.ini	2010-03-13 11:40:10 UTC (rev 404)
++++ utilities/buildtools/trunk/templates/Template_version.ini	2010-03-13 11:40:24 UTC (rev 405)
+@@ -0,0 +1,18 @@
++[Version Info]
++AutoIncBuild=0
++Build=0
++MajorVer=1
++MinorVer=0
++Release=0
++
++[Version Info Keys]
++FileVersion=1.0.0.0
++ProductVersion=
++FileDescription=&lt;file description here&gt;
++OriginalFilename=&lt;filename here&gt;
++Comments=
++CompanyName=TUEV Rheinland Schniering GmbH
++InternalName=&lt;internale name here&gt;
++LegalCopyright=TUEV Rheinland Schniering GmbH, 2009
++LegalTrademarks=T. M&#252;ller
++ProductName=&lt;productname here&gt;
+
+Added: utilities/buildtools/trunk/templates/schniering.ico
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/templates/schniering.ico
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+Added: utilities/buildtools/trunk/upx.exe
+===================================================================
+(Binary files differ)
+
+
+Property changes on: utilities/buildtools/trunk/upx.exe
+___________________________________________________________________
+Name: svn:mime-type
+   + application/octet-stream
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000265.html">[Dzchart-svncheckins] r404 - utilities
+</A></li>
+	<LI>Next message: <A HREF="000267.html">[Dzchart-svncheckins] r406 - utilities/dzCmdLineParser/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#266">[ date ]</a>
+              <a href="thread.html#266">[ thread ]</a>
+              <a href="subject.html#266">[ subject ]</a>
+              <a href="author.html#266">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

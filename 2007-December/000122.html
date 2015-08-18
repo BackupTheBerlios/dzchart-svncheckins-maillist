@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r253 - in utilities/dzLib/trunk/tests: .	dzfileutils
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r253%20-%20in%20utilities/dzLib/trunk/tests%3A%20.%0A%09dzfileutils&In-Reply-To=%3C200712161357.lBGDvKNE026448%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000121.html">
+   <LINK REL="Next"  HREF="000123.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r253 - in utilities/dzLib/trunk/tests: .	dzfileutils</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r253%20-%20in%20utilities/dzLib/trunk/tests%3A%20.%0A%09dzfileutils&In-Reply-To=%3C200712161357.lBGDvKNE026448%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r253 - in utilities/dzLib/trunk/tests: .	dzfileutils">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Dec 16 14:57:20 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000121.html">[Dzchart-svncheckins] r252 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000123.html">[Dzchart-svncheckins] r254 - in utilities/dzLib/trunk: src tests	tests/dzconvertutils tests/dzfileutils
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#122">[ date ]</a>
+              <a href="thread.html#122">[ thread ]</a>
+              <a href="subject.html#122">[ subject ]</a>
+              <a href="author.html#122">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-12-16 14:57:16 +0100 (Sun, 16 Dec 2007)
+New Revision: 253
+
+Added:
+   utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dpr
+   utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dproj
+Removed:
+   utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr
+   utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj
+Log:
+only one DUnit test project for all tests
+
+Copied: utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dpr (from rev 252, utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr)
+
+Copied: utilities/dzLib/trunk/tests/DUnitTest_dzFileUtils.dproj (from rev 252, utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj)
+
+Deleted: utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr	2007-12-16 13:19:18 UTC (rev 252)
++++ utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dpr	2007-12-16 13:57:16 UTC (rev 253)
+@@ -1,41 +0,0 @@
+-program DUnitTest_dzFileUtils;
+-{
+-
+-  Delphi DUnit Test Project
+-  -------------------------
+-  This project contains the DUnit test framework and the GUI/Console test runners.
+-  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
+-  to use the console test runner.  Otherwise the GUI test runner will be used by 
+-  default.
+-
+-}
+-
+-{$IFDEF CONSOLE_TESTRUNNER}
+-{$APPTYPE CONSOLE}
+-{$ENDIF}
+-
+-uses
+-  Forms,
+-  TestFramework,
+-  GUITestRunner,
+-  TextTestRunner,
+-  u_dzFileUtils in '..\..\src\u_dzFileUtils.pas',
+-  Testu_dzFileUtils in 'Testu_dzFileUtils.pas',
+-  u_dzMiscUtils in '..\..\src\u_dzMiscUtils.pas',
+-  u_dzStringUtils in '..\..\src\u_dzStringUtils.pas',
+-  u_dzConvertUtils in '..\..\src\u_dzConvertUtils.pas',
+-  u_dzTranslator in '..\..\src\u_dzTranslator.pas',
+-  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
+-  u_dzUnitTestUtils in '..\..\src\u_dzUnitTestUtils.pas',
+-  u_dzVariantUtils in '..\..\src\u_dzVariantUtils.pas';
+-
+-{$R *.RES}
+-
+-begin
+-  Application.Initialize;
+-  if IsConsole then
+-    TextTestRunner.RunRegisteredTests
+-  else
+-    GUITestRunner.RunRegisteredTests;
+-end.
+-
+
+Deleted: utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj	2007-12-16 13:19:18 UTC (rev 252)
++++ utilities/dzLib/trunk/tests/dzfileutils/DUnitTest_dzFileUtils.dproj	2007-12-16 13:57:16 UTC (rev 253)
+@@ -1,54 +0,0 @@
+-&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;ProjectGuid&gt;{9732bdc0-39a6-4dbb-817c-3fb77772e288}&lt;/ProjectGuid&gt;
+-    &lt;MainSource&gt;DUnitTest_dzFileUtils.dpr&lt;/MainSource&gt;
+-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+-    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;DUnitTest_dzFileUtils.exe&lt;/DCC_DependencyCheckOutputName&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
+-    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
+-    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
+-    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_Define&gt;DEBUG;_CONSOLE_TESTRUNNER;no_translation&lt;/DCC_Define&gt;
+-    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_IncludePath&gt;
+-    &lt;DCC_DcuOutput&gt;dcu&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;dcu&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;dcu&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+-    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+-    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+-    &lt;DCC_IntegerOverflowCheck&gt;True&lt;/DCC_IntegerOverflowCheck&gt;
+-    &lt;DCC_RangeChecking&gt;True&lt;/DCC_RangeChecking&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ProjectExtensions&gt;
+-    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+-    &lt;Borland.ProjectType /&gt;
+-    &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionI!
+ nfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;DUnitTest_dzFileUtils.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;UnitTesting&gt;&lt;TestFramework&gt;DUnit / Delphi Win32&lt;/TestFramework&gt;&lt;TestRunner&gt;GUI&lt;/TestRunner&gt;&lt;/UnitTesting&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+-  &lt;/ProjectExtensions&gt;
+-  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+-  &lt;ItemGroup&gt;
+-    &lt;DelphiCompile Include=&quot;DUnitTest_dzFileUtils.dpr&quot;&gt;
+-      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+-    &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzConvertUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzDateUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzFileUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzMiscUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzStringUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzTranslator.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzUnitTestUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\..\src\u_dzVariantUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;Testu_dzFileUtils.pas&quot; /&gt;
+-  &lt;/ItemGroup&gt;
+-&lt;/Project&gt;
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000121.html">[Dzchart-svncheckins] r252 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000123.html">[Dzchart-svncheckins] r254 - in utilities/dzLib/trunk: src tests	tests/dzconvertutils tests/dzfileutils
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#122">[ date ]</a>
+              <a href="thread.html#122">[ thread ]</a>
+              <a href="subject.html#122">[ subject ]</a>
+              <a href="author.html#122">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

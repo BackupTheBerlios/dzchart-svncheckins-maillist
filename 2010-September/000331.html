@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r472 - 3rd/jcl/2.000/trunk/source/include
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r472%20-%203rd/jcl/2.000/trunk/source/include&In-Reply-To=%3C20100905160938.A18A248104F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000330.html">
+   <LINK REL="Next"  HREF="000332.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r472 - 3rd/jcl/2.000/trunk/source/include</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r472%20-%203rd/jcl/2.000/trunk/source/include&In-Reply-To=%3C20100905160938.A18A248104F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r472 - 3rd/jcl/2.000/trunk/source/include">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep  5 18:09:38 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000330.html">[Dzchart-svncheckins] r471 - 3rd/jcl/2.000/trunk/source/include
+</A></li>
+        <LI>Next message: <A HREF="000332.html">[Dzchart-svncheckins] r473 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#331">[ date ]</a>
+              <a href="thread.html#331">[ thread ]</a>
+              <a href="subject.html#331">[ subject ]</a>
+              <a href="author.html#331">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-09-05 18:09:38 +0200 (Sun, 05 Sep 2010)
+New Revision: 472
+
+Added:
+   3rd/jcl/2.000/trunk/source/include/jcld15.inc
+Modified:
+   3rd/jcl/2.000/trunk/source/include/jcl.inc
+Log:
+added preliminary support for Delphi XE
+
+Modified: 3rd/jcl/2.000/trunk/source/include/jcl.inc
+===================================================================
+--- 3rd/jcl/2.000/trunk/source/include/jcl.inc	2010-09-05 16:07:48 UTC (rev 471)
++++ 3rd/jcl/2.000/trunk/source/include/jcl.inc	2010-09-05 16:09:38 UTC (rev 472)
+@@ -1,4 +1,4 @@
+-{**************************************************************************************************}
++&#65279;{**************************************************************************************************}
+ {                                                                                                  }
+ {  The contents of this file are subject to the Mozilla Public License Version 1.1 (the &quot;License&quot;);}
+ {  you may not use this file except in compliance with the License. You may obtain a copy of the   }
+@@ -134,6 +134,10 @@
+       {$I jcld14.inc}
+       {$DEFINE JCL_CONFIGURED}
+     {$ENDIF BDS7}
++    {$IFDEF BDS8} // Rad Studio XE
++      {$I jcld15.inc}
++      {$DEFINE JCL_CONFIGURED}
++    {$ENDIF BDS8}
+     {----------------------------}
+     {$IFDEF FPC}
+       {$I jclfpc.inc}
+
+Copied: 3rd/jcl/2.000/trunk/source/include/jcld15.inc (from rev 470, 3rd/jcl/2.000/trunk/source/include/jcld14.inc)
+===================================================================
+--- 3rd/jcl/2.000/trunk/source/include/jcld15.inc	                        (rev 0)
++++ 3rd/jcl/2.000/trunk/source/include/jcld15.inc	2010-09-05 16:09:38 UTC (rev 472)
+@@ -0,0 +1,131 @@
++{**************************************************************************************************}
++{                                                                                                  }
++{ Project JEDI Code Library (JCL)                                                                  }
++{                                                                                                  }
++{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the &quot;License&quot;); }
++{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
++{ License at <A HREF="http://www.mozilla.org/MPL/">http://www.mozilla.org/MPL/</A>                                                           }
++{                                                                                                  }
++{ Software distributed under the License is distributed on an &quot;AS IS&quot; basis, WITHOUT WARRANTY OF   }
++{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
++{ and limitations under the License.                                                               }
++{                                                                                                  }
++{ The Original Code is jcl.inc                                                                     }
++{                                                                                                  }
++{ The Initial Developer of the Original Code is Marcel van Brakel.                                 }
++{ Portions created by Marcel van Brakel are Copyright (C) Marcel van Brakel.                       }
++{                                                                                                  }
++{ Contributors:                                                                                    }
++{   Marcel van Brakel                                                                              }
++{   Matthias Thoma (mthoma)                                                                        }
++{   Petr Vones                                                                                     }
++{   Robert Marquardt (marquardt)                                                                   }
++{   Robert Rossmair (rrossmair)                                                                    }
++{   Florent Ouchet (outchy)                                                                        }
++{                                                                                                  }
++{**************************************************************************************************}
++{                                                                                                  }
++{ This include file defines various JCL specific defines.                                          }
++{ The more generic JCL defines are defined in jcl.inc and the generic defines in the jedi.inc file }
++{ which is shared with the JEDI VCL.                                                               }
++{                                                                                                  }
++{**************************************************************************************************}
++{                                                                                                  }
++{ This file is filled by the JCL installer, all the changes made in its content will be lost the   }
++{ next time the JCL is installed.                                                                  }
++{                                                                                                  }
++{**************************************************************************************************}
++
++// $Id: jcl.template.inc 132 2009-08-09 18:39:51Z outch $
++
++// Math precision selection, mutually exclusive
++// FPC does not support EXTENDED when targetting x86_64, MATH_DOUBLE_PRECISION is the default in this situation
++{$DEFINE MATH_EXTENDED_PRECISION} // default
++{.$DEFINE MATH_DOUBLE_PRECISION}
++{.$DEFINE MATH_SINGLE_PRECISION}
++
++
++// Math functions takes care of infinites and NaN
++{$DEFINE MATH_EXT_EXTREMEVALUES}
++
++
++// JclHookExcept support for hooking exceptions from DLLs
++{.$DEFINE HOOK_DLL_EXCEPTIONS}
++
++
++//Threadsafe directive
++{$DEFINE THREADSAFE}
++
++
++// To exclude obsolete code from compilation, remove the point from the line below
++{$DEFINE DROP_OBSOLETE_CODE}
++
++
++//Support for JclUnitVersioning.pas, not supported by Delphi 2005 (automatically disabled afterward)
++{$DEFINE UNITVERSIONING}
++
++
++// debug sources
++// defining these symbols will the debug source to be automatically registered
++{.$DEFINE DEBUG_NO_BINARY}
++{.$DEFINE DEBUG_NO_TD32}     // automatically defined for FPC
++{.$DEFINE DEBUG_NO_MAP}
++{.$DEFINE DEBUG_NO_EXPORTS}
++{.$DEFINE DEBUG_NO_SYMBOLS}
++
++
++// mark EDI units as weak package units (to avoid conflicts with the EDI package)
++{.$DEFINE EDI_WEAK_PACKAGE_UNITS}
++
++
++// PCRE options, mutually exclusive
++// IMPORTANT: The static link works only for Delphi 2005 and newer
++//            (an internal error is raised on other compilers)
++// Only one of the following defines can be defined at a time
++//   static link: PCRE_STATICLINK
++//   static dll import: PCRE_LINKDLL
++//   dynamic dll import: PCRE_LINKONREQUEST
++
++{$DEFINE PCRE_STATICLINK}
++{.$DEFINE PCRE_LINKDLL}
++{.$DEFINE PCRE_LINKONREQUEST} // default
++
++
++// BZIP2 options, mutually exclusive
++
++{$DEFINE BZIP2_STATICLINK} // default
++{.$DEFINE BZIP2_LINKDLL}
++{.$DEFINE BZIP2_LINKONREQUEST}
++
++
++// ZLIB options, mutually exclusive
++
++{$DEFINE ZLIB_STATICLINK} // default
++{.$DEFINE ZLIB_LINKDLL}
++{.$DEFINE ZLIB_LINKONREQUEST}
++
++
++// Unicode options
++// insert a replacement character if sequence is corrupted rather than raising an exception
++{$DEFINE UNICODE_SILENT_FAILURE}
++
++// defines resource compression (uncompressed, compressed with ZLib, compressed with BZip2), mutually exclusive
++{$DEFINE UNICODE_RAW_DATA} // default
++{.$DEFINE UNICODE_ZLIB_DATA}
++{.$DEFINE UNICODE_BZIP2_DATA}
++
++
++// container options
++// define mapping of TJclStr* containers to TJclAnsiStr* or TJclWideStr* (mutually exclusive)
++{.$DEFINE CONTAINER_ANSISTR} // default
++{.$DEFINE CONTAINER_WIDESTR}
++{.$DEFINE CONTAINER_NOSTR}
++
++
++// 7Zip options, mutually exclusive
++// IMPORTANT: The static link is not supported yet
++
++{.$DEFINE 7ZIP_STATICLINK} // not supported yet
++{.$DEFINE 7ZIP_LINKDLL}
++{$DEFINE 7ZIP_LINKONREQUEST} // default
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000330.html">[Dzchart-svncheckins] r471 - 3rd/jcl/2.000/trunk/source/include
+</A></li>
+	<LI>Next message: <A HREF="000332.html">[Dzchart-svncheckins] r473 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#331">[ date ]</a>
+              <a href="thread.html#331">[ thread ]</a>
+              <a href="subject.html#331">[ subject ]</a>
+              <a href="author.html#331">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r162 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r162%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707141052.l6EAq9an016426%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000036.html">
+   <LINK REL="Next"  HREF="000038.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r162 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r162%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200707141052.l6EAq9an016426%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r162 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Jul 14 12:52:09 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000036.html">[Dzchart-svncheckins] r161 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000038.html">[Dzchart-svncheckins] r163 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#37">[ date ]</a>
+              <a href="thread.html#37">[ thread ]</a>
+              <a href="subject.html#37">[ subject ]</a>
+              <a href="author.html#37">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-07-14 12:51:57 +0200 (Sat, 14 Jul 2007)
+New Revision: 162
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+net procedure TCheckBox_SetCheckedNoOnClick
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-07-14 10:50:41 UTC (rev 161)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2007-07-14 10:51:57 UTC (rev 162)
+@@ -265,7 +265,7 @@
+    @param Obj is the value of the object pointer of the selected item, only valid
+           if the function returns true
+    @returns true, if these values are valid }
+-function TRadioGroup_GetSelectedObject(_rg: TCustomRadioGroup;out _Idx: integer; out _Obj: pointer): boolean;
++function TRadioGroup_GetSelectedObject(_rg: TCustomRadioGroup; out _Idx: integer; out _Obj: pointer): boolean;
+ 
+ {: Writes a TPicture object to a String. The Format is
+    &lt;pictureformat&gt;#26&lt;picturedata&gt; }
+@@ -319,6 +319,9 @@
+ {: Center the child on the parent}
+ procedure TControl_Center(_Child: TControl; _Parent: TControl);
+ 
++{: sets the Checked property without firing an OnClick event }
++procedure TCheckBox_SetCheckedNoOnClick(_Chk: TCustomCheckBox; _Checked: boolean);
++
+ {: switches off &quot;Windows Ghosting&quot; in Win 2000 and XP
+   This is a workaround for the bug that modal forms sometimes aren't modal in W2K and XP.
+   Call in application startup. }
+@@ -860,7 +863,7 @@
+     _Caption := StripHotKey(Hack.Items[_Idx]);
+ end;
+ 
+-function TRadioGroup_GetSelectedObject(_rg: TCustomRadioGroup;out _Idx: integer; out _Obj: pointer): boolean;
++function TRadioGroup_GetSelectedObject(_rg: TCustomRadioGroup; out _Idx: integer; out _Obj: pointer): boolean;
+ var
+   Hack: TRadioGroupHack;
+ begin
+@@ -1042,6 +1045,23 @@
+   _child.top := (_parent.height - _child.height) div 2;
+ end;
+ 
++type
++  TCheckBox = class(TCustomCheckBox)
++  end;
++
++procedure TCheckBox_SetCheckedNoOnClick(_Chk: TCustomCheckBox; _Checked: boolean);
++var
++  Chk: TCheckBox;
++begin
++  Chk := TCheckBox(_Chk);
++  Chk.ClicksDisabled := true;
++  try
++    Chk.Checked := _Checked;
++  finally
++    Chk.ClicksDisabled := false;
++  end;
++end;
++
+ procedure DisableProcessWindowsGhosting;
+ var
+   DisableProcessWindowsGhostingProc: procedure;
+@@ -1206,13 +1226,12 @@
+ end;
+ 
+ procedure TMemo_ScrollToEnd(_Memo: TMemo);
+-Var
++var
+   cnt: Integer;
+-Begin
++begin
+   cnt := SendMessage(_Memo.Handle, EM_GETLINECOUNT, 0, 0);
+   SendMessage(_Memo.Handle, EM_LINESCROLL, 0, cnt);
+-End;
++end;
+ 
+-
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000036.html">[Dzchart-svncheckins] r161 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000038.html">[Dzchart-svncheckins] r163 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#37">[ date ]</a>
+              <a href="thread.html#37">[ thread ]</a>
+              <a href="subject.html#37">[ subject ]</a>
+              <a href="author.html#37">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

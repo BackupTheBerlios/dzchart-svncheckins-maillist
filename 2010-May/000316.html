@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r456 - utilities/dzPrepBuild/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r456%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201005160858.o4G8w6On014908%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000315.html">
+   <LINK REL="Next"  HREF="000317.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r456 - utilities/dzPrepBuild/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r456%20-%20utilities/dzPrepBuild/trunk/src&In-Reply-To=%3C201005160858.o4G8w6On014908%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r456 - utilities/dzPrepBuild/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun May 16 10:58:06 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000315.html">[Dzchart-svncheckins] r455 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000317.html">[Dzchart-svncheckins] r457 - utilities/dzPrepBuild
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#316">[ date ]</a>
+              <a href="thread.html#316">[ thread ]</a>
+              <a href="subject.html#316">[ subject ]</a>
+              <a href="author.html#316">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-05-16 10:58:05 +0200 (Sun, 16 May 2010)
+New Revision: 456
+
+Modified:
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Log:
+* removed unused variable declaration
+* removed unused search paths
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-05-07 11:29:50 UTC (rev 455)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-05-16 08:58:05 UTC (rev 456)
+@@ -20,15 +20,15 @@
+   &lt;/PropertyGroup&gt;
+   &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+     &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
++    &lt;DCC_DcuOutput&gt;z:\dcu\dzprepbuild&lt;/DCC_DcuOutput&gt;
++    &lt;DCC_ObjOutput&gt;z:\dcu\dzprepbuild&lt;/DCC_ObjOutput&gt;
++    &lt;DCC_HppOutput&gt;z:\dcu\dzprepbuild&lt;/DCC_HppOutput&gt;
+     &lt;DCC_Define&gt;DEBUG;no_translation;NO_TRANSLATION_HINT&lt;/DCC_Define&gt;
+     &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
+-    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_IncludePath&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;..\libs\dzlib\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_IncludePath&gt;
+     &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+     &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+     &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-05-07 11:29:50 UTC (rev 455)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-05-16 08:58:05 UTC (rev 456)
+@@ -1,4 +1,4 @@
+ [Version Info]
+-Build=305
+-FileVersion=1.2.0.305
++Build=307
++FileVersion=1.2.0.307
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2010-05-07 11:29:50 UTC (rev 455)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2010-05-16 08:58:05 UTC (rev 456)
+@@ -183,7 +183,6 @@
+   IntValue: integer;
+   IconFile: string;
+   Project: string;
+-  dt: TDateTime;
+ begin
+   WriteLn('dzPrepBuild version ' + TApplication_GetFileVersion + ' built ' + TApplication_GetProductVersion);
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000315.html">[Dzchart-svncheckins] r455 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000317.html">[Dzchart-svncheckins] r457 - utilities/dzPrepBuild
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#316">[ date ]</a>
+              <a href="thread.html#316">[ thread ]</a>
+              <a href="subject.html#316">[ subject ]</a>
+              <a href="author.html#316">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

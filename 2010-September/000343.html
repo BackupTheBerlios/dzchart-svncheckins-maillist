@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r484 - in utilities/dzContextMenu/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r484%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20100930092304.818DE481009%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000342.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r484 - in utilities/dzContextMenu/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r484%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20100930092304.818DE481009%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r484 - in utilities/dzContextMenu/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep 30 11:23:04 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000342.html">[Dzchart-svncheckins] r483 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#343">[ date ]</a>
+              <a href="thread.html#343">[ thread ]</a>
+              <a href="subject.html#343">[ subject ]</a>
+              <a href="author.html#343">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-09-30 11:23:04 +0200 (Thu, 30 Sep 2010)
+New Revision: 484
+
+Added:
+   utilities/dzContextMenu/trunk/menu.ini
+Modified:
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+Log:
+refactoring
+
+Added: utilities/dzContextMenu/trunk/menu.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/menu.ini	                        (rev 0)
++++ utilities/dzContextMenu/trunk/menu.ini	2010-09-30 09:23:04 UTC (rev 484)
+@@ -0,0 +1,59 @@
++[global]
++Caption=Delphi Project
++
++[BDS.DprFile]
++extension=.dpr
++Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
++Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
++Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++-=n1
++Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
++Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++-=n2
++Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
++Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++
++[BDS.DpkFile]
++extension=.dpk
++Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
++Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
++Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
++Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
++Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++
++[BDS.DProjFile]
++extension=.dproj
++Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
++Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
++Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++
++[BDS.GroupProjFile]
++extension=.groupproj
++Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
++Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
++Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++
++[BDS.ProjectFile]
++extension=.bdsproj
++Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
++Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++
++[BDS.ProjectGroup]
++extension=.bdsgroup
++Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
++Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++
++[BorlandProjectGroup]
++extension=.bpg
++Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
++Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
++Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++
+
+Modified: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-09-29 16:21:02 UTC (rev 483)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-09-30 09:23:04 UTC (rev 484)
+@@ -110,14 +110,37 @@
+ end;
+ 
+ procedure Tdm_ContextMenu.UpdatePopup;
++
++  function HandleSection(const _Section: string): boolean;
++  var
++    i: integer;
++    Ext: string;
++    SectExt: string;
++    ItemIdx: Integer;
++    mi: TMenuItem;
++  begin
++   Result := false;
++    for i := 0 to FFiles.Count - 1 do begin
++      Ext := ExtractFileExt(FFiles[i]);
++      SectExt := IniFile.ReadString(_Section, 'extension', '');
++      if SameText(Ext, SectExt) then begin
++        FItems.Clear;
++        FSection := _Section;
++        IniFile.ReadSection(FSection, FItems);
++        FItems.Delete(0);
++        for ItemIdx := 0 to FItems.Count - 1 do begin
++          mi := TMenuItem.Create(Self);
++          mi.Caption := FItems[ItemIdx];
++          ThePopupMenu.Items.Add(mi);
++        end;
++        exit(true);
++      end;
++    end;
++  end;
++
+ var
+   SecIdx: Integer;
+-  SectExt: string;
+-  Ext: string;
+   Sections: TStringList;
+-  i: Integer;
+-  ItemIdx: Integer;
+-  mi: TMenuItem;
+ begin
+   ThePopupMenu.Items.Clear;
+ 
+@@ -125,22 +148,8 @@
+   try
+     IniFile.ReadSections(Sections);
+     for SecIdx := 0 to Sections.Count - 1 do begin
+-      for i := 0 to Files.Count - 1 do begin
+-        Ext := ExtractFileExt(Files[i]);
+-        SectExt := IniFile.ReadString(Sections[SecIdx], 'extension', '');
+-        if SameText(Ext, SectExt) then begin
+-          FItems.Clear;
+-          FSection := Sections[SecIdx];
+-          IniFile.ReadSection(FSection, FItems);
+-          FItems.Delete(0);
+-          for ItemIdx := 0 to FItems.Count - 1 do begin
+-            mi := TMenuItem.Create(Self);
+-            mi.Caption := FItems[ItemIdx];
+-            ThePopupMenu.Items.Add(mi);
+-          end;
+-          exit;
+-        end;
+-      end;
++      if HandleSection(Sections[SecIdx]) then
++        exit;
+     end;
+   finally
+     FreeAndNil(Sections);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000342.html">[Dzchart-svncheckins] r483 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#343">[ date ]</a>
+              <a href="thread.html#343">[ thread ]</a>
+              <a href="subject.html#343">[ subject ]</a>
+              <a href="author.html#343">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

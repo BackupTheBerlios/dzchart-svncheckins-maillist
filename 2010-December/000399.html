@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r541 - in utilities/dzLib/trunk: dbcreator	tools/DbCreator/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-December/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r541%20-%20in%20utilities/dzLib/trunk%3A%20dbcreator%0A%09tools/DbCreator/src&In-Reply-To=%3C20101201103855.E20234801AA%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r541 - in utilities/dzLib/trunk: dbcreator	tools/DbCreator/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r541%20-%20in%20utilities/dzLib/trunk%3A%20dbcreator%0A%09tools/DbCreator/src&In-Reply-To=%3C20101201103855.E20234801AA%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r541 - in utilities/dzLib/trunk: dbcreator	tools/DbCreator/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Wed Dec  1 11:38:55 CET 2010</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#399">[ date ]</a>
+              <a href="thread.html#399">[ thread ]</a>
+              <a href="subject.html#399">[ subject ]</a>
+              <a href="author.html#399">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-12-01 11:38:55 +0100 (Wed, 01 Dec 2010)
+New Revision: 541
+
+Modified:
+   utilities/dzLib/trunk/dbcreator/u_dzXmlWriter.pas
+   utilities/dzLib/trunk/dbcreator/u_dzXmlWriterInterface.pas
+   utilities/dzLib/trunk/tools/DbCreator/src/dzdbCreator.dproj
+Log:
+TNameValueList -&gt; TdzNameValueList
+
+Modified: utilities/dzLib/trunk/dbcreator/u_dzXmlWriter.pas
+===================================================================
+--- utilities/dzLib/trunk/dbcreator/u_dzXmlWriter.pas	2010-11-20 12:00:33 UTC (rev 540)
++++ utilities/dzLib/trunk/dbcreator/u_dzXmlWriter.pas	2010-12-01 10:38:55 UTC (rev 541)
+@@ -49,7 +49,7 @@
+     function CreateAttribString(const _Attribs: array of string): string; overload;
+     function CreateAttribString(_Attribs: TStrings): string; overload;
+     ///&lt;summary&gt; @italic(Note: With this function, the attributes will always be sorted) &lt;/summary&gt;
+-    function CreateAttribString(_Attribs: TNameValueList): string; overload;
++    function CreateAttribString(_Attribs: TdzNameValueList): string; overload;
+     ///&lt;summary&gt; same as CreateAttribString, but excpects the attributes to be stored as name=value pairs in the stringlist
+     ///          @italic(Note: If you add a name with an empty value to a stringlist, the class will
+     ///          ignore this entry or remove an existing entry, e.g.:
+@@ -83,7 +83,7 @@
+     ///                 ['name1', 'value1', 'name2', 'value2'] &lt;/summary&gt;
+     procedure StartEntity(const _Name: string; const _Attribs: array of string); overload;
+     ///&lt;summary&gt; @italic(Note: With this function, the attributes will always be sorted) &lt;/summary&gt;
+-    procedure StartEntity(const _Name: string; _Attribs: TNameValueList); overload;
++    procedure StartEntity(const _Name: string; _Attribs: TdzNameValueList); overload;
+     ///&lt;summary&gt; Same as StartEntity but excpects the attributes to be stored as name=value pairs in the stringlist
+     ///          @italic(Note: If you add a name with an empty value to a stringlist, the class will
+     ///          ignore this entry or remove an existing entry, e.g.:
+@@ -103,7 +103,7 @@
+     ///                 name and the value of attributes like this:
+     ///                 ['name1', 'value1', 'name2', 'value2'] &lt;/summary&gt;
+     procedure WriteEntity(const _Name: string; const _Attribs: array of string); overload;
+-    procedure WriteEntity(const _Name: string; _Attribs: TNameValueList); overload;
++    procedure WriteEntity(const _Name: string; _Attribs: TdzNameValueList); overload;
+     ///&lt;summary&gt; Same as WriteEntity but excpects the attributes to be stored as name=value pairs in the stringlist
+     ///          @italic(Note: If you add a name with an empty value to a stringlist, the class will
+     ///          ignore this entry or remove an existing entry, e.g.:
+@@ -198,7 +198,7 @@
+   end;
+ end;
+ 
+-function TdzXmlWriter.CreateAttribString(_Attribs: TNameValueList): string;
++function TdzXmlWriter.CreateAttribString(_Attribs: TdzNameValueList): string;
+ var
+   i: integer;
+   Name, Value: string;
+@@ -230,7 +230,7 @@
+   Inc(FIndent, FDelta);
+ end;
+ 
+-procedure TdzXmlWriter.StartEntity(const _Name: string; _Attribs: TNameValueList);
++procedure TdzXmlWriter.StartEntity(const _Name: string; _Attribs: TdzNameValueList);
+ begin
+   WriteLineFmt('&lt;%s %s&gt;', [_Name, CreateAttribString(_Attribs)]);
+   Inc(FIndent, FDelta);
+@@ -253,7 +253,7 @@
+   WriteLineFmt('&lt;%s %s/&gt;', [_Name, CreateAttribString(_Attribs)]);
+ end;
+ 
+-procedure TdzXmlWriter.WriteEntity(const _Name: string; _Attribs: TNameValueList);
++procedure TdzXmlWriter.WriteEntity(const _Name: string; _Attribs: TdzNameValueList);
+ begin
+   WriteLineFmt('&lt;%s %s/&gt;', [_Name, CreateAttribString(_Attribs)]);
+ end;
+
+Modified: utilities/dzLib/trunk/dbcreator/u_dzXmlWriterInterface.pas
+===================================================================
+--- utilities/dzLib/trunk/dbcreator/u_dzXmlWriterInterface.pas	2010-11-20 12:00:33 UTC (rev 540)
++++ utilities/dzLib/trunk/dbcreator/u_dzXmlWriterInterface.pas	2010-12-01 10:38:55 UTC (rev 541)
+@@ -20,7 +20,7 @@
+     ///                 name and the value of attributes like this:
+     ///                 ['name1', 'value1', 'name2', 'value2'] &lt;/summary&gt;
+     procedure StartEntity(const _Name: string; const _Attribs: array of string); overload;
+-    procedure StartEntity(const _Name: string; _Attribs: TNameValueList); overload;
++    procedure StartEntity(const _Name: string; _Attribs: TdzNameValueList); overload;
+     ///&lt;summary&gt; Same as StartEntity but excpects the attributes to be stored as
+     ///          name=value pairs in the stringlist
+     ///          @bold(If you add a name with an empty value to a stringlist, the class will
+@@ -41,7 +41,7 @@
+     ///                 name and the value of attributes like this:
+     ///                 ['name1', 'value1', 'name2', 'value2'] &lt;/summary&gt;
+     procedure WriteEntity(const _Name: string; const _Attribs: array of string); overload;
+-    procedure WriteEntity(const _Name: string; _Attribs: TNameValueList); overload;
++    procedure WriteEntity(const _Name: string; _Attribs: TdzNameValueList); overload;
+     ///&lt;summary&gt; Same as WriteEntity but excpects the attributes to be stored as name=value pairs in the stringlist
+     ///          @bold(If you add a name with an empty value to a stringlist, the class will
+     ///                ignore this entry or remove an existing entry, e.g.:
+
+Modified: utilities/dzLib/trunk/tools/DbCreator/src/dzdbCreator.dproj
+===================================================================
+--- utilities/dzLib/trunk/tools/DbCreator/src/dzdbCreator.dproj	2010-11-20 12:00:33 UTC (rev 540)
++++ utilities/dzLib/trunk/tools/DbCreator/src/dzdbCreator.dproj	2010-12-01 10:38:55 UTC (rev 541)
+@@ -7,7 +7,6 @@
+     &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+     &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+     &lt;DCC_DependencyCheckOutputName&gt;..\dzdbCreator.exe&lt;/DCC_DependencyCheckOutputName&gt;
+-    &lt;DCC_EnabledPackages&gt;true&lt;/DCC_EnabledPackages&gt;
+     &lt;DCC_UsePackage&gt;rtl;vcl;vclx;vclactnband;dbrtl;vcldb;bdertl;vcldbx;dsnap;dsnapcon;teeUI;tee;teedb;vclib;ibxpress;adortl;dbxcds;dbexpress;DbxCommonDriver;VclSmp;vclie;websnap;webdsnap;xmlrtl;inet;inetdbbde;inetdbxpress;JclVcl;Jcl;JvCoreD11R;JvSystemD11R;JvStdCtrlsD11R;JvCtrlsD11R;JvCmpD11R;JvCustomD11R;JvDlgsD11R;JvCryptD11R;JvMMD11R;JvNetD11R;JvAppFrmD11R;JvDBD11R;JvBDED11R;JvInterpreterD11R;JvBandsD11R;JvPluginD11R;JvJansD11R;JvGlobusD11R;JvPrintPreviewD11R;JvPageCompsD11R;JvValidatorsD11R;JvWizardD11R;JvTimeFrameworkD11R;JvHMID11R;JvManagedThreadsD11R;JvXPCtrlsD11R;JvDockingD11R;JvDotNetCtrlsD11R;JvEDID11R;JvRuntimeDesignD11R&lt;/DCC_UsePackage&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+@@ -46,10 +45,10 @@
+     &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+     &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+     &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_UnitSearchPath&gt;..\..\..\src;..\..\..\jedi_inc;..\..\..\..\dztemplates\templates;..\..\..\..\dztemplates\units&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;..\..\..\src;..\..\..\jedi_inc;..\..\..\..\dztemplates\templates;..\..\..\..\dztemplates\units&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;..\..\..\src;..\..\..\jedi_inc;..\..\..\..\dztemplates\templates;..\..\..\..\dztemplates\units&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;..\..\..\src;..\..\..\jedi_inc;..\..\..\..\dztemplates\templates;..\..\..\..\dztemplates\units&lt;/DCC_IncludePath&gt;
++    &lt;DCC_UnitSearchPath&gt;..\..\..\src;..\..\..\..\dztemplates\templates;..\..\..\..\dztemplates\units;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\include;..\..\..\..\jcl\source\windows;..\..\..\..\jcl\source\vcl;..\..\..\..\jvcl\common;..\..\..\..\jvcl\run;..\..\..\..\jvcl\resources;..\..\..\..\tregexpr\Source&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;..\..\..\src;..\..\..\..\dztemplates\templates;..\..\..\..\dztemplates\units;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\include;..\..\..\..\jcl\source\windows;..\..\..\..\jcl\source\vcl;..\..\..\..\jvcl\common;..\..\..\..\jvcl\run;..\..\..\..\jvcl\resources;..\..\..\..\tregexpr\Source&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;..\..\..\src;..\..\..\..\dztemplates\templates;..\..\..\..\dztemplates\units;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\include;..\..\..\..\jcl\source\windows;..\..\..\..\jcl\source\vcl;..\..\..\..\jvcl\common;..\..\..\..\jvcl\run;..\..\..\..\jvcl\resources;..\..\..\..\tregexpr\Source&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;..\..\..\src;..\..\..\..\dztemplates\templates;..\..\..\..\dztemplates\units;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\include;..\..\..\..\jcl\source\windows;..\..\..\..\jcl\source\vcl;..\..\..\..\jvcl\common;..\..\..\..\jvcl\run;..\..\..\..\jvcl\resources;..\..\..\..\tregexpr\Source&lt;/DCC_IncludePath&gt;
+     &lt;DCC_Define&gt;debug;use_jedi_jcl;NO_TRANSLATION&lt;/DCC_Define&gt;
+     &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+     &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+@@ -59,15 +58,17 @@
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType&gt;VCLApplication&lt;/Borland.ProjectType&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;39&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;iCD. GmbH&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;Database Conversion 
+ Tool&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.39&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;accessexport&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2001-2004 by headwork consulting GmbH, 2005-2006 by iCD. GmbH&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;accessexport.exe&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;iCD Database Tools&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzdbCreator.dpr&lt;/Source&gt;&lt;/Source&gt;  &lt;Excluded_Packages&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;39&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;iCD. GmbH&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;Database Conversion 
+ Tool&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.39&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;accessexport&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;copyright 2001-2004 by headwork consulting GmbH, 2005-2006 by iCD. GmbH&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;accessexport.exe&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;iCD Database Tools&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzdbCreator.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;Excluded_Packages&gt;
+       
+       
+       
+       
+       
++      
++      
++      
+       &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzComponentsD110.bpl&quot;&gt;dzComponents designtime package&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;
+-  &lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++    &lt;/Excluded_Packages&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;ItemGroup&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#399">[ date ]</a>
+              <a href="thread.html#399">[ thread ]</a>
+              <a href="subject.html#399">[ subject ]</a>
+              <a href="author.html#399">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,3087 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r294 - in utilities/dzLib/trunk: . src	translations/de translations/en translations/fr
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r294%20-%20in%20utilities/dzLib/trunk%3A%20.%20src%0A%09translations/de%20translations/en%20translations/fr&In-Reply-To=%3C200809041019.m84AJ3F9023240%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000160.html">
+   <LINK REL="Next"  HREF="000162.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r294 - in utilities/dzLib/trunk: . src	translations/de translations/en translations/fr</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r294%20-%20in%20utilities/dzLib/trunk%3A%20.%20src%0A%09translations/de%20translations/en%20translations/fr&In-Reply-To=%3C200809041019.m84AJ3F9023240%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r294 - in utilities/dzLib/trunk: . src	translations/de translations/en translations/fr">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 12:19:03 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000160.html">[Dzchart-svncheckins] r293 - utilities/dzLib/trunk
+</A></li>
+        <LI>Next message: <A HREF="000162.html">[Dzchart-svncheckins] r295 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#161">[ date ]</a>
+              <a href="thread.html#161">[ thread ]</a>
+              <a href="subject.html#161">[ subject ]</a>
+              <a href="author.html#161">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-04 12:19:01 +0200 (Thu, 04 Sep 2008)
+New Revision: 294
+
+Modified:
+   utilities/dzLib/trunk/
+   utilities/dzLib/trunk/src/u_dzRingBuffer.pas
+   utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+   utilities/dzLib/trunk/translations/de/dzlib.po
+   utilities/dzLib/trunk/translations/en/dzlib.po
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+* changed all pasdoc comments to xmldoc
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+
+
+
+Property changes on: utilities/dzLib/trunk
+___________________________________________________________________
+Name: svn:ignore
+   - default.po
+default_de.mo
+filtered.po
+.po
+
+   + default.po
+default_de.mo
+filtered.po
+.po
+dzlib.exe
+allunits
+
+
+Modified: utilities/dzLib/trunk/src/u_dzRingBuffer.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzRingBuffer.pas	2008-09-04 10:03:06 UTC (rev 293)
++++ utilities/dzLib/trunk/src/u_dzRingBuffer.pas	2008-09-04 10:19:01 UTC (rev 294)
+@@ -1,11 +1,12 @@
+ unit u_dzRingBuffer;
+ 
+-{$I globaldef.inc}
++{$I jedi.inc}
+ 
+ interface
+ 
+ uses
+-  Windows;
++  Windows,
++  SysUtils;
+ 
+ type
+   EdzRingBuffer = class(Exception);
+
+Modified: utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2008-09-04 10:03:06 UTC (rev 293)
++++ utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2008-09-04 10:19:01 UTC (rev 294)
+@@ -8,25 +8,25 @@
+   Variants;
+ 
+ type
+-  {: raised if there is a conversion error in one of the Var2XxxEx functions }
++  ///&lt;summary&gt; raised if there is a conversion error in one of the Var2XxxEx functions &lt;/summary&gt;
+   EVariantConvertError = class(Exception);
+-  {: raised if the variant passed to one of the Var2XxxEx functions is null }
++  ///&lt;summary&gt; raised if the variant passed to one of the Var2XxxEx functions is null &lt;/summary&gt;
+   EVarIsNull = class(EVariantConvertError);
+-  {: raised if the variant passed to one of the Var2XxxEx functions is empty }
++  ///&lt;summary&gt; raised if the variant passed to one of the Var2XxxEx functions is empty &lt;/summary&gt;
+   EVarIsEmpty = class(EVariantConvertError);
+ 
+-{: converts a variant to its string representation (for debugging) }
++///&lt;summary&gt; converts a variant to its string representation (for debugging / logging) &lt;/summary&gt;
+ function toString(_v: OleVariant): string; overload;
+ 
+-{: Checks whether a variant is a type that can be assigned to an integer (signed 32 bit),
+-   Note: Excludes longword and Int64, even if the value may be &lt;= MaxLongInt }
++///&lt;summary&gt; Checks whether a variant is a type that can be assigned to an integer (signed 32 bit),
++///          Note: Excludes longword and Int64, even if the value may be &lt;= MaxLongInt &lt;/summary&gt;
+ function VarIsInteger(_v: variant): boolean;
+ 
+-{: Checks whether a variant is of a type that can be assigned to a longword (unsigned 32 bit),
+-   Note: Excludes signed integers, even if the value may be positive }
++///&lt;summary&gt; Checks whether a variant is of a type that can be assigned to a longword (unsigned 32 bit),
++//           Note: Excludes signed integers, even if the value may be positive &lt;/summary&gt;
+ function VarIsLongWord(_v: variant): boolean;
+ 
+-{: Checks whether a variant is of a type that can be assigned to an Int64 (signed 64 bit) }
++///&lt;summary&gt; Checks whether a variant is of a type that can be assigned to an Int64 (signed 64 bit) &lt;/summary&gt;
+ function VarIsInt64(_v: variant): boolean;
+ 
+ // Variant to other type conversion functions
+@@ -37,30 +37,30 @@
+ // Var2XxxEx converts from variant to type Xxx, but raises an exception if
+ // variant is NULL, using the Source for the message.
+ 
+-{: Converts a variant to an integer.
+-   If v is null or empty, it returns false
+-   @param(v Variant value to convert)
+-   @param(Value is the variants integer value, only valid if the function
+-          returns true.)
+-   @returns(true, if the variant could be converted to integer, false if not.) }
++///&lt;summary&gt; Converts a variant to an integer.
++///          If v is null or empty, it returns false
++///          @param v Variant value to convert
++///          @param Value is the variants integer value, only valid if the function
++///                       returns true.
++///          @returns true, if the variant could be converted to integer, false if not. &lt;/summary&gt;
+ function TryVar2Int(const _v: variant; out _Value: integer): boolean;
+ function TryVar2Int64(const _v: variant; out _Value: int64): boolean;
+ 
+-{: Converts a variant to an integer.
+-   If v is null or empty, it returns the Default.
+-   @param(v Variant value to convert)
+-   @param(Default Value to return if v is empty or null)
+-   @returns(the integer value of v or the Default if v can not be converted) }
++///&lt;summary&gt; Converts a variant to an integer.
++///          If v is null or empty, it returns the Default.
++///          @param v Variant value to convert
++///          @param Default Value to return if v is empty or null
++///          @returns the integer value of v or the Default if v can not be converted &lt;/summary&gt;
+ function Var2Int(const _v: variant; _Default: integer): integer;
+ 
+-{: Converts a variant to an integer.
+-   Raises an exception if v can not be converted.
+-   @param(v Variant value to convert)
+-   @param(Source string to include in the exception message)
+-   @returns(the integer value of v)
+-   @raises(EVarIsNull if v is null)
+-   @raises(EVarIsEmpty if v is empty)
+-   @raises(EVariantConvertError if there is some other conversion error) }
++///&lt;summary&gt; Converts a variant to an integer.
++///          Raises an exception if v can not be converted.
++///          @param v Variant value to convert
++///          @param Source string to include in the exception message
++///          @returns the integer value of v
++///          @raises EVarIsNull if v is null
++///          @raises EVarIsEmpty if v is empty
++///          @raises EVariantConvertError if there is some other conversion error &lt;/summary&gt;
+ function Var2IntEx(const _v: variant; const _Source: string): integer;
+ 
+ ///&lt;summary&gt; tries to convert a variant to a boolean
+@@ -71,12 +71,12 @@
+ ///&lt;summary&gt; Converts a variant to a boolean &lt;/summary&gt;
+ function Var2BoolEx(const _v: variant; const _Source: string): boolean;
+ 
+-{: Converts a variant to the string representation of an integer.
+-   If v is null or empty, it returns the NullValue.
+-   @param(v Variant value to convert)
+-   @param(NullValue String value to return if v is empty or null)
+-   @returns(the string representation of the integer value of v or the
+-            NullValue if v can not be converted) }
++///&lt;summary&gt; Converts a variant to the string representation of an integer.
++///          If v is null or empty, it returns the NullValue.
++///          @param v Variant value to convert
++///          @param NullValue String value to return if v is empty or null
++///          @returns the string representation of the integer value of v or the
++///                   NullValue if v can not be converted &lt;/summary&gt;
+ function Var2IntStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ 
+ ///&lt;summary&gt; tries to convert a variant to a double
+@@ -88,11 +88,11 @@
+ ///          @raises EVariantConvertError if there is some other conversion error &lt;/summary&gt;
+ function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
+ 
+-{: Converts a variant to a double.
+-   If v is null or empty, it returns the Default.
+-   @param(v Variant value to convert)
+-   @param(Default Value to return if v is empty or null)
+-   @returns(the double value of v or the Default if v can not be converted) }
++///&lt;summary&gt; Converts a variant to a double.
++///          If v is null or empty, it returns the Default.
++///          @param v Variant value to convert
++///          @param Default Value to return if v is empty or null
++///          @returns the double value of v or the Default if v can not be converted &lt;/summary&gt;
+ function Var2Dbl(const _v: variant; const _Default: double): double;
+ 
+ ///&lt;summary&gt; Converts a variant to a double.
+@@ -105,13 +105,13 @@
+ ///          @raises EVariantConvertError if there is some other conversion error &lt;/summary&gt;
+ function Var2DblEx(const _v: variant; const _Source: string): double;
+ 
+-{: Converts a variant to the string representation of a double.
+-   If v is null or empty, it returns the Default.
+-   It uses Float2Str (not FloatToStr) with a '.' as decimal separator.
+-   @param(v Variant value to convert)
+-   @param(NullValue String value to return if v is empty or null)
+-   @returns(the string representation of the double value of v or the
+-            NullValue if v can not be converted) }
++///&lt;summary&gt; Converts a variant to the string representation of a double.
++///          If v is null or empty, it returns the Default.
++///          It uses Float2Str (not FloatToStr) with a '.' as decimal separator.
++///          @param v Variant value to convert
++///          @param NullValue String value to return if v is empty or null
++///          @returns the string representation of the double value of v or the
++///                   NullValue if v can not be converted &lt;/summary&gt;
+ function Var2DblStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ 
+ ///&lt;summary&gt; tries to convert a variant to an extended
+@@ -133,68 +133,65 @@
+ ///          @raises EVariantConvertError if there is some other conversion error &lt;/summary&gt;
+ function Var2ExtEx(const _v: variant; const _Source: string): extended;
+ 
+-{: Converts a variant to a TDateTime.
+-   Raises an exception if v can not be converted.
+-   @param(v Variant value to convert)
+-   @param(Source string to include in the exception message)
+-   @returns(the TDateTime value of v)
+-   @raises(EVarIsNull if v is null)
+-   @raises(EVarIsEmpty if v is empty)
+-   @raises(EVariantConvertError if there is some other conversion error) }
++///&lt;summary&gt; Converts a variant to a TDateTime.
++///          Raises an exception if v can not be converted.
++///          @param v Variant value to convert
++///          @param Source string to include in the exception message
++///          @returns the TDateTime value of v
++///          @raises EVarIsNull if v is null
++///          @raises EVarIsEmpty if v is empty
++///          @raises EVariantConvertError if there is some other conversion error &lt;/summary&gt;
+ function Var2DateTimeEx(const _v: variant; const _Source: string): TDateTime;
+ 
+ function TryVar2DateTime(const _v: Variant; out _dt: TDateTime): boolean;
+ 
+-{: Converts a variant to an ISO format DateTime string (yyyy-mm-dd hh:mm:ss)
+-   @param(v Variant value to convert)
+-   @param(NullValue String value to return if v is empty or null)
+-   @returns(an ISO format DateTime string of v or NullValue if v can not be converted) }
++///&lt;summary&gt; Converts a variant to an ISO format DateTime string (yyyy-mm-dd hh:mm:ss)
++///          @param v Variant value to convert
++///          @param NullValue String value to return if v is empty or null
++///          @returns an ISO format DateTime string of v or NullValue if v can not be converted &lt;/summary&gt;
+ function Var2DateTimeStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ 
+-{: Converts a variant to an ISO format Date string (yyyy-mm-dd)
+-   @param(v Variant value to convert)
+-   @param(NullValue String value to return if v is empty or null)
+-   @returns(an ISO format Date string of v or NullValue if v can not be converted) }
++///&lt;summary&gt; Converts a variant to an ISO format Date string (yyyy-mm-dd)
++///          @param v Variant value to convert
++///          @param NullValue String value to return if v is empty or null
++///          @returns an ISO format Date string of v or NullValue if v can not be converted &lt;/summary&gt;
+ function Var2DateStr(const _v: variant; const _NullValue: string = '*NULL*'): string;
+ 
+-{: Converts a variant to a string
+-   If v is null or empty, it returns false.
+-   @param(v Variant value to convert)
+-   @param(Value is the variant's string value, only valid if the function
+-                returns true.)
+-   @returns(true, if the variant could be converted to double, false if not) }
++///&lt;summary&gt; Converts a variant to a string
++///          If v is null or empty, it returns false.
++///          @param v Variant value to convert
++///          @param Value is the variant's string value, only valid if the function
++///                       returns true.
++///          @returns true, if the variant could be converted to double, false if not &lt;/summary&gt;
+ function TryVar2Str(const _v: variant; out _Value: string): boolean;
+ 
+-{: Converts a variant to a string.
+-   If v is null or empty, it returns the Default.
+-   @param(v Variant value to convert)
+-   @param(Default Value to return if v is empty or null)
+-   @returns(the string value of v or the Default if v can not be converted) }
++///&lt;summary&gt; Converts a variant to a string.
++///          If v is null or empty, it returns the Default.
++///          @param v Variant value to convert
++///          @param Default Value to return if v is empty or null
++///          @returns the string value of v or the Default if v can not be converted &lt;/summary&gt;
+ function Var2Str(const _v: variant; const _Default: string = '*NULL*'): string;
+ 
+-{: Converts a variant to a string.
+-   Raises an exception if v can not be converted.
+-   @param(v Variant value to convert)
+-   @param(Source string to include in the exception message)
+-   @returns(the string value of v)
+-   @raises(EVarIsNull if v is null)
+-   @raises(EVarIsEmpty if v is empty)
+-   @raises(EVariantConvertError if there is some other conversion error) }
++///&lt;summary&gt; Converts a variant to a string.
++///          Raises an exception if v can not be converted.
++///          @param v Variant value to convert
++///          @param Source string to include in the exception message
++///          @returns the string value of v
++///          @raises EVarIsNull if v is null
++///          @raises EVarIsEmpty if v is empty
++///          @raises EVariantConvertError if there is some other conversion error &lt;/summary&gt;
+ function Var2StrEx(_v: variant; const _Source: string): string;
+ 
+ implementation
+ 
+ uses
++  u_dzTranslator,
+   u_dzConvertUtils;
+ 
+-resourcestring
+-  // Variant ist Null, sollte %s sein: %s
+-  STR_VARIANT_IS_NULL_SHOULD_BE_SS = 'Variant is Null, should be %s: %s';
+-  // Variant ist Empty, sollte %s sein: %s
+-  STR_VARIANT_IS_EMPTY_SHOULD_BE_SS = 'Variant is Empty, should be %s: %s';
+-  // Variant kann nicht nach %s konvertiert werden: %s
+-  STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S = 'Variant can not be converted to %s';
+-  STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS = 'Variant can not be converted to %s: %s';
++function _(const _s: string): string; inline;
++begin
++  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++end;
+ 
+ function toString(_v: OleVariant): string;
+ var
+@@ -280,16 +277,18 @@
+ end;
+ 
+ function Var2IntEx(const _v: variant; const _Source: string): integer;
++const
++  EXPECTED = 'Integer'; // do not translate
+ begin
+   if VarIsNull(_v) then
+-    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Integer', _Source]); // do not translate
++    raise EVarIsNull.CreateFmt(_('Variant is Null, should be %s: %s'), [EXPECTED, _Source]);
+   if VarIsEmpty(_v) then
+-    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Integer', _Source]); // do not translate
++    raise EVarIsEmpty.CreateFmt(_('Variant is Empty, should be %s: %s'), [EXPECTED, _Source]);
+   try
+     Result := _v;
+   except
+     on e: EVariantError do
+-      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Integer', _Source]); // do not translate
++      raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s: %s'), [EXPECTED, _Source]);
+   end;
+ end;
+ 
+@@ -307,16 +306,18 @@
+ end;
+ 
+ function Var2BoolEx(const _v: variant; const _Source: string): boolean;
++const
++  EXPECTED = 'Boolean'; // do not translate
+ begin
+   if VarIsNull(_v) then
+-    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Boolean', _Source]); // do not translate
++    raise EVarIsNull.CreateFmt(_('Variant is Null, should be %s: %s'), [EXPECTED, _Source]);
+   if VarIsEmpty(_v) then
+-    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Boolean', _Source]); // do not translate
++    raise EVarIsEmpty.CreateFmt(_('Variant is Empty, should be %s: %s'), [EXPECTED, _Source]);
+   try
+     Result := _v;
+   except
+     on e: EVariantError do
+-      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Boolean', _Source]); // do not translate
++      raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s: %s'), [EXPECTED, _Source]);
+   end;
+ end;
+ 
+@@ -331,16 +332,18 @@
+ end;
+ 
+ function Var2DateTimeEx(const _v: variant; const _Source: string): TDateTime;
++const
++  EXPECTED = 'Date'; // do not translate
+ begin
+   if VarIsNull(_v) then
+-    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['Date', _Source]); // do not translate
++    raise EVarIsNull.CreateFmt(_('Variant is Null, should be %s: %s'), [EXPECTED, _Source]);
+   if VarIsEmpty(_v) then
+-    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['Date', _Source]); // do not translate
++    raise EVarIsEmpty.CreateFmt(_('Variant is Empty, should be %s: %s'), [EXPECTED, _Source]);
+   try
+     Result := _v;
+   except
+     on e: EVariantError do
+-      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['Date', _Source]); // do not translate
++      raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s: %s'), [EXPECTED, _Source]);
+   end;
+ end;
+ 
+@@ -383,7 +386,7 @@
+ 
+ function TryVar2Dbl(const _v: variant; out _Value: double): boolean;
+ const
+-  EXPECTED = 'double';
++  EXPECTED = 'double'; // do not translate
+ begin
+   Result := not VarIsNull(_v) and not VarIsEmpty(_v);
+   if Result then
+@@ -391,13 +394,13 @@
+       _Value := _v;
+     except
+       on e: EVariantError do
+-        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, [EXPECTED]); // do not translate
++        raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s'), [EXPECTED]);
+     end;
+ end;
+ 
+ function TryVar2Ext(const _v: variant; out _Value: extended): boolean;
+ const
+-  EXPECTED = 'extended';
++  EXPECTED = 'extended'; // do not translate
+ begin
+   Result := not VarIsNull(_v) and not VarIsEmpty(_v);
+   if Result then
+@@ -405,7 +408,7 @@
+       _Value := _v;
+     except
+       on e: EVariantError do
+-        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, [EXPECTED]); // do not translate
++        raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s'), [EXPECTED]);
+     end;
+ end;
+ 
+@@ -417,33 +420,33 @@
+ 
+ function Var2DblEx(const _v: variant; const _Source: string): double;
+ const
+-  EXPECTED = 'double';
++  EXPECTED = 'double'; // do not translate
+ begin
+   if VarIsNull(_v) then
+-    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, [EXPECTED, _Source]); // do not translate
++    raise EVarIsNull.CreateFmt(_('Variant is Null, should be %s: %s'), [EXPECTED, _Source]);
+   if VarIsEmpty(_v) then
+-    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, [EXPECTED, _Source]); // do not translate
++    raise EVarIsEmpty.CreateFmt(_('Variant is Empty, should be %s: %s'), [EXPECTED, _Source]);
+   try
+     Result := _v;
+   except
+     on e: EVariantError do
+-      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, [EXPECTED, _Source]); // do not translate
++      raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s: %s'), [EXPECTED, _Source]);
+   end;
+ end;
+ 
+ function Var2ExtEx(const _v: variant; const _Source: string): extended;
+ const
+-  EXPECTED = 'extended';
++  EXPECTED = 'extended'; // do not translate
+ begin
+   if VarIsNull(_v) then
+-    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, [EXPECTED, _Source]); // do not translate
++    raise EVarIsNull.CreateFmt(_('Variant is Null, should be %s: %s'), [EXPECTED, _Source]);
+   if VarIsEmpty(_v) then
+-    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, [EXPECTED, _Source]); // do not translate
++    raise EVarIsEmpty.CreateFmt(_('Variant is Empty, should be %s: %s'), [EXPECTED, _Source]);
+   try
+     Result := _v;
+   except
+     on e: EVariantError do
+-      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, [EXPECTED, _Source]); // do not translate
++      raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s: %s'), [EXPECTED, _Source]);
+   end;
+ end;
+ 
+@@ -458,6 +461,8 @@
+ end;
+ 
+ function TryVar2Str(const _v: variant; out _Value: string): boolean;
++const
++  EXPECTED = 'String'; // do not translate
+ begin
+   Result := not VarIsNull(_v) and not VarIsEmpty(_v);
+   if Result then
+@@ -465,7 +470,7 @@
+       _Value := _v;
+     except
+       on e: EVariantError do
+-        raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S, ['String']); // do not translate
++        raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s'), [EXPECTED]);
+     end;
+ end;
+ 
+@@ -476,16 +481,18 @@
+ end;
+ 
+ function Var2StrEx(_v: variant; const _Source: string): string;
++const
++  EXPECTED = 'string'; // do not translate
+ begin
+   if VarIsNull(_v) then
+-    raise EVarIsNull.CreateFmt(STR_VARIANT_IS_NULL_SHOULD_BE_SS, ['String', _Source]); // do not translate
++    raise EVarIsNull.CreateFmt(_('Variant is Null, should be %s: %s'), [EXPECTED, _Source]);
+   if VarIsEmpty(_v) then
+-    raise EVarIsEmpty.CreateFmt(STR_VARIANT_IS_EMPTY_SHOULD_BE_SS, ['String', _Source]); // do not translate
++    raise EVarIsEmpty.CreateFmt(_('Variant is Empty, should be %s: %s'), [EXPECTED, _Source]);
+   try
+     Result := _v;
+   except
+     on e: EVariantError do
+-      raise EVariantConvertError.CreateFmt(STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS, ['String', _Source]); // do not translate
++      raise EVariantConvertError.CreateFmt(_('Variant can not be converted to %s: %s'), [EXPECTED, _Source]);
+   end;
+ end;
+ 
+
+Modified: utilities/dzLib/trunk/translations/de/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/de/dzlib.po	2008-09-04 10:03:06 UTC (rev 293)
++++ utilities/dzLib/trunk/translations/de/dzlib.po	2008-09-04 10:19:01 UTC (rev 294)
+@@ -6,7 +6,7 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2008-09-04 02:32\n&quot;
++&quot;POT-Creation-Date: 2008-09-04 03:15\n&quot;
+ &quot;PO-Revision-Date: 2008-09-04 02:42-0800\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+@@ -17,198 +17,198 @@
+ &quot;X-Poedit-Language: German\n&quot;
+ &quot;X-Poedit-Country: GERMANY\n&quot;
+ 
+-#. Programmer's name for it: RS_NO_MATCHING_OBJECT_FOUND
+-#: u_dzClassUtils.pas:150
++#. Programmer's name for it: RS_NO_MATCHING_OBJECT_FOUND
++#: u_dzClassUtils.pas:150 
+ msgid &quot;no matching object found&quot;
+ msgstr &quot;kein passendes Objekt gefunden&quot;
+ 
+-#. Programmer's name for it: RS_INVALID_CHARACTER_S
+-#: u_dzCmdLineParserStates.pas:113
++#. Programmer's name for it: RS_INVALID_CHARACTER_S
++#: u_dzCmdLineParserStates.pas:113 
+ msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
+ msgstr &quot;Ung&#252;ltiges Zeichen \&quot;%s\&quot;&quot;
+ 
+-#: u_dzConvertUtils.pas:367
++#: u_dzConvertUtils.pas:367 
+ msgid &quot;Digit out of range %s&quot;
+ msgstr &quot;ung&#252;ltige Ziffer %s&quot;
+ 
+-#: u_dzConvertUtils.pas:380
++#: u_dzConvertUtils.pas:380 
+ msgid &quot;Digit #%d (%s) out of range&quot;
+ msgstr &quot;Ung&#252;ltige Ziffer #%d (%s)&quot;
+ 
+-#: u_dzConvertUtils.pas:582
++#: u_dzConvertUtils.pas:582 
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Integerwert: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:600
++#: u_dzConvertUtils.pas:600 
+ msgid &quot;\&quot;%s\&quot; is not a valid Int64 value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Int64 Wert: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:671
++#: u_dzConvertUtils.pas:671 
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Flie&#223;kommawert: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:677
++#: u_dzConvertUtils.pas:677 
+ msgid &quot;%.2f EiB&quot;
+ msgstr &quot;%.2f EiB&quot;
+ 
+-#: u_dzConvertUtils.pas:679
++#: u_dzConvertUtils.pas:679 
+ msgid &quot;%.2f PiB&quot;
+ msgstr &quot;%.2f PiB&quot;
+ 
+-#: u_dzConvertUtils.pas:681
++#: u_dzConvertUtils.pas:681 
+ msgid &quot;%.2f TiB&quot;
+ msgstr &quot;%.2f TiB&quot;
+ 
+-#: u_dzConvertUtils.pas:683
++#: u_dzConvertUtils.pas:683 
+ msgid &quot;%.2f GiB&quot;
+ msgstr &quot;%.2f GiB&quot;
+ 
+-#: u_dzConvertUtils.pas:685
++#: u_dzConvertUtils.pas:685 
+ msgid &quot;%.2f MiB&quot;
+ msgstr &quot;%.2f MiB&quot;
+ 
+-#: u_dzConvertUtils.pas:687
++#: u_dzConvertUtils.pas:687 
+ msgid &quot;%.2f KiB&quot;
+ msgstr &quot;%.2f KiB&quot;
+ 
+-#: u_dzConvertUtils.pas:689
++#: u_dzConvertUtils.pas:689 
+ msgid &quot;%d Bytes&quot;
+ msgstr &quot;%d Bytes&quot;
+ 
+-#. Days and hours, ignore minutes and seconds
+-#: u_dzConvertUtils.pas:696
++#. Days and hours, ignore minutes and seconds
++#: u_dzConvertUtils.pas:696 
+ msgid &quot;%dd %dh&quot;
+ msgstr &quot;%dd %dh&quot;
+ 
+-#. Hours and minutes, ignore seconds
+-#: u_dzConvertUtils.pas:699
++#. Hours and minutes, ignore seconds
++#: u_dzConvertUtils.pas:699 
+ msgid &quot;%dh %dm&quot;
+ msgstr &quot;%dh %dm&quot;
+ 
+-#. Minutes and seconds
+-#: u_dzConvertUtils.pas:702
++#. Minutes and seconds
++#: u_dzConvertUtils.pas:702 
+ msgid &quot;%dm %ds&quot;
+ msgstr &quot;%dm %ds&quot;
+ 
+-#. Seconds only
+-#: u_dzConvertUtils.pas:705
++#. Seconds only
++#: u_dzConvertUtils.pas:705 
+ msgid &quot;%ds&quot;
+ msgstr &quot;%ds&quot;
+ 
+-#. Programmer's name for it: RS_Monday
+-#: u_dzDateUtils.pas:76
++#. Programmer's name for it: RS_Monday
++#: u_dzDateUtils.pas:76 
+ msgid &quot;Monday&quot;
+ msgstr &quot;Montag&quot;
+ 
+-#. Programmer's name for it: RS_Tuesday
+-#: u_dzDateUtils.pas:77
++#. Programmer's name for it: RS_Tuesday
++#: u_dzDateUtils.pas:77 
+ msgid &quot;Tuesday&quot;
+ msgstr &quot;Dienstag&quot;
+ 
+-#. Programmer's name for it: RS_Wednesday
+-#: u_dzDateUtils.pas:78
++#. Programmer's name for it: RS_Wednesday
++#: u_dzDateUtils.pas:78 
+ msgid &quot;Wednesday&quot;
+ msgstr &quot;Mittwoch&quot;
+ 
+-#. Programmer's name for it: RS_Thursday
+-#: u_dzDateUtils.pas:79
++#. Programmer's name for it: RS_Thursday
++#: u_dzDateUtils.pas:79 
+ msgid &quot;Thursday&quot;
+ msgstr &quot;Donnerstag&quot;
+ 
+-#. Programmer's name for it: RS_Friday
+-#: u_dzDateUtils.pas:80
++#. Programmer's name for it: RS_Friday
++#: u_dzDateUtils.pas:80 
+ msgid &quot;Friday&quot;
+ msgstr &quot;Freitag&quot;
+ 
+-#. Programmer's name for it: RS_Saturday
+-#: u_dzDateUtils.pas:81
++#. Programmer's name for it: RS_Saturday
++#: u_dzDateUtils.pas:81 
+ msgid &quot;Saturday&quot;
+ msgstr &quot;Samstag&quot;
+ 
+-#. Programmer's name for it: RS_Sunday
+-#: u_dzDateUtils.pas:82
++#. Programmer's name for it: RS_Sunday
++#: u_dzDateUtils.pas:82 
+ msgid &quot;Sunday&quot;
+ msgstr &quot;Sonntag&quot;
+ 
+-#. Programmer's name for it: RS_January
+-#: u_dzDateUtils.pas:83
++#. Programmer's name for it: RS_January
++#: u_dzDateUtils.pas:83 
+ msgid &quot;January&quot;
+ msgstr &quot;Januar&quot;
+ 
+-#. Programmer's name for it: RS_February
+-#: u_dzDateUtils.pas:84
++#. Programmer's name for it: RS_February
++#: u_dzDateUtils.pas:84 
+ msgid &quot;February&quot;
+ msgstr &quot;Februar&quot;
+ 
+-#. Programmer's name for it: RS_March
+-#: u_dzDateUtils.pas:85
++#. Programmer's name for it: RS_March
++#: u_dzDateUtils.pas:85 
+ msgid &quot;March&quot;
+ msgstr &quot;M&#228;rz&quot;
+ 
+-#. Programmer's name for it: RS_April
+-#: u_dzDateUtils.pas:86
++#. Programmer's name for it: RS_April
++#: u_dzDateUtils.pas:86 
+ msgid &quot;April&quot;
+ msgstr &quot;April&quot;
+ 
+-#. Programmer's name for it: RS_May
+-#: u_dzDateUtils.pas:87
++#. Programmer's name for it: RS_May
++#: u_dzDateUtils.pas:87 
+ msgid &quot;May&quot;
+ msgstr &quot;Mai&quot;
+ 
+-#. Programmer's name for it: RS_June
+-#: u_dzDateUtils.pas:88
++#. Programmer's name for it: RS_June
++#: u_dzDateUtils.pas:88 
+ msgid &quot;June&quot;
+ msgstr &quot;Juni&quot;
+ 
+-#. Programmer's name for it: RS_July
+-#: u_dzDateUtils.pas:89
++#. Programmer's name for it: RS_July
++#: u_dzDateUtils.pas:89 
+ msgid &quot;July&quot;
+ msgstr &quot;Juli&quot;
+ 
+-#. Programmer's name for it: RS_August
+-#: u_dzDateUtils.pas:90
++#. Programmer's name for it: RS_August
++#: u_dzDateUtils.pas:90 
+ msgid &quot;August&quot;
+ msgstr &quot;August&quot;
+ 
+-#. Programmer's name for it: RS_September
+-#: u_dzDateUtils.pas:91
++#. Programmer's name for it: RS_September
++#: u_dzDateUtils.pas:91 
+ msgid &quot;September&quot;
+ msgstr &quot;September&quot;
+ 
+-#. Programmer's name for it: RS_October
+-#: u_dzDateUtils.pas:92
++#. Programmer's name for it: RS_October
++#: u_dzDateUtils.pas:92 
+ msgid &quot;October&quot;
+ msgstr &quot;Oktober&quot;
+ 
+-#. Programmer's name for it: RS_November
+-#: u_dzDateUtils.pas:93
++#. Programmer's name for it: RS_November
++#: u_dzDateUtils.pas:93 
+ msgid &quot;November&quot;
+ msgstr &quot;November&quot;
+ 
+-#. Programmer's name for it: RS_December
+-#: u_dzDateUtils.pas:94
++#. Programmer's name for it: RS_December
++#: u_dzDateUtils.pas:94 
+ msgid &quot;December&quot;
+ msgstr &quot;Dezember&quot;
+ 
+-#. Programmer's name for it: RS_InvalidMonthNumber_D
+-#: u_dzDateUtils.pas:95
++#. Programmer's name for it: RS_InvalidMonthNumber_D
++#: u_dzDateUtils.pas:95 
+ msgid &quot;Invalid month number %d&quot;
+ msgstr &quot;Ung&#252;ltige Monatsnummer %d&quot;
+ 
+-#. Programmer's name for it: RS_InvalidValueForDayOfWeek_D
+-#: u_dzDateUtils.pas:96
++#. Programmer's name for it: RS_InvalidValueForDayOfWeek_D
++#: u_dzDateUtils.pas:96 
+ msgid &quot;Invalid value for DayOfWeek: %d&quot;
+ msgstr &quot;Ung&#252;ltiger Wert f&#252;r DayOfWeek: %d&quot;
+ 
+-#: u_dzDefaultMain.pas:114
++#: u_dzDefaultMain.pas:114 
+ msgid &quot;Error: %s&quot;
+ msgstr &quot;Fehler: %s&quot;
+ 
+-#: u_dzDllLoader.pas:159
++#: u_dzDllLoader.pas:159 
+ msgid &quot;Could not load %s.&quot;
+ msgstr &quot;Konnte %s nicht laden.&quot;
+ 
+-#: u_dzDllLoader.pas:180
++#: u_dzDllLoader.pas:180 
+ msgid &quot;&quot;
+ &quot;Could not find entry point %s in %s\n&quot;
+ &quot;ERROR= %%d, %%s&quot;
+@@ -216,21 +216,19 @@
+ &quot;Konnte Einsprungpunkt %s nicht in %s finden\n&quot;
+ &quot;Fehler: %%d, %%s&quot;
+ 
+-#: u_dzDllLoader.pas:194
+-#: u_dzDllLoader.pas:209
+-#: u_dzDllLoader.pas:214
+-#: u_dzDllLoader.pas:219
++#: u_dzDllLoader.pas:194 
+ u_dzDllLoader.pas:199 u_dzDllLoader.pas:204
++#: u_dzDllLoader.pas:209 u_dzDllLoader.pas:214 u_dzDllLoader.pas:219
+ #: u_dzDllLoader.pas:224
+ msgid &quot;DLL entry point not initialized&quot;
+ msgstr &quot;DLL Einsprungpunkt nicht initialisiert&quot;
+ 
+-#. Programmer's name for it: RS_CANNOT_FREE_EXECUTOR
+-#: u_dzExecutor.pas:204
++#. Programmer's name for it: RS_CANNOT_FREE_EXECUTOR
++#: u_dzExecutor.pas:204 
+ msgid &quot;Can not free Executor while a process using redirection is still running.&quot;
+ msgstr &quot;Kann Executor nicht freigeben w&#228;hrend noch ein Prozess mit Ein-/Ausgabeumleitung l&#228;uft.&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED_S
+-#: u_dzExecutor.pas:205
++#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED_S
++#: u_dzExecutor.pas:205 
+ msgid &quot;&quot;
+ &quot;Process has not yet been started.\n&quot;
+ &quot;%s&quot;
+@@ -238,8 +236,8 @@
+ &quot;Prozess wurde noch nicht gestarted.\n&quot;
+ &quot;%s&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_IS_STILL_RUNNING_S
+-#: u_dzExecutor.pas:206
++#. Programmer's name for it: RS_PROCESS_IS_STILL_RUNNING_S
++#: u_dzExecutor.pas:206 
+ msgid &quot;&quot;
+ &quot;Process is still running.\n&quot;
+ &quot;%s&quot;
+@@ -247,8 +245,8 @@
+ &quot;Prozess l&#228;uft noch.\n&quot;
+ &quot;%s&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_TERMINATED_S
+-#: u_dzExecutor.pas:207
++#. Programmer's name for it: RS_PROCESS_HAS_TERMINATED_S
++#: u_dzExecutor.pas:207 
+ msgid &quot;&quot;
+ &quot;Process has terminated.\n&quot;
+ &quot;%s&quot;
+@@ -256,286 +254,289 @@
+ &quot;Prozess ist beendet.\n&quot;
+ &quot;%s&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED
+-#: u_dzExecutor.pas:208
++#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED
++#: u_dzExecutor.pas:208 
+ msgid &quot;Process has not yet been started&quot;
+ msgstr &quot;Prozess wurde noch nicht gestartet&quot;
+ 
+-#. Programmer's name for it: RS_STDERR_WAS_NOT_REDIRECTED
+-#: u_dzExecutor.pas:209
++#. Programmer's name for it: RS_STDERR_WAS_NOT_REDIRECTED
++#: u_dzExecutor.pas:209 
+ msgid &quot;StdErr was not redirected&quot;
+ msgstr &quot;StdErr wurde nicht umgeleitet&quot;
+ 
+-#. Programmer's name for it: RS_STDOUT_WAS_NOT_REDIRECTED
+-#: u_dzExecutor.pas:210
++#. Programmer's name for it: RS_STDOUT_WAS_NOT_REDIRECTED
++#: u_dzExecutor.pas:210 
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;StdOut wurde nicht umgeleitet&quot;
+ 
+-#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
+-#: u_dzFileStreams.pas:198
++#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
++#: u_dzFileStreams.pas:198 
+ msgid &quot;Cannot change filename when file is open.&quot;
+ msgstr &quot;Kann Dateinamen nicht &#228;ndern wenn Datei ge&#246;ffnet ist.&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_FLAGS
+-#: u_dzFileStreams.pas:199
++#. Programmer's name for it: STR_INVALID_FILE_FLAGS
++#: u_dzFileStreams.pas:199 
+ msgid &quot;Invalid file flags&quot;
+ msgstr &quot;Ung&#252;ltige Dateiflags&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
+-#: u_dzFileStreams.pas:200
++#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
++#: u_dzFileStreams.pas:200 
+ msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Ung&#252;ltige Dateiattribute&quot;
+ 
+-#. Programmer's name for it: STR_0S_ERROR_SD
+-#: u_dzFileStreams.pas:201
++#. Programmer's name for it: STR_0S_ERROR_SD
++#: u_dzFileStreams.pas:201 
+ msgid &quot;%1:s (%0:d)&quot;
+ msgstr &quot;%1:s (%0:d)&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
+-#: u_dzFileUtils.pas:696
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
++#: u_dzFileUtils.pas:696 
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
+-#: u_dzFileUtils.pas:697
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
++#: u_dzFileUtils.pas:697 
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath (zweiter)&quot;
+ 
+-#. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
+-#: u_dzFileUtils.pas:698
++#. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
++#: u_dzFileUtils.pas:698 
+ msgid &quot;could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ msgstr &quot;Konnte keinen eindeutigen Verzeichnisnamen basierend auf \&quot;%s\&quot; finden.&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
+-#: u_dzFileUtils.pas:699
++#. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
++#: u_dzFileUtils.pas:699 
+ msgid &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ msgstr &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von Windows.GetTempFileName&quot;
+ 
+-#. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
+-#: u_dzFileUtils.pas:700
++#. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
++#: u_dzFileUtils.pas:700 
+ msgid &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ msgstr &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von Windows.GetShortPathname&quot;
+ 
+-#. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
+-#: u_dzFileUtils.pas:701
++#. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
++#: u_dzFileUtils.pas:701 
+ msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ msgstr &quot;Kurzer Pfad ist l&#228;nger als MAX_PATH (%d) Zeichen&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_MOVEFILE_ERROR_SS
+-#: u_dzFileUtils.pas:703
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_MOVEFILE_ERROR_SS
++#: u_dzFileUtils.pas:703 
+ msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Verschieben von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_SETREADONLY_ERROR_S
+-#: u_dzFileUtils.pas:705
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_SETREADONLY_ERROR_S
++#: u_dzFileUtils.pas:705 
+ msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim &#196;ndern des Schreibschutz-Flags von \&quot;%s\&quot;&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_COPYFILE_ERROR_SS
+-#: u_dzFileUtils.pas:707
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_COPYFILE_ERROR_SS
++#: u_dzFileUtils.pas:707 
+ msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Kopieren von \&quot;%s\&quot; nach \&quot;%s\&quot;.&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_DELETEFILE_ERROR_S
+-#: u_dzFileUtils.pas:709
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_DELETEFILE_ERROR_S
++#: u_dzFileUtils.pas:709 
+ msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim L&#246;schen der Datei \&quot;%s\&quot;&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_REMOVEDIR_ERROR_S
+-#: u_dzFileUtils.pas:711
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_REMOVEDIR_ERROR_S
++#: u_dzFileUtils.pas:711 
+ msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim L&#246;schen des Verzeichnisses \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: STR_DELTREE_ERROR_S
+-#: u_dzFileUtils.pas:712
++#. Programmer's name for it: STR_DELTREE_ERROR_S
++#: u_dzFileUtils.pas:712 
+ msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ msgstr &quot;\&quot;%s\&quot; existiert nicht oder ist kein Verzeichnis&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_CREATEDIR_ERROR_S
+-#: u_dzFileUtils.pas:714
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_CREATEDIR_ERROR_S
++#: u_dzFileUtils.pas:714 
+ msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: STR_CREATEDIR_EXCEPTION_SSS
+-#: u_dzFileUtils.pas:715
++#. Programmer's name for it: STR_CREATEDIR_EXCEPTION_SSS
++#: u_dzFileUtils.pas:715 
+ msgid &quot;Error creating directory \&quot;%s\&quot;: %s (%s)&quot;
+ msgstr &quot;Fehler beim Erstellen des Verzeichnisses \&quot;%s\&quot;: %s (%s)&quot;
+ 
+-#. Programmer's name for it: RS_FILE_NOT_FOUND_S
+-#: u_dzFileUtils.pas:716
++#. Programmer's name for it: RS_FILE_NOT_FOUND_S
++#: u_dzFileUtils.pas:716 
+ msgid &quot;File not found: \&quot;%s\&quot;&quot;
+ msgstr &quot;Datei nicht gefunden: \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: RS_COMBINATION_NOT_ALLOWED
+-#: u_dzFileUtils.pas:718
++#. Programmer's name for it: RS_COMBINATION_NOT_ALLOWED
++#: u_dzFileUtils.pas:718 
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;Kombination von ResultContainsNumber und KeepOriginal ist nicht erlaubt&quot;
+ 
+-#. Unbekannter Betriebssystem Fehler
+-#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
+-#: u_dzMiscUtils.pas:236
++#. Unbekannter Betriebssystem Fehler
++#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
++#: u_dzMiscUtils.pas:236 
+ msgid &quot;unknown OS error&quot;
+ msgstr &quot;Unbekannter Betriebssystemfehler&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
+-#: u_dzMiscUtils.pas:237
++#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
++#: u_dzMiscUtils.pas:237 
+ msgid &quot;unknown Registry Root Key %x&quot;
+ msgstr &quot;unbekannter Registry Rook-Key %x&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
+-#: u_dzMiscUtils.pas:238
++#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
++#: u_dzMiscUtils.pas:238 
+ msgid &quot;unknown RegDataType&quot;
+ msgstr &quot;unbekannter RegDataType&quot;
+ 
+-#: u_dzOsUtils.pas:130
++#: u_dzOsUtils.pas:130 
+ msgid &quot;%s (code %d) calling Windows.GetUsername&quot;
+ msgstr &quot;%s (Code %d) beim Aufruf von Windows.GetUsername&quot;
+ 
+-#. 16 KB should be enough for everybody... ;-)
+-#: u_dzOsUtils.pas:150
++#. 16 KB should be enough for everybody... ;-)
++#: u_dzOsUtils.pas:150 
+ msgid &quot;Error %1:s (%0:d)&quot;
+ msgstr &quot;Fehler %1:s (%0:d)&quot;
+ 
+-#: u_dzOsUtils.pas:308
++#: u_dzOsUtils.pas:308 
+ u_dzOsUtils.pas:323
+ msgid &quot;No version information available for %s&quot;
+ msgstr &quot;Keine Versionsinfirmationen fuer %s verf&#252;gbar&quot;
+ 
+-#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
+-#: u_dzRecordArray.pas:38
++#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
++#: u_dzRecordArray.pas:38 
+ msgid &quot;New capacity cannot be less than current length.&quot;
+ msgstr &quot;Neue Kapazit&#228;t kann nicht kleiner sein als aktuelle L&#228;nge.&quot;
+ 
+-#. Programmer's name for it: RS_INDEX_OUT_OF_BOUNDS_D
+-#: u_dzRingBuffer.pas:160
++#. Programmer's name for it: RS_INDEX_OUT_OF_BOUNDS_D
++#: u_dzRingBuffer.pas:161 
+ msgid &quot;Index %d out of bounds.&quot;
+ msgstr &quot;Index %d nicht im g&#252;ltigen Bereich.&quot;
+ 
+-#. Programmer's name for it: RS_BUFFER_IS_FULL
+-#: u_dzRingBuffer.pas:161
++#. Programmer's name for it: RS_BUFFER_IS_FULL
++#: u_dzRingBuffer.pas:162 
+ msgid &quot;Buffer is full&quot;
+ msgstr &quot;Puffer ist voll&quot;
+ 
+-#. Programmer's name for it: RS_BUFFER_IS_EMPTY
+-#: u_dzRingBuffer.pas:162
++#. Programmer's name for it: RS_BUFFER_IS_EMPTY
++#: u_dzRingBuffer.pas:163 
+ msgid &quot;Buffer is empty&quot;
+ msgstr &quot;Puffer ist leer&quot;
+ 
+-#: u_dzStringUtils.pas:415
++#: u_dzStringUtils.pas:415 
+ msgid &quot;nthWord: 0th word not available&quot;
+ msgstr &quot;nthWord: 0tes Wort ist nicht verf&#252;gbar&quot;
+ 
+-#: u_dzStringUtils.pas:883
++#: u_dzStringUtils.pas:883 
+ msgid &quot;Cannot center string that is larger than the maximum length.&quot;
+ msgstr &quot;Kann keinen String zentrieren, der l&#228;nger als die maximale L&#228;nge ist.&quot;
+ 
+-#: u_dzStringUtils.pas:972
++#: u_dzStringUtils.pas:972 
+ msgid &quot;Strings do not have a 0th character.&quot;
+ msgstr &quot;Strings haben kein 0tes Zeichen.&quot;
+ 
+-#. Programmer's name for it: RS_INVALID_FILE_ACCES_VALUE_D
+-#: u_dzTextFile.pas:34
++#. Programmer's name for it: RS_INVALID_FILE_ACCES_VALUE_D
++#: u_dzTextFile.pas:34 
+ msgid &quot;Invalid file access value (%d)&quot;
+ msgstr &quot;Ung&#252;ltiger Dateizugriffswert (%d)&quot;
+ 
+-#. Programmer's name for it: RS_ACCESSING_FILE_SS
+-#: u_dzTextFile.pas:35
++#. Programmer's name for it: RS_ACCESSING_FILE_SS
++#: u_dzTextFile.pas:35 
+ msgid &quot;%s accessing file %s&quot;
+ msgstr &quot;%s beim Zugriff auf Datei %s&quot;
+ 
+-#. Variant ist Null, sollte %s sein: %s
+-#. Programmer's name for it: STR_VARIANT_IS_NULL_SHOULD_BE_SS
+-#: u_dzVariantUtils.pas:192
++#: u_dzVariantUtils.pas:284 
+ u_dzVariantUtils.pas:313
++#: u_dzVariantUtils.pas:339 u_dzVariantUtils.pas:426 u_dzVariantUtils.pas:442
++#: u_dzVariantUtils.pas:488
+ msgid &quot;Variant is Null, should be %s: %s&quot;
+ msgstr &quot;Variant ist Null, sollte %s sein: %s&quot;
+ 
+-#. Variant ist Empty, sollte %s sein: %s
+-#. Programmer's name for it: STR_VARIANT_IS_EMPTY_SHOULD_BE_SS
+-#: u_dzVariantUtils.pas:194
++#: u_dzVariantUtils.pas:286 
+ u_dzVariantUtils.pas:315
++#: u_dzVariantUtils.pas:341 u_dzVariantUtils.pas:428 u_dzVariantUtils.pas:444
++#: u_dzVariantUtils.pas:490
+ msgid &quot;Variant is Empty, should be %s: %s&quot;
+ msgstr &quot;Variant ist leer, sollte %s sein: %s&quot;
+ 
+-#. Variant kann nicht nach %s konvertiert werden: %s
+-#. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S
+-#: u_dzVariantUtils.pas:196
++#: u_dzVariantUtils.pas:291 
+ u_dzVariantUtils.pas:320
++#: u_dzVariantUtils.pas:346 u_dzVariantUtils.pas:433 u_dzVariantUtils.pas:449
++#: u_dzVariantUtils.pas:495
++msgid &quot;Variant can not be converted to %s: %s&quot;
++msgstr &quot;Variant kann nicht nach %s konvertiert werden: %s&quot;
++
++#. do not translate
++#. do not translate
++#. do not translate
++#: u_dzVariantUtils.pas:397 
+ u_dzVariantUtils.pas:411
++#: u_dzVariantUtils.pas:473
+ msgid &quot;Variant can not be converted to %s&quot;
+ msgstr &quot;Variant kann nicht nach %s konvertiert werden&quot;
+ 
+-#. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS
+-#: u_dzVariantUtils.pas:197
+-msgid &quot;Variant can not be converted to %s: %s&quot;
+-msgstr &quot;Variant kann nicht nach %s konvertiert werden: %s&quot;
+-
+-#: u_dzVclUtils.pas:685
++#: u_dzVclUtils.pas:685 
+ u_dzVclUtils.pas:732
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Flie&#223;kommawert.&quot;
+ 
+-#: u_dzVclUtils.pas:700
++#: u_dzVclUtils.pas:700 
+ u_dzVclUtils.pas:745
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ msgstr &quot;\&quot;%s\&quot; ist kein g&#252;ltiger Integerwert.&quot;
+ 
+-#: u_dzVclUtils.pas:1090
++#: u_dzVclUtils.pas:1090 
+ msgid &quot;No item selected in combobox&quot;
+ msgstr &quot;Kein Eintrag der Combobox ausgew&#228;hlt&quot;
+ 
+-#: u_dzVclUtils.pas:1109
++#: u_dzVclUtils.pas:1109 
+ msgid &quot;No item selected in listbox&quot;
+ msgstr &quot;Kein Eintrag der Listbox ausgew&#228;hlt&quot;
+ 
+-#: u_dzVclUtils.pas:1541
++#: u_dzVclUtils.pas:1541 
+ msgid &quot;JPEG Files&quot;
+ msgstr &quot;JPEG Dateien&quot;
+ 
+-#. f_dzProgress..Caption
+-#: w_dzProgress.dfm:6
++#. f_dzProgress..Caption
++#: w_dzProgress.dfm:6 
+ msgid &quot;Progress&quot;
+ msgstr &quot;Fortschritt&quot;
+ 
+-#. f_dzProgress..l_Action..Caption
+-#: w_dzProgress.dfm:24
++#. f_dzProgress..l_Action..Caption
++#: w_dzProgress.dfm:24 
+ msgid &quot;Action&quot;
+ msgstr &quot;Aktion&quot;
+ 
+-#. f_dzProgress..b_Cancel..Caption
+-#: w_dzProgress.dfm:41
++#. f_dzProgress..b_Cancel..Caption
++#: w_dzProgress.dfm:41 
+ msgid &quot;Abort&quot;
+ msgstr &quot;Abbrechen&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Next..Caption
+-#. f_dzWizardForm..p_Buttons..b_Next..Caption
+-#: w_dzWizard.dfm:1210
++#. f_dzWizard..p_Buttons..b_Next..Caption
++#. f_dzWizardForm..p_Buttons..b_Next..Caption
++#: w_dzWizard.dfm:1210 
+ w_dzWizardForm.dfm:1210 w_dzWizard.pas:341
+ #: w_dzWizardForm.pas:222
+ msgid &quot;&amp;Next &gt;&quot;
+ msgstr &quot;&amp;Weiter &gt;&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Cancel..Caption
+-#. f_dzWizardForm..p_Buttons..b_Cancel..Caption
+-#: w_dzWizard.dfm:1223
++#. f_dzWizard..p_Buttons..b_Cancel..Caption
++#. f_dzWizardForm..p_Buttons..b_Cancel..Caption
++#: w_dzWizard.dfm:1223 
+ w_dzWizardForm.dfm:1223 w_dzWizard.pas:340
+ #: w_dzWizardForm.pas:221
+ msgid &quot;Cancel&quot;
+ msgstr &quot;Abbrechen&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Prev..Caption
+-#. f_dzWizardForm..p_Buttons..b_Prev..Caption
+-#: w_dzWizard.dfm:1233
++#. f_dzWizard..p_Buttons..b_Prev..Caption
++#. f_dzWizardForm..p_Buttons..b_Prev..Caption
++#: w_dzWizard.dfm:1233 
+ w_dzWizardForm.dfm:1233 w_dzWizard.pas:339
+ #: w_dzWizardForm.pas:220
+ msgid &quot;&lt; &amp;Previous&quot;
+ msgstr &quot;&lt; &amp;Zur&#252;ck&quot;
+ 
+-#: w_dzDialog.pas:327
++#: w_dzDialog.pas:327 
+ msgid &quot;Invalid modal result %d.&quot;
+ msgstr &quot;Ung&#252;ltiger modaler R&#252;ckgabewert %d.&quot;
+ 
+-#: w_dzDialog.pas:501
++#: w_dzDialog.pas:501 
+ msgid &quot;Do not show again.&quot;
+ msgstr &quot;Nicht nochmal anzeigen.&quot;
+ 
+-#: w_dzDialog.pas:582
++#: w_dzDialog.pas:582 
+ msgid &quot;&quot;
+ &quot;An error occurred:\n&quot;
+ &quot;%s&quot;
+@@ -543,67 +544,68 @@
+ &quot;Es ist ein Fehler aufgetreten:\n&quot;
+ &quot;%s&quot;
+ 
+-#. 400;
+-#: w_dzDialog.pas:606
++#. 400;
++#: w_dzDialog.pas:606 
+ msgid &quot;Additional information:&quot;
+ msgstr &quot;Erweiterte Informationen:&quot;
+ 
+-#: w_dzDialog.pas:626
++#: w_dzDialog.pas:626 
+ w_dzDialog.pas:731 w_dzDialog.pas:778
+ msgid &quot;&amp;Details &gt;&gt;&quot;
+ msgstr &quot;&amp;Details &gt;&gt;&quot;
+ 
+-#: w_dzDialog.pas:781
++#: w_dzDialog.pas:781 
+ msgid &quot;&amp;Details &lt;&lt;&quot;
+ msgstr &quot;&amp;Details &lt;&lt;&quot;
+ 
+-#. Wirklich abbrechen?
+-#. Programmer's name for it: QuestionAbort
+-#: w_dzProgress.pas:83
++#. Wirklich abbrechen?
++#. Programmer's name for it: QuestionAbort
++#: w_dzProgress.pas:83 
+ msgid &quot;Do you really want to abort?&quot;
+ msgstr &quot;Wollen Sie wirklich abbrechen?&quot;
+ 
+-#. Fortschritt (%d%%)
+-#. Programmer's name for it: FormCaptionD
+-#: w_dzProgress.pas:85
++#. Fortschritt (%d%%)
++#. Programmer's name for it: FormCaptionD
++#: w_dzProgress.pas:85 
+ msgid &quot;Progress (%d%%)&quot;
+ msgstr &quot;Fortschritt (%d%%)&quot;
+ 
+-#. Tf_HkProgress.SetFormCaption: Ung&#252;ltige FormCaption, %s.
+-#. Programmer's name for it: InvalidFormCaptionS
+-#: w_dzProgress.pas:87
++#. Tf_HkProgress.SetFormCaption: Ung&#252;ltige FormCaption, %s.
++#. Programmer's name for it: InvalidFormCaptionS
++#: w_dzProgress.pas:87 
+ msgid &quot;Tf_HkProgress.SetFormCaption: Invalid FormCaption, %s&quot;
+ msgstr &quot;Tf_HkProgress.SetFormCaption: Invalid FormCaption, %s&quot;
+ 
+-#. darf kein &quot;%&quot; am Ende haben
+-#. Programmer's name for it: PercentAtEnd
+-#: w_dzProgress.pas:89
++#. darf kein &quot;%&quot; am Ende haben
++#. Programmer's name for it: PercentAtEnd
++#: w_dzProgress.pas:89 
+ msgid &quot;must not contain a % at the end&quot;
+ msgstr &quot;darf am Ende kein % enthalten&quot;
+ 
+-#. auf &quot;%&quot; mu&#223; &quot;d&quot; oder &quot;%&quot; folgen
+-#. Programmer's name for it: InvalidFormatChar
+-#: w_dzProgress.pas:91
++#. auf &quot;%&quot; mu&#223; &quot;d&quot; oder &quot;%&quot; folgen
++#. Programmer's name for it: InvalidFormatChar
++#: w_dzProgress.pas:91 
+ msgid &quot;\&quot;%\&quot; must be followed by \&quot;d\&quot; or \&quot;%\&quot;.&quot;
+ msgstr &quot;\&quot;%\&quot; muss von \&quot;d\&quot; or \&quot;%\&quot; gefolgt werden.&quot;
+ 
+-#. zuviele Parameter
+-#. Programmer's name for it: TooManyParameters
+-#: w_dzProgress.pas:93
++#. zuviele Parameter
++#. Programmer's name for it: TooManyParameters
++#: w_dzProgress.pas:93 
+ msgid &quot;too many parameters&quot;
+ msgstr &quot;Zuviele Parameter&quot;
+ 
+-#: w_dzWizard.pas:342
++#: w_dzWizard.pas:342 
+ w_dzWizardForm.pas:223
+ msgid &quot;&amp;Finish&quot;
+ msgstr &quot;&amp;Beenden&quot;
+ 
+-#: w_dzWizard.pas:478
++#: w_dzWizard.pas:478 
+ msgid &quot;Already on first page.&quot;
+ msgstr &quot;Bereits auf erster Seite.&quot;
+ 
+ #~ msgid &quot;unknown Win32 error&quot;
+ #~ msgstr &quot;Unbekannter Windows Fehler&quot;
++
+ #~ msgid &quot;Synopsis: %s %s&quot;
+ #~ msgstr &quot;Aufruf: %s %s&quot;
++
+ #~ msgid &quot;Options:&quot;
+ #~ msgstr &quot;Optionen:&quot;
+-
+
+Modified: utilities/dzLib/trunk/translations/en/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/en/dzlib.po	2008-09-04 10:03:06 UTC (rev 293)
++++ utilities/dzLib/trunk/translations/en/dzlib.po	2008-09-04 10:19:01 UTC (rev 294)
+@@ -6,7 +6,7 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2008-09-04 02:32\n&quot;
++&quot;POT-Creation-Date: 2008-09-04 03:15\n&quot;
+ &quot;PO-Revision-Date: 2008-09-04 02:43-0800\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+@@ -17,198 +17,198 @@
+ &quot;X-Poedit-Language: English\n&quot;
+ &quot;X-Poedit-Country: UNITED STATES\n&quot;
+ 
+-#. Programmer's name for it: RS_NO_MATCHING_OBJECT_FOUND
+-#: u_dzClassUtils.pas:150
++#. Programmer's name for it: RS_NO_MATCHING_OBJECT_FOUND
++#: u_dzClassUtils.pas:150 
+ msgid &quot;no matching object found&quot;
+ msgstr &quot;no matching object found&quot;
+ 
+-#. Programmer's name for it: RS_INVALID_CHARACTER_S
+-#: u_dzCmdLineParserStates.pas:113
++#. Programmer's name for it: RS_INVALID_CHARACTER_S
++#: u_dzCmdLineParserStates.pas:113 
+ msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
+ msgstr &quot;Invalid character \&quot;%s\&quot;.&quot;
+ 
+-#: u_dzConvertUtils.pas:367
++#: u_dzConvertUtils.pas:367 
+ msgid &quot;Digit out of range %s&quot;
+ msgstr &quot;Digit out of range %s&quot;
+ 
+-#: u_dzConvertUtils.pas:380
++#: u_dzConvertUtils.pas:380 
+ msgid &quot;Digit #%d (%s) out of range&quot;
+ msgstr &quot;Digit #%d (%s) out of range&quot;
+ 
+-#: u_dzConvertUtils.pas:582
++#: u_dzConvertUtils.pas:582 
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; is not a valid integer value: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:600
++#: u_dzConvertUtils.pas:600 
+ msgid &quot;\&quot;%s\&quot; is not a valid Int64 value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; is not a valid Int64 value: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:671
++#: u_dzConvertUtils.pas:671 
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; is not a valid floating point value: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:677
++#: u_dzConvertUtils.pas:677 
+ msgid &quot;%.2f EiB&quot;
+ msgstr &quot;%.2f EiB&quot;
+ 
+-#: u_dzConvertUtils.pas:679
++#: u_dzConvertUtils.pas:679 
+ msgid &quot;%.2f PiB&quot;
+ msgstr &quot;%.2f PiB&quot;
+ 
+-#: u_dzConvertUtils.pas:681
++#: u_dzConvertUtils.pas:681 
+ msgid &quot;%.2f TiB&quot;
+ msgstr &quot;%.2f TiB&quot;
+ 
+-#: u_dzConvertUtils.pas:683
++#: u_dzConvertUtils.pas:683 
+ msgid &quot;%.2f GiB&quot;
+ msgstr &quot;%.2f GiB&quot;
+ 
+-#: u_dzConvertUtils.pas:685
++#: u_dzConvertUtils.pas:685 
+ msgid &quot;%.2f MiB&quot;
+ msgstr &quot;%.2f MiB&quot;
+ 
+-#: u_dzConvertUtils.pas:687
++#: u_dzConvertUtils.pas:687 
+ msgid &quot;%.2f KiB&quot;
+ msgstr &quot;%.2f KiB&quot;
+ 
+-#: u_dzConvertUtils.pas:689
++#: u_dzConvertUtils.pas:689 
+ msgid &quot;%d Bytes&quot;
+ msgstr &quot;%d Bytes&quot;
+ 
+-#. Days and hours, ignore minutes and seconds
+-#: u_dzConvertUtils.pas:696
++#. Days and hours, ignore minutes and seconds
++#: u_dzConvertUtils.pas:696 
+ msgid &quot;%dd %dh&quot;
+ msgstr &quot;%dd %dh&quot;
+ 
+-#. Hours and minutes, ignore seconds
+-#: u_dzConvertUtils.pas:699
++#. Hours and minutes, ignore seconds
++#: u_dzConvertUtils.pas:699 
+ msgid &quot;%dh %dm&quot;
+ msgstr &quot;%dh %dm&quot;
+ 
+-#. Minutes and seconds
+-#: u_dzConvertUtils.pas:702
++#. Minutes and seconds
++#: u_dzConvertUtils.pas:702 
+ msgid &quot;%dm %ds&quot;
+ msgstr &quot;%dm %ds&quot;
+ 
+-#. Seconds only
+-#: u_dzConvertUtils.pas:705
++#. Seconds only
++#: u_dzConvertUtils.pas:705 
+ msgid &quot;%ds&quot;
+ msgstr &quot;%ds&quot;
+ 
+-#. Programmer's name for it: RS_Monday
+-#: u_dzDateUtils.pas:76
++#. Programmer's name for it: RS_Monday
++#: u_dzDateUtils.pas:76 
+ msgid &quot;Monday&quot;
+ msgstr &quot;Monday&quot;
+ 
+-#. Programmer's name for it: RS_Tuesday
+-#: u_dzDateUtils.pas:77
++#. Programmer's name for it: RS_Tuesday
++#: u_dzDateUtils.pas:77 
+ msgid &quot;Tuesday&quot;
+ msgstr &quot;Tuesday&quot;
+ 
+-#. Programmer's name for it: RS_Wednesday
+-#: u_dzDateUtils.pas:78
++#. Programmer's name for it: RS_Wednesday
++#: u_dzDateUtils.pas:78 
+ msgid &quot;Wednesday&quot;
+ msgstr &quot;Wednesday&quot;
+ 
+-#. Programmer's name for it: RS_Thursday
+-#: u_dzDateUtils.pas:79
++#. Programmer's name for it: RS_Thursday
++#: u_dzDateUtils.pas:79 
+ msgid &quot;Thursday&quot;
+ msgstr &quot;Thursday&quot;
+ 
+-#. Programmer's name for it: RS_Friday
+-#: u_dzDateUtils.pas:80
++#. Programmer's name for it: RS_Friday
++#: u_dzDateUtils.pas:80 
+ msgid &quot;Friday&quot;
+ msgstr &quot;Friday&quot;
+ 
+-#. Programmer's name for it: RS_Saturday
+-#: u_dzDateUtils.pas:81
++#. Programmer's name for it: RS_Saturday
++#: u_dzDateUtils.pas:81 
+ msgid &quot;Saturday&quot;
+ msgstr &quot;Saturday&quot;
+ 
+-#. Programmer's name for it: RS_Sunday
+-#: u_dzDateUtils.pas:82
++#. Programmer's name for it: RS_Sunday
++#: u_dzDateUtils.pas:82 
+ msgid &quot;Sunday&quot;
+ msgstr &quot;Sunday&quot;
+ 
+-#. Programmer's name for it: RS_January
+-#: u_dzDateUtils.pas:83
++#. Programmer's name for it: RS_January
++#: u_dzDateUtils.pas:83 
+ msgid &quot;January&quot;
+ msgstr &quot;January&quot;
+ 
+-#. Programmer's name for it: RS_February
+-#: u_dzDateUtils.pas:84
++#. Programmer's name for it: RS_February
++#: u_dzDateUtils.pas:84 
+ msgid &quot;February&quot;
+ msgstr &quot;February&quot;
+ 
+-#. Programmer's name for it: RS_March
+-#: u_dzDateUtils.pas:85
++#. Programmer's name for it: RS_March
++#: u_dzDateUtils.pas:85 
+ msgid &quot;March&quot;
+ msgstr &quot;March&quot;
+ 
+-#. Programmer's name for it: RS_April
+-#: u_dzDateUtils.pas:86
++#. Programmer's name for it: RS_April
++#: u_dzDateUtils.pas:86 
+ msgid &quot;April&quot;
+ msgstr &quot;April&quot;
+ 
+-#. Programmer's name for it: RS_May
+-#: u_dzDateUtils.pas:87
++#. Programmer's name for it: RS_May
++#: u_dzDateUtils.pas:87 
+ msgid &quot;May&quot;
+ msgstr &quot;May&quot;
+ 
+-#. Programmer's name for it: RS_June
+-#: u_dzDateUtils.pas:88
++#. Programmer's name for it: RS_June
++#: u_dzDateUtils.pas:88 
+ msgid &quot;June&quot;
+ msgstr &quot;June&quot;
+ 
+-#. Programmer's name for it: RS_July
+-#: u_dzDateUtils.pas:89
++#. Programmer's name for it: RS_July
++#: u_dzDateUtils.pas:89 
+ msgid &quot;July&quot;
+ msgstr &quot;July&quot;
+ 
+-#. Programmer's name for it: RS_August
+-#: u_dzDateUtils.pas:90
++#. Programmer's name for it: RS_August
++#: u_dzDateUtils.pas:90 
+ msgid &quot;August&quot;
+ msgstr &quot;August&quot;
+ 
+-#. Programmer's name for it: RS_September
+-#: u_dzDateUtils.pas:91
++#. Programmer's name for it: RS_September
++#: u_dzDateUtils.pas:91 
+ msgid &quot;September&quot;
+ msgstr &quot;September&quot;
+ 
+-#. Programmer's name for it: RS_October
+-#: u_dzDateUtils.pas:92
++#. Programmer's name for it: RS_October
++#: u_dzDateUtils.pas:92 
+ msgid &quot;October&quot;
+ msgstr &quot;October&quot;
+ 
+-#. Programmer's name for it: RS_November
+-#: u_dzDateUtils.pas:93
++#. Programmer's name for it: RS_November
++#: u_dzDateUtils.pas:93 
+ msgid &quot;November&quot;
+ msgstr &quot;November&quot;
+ 
+-#. Programmer's name for it: RS_December
+-#: u_dzDateUtils.pas:94
++#. Programmer's name for it: RS_December
++#: u_dzDateUtils.pas:94 
+ msgid &quot;December&quot;
+ msgstr &quot;December&quot;
+ 
+-#. Programmer's name for it: RS_InvalidMonthNumber_D
+-#: u_dzDateUtils.pas:95
++#. Programmer's name for it: RS_InvalidMonthNumber_D
++#: u_dzDateUtils.pas:95 
+ msgid &quot;Invalid month number %d&quot;
+ msgstr &quot;Invalid month number %d&quot;
+ 
+-#. Programmer's name for it: RS_InvalidValueForDayOfWeek_D
+-#: u_dzDateUtils.pas:96
++#. Programmer's name for it: RS_InvalidValueForDayOfWeek_D
++#: u_dzDateUtils.pas:96 
+ msgid &quot;Invalid value for DayOfWeek: %d&quot;
+ msgstr &quot;Invalid value for DayOfWeek: %d&quot;
+ 
+-#: u_dzDefaultMain.pas:114
++#: u_dzDefaultMain.pas:114 
+ msgid &quot;Error: %s&quot;
+ msgstr &quot;Error: %s&quot;
+ 
+-#: u_dzDllLoader.pas:159
++#: u_dzDllLoader.pas:159 
+ msgid &quot;Could not load %s.&quot;
+ msgstr &quot;Could not load %s.&quot;
+ 
+-#: u_dzDllLoader.pas:180
++#: u_dzDllLoader.pas:180 
+ msgid &quot;&quot;
+ &quot;Could not find entry point %s in %s\n&quot;
+ &quot;ERROR= %%d, %%s&quot;
+@@ -216,21 +216,19 @@
+ &quot;Could not find entry point %s in %s\n&quot;
+ &quot;ERROR= %%d, %%s&quot;
+ 
+-#: u_dzDllLoader.pas:194
+-#: u_dzDllLoader.pas:209
+-#: u_dzDllLoader.pas:214
+-#: u_dzDllLoader.pas:219
++#: u_dzDllLoader.pas:194 
+ u_dzDllLoader.pas:199 u_dzDllLoader.pas:204
++#: u_dzDllLoader.pas:209 u_dzDllLoader.pas:214 u_dzDllLoader.pas:219
+ #: u_dzDllLoader.pas:224
+ msgid &quot;DLL entry point not initialized&quot;
+ msgstr &quot;DLL entry point not initialized&quot;
+ 
+-#. Programmer's name for it: RS_CANNOT_FREE_EXECUTOR
+-#: u_dzExecutor.pas:204
++#. Programmer's name for it: RS_CANNOT_FREE_EXECUTOR
++#: u_dzExecutor.pas:204 
+ msgid &quot;Can not free Executor while a process using redirection is still running.&quot;
+ msgstr &quot;Can not free Executor while a process using redirection is still running.&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED_S
+-#: u_dzExecutor.pas:205
++#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED_S
++#: u_dzExecutor.pas:205 
+ msgid &quot;&quot;
+ &quot;Process has not yet been started.\n&quot;
+ &quot;%s&quot;
+@@ -238,8 +236,8 @@
+ &quot;Process has not yet been started.\n&quot;
+ &quot;%s&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_IS_STILL_RUNNING_S
+-#: u_dzExecutor.pas:206
++#. Programmer's name for it: RS_PROCESS_IS_STILL_RUNNING_S
++#: u_dzExecutor.pas:206 
+ msgid &quot;&quot;
+ &quot;Process is still running.\n&quot;
+ &quot;%s&quot;
+@@ -247,8 +245,8 @@
+ &quot;Process is still running.\n&quot;
+ &quot;%s&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_TERMINATED_S
+-#: u_dzExecutor.pas:207
++#. Programmer's name for it: RS_PROCESS_HAS_TERMINATED_S
++#: u_dzExecutor.pas:207 
+ msgid &quot;&quot;
+ &quot;Process has terminated.\n&quot;
+ &quot;%s&quot;
+@@ -256,286 +254,295 @@
+ &quot;Process has terminated.\n&quot;
+ &quot;%s&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED
+-#: u_dzExecutor.pas:208
++#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED
++#: u_dzExecutor.pas:208 
+ msgid &quot;Process has not yet been started&quot;
+ msgstr &quot;Process has not yet been started&quot;
+ 
+-#. Programmer's name for it: RS_STDERR_WAS_NOT_REDIRECTED
+-#: u_dzExecutor.pas:209
++#. Programmer's name for it: RS_STDERR_WAS_NOT_REDIRECTED
++#: u_dzExecutor.pas:209 
+ msgid &quot;StdErr was not redirected&quot;
+ msgstr &quot;StdErr was not redirected&quot;
+ 
+-#. Programmer's name for it: RS_STDOUT_WAS_NOT_REDIRECTED
+-#: u_dzExecutor.pas:210
++#. Programmer's name for it: RS_STDOUT_WAS_NOT_REDIRECTED
++#: u_dzExecutor.pas:210 
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;StdOut was not redirected&quot;
+ 
+-#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
+-#: u_dzFileStreams.pas:198
++#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
++#: u_dzFileStreams.pas:198 
+ msgid &quot;Cannot change filename when file is open.&quot;
+ msgstr &quot;Cannot change filename when file is open.&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_FLAGS
+-#: u_dzFileStreams.pas:199
++#. Programmer's name for it: STR_INVALID_FILE_FLAGS
++#: u_dzFileStreams.pas:199 
+ msgid &quot;Invalid file flags&quot;
+ msgstr &quot;Invalid file flags&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
+-#: u_dzFileStreams.pas:200
++#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
++#: u_dzFileStreams.pas:200 
+ msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Invalid file attributes&quot;
+ 
+-#. Programmer's name for it: STR_0S_ERROR_SD
+-#: u_dzFileStreams.pas:201
++#. Programmer's name for it: STR_0S_ERROR_SD
++#: u_dzFileStreams.pas:201 
+ msgid &quot;%1:s (%0:d)&quot;
+ msgstr &quot;%1:s (%0:d)&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
+-#: u_dzFileUtils.pas:696
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
++#: u_dzFileUtils.pas:696 
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
+-#: u_dzFileUtils.pas:697
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
++#: u_dzFileUtils.pas:697 
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ 
+-#. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
+-#: u_dzFileUtils.pas:698
++#. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
++#: u_dzFileUtils.pas:698 
+ msgid &quot;could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ msgstr &quot;could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
+-#: u_dzFileUtils.pas:699
++#. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
++#: u_dzFileUtils.pas:699 
+ msgid &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ msgstr &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ 
+-#. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
+-#: u_dzFileUtils.pas:700
++#. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
++#: u_dzFileUtils.pas:700 
+ msgid &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ msgstr &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ 
+-#. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
+-#: u_dzFileUtils.pas:701
++#. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
++#: u_dzFileUtils.pas:701 
+ msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ msgstr &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_MOVEFILE_ERROR_SS
+-#: u_dzFileUtils.pas:703
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_MOVEFILE_ERROR_SS
++#: u_dzFileUtils.pas:703 
+ msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_SETREADONLY_ERROR_S
+-#: u_dzFileUtils.pas:705
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_SETREADONLY_ERROR_S
++#: u_dzFileUtils.pas:705 
+ msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ msgstr &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_COPYFILE_ERROR_SS
+-#: u_dzFileUtils.pas:707
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_COPYFILE_ERROR_SS
++#: u_dzFileUtils.pas:707 
+ msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_DELETEFILE_ERROR_S
+-#: u_dzFileUtils.pas:709
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_DELETEFILE_ERROR_S
++#: u_dzFileUtils.pas:709 
+ msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ msgstr &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_REMOVEDIR_ERROR_S
+-#: u_dzFileUtils.pas:711
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_REMOVEDIR_ERROR_S
++#: u_dzFileUtils.pas:711 
+ msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: STR_DELTREE_ERROR_S
+-#: u_dzFileUtils.pas:712
++#. Programmer's name for it: STR_DELTREE_ERROR_S
++#: u_dzFileUtils.pas:712 
+ msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ msgstr &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_CREATEDIR_ERROR_S
+-#: u_dzFileUtils.pas:714
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_CREATEDIR_ERROR_S
++#: u_dzFileUtils.pas:714 
+ msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: STR_CREATEDIR_EXCEPTION_SSS
+-#: u_dzFileUtils.pas:715
++#. Programmer's name for it: STR_CREATEDIR_EXCEPTION_SSS
++#: u_dzFileUtils.pas:715 
+ msgid &quot;Error creating directory \&quot;%s\&quot;: %s (%s)&quot;
+ msgstr &quot;Error creating directory \&quot;%s\&quot;: %s (%s)&quot;
+ 
+-#. Programmer's name for it: RS_FILE_NOT_FOUND_S
+-#: u_dzFileUtils.pas:716
++#. Programmer's name for it: RS_FILE_NOT_FOUND_S
++#: u_dzFileUtils.pas:716 
+ msgid &quot;File not found: \&quot;%s\&quot;&quot;
+ msgstr &quot;File not found: \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: RS_COMBINATION_NOT_ALLOWED
+-#: u_dzFileUtils.pas:718
++#. Programmer's name for it: RS_COMBINATION_NOT_ALLOWED
++#: u_dzFileUtils.pas:718 
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ 
+-#. Unbekannter Betriebssystem Fehler
+-#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
+-#: u_dzMiscUtils.pas:236
++#. Unbekannter Betriebssystem Fehler
++#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
++#: u_dzMiscUtils.pas:236 
+ msgid &quot;unknown OS error&quot;
+ msgstr &quot;unknown OS error&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
+-#: u_dzMiscUtils.pas:237
++#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
++#: u_dzMiscUtils.pas:237 
+ msgid &quot;unknown Registry Root Key %x&quot;
+ msgstr &quot;unknown Registry Root Key %x&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
+-#: u_dzMiscUtils.pas:238
++#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
++#: u_dzMiscUtils.pas:238 
+ msgid &quot;unknown RegDataType&quot;
+ msgstr &quot;unknown RegDataType&quot;
+ 
+-#: u_dzOsUtils.pas:130
++#: u_dzOsUtils.pas:130 
+ msgid &quot;%s (code %d) calling Windows.GetUsername&quot;
+ msgstr &quot;%s (code %d) calling Windows.GetUsername&quot;
+ 
+-#. 16 KB should be enough for everybody... ;-)
+-#: u_dzOsUtils.pas:150
++#. 16 KB should be enough for everybody... ;-)
++#: u_dzOsUtils.pas:150 
+ msgid &quot;Error %1:s (%0:d)&quot;
+ msgstr &quot;Error %1:s (%0:d)&quot;
+ 
+-#: u_dzOsUtils.pas:308
++#: u_dzOsUtils.pas:308 
+ u_dzOsUtils.pas:323
+ msgid &quot;No version information available for %s&quot;
+ msgstr &quot;No version information available for %s&quot;
+ 
+-#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
+-#: u_dzRecordArray.pas:38
++#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
++#: u_dzRecordArray.pas:38 
+ msgid &quot;New capacity cannot be less than current length.&quot;
+ msgstr &quot;New capacity cannot be less than current length.&quot;
+ 
+-#. Programmer's name for it: RS_INDEX_OUT_OF_BOUNDS_D
+-#: u_dzRingBuffer.pas:160
++#. Programmer's name for it: RS_INDEX_OUT_OF_BOUNDS_D
++#: u_dzRingBuffer.pas:161 
+ msgid &quot;Index %d out of bounds.&quot;
+ msgstr &quot;Index %d out of bounds.&quot;
+ 
+-#. Programmer's name for it: RS_BUFFER_IS_FULL
+-#: u_dzRingBuffer.pas:161
++#. Programmer's name for it: RS_BUFFER_IS_FULL
++#: u_dzRingBuffer.pas:162 
+ msgid &quot;Buffer is full&quot;
+ msgstr &quot;Buffer is full&quot;
+ 
+-#. Programmer's name for it: RS_BUFFER_IS_EMPTY
+-#: u_dzRingBuffer.pas:162
++#. Programmer's name for it: RS_BUFFER_IS_EMPTY
++#: u_dzRingBuffer.pas:163 
+ msgid &quot;Buffer is empty&quot;
+ msgstr &quot;Buffer is empty&quot;
+ 
+-#: u_dzStringUtils.pas:415
++#: u_dzStringUtils.pas:415 
+ msgid &quot;nthWord: 0th word not available&quot;
+ msgstr &quot;nthWord: 0th word not available&quot;
+ 
+-#: u_dzStringUtils.pas:883
++#: u_dzStringUtils.pas:883 
+ msgid &quot;Cannot center string that is larger than the maximum length.&quot;
+ msgstr &quot;Cannot center string that is larger than the maximum length.&quot;
+ 
+-#: u_dzStringUtils.pas:972
++#: u_dzStringUtils.pas:972 
+ msgid &quot;Strings do not have a 0th character.&quot;
+ msgstr &quot;Strings do not have a 0th character.&quot;
+ 
+-#. Programmer's name for it: RS_INVALID_FILE_ACCES_VALUE_D
+-#: u_dzTextFile.pas:34
++#. Programmer's name for it: RS_INVALID_FILE_ACCES_VALUE_D
++#: u_dzTextFile.pas:34 
+ msgid &quot;Invalid file access value (%d)&quot;
+ msgstr &quot;Invalid file access value (%d)&quot;
+ 
+-#. Programmer's name for it: RS_ACCESSING_FILE_SS
+-#: u_dzTextFile.pas:35
++#. Programmer's name for it: RS_ACCESSING_FILE_SS
++#: u_dzTextFile.pas:35 
+ msgid &quot;%s accessing file %s&quot;
+ msgstr &quot;%s accessing file %s&quot;
+ 
+-#. Variant ist Null, sollte %s sein: %s
+-#. Programmer's name for it: STR_VARIANT_IS_NULL_SHOULD_BE_SS
+-#: u_dzVariantUtils.pas:192
++#. do not translate
++#. do not translate
++#. do not translate
++#. do not translate
++#. do not translate
++#. do not translate
++#: u_dzVariantUtils.pas:284 
+ u_dzVariantUtils.pas:313
++#: u_dzVariantUtils.pas:339 u_dzVariantUtils.pas:426 u_dzVariantUtils.pas:442
++#: u_dzVariantUtils.pas:488
+ msgid &quot;Variant is Null, should be %s: %s&quot;
+ msgstr &quot;Variant is Null, should be %s: %s&quot;
+ 
+-#. Variant ist Empty, sollte %s sein: %s
+-#. Programmer's name for it: STR_VARIANT_IS_EMPTY_SHOULD_BE_SS
+-#: u_dzVariantUtils.pas:194
++#: u_dzVariantUtils.pas:286 
+ u_dzVariantUtils.pas:315
++#: u_dzVariantUtils.pas:341 u_dzVariantUtils.pas:428 u_dzVariantUtils.pas:444
++#: u_dzVariantUtils.pas:490
+ msgid &quot;Variant is Empty, should be %s: %s&quot;
+ msgstr &quot;Variant is Empty, should be %s: %s&quot;
+ 
+-#. Variant kann nicht nach %s konvertiert werden: %s
+-#. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S
+-#: u_dzVariantUtils.pas:196
++#: u_dzVariantUtils.pas:291 
+ u_dzVariantUtils.pas:320
++#: u_dzVariantUtils.pas:346 u_dzVariantUtils.pas:433 u_dzVariantUtils.pas:449
++#: u_dzVariantUtils.pas:495
++msgid &quot;Variant can not be converted to %s: %s&quot;
++msgstr &quot;Variant can not be converted to %s: %s&quot;
++
++#. do not translate
++#. do not translate
++#. do not translate
++#: u_dzVariantUtils.pas:397 
+ u_dzVariantUtils.pas:411
++#: u_dzVariantUtils.pas:473
+ msgid &quot;Variant can not be converted to %s&quot;
+ msgstr &quot;Variant can not be converted to %s&quot;
+ 
+-#. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS
+-#: u_dzVariantUtils.pas:197
+-msgid &quot;Variant can not be converted to %s: %s&quot;
+-msgstr &quot;Variant can not be converted to %s: %s&quot;
+-
+-#: u_dzVclUtils.pas:685
++#: u_dzVclUtils.pas:685 
+ u_dzVclUtils.pas:732
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ msgstr &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ 
+-#: u_dzVclUtils.pas:700
++#: u_dzVclUtils.pas:700 
+ u_dzVclUtils.pas:745
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ msgstr &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ 
+-#: u_dzVclUtils.pas:1090
++#: u_dzVclUtils.pas:1090 
+ msgid &quot;No item selected in combobox&quot;
+ msgstr &quot;No item selected in combobox&quot;
+ 
+-#: u_dzVclUtils.pas:1109
++#: u_dzVclUtils.pas:1109 
+ msgid &quot;No item selected in listbox&quot;
+ msgstr &quot;No item selected in listbox&quot;
+ 
+-#: u_dzVclUtils.pas:1541
++#: u_dzVclUtils.pas:1541 
+ msgid &quot;JPEG Files&quot;
+ msgstr &quot;JPEG Files&quot;
+ 
+-#. f_dzProgress..Caption
+-#: w_dzProgress.dfm:6
++#. f_dzProgress..Caption
++#: w_dzProgress.dfm:6 
+ msgid &quot;Progress&quot;
+ msgstr &quot;Progress&quot;
+ 
+-#. f_dzProgress..l_Action..Caption
+-#: w_dzProgress.dfm:24
++#. f_dzProgress..l_Action..Caption
++#: w_dzProgress.dfm:24 
+ msgid &quot;Action&quot;
+ msgstr &quot;Action&quot;
+ 
+-#. f_dzProgress..b_Cancel..Caption
+-#: w_dzProgress.dfm:41
++#. f_dzProgress..b_Cancel..Caption
++#: w_dzProgress.dfm:41 
+ msgid &quot;Abort&quot;
+ msgstr &quot;Abort&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Next..Caption
+-#. f_dzWizardForm..p_Buttons..b_Next..Caption
+-#: w_dzWizard.dfm:1210
++#. f_dzWizard..p_Buttons..b_Next..Caption
++#. f_dzWizardForm..p_Buttons..b_Next..Caption
++#: w_dzWizard.dfm:1210 
+ w_dzWizardForm.dfm:1210 w_dzWizard.pas:341
+ #: w_dzWizardForm.pas:222
+ msgid &quot;&amp;Next &gt;&quot;
+ msgstr &quot;&amp;Next &gt;&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Cancel..Caption
+-#. f_dzWizardForm..p_Buttons..b_Cancel..Caption
+-#: w_dzWizard.dfm:1223
++#. f_dzWizard..p_Buttons..b_Cancel..Caption
++#. f_dzWizardForm..p_Buttons..b_Cancel..Caption
++#: w_dzWizard.dfm:1223 
+ w_dzWizardForm.dfm:1223 w_dzWizard.pas:340
+ #: w_dzWizardForm.pas:221
+ msgid &quot;Cancel&quot;
+ msgstr &quot;Cancel&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Prev..Caption
+-#. f_dzWizardForm..p_Buttons..b_Prev..Caption
+-#: w_dzWizard.dfm:1233
++#. f_dzWizard..p_Buttons..b_Prev..Caption
++#. f_dzWizardForm..p_Buttons..b_Prev..Caption
++#: w_dzWizard.dfm:1233 
+ w_dzWizardForm.dfm:1233 w_dzWizard.pas:339
+ #: w_dzWizardForm.pas:220
+ msgid &quot;&lt; &amp;Previous&quot;
+ msgstr &quot;&lt; &amp;Previous&quot;
+ 
+-#: w_dzDialog.pas:327
++#: w_dzDialog.pas:327 
+ msgid &quot;Invalid modal result %d.&quot;
+ msgstr &quot;Invalid modal result %d.&quot;
+ 
+-#: w_dzDialog.pas:501
++#: w_dzDialog.pas:501 
+ msgid &quot;Do not show again.&quot;
+ msgstr &quot;Do not show again.&quot;
+ 
+-#: w_dzDialog.pas:582
++#: w_dzDialog.pas:582 
+ msgid &quot;&quot;
+ &quot;An error occurred:\n&quot;
+ &quot;%s&quot;
+@@ -543,60 +550,60 @@
+ &quot;An error occurred:\n&quot;
+ &quot;%s&quot;
+ 
+-#. 400;
+-#: w_dzDialog.pas:606
++#. 400;
++#: w_dzDialog.pas:606 
+ msgid &quot;Additional information:&quot;
+ msgstr &quot;Additional information:&quot;
+ 
+-#: w_dzDialog.pas:626
++#: w_dzDialog.pas:626 
+ w_dzDialog.pas:731 w_dzDialog.pas:778
+ msgid &quot;&amp;Details &gt;&gt;&quot;
+ msgstr &quot;&amp;Details &gt;&gt;&quot;
+ 
+-#: w_dzDialog.pas:781
++#: w_dzDialog.pas:781 
+ msgid &quot;&amp;Details &lt;&lt;&quot;
+ msgstr &quot;&amp;Details &lt;&lt;&quot;
+ 
+-#. Wirklich abbrechen?
+-#. Programmer's name for it: QuestionAbort
+-#: w_dzProgress.pas:83
++#. Wirklich abbrechen?
++#. Programmer's name for it: QuestionAbort
++#: w_dzProgress.pas:83 
+ msgid &quot;Do you really want to abort?&quot;
+ msgstr &quot;Do you really want to abort?&quot;
+ 
+-#. Fortschritt (%d%%)
+-#. Programmer's name for it: FormCaptionD
+-#: w_dzProgress.pas:85
++#. Fortschritt (%d%%)
++#. Programmer's name for it: FormCaptionD
++#: w_dzProgress.pas:85 
+ msgid &quot;Progress (%d%%)&quot;
+ msgstr &quot;Progress (%d%%)&quot;
+ 
+-#. Tf_HkProgress.SetFormCaption: Ung&#252;ltige FormCaption, %s.
+-#. Programmer's name for it: InvalidFormCaptionS
+-#: w_dzProgress.pas:87
++#. Tf_HkProgress.SetFormCaption: Ung&#252;ltige FormCaption, %s.
++#. Programmer's name for it: InvalidFormCaptionS
++#: w_dzProgress.pas:87 
+ msgid &quot;Tf_HkProgress.SetFormCaption: Invalid FormCaption, %s&quot;
+ msgstr &quot;Tf_HkProgress.SetFormCaption: Invalid FormCaption, %s&quot;
+ 
+-#. darf kein &quot;%&quot; am Ende haben
+-#. Programmer's name for it: PercentAtEnd
+-#: w_dzProgress.pas:89
++#. darf kein &quot;%&quot; am Ende haben
++#. Programmer's name for it: PercentAtEnd
++#: w_dzProgress.pas:89 
+ msgid &quot;must not contain a % at the end&quot;
+ msgstr &quot;must not contain a % at the end&quot;
+ 
+-#. auf &quot;%&quot; mu&#223; &quot;d&quot; oder &quot;%&quot; folgen
+-#. Programmer's name for it: InvalidFormatChar
+-#: w_dzProgress.pas:91
++#. auf &quot;%&quot; mu&#223; &quot;d&quot; oder &quot;%&quot; folgen
++#. Programmer's name for it: InvalidFormatChar
++#: w_dzProgress.pas:91 
+ msgid &quot;\&quot;%\&quot; must be followed by \&quot;d\&quot; or \&quot;%\&quot;.&quot;
+ msgstr &quot;\&quot;%\&quot; must be followed by \&quot;d\&quot; or \&quot;%\&quot;.&quot;
+ 
+-#. zuviele Parameter
+-#. Programmer's name for it: TooManyParameters
+-#: w_dzProgress.pas:93
++#. zuviele Parameter
++#. Programmer's name for it: TooManyParameters
++#: w_dzProgress.pas:93 
+ msgid &quot;too many parameters&quot;
+ msgstr &quot;too many parameters&quot;
+ 
+-#: w_dzWizard.pas:342
++#: w_dzWizard.pas:342 
+ w_dzWizardForm.pas:223
+ msgid &quot;&amp;Finish&quot;
+ msgstr &quot;&amp;Finish&quot;
+ 
+-#: w_dzWizard.pas:478
++#: w_dzWizard.pas:478 
+ msgid &quot;Already on first page.&quot;
+ msgstr &quot;Already on first page.&quot;
+ 
+@@ -607,4 +614,3 @@
+ #, fuzzy
+ #~ msgid &quot;Message of Exception (do not translate)&quot;
+ #~ msgstr &quot;Message der Exception (do not translate)&quot;
+-
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2008-09-04 10:03:06 UTC (rev 293)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2008-09-04 10:19:01 UTC (rev 294)
+@@ -6,7 +6,7 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzLib 1.0\n&quot;
+-&quot;POT-Creation-Date: 2008-09-04 02:32\n&quot;
++&quot;POT-Creation-Date: 2008-09-04 03:15\n&quot;
+ &quot;PO-Revision-Date: 2008-09-04 02:44-0800\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+ &quot;Language-Team: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+@@ -17,590 +17,596 @@
+ &quot;X-Poedit-Language: French\n&quot;
+ &quot;X-Poedit-Country: FRANCE\n&quot;
+ 
+-#. Programmer's name for it: RS_NO_MATCHING_OBJECT_FOUND
+-#: u_dzClassUtils.pas:150
++#. Programmer's name for it: RS_NO_MATCHING_OBJECT_FOUND
++#: u_dzClassUtils.pas:150 
+ msgid &quot;no matching object found&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_INVALID_CHARACTER_S
+-#: u_dzCmdLineParserStates.pas:113
++#. Programmer's name for it: RS_INVALID_CHARACTER_S
++#: u_dzCmdLineParserStates.pas:113 
+ #, fuzzy
+ msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
+ msgstr &quot;L'abscisse est invalide&quot;
+ 
+-#: u_dzConvertUtils.pas:367
++#: u_dzConvertUtils.pas:367 
+ msgid &quot;Digit out of range %s&quot;
+ msgstr &quot;Chiffre hors d'echelle %s&quot;
+ 
+-#: u_dzConvertUtils.pas:380
++#: u_dzConvertUtils.pas:380 
+ msgid &quot;Digit #%d (%s) out of range&quot;
+ msgstr &quot;Chiffre #%d (%s) hors d'echelle&quot;
+ 
+-#: u_dzConvertUtils.pas:582
++#: u_dzConvertUtils.pas:582 
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; n'est pas une valeur d&#233;cimale correcte: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:600
++#: u_dzConvertUtils.pas:600 
+ msgid &quot;\&quot;%s\&quot; is not a valid Int64 value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; n'est pas une valeur Int64 correcte: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:671
++#: u_dzConvertUtils.pas:671 
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value: %s&quot;
+ msgstr &quot;\&quot;%s\&quot; n'est pas une nombre d&#233;cimal valable: %s&quot;
+ 
+-#: u_dzConvertUtils.pas:677
++#: u_dzConvertUtils.pas:677 
+ msgid &quot;%.2f EiB&quot;
+ msgstr &quot;%.2f Goctets&quot;
+ 
+-#: u_dzConvertUtils.pas:679
++#: u_dzConvertUtils.pas:679 
+ msgid &quot;%.2f PiB&quot;
+ msgstr &quot;%.2f Goctets&quot;
+ 
+-#: u_dzConvertUtils.pas:681
++#: u_dzConvertUtils.pas:681 
+ msgid &quot;%.2f TiB&quot;
+ msgstr &quot;%.2f Goctets&quot;
+ 
+-#: u_dzConvertUtils.pas:683
++#: u_dzConvertUtils.pas:683 
+ msgid &quot;%.2f GiB&quot;
+ msgstr &quot;%.2f Goctets&quot;
+ 
+-#: u_dzConvertUtils.pas:685
++#: u_dzConvertUtils.pas:685 
+ msgid &quot;%.2f MiB&quot;
+ msgstr &quot;%.2f Moctets&quot;
+ 
+-#: u_dzConvertUtils.pas:687
++#: u_dzConvertUtils.pas:687 
+ msgid &quot;%.2f KiB&quot;
+ msgstr &quot;%.2f Koctets&quot;
+ 
+-#: u_dzConvertUtils.pas:689
++#: u_dzConvertUtils.pas:689 
+ msgid &quot;%d Bytes&quot;
+ msgstr &quot;%d Octets&quot;
+ 
+-#. Days and hours, ignore minutes and seconds
+-#: u_dzConvertUtils.pas:696
++#. Days and hours, ignore minutes and seconds
++#: u_dzConvertUtils.pas:696 
+ msgid &quot;%dd %dh&quot;
+ msgstr &quot;%dd %dh&quot;
+ 
+-#. Hours and minutes, ignore seconds
+-#: u_dzConvertUtils.pas:699
++#. Hours and minutes, ignore seconds
++#: u_dzConvertUtils.pas:699 
+ msgid &quot;%dh %dm&quot;
+ msgstr &quot;%dh %dm&quot;
+ 
+-#. Minutes and seconds
+-#: u_dzConvertUtils.pas:702
++#. Minutes and seconds
++#: u_dzConvertUtils.pas:702 
+ msgid &quot;%dm %ds&quot;
+ msgstr &quot;%dm %ds&quot;
+ 
+-#. Seconds only
+-#: u_dzConvertUtils.pas:705
++#. Seconds only
++#: u_dzConvertUtils.pas:705 
+ msgid &quot;%ds&quot;
+ msgstr &quot;%ds&quot;
+ 
+-#. Programmer's name for it: RS_Monday
+-#: u_dzDateUtils.pas:76
++#. Programmer's name for it: RS_Monday
++#: u_dzDateUtils.pas:76 
+ msgid &quot;Monday&quot;
+ msgstr &quot;Lundi&quot;
+ 
+-#. Programmer's name for it: RS_Tuesday
+-#: u_dzDateUtils.pas:77
++#. Programmer's name for it: RS_Tuesday
++#: u_dzDateUtils.pas:77 
+ msgid &quot;Tuesday&quot;
+ msgstr &quot;Mardi&quot;
+ 
+-#. Programmer's name for it: RS_Wednesday
+-#: u_dzDateUtils.pas:78
++#. Programmer's name for it: RS_Wednesday
++#: u_dzDateUtils.pas:78 
+ msgid &quot;Wednesday&quot;
+ msgstr &quot;Mercredi&quot;
+ 
+-#. Programmer's name for it: RS_Thursday
+-#: u_dzDateUtils.pas:79
++#. Programmer's name for it: RS_Thursday
++#: u_dzDateUtils.pas:79 
+ msgid &quot;Thursday&quot;
+ msgstr &quot;Jeudi&quot;
+ 
+-#. Programmer's name for it: RS_Friday
+-#: u_dzDateUtils.pas:80
++#. Programmer's name for it: RS_Friday
++#: u_dzDateUtils.pas:80 
+ msgid &quot;Friday&quot;
+ msgstr &quot;Vendredi&quot;
+ 
+-#. Programmer's name for it: RS_Saturday
+-#: u_dzDateUtils.pas:81
++#. Programmer's name for it: RS_Saturday
++#: u_dzDateUtils.pas:81 
+ msgid &quot;Saturday&quot;
+ msgstr &quot;Samedi&quot;
+ 
+-#. Programmer's name for it: RS_Sunday
+-#: u_dzDateUtils.pas:82
++#. Programmer's name for it: RS_Sunday
++#: u_dzDateUtils.pas:82 
+ msgid &quot;Sunday&quot;
+ msgstr &quot;Dimance&quot;
+ 
+-#. Programmer's name for it: RS_January
+-#: u_dzDateUtils.pas:83
++#. Programmer's name for it: RS_January
++#: u_dzDateUtils.pas:83 
+ msgid &quot;January&quot;
+ msgstr &quot;Janvier&quot;
+ 
+-#. Programmer's name for it: RS_February
+-#: u_dzDateUtils.pas:84
++#. Programmer's name for it: RS_February
++#: u_dzDateUtils.pas:84 
+ msgid &quot;February&quot;
+ msgstr &quot;F&#233;vrier&quot;
+ 
+-#. Programmer's name for it: RS_March
+-#: u_dzDateUtils.pas:85
++#. Programmer's name for it: RS_March
++#: u_dzDateUtils.pas:85 
+ msgid &quot;March&quot;
+ msgstr &quot;Mars&quot;
+ 
+-#. Programmer's name for it: RS_April
+-#: u_dzDateUtils.pas:86
++#. Programmer's name for it: RS_April
++#: u_dzDateUtils.pas:86 
+ msgid &quot;April&quot;
+ msgstr &quot;Avril&quot;
+ 
+-#. Programmer's name for it: RS_May
+-#: u_dzDateUtils.pas:87
++#. Programmer's name for it: RS_May
++#: u_dzDateUtils.pas:87 
+ msgid &quot;May&quot;
+ msgstr &quot;Mai&quot;
+ 
+-#. Programmer's name for it: RS_June
+-#: u_dzDateUtils.pas:88
++#. Programmer's name for it: RS_June
++#: u_dzDateUtils.pas:88 
+ msgid &quot;June&quot;
+ msgstr &quot;Juin&quot;
+ 
+-#. Programmer's name for it: RS_July
+-#: u_dzDateUtils.pas:89
++#. Programmer's name for it: RS_July
++#: u_dzDateUtils.pas:89 
+ msgid &quot;July&quot;
+ msgstr &quot;Juillet&quot;
+ 
+-#. Programmer's name for it: RS_August
+-#: u_dzDateUtils.pas:90
++#. Programmer's name for it: RS_August
++#: u_dzDateUtils.pas:90 
+ msgid &quot;August&quot;
+ msgstr &quot;Ao&#251;t&quot;
+ 
+-#. Programmer's name for it: RS_September
+-#: u_dzDateUtils.pas:91
++#. Programmer's name for it: RS_September
++#: u_dzDateUtils.pas:91 
+ msgid &quot;September&quot;
+ msgstr &quot;Septembre&quot;
+ 
+-#. Programmer's name for it: RS_October
+-#: u_dzDateUtils.pas:92
++#. Programmer's name for it: RS_October
++#: u_dzDateUtils.pas:92 
+ msgid &quot;October&quot;
+ msgstr &quot;Octobre&quot;
+ 
+-#. Programmer's name for it: RS_November
+-#: u_dzDateUtils.pas:93
++#. Programmer's name for it: RS_November
++#: u_dzDateUtils.pas:93 
+ msgid &quot;November&quot;
+ msgstr &quot;Novembre&quot;
+ 
+-#. Programmer's name for it: RS_December
+-#: u_dzDateUtils.pas:94
++#. Programmer's name for it: RS_December
++#: u_dzDateUtils.pas:94 
+ msgid &quot;December&quot;
+ msgstr &quot;D&#233;cembre&quot;
+ 
+-#. Programmer's name for it: RS_InvalidMonthNumber_D
+-#: u_dzDateUtils.pas:95
++#. Programmer's name for it: RS_InvalidMonthNumber_D
++#: u_dzDateUtils.pas:95 
+ #, fuzzy
+ msgid &quot;Invalid month number %d&quot;
+ msgstr &quot;L'abscisse est invalide&quot;
+ 
+-#. Programmer's name for it: RS_InvalidValueForDayOfWeek_D
+-#: u_dzDateUtils.pas:96
++#. Programmer's name for it: RS_InvalidValueForDayOfWeek_D
++#: u_dzDateUtils.pas:96 
+ #, fuzzy
+ msgid &quot;Invalid value for DayOfWeek: %d&quot;
+ msgstr &quot;Caract&#232;re  \&quot;%s\&quot; invalide dans  le champ  \&quot;%s\&quot;&quot;
+ 
+-#: u_dzDefaultMain.pas:114
++#: u_dzDefaultMain.pas:114 
+ msgid &quot;Error: %s&quot;
+ msgstr &quot;Erreur: %s&quot;
+ 
+-#: u_dzDllLoader.pas:159
++#: u_dzDllLoader.pas:159 
+ msgid &quot;Could not load %s.&quot;
+ msgstr &quot;&quot;
+ 
+-#: u_dzDllLoader.pas:180
++#: u_dzDllLoader.pas:180 
+ msgid &quot;&quot;
+ &quot;Could not find entry point %s in %s\n&quot;
+ &quot;ERROR= %%d, %%s&quot;
+ msgstr &quot;&quot;
+ 
+-#: u_dzDllLoader.pas:194
+-#: u_dzDllLoader.pas:209
+-#: u_dzDllLoader.pas:214
+-#: u_dzDllLoader.pas:219
++#: u_dzDllLoader.pas:194 
+ u_dzDllLoader.pas:199 u_dzDllLoader.pas:204
++#: u_dzDllLoader.pas:209 u_dzDllLoader.pas:214 u_dzDllLoader.pas:219
+ #: u_dzDllLoader.pas:224
+ msgid &quot;DLL entry point not initialized&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_CANNOT_FREE_EXECUTOR
+-#: u_dzExecutor.pas:204
++#. Programmer's name for it: RS_CANNOT_FREE_EXECUTOR
++#: u_dzExecutor.pas:204 
+ msgid &quot;Can not free Executor while a process using redirection is still running.&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED_S
+-#: u_dzExecutor.pas:205
++#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED_S
++#: u_dzExecutor.pas:205 
+ msgid &quot;&quot;
+ &quot;Process has not yet been started.\n&quot;
+ &quot;%s&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_IS_STILL_RUNNING_S
+-#: u_dzExecutor.pas:206
++#. Programmer's name for it: RS_PROCESS_IS_STILL_RUNNING_S
++#: u_dzExecutor.pas:206 
+ msgid &quot;&quot;
+ &quot;Process is still running.\n&quot;
+ &quot;%s&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_TERMINATED_S
+-#: u_dzExecutor.pas:207
++#. Programmer's name for it: RS_PROCESS_HAS_TERMINATED_S
++#: u_dzExecutor.pas:207 
+ msgid &quot;&quot;
+ &quot;Process has terminated.\n&quot;
+ &quot;%s&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED
+-#: u_dzExecutor.pas:208
++#. Programmer's name for it: RS_PROCESS_HAS_NOT_YET_BEEN_STARTED
++#: u_dzExecutor.pas:208 
+ msgid &quot;Process has not yet been started&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_STDERR_WAS_NOT_REDIRECTED
+-#: u_dzExecutor.pas:209
++#. Programmer's name for it: RS_STDERR_WAS_NOT_REDIRECTED
++#: u_dzExecutor.pas:209 
+ msgid &quot;StdErr was not redirected&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_STDOUT_WAS_NOT_REDIRECTED
+-#: u_dzExecutor.pas:210
++#. Programmer's name for it: RS_STDOUT_WAS_NOT_REDIRECTED
++#: u_dzExecutor.pas:210 
+ msgid &quot;StdOut was not redirected&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
+-#: u_dzFileStreams.pas:198
++#. Programmer's name for it: STR_CANNOT_CHANGE_FILENAME_OF_OPEN_FILE
++#: u_dzFileStreams.pas:198 
+ msgid &quot;Cannot change filename when file is open.&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_FLAGS
+-#: u_dzFileStreams.pas:199
++#. Programmer's name for it: STR_INVALID_FILE_FLAGS
++#: u_dzFileStreams.pas:199 
+ #, fuzzy
+ msgid &quot;Invalid file flags&quot;
+ msgstr &quot;Allocation du fichier de capture&quot;
+ 
+-#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
+-#: u_dzFileStreams.pas:200
++#. Programmer's name for it: STR_INVALID_FILE_ATTRIBUTES
++#: u_dzFileStreams.pas:200 
+ #, fuzzy
+ msgid &quot;Invalid file attributes&quot;
+ msgstr &quot;Allocation du fichier de capture&quot;
+ 
+-#. Programmer's name for it: STR_0S_ERROR_SD
+-#: u_dzFileStreams.pas:201
++#. Programmer's name for it: STR_0S_ERROR_SD
++#: u_dzFileStreams.pas:201 
+ msgid &quot;%1:s (%0:d)&quot;
+ msgstr &quot;%1:s (%0:d)&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
+-#: u_dzFileUtils.pas:696
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR_DS
++#: u_dzFileUtils.pas:696 
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
+-#: u_dzFileUtils.pas:697
++#. Programmer's name for it: STR_GETTEMPPATH_ERROR2_DS
++#: u_dzFileUtils.pas:697 
+ msgid &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)&quot;
+ 
+-#. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
+-#: u_dzFileUtils.pas:698
++#. Programmer's name for it: STR_CREATEUNIQUEDIR_ERROR_S
++#: u_dzFileUtils.pas:698 
+ msgid &quot;could not find a unique directory name based on \&quot;%s\&quot;&quot;
+ msgstr &quot;Impossible de trouver un nom de r&#233;pertoire unique sur la base de \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
+-#: u_dzFileUtils.pas:699
++#. Programmer's name for it: STR_GETTEMPFILENAME_ERROR_DS
++#: u_dzFileUtils.pas:699 
+ msgid &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ msgstr &quot;u_dzFileUtils.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName&quot;
+ 
+-#. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
+-#: u_dzFileUtils.pas:700
++#. Programmer's name for it: STR_GETSHORTPATHNAME_ERROR_DS
++#: u_dzFileUtils.pas:700 
+ msgid &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ msgstr &quot;u_dzFileUtils.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname&quot;
+ 
+-#. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
+-#: u_dzFileUtils.pas:701
++#. Programmer's name for it: STR_GETSHORTPATHNAME_TOO_LONG_D
++#: u_dzFileUtils.pas:701 
+ msgid &quot;Short pathname is longer than MAX_PATH (%d) characters&quot;
+ msgstr &quot;La longueur du chemin de fichier d&#233;passe MAX_PATH (%d) caract&#232;res &quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_MOVEFILE_ERROR_SS
+-#: u_dzFileUtils.pas:703
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_MOVEFILE_ERROR_SS
++#: u_dzFileUtils.pas:703 
+ msgid &quot;Error %%1:s (%%0:d) while trying to move \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors du d&#233;placement de \&quot;%s\&quot; vers \&quot;%s\&quot;.&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_SETREADONLY_ERROR_S
+-#: u_dzFileUtils.pas:705
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_SETREADONLY_ERROR_S
++#: u_dzFileUtils.pas:705 
+ msgid &quot;Error %%1:s (%%0:d) while changing the readonly flag of \&quot;%s\&quot;&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors du changement de l'indicateur lecture seule de \&quot;%s\&quot;&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_COPYFILE_ERROR_SS
+-#: u_dzFileUtils.pas:707
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_COPYFILE_ERROR_SS
++#: u_dzFileUtils.pas:707 
+ msgid &quot;Error %%1:s (%%0:d) while trying to copy \&quot;%s\&quot; to \&quot;%s\&quot;.&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors de la copie de \&quot;%s\&quot; vers \&quot;%s\&quot;.&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_DELETEFILE_ERROR_S
+-#: u_dzFileUtils.pas:709
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_DELETEFILE_ERROR_S
++#: u_dzFileUtils.pas:709 
+ msgid &quot;Error %%1:s (%%0:d) deleting file \&quot;%s\&quot;&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors de l'effacement du fichier \&quot;%s\&quot;&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_REMOVEDIR_ERROR_S
+-#: u_dzFileUtils.pas:711
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_REMOVEDIR_ERROR_S
++#: u_dzFileUtils.pas:711 
+ msgid &quot;Error %%1:s (%%0:d) deleting directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors de l'effacement du r&#233;pertoire \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: STR_DELTREE_ERROR_S
+-#: u_dzFileUtils.pas:712
++#. Programmer's name for it: STR_DELTREE_ERROR_S
++#: u_dzFileUtils.pas:712 
+ msgid &quot;\&quot;%s\&quot; does not exist or is not a directory&quot;
+ msgstr &quot;\&quot;%s\&quot; n'existe pas ou n'est pas un r&#233;p&#233;rtoire&quot;
+ 
+-#. duplicate % so they get passed through the format function
+-#. Programmer's name for it: STR_CREATEDIR_ERROR_S
+-#: u_dzFileUtils.pas:714
++#. duplicate % so they get passed through the format function
++#. Programmer's name for it: STR_CREATEDIR_ERROR_S
++#: u_dzFileUtils.pas:714 
+ msgid &quot;Error %%1:s (%%0:d) creating directory \&quot;%s\&quot;&quot;
+ msgstr &quot;Erreur %%1:s (%%0:d) lors de la cr&#233;ation du r&#233;pertoire \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: STR_CREATEDIR_EXCEPTION_SSS
+-#: u_dzFileUtils.pas:715
++#. Programmer's name for it: STR_CREATEDIR_EXCEPTION_SSS
++#: u_dzFileUtils.pas:715 
+ #, fuzzy
+ msgid &quot;Error creating directory \&quot;%s\&quot;: %s (%s)&quot;
+ msgstr &quot;Erreur Temps d&#233;pass&#233; dans %s&quot;
+ 
+-#. Programmer's name for it: RS_FILE_NOT_FOUND_S
+-#: u_dzFileUtils.pas:716
++#. Programmer's name for it: RS_FILE_NOT_FOUND_S
++#: u_dzFileUtils.pas:716 
+ msgid &quot;File not found: \&quot;%s\&quot;&quot;
+ msgstr &quot;Fichier non trouv&#233;: \&quot;%s\&quot;&quot;
+ 
+-#. Programmer's name for it: RS_COMBINATION_NOT_ALLOWED
+-#: u_dzFileUtils.pas:718
++#. Programmer's name for it: RS_COMBINATION_NOT_ALLOWED
++#: u_dzFileUtils.pas:718 
+ msgid &quot;Combination of ResultContainsNumber and KeepOriginal is not allowed&quot;
+ msgstr &quot;&quot;
+ 
+-#. Unbekannter Betriebssystem Fehler
+-#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
+-#: u_dzMiscUtils.pas:236
++#. Unbekannter Betriebssystem Fehler
++#. Programmer's name for it: STR_UNKNOWN_WIN32_ERROR
++#: u_dzMiscUtils.pas:236 
+ msgid &quot;unknown OS error&quot;
+ msgstr &quot;Erreur syst&#232;me d'exploitation inconnue&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
+-#: u_dzMiscUtils.pas:237
++#. Programmer's name for it: RS_UNKNOWN_REGISTRY_ROOT_KEY_X
++#: u_dzMiscUtils.pas:237 
+ msgid &quot;unknown Registry Root Key %x&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
+-#: u_dzMiscUtils.pas:238
++#. Programmer's name for it: RS_UNKNOWN_REGDATATYPE
++#: u_dzMiscUtils.pas:238 
+ #, fuzzy
+ msgid &quot;unknown RegDataType&quot;
+ msgstr &quot;commande inconnue \&quot;%s\&quot;&quot;
+ 
+-#: u_dzOsUtils.pas:130
++#: u_dzOsUtils.pas:130 
+ #, fuzzy
+ msgid &quot;%s (code %d) calling Windows.GetUsername&quot;
+ msgstr &quot;u_dzFileUtils.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath&quot;
+ 
+-#. 16 KB should be enough for everybody... ;-)
+-#: u_dzOsUtils.pas:150
++#. 16 KB should be enough for everybody... ;-)
++#: u_dzOsUtils.pas:150 
+ #, fuzzy
+ msgid &quot;Error %1:s (%0:d)&quot;
+ msgstr &quot;%1:s (%0:d)&quot;
+ 
+-#: u_dzOsUtils.pas:308
++#: u_dzOsUtils.pas:308 
+ u_dzOsUtils.pas:323
+ msgid &quot;No version information available for %s&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
+-#: u_dzRecordArray.pas:38
++#. Programmer's name for it: RS_NEW_CAPACITY_CANNOT_BE_LESS_THAN_CURRENT_LENGTH
++#: u_dzRecordArray.pas:38 
+ msgid &quot;New capacity cannot be less than current length.&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_INDEX_OUT_OF_BOUNDS_D
+-#: u_dzRingBuffer.pas:160
++#. Programmer's name for it: RS_INDEX_OUT_OF_BOUNDS_D
++#: u_dzRingBuffer.pas:161 
+ msgid &quot;Index %d out of bounds.&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_BUFFER_IS_FULL
+-#: u_dzRingBuffer.pas:161
++#. Programmer's name for it: RS_BUFFER_IS_FULL
++#: u_dzRingBuffer.pas:162 
+ #, fuzzy
+ msgid &quot;Buffer is full&quot;
+ msgstr &quot;La taille actuelle est %s&quot;
+ 
+-#. Programmer's name for it: RS_BUFFER_IS_EMPTY
+-#: u_dzRingBuffer.pas:162
++#. Programmer's name for it: RS_BUFFER_IS_EMPTY
++#: u_dzRingBuffer.pas:163 
+ #, fuzzy
+ msgid &quot;Buffer is empty&quot;
+ msgstr &quot;La taille actuelle est %s&quot;
+ 
+-#: u_dzStringUtils.pas:415
++#: u_dzStringUtils.pas:415 
+ msgid &quot;nthWord: 0th word not available&quot;
+ msgstr &quot;nthWord: 0iem mot n'est pas valable&quot;
+ 
+-#: u_dzStringUtils.pas:883
++#: u_dzStringUtils.pas:883 
+ msgid &quot;Cannot center string that is larger than the maximum length.&quot;
+ msgstr &quot;Impossible de centrer une chaine qui est plus longue que la longueur maximum.&quot;
+ 
+-#: u_dzStringUtils.pas:972
++#: u_dzStringUtils.pas:972 
+ msgid &quot;Strings do not have a 0th character.&quot;
+ msgstr &quot;La chaine n'a pas de charat&#232;re 0th.&quot;
+ 
+-#. Programmer's name for it: RS_INVALID_FILE_ACCES_VALUE_D
+-#: u_dzTextFile.pas:34
++#. Programmer's name for it: RS_INVALID_FILE_ACCES_VALUE_D
++#: u_dzTextFile.pas:34 
+ msgid &quot;Invalid file access value (%d)&quot;
+ msgstr &quot;&quot;
+ 
+-#. Programmer's name for it: RS_ACCESSING_FILE_SS
+-#: u_dzTextFile.pas:35
++#. Programmer's name for it: RS_ACCESSING_FILE_SS
++#: u_dzTextFile.pas:35 
+ #, fuzzy
+ msgid &quot;%s accessing file %s&quot;
+ msgstr &quot;Allocation du fichier de capture&quot;
+ 
+-#. Variant ist Null, sollte %s sein: %s
+-#. Programmer's name for it: STR_VARIANT_IS_NULL_SHOULD_BE_SS
+-#: u_dzVariantUtils.pas:192
++#. do not translate
++#. do not translate
++#. do not translate
++#. do not translate
++#. do not translate
++#. do not translate
++#: u_dzVariantUtils.pas:284 
+ u_dzVariantUtils.pas:313
++#: u_dzVariantUtils.pas:339 u_dzVariantUtils.pas:426 u_dzVariantUtils.pas:442
++#: u_dzVariantUtils.pas:488
+ msgid &quot;Variant is Null, should be %s: %s&quot;
+ msgstr &quot;La variation est nulle, devrait &#234;tre %s: %s&quot;
+ 
+-#. Variant ist Empty, sollte %s sein: %s
+-#. Programmer's name for it: STR_VARIANT_IS_EMPTY_SHOULD_BE_SS
+-#: u_dzVariantUtils.pas:194
++#: u_dzVariantUtils.pas:286 
+ u_dzVariantUtils.pas:315
++#: u_dzVariantUtils.pas:341 u_dzVariantUtils.pas:428 u_dzVariantUtils.pas:444
++#: u_dzVariantUtils.pas:490
+ msgid &quot;Variant is Empty, should be %s: %s&quot;
+ msgstr &quot;La variation est vide, devrait &#234;tre %s: %s&quot;
+ 
+-#. Variant kann nicht nach %s konvertiert werden: %s
+-#. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_S
+-#: u_dzVariantUtils.pas:196
++#: u_dzVariantUtils.pas:291 
+ u_dzVariantUtils.pas:320
++#: u_dzVariantUtils.pas:346 u_dzVariantUtils.pas:433 u_dzVariantUtils.pas:449
++#: u_dzVariantUtils.pas:495
++msgid &quot;Variant can not be converted to %s: %s&quot;
++msgstr &quot;La variation ne peut pas &#234;tre convertie de %s: %s&quot;
++
++#. do not translate
++#. do not translate
++#. do not translate
++#: u_dzVariantUtils.pas:397 
+ u_dzVariantUtils.pas:411
++#: u_dzVariantUtils.pas:473
+ msgid &quot;Variant can not be converted to %s&quot;
+ msgstr &quot;Un variant ne peut pas &#234;tre converti en %s&quot;
+ 
+-#. Programmer's name for it: STR_VARIANT_CAN_NOT_BE_CONVERTED_TO_SS
+-#: u_dzVariantUtils.pas:197
+-msgid &quot;Variant can not be converted to %s: %s&quot;
+-msgstr &quot;La variation ne peut pas &#234;tre convertie de %s: %s&quot;
+-
+-#: u_dzVclUtils.pas:685
++#: u_dzVclUtils.pas:685 
+ u_dzVclUtils.pas:732
+ msgid &quot;\&quot;%s\&quot; is not a valid floating point value.&quot;
+ msgstr &quot;\&quot;%s\&quot; n'est pas une valeur d&#233;cimale correcte.&quot;
+ 
+-#: u_dzVclUtils.pas:700
++#: u_dzVclUtils.pas:700 
+ u_dzVclUtils.pas:745
+ msgid &quot;\&quot;%s\&quot; is not a valid integer value.&quot;
+ msgstr &quot;\&quot;%s\&quot; n'est pas une valeur d&#233;cimale correcte.&quot;
+ 
+-#: u_dzVclUtils.pas:1090
++#: u_dzVclUtils.pas:1090 
+ msgid &quot;No item selected in combobox&quot;
+ msgstr &quot;&quot;
+ 
+-#: u_dzVclUtils.pas:1109
++#: u_dzVclUtils.pas:1109 
+ msgid &quot;No item selected in listbox&quot;
+ msgstr &quot;&quot;
+ 
+-#: u_dzVclUtils.pas:1541
++#: u_dzVclUtils.pas:1541 
+ msgid &quot;JPEG Files&quot;
+ msgstr &quot;Fichiers JPEG&quot;
+ 
+-#. f_dzProgress..Caption
+-#: w_dzProgress.dfm:6
++#. f_dzProgress..Caption
++#: w_dzProgress.dfm:6 
+ msgid &quot;Progress&quot;
+ msgstr &quot;Avancement&quot;
+ 
+-#. f_dzProgress..l_Action..Caption
+-#: w_dzProgress.dfm:24
++#. f_dzProgress..l_Action..Caption
++#: w_dzProgress.dfm:24 
+ msgid &quot;Action&quot;
+ msgstr &quot;&quot;
+ 
+-#. f_dzProgress..b_Cancel..Caption
+-#: w_dzProgress.dfm:41
++#. f_dzProgress..b_Cancel..Caption
++#: w_dzProgress.dfm:41 
+ msgid &quot;Abort&quot;
+ msgstr &quot;Annuler&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Next..Caption
+-#. f_dzWizardForm..p_Buttons..b_Next..Caption
+-#: w_dzWizard.dfm:1210
++#. f_dzWizard..p_Buttons..b_Next..Caption
++#. f_dzWizardForm..p_Buttons..b_Next..Caption
++#: w_dzWizard.dfm:1210 
+ w_dzWizardForm.dfm:1210 w_dzWizard.pas:341
+ #: w_dzWizardForm.pas:222
+ msgid &quot;&amp;Next &gt;&quot;
+ msgstr &quot;&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Cancel..Caption
+-#. f_dzWizardForm..p_Buttons..b_Cancel..Caption
+-#: w_dzWizard.dfm:1223
++#. f_dzWizard..p_Buttons..b_Cancel..Caption
++#. f_dzWizardForm..p_Buttons..b_Cancel..Caption
++#: w_dzWizard.dfm:1223 
+ w_dzWizardForm.dfm:1223 w_dzWizard.pas:340
+ #: w_dzWizardForm.pas:221
+ msgid &quot;Cancel&quot;
+ msgstr &quot;Annuler&quot;
+ 
+-#. f_dzWizard..p_Buttons..b_Prev..Caption
+-#. f_dzWizardForm..p_Buttons..b_Prev..Caption
+-#: w_dzWizard.dfm:1233
++#. f_dzWizard..p_Buttons..b_Prev..Caption
++#. f_dzWizardForm..p_Buttons..b_Prev..Caption
++#: w_dzWizard.dfm:1233 
+ w_dzWizardForm.dfm:1233 w_dzWizard.pas:339
+ #: w_dzWizardForm.pas:220
+ msgid &quot;&lt; &amp;Previous&quot;
+ msgstr &quot;&quot;
+ 
+-#: w_dzDialog.pas:327
++#: w_dzDialog.pas:327 
+ #, fuzzy
+ msgid &quot;Invalid modal result %d.&quot;
+ msgstr &quot;L'abscisse est invalide&quot;
+ 
+-#: w_dzDialog.pas:501
++#: w_dzDialog.pas:501 
+ msgid &quot;Do not show again.&quot;
+ msgstr &quot;&quot;
+ 
+-#: w_dzDialog.pas:582
++#: w_dzDialog.pas:582 
+ #, fuzzy
+ msgid &quot;&quot;
+ &quot;An error occurred:\n&quot;
+ &quot;%s&quot;
+ msgstr &quot;Erreur Temps d&#233;pass&#233; dans %s&quot;
+ 
+-#. 400;
+-#: w_dzDialog.pas:606
++#. 400;
++#: w_dzDialog.pas:606 
+ msgid &quot;Additional information:&quot;
+ msgstr &quot;&quot;
+ 
+-#: w_dzDialog.pas:626
++#: w_dzDialog.pas:626 
+ w_dzDialog.pas:731 w_dzDialog.pas:778
+ msgid &quot;&amp;Details &gt;&gt;&quot;
+ msgstr &quot;&amp;D&#233;tails &gt;&gt;&quot;
+ 
+-#: w_dzDialog.pas:781
++#: w_dzDialog.pas:781 
+ msgid &quot;&amp;Details &lt;&lt;&quot;
+ msgstr &quot;&amp;D&#233;tails &lt;&lt;&quot;
+ 
+-#. Wirklich abbrechen?
+-#. Programmer's name for it: QuestionAbort
+-#: w_dzProgress.pas:83
++#. Wirklich abbrechen?
++#. Programmer's name for it: QuestionAbort
++#: w_dzProgress.pas:83 
+ msgid &quot;Do you really want to abort?&quot;
+ msgstr &quot;&quot;
+ 
+-#. Fortschritt (%d%%)
+-#. Programmer's name for it: FormCaptionD
+-#: w_dzProgress.pas:85
++#. Fortschritt (%d%%)
++#. Programmer's name for it: FormCaptionD
++#: w_dzProgress.pas:85 
+ msgid &quot;Progress (%d%%)&quot;
+ msgstr &quot;Avancement (%d%%)&quot;
+ 
+-#. Tf_HkProgress.SetFormCaption: Ung&#252;ltige FormCaption, %s.
+-#. Programmer's name for it: InvalidFormCaptionS
+-#: w_dzProgress.pas:87
++#. Tf_HkProgress.SetFormCaption: Ung&#252;ltige FormCaption, %s.
++#. Programmer's name for it: InvalidFormCaptionS
++#: w_dzProgress.pas:87 
+ msgid &quot;Tf_HkProgress.SetFormCaption: Invalid FormCaption, %s&quot;
+ msgstr &quot;&quot;
+ 
+-#. darf kein &quot;%&quot; am Ende haben
+-#. Programmer's name for it: PercentAtEnd
+-#: w_dzProgress.pas:89
++#. darf kein &quot;%&quot; am Ende haben
++#. Programmer's name for it: PercentAtEnd
++#: w_dzProgress.pas:89 
+ msgid &quot;must not contain a % at the end&quot;
+ msgstr &quot;&quot;
+ 
+-#. auf &quot;%&quot; mu&#223; &quot;d&quot; oder &quot;%&quot; folgen
+-#. Programmer's name for it: InvalidFormatChar
+-#: w_dzProgress.pas:91
++#. auf &quot;%&quot; mu&#223; &quot;d&quot; oder &quot;%&quot; folgen
++#. Programmer's name for it: InvalidFormatChar
++#: w_dzProgress.pas:91 
+ msgid &quot;\&quot;%\&quot; must be followed by \&quot;d\&quot; or \&quot;%\&quot;.&quot;
+ msgstr &quot;&quot;
+ 
+-#. zuviele Parameter
+-#. Programmer's name for it: TooManyParameters
+-#: w_dzProgress.pas:93
++#. zuviele Parameter
++#. Programmer's name for it: TooManyParameters
++#: w_dzProgress.pas:93 
+ msgid &quot;too many parameters&quot;
+ msgstr &quot;&quot;
+ 
+-#: w_dzWizard.pas:342
++#: w_dzWizard.pas:342 
+ w_dzWizardForm.pas:223
+ msgid &quot;&amp;Finish&quot;
+ msgstr &quot;&quot;
+ 
+-#: w_dzWizard.pas:478
++#: w_dzWizard.pas:478 
+ msgid &quot;Already on first page.&quot;
+ msgstr &quot;&quot;
+-
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000160.html">[Dzchart-svncheckins] r293 - utilities/dzLib/trunk
+</A></li>
+	<LI>Next message: <A HREF="000162.html">[Dzchart-svncheckins] r295 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#161">[ date ]</a>
+              <a href="thread.html#161">[ thread ]</a>
+              <a href="subject.html#161">[ subject ]</a>
+              <a href="author.html#161">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

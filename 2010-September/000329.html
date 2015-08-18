@@ -1,0 +1,363 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r470 - in utilities/buildtools/trunk: .	templates
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r470%20-%20in%20utilities/buildtools/trunk%3A%20.%0A%09templates&In-Reply-To=%3C20100905153318.C351F48104F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000328.html">
+   <LINK REL="Next"  HREF="000330.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r470 - in utilities/buildtools/trunk: .	templates</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r470%20-%20in%20utilities/buildtools/trunk%3A%20.%0A%09templates&In-Reply-To=%3C20100905153318.C351F48104F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r470 - in utilities/buildtools/trunk: .	templates">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep  5 17:33:18 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000328.html">[Dzchart-svncheckins] r469 - in utilities/dzCmdLineParser/trunk:	src translations/de
+</A></li>
+        <LI>Next message: <A HREF="000330.html">[Dzchart-svncheckins] r471 - 3rd/jcl/2.000/trunk/source/include
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#329">[ date ]</a>
+              <a href="thread.html#329">[ thread ]</a>
+              <a href="subject.html#329">[ subject ]</a>
+              <a href="author.html#329">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-09-05 17:33:18 +0200 (Sun, 05 Sep 2010)
+New Revision: 470
+
+Added:
+   utilities/buildtools/trunk/prebuild.cmd
+   utilities/buildtools/trunk/templates/Auto_Build_Check.cmd
+   utilities/buildtools/trunk/templates/Build_Project.cmd
+   utilities/buildtools/trunk/templates/SVN_Version_template.ini
+Modified:
+   utilities/buildtools/trunk/!ReadMe.txt
+   utilities/buildtools/trunk/AppendTranslations.cmd
+   utilities/buildtools/trunk/ExtractTranslations.cmd
+   utilities/buildtools/trunk/PrepBuild.exe
+   utilities/buildtools/trunk/doExtractTranslations.cmd
+   utilities/buildtools/trunk/prep.cmd
+   utilities/buildtools/trunk/templates/Template_version.ini
+Log:
+* updated buildscript template (build_project.cmd) to automatically get the project's name from the directory it is located in, so no changes to the script are necessary as long as this convention is being used.
+* added prebuild.cmd to be called from the pre build event
+* addeed Auto_Build_Check.cmd which updates the sources from svn, builds the project and then reverts the build number if everything works. If there is an error, it stops, otherwise it just exits. the idea is to have a build server regularly call all Auto_Build_Check scripts for all projects.
+* AppendTranslations.cmd now also compiles dzlib and delphi2007.po, if they exist
+* ExtractTranslations.cmd now calls gorm.exe rather than poedit.exe because it does not use any installer and can therefore just be included in buildtools. Also it is possible to skip any of the translation languages
+* doExtractTranslations.cmd now calls all tools using its own directory (the buildtools directory) as base so it should always find them
+* adapted prep.cmd to new PrepBuild.exe
+* adapted Template_version.ini to use the new {today} and {thisyear} variables in PrepBuild.exe
+
+
+Modified: utilities/buildtools/trunk/!ReadMe.txt
+===================================================================
+--- utilities/buildtools/trunk/!ReadMe.txt	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/!ReadMe.txt	2010-09-05 15:33:18 UTC (rev 470)
+@@ -1,5 +1,5 @@
+ Pre-Build events:
+-..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --exec=..\buildtools\prep.cmd
++..\buildtools\prebuild.cmd $(PROJECTPATH)
+ 
+ Post-Build events:
+-..\buildtools\makejcldbg -e $(OUTPUTDIR)\$(OUTPUTNAME).map
++..\buildtools\postbuild.cmd $(OUTPUTDIR)$(OUTPUTNAME)
+
+Modified: utilities/buildtools/trunk/AppendTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/AppendTranslations.cmd	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/AppendTranslations.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -12,7 +12,15 @@
+ 
+ :locexists
+ 
++if not exist libs\dzlib\translations\de\dzlib.po goto nodzlib
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile German dzlib.po
++%~dp0\msgfmt libs\dzlib\translations\de\dzlib.po -o locale\de\lc_messages\dzlib.mo
++:nodzlib
+ 
++if not exist libs\dxgettext\translations\de\delphi2007.po goto nodelphi
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> compile German delphi2007.po
++%~dp0\msgfmt libs\dxgettext\translations\de\delphi2007.po -o locale\de\lc_messages\delphi2007.mo
++:nodelphi
+ @echo compile German default.po
+ %~dp0\msgfmt locale\de\lc_messages\default.po -o locale\de\lc_messages\default.mo
+ 
+
+Modified: utilities/buildtools/trunk/ExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/ExtractTranslations.cmd	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/ExtractTranslations.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -1,3 +1,14 @@
+-call doextracttranslations.cmd
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> off
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> this file must be copied to the main project directory since it does not work inside the buildtools subdir
++rem set the following if you don't need French, English or German translations:
++rem set SKIPDE=1
++rem set SKIPFR=1
++rem set SKIPEN=1
++if not exist buildtools\doextracttranslations.cmd goto error
++call buildtools\doextracttranslations.cmd
++goto ende
++:error
++echo this file must be copied to the main project directory since it does not work inside the buildtools subdir
++:ende
+ pause
+-&quot;%ProgramFiles%\poEdit\bin\poedit.exe&quot; locale\de\lc_messages\default.po
++&quot;buildtools\gorm.exe&quot; locale\de\lc_messages\default.po
+
+Modified: utilities/buildtools/trunk/PrepBuild.exe
+===================================================================
+(Binary files differ)
+
+Modified: utilities/buildtools/trunk/doExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/doExtractTranslations.cmd	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/doExtractTranslations.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -12,23 +12,25 @@
+ set OUTDIR=.
+ 
+ set BASE=.
+-dxgettext %MASKS% -r -b %BASE%\src -o %BASE%
+-msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
++%~dp0\dxgettext %MASKS% -r -b %BASE%\src -o %BASE%
++%~dp0\msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
+ move %BASE%\filtered.po %BASE%\default.po
+ set POFILES=%POFILES% %BASE%\default.po
+-msgcat -o default.po %POFILES%
++%~dp0\msgcat -o default.po %POFILES%
+ 
++if &quot;%SKIPDE%&quot;==&quot;1&quot; goto skipde
+ @rem German:
+ set LNG=de
+ call :HandLng
++:skipde
+ 
+-goto skipfr
++if &quot;%SKIPFR%&quot;==&quot;1&quot; goto skipfr
+ @rem French:
+ set LNG=fr
+ call :HandLng
+ :skipfr
+ 
+-goto skipen
++if &quot;%SKIPEN%&quot;==&quot;1&quot; goto skipen
+ @rem English:
+ set LNG=en
+ call :HandLng
+@@ -41,10 +43,10 @@
+ :HandLng
+ @echo ** handling language %LNG% **
+ @rem merge translations
+-msgmerge --no-wrap --update locale\%LNG%\lc_messages\default.po default.po
++%~dp0\msgmerge --no-wrap --update locale\%LNG%\lc_messages\default.po default.po
+ @rem compile
+-msgfmt locale\%LNG%\lc_messages\default.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\default.mo
++%~dp0\msgfmt locale\%LNG%\lc_messages\default.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\default.mo
+ @rem add Delphi, sigunits and dzlib translations
+-msgfmt libs\dxgettext\translations\%LNG%\delphi2007.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\delphi2007.mo
+-msgfmt libs\sigunits\translations\%LNG%\sigunits.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\sigunits.mo
+-msgfmt libs\dzlib\translations\%LNG%\dzlib.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\dzlib.mo
++%~dp0\msgfmt libs\dxgettext\translations\%LNG%\delphi2007.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\delphi2007.mo
++%~dp0\msgfmt libs\sigunits\translations\%LNG%\sigunits.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\sigunits.mo
++%~dp0\msgfmt libs\dzlib\translations\%LNG%\dzlib.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\dzlib.mo
+
+Added: utilities/buildtools/trunk/prebuild.cmd
+===================================================================
+--- utilities/buildtools/trunk/prebuild.cmd	                        (rev 0)
++++ utilities/buildtools/trunk/prebuild.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -0,0 +1,27 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> prebuild.cmd should be called as pre-build event like this:
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> ..\buildtools\prebuild.cmd $(OUTPUTDIR)$(OUTPUTNAME)
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> on
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> %0 running in
++cd
++
++set PROJECTPATH=%1
++if &quot;%PROJECTPATH%&quot;==&quot;&quot; goto NeedPara
++rem echo PROJECTPATH=%PROJECTPATH%
++set PROJECTNAMEONLY=%~dpn1
++rem echo PROJECTNAMEONLY=%PROJECTNAMEONLY%
++set OUTPUTDIR=%~dp1
++
++subwcrev .. %~dp0\templates\SVN_Version_template.ini SVN_Version.ini
++
++pushd %OUTPUTDIR%
++
++%~dp0\prepbuild.exe --incbuild --readini=%PROJECTPATH% --updateini=%PROJECTPATH% --WriteRc=%PROJECTPATH%
++brcc32 %PROJECTNAMEONLY%_Version.rc
++
++popd
++
++echo %0 exiting
++goto :EOF
++
++:NeedPara
++echo needs the base filename of the executable as parameter
+
+Modified: utilities/buildtools/trunk/prep.cmd
+===================================================================
+--- utilities/buildtools/trunk/prep.cmd	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/prep.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -1,3 +1,3 @@
+ @echo off
+-%~dp0\PrepBuild --writerc=%dzProject%_Version.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc=&quot;%dzVersion.FileDesc%&quot; --InternalName=&quot;%dzVersion.InternalName%&quot; --OriginalName=&quot;%dzVersion.OriginalName%&quot; --Product=&quot;%dzVersion.Product%&quot; --ProductVersion=&quot;%dzDate%&quot; --Company=&quot;%dzVersion.Company%&quot; --Copyright=&quot;%dzVersion.Copyright%&quot; --Trademark=&quot;%dzVersion.Trademark%&quot; --Comments=&quot;%dzVersion.Comments%&quot;
++%~dp0\PrepBuild --writerc=%dzProject%.rc --updateini=%dzProject% --MajorVer=%dzVersion.MajorVer% --MinorVer=%dzVersion.MinorVer% --Release=%dzVersion.Release% --Build=%dzVersion.Build% --FileDesc=&quot;%dzVersion.FileDesc%&quot; --InternalName=&quot;%dzVersion.InternalName%&quot; --OriginalName=&quot;%dzVersion.OriginalName%&quot; --Product=&quot;%dzVersion.Product%&quot; --ProductVersion=&quot;%dzDate%&quot; --Company=&quot;%dzVersion.Company%&quot; --Copyright=&quot;%dzVersion.Copyright%&quot; --Trademark=&quot;%dzVersion.Trademark%&quot; --Comments=&quot;%dzVersion.Comments%&quot;
+ brcc32 %dzProject%_Version.rc
+
+Added: utilities/buildtools/trunk/templates/Auto_Build_Check.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Auto_Build_Check.cmd	                        (rev 0)
++++ utilities/buildtools/trunk/templates/Auto_Build_Check.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -0,0 +1,21 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> off
++rem Sourcen aus Repository updaten
++rem Build durchfuehren
++rem falls Fehler: Anhalten und Fehler anzeigen
++rem revert der automatischen Buildnummer-Aenderung
++
++svn update
++if errorlevel 1 goto Error
++
++set BatchBuild=1
++call build_project.cmd
++
++svn revert src\*_version.ini
++if errorlevel 1 goto error
++
++goto :eof
++
++:error
++echo ***** ERROR *****
++pause
++
+
+Added: utilities/buildtools/trunk/templates/Build_Project.cmd
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_Project.cmd	                        (rev 0)
++++ utilities/buildtools/trunk/templates/Build_Project.cmd	2010-09-05 15:33:18 UTC (rev 470)
+@@ -0,0 +1,47 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> off
++REM - nimmt an, dass das uebergeordnete Verzeichnis gleichzeitig der Name des Projekts ist,
++REM - extrahiert ihn und ruft dann msbuild mit %projekt%.dproj auf.
++
++setlocal
++if not &quot;%project%&quot;==&quot;&quot; goto projgiven
++call :GetLastDir %0
++set project=%result%
++pushd %directory%
++
++:projgiven
++
++echo building project %project%.dproj
++
++call &quot;%ProgramFiles%\CodeGear\RAD Studio\5.0\bin\rsvars.bat&quot;
++
++pushd src
++msbuild %project%.dproj
++popd
++popd
++endlocal
++
++if errorlevel 1 goto error
++if &quot;%BatchBuild%&quot;==&quot;1&quot; goto nopause
++pause
++:nopause
++goto :eof
++
++:error
++echo ************************************
++echo ***** Error building %project% *****
++echo ************************************
++pause
++goto :eof
++
++:GetLastDir
++rem Pfad extrahieren
++set directory=%~p1%
++rem backslash (=letztes Zeichen)  entfernen
++set directory=%directory:~0,-1%
++rem &quot;Dateienamen&quot; (= letztes Verzeichnis des Pfades) extrahieren
++call :LastItem %directory%
++goto :eof
++
++:LastItem
++set result=%~n1%
++goto :eof
+
+Added: utilities/buildtools/trunk/templates/SVN_Version_template.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/SVN_Version_template.ini	                        (rev 0)
++++ utilities/buildtools/trunk/templates/SVN_Version_template.ini	2010-09-05 15:33:18 UTC (rev 470)
+@@ -0,0 +1,13 @@
++// Do not change this template, it is read
++// by the call subwcrev in prebuild.cmd
++// to create SVN_Version.ini in the src directory
++//
++// You can refer to it e.g. to include
++// information about the subversion respository
++// in your version resources.
++// See dzPrepBuild_version.ini for an example.
++
++[SVN]
++URL=$WCURL$
++VersionRange=$WCRANGE$
++LocalModifications=$WCMODS?yes:no$
+
+Modified: utilities/buildtools/trunk/templates/Template_version.ini
+===================================================================
+--- utilities/buildtools/trunk/templates/Template_version.ini	2010-09-05 15:17:45 UTC (rev 469)
++++ utilities/buildtools/trunk/templates/Template_version.ini	2010-09-05 15:33:18 UTC (rev 470)
+@@ -7,12 +7,12 @@
+ 
+ [Version Info Keys]
+ FileVersion=1.0.0.0
+-ProductVersion=
++ProductVersion={today}
+ FileDescription=&lt;file description here&gt;
+ OriginalFilename=&lt;filename here&gt;
+ Comments=
+ CompanyName=dzlib
+ InternalName=&lt;internale name here&gt;
+-LegalCopyright=Thomas Mueller, 2009
++LegalCopyright=Thomas Mueller, 2009--{ThisYear}
+ LegalTrademarks=T. Mueller
+ ProductName=&lt;productname here&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000328.html">[Dzchart-svncheckins] r469 - in utilities/dzCmdLineParser/trunk:	src translations/de
+</A></li>
+	<LI>Next message: <A HREF="000330.html">[Dzchart-svncheckins] r471 - 3rd/jcl/2.000/trunk/source/include
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#329">[ date ]</a>
+              <a href="thread.html#329">[ thread ]</a>
+              <a href="subject.html#329">[ subject ]</a>
+              <a href="author.html#329">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

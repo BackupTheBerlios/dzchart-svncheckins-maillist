@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r494 - 3rd/jcl/2.000/trunk/source/include
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r494%20-%203rd/jcl/2.000/trunk/source/include&In-Reply-To=%3C20101001160914.3EE5548109B%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000352.html">
+   <LINK REL="Next"  HREF="000354.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r494 - 3rd/jcl/2.000/trunk/source/include</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r494%20-%203rd/jcl/2.000/trunk/source/include&In-Reply-To=%3C20101001160914.3EE5548109B%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r494 - 3rd/jcl/2.000/trunk/source/include">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 18:09:14 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000352.html">[Dzchart-svncheckins] r493 - utilities/dzContextMenu/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000354.html">[Dzchart-svncheckins] r495 - 3rd/jcl/2.000/trunk/source/include
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#353">[ date ]</a>
+              <a href="thread.html#353">[ thread ]</a>
+              <a href="subject.html#353">[ subject ]</a>
+              <a href="author.html#353">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 18:09:14 +0200 (Fri, 01 Oct 2010)
+New Revision: 494
+
+Modified:
+   3rd/jcl/2.000/trunk/source/include/jedi.inc
+Log:
+* SUPPORTS_UINT64 conditional define
+* fixed typos
+
+Modified: 3rd/jcl/2.000/trunk/source/include/jedi.inc
+===================================================================
+--- 3rd/jcl/2.000/trunk/source/include/jedi.inc	2010-10-01 13:56:18 UTC (rev 493)
++++ 3rd/jcl/2.000/trunk/source/include/jedi.inc	2010-10-01 16:09:14 UTC (rev 494)
+@@ -371,6 +371,7 @@
+   SUPPORTS_NODEFINE              Compiler supports the $NODEFINE directive (D4+/BCB3+)
+   SUPPORTS_LONGWORD              Compiler supports the LongWord type (unsigned 32 bit) (D4+/BCB4+)
+   SUPPORTS_INT64                 Compiler supports the Int64 type (D4+/BCB4+)
++  SUPPORTS_UINT64                Compiler supports the UInt64 type (D XE+ ?)
+   SUPPORTS_DYNAMICARRAYS         Compiler supports dynamic arrays (D4+/BCB4+)
+   SUPPORTS_DEFAULTPARAMS         Compiler supports default parameters (D4+/BCB4+)
+   SUPPORTS_OVERLOAD              Compiler supports overloading (D4+/BCB4+)
+@@ -691,8 +692,8 @@
+         {$DEFINE BCB15}
+       {$ELSE}
+         {$DEFINE DELPHI15}
+-        {$DEFINE DELPHI2011} // synonym to DELPHI14
+-        {$DEFINE DELPHICOMPILER14}
++        {$DEFINE DELPHI2011} // synonym to DELPHI15
++        {$DEFINE DELPHICOMPILER15}
+       {$ENDIF BCB}
+       {$DEFINE RTL220_UP}
+       {$UNDEF UNKNOWN_COMPILER_VERSION}
+@@ -729,7 +730,7 @@
+ { DELPHIX_UP from DELPHIX mappings                                             }
+ {------------------------------------------------------------------------------}
+ 
+-{$IFDEF Delphi15} {$DEFINE DELPHI_15_UP} {$ENDIF}
++{$IFDEF Delphi15} {$DEFINE DELPHI15_UP} {$ENDIF}
+ {$IFDEF DELPHI14} {$DEFINE DELPHI14_UP} {$ENDIF}
+ {$IFDEF DELPHI12} {$DEFINE DELPHI12_UP} {$ENDIF}
+ {$IFDEF DELPHI11} {$DEFINE DELPHI11_UP} {$ENDIF}
+@@ -1204,6 +1205,10 @@
+   {$DEFINE HAS_UNIT_PNGIMAGE}
+ {$ENDIF RTL200_UP}
+ 
++{$IFDEF RTL220_UP}
++  {$DEFINE SUPPORTS_UINT64}
++{$ENDIF RTL220_UP}
++
+ {------------------------------------------------------------------------------}
+ { Cross-platform related defines                                               }
+ {------------------------------------------------------------------------------}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000352.html">[Dzchart-svncheckins] r493 - utilities/dzContextMenu/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000354.html">[Dzchart-svncheckins] r495 - 3rd/jcl/2.000/trunk/source/include
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#353">[ date ]</a>
+              <a href="thread.html#353">[ thread ]</a>
+              <a href="subject.html#353">[ subject ]</a>
+              <a href="author.html#353">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

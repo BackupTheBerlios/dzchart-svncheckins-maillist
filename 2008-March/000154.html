@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r285 - utilities/dzLib/trunk/tests/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r285%20-%20utilities/dzLib/trunk/tests/src&In-Reply-To=%3C200803301224.m2UCOokq002381%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000153.html">
+   <LINK REL="Next"  HREF="000155.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r285 - utilities/dzLib/trunk/tests/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r285%20-%20utilities/dzLib/trunk/tests/src&In-Reply-To=%3C200803301224.m2UCOokq002381%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r285 - utilities/dzLib/trunk/tests/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar 30 14:24:50 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000153.html">[Dzchart-svncheckins] r284 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000155.html">[Dzchart-svncheckins] r286 - utilities/dzLib/trunk/forms
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#154">[ date ]</a>
+              <a href="thread.html#154">[ thread ]</a>
+              <a href="subject.html#154">[ subject ]</a>
+              <a href="author.html#154">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-03-30 14:24:49 +0200 (Sun, 30 Mar 2008)
+New Revision: 285
+
+Modified:
+   utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas
+Log:
+added Warnings On/off define to TestMisc.TestStringOf to suppress the deprecated warnings (I know it's deprecated, I did that myself)
+
+Modified: utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas	2008-03-30 12:22:58 UTC (rev 284)
++++ utilities/dzLib/trunk/tests/src/Testu_dzStringUtils.pas	2008-03-30 12:24:49 UTC (rev 285)
+@@ -339,12 +339,15 @@
+   CheckEquals('     ', SpaceStr(5));
+ end;
+ 
++{$WARNINGS off}
++
+ procedure TestMisc.TestStringOf;
+ begin
+   CheckEquals('', StringOf(' ', 0));
+   CheckEquals(' ', StringOf(' ', 1));
+   CheckEquals('     ', StringOf(' ', 5));
+ end;
++{$WARNINGS on}
+ 
+ { TestFileExt }
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000153.html">[Dzchart-svncheckins] r284 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000155.html">[Dzchart-svncheckins] r286 - utilities/dzLib/trunk/forms
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#154">[ date ]</a>
+              <a href="thread.html#154">[ thread ]</a>
+              <a href="subject.html#154">[ subject ]</a>
+              <a href="author.html#154">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,565 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r511 - in utilities/dzCmdLineParser/trunk: .	src translations translations/de translations/en translations/fr
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r511%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20translations%20translations/de%20translations/en%20translations/fr&In-Reply-To=%3C20101014184214.1175B480F5D%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000369.html">
+   <LINK REL="Next"  HREF="000371.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r511 - in utilities/dzCmdLineParser/trunk: .	src translations translations/de translations/en translations/fr</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r511%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09src%20translations%20translations/de%20translations/en%20translations/fr&In-Reply-To=%3C20101014184214.1175B480F5D%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r511 - in utilities/dzCmdLineParser/trunk: .	src translations translations/de translations/en translations/fr">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Oct 14 20:42:13 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000369.html">[Dzchart-svncheckins] r510 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+        <LI>Next message: <A HREF="000371.html">[Dzchart-svncheckins] r513 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#370">[ date ]</a>
+              <a href="thread.html#370">[ thread ]</a>
+              <a href="subject.html#370">[ subject ]</a>
+              <a href="author.html#370">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-14 20:42:13 +0200 (Thu, 14 Oct 2010)
+New Revision: 511
+
+Added:
+   utilities/dzCmdLineParser/trunk/translations/fr/
+   utilities/dzCmdLineParser/trunk/translations/fr/dzCmdLineParser.po
+Modified:
+   utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+   utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+   utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+   utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po
+Log:
+* French translations
+* AddOption method
+* updated English and German translations
+
+Modified: utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-10-02 18:16:07 UTC (rev 510)
++++ utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-10-14 18:42:13 UTC (rev 511)
+@@ -17,4 +17,7 @@
+ @rem merge English translations
+ ..\..\buildtools\msgmerge --no-wrap --update %BASE%\translations\en\dzCmdLineParser.po %BASE%\filtered.po
+ 
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> merge French translations
++..\..\buildtools\msgmerge --no-wrap --update %BASE%\translations\fr\dzCmdLineParser.po %BASE%\filtered.po
++
+ pause
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2010-10-02 18:16:07 UTC (rev 510)
++++ utilities/dzCmdLineParser/trunk/src/u_dzGetOpt.pas	2010-10-14 18:42:13 UTC (rev 511)
+@@ -36,6 +36,7 @@
+     constructor Create(const _ProgName: string = '');
+     ///&lt;summary&gt; standard destructor &lt;/summary&gt;
+     destructor Destroy; override;
++    procedure AddOption(const _Name: string; const _Value: string);
+     ///&lt;summary&gt; registers a commandline option
+     ///          @param Names is an array of string containing the names of the option
+     ///                       (usually one long, descriptive name and one short, one
+@@ -150,6 +151,15 @@
+   inherited;
+ end;
+ 
++procedure TGetOpt.AddOption(const _Name, _Value: string);
++var
++  Option: TOptionDesc;
++begin
++  if not FOptionDescList.Find(_Name, Option) then
++    raise Exception.CreateFmt(_('Unknown option %s'), [_Name]);
++  FOptionsFoundList.Add(TOptionFound.Create(Option, _Name, _Value));
++end;
++
+ function TGetOpt.GetCmdLineDesc: string;
+ var
+   i: integer;
+
+Modified: utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2010-10-02 18:16:07 UTC (rev 510)
++++ utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2010-10-14 18:42:13 UTC (rev 511)
+@@ -1,98 +1,103 @@
+-# SOME DESCRIPTIVE TITLE.
+-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+-# This file is distributed under the same license as the PACKAGE package.
+-# FIRST AUTHOR &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">EMAIL at ADDRESS</A>&gt;, YEAR.
+-#
+-msgid &quot;&quot;
+-msgstr &quot;&quot;
+-&quot;Project-Id-Version: dzCmdLineParser 1.0\n&quot;
+-&quot;POT-Creation-Date: 2009-06-30 11:42\n&quot;
+-&quot;PO-Revision-Date: 2010-04-27 17:26+0100\n&quot;
+-&quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
+-&quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">nospam at dummzeuch.de</A>&gt;\n&quot;
+-&quot;MIME-Version: 1.0\n&quot;
+-&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
+-&quot;Content-Transfer-Encoding: 8bit\n&quot;
+-&quot;X-Generator: dxgettext 1.2.2\n&quot;
+-&quot;X-Poedit-Language: German\n&quot;
+-&quot;X-Poedit-Country: GERMANY\n&quot;
+-
+-#: u_dzCmdLineParserStates.pas:197
+-#: u_dzCmdLineParserStates.pas:231
+-#: u_dzCmdLineParserStates.pas:254
+-#: u_dzCmdLineParserStates.pas:270
+-#: u_dzCmdLineParserStates.pas:313
+-#: u_dzCmdLineParserStates.pas:335
+-#: u_dzCmdLineParserStates.pas:377
+-msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
+-msgstr &quot;Ung&#252;ltiges Zeichen \&quot;%s\&quot;&quot;
+-
+-#: u_dzDefaultMain.pas:136
+-msgid &quot;This program does nothing yet.&quot;
+-msgstr &quot;Dieses Programm macht noch nichts.&quot;
+-
+-#: u_dzDefaultMain.pas:145
+-msgid &quot;Error: %s&quot;
+-msgstr &quot;Fehler: %s&quot;
+-
+-#: u_dzDefaultMain.pas:149
+-msgid &quot;Synopsis: %s %s&quot;
+-msgstr &quot;Aufruf: %s %s&quot;
+-
+-#: u_dzDefaultMain.pas:150
+-msgid &quot;Parameters:&quot;
+-msgstr &quot;Parameter:&quot;
+-
+-#: u_dzDefaultMain.pas:152
+-msgid &quot;Options:&quot;
+-msgstr &quot;Optionen:&quot;
+-
+-#: u_dzDefaultMain.pas:163
+-msgid &quot;Write a startup log to the given file.&quot;
+-msgstr &quot;Startup-Log in angegebene Datei schreiben.&quot;
+-
+-#: u_dzGetOpt.pas:160
+-msgid &quot;[options]&quot;
+-msgstr &quot;[Optionen]&quot;
+-
+-#: u_dzGetOpt.pas:227
+-msgid &quot;%s is not a registered option.&quot;
+-msgstr &quot;%s ist keine registrierte Option&quot;
+-
+-#: u_dzGetOpt.pas:306
+-msgid &quot;There are too many parameters.&quot;
+-msgstr &quot;Zuviele Parameter&quot;
+-
+-#: u_dzGetOpt.pas:316
+-msgid &quot;There are not enough %s parameters (min: %d)&quot;
+-msgstr &quot;Nicht gen&#252;gend %s Parameter (min: %d)&quot;
+-
+-#: u_dzGetOpt.pas:329
+-msgid &quot;Option %s is unknown&quot;
+-msgstr &quot;Option %s ist nicht bekannt&quot;
+-
+-#: u_dzGetOpt.pas:333
+-msgid &quot;Option %s requires a value.&quot;
+-msgstr &quot;Option %s ben&#246;tigt einen Wert.&quot;
+-
+-#: u_dzGetOpt.pas:377
+-msgid &quot;display parameter help&quot;
+-msgstr &quot;Parameter Hilfe anzeigen&quot;
+-
+-#: u_dzOptionDescList.pas:120
+-msgid &quot;Option name cannot be empty.&quot;
+-msgstr &quot;Optionsname kann nicht leer sein.&quot;
+-
+-#: u_dzOptionDescList.pas:123
+-msgid &quot;Option name must start with an alphanumeric character.&quot;
+-msgstr &quot;Optionsname muss mit einem alphanumerischen Zeichen beginnen.&quot;
+-
+-#: u_dzOptionDescList.pas:126
+-msgid &quot;Option name contains invalid character \&quot;%s\&quot; at position %d.&quot;
+-msgstr &quot;Optionsname enth&#228;lt ung&#252;ltiges Zeichen \&quot;%s\&quot; bei Position %d.&quot;
+-
+-#. should never happen
+-#: u_dzOptionDescList.pas:136
+-msgid &quot;value&quot;
+-msgstr &quot;Wert&quot;
+-
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the PACKAGE package.
++# FIRST AUTHOR &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">EMAIL at ADDRESS</A>&gt;, YEAR.
++#
++msgid &quot;&quot;
++msgstr &quot;Project-Id-Version: dzCmdLineParser 1.0\n&quot;
++&quot;POT-Creation-Date: 2010-10-13 17:20\n&quot;
++&quot;PO-Revision-Date: 2010-04-27 17:26+0100\n&quot;
++&quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
++&quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">nospam at dummzeuch.de</A>&gt;\n&quot;
++&quot;MIME-Version: 1.0\n&quot;
++&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
++&quot;Content-Transfer-Encoding: 8bit\n&quot;
++&quot;X-Generator: dxgettext 1.2.2\n&quot;
++&quot;X-Poedit-Language: German\n&quot;
++&quot;X-Poedit-Country: GERMANY\n&quot;
++
++#: u_dzGetOpt.pas:237
++msgid &quot;%s is not a registered option.&quot;
++msgstr &quot;%s ist keine registrierte Option&quot;
++
++#: u_dzGetOpt.pas:170
++msgid &quot;[options]&quot;
++msgstr &quot;[Optionen]&quot;
++
++#: u_dzGetOpt.pas:387
++msgid &quot;display parameter help&quot;
++msgstr &quot;Parameter Hilfe anzeigen&quot;
++
++#: u_dzDefaultMain.pas:145
++msgid &quot;Error: %s&quot;
++msgstr &quot;Fehler: %s&quot;
++
++#: u_dzCmdLineParserStates.pas:197  u_dzCmdLineParserStates.pas:217
++#: u_dzCmdLineParserStates.pas:231 u_dzCmdLineParserStates.pas:254
++#: u_dzCmdLineParserStates.pas:270 u_dzCmdLineParserStates.pas:313
++#: u_dzCmdLineParserStates.pas:335 u_dzCmdLineParserStates.pas:377
++msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
++msgstr &quot;Ung&#252;ltiges Zeichen \&quot;%s\&quot;&quot;
++
++#: u_dzGetOpt.pas:339
++msgid &quot;Option %s is unknown&quot;
++msgstr &quot;Option %s ist nicht bekannt&quot;
++
++#: u_dzGetOpt.pas:343
++msgid &quot;Option %s requires a value.&quot;
++msgstr &quot;Option %s ben&#246;tigt einen Wert.&quot;
++
++#: u_dzOptionDescList.pas:120
++msgid &quot;Option name cannot be empty.&quot;
++msgstr &quot;Optionsname kann nicht leer sein.&quot;
++
++#: u_dzOptionDescList.pas:126
++msgid &quot;Option name contains invalid character \&quot;%s\&quot; at position &quot;
++&quot;%d.&quot;
++msgstr &quot;Optionsname enth&#228;lt ung&#252;ltiges Zeichen \&quot;%s\&quot; bei Position &quot;
++&quot;%d.&quot;
++
++#: u_dzOptionDescList.pas:123
++msgid &quot;Option name must start with an alphanumeric &quot;
++&quot;character.&quot;
++msgstr &quot;Optionsname muss mit einem alphanumerischen Zeichen &quot;
++&quot;beginnen.&quot;
++
++#: u_dzDefaultMain.pas:152
++msgid &quot;Options:&quot;
++msgstr &quot;Optionen:&quot;
++
++#: u_dzDefaultMain.pas:150
++msgid &quot;Parameters:&quot;
++msgstr &quot;Parameter:&quot;
++
++#: u_dzDefaultMain.pas:149
++msgid &quot;Synopsis: %s %s&quot;
++msgstr &quot;Aufruf: %s %s&quot;
++
++#: u_dzGetOpt.pas:326  u_dzGetOpt.pas:332
++msgid &quot;There are not enough %s parameters (min: &quot;
++&quot;%d)&quot;
++msgstr &quot;Nicht gen&#252;gend %s Parameter (min: %d)&quot;
++
++#: u_dzGetOpt.pas:316
++msgid &quot;There are too many parameters.&quot;
++msgstr &quot;Zuviele Parameter&quot;
++
++#: u_dzDefaultMain.pas:136
++msgid &quot;This program does nothing yet.&quot;
++msgstr &quot;Dieses Programm macht noch nichts.&quot;
++
++#: u_dzGetOpt.pas:159
++msgid &quot;Unknown option %s&quot;
++msgstr &quot;Unbekannte Option %s&quot;
++
++#. should never happen
++#: u_dzOptionDescList.pas:136  u_dzOptionDescList.pas:141
++msgid &quot;value&quot;
++msgstr &quot;Wert&quot;
++
++#: u_dzDefaultMain.pas:163
++msgid &quot;Write a startup log to the given file.&quot;
++msgstr &quot;Startup-Log in angegebene Datei schreiben.&quot;
++
+
+Modified: utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po	2010-10-02 18:16:07 UTC (rev 510)
++++ utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po	2010-10-14 18:42:13 UTC (rev 511)
+@@ -6,96 +6,96 @@
+ msgid &quot;&quot;
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzCmdLineParser 1.0\n&quot;
+-&quot;POT-Creation-Date: 2009-06-30 11:42\n&quot;
++&quot;POT-Creation-Date: 2010-10-13 17:20\n&quot;
+ &quot;PO-Revision-Date: 2009-06-30 11:46+0100\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
++&quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzcmdlineparser at dummzeuch.de</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+ &quot;Content-Type: text/plain; charset=UTF-8\n&quot;
+ &quot;Content-Transfer-Encoding: 8bit\n&quot;
+ &quot;X-Generator: dxgettext 1.2.2\n&quot;
+-&quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzcmdlineparser at dummzeuch.de</A>&gt;\n&quot;
+ &quot;X-Poedit-Language: English\n&quot;
+ &quot;X-Poedit-Country: UNITED STATES\n&quot;
+ 
+-#: u_dzCmdLineParserStates.pas:197
+-#: u_dzCmdLineParserStates.pas:217
+-#: u_dzCmdLineParserStates.pas:231
+-#: u_dzCmdLineParserStates.pas:254
+-#: u_dzCmdLineParserStates.pas:270
+-#: u_dzCmdLineParserStates.pas:313
+-#: u_dzCmdLineParserStates.pas:335
+-#: u_dzCmdLineParserStates.pas:377
++#: u_dzCmdLineParserStates.pas:197 
++ u_dzCmdLineParserStates.pas:217
++#: u_dzCmdLineParserStates.pas:231 u_dzCmdLineParserStates.pas:254
++#: u_dzCmdLineParserStates.pas:270 u_dzCmdLineParserStates.pas:313
++#: u_dzCmdLineParserStates.pas:335 u_dzCmdLineParserStates.pas:377
+ msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
+ msgstr &quot;Invalid character \&quot;%s\&quot;.&quot;
+ 
+-#: u_dzDefaultMain.pas:136
++#: u_dzDefaultMain.pas:136 
+ msgid &quot;This program does nothing yet.&quot;
+ msgstr &quot;This program does nothing yet.&quot;
+ 
+-#: u_dzDefaultMain.pas:145
++#: u_dzDefaultMain.pas:145 
+ msgid &quot;Error: %s&quot;
+ msgstr &quot;Error: %s&quot;
+ 
+-#: u_dzDefaultMain.pas:149
++#: u_dzDefaultMain.pas:149 
+ msgid &quot;Synopsis: %s %s&quot;
+ msgstr &quot;Synopsis: %s %s&quot;
+ 
+-#: u_dzDefaultMain.pas:150
++#: u_dzDefaultMain.pas:150 
+ msgid &quot;Parameters:&quot;
+ msgstr &quot;Parameters:&quot;
+ 
+-#: u_dzDefaultMain.pas:152
++#: u_dzDefaultMain.pas:152 
+ msgid &quot;Options:&quot;
+ msgstr &quot;Options:&quot;
+ 
+-#: u_dzDefaultMain.pas:163
++#: u_dzDefaultMain.pas:163 
+ msgid &quot;Write a startup log to the given file.&quot;
+ msgstr &quot;Write a startup log to the given file.&quot;
+ 
+-#: u_dzGetOpt.pas:160
++#: u_dzGetOpt.pas:159 
++msgid &quot;Unknown option %s&quot;
++msgstr &quot;&quot;
++
++#: u_dzGetOpt.pas:170 
+ msgid &quot;[options]&quot;
+ msgstr &quot;[options]&quot;
+ 
+-#: u_dzGetOpt.pas:227
++#: u_dzGetOpt.pas:237 
+ msgid &quot;%s is not a registered option.&quot;
+ msgstr &quot;%s is not a registered option.&quot;
+ 
+-#: u_dzGetOpt.pas:306
++#: u_dzGetOpt.pas:316 
+ msgid &quot;There are too many parameters.&quot;
+ msgstr &quot;There are too many parameters.&quot;
+ 
+-#: u_dzGetOpt.pas:316
+-#: u_dzGetOpt.pas:322
++#: u_dzGetOpt.pas:326 
++ u_dzGetOpt.pas:332
+ msgid &quot;There are not enough %s parameters (min: %d)&quot;
+ msgstr &quot;There are not enough %s parameters (min: %d)&quot;
+ 
+-#: u_dzGetOpt.pas:329
++#: u_dzGetOpt.pas:339 
+ msgid &quot;Option %s is unknown&quot;
+ msgstr &quot;Option %s is unknown&quot;
+ 
+-#: u_dzGetOpt.pas:333
++#: u_dzGetOpt.pas:343 
+ msgid &quot;Option %s requires a value.&quot;
+ msgstr &quot;Option %s requires a value.&quot;
+ 
+-#: u_dzGetOpt.pas:377
++#: u_dzGetOpt.pas:387 
+ msgid &quot;display parameter help&quot;
+ msgstr &quot;display parameter help&quot;
+ 
+-#: u_dzOptionDescList.pas:120
++#: u_dzOptionDescList.pas:120 
+ msgid &quot;Option name cannot be empty.&quot;
+ msgstr &quot;Option name cannot be empty.&quot;
+ 
+-#: u_dzOptionDescList.pas:123
++#: u_dzOptionDescList.pas:123 
+ msgid &quot;Option name must start with an alphanumeric character.&quot;
+ msgstr &quot;Option name must start with an alphanumeric character.&quot;
+ 
+-#: u_dzOptionDescList.pas:126
++#: u_dzOptionDescList.pas:126 
+ msgid &quot;Option name contains invalid character \&quot;%s\&quot; at position %d.&quot;
+ msgstr &quot;Option name contains invalid character \&quot;%s\&quot; at position %d.&quot;
+ 
+-#. should never happen
+-#: u_dzOptionDescList.pas:136
+-#: u_dzOptionDescList.pas:141
++#. should never happen
++#: u_dzOptionDescList.pas:136 
++ u_dzOptionDescList.pas:141
+ msgid &quot;value&quot;
+ msgstr &quot;value&quot;
+-
+
+Added: utilities/dzCmdLineParser/trunk/translations/fr/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/fr/dzCmdLineParser.po	                        (rev 0)
++++ utilities/dzCmdLineParser/trunk/translations/fr/dzCmdLineParser.po	2010-10-14 18:42:13 UTC (rev 511)
+@@ -0,0 +1,99 @@
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the PACKAGE package.
++# FIRST AUTHOR &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">EMAIL at ADDRESS</A>&gt;, YEAR.
++# 
++#, fuzzy
++msgid &quot;&quot;
++msgstr &quot;&quot;
++&quot;Project-Id-Version: PACKAGE VERSION\n&quot;
++&quot;POT-Creation-Date: 2010-10-13 17:20\n&quot;
++&quot;PO-Revision-Date: 2010-10-08 10:29\n&quot;
++&quot;Last-Translator: Somebody &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">your.email at address.com</A>&gt;\n&quot;
++&quot;MIME-Version: 1.0\n&quot;
++&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
++&quot;Content-Transfer-Encoding: 8bit\n&quot;
++&quot;X-Generator: dxgettext 1.2.2\n&quot;
++
++#: u_dzCmdLineParserStates.pas:197 
++ u_dzCmdLineParserStates.pas:217
++#: u_dzCmdLineParserStates.pas:231 u_dzCmdLineParserStates.pas:254
++#: u_dzCmdLineParserStates.pas:270 u_dzCmdLineParserStates.pas:313
++#: u_dzCmdLineParserStates.pas:335 u_dzCmdLineParserStates.pas:377
++msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
++msgstr &quot;Caract&#232;re non valide \&quot;%s\&quot;.&quot;
++
++#: u_dzDefaultMain.pas:136 
++msgid &quot;This program does nothing yet.&quot;
++msgstr &quot;Ce programme encore ne fait rien&quot;
++
++#: u_dzDefaultMain.pas:145 
++msgid &quot;Error: %s&quot;
++msgstr &quot;Erreur: %s&quot;
++
++#: u_dzDefaultMain.pas:149 
++msgid &quot;Synopsis: %s %s&quot;
++msgstr &quot;Synopsis: %s %s&quot;
++
++#: u_dzDefaultMain.pas:150 
++msgid &quot;Parameters:&quot;
++msgstr &quot;Param&#232;tres:&quot;
++
++#: u_dzDefaultMain.pas:152 
++msgid &quot;Options:&quot;
++msgstr &quot;Options:&quot;
++
++#: u_dzDefaultMain.pas:163 
++msgid &quot;Write a startup log to the given file.&quot;
++msgstr &quot;Ecrivez un log de d&#233;marrage &#183; &#224; &#183; la &#183; compte tenu de fichier.&quot;
++
++#: u_dzGetOpt.pas:159 
++msgid &quot;Unknown option %s&quot;
++msgstr &quot;&quot;
++
++#: u_dzGetOpt.pas:170 
++msgid &quot;[options]&quot;
++msgstr &quot;[options]&quot;
++
++#: u_dzGetOpt.pas:237 
++msgid &quot;%s is not a registered option.&quot;
++msgstr &quot;%s n'est pas une option enregistr&#233;.&quot;
++
++#: u_dzGetOpt.pas:316 
++msgid &quot;There are too many parameters.&quot;
++msgstr &quot;Il ya trop de param&#232;tres.&quot;
++
++#: u_dzGetOpt.pas:326 
++ u_dzGetOpt.pas:332
++msgid &quot;There are not enough %s parameters (min: %d)&quot;
++msgstr &quot;Il n'y a pas assez de param&#232;tres %s (min: %d)&quot;
++
++#: u_dzGetOpt.pas:339 
++msgid &quot;Option %s is unknown&quot;
++msgstr &quot;Option %s est inconnue&quot;
++
++#: u_dzGetOpt.pas:343 
++msgid &quot;Option %s requires a value.&quot;
++msgstr &quot;L'option %s n&#233;cessite un valuer.&quot;
++
++#: u_dzGetOpt.pas:387 
++msgid &quot;display parameter help&quot;
++msgstr &quot;Afficher l'aide sur les param&#232;tres&quot;
++
++#: u_dzOptionDescList.pas:120 
++msgid &quot;Option name cannot be empty.&quot;
++msgstr &quot;Nom de l'option ne peut &#234;tre vide.&quot;
++
++#: u_dzOptionDescList.pas:123 
++msgid &quot;Option name must start with an alphanumeric character.&quot;
++msgstr &quot;Le nom de l'option &#183;doit &#183; d&#233;marrage &#183; avec &#183; un &#183; caract&#232;re &#183; alphanum&#233;rique.&quot;
++
++#: u_dzOptionDescList.pas:126 
++msgid &quot;Option name contains invalid character \&quot;%s\&quot; at position %d.&quot;
++msgstr &quot;Le nom de l'option contient &#183; un caract&#232;re &#183;invalide  \&quot;% s\&quot; &#183; &#224; &#183;position %d.&quot;
++
++#. should never happen
++#: u_dzOptionDescList.pas:136 
++ u_dzOptionDescList.pas:141
++msgid &quot;value&quot;
++msgstr &quot;valeur&quot;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000369.html">[Dzchart-svncheckins] r510 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+	<LI>Next message: <A HREF="000371.html">[Dzchart-svncheckins] r513 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#370">[ date ]</a>
+              <a href="thread.html#370">[ thread ]</a>
+              <a href="subject.html#370">[ subject ]</a>
+              <a href="author.html#370">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

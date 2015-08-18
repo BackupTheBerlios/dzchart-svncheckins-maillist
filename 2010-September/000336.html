@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r477 - in utilities/dzLib/trunk:	Packages/Delphi2007 src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r477%20-%20in%20utilities/dzLib/trunk%3A%0A%09Packages/Delphi2007%20src&In-Reply-To=%3C20100929090947.70450480FA8%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000335.html">
+   <LINK REL="Next"  HREF="000337.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r477 - in utilities/dzLib/trunk:	Packages/Delphi2007 src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r477%20-%20in%20utilities/dzLib/trunk%3A%0A%09Packages/Delphi2007%20src&In-Reply-To=%3C20100929090947.70450480FA8%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r477 - in utilities/dzLib/trunk:	Packages/Delphi2007 src">twm at mail.berlios.de
+       </A><BR>
+    <I>Wed Sep 29 11:09:47 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000335.html">[Dzchart-svncheckins] r476 - utilities/IniFileFormatter/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000337.html">[Dzchart-svncheckins] r478 - utilities
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#336">[ date ]</a>
+              <a href="thread.html#336">[ thread ]</a>
+              <a href="subject.html#336">[ subject ]</a>
+              <a href="author.html#336">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-09-29 11:09:47 +0200 (Wed, 29 Sep 2010)
+New Revision: 477
+
+Added:
+   utilities/dzLib/trunk/src/u_dzMutex.pas
+Modified:
+   utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk
+   utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj
+Log:
+added more units to the packages
+new unit dzMutex (class TdzMutex)
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk	2010-09-05 17:38:10 UTC (rev 476)
++++ utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk	2010-09-29 09:09:47 UTC (rev 477)
+@@ -36,7 +36,8 @@
+   vcljpg,
+   vcldb,
+   dbrtl,
+-  vclshlctrls;
++  vclshlctrls,
++  Jcl;
+ 
+ contains
+   c_dzShellControls in '..\..\components\c_dzShellControls.pas',
+@@ -45,6 +46,15 @@
+   u_dzConvertUtils in '..\..\src\u_dzConvertUtils.pas',
+   u_dzStringUtils in '..\..\src\u_dzStringUtils.pas',
+   u_dzTranslator in '..\..\src\u_dzTranslator.pas',
+-  u_dzClassUtils in '..\..\src\u_dzClassUtils.pas';
++  u_dzClassUtils in '..\..\src\u_dzClassUtils.pas',
++  u_dzShellApiUtils in '..\..\src\u_dzShellApiUtils.pas',
++  u_dzVariantUtils in '..\..\src\u_dzVariantUtils.pas',
++  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
++  u_dzFileStreams in '..\..\src\u_dzFileStreams.pas',
++  u_dzFileUtils in '..\..\src\u_dzFileUtils.pas',
++  u_dzMiscUtils in '..\..\src\u_dzMiscUtils.pas',
++  u_dzLogging in '..\..\src\u_dzLogging.pas',
++  u_dzVersionInfo in '..\..\src\u_dzVersionInfo.pas',
++  u_dzOsUtils in '..\..\src\u_dzOsUtils.pas';
+ 
+ end.
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj	2010-09-05 17:38:10 UTC (rev 476)
++++ utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj	2010-09-29 09:09:47 UTC (rev 477)
+@@ -25,6 +25,8 @@
+     &lt;DCC_ObjPath&gt;..\..\jedi_inc&lt;/DCC_ObjPath&gt;
+     &lt;DCC_IncludePath&gt;..\..\jedi_inc&lt;/DCC_IncludePath&gt;
+     &lt;DCC_Define&gt;no_translation;NO_TRANSLATION_HINT&lt;/DCC_Define&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ProjectExtensions&gt;
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+@@ -43,12 +45,22 @@
+     &lt;DCCReference Include=&quot;..\..\components\c_dzShellControls.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\components\c_dzVirtualStringGrid.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\dbrtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\Jcl.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\rtl.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzClassUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzConvertUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzDateUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzFileStreams.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzFileUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzLogging.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzMiscUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzOsUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzShellApiUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzStringUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzTranslator.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzVariantUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzVclUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzVersionInfo.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\vcl.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\vcldb.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\vcljpg.dcp&quot; /&gt;
+
+Added: utilities/dzLib/trunk/src/u_dzMutex.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzMutex.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzMutex.pas	2010-09-29 09:09:47 UTC (rev 477)
+@@ -0,0 +1,54 @@
++unit u_dzMutex;
++
++interface
++
++uses
++  Windows,
++  SyncObjs;
++
++type
++  TdzMutex = class(TMutex)
++  public
++    ///&lt;summary&gt; Calls WaitFor with and returns true, if that returns
++    ///          wrSignaled or wrAbandoned. Returns false if WaitFor
++    ///          returns wrTimeout or wrError.
++    ///          If ExceptionOnError is set to true, wrError will raise an
++    ///          exception.
++    function TryAcquire(_Timeout: LongWord = 0; _ExceptionOnError: boolean = true): boolean;
++  end;
++
++implementation
++
++uses
++  u_dzMiscUtils,
++  u_dzTranslator;
++
++function _(const _s: string): string; inline;
++begin
++  Result := dzDGetText(_s, 'dzlib');
++end;
++
++{ TdzMutex }
++
++function TdzMutex.TryAcquire(_Timeout: LongWord = 0; _ExceptionOnError: boolean = true): boolean;
++var
++  Res: TWaitResult;
++begin
++  Res := WaitFor(_Timeout);
++  case res of
++    wrSignaled, wrAbandoned: begin
++        Result := true;
++      end;
++    wrTimeout: begin
++        Result := false;
++      end;
++    wrError: begin
++        if _ExceptionOnError then
++          RaiseLastOsErrorEx(self.LastError, _('Error &quot;%1:s (%0:d)&quot; while trying to acquire mutex.'));
++        Result := false;
++      end;
++  end;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000335.html">[Dzchart-svncheckins] r476 - utilities/IniFileFormatter/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000337.html">[Dzchart-svncheckins] r478 - utilities
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#336">[ date ]</a>
+              <a href="thread.html#336">[ thread ]</a>
+              <a href="subject.html#336">[ subject ]</a>
+              <a href="author.html#336">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

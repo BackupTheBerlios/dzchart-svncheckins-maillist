@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r595 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r595%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110827111217.5D523481160%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000451.html">
+   <LINK REL="Next"  HREF="000453.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r595 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r595%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110827111217.5D523481160%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r595 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Aug 27 13:12:17 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000451.html">[Dzchart-svncheckins] r594 - utilities/dzLib/trunk/forms
+</A></li>
+        <LI>Next message: <A HREF="000453.html">[Dzchart-svncheckins] r596 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#452">[ date ]</a>
+              <a href="thread.html#452">[ thread ]</a>
+              <a href="subject.html#452">[ subject ]</a>
+              <a href="author.html#452">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-08-27 13:12:17 +0200 (Sat, 27 Aug 2011)
+New Revision: 595
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzBeep.pas
+Log:
+can now also play simple melodies
+
+Modified: utilities/dzLib/trunk/src/u_dzBeep.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzBeep.pas	2011-08-27 11:11:44 UTC (rev 594)
++++ utilities/dzLib/trunk/src/u_dzBeep.pas	2011-08-27 11:12:17 UTC (rev 595)
+@@ -38,10 +38,14 @@
+   protected
+     procedure Execute; override;
+   public
++    ///&lt;summary&gt; Converts a string of the form '&lt;frequency&gt;/&lt;duration&gt;[,&lt;frequency&gt;/&lt;duration&gt; ...]'
++ ///          to a TBeepSequenceList &lt;/summary&gt;
++    class function StrToBeepSequence(_Str: string; out _BeepSeq: TBeepSequenceList): Boolean; static;
+     constructor Create;
+     destructor Destroy; override;
+     procedure Beep(_Frequency, _Duration: Cardinal); overload;
+     procedure Beep(_Sequence: array of TBeepSequenceEntry); overload;
++    procedure Beep(_Sequence: string); overload;
+   end;
+ 
+ var
+@@ -49,6 +53,9 @@
+ 
+ implementation
+ 
++uses
++  u_dzStringUtils;
++
+ { TBeeper }
+ 
+ procedure TBeeper.Beep(_Frequency, _Duration: Cardinal);
+@@ -74,11 +81,21 @@
+   end;
+ end;
+ 
++procedure TBeeper.Beep(_Sequence: string);
++var
++  Arr: TBeepSequenceList;
++begin
++  if _Sequence = '' then
++    Exit;
++  StrToBeepSequence(_Sequence, Arr);
++  Beep(Arr);
++end;
++
+ constructor TBeeper.Create;
+ begin
+   FMutex := TMutex.Create;
+   FEvent := TEvent.Create;
+-  inherited Create(false);
++  inherited Create(False);
+ end;
+ 
+ destructor TBeeper.Destroy;
+@@ -92,7 +109,7 @@
+ procedure TBeeper.Execute;
+ var
+   wr: TWaitResult;
+-  i: integer;
++  i: Integer;
+ begin
+   inherited;
+   while not Terminated do begin
+@@ -128,6 +145,29 @@
+   WaitFor;
+ end;
+ 
++class function TBeeper.StrToBeepSequence(_Str: string; out _BeepSeq: TBeepSequenceList): Boolean;
++var
++  FirstEntry: string;
++  Frequence: string;
++  FreqInt: Integer;
++  TimeInt: Integer;
++begin
++  Result := False;
++  SetLength(_BeepSeq, 0);
++  while ExtractFirstWord(_Str, [','], FirstEntry) do begin
++    Result := ExtractFirstWord(FirstEntry, ['/'], frequence);
++    if not Result then
++      Exit; // --&gt;
++
++    Result := TryStrToInt(Frequence, Freqint) and TryStrToInt(FirstEntry, TimeInt);
++    if not Result then
++      Exit; //; --&gt;
++
++    SetLength(_BeepSeq, Length(_BeepSeq) + 1);
++    _BeepSeq[High(_BeepSeq)] := TBeepSequenceEntry.Create(freqint, timeint);
++  end;
++end;
++
+ { TBeepSequenceEntry }
+ 
+ class function TBeepSequenceEntry.Create(_Frequency, _Duration: Cardinal): TBeepSequenceEntry;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000451.html">[Dzchart-svncheckins] r594 - utilities/dzLib/trunk/forms
+</A></li>
+	<LI>Next message: <A HREF="000453.html">[Dzchart-svncheckins] r596 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#452">[ date ]</a>
+              <a href="thread.html#452">[ thread ]</a>
+              <a href="subject.html#452">[ subject ]</a>
+              <a href="author.html#452">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

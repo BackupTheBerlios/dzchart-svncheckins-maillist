@@ -1,0 +1,957 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r326 - in utilities: . gtdnotes	gtdnotes/trunk gtdnotes/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r326%20-%20in%20utilities%3A%20.%20gtdnotes%0A%09gtdnotes/trunk%20gtdnotes/trunk/src&In-Reply-To=%3C200905301100.n4UB0a1o018293%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000194.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r326 - in utilities: . gtdnotes	gtdnotes/trunk gtdnotes/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r326%20-%20in%20utilities%3A%20.%20gtdnotes%0A%09gtdnotes/trunk%20gtdnotes/trunk/src&In-Reply-To=%3C200905301100.n4UB0a1o018293%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r326 - in utilities: . gtdnotes	gtdnotes/trunk gtdnotes/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat May 30 13:00:36 CEST 2009</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000194.html">[Dzchart-svncheckins] r328 - 3rd/virtualtreeview/4.8.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#193">[ date ]</a>
+              <a href="thread.html#193">[ thread ]</a>
+              <a href="subject.html#193">[ subject ]</a>
+              <a href="author.html#193">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-05-30 12:59:48 +0200 (Sat, 30 May 2009)
+New Revision: 326
+
+Added:
+   utilities/gtdnotes/
+   utilities/gtdnotes/trunk/
+   utilities/gtdnotes/trunk/dcu/
+   utilities/gtdnotes/trunk/src/
+   utilities/gtdnotes/trunk/src/GtdNotes.dpr
+   utilities/gtdnotes/trunk/src/GtdNotes.dproj
+   utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+   utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+Log:
+
+
+Added: utilities/gtdnotes/trunk/src/GtdNotes.dpr
+===================================================================
+--- utilities/gtdnotes/trunk/src/GtdNotes.dpr	2008-09-05 17:02:01 UTC (rev 325)
++++ utilities/gtdnotes/trunk/src/GtdNotes.dpr	2009-05-30 10:59:48 UTC (rev 326)
+@@ -0,0 +1,14 @@
++program GtdNotes;
++
++uses
++  Forms,
++  w_gtdNotes in 'w_gtdNotes.pas' {f_gtdNotes};
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.MainFormOnTaskbar := True;
++  Application.CreateForm(Tf_gtdNotes, f_gtdNotes);
++  Application.Run;
++end.
+
+Added: utilities/gtdnotes/trunk/src/GtdNotes.dproj
+===================================================================
+--- utilities/gtdnotes/trunk/src/GtdNotes.dproj	2008-09-05 17:02:01 UTC (rev 325)
++++ utilities/gtdnotes/trunk/src/GtdNotes.dproj	2009-05-30 10:59:48 UTC (rev 326)
+@@ -0,0 +1,110 @@
++&#65279;	&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++		&lt;PropertyGroup&gt;
++			&lt;ProjectGuid&gt;{3B4926B7-B5C5-4FF0-9BB3-D0E7BB062836}&lt;/ProjectGuid&gt;
++			&lt;ProjectVersion&gt;12.0&lt;/ProjectVersion&gt;
++			&lt;MainSource&gt;GtdNotes.dpr&lt;/MainSource&gt;
++			&lt;Config Condition=&quot;'$(Config)'==''&quot;&gt;Debug&lt;/Config&gt;
++			&lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Base' or '$(Base)'!=''&quot;&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Release' or '$(Cfg_1)'!=''&quot;&gt;
++			&lt;Cfg_1&gt;true&lt;/Cfg_1&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Config)'=='Debug' or '$(Cfg_2)'!=''&quot;&gt;
++			&lt;Cfg_2&gt;true&lt;/Cfg_2&gt;
++			&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;Base&gt;true&lt;/Base&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
++			&lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++			&lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++			&lt;DCC_UnitSearchPath&gt;..\libs\virtualtreeview\source;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
++			&lt;DCC_DependencyCheckOutputName&gt;..\GtdNotes.exe&lt;/DCC_DependencyCheckOutputName&gt;
++			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
++			&lt;DCC_UnitAlias&gt;WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)&lt;/DCC_UnitAlias&gt;
++			&lt;DCC_Platform&gt;x86&lt;/DCC_Platform&gt;
++			&lt;DCC_E&gt;false&lt;/DCC_E&gt;
++			&lt;DCC_N&gt;false&lt;/DCC_N&gt;
++			&lt;DCC_S&gt;false&lt;/DCC_S&gt;
++			&lt;DCC_F&gt;false&lt;/DCC_F&gt;
++			&lt;DCC_K&gt;false&lt;/DCC_K&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_1)'!=''&quot;&gt;
++			&lt;DCC_LocalDebugSymbols&gt;false&lt;/DCC_LocalDebugSymbols&gt;
++			&lt;DCC_Define&gt;RELEASE;$(DCC_Define)&lt;/DCC_Define&gt;
++			&lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++			&lt;DCC_DebugInformation&gt;false&lt;/DCC_DebugInformation&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;PropertyGroup Condition=&quot;'$(Cfg_2)'!=''&quot;&gt;
++			&lt;DCC_Optimize&gt;false&lt;/DCC_Optimize&gt;
++			&lt;DCC_Define&gt;DEBUG;$(DCC_Define)&lt;/DCC_Define&gt;
++		&lt;/PropertyGroup&gt;
++		&lt;ItemGroup&gt;
++			&lt;DelphiCompile Include=&quot;GtdNotes.dpr&quot;&gt;
++				&lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++			&lt;/DelphiCompile&gt;
++			&lt;DCCReference Include=&quot;w_gtdNotes.pas&quot;&gt;
++				&lt;Form&gt;f_gtdNotes&lt;/Form&gt;
++			&lt;/DCCReference&gt;
++			&lt;BuildConfiguration Include=&quot;Base&quot;&gt;
++				&lt;Key&gt;Base&lt;/Key&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Debug&quot;&gt;
++				&lt;Key&gt;Cfg_2&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
++				&lt;Key&gt;Cfg_1&lt;/Key&gt;
++				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
++			&lt;/BuildConfiguration&gt;
++		&lt;/ItemGroup&gt;
++		&lt;Import Project=&quot;$(BDS)\Bin\CodeGear.Delphi.Targets&quot; Condition=&quot;Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')&quot;/&gt;
++		&lt;ProjectExtensions&gt;
++			&lt;Borland.Personality&gt;Delphi.Personality.12&lt;/Borland.Personality&gt;
++			&lt;Borland.ProjectType/&gt;
++			&lt;BorlandProject&gt;
++				&lt;Delphi.Personality&gt;
++					&lt;Source&gt;
++						&lt;Source Name=&quot;MainSource&quot;&gt;GtdNotes.dpr&lt;/Source&gt;
++					&lt;/Source&gt;
++					&lt;Parameters&gt;
++						&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++						&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++					&lt;/Parameters&gt;
++					&lt;VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;Locale&quot;&gt;1031&lt;/VersionInfo&gt;
++						&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++					&lt;/VersionInfo&gt;
++					&lt;VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;CompanyName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileDescription&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;InternalName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductName&quot;/&gt;
++						&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++						&lt;VersionInfoKeys Name=&quot;Comments&quot;/&gt;
++					&lt;/VersionInfoKeys&gt;
++				&lt;/Delphi.Personality&gt;
++			&lt;/BorlandProject&gt;
++			&lt;ProjectFileVersion&gt;12&lt;/ProjectFileVersion&gt;
++		&lt;/ProjectExtensions&gt;
++	&lt;/Project&gt;
+
+Added: utilities/gtdnotes/trunk/src/w_gtdNotes.dfm
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2008-09-05 17:02:01 UTC (rev 325)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.dfm	2009-05-30 10:59:48 UTC (rev 326)
+@@ -0,0 +1,159 @@
++object f_gtdNotes: Tf_gtdNotes
++  Left = 410
++  Top = 184
++  BiDiMode = bdLeftToRight
++  Caption = 'GTD Notes'
++  ClientHeight = 449
++  ClientWidth = 532
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'MS Sans Serif'
++  Font.Style = []
++  OldCreateOrder = False
++  ParentBiDiMode = False
++  PixelsPerInch = 96
++  TextHeight = 13
++  object VST: TVirtualStringTree
++    Left = 0
++    Top = 19
++    Width = 532
++    Height = 430
++    Align = alClient
++    BiDiMode = bdLeftToRight
++    Colors.BorderColor = clWindowText
++    Colors.HotColor = clBlack
++    Header.AutoSizeIndex = 0
++    Header.DefaultHeight = 17
++    Header.Font.Charset = DEFAULT_CHARSET
++    Header.Font.Color = clWindowText
++    Header.Font.Height = -11
++    Header.Font.Name = 'Tahoma'
++    Header.Font.Style = []
++    Header.MainColumn = -1
++    HintAnimation = hatNone
++    IncrementalSearch = isAll
++    ParentBiDiMode = False
++    TabOrder = 0
++    TreeOptions.AutoOptions = [toAutoDropExpand, toAutoTristateTracking]
++    TreeOptions.MiscOptions = [toCheckSupport, toInitOnSave, toToggleOnDblClick, toWheelPanning]
++    TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages]
++    TreeOptions.SelectionOptions = [toFullRowSelect, toMultiSelect, toCenterScrollIntoView]
++    OnChange = VSTChange
++    OnChecked = VSTChecked
++    OnDblClick = VSTDblClick
++    OnFreeNode = VSTFreeNode
++    OnGetText = VSTGetText
++    OnPaintText = VSTPaintText
++    OnInitNode = VSTInitNode
++    OnKeyPress = VSTKeyPress
++    ExplicitWidth = 456
++    Columns = &lt;&gt;
++  end
++  object tb_Main: TToolBar
++    Left = 0
++    Top = 0
++    Width = 532
++    Height = 19
++    ButtonHeight = 19
++    ButtonWidth = 86
++    Caption = 'GTD Notes Toolbar'
++    List = True
++    ShowCaptions = True
++    AllowTextButtons = True
++    TabOrder = 1
++    ExplicitWidth = 456
++    object tb_Load: TToolButton
++      Left = 0
++      Top = 0
++      Action = act_Load
++      Style = tbsTextButton
++    end
++    object tb_Save: TToolButton
++      Left = 35
++      Top = 0
++      Action = act_Save
++      Style = tbsTextButton
++    end
++    object tb_SaveAs: TToolButton
++      Left = 71
++      Top = 0
++      Action = act_SaveAs
++      Style = tbsTextButton
++    end
++    object ToolButton3: TToolButton
++      Left = 133
++      Top = 0
++      Width = 8
++      Caption = 'ToolButton3'
++      ImageIndex = 2
++      Style = tbsSeparator
++    end
++    object tb_SetNextAction: TToolButton
++      Left = 141
++      Top = 0
++      Action = act_SetNextAction
++      Style = tbsTextButton
++    end
++    object tb_AddAction: TToolButton
++      Left = 226
++      Top = 0
++      Action = act_AddAction
++      Style = tbsTextButton
++    end
++    object tb_DeleteAction: TToolButton
++      Left = 289
++      Top = 0
++      Action = act_DeleteAction
++      Style = tbsTextButton
++    end
++    object ToolButton7: TToolButton
++      Left = 364
++      Top = 0
++      Width = 8
++      Caption = 'ToolButton7'
++      ImageIndex = 0
++      Style = tbsSeparator
++    end
++    object tb_ShowDone: TToolButton
++      Left = 372
++      Top = 0
++      Action = act_ShowDone
++      AllowAllUp = True
++      Grouped = True
++      Style = tbsTextButton
++    end
++  end
++  object TheActionList: TActionList
++    Left = 224
++    Top = 88
++    object act_Load: TAction
++      Caption = 'Load'
++      OnExecute = act_LoadExecute
++    end
++    object act_Save: TAction
++      Caption = 'Save'
++      OnExecute = act_SaveExecute
++    end
++    object act_SaveAs: TAction
++      Caption = 'Save as ...'
++      OnExecute = act_SaveAsExecute
++    end
++    object act_ShowDone: TAction
++      Caption = 'Show done'
++      GroupIndex = 1
++      OnExecute = act_ShowDoneExecute
++    end
++    object act_SetNextAction: TAction
++      Caption = 'Set Next Action'
++      OnExecute = act_SetNextActionExecute
++    end
++    object act_AddAction: TAction
++      Caption = 'Add Action'
++    end
++    object act_DeleteAction: TAction
++      Caption = 'Delete Action'
++    end
++  end
++end
+
+Added: utilities/gtdnotes/trunk/src/w_gtdNotes.pas
+===================================================================
+--- utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2008-09-05 17:02:01 UTC (rev 325)
++++ utilities/gtdnotes/trunk/src/w_gtdNotes.pas	2009-05-30 10:59:48 UTC (rev 326)
+@@ -0,0 +1,575 @@
++unit w_gtdNotes;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  VirtualTrees,
++  StdCtrls,
++  ExtCtrls,
++  Contnrs,
++  ActnList,
++  ComCtrls,
++  ToolWin;
++
++type
++  TGtdNode = class
++  strict private
++    FName: string;
++  strict protected
++    function GetIsNextAction: boolean; virtual;
++    procedure SetIsNextAction(const Value: boolean); virtual;
++    function GetIsDone: boolean; virtual;
++    procedure SetIsDone(const Value: boolean); virtual;
++    function GetCount: integer; virtual;
++    function GetItems(_Idx: integer): TGtdNode; virtual;
++  public
++    constructor Create(const _Name: string);
++    property Name: string read FName;
++    property IsDone: boolean read GetIsDone write SetIsDone;
++    property Count: integer read GetCount;
++    property IsNextAction: boolean read GetisNextAction write SetisNextAction;
++    property Items[_Idx: integer]: TGtdNode read GetItems;
++  end;
++
++  TGtdMiddleNode = class(TGtdNode)
++  public
++    function Add(_Node: TGtdNode): integer; virtual; abstract;
++    property Items[_Idx: integer]: TGtdNode read GetItems;
++  end;
++
++  TGtdContainer = class(TGtdMiddleNode)
++  strict private
++    FItems: TObjectList;
++  strict protected
++    function GetItems(_Idx: integer): TGtdNode; override;
++    function GetCount: integer; override;
++  public
++    constructor Create(const _Name: string);
++    destructor Destroy; override;
++    function Add(_Node: TGtdNode): integer; override;
++  end;
++
++  TGtdFilter = class(TGtdMiddleNode)
++  strict private
++    FItems: TList;
++  strict protected
++    function GetItems(_Idx: integer): TGtdNode; override;
++    function GetCount: integer; override;
++  public
++    constructor Create(const _Name: string);
++    destructor Destroy; override;
++    function Add(_Node: TGtdNode): integer; override;
++  end;
++
++  TGtdAction = class(TGtdNode)
++  strict private
++    FIsDone: boolean;
++    FIsNextAction: boolean;
++  strict protected
++    procedure SetIsDone(const _Value: boolean); override;
++    function GetIsDone: boolean; override;
++    function GetIsNextAction: boolean; override;
++    procedure SetIsNextAction(const _Value: boolean); override;
++  end;
++
++  TGtdProject = class(TGtdContainer)
++  end;
++
++  TGtdPlace = class(TGtdFilter)
++  end;
++
++  TGtdLabel = class(TGtdFilter)
++  end;
++
++  TGtdPlaces = class(TGtdContainer)
++  public
++    constructor Create;
++  end;
++
++  TGtdProjects = class(TGtdContainer)
++  public
++    constructor Create;
++  end;
++
++  TGtdLabels = class(TGtdContainer)
++  public
++    constructor Create;
++  end;
++
++type
++  Tf_gtdNotes = class(TForm)
++    VST: TVirtualStringTree;
++    tb_Main: TToolBar;
++    tb_Load: TToolButton;
++    tb_Save: TToolButton;
++    ToolButton3: TToolButton;
++    tb_ShowDone: TToolButton;
++    TheActionList: TActionList;
++    act_Load: TAction;
++    act_Save: TAction;
++    act_SaveAs: TAction;
++    act_ShowDone: TAction;
++    tb_SaveAs: TToolButton;
++    tb_SetNextAction: TToolButton;
++    act_SetNextAction: TAction;
++    ToolButton7: TToolButton;
++    tb_AddAction: TToolButton;
++    act_AddAction: TAction;
++    tb_DeleteAction: TToolButton;
++    act_DeleteAction: TAction;
++    procedure VSTFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
++    procedure VSTInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
++      var InitialStates: TVirtualNodeInitStates);
++    procedure VSTGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
++      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
++    procedure VSTChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
++    procedure act_LoadExecute(Sender: TObject);
++    procedure act_SaveExecute(Sender: TObject);
++    procedure act_SaveAsExecute(Sender: TObject);
++    procedure act_ShowDoneExecute(Sender: TObject);
++    procedure VSTPaintText(Sender: TBaseVirtualTree;
++      const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
++      TextType: TVSTTextType);
++    procedure VSTDblClick(Sender: TObject);
++    procedure VSTKeyPress(Sender: TObject; var Key: Char);
++    procedure act_SetNextActionExecute(Sender: TObject);
++    procedure VSTChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
++  private
++    FPlaces: TGtdPlaces;
++    FProjects: TGtdProjects;
++    FLabels: TGtdLabels;
++    procedure SetDoneVisible(_Visible: boolean);
++    procedure HideNodes(_Sender: TBaseVirtualTree; _Node: PVirtualNode;
++      _Data: Pointer; var _Abort: Boolean);
++    procedure UnsetNextAction(_Sender: TBaseVirtualTree; _Node: PVirtualNode;
++      _Data: Pointer; var _Abort: Boolean);
++    procedure MakeFocusedActionNext;
++    function GetFocusedNode(out _Node: PVirtualNode;
++      out _GtdNode: TGtdNode): boolean;
++    function GetFocusedProjectAction(out _Node: PVirtualNode;
++      out _GtdNode: TGtdNode): boolean;
++  public
++    constructor Create(_Owner: TComponent); override;
++    destructor Destroy; override;
++  end;
++
++var
++  f_gtdNotes: Tf_gtdNotes;
++
++implementation
++
++{$R *.DFM}
++
++type
++  PGtdLabelRec = ^TGtdLabelRec;
++  TGtdLabelRec = record
++    GtdNode: TGtdNode;
++  end;
++
++{ Tf_gtdNotes }
++
++constructor Tf_gtdNotes.Create(_Owner: TComponent);
++var
++  AtWork: TGtdPlace;
++  Project: TGtdProject;
++  Action: TGtdAction;
++begin
++  inherited;
++
++  FPlaces := TGtdPlaces.Create;
++  FPlaces.Add(TGtdPlace.Create('atHome'));
++  AtWork := TGtdPlace.Create('atWork');
++  FPlaces.Add(AtWork);
++  FPlaces.Add(TGtdPlace.Create('onTheRoad'));
++
++  FProjects := TGtdProjects.Create;
++  Project := TGtdProject.Create('get used to GTD');
++  FProjects.Add(Project);
++
++  Action := TGtdAction.Create('set up gtdnotes');
++  Action.isNextAction := true;
++  Project.Add(Action);
++  AtWork.Add(Action);
++
++  Action := TGtdAction.Create('Enter projects');
++  Project.Add(Action);
++  AtWork.Add(Action);
++
++  Action := TGtdAction.Create('Enter project actions');
++  Project.Add(Action);
++  AtWork.Add(Action);
++
++  Action := TGtdAction.Create('Decide on next action for each project');
++  Project.Add(Action);
++  AtWork.Add(Action);
++
++  FLabels := TGtdLabels.Create;
++
++  VST.NodeDataSize := SizeOf(TGtdLabelRec);
++
++  // Places / Projects / Labels
++  VST.RootNodeCount := 3;
++end;
++
++destructor Tf_gtdNotes.Destroy;
++begin
++  FLabels.Free;
++  FPlaces.Free;
++  FProjects.Free;
++  inherited;
++end;
++
++function Tf_gtdNotes.GetFocusedProjectAction(out _Node: PVirtualNode; out _GtdNode: TGtdNode): boolean;
++var
++  Data: PGtdLabelRec;
++begin
++  Result := GetFocusedNode(_Node, _GtdNode);
++  if Result then begin
++    if not Assigned(_Node.Parent) then
++      Result := false
++    else begin
++      Data := VST.GetNodeData(_Node.Parent);
++      Result := Assigned(Data) and Assigned(Data.GtdNode) and (Data.GtdNode is TGtdProject);
++    end;
++  end;
++end;
++
++function Tf_gtdNotes.GetFocusedNode(out _Node: PVirtualNode; out _GtdNode: TGtdNode): boolean;
++var
++  Data: PGtdLabelRec;
++begin
++  Result := false;
++  _Node := VST.FocusedNode;
++  if not Assigned(_Node) or not Assigned(_Node.Parent) then
++    exit;
++  Data := VST.GetNodeData(_Node);
++  Assert(Assigned(Data.GtdNode));
++  _GtdNode := Data.GtdNode;
++  Result := true;
++end;
++
++procedure Tf_gtdNotes.MakeFocusedActionNext;
++var
++  Node: PVirtualNode;
++  GtdNode: TGtdNode;
++begin
++  if not GetFocusedProjectAction(Node, GtdNode) then
++    exit;
++  VST.BeginUpdate;
++  try
++    GtdNode.IsNextAction := not GtdNode.IsNextAction;
++    VST.IterateSubtree(Node.Parent, UnsetNextAction, GtdNode);
++  finally
++    VST.EndUpdate;
++  end;
++end;
++
++procedure Tf_gtdNotes.VSTGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
++  Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
++var
++  Data: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  if not Assigned(Data) then
++    CellText := 'Data not assigned'
++  else if not Assigned(Data.GtdNode) then
++    CellText := 'Data.GtdNode not assigned'
++  else begin
++    CellText := Data.GtdNode.Name;
++  end;
++end;
++
++procedure Tf_gtdNotes.VSTChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
++var
++  GtdNode: TGtdNode;
++  TreeNode: PVirtualNode;
++  IsProjectAction: boolean;
++begin
++  if not Assigned(Node) then
++    exit;
++  IsProjectAction := GetFocusedProjectAction(TreeNode, GtdNode);
++  act_SetNextAction.Enabled := IsProjectAction;
++end;
++
++procedure Tf_gtdNotes.VSTChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
++var
++  Data: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  Assert(Assigned(Data));
++  Data.GtdNode.IsDone := (Node.CheckState = csCheckedNormal);
++end;
++
++procedure Tf_gtdNotes.UnsetNextAction(_Sender: TBaseVirtualTree; _Node: PVirtualNode; _Data: Pointer; var _Abort: Boolean);
++var
++  NodeData: PGtdLabelRec;
++begin
++  NodeData := VST.GetNodeData(_Node);
++  Assert(Assigned(NodeData.GtdNode));
++  if NodeData.GtdNode &lt;&gt; _Data then
++    NodeData.GtdNode.IsNextAction := false;
++end;
++
++procedure Tf_gtdNotes.VSTDblClick(Sender: TObject);
++begin
++  MakeFocusedActionNext;
++end;
++
++procedure Tf_gtdNotes.VSTFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
++var
++  Data: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  if Assigned(Data) then
++    Finalize(Data^);
++end;
++
++procedure Tf_gtdNotes.VSTInitNode(Sender: TBaseVirtualTree; ParentNode, Node: PVirtualNode;
++  var InitialStates: TVirtualNodeInitStates);
++var
++  Level: integer;
++  Data: PGtdLabelRec;
++  Index: integer;
++  ParentData: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  Level := Sender.GetNodeLevel(Node);
++  Index := Node.Index;
++  if Level = 0 then begin
++    case Index of
++      0: Data.GtdNode := FPlaces;
++      1: Data.GtdNode := FProjects;
++      2: Data.GtdNode := FLabels;
++    end;
++  end else begin
++    ParentData := Sender.GetNodeData(ParentNode);
++    if Index &gt;= ParentData.GtdNode.Count then
++      raise Exception.Create('Programmer Error: Node index must not be greater or equal item count.');
++    Data.GtdNode := ParentData.GtdNode.Items[Index] as TGtdNode;
++  end;
++  VST.ChildCount[Node] := Data.GtdNode.Count;
++  VST.Expanded[Node] := (Data.GtdNode.Count &gt; 0);
++  if Level = 2 then
++    VST.CheckType[Node] := ctCheckBox;
++end;
++
++procedure Tf_gtdNotes.VSTKeyPress(Sender: TObject; var Key: Char);
++begin
++  if Key = #13 then
++    MakeFocusedActionNext;
++end;
++
++procedure Tf_gtdNotes.VSTPaintText(Sender: TBaseVirtualTree;
++  const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
++  TextType: TVSTTextType);
++var
++  Data: PGtdLabelRec;
++begin
++  Data := Sender.GetNodeData(Node);
++  if Data.GtdNode.isNextAction then
++    TargetCanvas.Font.Style := Canvas.Font.Style + [fsBold]
++  else
++    TargetCanvas.Font.Style := Canvas.Font.Style - [fsBold];
++end;
++
++procedure Tf_gtdNotes.HideNodes(_Sender: TBaseVirtualTree; _Node: PVirtualNode; _Data: Pointer; var _Abort: Boolean);
++var
++  NodeData: PGtdLabelRec;
++begin
++  NodeData := _Sender.GetNodeData(_Node);
++  Assert(Assigned(NodeData));
++  Assert(Assigned(NodeData.GtdNode));
++
++  if Boolean(Integer(_Data)) then
++    _Sender.IsVisible[_Node] := True
++  else
++    _Sender.IsVisible[_Node] := not NodeData.GtdNode.IsDone;
++end;
++
++procedure Tf_gtdNotes.SetDoneVisible(_Visible: boolean);
++begin
++  act_ShowDone.Checked := _Visible;
++  VST.BeginUpdate;
++  try
++    VST.IterateSubtree(nil, HideNodes, Pointer(Ord(_Visible)), [], True);
++  finally
++    VST.EndUpdate;
++  end;
++end;
++
++procedure Tf_gtdNotes.act_LoadExecute(Sender: TObject);
++begin
++//
++end;
++
++procedure Tf_gtdNotes.act_SaveAsExecute(Sender: TObject);
++begin
++//
++end;
++
++procedure Tf_gtdNotes.act_SaveExecute(Sender: TObject);
++begin
++//
++end;
++
++procedure Tf_gtdNotes.act_SetNextActionExecute(Sender: TObject);
++begin
++  MakeFocusedActionNext;
++end;
++
++procedure Tf_gtdNotes.act_ShowDoneExecute(Sender: TObject);
++begin
++  SetDoneVisible(not act_ShowDone.Checked);
++end;
++
++{ TGtdNode }
++
++constructor TGtdNode.Create(const _Name: string);
++begin
++  inherited Create;
++  FName := _Name;
++end;
++
++function TGtdNode.GetIsDone: boolean;
++begin
++  Result := false;
++end;
++
++function TGtdNode.GetisNextAction: boolean;
++begin
++  Result := false;
++end;
++
++function TGtdNode.GetCount: integer;
++begin
++  Result := 0;
++end;
++
++function TGtdNode.GetItems(_Idx: integer): TGtdNode;
++begin
++  raise Exception.Create('Programmer error: A leaf node does not have any items.');
++end;
++
++procedure TGtdNode.SetIsDone(const Value: boolean);
++begin
++  // do nothing
++end;
++
++procedure TGtdNode.SetisNextAction(const Value: boolean);
++begin
++  // ignore
++end;
++
++{ TGtdFilter }
++
++constructor TGtdFilter.Create(const _Name: string);
++begin
++  inherited Create(_Name);
++  FItems := TList.Create;
++end;
++
++destructor TGtdFilter.Destroy;
++begin
++  FItems.Free;
++  inherited;
++end;
++
++function TGtdFilter.Add(_Node: TGtdNode): integer;
++begin
++  Result := FItems.Count;
++  FItems.Add(_Node);
++end;
++
++function TGtdFilter.GetCount: integer;
++begin
++  Result := FItems.Count;
++end;
++
++function TGtdFilter.GetItems(_Idx: integer): TGtdNode;
++begin
++  Result := TGtdNode(FItems[_Idx]);
++end;
++
++{ TGtdContainer }
++
++constructor TGtdContainer.Create(const _Name: string);
++begin
++  inherited Create(_Name);
++  FItems := TObjectList.Create;
++end;
++
++destructor TGtdContainer.Destroy;
++begin
++  FItems.Free;
++  inherited;
++end;
++
++function TGtdContainer.Add(_Node: TGtdNode): integer;
++begin
++  Result := FItems.Count;
++  FItems.Add(_Node)
++end;
++
++function TGtdContainer.GetCount: integer;
++begin
++  Result := FItems.Count;
++end;
++
++function TGtdContainer.GetItems(_Idx: integer): TGtdNode;
++begin
++  Result := FItems[_Idx] as TGtdNode;
++end;
++
++{ TPlaces }
++
++constructor TGtdPlaces.Create;
++begin
++  inherited Create('Places');
++end;
++
++{ TLabels }
++
++constructor TGtdLabels.Create;
++begin
++  inherited Create('Labels');
++end;
++
++{ TProjects }
++
++constructor TGtdProjects.Create;
++begin
++  inherited Create('Projects');
++end;
++
++{ TGtdAction }
++
++function TGtdAction.GetIsDone: boolean;
++begin
++  Result := FIsDone;
++end;
++
++function TGtdAction.GetIsNextAction: boolean;
++begin
++  Result := FIsNextAction;
++end;
++
++procedure TGtdAction.SetIsDone(const _Value: boolean);
++begin
++  FIsDone := _Value;
++end;
++
++procedure TGtdAction.SetIsNextAction(const _Value: boolean);
++begin
++  FIsNextAction := _Value;
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000194.html">[Dzchart-svncheckins] r328 - 3rd/virtualtreeview/4.8.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#193">[ date ]</a>
+              <a href="thread.html#193">[ thread ]</a>
+              <a href="subject.html#193">[ subject ]</a>
+              <a href="author.html#193">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r605 - utilities/dzLib/trunk/forms
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r605%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C20110913181844.7B0AF48125B%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000461.html">
+   <LINK REL="Next"  HREF="000463.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r605 - utilities/dzLib/trunk/forms</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r605%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C20110913181844.7B0AF48125B%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r605 - utilities/dzLib/trunk/forms">twm at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 13 20:18:44 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000461.html">[Dzchart-svncheckins] r604 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000463.html">[Dzchart-svncheckins] r606 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#462">[ date ]</a>
+              <a href="thread.html#462">[ thread ]</a>
+              <a href="subject.html#462">[ subject ]</a>
+              <a href="author.html#462">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-09-13 20:18:44 +0200 (Tue, 13 Sep 2011)
+New Revision: 605
+
+Modified:
+   utilities/dzLib/trunk/forms/w_dzInputDialog.dfm
+   utilities/dzLib/trunk/forms/w_dzInputDialog.pas
+Log:
+additional method InputQueryChecked which supplies a callback for checking the input before returning.
+
+Modified: utilities/dzLib/trunk/forms/w_dzInputDialog.dfm
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzInputDialog.dfm	2011-09-13 18:17:34 UTC (rev 604)
++++ utilities/dzLib/trunk/forms/w_dzInputDialog.dfm	2011-09-13 18:18:44 UTC (rev 605)
+@@ -31,6 +31,7 @@
+     Height = 21
+     Anchors = [akLeft, akTop, akRight]
+     TabOrder = 0
++    OnChange = ed_InputChange
+   end
+   object b_Ok: TButton
+     Left = 240
+
+Modified: utilities/dzLib/trunk/forms/w_dzInputDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzInputDialog.pas	2011-09-13 18:17:34 UTC (rev 604)
++++ utilities/dzLib/trunk/forms/w_dzInputDialog.pas	2011-09-13 18:18:44 UTC (rev 605)
+@@ -20,12 +20,22 @@
+     ed_Input: TEdit;
+     b_Ok: TButton;
+     b_Cancel: TButton;
++    procedure ed_InputChange(Sender: TObject);
++  public
++  {(*}
++  type
++    TOnCheckEvent = procedure(_Sender: TObject; const _Value: string; var _OK: Boolean) of object;
++  {*)}
+   private
++    FOnCheck: TOnCheckEvent;
++    function doOnCheck(const _Value: string): Boolean;
+   public
+     class function InputQuery(const _Caption: string; const _Prompt: string; var _Value: string): Boolean;
+     class function InputBox(const _Caption: string; const _Prompt: string; const _Default: string): string;
+     class function Execute(_Owner: TWinControl; const _Caption: string; const _Prompt: string; var _Value: string): Boolean;
+     class procedure Display(_Owner: TWinControl; const _Caption, _Prompt, _Value: string);
++    class function InputQueryChecked(_Owner: TWinControl; const _Caption, _Prompt: string;
++      _CheckCallback: TOnCheckEvent; var _Value: string): Boolean;
+   end;
+ 
+ implementation
+@@ -47,15 +57,33 @@
+     frm.Caption := _Caption;
+     frm.l_Query.Caption := _Prompt;
+     frm.ed_Input.Text := _Value;
+-    frm.b_Ok.Visible := false;
++    frm.b_Ok.Visible := False;
+     frm.b_Cancel.Caption := 'Close';
+-    frm.b_Cancel.Default := true;
++    frm.b_Cancel.Default := True;
+     frm.ShowModal;
+   finally
+     FreeAndNil(frm);
+   end;
+ end;
+ 
++function Tf_dzInputDialog.doOnCheck(const _Value: string): Boolean;
++begin
++  Result := True;
++  if Assigned(FOnCheck) then
++    FOnCheck(Self, _Value, Result);
++end;
++
++procedure Tf_dzInputDialog.ed_InputChange(Sender: TObject);
++begin
++  if doOnCheck(ed_Input.Text) then begin
++    ed_Input.Color := clWindow;
++    b_Ok.Enabled := True;
++  end else begin
++    ed_Input.Color := clYellow;
++    b_Ok.Enabled := False;
++  end;
++end;
++
+ class function Tf_dzInputDialog.Execute(_Owner: TWinControl; const _Caption,
+   _Prompt: string; var _Value: string): Boolean;
+ var
+@@ -87,5 +115,25 @@
+   Result := Execute(nil, _Caption, _Prompt, _Value);
+ end;
+ 
++class function Tf_dzInputDialog.InputQueryChecked(_Owner: TWinControl; const _Caption, _Prompt: string;
++  _CheckCallback: TOnCheckEvent; var _Value: string): Boolean;
++var
++  frm: Tf_dzInputDialog;
++begin
++  frm := Tf_dzInputDialog.Create(_Owner);
++  try
++    TForm_CenterOn(frm, _Owner);
++    frm.Caption := _Caption;
++    frm.l_Query.Caption := _Prompt;
++    frm.ed_Input.Text := _Value;
++    frm.FOnCheck := _CheckCallback;
++    Result := (frm.ShowModal = mrOk);
++    if Result then
++      _Value := frm.ed_Input.Text;
++  finally
++    FreeAndNil(frm);
++  end;
++end;
++
+ end.
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000461.html">[Dzchart-svncheckins] r604 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000463.html">[Dzchart-svncheckins] r606 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#462">[ date ]</a>
+              <a href="thread.html#462">[ thread ]</a>
+              <a href="subject.html#462">[ subject ]</a>
+              <a href="author.html#462">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

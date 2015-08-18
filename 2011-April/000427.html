@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r569 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r569%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110423102412.137464814C9%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000426.html">
+   <LINK REL="Next"  HREF="000428.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r569 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r569%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110423102412.137464814C9%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r569 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Apr 23 12:24:12 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000426.html">[Dzchart-svncheckins] r568 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000428.html">[Dzchart-svncheckins] r570 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#427">[ date ]</a>
+              <a href="thread.html#427">[ thread ]</a>
+              <a href="subject.html#427">[ subject ]</a>
+              <a href="author.html#427">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-04-23 12:24:11 +0200 (Sat, 23 Apr 2011)
+New Revision: 569
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzNameValueList.pas
+Log:
+new methods TNameValueList.LoadFrom, .SaveTo and .Delete
+
+Modified: utilities/dzLib/trunk/src/u_dzNameValueList.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNameValueList.pas	2011-04-23 10:23:17 UTC (rev 568)
++++ utilities/dzLib/trunk/src/u_dzNameValueList.pas	2011-04-23 10:24:11 UTC (rev 569)
+@@ -45,13 +45,16 @@
+     function Add(const _Name, _Value: string): integer; reintroduce; overload;
+     function ByNameDef(const _Name, _Default: string): string;
+     function Find(const _Name: string; out _Value: string): boolean; overload;
++    procedure LoadFrom(_Strings: TStrings);
++    procedure SaveTo(_Strings: TStrings);
++    procedure Delete(const _Name: string);
+     property ByName[const _Name: string]: string read GetByName write SetByName;
+   end;
+ 
+ implementation
+ 
+ uses
+-  u_dztranslator;
++  u_dzTranslator;
+ 
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+ 
+@@ -96,6 +99,34 @@
+     raise ENameNotFound.CreateFmt(_('Entry &quot;%s&quot; not found.'), [_Name]);
+ end;
+ 
++procedure TNameValueList.Delete(const _Name: string);
++var
++  Idx: integer;
++begin
++  if Find(_Name, Idx) then
++    Extract(Idx).Free;
++end;
++
++procedure TNameValueList.LoadFrom(_Strings: TStrings);
++var
++  i: Integer;
++  Name: string;
++begin
++  Clear;
++  for i := 0 to _Strings.Count - 1 do begin
++    Name := _Strings.Names[i];
++    Add(Name, _Strings.Values[Name]);
++  end;
++end;
++
++procedure TNameValueList.SaveTo(_Strings: TStrings);
++var
++  i: Integer;
++begin
++  for i := 0 to Count - 1 do
++    _Strings.Values[Items[i].Name] := Items[i].Value;
++end;
++
+ procedure TNameValueList.SetByName(const _Name, _Value: string);
+ var
+   Idx: integer;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000426.html">[Dzchart-svncheckins] r568 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000428.html">[Dzchart-svncheckins] r570 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#427">[ date ]</a>
+              <a href="thread.html#427">[ thread ]</a>
+              <a href="subject.html#427">[ subject ]</a>
+              <a href="author.html#427">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

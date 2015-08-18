@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r469 - in utilities/dzCmdLineParser/trunk:	src translations/de
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r469%20-%20in%20utilities/dzCmdLineParser/trunk%3A%0A%09src%20translations/de&In-Reply-To=%3C20100905151745.BDB0948104F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000329.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r469 - in utilities/dzCmdLineParser/trunk:	src translations/de</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r469%20-%20in%20utilities/dzCmdLineParser/trunk%3A%0A%09src%20translations/de&In-Reply-To=%3C20100905151745.BDB0948104F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r469 - in utilities/dzCmdLineParser/trunk:	src translations/de">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Sep  5 17:17:45 CEST 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000329.html">[Dzchart-svncheckins] r470 - in utilities/buildtools/trunk: .	templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#328">[ date ]</a>
+              <a href="thread.html#328">[ thread ]</a>
+              <a href="subject.html#328">[ subject ]</a>
+              <a href="author.html#328">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-09-05 17:17:45 +0200 (Sun, 05 Sep 2010)
+New Revision: 469
+
+Modified:
+   utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+   utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+Log:
+partly adapted to Delphi XE
+bugfix in translation
+
+Modified: utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas
+===================================================================
+--- utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2010-09-05 15:17:13 UTC (rev 468)
++++ utilities/dzCmdLineParser/trunk/src/u_dzDefaultMain.pas	2010-09-05 15:17:45 UTC (rev 469)
+@@ -212,7 +212,8 @@
+   SetLength(ModuleName, 255);
+   GetModuleFileNameA(MainInstance, PAnsiChar(ModuleName), Length(ModuleName));
+   OemToAnsi(PAnsiChar(ModuleName), PAnsiChar(ModuleName));
+-  Result := PAnsiChar(ModuleName);
++  ModuleName := PAnsiChar(ModuleName);
++  Result := string(ModuleName);
+ end;
+ 
+ function TDefaultMain.GetProgName: string;
+
+Modified: utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2010-09-05 15:17:13 UTC (rev 468)
++++ utilities/dzCmdLineParser/trunk/translations/de/dzCmdLineParser.po	2010-09-05 15:17:45 UTC (rev 469)
+@@ -7,7 +7,7 @@
+ msgstr &quot;&quot;
+ &quot;Project-Id-Version: dzCmdLineParser 1.0\n&quot;
+ &quot;POT-Creation-Date: 2009-06-30 11:42\n&quot;
+-&quot;PO-Revision-Date: 2009-06-30 11:46+0100\n&quot;
++&quot;PO-Revision-Date: 2010-04-27 17:26+0100\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
+ &quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">nospam at dummzeuch.de</A>&gt;\n&quot;
+ &quot;MIME-Version: 1.0\n&quot;
+@@ -69,7 +69,7 @@
+ 
+ #: u_dzGetOpt.pas:329
+ msgid &quot;Option %s is unknown&quot;
+-msgstr &quot;Option %s ist nciht bekannt&quot;
++msgstr &quot;Option %s ist nicht bekannt&quot;
+ 
+ #: u_dzGetOpt.pas:333
+ msgid &quot;Option %s requires a value.&quot;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000329.html">[Dzchart-svncheckins] r470 - in utilities/buildtools/trunk: .	templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#328">[ date ]</a>
+              <a href="thread.html#328">[ thread ]</a>
+              <a href="subject.html#328">[ subject ]</a>
+              <a href="author.html#328">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

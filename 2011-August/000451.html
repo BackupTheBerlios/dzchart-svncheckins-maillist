@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r594 - utilities/dzLib/trunk/forms
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r594%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C20110827111145.12729481160%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000450.html">
+   <LINK REL="Next"  HREF="000452.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r594 - utilities/dzLib/trunk/forms</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r594%20-%20utilities/dzLib/trunk/forms&In-Reply-To=%3C20110827111145.12729481160%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r594 - utilities/dzLib/trunk/forms">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Aug 27 13:11:44 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000450.html">[Dzchart-svncheckins] r593 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000452.html">[Dzchart-svncheckins] r595 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#451">[ date ]</a>
+              <a href="thread.html#451">[ thread ]</a>
+              <a href="subject.html#451">[ subject ]</a>
+              <a href="author.html#451">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-08-27 13:11:44 +0200 (Sat, 27 Aug 2011)
+New Revision: 594
+
+Modified:
+   utilities/dzLib/trunk/forms/w_dzDialog.pas
+Log:
+Formatting only
+
+Modified: utilities/dzLib/trunk/forms/w_dzDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-08-27 10:56:16 UTC (rev 593)
++++ utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-08-27 11:11:44 UTC (rev 594)
+@@ -343,7 +343,7 @@
+ begin
+   frm := Tf_dzDialog.Create(_Owner);
+   try
+-    frm.ShowDetailButton := false;
++    frm.ShowDetailButton := False;
+     frm.SetVisibleButtons(_Buttons);
+     frm.SetFocusButton(_FocusButton);
+     Assert(Length(_CustomButtons) = Length(frm.CustomButtonCaptions));
+@@ -356,8 +356,8 @@
+     frm.OptionDescription := _OptionDesc;
+     frm.DialogType := _DialogType;
+     frm.GenerateControls;
+-	if _Caption &lt;&gt; '' then
+-    frm.Caption := _Caption;
++    if _Caption &lt;&gt; '' then
++      frm.Caption := _Caption;
+     TForm_CenterOn(frm, _Owner);
+     Result := frm.ShowModal;
+   finally
+@@ -374,7 +374,7 @@
+   try
+     if Assigned(_Owner) and (_Owner is TForm) then
+       frm.Font := TForm(_Owner).Font;
+-    frm.ShowDetailButton := false;
++    frm.ShowDetailButton := False;
+     frm.SetVisibleButtons(_Buttons);
+     frm.SetFocusButton(_FocusButton);
+     frm.UserMessage := _Message;
+@@ -396,7 +396,7 @@
+   i: Integer;
+ begin
+   Result := Tf_dzDialog.Create(_Owner);
+-  Result.ShowDetailButton := false;
++  Result.ShowDetailButton := False;
+   Result.SetVisibleButtons(_Buttons);
+   Assert(Length(_CustomButtons) = Length(Result.CustomButtonCaptions));
+   for i := Low(_CustomButtons) to High(_CustomButtons) do
+@@ -446,7 +446,7 @@
+       end;
+ {$ENDIF}
+     end else
+-      frm.ShowDetailButton := false;
++      frm.ShowDetailButton := False;
+     frm.SetVisibleButtons(_Buttons);
+     frm.UserMessage := _Message;
+     frm.OptionDescription := _OptionDesc;
+@@ -478,7 +478,7 @@
+   try
+     frm.UserMessage := _ErrorMsg;
+     frm.Details := _Details;
+-    frm.ShowDetailButton := true;
++    frm.ShowDetailButton := True;
+     frm.SetVisibleButtons(_Buttons);
+     frm.OptionDescription := _OptionDesc;
+     frm.GenerateControls;
+@@ -522,7 +522,7 @@
+   inherited;
+   FFocusButton := 0;
+   FDialogType := mtError;
+-  FShowDetailButton := true;
++  FShowDetailButton := True;
+   FDontShowAgainText := _('Do not show again.');
+   FCallStack := TStringList.Create;
+   try
+@@ -603,11 +603,11 @@
+   FocusButton: TButton;
+ begin
+   inherited;
+-  EnableMenuItem(GetSystemMenu(Handle, LongBool(false)), SC_MAXIMIZE, MF_BYCOMMAND or MF_GRAYED);
++  EnableMenuItem(GetSystemMenu(Handle, LongBool(False)), SC_MAXIMIZE, MF_BYCOMMAND or MF_GRAYED);
+   if FUserMessage = '' then
+     FUserMessage := Format(_('An error occurred:'#13#10'%s'), [FExceptionMessage]);
+   l_Message.Caption := FUserMessage;
+-  l_Message.AutoSize := true;
++  l_Message.AutoSize := True;
+   if l_Message.Height &gt; im_Icon.Height then
+     MinHeight := l_Message.Top + l_Message.Height
+   else
+@@ -616,11 +616,11 @@
+   MinWidth := 250; // 400;
+   MinWidth := Max(MinWidth, l_Message.Left + l_Message.Width + 8);
+   if FOptionDescription = '' then
+-    l_Options.Visible := false
++    l_Options.Visible := False
+   else begin
+     l_Options.Top := MinHeight;
+     l_Options.Caption := FOptionDescription;
+-    l_Options.AutoSize := true;
++    l_Options.AutoSize := True;
+     MinHeight := MinHeight + l_Options.Height + 8;
+     MinWidth := Max(MinWidth, l_Options.Left + l_Options.Width + 8);
+   end;
+@@ -777,7 +777,7 @@
+   Constraints.MaxHeight := 0;
+   ClientHeight := p_Top.Height + p_Details.Height;
+   Constraints.MinHeight := p_Top.Height + 100 + Height - ClientHeight;
+-  p_Details.Visible := true;
++  p_Details.Visible := True;
+   p_Details.Align := alClient;
+   //  EnableMenuItem(GetSystemMenu(Handle, LongBool(false)), SC_MAXIMIZE, MF_BYCOMMAND or MF_ENABLED);
+   //  BorderIcons := BorderIcons - [biMaximize];
+@@ -794,11 +794,11 @@
+       WindowState := wsNormal;
+   end;
+   p_Details.Align := alNone;
+-  p_Details.Visible := false;
++  p_Details.Visible := False;
+   Constraints.MinHeight := p_Top.Height + Height - ClientHeight;
+   Constraints.MaxHeight := Self.Height;
+   ClientHeight := p_Top.Height;
+-  EnableMenuItem(GetSystemMenu(Handle, LongBool(false)), SC_MAXIMIZE, MF_BYCOMMAND or MF_GRAYED);
++  EnableMenuItem(GetSystemMenu(Handle, LongBool(False)), SC_MAXIMIZE, MF_BYCOMMAND or MF_GRAYED);
+   //  BorderIcons := BorderIcons - [biMaximize];
+ end;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000450.html">[Dzchart-svncheckins] r593 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000452.html">[Dzchart-svncheckins] r595 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#451">[ date ]</a>
+              <a href="thread.html#451">[ thread ]</a>
+              <a href="subject.html#451">[ subject ]</a>
+              <a href="author.html#451">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r417 - utilities/buildtools/trunk/templates
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r417%20-%20utilities/buildtools/trunk/templates&In-Reply-To=%3C201003271212.o2RCCOAd021573%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000277.html">
+   <LINK REL="Next"  HREF="000279.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r417 - utilities/buildtools/trunk/templates</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r417%20-%20utilities/buildtools/trunk/templates&In-Reply-To=%3C201003271212.o2RCCOAd021573%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r417 - utilities/buildtools/trunk/templates">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 27 13:12:24 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000277.html">[Dzchart-svncheckins] r416 - in utilities/IniFileFormatter/trunk: .	src
+</A></li>
+        <LI>Next message: <A HREF="000279.html">[Dzchart-svncheckins] r418 - utilities/buildtools/trunk/templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#278">[ date ]</a>
+              <a href="thread.html#278">[ thread ]</a>
+              <a href="subject.html#278">[ subject ]</a>
+              <a href="author.html#278">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-27 13:12:20 +0100 (Sat, 27 Mar 2010)
+New Revision: 417
+
+Added:
+   utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd
+   utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2009.cmd
+Log:
+build script templates for Delphi 2009 and 2010
+
+Copied: utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd (from rev 414, utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd)
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-27 11:24:15 UTC (rev 414)
++++ utilities/buildtools/trunk/templates/Build_ScriptTemplateD2010.cmd	2010-03-27 12:12:20 UTC (rev 417)
+@@ -0,0 +1,8 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> builds a project using msbuild
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> Copy this to the project's root directory and
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> change the projectname below
++call &quot;%ProgramFiles%\Embarcadero\RAD Studio\7.0\bin\rsvars.bat&quot;
++pushd src
++msbuild &lt;projectname&gt;.dproj
++pause
++popd
+
+Copied: utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2009.cmd (from rev 414, utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd)
+===================================================================
+--- utilities/buildtools/trunk/templates/Build_ScriptTemplate.cmd	2010-03-27 11:24:15 UTC (rev 414)
++++ utilities/buildtools/trunk/templates/Build_ScriptTemplate_D2009.cmd	2010-03-27 12:12:20 UTC (rev 417)
+@@ -0,0 +1,8 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> builds a project using msbuild
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> Copy this to the project's root directory and
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> change the projectname below
++call &quot;%ProgramFiles%\CodeGear\RAD Studio\6.0\bin\rsvars.bat&quot;
++pushd src
++msbuild &lt;projectname&gt;.dproj
++pause
++popd
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000277.html">[Dzchart-svncheckins] r416 - in utilities/IniFileFormatter/trunk: .	src
+</A></li>
+	<LI>Next message: <A HREF="000279.html">[Dzchart-svncheckins] r418 - utilities/buildtools/trunk/templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#278">[ date ]</a>
+              <a href="thread.html#278">[ thread ]</a>
+              <a href="subject.html#278">[ subject ]</a>
+              <a href="author.html#278">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

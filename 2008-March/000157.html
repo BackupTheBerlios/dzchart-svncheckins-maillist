@@ -1,0 +1,568 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r288 - in utilities/dzLib/trunk: . lockfree	tests/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r288%20-%20in%20utilities/dzLib/trunk%3A%20.%20lockfree%0A%09tests/src&In-Reply-To=%3C200803301229.m2UCTClh002734%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000156.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r288 - in utilities/dzLib/trunk: . lockfree	tests/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r288%20-%20in%20utilities/dzLib/trunk%3A%20.%20lockfree%0A%09tests/src&In-Reply-To=%3C200803301229.m2UCTClh002734%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r288 - in utilities/dzLib/trunk: . lockfree	tests/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Mar 30 14:29:12 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000156.html">[Dzchart-svncheckins] r287 - utilities/dzLib/trunk/src
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#157">[ date ]</a>
+              <a href="thread.html#157">[ thread ]</a>
+              <a href="subject.html#157">[ subject ]</a>
+              <a href="author.html#157">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-03-30 14:29:11 +0200 (Sun, 30 Mar 2008)
+New Revision: 288
+
+Added:
+   utilities/dzLib/trunk/lockfree/
+   utilities/dzLib/trunk/lockfree/u_dzMultiWriteSingleReadLockFreeQueue.pas
+   utilities/dzLib/trunk/tests/src/Testu_dzMultiWriteSingleReadLockFreeQueue.pas
+Modified:
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+Log:
+added a multi write, single read, lock free queue (previously posted to the delphi forum) with test code. The tests work on a single, dual and quadcore box.
+
+Added: utilities/dzLib/trunk/lockfree/u_dzMultiWriteSingleReadLockFreeQueue.pas
+===================================================================
+--- utilities/dzLib/trunk/lockfree/u_dzMultiWriteSingleReadLockFreeQueue.pas	2008-03-30 12:27:24 UTC (rev 287)
++++ utilities/dzLib/trunk/lockfree/u_dzMultiWriteSingleReadLockFreeQueue.pas	2008-03-30 12:29:11 UTC (rev 288)
+@@ -0,0 +1,196 @@
++unit u_dzMultiWriteSingleReadLockFreeQueue;
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  SyncObjs;
++
++type
++  TIntObj = class(TObject)
++  public
++    Value: Integer;
++    constructor Create(_Value: integer);
++  end;
++
++type
++  _ItemType_ = TIntObj;
++
++type
++  TMultiWriteSingleReadLockFreeQueue = class
++  private
++  {(*}
++  type
++    TInternalQueue = class
++    private
++      FReadIdx: integer;
++      FWriteIdx: integer;
++      FItems: array of _ItemType_;
++    public
++      constructor Create(_Length: integer);
++      function Enqueue(_Item: _ItemType_): boolean;
++      function Dequeue(out _Item: _ItemType_): boolean;
++    end;
++  {*)}
++  private
++    FWriteQueue: TInternalQueue;
++    FReadQueue: TInternalQueue;
++    FActiveWriters: integer;
++    FActiveWritersZeroEvent: TEvent;
++    FLength: integer;
++    FQueueChanged: integer;
++  public
++    constructor Create(_Length: integer);
++    destructor Destroy; override;
++    function Enqueue(_Item: _ItemType_): boolean;
++    function Dequeue(out _Item: _ItemType_): boolean;
++    property QueueChanged: integer read FQueueChanged;
++  end;
++
++implementation
++
++{ TIntObj }
++
++constructor TIntObj.Create(_Value: integer);
++begin
++  inherited Create;
++  Value := _Value;
++end;
++
++{ TInternalQueue }
++
++constructor TMultiWriteSingleReadLockFreeQueue.TInternalQueue.Create(_Length: integer);
++begin
++  inherited Create;
++  SetLength(FItems, _Length);
++  FWriteIdx := -1;
++  Assert(integer(@FWriteIdx) mod 4 = 0, 'FWriteIdx is not doubleword aligned');
++end;
++
++function TMultiWriteSingleReadLockFreeQueue.TInternalQueue.Enqueue(_Item: _ItemType_): boolean;
++var
++  Idx: integer;
++begin
++  Assert(Assigned(_Item), 'trying to insert NIL');
++
++  // InterlockedIncrement increments FWriteIdx and returns the
++  // new value. Only one thread at a time can execute this function
++  // so we can be sure that the returned Idx is unique within all
++  // threads that call Enqueue.
++  Idx := InterlockedIncrement(FWriteIdx);
++  // Here is the catch: We cannot increase the length of the array
++  // in a thread safe manner without locking it, so it is possible
++  // that Enqueue fails.
++  Assert(Idx &gt;= Low(FItems), 'Idx invalid');
++  Result := Idx &lt;= High(FItems);
++  if Result then begin
++    FItems[Idx] := _Item;
++    // detect race condition
++    Assert(FItems[Idx] = _Item, 'FItems[Idx] has been overwritten');
++  end;
++end;
++
++function TMultiWriteSingleReadLockFreeQueue.TInternalQueue.Dequeue(out _Item: _ItemType_): boolean;
++begin
++  // We assume that we are the owner of this instance,
++  // all write operations have finished and no more write
++  // operations are possible, so we just read until we reach
++  // FWriteIdx. No synchronization is necessary.
++  Result := (FReadIdx &lt;= FWriteIdx) and (FReadIdx &lt; Length(FItems));
++  if Result then begin
++    _Item := FItems[FReadIdx];
++    Inc(FReadIdx);
++  end;
++end;
++
++{ TMultiWriteSingleReadLockFreeQueue }
++
++constructor TMultiWriteSingleReadLockFreeQueue.Create(_Length: integer);
++begin
++  inherited Create;
++  FActiveWritersZeroEvent := TEvent.Create;
++  FLength := _Length;
++  FWriteQueue := TInternalQueue.Create(_Length);
++  FReadQueue := nil;
++  Assert(integer(@FWriteQueue) mod 4 = 0, 'FWriteQueue is not doubleword aligned');
++end;
++
++destructor TMultiWriteSingleReadLockFreeQueue.Destroy;
++var
++  Item: _ItemType_;
++begin
++  // If you get any unexplicable access violations or invalid pointer exceptions
++  // in the reader thread, check, whether you are freeing the queue while the
++  // reader is still running.
++  while Dequeue(Item) do
++    Item.Free;
++  FReadQueue.Free;
++  FWriteQueue.Free;
++  FActiveWritersZeroEvent.Free;
++  inherited;
++end;
++
++function TMultiWriteSingleReadLockFreeQueue.Enqueue(_Item: _ItemType_): boolean;
++var
++  Queue: TInternalQueue;
++begin
++  // this is the simple case: The WriteQueue can be written to
++  // by any number of threads in parallel, no locking is required
++  // In addition we count the number of threads that are executing
++  // this method and therefore hold a reference to the WriteQueue.
++  // This is so the reader thread knows when it can safely
++  // use its copy.
++  InterlockedIncrement(FActiveWriters);
++  try
++    // First, we get our local reference of the WriteQueue,
++    // this is probably not necessary but just to be sure.
++    Queue := FWriteQueue;
++    // Then we enqueue our item to it
++    Result := Queue.Enqueue(_Item);
++  finally
++    // decrement the ActiveWriters, if we reach zero,
++    // notify the reading thread that it now owns he
++    // reading queue, in case it is waiting for it.
++    if InterlockedDecrement(FActiveWriters) = 0 then
++      FActiveWritersZeroEvent.SetEvent;
++  end;
++end;
++
++function TMultiWriteSingleReadLockFreeQueue.Dequeue(out _Item: _ItemType_): boolean;
++begin
++  if not Assigned(FReadQueue) then begin
++    // we create a new queue for all the writer threads to use
++    // and assign it as the new WriteQueue, the old one is assigned
++    // to ReadQueue. Since writing a doubleword aligned 32 bit integer
++    // is an atomic operation, we don't need InterlockedExchange here.
++    FReadQueue := FWriteQueue;
++    FWriteQueue := TInternalQueue.Create(FLength);
++    Inc(FQueueChanged);
++
++    // Unfortunately it is possible that other threads still hold a
++    // reference to the old queue.
++    // To be 100% sure we need to wait until the ActiveWriters count
++    // drops to 0 (once is enough, because all new calls to Enqueue
++    // will use the new WriteQueue)
++    // We reset the event, just in case we need it
++    FActiveWritersZeroEvent.ResetEvent;
++    // If there currently are writers, we wait for the event
++    // which will be set by the first writer that decrements
++    // ActiveWriters to 0. If there aren't, no need to wait.
++    if FActiveWriters &lt;&gt; 0 then
++      FActiveWritersZeroEvent.WaitFor(INFINITE);
++  end;
++
++  // OK, now we own the read queue, just Dequeue from it
++  Result := FReadQueue.Dequeue(_Item);
++  // If the ReadQueue is empty, free it
++  { TODO -otwm -ccheck : 
++    Maybe keep the queue around for using it as the next &quot;new&quot; queue?
++    Could save a bit on memory allocation overhead. }
++  if not Result then
++    FreeAndNil(FReadQueue);
++end;
++
++end.
++
+
+Modified: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2008-03-30 12:27:24 UTC (rev 287)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2008-03-30 12:29:11 UTC (rev 288)
+@@ -31,11 +31,14 @@
+   Testu_dzDateUtils in 'Testu_dzDateUtils.pas',
+   u_dzClassUtils in '..\..\src\u_dzClassUtils.pas',
+   u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
+-  Testu_dzStringUtils in 'Testu_dzStringUtils.pas';
++  Testu_dzStringUtils in 'Testu_dzStringUtils.pas',
++  Testu_dzMultiWriteSingleReadLockFreeQueue in 'Testu_dzMultiWriteSingleReadLockFreeQueue.pas',
++  u_dzMultiWriteSingleReadLockFreeQueue in '..\..\lockfree\u_dzMultiWriteSingleReadLockFreeQueue.pas';
+ 
+ {$R *.RES}
+ 
+ begin
++  IsMultithread := true;
+   Application.Initialize;
+   if IsConsole then
+     TextTestRunner.RunRegisteredTests
+
+Modified: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2008-03-30 12:27:24 UTC (rev 287)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2008-03-30 12:29:11 UTC (rev 288)
+@@ -18,10 +18,10 @@
+   &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+     &lt;Version&gt;7.0&lt;/Version&gt;
+     &lt;DCC_Define&gt;DEBUG;_CONSOLE_TESTRUNNER;no_translation&lt;/DCC_Define&gt;
+-    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_IncludePath&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\Lib\Debug\NOT_Indy10;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc;..\..\src&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\Lib\Debug\NOT_Indy10;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc;..\..\src&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\Lib\Debug\NOT_Indy10;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc;..\..\src&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\Lib\Debug\NOT_Indy10;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc;..\..\src&lt;/DCC_IncludePath&gt;
+     &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
+     &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
+     &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+@@ -43,6 +43,7 @@
+     &lt;DelphiCompile Include=&quot;DUnitTests_dzLib.dpr&quot;&gt;
+       &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+     &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\..\lockfree\u_dzMultiWriteSingleReadLockFreeQueue.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzClassUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzConvertUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;..\..\src\u_dzDateUtils.pas&quot; /&gt;
+@@ -55,6 +56,7 @@
+     &lt;DCCReference Include=&quot;Testu_dzConvertUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;Testu_dzDateUtils.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;Testu_dzFileUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;Testu_dzMultiWriteSingleReadLockFreeQueue.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;Testu_dzStringUtils.pas&quot; /&gt;
+   &lt;/ItemGroup&gt;
+ &lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/src/Testu_dzMultiWriteSingleReadLockFreeQueue.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzMultiWriteSingleReadLockFreeQueue.pas	2008-03-30 12:27:24 UTC (rev 287)
++++ utilities/dzLib/trunk/tests/src/Testu_dzMultiWriteSingleReadLockFreeQueue.pas	2008-03-30 12:29:11 UTC (rev 288)
+@@ -0,0 +1,229 @@
++unit Testu_dzMultiWriteSingleReadLockFreeQueue;
++
++interface
++
++uses
++  Windows,
++  Classes,
++  SysUtils,
++  Forms,
++  TestFramework,
++  u_dzNamedThread,
++  u_dzMultiWriteSingleReadLockFreeQueue;
++
++const
++  PRODUCER_COUNT = 100;
++  ENTRIES_PER_PRODUCER = 1000;
++
++type
++  TConsumerThread = class(TNamedThread)
++  private
++    FQueue: TMultiWriteSingleReadLockFreeQueue;
++    FFound: array[0..PRODUCER_COUNT * ENTRIES_PER_PRODUCER - 1] of boolean;
++    FDupes: integer;
++    FExceptions: integer;
++    FOutOfRange: integer;
++    function GetMissingValues: integer;
++  protected
++    procedure Execute; override;
++  public
++    constructor Create(_Queue: TMultiWriteSingleReadLockFreeQueue);
++    property Dupes: integer read FDupes;
++    property OutOfRange: integer read FOutOfRange;
++    property MissingValues: integer read GetMissingValues;
++    property Exceptions: integer read FExceptions;
++  end;
++
++type
++  TProducerThread = class(TNamedThread)
++  private
++    FQueue: TMultiWriteSingleReadLockFreeQueue;
++    FFrom: integer;
++    FCount: integer;
++    FFinished: boolean;
++    FEnqueueFailures: Integer;
++    FEnqueueErrors: Integer;
++  protected
++    procedure SetName(const _Name: string); override;
++    procedure Execute; override;
++  public
++    constructor Create(_Queue: TMultiWriteSingleReadLockFreeQueue; _From, _Count: integer);
++    property Finished: boolean read FFinished;
++    property EnqueueFailures: Integer read FEnqueueFailures;
++    property EnqueueErrors: Integer read FEnqueueErrors;
++  end;
++
++type
++  TestTMultiWriteSingleReadLockFreeQueue = class(TTestCase)
++  private
++    FQueue: TMultiWriteSingleReadLockFreeQueue;
++    FProducers: array[0..PRODUCER_COUNT - 1] of TProducerThread;
++  public
++    procedure SetUp; override;
++    procedure TearDown; override;
++  published
++    procedure Test1;
++  end;
++
++implementation
++
++{ TConsumerThread }
++
++constructor TConsumerThread.Create(_Queue: TMultiWriteSingleReadLockFreeQueue);
++begin
++  inherited Create(True);
++  FQueue := _Queue;
++  Resume;
++end;
++
++procedure TConsumerThread.Execute;
++var
++  Item: TIntObj;
++begin
++  inherited;
++  while not Terminated do begin
++    try
++      while FQueue.Dequeue(Item) do begin
++        if (Item.Value &lt; Low(FFound)) or (Item.Value &gt; High(FFound)) then
++          Inc(FOutOfRange)
++        else if FFound[Item.Value] then
++          Inc(FDupes)
++        else
++          FFound[Item.Value] := True;
++        Item.Free;
++      end;
++    except
++      Inc(FExceptions);
++//      raise;
++    end;
++  end;
++
++  try
++    while FQueue.Dequeue(Item) do begin
++      if (Item.Value &lt; Low(FFound)) or (Item.Value &gt; High(FFound)) then
++        Inc(FOutOfRange)
++      else if FFound[Item.Value] then
++        Inc(FDupes)
++      else
++        FFound[Item.Value] := True;
++      Item.Free;
++    end;
++  except
++    Inc(FExceptions);
++//      raise;
++  end;
++end;
++
++function TConsumerThread.GetMissingValues: integer;
++var
++  i: integer;
++begin
++  Result := 0;
++  for i := low(FFound) to High(FFound) do
++    if not FFound[i] then
++      Inc(Result);
++end;
++
++{ TProducerThread }
++
++constructor TProducerThread.Create(_Queue: TMultiWriteSingleReadLockFreeQueue; _From, _Count: integer);
++begin
++  inherited Create(True);
++  FQueue := _Queue;
++  FFrom := _From;
++  FCount := _Count;
++  Resume;
++end;
++
++procedure TProducerThread.Execute;
++
++var
++  i: Integer;
++  Item: TIntObj;
++begin
++  inherited;
++  for i := FFrom to FFrom + FCount - 1 do begin
++    Item := TIntObj.Create(i);
++    while not FQueue.Enqueue(Item) do begin
++      Sleep(0);
++    end;
++  end;
++  FFinished := True;
++end;
++
++procedure TProducerThread.SetName(const _Name: string);
++begin
++  inherited SetName(ClassName + IntToStr(FFrom));
++end;
++
++{ TestTMultiWriteSingleReadLockFreeQueue }
++
++procedure TestTMultiWriteSingleReadLockFreeQueue.SetUp;
++begin
++  FQueue := TMultiWriteSingleReadLockFreeQueue.Create((PRODUCER_COUNT * ENTRIES_PER_PRODUCER) div 10);
++end;
++
++procedure TestTMultiWriteSingleReadLockFreeQueue.TearDown;
++begin
++  FQueue.Free;
++  FQueue := nil;
++end;
++
++procedure TestTMultiWriteSingleReadLockFreeQueue.Test1;
++var
++  Consumer: TConsumerThread;
++  i: Integer;
++  Running: boolean;
++begin
++  Consumer := TConsumerThread.Create(FQueue);
++  try
++    try
++      for i := Low(FProducers) to High(FProducers) do begin
++        FProducers[i] := TProducerThread.Create(FQueue,
++          i * ENTRIES_PER_PRODUCER, ENTRIES_PER_PRODUCER);
++      end;
++
++      Running := True;
++      while Running do begin
++        Running := false;
++        for i := Low(FProducers) to High(FProducers) do begin
++          if not FProducers[i].Finished then begin
++            Running := true;
++            Sleep(10);
++            Application.ProcessMessages;
++            break;
++          end;
++        end;
++      end;
++
++      for i := Low(FProducers) to High(FProducers) do begin
++        CheckEquals(0, FProducers[i].EnqueueErrors, 'EnqueueErrors[' + IntToStr(i) + ']');
++      end;
++      for i := Low(FProducers) to High(FProducers) do begin
++        CheckEquals(0, FProducers[i].EnqueueFailures, 'EnqueueFailures[' + IntToStr(i) + ']');
++      end;
++
++    finally
++      Consumer.Terminate;
++      Consumer.WaitFor;
++    end;
++
++    CheckEquals(0, Consumer.Exceptions, 'Exceptions');
++    CheckEquals(0, Consumer.OutOfRange, 'OutOfRange');
++    CheckEquals(0, Consumer.Dupes, 'Dupes');
++    for i := 0 to Length(Consumer.FFound) - 1 do
++      CheckTrue(Consumer.FFound[i], 'Found[' + IntToStr(i) + ']');
++    CheckEquals(0, Consumer.MissingValues, 'MissingValues');
++  finally
++    Consumer.Free;
++    for i := Low(FProducers) to High(FProducers) do
++      FProducers[i].Free;
++  end;
++
++  Check(FQueue.QueueChanged &gt; 1, 'QueueChanged &gt; 1');
++end;
++
++initialization
++  RegisterTest(TestTMultiWriteSingleReadLockFreeQueue.Suite);
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000156.html">[Dzchart-svncheckins] r287 - utilities/dzLib/trunk/src
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#157">[ date ]</a>
+              <a href="thread.html#157">[ thread ]</a>
+              <a href="subject.html#157">[ subject ]</a>
+              <a href="author.html#157">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

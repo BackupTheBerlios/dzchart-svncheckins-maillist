@@ -1,0 +1,1318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r319 - in utilities/dzLib/trunk: forms src	tests tests/dzdialog tests/dzdialog/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r319%20-%20in%20utilities/dzLib/trunk%3A%20forms%20src%0A%09tests%20tests/dzdialog%20tests/dzdialog/src&In-Reply-To=%3C200809051513.m85FDdmG020205%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000185.html">
+   <LINK REL="Next"  HREF="000187.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r319 - in utilities/dzLib/trunk: forms src	tests tests/dzdialog tests/dzdialog/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r319%20-%20in%20utilities/dzLib/trunk%3A%20forms%20src%0A%09tests%20tests/dzdialog%20tests/dzdialog/src&In-Reply-To=%3C200809051513.m85FDdmG020205%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r319 - in utilities/dzLib/trunk: forms src	tests tests/dzdialog tests/dzdialog/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep  5 17:13:39 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000185.html">[Dzchart-svncheckins] r318 - in utilities/dzCmdLineParser/trunk: .	src translations/de
+</A></li>
+        <LI>Next message: <A HREF="000187.html">[Dzchart-svncheckins] r320 - in utilities/dzLib/trunk: forms tests	tests/dzprogress tests/dzprogress/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-05 17:13:33 +0200 (Fri, 05 Sep 2008)
+New Revision: 319
+
+Added:
+   utilities/dzLib/trunk/tests/dzdialog/
+   utilities/dzLib/trunk/tests/dzdialog/dcu/
+   utilities/dzLib/trunk/tests/dzdialog/src/
+   utilities/dzLib/trunk/tests/dzdialog/src/dzDialogTest.dpr
+   utilities/dzLib/trunk/tests/dzdialog/src/dzDialogTest.dproj
+   utilities/dzLib/trunk/tests/dzdialog/src/w_dzDialogText.dfm
+   utilities/dzLib/trunk/tests/dzdialog/src/w_dzDialogText.pas
+Modified:
+   utilities/dzLib/trunk/forms/w_dzDialog.pas
+   utilities/dzLib/trunk/src/u_dzClassUtils.pas
+   utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+   utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+   utilities/dzLib/trunk/src/u_dzDllLoader.pas
+   utilities/dzLib/trunk/src/u_dzFileStreams.pas
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+   utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+   utilities/dzLib/trunk/src/u_dzOsUtils.pas
+   utilities/dzLib/trunk/src/u_dzRingBuffer.pas
+   utilities/dzLib/trunk/src/u_dzStringUtils.pas
+   utilities/dzLib/trunk/src/u_dzTextFile.pas
+   utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+* local _() functions now call dzDGetText rather than DGetText to avoid warning in dxgettext tool
+* moved u_dzTranslator to uses in interface to allow inlining the local _() call
+* test/demo for using tf_dzDialog
+
+Modified: utilities/dzLib/trunk/forms/w_dzDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzDialog.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/forms/w_dzDialog.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -1,12 +1,11 @@
+ {GXFormatter.config=twm}
+-{: Generic exception and message dialog.
+-   This unit implements a generic Dialog to display exceptions and messages.
+-   For exceptions, it only displays the exception's class name and a
+-   Details button to get the message.
+-   Most times all you need is calling one of the overloaded dzShowException
+-   functions.
+-   @author twm
+-}
++///&lt;summary&gt; Generic exception and message dialog.
++///          This unit implements a generic Dialog to display exceptions and messages.
++///          For exceptions, it only displays the exception's class name and a
++///          Details button to get the message.
++///          Most times all you need is calling one of the overloaded dzShowException
++///          functions.
++///          @author twm &lt;/summary&gt;
+ unit w_dzDialog;
+ 
+ interface
+@@ -22,6 +21,7 @@
+   Dialogs,
+   StdCtrls,
+   ExtCtrls,
++  u_dzTranslator,
+   Jcldebug;
+ 
+ type
+@@ -39,43 +39,43 @@
+     mrYes, mrNo, mrOk, mrCancel, mrAbort, mrRetry, mrIgnore, mrAll, mrNoToAll,
+     mrYesToAll, 0, -1);
+ 
+-  {: converts the modal result returned by dzShowMessage to the button pressed }
++///&lt;summary&gt; converts the modal result returned by dzShowMessage to the button pressed &lt;/summary&gt;
+ function ModalResultToButton(_Result: integer): TDialogButtonEnum;
+ 
+ type
+-  {: whether to show the maximze button
+-     &lt;ul&gt;
+-       &lt;li&gt;smSmart - show only when details are visible&lt;/li&gt;
+-       &lt;li&gt;smShow - show always&lt;/li&gt;
+-       &lt;li&gt;smHide - don't show at all&lt;/li&gt;
+-     &lt;/ul&gt;}
++  ///&lt;summary&gt; whether to show the maximze button
++  ///         &lt;ul&gt;
++  ///           &lt;li&gt;smSmart - show only when details are visible&lt;/li&gt;
++  ///           &lt;li&gt;smShow - show always&lt;/li&gt;
++  ///           &lt;li&gt;smHide - don't show at all&lt;/li&gt;
++  ///         &lt;/ul&gt; &lt;/summary&gt;
+   TShowMaximizeOption = (smSmart, smShow, smHide);
+ 
+ type
+-  { used for the property OnButtonClick in asyncronous mode
+-    @param(Sender is the Exceptiondialog)
+-    @param(Button is the ModalResult value of the button pressed)
+-    @param(Action is a TCloseAction indicating whether the dialog can be closed,
+-           it is initialized to caNone and can be set to caHide, caFree or caMinimize)}
++  ///&lt;summary&gt; used for the property OnButtonClick in asyncronous mode
++  ///          @param Sender is the Exceptiondialog
++  ///          @param Button is the ModalResult value of the button pressed
++  ///          @param Action is a TCloseAction indicating whether the dialog can be closed,
++  ///                        it is initialized to caNone and can be set to caHide, caFree or caMinimize &lt;/summary&gt;
+   TOnButtonClick = procedure(Sender: TObject; _Button: TModalResult; var _Action: TCloseAction);
+ 
+ type
+-  {: defines the exception and messsage dialog.
+-     This dialog is used by the various dzShowException and the dzShowMessage
+-     functions. It can of course also be created independently. The minimum
+-     properties to set are
+-     &lt;ul&gt;
+-       &lt;li&gt;ExcecptionClass&lt;/li&gt;
+-       &lt;li&gt;ExceptionMessage&lt;/li&gt;
+-       &lt;li&gt;VisibleButtons&lt;/li&gt;
+-     &lt;/ul&gt;
+-     for showing an exception and
+-     &lt;ul&gt;
+-       &lt;li&gt;UserMessage&lt;/li&gt;
+-       &lt;li&gt;VisibleButtons&lt;/li&gt;
+-       &lt;li&gt;ShowDetailButton (to false)&lt;/li&gt;
+-     &lt;/ul&gt;
+-     for showing a message.}
++  ///&lt;summary&gt; defines the exception and messsage dialog.
++  ///          This dialog is used by the various dzShowException and the dzShowMessage
++  ///          functions. It can of course also be created independently. The minimum
++  ///          properties to set are
++  ///          &lt;ul&gt;
++  ///            &lt;li&gt;ExcecptionClass&lt;/li&gt;
++  ///            &lt;li&gt;ExceptionMessage&lt;/li&gt;
++  ///            &lt;li&gt;VisibleButtons&lt;/li&gt;
++  ///          &lt;/ul&gt;
++  ///          for showing an exception and
++  ///          &lt;ul&gt;
++  ///            &lt;li&gt;UserMessage&lt;/li&gt;
++  ///            &lt;li&gt;VisibleButtons&lt;/li&gt;
++  ///            &lt;li&gt;ShowDetailButton (to false)&lt;/li&gt;
++  ///          &lt;/ul&gt;
++  ///          for showing a message. &lt;/summary&gt;
+   Tf_dzDialog = class(TForm)
+     p_Top: TPanel;
+     l_Message: TLabel;
+@@ -85,8 +85,8 @@
+     im_Icon: TImage;
+     procedure FormCreate(Sender: TObject);
+   private
+-    {: used to display it pseudo modally,
+-       see dzShowNonModalMessage function and MakeModal/MakeNonmodal methods }
++    ///&lt;summary&gt; used to display the dialog pseudo modally,
++    ///          see dzShowNonModalMessage function and MakeModal/MakeNonmodal methods &lt;/summary&gt;
+     FWindowList: pointer;
+     FOnButtonClick: TOnButtonClick;
+   private
+@@ -126,170 +126,166 @@
+     destructor Destroy; override;
+ 
+     procedure Hide;
+-    {: class name of the exception }
++    ///&lt;summary&gt; class name of the exception &lt;/summary&gt;
+     property ExceptionClass: string read FExceptionClass write FExceptionClass;
+-    {: message of the exception }
++    ///&lt;summary&gt; message of the exception &lt;/summary&gt;
+     property ExceptionMessage: string read FExceptionMessage write FExceptionMessage;
+-    //    {: address of the exception }
+-    //    property ExcptionAddress: pointer read fExceptionAddress write fExceptionAddress;
+-        {: extended exception messsage, only available from EHeadworkException }
+-    property ExceptionExtendedMessage: string read FExceptionExtendedMessage write FExceptionExtendedMessage;
+-    {: exception procedure, only available from EHeadworkException }
++    ///&lt;summary&gt; exception address (initialized to ExcptAddr &lt;/summary&gt;
+     property ExceptionProcedure: string read FExceptionProcedure write FExceptionProcedure;
+     property CallStack: TStrings read FCallStack write SetCallStack;
+-    {: array of buttons to show, note that this is an array, not a set, so the
+-       order matters }
++    ///&lt;summary&gt; array of buttons to show, note that this is an array, not a set, so the
++    ///          order matters &lt;/summary&gt;
+     property VisibleButtons: TDialogButtonArr read FVisibleButtons;
+-    {: array of modal results for the custom buttons. Note: The length of this
+-       array is set when VisibleButtons is updated (using SetVisibleButtons) }
++    ///&lt;summary&gt; array of modal results for the custom buttons. Note: The length of this
++    ///          array is set when VisibleButtons is updated (using SetVisibleButtons) &lt;/summary&gt;
+     property CustomModalResults: TIntegerArray read FCustomModalResults;
+-    {: array of captions for the custom buttons Note: The length of this
+-       array is set when VisibleButtons is updated (using SetVisibleButtons) }
++    ///&lt;summary&gt; array of captions for the custom buttons Note: The length of this
++    ///          array is set when VisibleButtons is updated (using SetVisibleButtons) &lt;/summary&gt;
+     property CustomButtonCaptions: TStringArray read FCustomButtonCaptions;
+-    {: user message to show instead of 'An error &lt;i&gt;exceptionclass&lt;/i&gt; occured.'
+-       Can contain up to two %s wildcards, the first will be replaced with
+-       the exception's class name the second with the exception's message
+-       (not implemented) }
++    ///&lt;summary&gt; user message to show instead of 'An error &lt;i&gt;exceptionclass&lt;/i&gt; occured.'
++    ///          Can contain up to two %s wildcards, the first will be replaced with
++    ///          the exception's class name the second with the exception's message
++    ///          (not implemented) &lt;/summary&gt;
+     property UserMessage: string read FUserMessage write FUserMessage;
+-    {: description of the buttons (or some other text to be displayed) }
++    ///&lt;summary&gt; description of the buttons (or some other text to be displayed) &lt;/summary&gt;
+     property OptionDescription: string read FOptionDescription write FOptionDescription;
+-    {: text to display instead of '&lt;i&gt;exceptionclass&lt;/i&gt;'#13#10'&lt;i&gt;exceptionmessage&lt;/i&gt;'#13#10 }
++    ///&lt;summary&gt; text to display instead of '&lt;i&gt;exceptionclass&lt;/i&gt;'#13#10'&lt;i&gt;exceptionmessage&lt;/i&gt;'#13#10 &lt;/summary&gt;
+     property Details: string read FDetails write FDetails;
+-    {: determines the icon of the dialog }
++    ///&lt;summary&gt; determines the icon of the dialog &lt;/summary&gt;
+     property DialogType: TMsgDlgType read FDialogType write FDialogType;
+-    {: if true the 'Details' button is shown }
++    ///&lt;summary&gt; if true the 'Details' button is shown &lt;/summary&gt;
+     property ShowDetailButton: boolean read FShowDetailButton write FShowDetailButton;
+-    {: if true, the 'Do not show again' checkbox is shown.
+-       Automatically set true, when DontShowAgainText is set to a nonempty string. }
++    ///&lt;summary&gt; if true, the 'Do not show again' checkbox is shown.
++    ///          Automatically set true, when DontShowAgainText is set to a nonempty string. &lt;/summary&gt;
+     property ShowDontShowAgain: boolean read FShowDontShowAgain write FShowDontShowAgain;
+-    {: checkbox caption to show instead of 'Do not ask again.' }
++    ///&lt;summary&gt; checkbox caption to show instead of 'Do not ask again.' &lt;/summary&gt;
+     property DontShowAgainText: string read FDontShowAgainText write SetDontShowAgainText;
+-    {: whether to show the maximze button
+-       &lt;ul&gt;
+-         &lt;li&gt;smSmart - show only when details are visible&lt;/li&gt;
+-         &lt;li&gt;smShow - show always&lt;/li&gt;
+-         &lt;li&gt;smHide - don't show at all&lt;/li&gt;
+-       &lt;/ul&gt;}
++    ///&lt;summary&gt; whether to show the maximze button
++    ///          &lt;ul&gt;
++    ///            &lt;li&gt;smSmart - show only when details are visible&lt;/li&gt;
++    ///            &lt;li&gt;smShow - show always&lt;/li&gt;
++    ///            &lt;li&gt;smHide - don't show at all&lt;/li&gt;
++    ///          &lt;/ul&gt; &lt;/summary&gt;
+     property ShowMaximize: TShowMaximizeOption read FShowMaximize write FShowMaximize;
+   public
+-    {: Simple function to show an exception.
+-       This will display a dialog with the exclamation mark (!) icon, an OK button,
+-       the text 'An error &lt;i&gt;exceptionclass&lt;/i&gt; occured.' and a Details button.
+-       Pressing the details button will display&lt;br&gt;
+-       &lt;i&gt;exceptionclass&lt;/i&gt;&lt;br&gt;
+-       &lt;i&gt;exceptionmessage&lt;/i&gt;&lt;br&gt;
+-       &lt;i&gt;call stack, if available&lt;/i&gt;&lt;br&gt;
+-       @param e is the exception to display
+-       @param Parent is the parent component to be used in the constructor, defaults
+-                     to nil
+-       @returns one of the mrXxxx values }
++    ///&lt;summary&gt; Simple function to show an exception.
++    ///          This will display a dialog with the exclamation mark (!) icon, an OK button,
++    ///          the text 'An error &lt;i&gt;exceptionclass&lt;/i&gt; occured.' and a Details button.
++    ///          Pressing the details button will display&lt;br&gt;
++    ///          &lt;i&gt;exceptionclass&lt;/i&gt;&lt;br&gt;
++    ///          &lt;i&gt;exceptionmessage&lt;/i&gt;&lt;br&gt;
++    ///          &lt;i&gt;call stack, if available&lt;/i&gt;&lt;br&gt;
++    ///          @param e is the exception to display
++    ///          @param Parent is the parent component to be used in the constructor, defaults
++    ///                        to nil
++    ///          @returns one of the mrXxxx values &lt;/summary&gt;
+     class function ShowException(_e: Exception; _Parent: TComponent = nil): integer; overload;
+-    {: Moderately complex function to show an exception.
+-       This will display a dialog with the exclamation mark (!) icon, the Buttons
+-       and OptionDesc specified,
+-       the text 'An error &lt;i&gt;exceptionclass&lt;/i&gt; occured.' and a Details button.
+-       Pressing the details button will display&lt;br&gt;
+-       &lt;i&gt;exceptionclass&lt;/i&gt;&lt;br&gt;
+-       &lt;i&gt;exceptionmessage&lt;/i&gt;&lt;br&gt;
+-       &lt;i&gt;call stack, if available&lt;/i&gt;&lt;br&gt;
+-       @param e is the exception to display
+-       @param Buttons is an array of buttons to show (Note: This is an array of
+-                      buttons, not a set, so the order is important!)
+-       @param OptionDesc gives the description for the Buttons, if not given,
+-              defaults to an empty string
+-       @param Parent is the parent component to be used in the constructor, defaults
+-                     to nil
+-       @returns one of the mrXxxx values }
++    ///&lt;summary&gt; Moderately complex function to show an exception.
++    ///          This will display a dialog with the exclamation mark (!) icon, the Buttons
++    ///          and OptionDesc specified,
++    ///          the text 'An error &lt;i&gt;exceptionclass&lt;/i&gt; occured.' and a Details button.
++    ///          Pressing the details button will display&lt;br&gt;
++    ///          &lt;i&gt;exceptionclass&lt;/i&gt;&lt;br&gt;
++    ///          &lt;i&gt;exceptionmessage&lt;/i&gt;&lt;br&gt;
++    ///          &lt;i&gt;call stack, if available&lt;/i&gt;&lt;br&gt;
++    ///          @param e is the exception to display
++    ///          @param Buttons is an array of buttons to show (Note: This is an array of
++    ///                         buttons, not a set, so the order is important!)
++    ///          @param OptionDesc gives the description for the Buttons, if not given,
++    ///                            defaults to an empty string
++    ///          @param Parent is the parent component to be used in the constructor, defaults
++    ///                                      to nil
++    ///          @returns one of the mrXxxx values &lt;/summary&gt;
+     class function ShowException(_e: Exception; const _Buttons: array of TDialogButtonEnum;
+       const _OptionDesc: string = ''; _Parent: TComponent = nil): integer; overload;
+-    {: Complex function to show an exception.
+-       This will display a dialog with the exclamation mark (!) icon, the Buttons
+-       and OptionDesc specified, the Message passed and a Details button.
+-       Pressing the details button will display&lt;br&gt;
+-       &lt;i&gt;exceptionclass&lt;/i&gt;&lt;br&gt;
+-       &lt;i&gt;exceptionmessage&lt;/i&gt;&lt;br&gt;
+-       &lt;i&gt;call stack, if available&lt;/i&gt;&lt;br&gt;
+-       @param e is the exception to display
+-       @param Message is the message to display
+-       @param Buttons is an array of buttons to show (Note: This is an array of
+-                      buttons, not a set, so the order is important!)
+-       @param OptionDesc gives the description for the Buttons, if not given,
+-                         defaults to an empty string
+-       @param Parent is the parent component to be used in the constructor, defaults
+-                     to nil
+-       @returns one of the mrXxxx values }
++    ///&lt;summary&gt; Complex function to show an exception.
++    ///          This will display a dialog with the exclamation mark (!) icon, the Buttons
++    ///          and OptionDesc specified, the Message passed and a Details button.
++    ///          Pressing the details button will display&lt;br&gt;
++    ///          &lt;i&gt;exceptionclass&lt;/i&gt;&lt;br&gt;
++    ///          &lt;i&gt;exceptionmessage&lt;/i&gt;&lt;br&gt;
++    ///          &lt;i&gt;call stack, if available&lt;/i&gt;&lt;br&gt;
++    ///          @param e is the exception to display
++    ///          @param Message is the message to display
++    ///          @param Buttons is an array of buttons to show (Note: This is an array of
++    ///                         buttons, not a set, so the order is important!)
++    ///          @param OptionDesc gives the description for the Buttons, if not given,
++    ///                            defaults to an empty string
++    ///          @param Parent is the parent component to be used in the constructor, defaults
++    ///                        to nil
++    ///          @returns one of the mrXxxx values }
+     class function ShowException(_e: Exception; const _Message: string;
+       const _Buttons: array of TDialogButtonEnum; const _OptionDesc: string = '';
+       _Parent: TComponent = nil): integer; overload;
+     class function ShowError(const _ErrorMsg, _Details: string; const _Buttons: array of TDialogButtonEnum;
+       const _OptionDesc: string = ''; _Parent: TComponent = nil): integer;
+-    {: Simple function to display a message.
+-       This will display a dialog with the icon indicated by DialogType, the
+-       Message given, containing the Buttons specified and optionally an
+-       OptionDesc. In contrast to MessageDlg the dialog is centered on the owner.
+-       @param DialogType gives the icon to display
+-       @param Message is the message text to display
+-       @param Buttons is an array of buttons to show (Note: This is an array of
+-                      buttons, not a set, so the order is important!)
+-       @param Owner is the owner component to be used in the constructor, defaults
+-                     to nil
+-       @param OptionDesc gives the description for the Buttons, if not given,
+-                         defaults to an empty string
+-       @returns one of the mrXxxx values }
++    ///&lt;summary&gt; Simple function to display a message.
++    ///          This will display a dialog with the icon indicated by DialogType, the
++    ///          Message given, containing the Buttons specified and optionally an
++    ///          OptionDesc. In contrast to MessageDlg the dialog is centered on the owner.
++    ///          @param DialogType gives the icon to display
++    ///          @param Message is the message text to display
++    ///          @param Buttons is an array of buttons to show (Note: This is an array of
++    ///                         buttons, not a set, so the order is important!)
++    ///          @param Owner is the owner component to be used in the constructor, defaults
++    ///                       to nil
++    ///          @param OptionDesc gives the description for the Buttons, if not given,
++    ///                            defaults to an empty string
++    ///          @returns one of the mrXxxx values &lt;/summary&gt;
+     class function ShowMessage(_DialogType: TMsgDlgType; const _Message: string;
+       const _Buttons: array of TDialogButtonEnum; _Owner: TWinControl = nil;
+       const _OptionDesc: string = ''): integer; overload;
+-    {: Complex function to display a message.
+-       This will display a dialog with the icon indicated by DialogType, the
+-       Message given, containing the Buttons specified and optionally an
+-       OptionDesc. In contrast to MessageDlg the dialog is centered on the owner.
+-       @param DialogType gives the icon to display
+-       @param Message is the message text to display
+-       @param Buttons is an array of buttons to show (Note: This is an array of
+-                      buttons, not a set, so the order is important!)
+-       @param CustomButtons is an array of strings for the custom button captions,
+-                            the number of entries must correspond to the number
+-                            of dbeCustom entries in the Buttons array
+-       @param CustomResults is an array of integers with the modal results for
+-                           the custom buttons, the number of entries must
+-                           correspond to the number of dbeCustom entries in the
+-                           Buttons array
+-       @param Owner is the owner component to be used in the constructor, defaults
+-                     to nil
+-       @param OptionDesc gives the description for the Buttons, if not given,
+-                         defaults to an empty string
+-       @returns one of the mrXxxx values }
++    ///&lt;summary&gt; Complex function to display a message.
++    ///          This will display a dialog with the icon indicated by DialogType, the
++    ///          Message given, containing the Buttons specified and optionally an
++    ///          OptionDesc. In contrast to MessageDlg the dialog is centered on the owner.
++    ///          @param DialogType gives the icon to display
++    ///          @param Message is the message text to display
++    ///          @param Buttons is an array of buttons to show (Note: This is an array of
++    ///                         buttons, not a set, so the order is important!)
++    ///          @param CustomButtons is an array of strings for the custom button captions,
++    ///                               the number of entries must correspond to the number
++    ///                               of dbeCustom entries in the Buttons array
++    ///          @param CustomResults is an array of integers with the modal results for
++    ///                               the custom buttons, the number of entries must
++    ///                               correspond to the number of dbeCustom entries in the
++    ///                               Buttons array
++    ///          @param Owner is the owner component to be used in the constructor, defaults
++    ///                       to nil
++    ///          @param OptionDesc gives the description for the Buttons, if not given,
++    ///                            defaults to an empty string
++    ///          @returns one of the mrXxxx values &lt;/summary&gt;
+     class function ShowMessage(_DialogType: TMsgDlgType; const _Message: string;
+       const _Buttons: array of TDialogButtonEnum; const _CustomButtons: array of string;
+       const _CustomResults: array of integer;
+       _Owner: TWinControl = nil;
+       const _OptionDesc: string = ''): integer; overload;
+-    {: Creates a Tf_dzDialog instance, shows it and returns it. The created
+-       dialog instance must be freed by the caller. Nonmodal in this context
+-       means that the call returns to the caller rather than waiting for the
+-       dialog to be dismissed by the user, so processing can continue. But note
+-       that the dialog is displayed on top of all application windows and
+-       works just like a modal dialog by blocking input to all other windows.
+-       You must free the dialog so is removed.
+-       @param DialogType gives the icon to display
+-       @param Message is the message text to display
+-       @param Buttons is an array of buttons to show (Note: This is an array of
+-                      buttons, not a set, so the order is important!)
+-       @param CustomButton is an array of strings for the custom button captions,
+-                           the number of entries must correspond to the number
+-                           of debCustom entries in the Buttons array
+-       @param CustomResults is an array of integers with the modal results for
+-                           the custom buttons, the number of entries must
+-                           correspond to the number of dbeCustom entries in the
+-                           Buttons array
+-       @param OnButtonClick is an event handler that will be called if one of the
+-                            buttons is clicked
+-       @param OptionDesc gives the description for the Buttons, if not given,
+-                         defaults to an empty string
+-       @param Parent is the parent component to be used in the constructor, defaults
+-                     to nil
+-       @returns the created Tf_dzDialog instance, the caller is responsible
+-                for closing and freeing this instance. }
++    ///&lt;summary&gt; Creates a Tf_dzDialog instance, shows it and returns it. The created
++    ///          dialog instance must be freed by the caller. Nonmodal in this context
++    ///          means that the call returns to the caller rather than waiting for the
++    ///          dialog to be dismissed by the user, so processing can continue. But note
++    ///          that the dialog is displayed on top of all application windows and
++    ///          works just like a modal dialog by blocking input to all other windows.
++    ///          You must free the dialog so it is removed.
++    ///          @param DialogType gives the icon to display
++    ///          @param Message is the message text to display
++    ///          @param Buttons is an array of buttons to show (Note: This is an array of
++    ///                         buttons, not a set, so the order is important!)
++    ///          @param CustomButton is an array of strings for the custom button captions,
++    ///                              the number of entries must correspond to the number
++    ///                              of debCustom entries in the Buttons array
++    ///          @param CustomResults is an array of integers with the modal results for
++    ///                               the custom buttons, the number of entries must
++    ///                               correspond to the number of dbeCustom entries in the
++    ///                               Buttons array
++    ///          @param OnButtonClick is an event handler that will be called if one of the
++    ///                               buttons is clicked
++    ///          @param OptionDesc gives the description for the Buttons, if not given,
++    ///                            defaults to an empty string
++    ///          @param Parent is the parent component to be used in the constructor, defaults
++    ///                        to nil
++    ///          @returns the created Tf_dzDialog instance, the caller is responsible
++    ///                   for closing and freeing this instance. }
+     class function ShowNonModalMessage(_DialogType: TMsgDlgType; const _Message: string;
+       const _Buttons: array of TDialogButtonEnum; const _CustomButtons: array of string;
+       const _CustomResults: array of integer; _OnButtonClick: TOnButtonClick;
+@@ -304,15 +300,14 @@
+   Consts,
+   Math,
+   ShellApi,
+-  u_dzVclUtils,
+-  u_dzTranslator;
++  u_dzVclUtils;
+ 
+ const
+   CHECKBOX_WIDTH = 24;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;  
+ 
+ function ModalResultToButton(_Result: integer): TDialogButtonEnum;
+@@ -412,8 +407,7 @@
+       frm.ExceptionClass := _e.ClassName;
+       // frm.ExcptionAddress := ExceptAddr;
+       frm.ExceptionMessage := _e.Message;
+-      frm.ExceptionExtendedMessage := _e.Message;
+-      frm.ExceptionProcedure := format('[%p]', [ExceptAddr]);
++      frm.ExceptionProcedure := Format('[%p]', [ExceptAddr]);
+       frm.ExceptionProcedure := GetLocationInfoStr(ExceptAddr);
+       sl := TStringList.Create;
+       try
+
+Modified: utilities/dzLib/trunk/src/u_dzClassUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzClassUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzClassUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -10,7 +10,8 @@
+ uses
+   SysUtils,
+   Classes,
+-  IniFiles;
++  IniFiles,
++  u_dzTranslator;
+ 
+ // NOTE: The naming convention is &lt;extended-class&gt;_&lt;Methodname&gt;
+ 
+@@ -144,12 +145,11 @@
+ 
+ uses
+   StrUtils,
+-  u_dzTranslator,
+   u_dzStringUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ procedure TList_FreeWithItems(var _List: TList);
+
+Modified: utilities/dzLib/trunk/src/u_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzConvertUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -11,7 +11,8 @@
+ interface
+ 
+ uses
+-  SysUtils;
++  SysUtils,
++  u_dzTranslator;
+ 
+ var
+   /// &lt;summary&gt;
+@@ -327,12 +328,11 @@
+   Windows,
+   DateUtils,
+   StrUtils,
+-  u_dzTranslator,
+   u_dzStringUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ function isDigit(_a: char; _Base: TBaseN): boolean;
+
+Modified: utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -9,7 +9,8 @@
+   SysUtils,
+   AdoDb,
+   DB,
+-  DBTables;
++  DBTables,
++  u_dzTranslator;
+ 
+ type
+   ///&lt;summary&gt; Interface definition for the Dataset-Helper, the idea is to have simplified
+@@ -161,12 +162,11 @@
+ uses
+   Variants,
+   u_dzTranslator,
+-  u_dzVariantUtils,
+   u_dzMiscUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ { TDatasetHelper }
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -8,6 +8,9 @@
+ 
+ interface
+ 
++uses
++  u_dzTranslator;
++
+ type
+   ///&lt;summary&gt; Similar to the DayMonday etc. constants in DateUtils, but starting
+   ///           with Monday rather than Sunday and also as a typesafe enum &lt;/summary&gt;
+@@ -70,12 +73,11 @@
+ uses
+   SysUtils,
+   DateUtils,
+-  u_dzTranslator,
+   u_dzStringUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ function GetDayOfTheWeek(_Date: TDateTime): TDayOfWeekEnum;
+
+Modified: utilities/dzLib/trunk/src/u_dzDllLoader.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDllLoader.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzDllLoader.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -7,6 +7,7 @@
+ uses
+   Windows,
+   SysUtils,
++  u_dzTranslator,
+   u_dzVersionInfo;
+ 
+ type
+@@ -106,12 +107,11 @@
+ 
+ uses
+   u_dzMiscUtils,
+-  u_dzOsUtils,
+-  u_dzTranslator;
++  u_dzOsUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ { TdzDllLoader }
+
+Modified: utilities/dzLib/trunk/src/u_dzFileStreams.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileStreams.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzFileStreams.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -12,7 +12,8 @@
+ uses
+   Classes,
+   SysUtils,
+-  Windows;
++  Windows,
++  u_dzTranslator;
+ 
+ type
+   ///&lt;summary&gt; Parent of all exceptions raised in u_dzFiles &lt;/summary&gt;
+@@ -191,13 +192,12 @@
+ implementation
+ 
+ uses
+-  u_dzTranslator,
+   u_dzFileUtils,
+   u_dzMiscUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ const
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -11,7 +11,8 @@
+ uses
+   Windows,
+   SysUtils,
+-  Classes;
++  Classes,
++  u_dzTranslator;
+ 
+ type
+   EFileUtils = class(Exception);
+@@ -688,14 +689,13 @@
+ implementation
+ 
+ uses
+-  u_dzTranslator,
+   u_dzMiscUtils,
+   u_dzStringUtils,
+   u_dzDateUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ function itpd(const _Dirname: string): string; inline;
+
+Modified: utilities/dzLib/trunk/src/u_dzMiscUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzMiscUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -26,7 +26,8 @@
+ uses
+   SysUtils,
+   Windows,
+-  Registry;
++  Registry,
++  u_dzTranslator;
+ 
+ type
+   ///&lt;summary&gt; raised by Max([array of const]) and Min([array of const]) if the passed
+@@ -199,13 +200,12 @@
+ {$ENDIF}
+   FileCtrl,
+   StrUtils,
+-  u_dzTranslator,
+   u_dzStringUtils,
+   u_dzConvertUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ {$IFDEF debug}
+
+Modified: utilities/dzLib/trunk/src/u_dzOsUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzOsUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzOsUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -6,7 +6,8 @@
+ uses
+   Windows,
+   SysUtils,
+-  Classes;
++  Classes,
++  u_dzTranslator;
+ 
+ type
+   EOsFunc = class(Exception);
+@@ -96,12 +97,11 @@
+ uses
+   Registry,
+   ShellApi,
+-  u_dzMiscUtils,
+-  u_dzTranslator;
++  u_dzMiscUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ function GetComputerName: string;
+
+Modified: utilities/dzLib/trunk/src/u_dzRingBuffer.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzRingBuffer.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzRingBuffer.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -6,7 +6,8 @@
+ 
+ uses
+   Windows,
+-  SysUtils;
++  SysUtils,
++  u_dzTranslator;
+ 
+ type
+   EdzRingBuffer = class(Exception);
+@@ -159,12 +160,9 @@
+ 
+ implementation
+ 
+-uses
+-  u_dzTranslator;
+-
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ { TdzCustomRingBuffer }
+
+Modified: utilities/dzLib/trunk/src/u_dzStringUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzStringUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzStringUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -12,7 +12,8 @@
+   Windows,
+   Classes,
+   StrUtils,
+-  SysUtils;
++  SysUtils,
++  u_dzTranslator;
+ 
+ type
+ ///&lt;summary&gt; Ancestor of all exceptions raised in u_dzStringUtils &lt;/summary&gt;
+@@ -363,12 +364,11 @@
+ implementation
+ 
+ uses
+-  u_dzConvertUtils,
+-  u_dzTranslator;
++  u_dzConvertUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ function ForceExtension(const _Name, _Ext: string): string;
+
+Modified: utilities/dzLib/trunk/src/u_dzTextFile.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTextFile.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzTextFile.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -3,7 +3,8 @@
+ interface
+ 
+ uses
+-  SysUtils;
++  SysUtils,
++  u_dzTranslator;
+ 
+ type
+   ///&lt;summary&gt; defined the file access for TTextFile&lt;/summary&gt;
+@@ -30,14 +31,11 @@
+ 
+ implementation
+ 
+-uses
+-  u_dzTranslator;
+-
+ { TTextFile }
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ constructor TTextFile.Create(const _Filename: string; _Access: TTextFileAccess);
+
+Modified: utilities/dzLib/trunk/src/u_dzVariantUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzVariantUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -5,7 +5,8 @@
+ 
+ uses
+   SysUtils,
+-  Variants;
++  Variants,
++  u_dzTranslator;
+ 
+ type
+   ///&lt;summary&gt; raised if there is a conversion error in one of the Var2XxxEx functions &lt;/summary&gt;
+@@ -185,12 +186,11 @@
+ implementation
+ 
+ uses
+-  u_dzTranslator,
+   u_dzConvertUtils;
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ function toString(_v: OleVariant): string;
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -17,7 +17,8 @@
+   StdCtrls,
+   ExtCtrls,
+   Grids,
+-  DbGrids;
++  DbGrids,
++  u_dzTranslator;
+ 
+ type
+   ///&lt;summary&gt; Ancestor to all exceptions raised in this unit. &lt;/summary&gt;
+@@ -458,7 +459,6 @@
+   RxGConst,
+   rxGif,
+ {$ENDIF GIFByRx}
+-  u_dzTranslator,
+   u_dzConvertUtils,
+   u_dzStringUtils;
+ 
+@@ -469,7 +469,7 @@
+ 
+ function _(const _s: string): string; inline;
+ begin
+-  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++  Result := dzDGetText(_s, 'dzlib');
+ end;
+ 
+ function TGrid_GetText(_Grid: TCustomGrid; _IncludeFixed: boolean = false): string;
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzdialog
+___________________________________________________________________
+Name: svn:ignore
+   + dzDialogTest.exe
+
+
+
+Property changes on: utilities/dzLib/trunk/tests/dzdialog/src
+___________________________________________________________________
+Name: svn:ignore
+   + dzDialogTest.res
+
+
+Added: utilities/dzLib/trunk/tests/dzdialog/src/dzDialogTest.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/dzdialog/src/dzDialogTest.dpr	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/tests/dzdialog/src/dzDialogTest.dpr	2008-09-05 15:13:33 UTC (rev 319)
+@@ -0,0 +1,19 @@
++program dzDialogTest;
++
++uses
++  Forms,
++  w_dzDialogText in 'w_dzDialogText.pas' {f_dzDialogTest},
++  w_dzDialog in '..\..\..\forms\w_dzDialog.pas' {f_dzDialog},
++  u_dzTranslator in '..\..\..\src\u_dzTranslator.pas',
++  u_dzVclUtils in '..\..\..\src\u_dzVclUtils.pas',
++  u_dzConvertUtils in '..\..\..\src\u_dzConvertUtils.pas',
++  u_dzStringUtils in '..\..\..\src\u_dzStringUtils.pas';
++
++{$R *.res}
++
++begin
++  Application.Initialize;
++  Application.MainFormOnTaskbar := True;
++  Application.CreateForm(Tf_dzDialogTest, f_dzDialogTest);
++  Application.Run;
++end.
+
+Added: utilities/dzLib/trunk/tests/dzdialog/src/dzDialogTest.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/dzdialog/src/dzDialogTest.dproj	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/tests/dzdialog/src/dzDialogTest.dproj	2008-09-05 15:13:33 UTC (rev 319)
+@@ -0,0 +1,148 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{d30bdf96-5ce7-4135-818e-43829202d327}&lt;/ProjectGuid&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;..\dzDialogTest.exe&lt;/DCC_DependencyCheckOutputName&gt;
++    &lt;MainSource&gt;dzDialogTest.dpr&lt;/MainSource&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_Define&gt;no_translation&lt;/DCC_Define&gt;
++    &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++    &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++    &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
++    &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\..\..\..\jcl\source;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\vcl;..\..\..\..\jcl\source\windows&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\..\..\..\jcl\source;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\vcl;..\..\..\..\jcl\source\windows&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\..\..\..\jcl\source;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\vcl;..\..\..\..\jcl\source\windows&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\..\..\..\jcl\source;..\..\..\..\jcl\source\common;..\..\..\..\jcl\source\vcl;..\..\..\..\jcl\source\windows&lt;/DCC_IncludePath&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType /&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject xmlns=&quot;&quot;&gt; &lt;Delphi.Personality&gt;   &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++    &lt;/VersionInfoKeys&gt;
++    &lt;Excluded_Packages&gt;
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;dzDialogTest.dpr&lt;/Source&gt;
++    &lt;/Source&gt;
++  &lt;/Delphi.Personality&gt; &lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dzDialogTest.dpr&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\..\..\forms\w_dzDialog.pas&quot;&gt;
++      &lt;Form&gt;f_dzDialog&lt;/Form&gt;
++    &lt;/DCCReference&gt;
++    &lt;DCCReference Include=&quot;..\..\..\src\u_dzConvertUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\..\src\u_dzStringUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\..\src\u_dzTranslator.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\..\src\u_dzVclUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;w_dzDialogText.pas&quot;&gt;
++      &lt;Form&gt;f_dzDialogTest&lt;/Form&gt;
++    &lt;/DCCReference&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/dzdialog/src/w_dzDialogText.dfm
+===================================================================
+--- utilities/dzLib/trunk/tests/dzdialog/src/w_dzDialogText.dfm	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/tests/dzdialog/src/w_dzDialogText.dfm	2008-09-05 15:13:33 UTC (rev 319)
+@@ -0,0 +1,61 @@
++object f_dzDialogTest: Tf_dzDialogTest
++  Left = 0
++  Top = 0
++  Caption = 'dzDialog Test'
++  ClientHeight = 138
++  ClientWidth = 320
++  Color = clBtnFace
++  Font.Charset = DEFAULT_CHARSET
++  Font.Color = clWindowText
++  Font.Height = -11
++  Font.Name = 'Tahoma'
++  Font.Style = []
++  OldCreateOrder = False
++  PixelsPerInch = 96
++  TextHeight = 13
++  object b_ShowException1: TButton
++    Left = 8
++    Top = 8
++    Width = 145
++    Height = 25
++    Caption = 'ShowException 1'
++    TabOrder = 0
++    OnClick = b_ShowException1Click
++  end
++  object b_ShowException2: TButton
++    Left = 8
++    Top = 40
++    Width = 145
++    Height = 25
++    Caption = 'ShowException 2'
++    TabOrder = 1
++    OnClick = b_ShowException2Click
++  end
++  object b_ShowException3: TButton
++    Left = 8
++    Top = 72
++    Width = 145
++    Height = 25
++    Caption = 'ShowException 3'
++    TabOrder = 2
++    OnClick = b_ShowException3Click
++  end
++  object b_ShowMessage1: TButton
++    Left = 168
++    Top = 8
++    Width = 129
++    Height = 25
++    Caption = 'ShowMessage 1'
++    TabOrder = 3
++    OnClick = b_ShowMessage1Click
++  end
++  object b_ShowMessage2: TButton
++    Left = 168
++    Top = 40
++    Width = 129
++    Height = 25
++    Caption = 'ShowMessage 2'
++    TabOrder = 4
++    OnClick = b_ShowMessage2Click
++  end
++end
+
+Added: utilities/dzLib/trunk/tests/dzdialog/src/w_dzDialogText.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzdialog/src/w_dzDialogText.pas	2008-09-05 13:19:23 UTC (rev 318)
++++ utilities/dzLib/trunk/tests/dzdialog/src/w_dzDialogText.pas	2008-09-05 15:13:33 UTC (rev 319)
+@@ -0,0 +1,97 @@
++unit w_dzDialogText;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Variants,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  StdCtrls;
++
++type
++  Tf_dzDialogTest = class(TForm)
++    b_ShowException1: TButton;
++    b_ShowException2: TButton;
++    b_ShowException3: TButton;
++    b_ShowMessage1: TButton;
++    b_ShowMessage2: TButton;
++    procedure b_ShowException1Click(Sender: TObject);
++    procedure b_ShowException2Click(Sender: TObject);
++    procedure b_ShowException3Click(Sender: TObject);
++    procedure b_ShowMessage1Click(Sender: TObject);
++    procedure b_ShowMessage2Click(Sender: TObject);
++  private
++  public
++  end;
++
++var
++  f_dzDialogTest: Tf_dzDialogTest;
++
++implementation
++
++{$R *.dfm}
++
++uses
++  w_dzDialog;
++
++type
++  ETestException = class(Exception)
++
++  end;
++
++procedure Tf_dzDialogTest.b_ShowException1Click(Sender: TObject);
++begin
++  try
++    raise ETestException.Create('This is a test.');
++  except
++    on e: Exception do begin
++      Tf_dzDialog.ShowException(e, Sender as TButton);
++    end;
++  end;
++end;
++
++procedure Tf_dzDialogTest.b_ShowException2Click(Sender: TObject);
++begin
++  try
++    raise ETestException.Create('This is a test.');
++  except
++    on e: Exception do begin
++      Tf_dzDialog.ShowException(e, [dbeOK], '', Sender as TButton);
++    end;
++  end;
++end;
++
++procedure Tf_dzDialogTest.b_ShowException3Click(Sender: TObject);
++begin
++  try
++    raise ETestException.Create('This is a test.');
++  except
++    on e: Exception do begin
++      case Tf_dzDialog.ShowException(e, 'a test exception occurred', [dbeAbort, dbeRetry, dbeIgnore], '', Sender as TButton) of
++        mrAbort: Tf_dzDialog.ShowMessage(mtInformation, 'User clicked Abort', [dbeOK], Sender as TButton);
++        mrRetry: Tf_dzDialog.ShowMessage(mtInformation, 'User clicked Retry', [dbeOK], Sender as TButton);
++        mrIgnore: Tf_dzDialog.ShowMessage(mtInformation, 'User clicked Ignore', [dbeOK], Sender as TButton);
++      end;
++    end;
++  end;
++end;
++
++procedure Tf_dzDialogTest.b_ShowMessage1Click(Sender: TObject);
++begin
++  Tf_dzDialog.ShowMessage(mtInformation, 'Show Message 1', [dbeOK], Sender as TButton);
++end;
++
++procedure Tf_dzDialogTest.b_ShowMessage2Click(Sender: TObject);
++begin
++  Tf_dzDialog.ShowMessage(mtInformation, 'Show Message 1', [dbeOK, dbeCancel, dbeCustom, dbeCustom],
++    ['Custom1', 'Custom2'], [-1, -2], Sender as TButton, 'Custom1: bla'#13#10'Custom2: blub');
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000185.html">[Dzchart-svncheckins] r318 - in utilities/dzCmdLineParser/trunk: .	src translations/de
+</A></li>
+	<LI>Next message: <A HREF="000187.html">[Dzchart-svncheckins] r320 - in utilities/dzLib/trunk: forms tests	tests/dzprogress tests/dzprogress/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

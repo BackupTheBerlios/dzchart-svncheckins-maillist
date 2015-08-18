@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r280 - in utilities/dzPrepBuild/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r280%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%20src&In-Reply-To=%3C200803251102.m2PB2Kb9000077%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000148.html">
+   <LINK REL="Next"  HREF="000150.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r280 - in utilities/dzPrepBuild/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r280%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%20src&In-Reply-To=%3C200803251102.m2PB2Kb9000077%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r280 - in utilities/dzPrepBuild/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Tue Mar 25 12:02:20 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000148.html">[Dzchart-svncheckins] r279 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000150.html">[Dzchart-svncheckins] r281 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#149">[ date ]</a>
+              <a href="thread.html#149">[ thread ]</a>
+              <a href="subject.html#149">[ subject ]</a>
+              <a href="author.html#149">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-03-25 12:02:17 +0100 (Tue, 25 Mar 2008)
+New Revision: 280
+
+Modified:
+   utilities/dzPrepBuild/trunk/prep.cmd
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+Log:
+now also adds its own executable name to the environment (%dzPrepBuild%)
+
+Modified: utilities/dzPrepBuild/trunk/prep.cmd
+===================================================================
+--- utilities/dzPrepBuild/trunk/prep.cmd	2008-03-25 11:02:00 UTC (rev 279)
++++ utilities/dzPrepBuild/trunk/prep.cmd	2008-03-25 11:02:17 UTC (rev 280)
+@@ -3,6 +3,7 @@
+ echo dzTime=%dzTime%
+ echo dzDateTime=%dzDateTime%
+ echo dzMyDocuments=%dzMyDocuments%
++echo dzPrepBuild=%dzPrepBuild%
+ 
+ echo dzProject=%dzProject%
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2008-03-25 11:02:00 UTC (rev 279)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2008-03-25 11:02:17 UTC (rev 280)
+@@ -1,3 +1,3 @@
+ [Version Info]
+-Build=111
++Build=122
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2008-03-25 11:02:00 UTC (rev 279)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2008-03-25 11:02:17 UTC (rev 280)
+@@ -16,7 +16,7 @@
+ [Version Info Keys]
+ CompanyName=dummzeuch.de
+ FileDescription=commandline and IDE prebuild tool
+-FileVersion=1.1.0.111
++FileVersion=1.1.0.122
+ InternalName=PrepBuild
+ LegalCopyright=Copyright 2002-2007 by Thomas Mueller
+ LegalTrademarks=
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2008-03-25 11:02:00 UTC (rev 279)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2008-03-25 11:02:17 UTC (rev 280)
+@@ -97,6 +97,7 @@
+   DZ_DATE_TIME = 'dzDateTime';
+   DZ_VERSION = 'dzVersion.';
+   DZ_PROJECT = 'dzProject';
++  DZ_PREPBUILD = 'dzPrepBuild';
+ var
+   MyDoc: string;
+   Executor: TExecutor;
+@@ -113,6 +114,7 @@
+     Executor.Environment.Values[DZ_DATE] := DateTimeToString('yyyy-mm-dd', dt);
+     Executor.Environment.Values[DZ_TIME] := DateTimeToString('hh-nn-ss', dt);
+     Executor.Environment.Values[DZ_DATE_TIME] := DateTimeToString('yyyy-mm-dd_hh-nn-ss', dt);
++    Executor.Environment.Values[DZ_PREPBUILD] := ExeName;
+ 
+     if _Project &lt;&gt; '' then
+       Executor.Environment.Values[DZ_PROJECT] := ChangeFileExt(_Project, '');
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000148.html">[Dzchart-svncheckins] r279 - utilities/dzCmdLineParser/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000150.html">[Dzchart-svncheckins] r281 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#149">[ date ]</a>
+              <a href="thread.html#149">[ thread ]</a>
+              <a href="subject.html#149">[ subject ]</a>
+              <a href="author.html#149">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

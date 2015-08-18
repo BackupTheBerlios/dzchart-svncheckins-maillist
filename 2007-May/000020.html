@@ -1,0 +1,1755 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r145 - in utilities/dzBdsIdeScript/trunk: .	dcu src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r145%20-%20in%20utilities/dzBdsIdeScript/trunk%3A%20.%0A%09dcu%20src&In-Reply-To=%3C200705061448.l46Em69t031871%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000019.html">
+   <LINK REL="Next"  HREF="000021.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r145 - in utilities/dzBdsIdeScript/trunk: .	dcu src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r145%20-%20in%20utilities/dzBdsIdeScript/trunk%3A%20.%0A%09dcu%20src&In-Reply-To=%3C200705061448.l46Em69t031871%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r145 - in utilities/dzBdsIdeScript/trunk: .	dcu src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun May  6 16:48:06 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000019.html">[Dzchart-svncheckins] r144 - utilities/dzBdsIdeScript/trunk
+</A></li>
+        <LI>Next message: <A HREF="000021.html">[Dzchart-svncheckins] r146 - in utilities/dzBdsIdeScript/trunk: .	src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-05-06 16:47:58 +0200 (Sun, 06 May 2007)
+New Revision: 145
+
+Added:
+   utilities/dzBdsIdeScript/trunk/dcu/
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.groupproj
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dpk
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dproj
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj
+   utilities/dzBdsIdeScript/trunk/out/
+   utilities/dzBdsIdeScript/trunk/src/
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.ScriptHandler.DWS2.pas
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.ScriptHandler.Manager.pas
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BaseExpert.dfm
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BaseExpert.pas
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.dfm
+   utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas
+Removed:
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm
+   utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas
+Modified:
+   utilities/dzBdsIdeScript/trunk/
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk
+   utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dproj
+Log:
+now has a plugin architecture that allows using different scripting engines
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk
+___________________________________________________________________
+Name: svn:ignore
+   - dzBdsIdeScript.cfg
+dzBdsIdeScript.res
+ModelSupport_dzBdsIdeScript
+de.dummzeuch.experts.BaseExpert.dcu
+de.dummzeuch.experts.BdsIdeScriptExpert.dcu
+dzBdsIdeScript.dcu
+dzBdsIdeScript_project.tvsconfig
+
+   + dzBdsIdeScript.cfg
+dzBdsIdeScript.res
+ModelSupport_dzBdsIdeScript
+de.dummzeuch.experts.BaseExpert.dcu
+de.dummzeuch.experts.BdsIdeScriptExpert.dcu
+dzBdsIdeScript.dcu
+dzBdsIdeScript_project.tvsconfig
+dzBdsIdeScript_DWS2.dcu
+dzBdsIdeScript_DWS2.res
+dzBdsIdeScriptInterfaces.res
+
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk/dcu
+___________________________________________________________________
+Name: svn:ignore
+   + *.dcu
+
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm	2007-05-06 14:47:58 UTC (rev 145)
+@@ -1,5 +0,0 @@
+-object dm_DzBaseExpert: Tdm_DzBaseExpert
+-  OldCreateOrder = False
+-  Height = 150
+-  Width = 215
+-end
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas	2007-05-06 14:47:58 UTC (rev 145)
+@@ -1,245 +0,0 @@
+-unit de.dummzeuch.experts.BaseExpert;
+-
+-interface
+-
+-uses
+-  SysUtils,
+-  Classes,
+-  Forms,
+-  Graphics,
+-  Menus,
+-  ToolsAPI;
+-
+-type
+-  IMsgWindow = interface ['{94A55B0E-1185-4469-85F6-28A2A433A609}']
+-    procedure Write(const _Msg: string; _Show: Boolean = False);
+-    procedure Clear;
+-  end;
+-
+-type
+-  Tdm_DzBaseExpert = class(TDataModule)
+-  protected // helper methods
+-    function GetMsgWindow(_Title: string): IMsgWindow;
+-    function GetBaseRegistryKey: string;
+-    function GetDelphiCustomMenu(const _Caption: string): TMenuItem;
+-    function TryGetDelphiCustomMenu(const _Caption: string; out _Item: TMenuItem): Boolean;
+-    procedure DeleteDelphiCustomMenu(const _Caption: string);
+-    function GetSelectedText: string;
+-    function GetSourceEditor: IOTASourceEditor;
+-    procedure InsertText(const _Text: string);
+-    procedure SetSelectedText(const _Text: string);
+-  end;
+-
+-implementation
+-
+-{$R *.dfm}
+-
+-type
+-  TMsgWindow = class(TInterfacedObject, IMsgWindow)
+-  private
+-    FTitle: string;
+-  public
+-    constructor Create(const _Title: string = '');
+-    procedure Write(const _Msg: string; _Show: Boolean = False);
+-    procedure Clear;
+-  end;
+-
+-{ Tdm_DzBaseExpert }
+-
+-procedure Tdm_DzBaseExpert.DeleteDelphiCustomMenu(const _Caption: string);
+-var
+-  Item: TMenuItem;
+-begin
+-  if TryGetDelphiCustomMenu(_Caption, Item) then
+-    Item.Free;
+-end;
+-
+-function Tdm_DzBaseExpert.GetBaseRegistryKey: string;
+-begin
+-  Result := (BorlandIDEServices as IOTAServices).GetBaseRegistryKey;
+-end;
+-
+-function Tdm_DzBaseExpert.GetDelphiCustomMenu(const _Caption: string): TMenuItem;
+-var
+-  MainMenu: TMenuItem;
+-  NTAServices: INTAServices;
+-begin
+-  Result := nil;
+-  if not Supports(BorlandIDEServices, INTAServices, NTAServices) then
+-    Exit;
+-
+-  MainMenu := NTAServices.MainMenu.Items;
+-  if not Assigned(MainMenu) then
+-    Exit;
+-
+-  Result := MainMenu.Find(_Caption);
+-  if Result = nil then begin
+-    Result := TMenuItem.Create(MainMenu);
+-    Result.Caption := _Caption;
+-    MainMenu.Add(Result);
+-  end;
+-end;
+-
+-function Tdm_DzBaseExpert.GetMsgWindow(_Title: string): IMsgWindow;
+-begin
+-  Result := TMsgWindow.Create(_Title);
+-end;
+-
+-function Tdm_DzBaseExpert.GetSelectedText: string;
+-var
+-  Block: IOTAEditBlock;
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-  Editor: IOTASourceEditor;
+-  View: IOTAEditView;
+-begin
+-  Result := '';
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then
+-    Exit;
+-  for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor, Editor) = S_OK then begin
+-      if Editor.GetEditViewCount = 0 then
+-        continue;
+-      View := Editor.EditViews[0];
+-      if View = nil then
+-        continue;
+-      Block := View.GetBlock;
+-      if Block = nil then
+-        continue;
+-      Result := Block.Text;
+-      Exit;
+-    end;
+-end;
+-
+-function Tdm_DzBaseExpert.GetSourceEditor: IOTASourceEditor;
+-var
+-  CurrMod: IOTAModule;
+-  i: Integer;
+-begin
+-  Result := nil;
+-  CurrMod := (BorlandIDEServices as IOTAModuleServices).CurrentModule;
+-  if not Assigned(CurrMod) then Exit;
+-  for i := 0 to CurrMod.GetModuleFileCount - 1 do
+-    if CurrMod.GetModuleFileEditor(i).QueryInterface(IOTASourceEditor, Result) = S_OK then
+-      Exit;
+-end;
+-
+-procedure Tdm_DzBaseExpert.InsertText(const _Text: string);
+-var
+-  OldAutoIndent: Boolean;
+-  Buffer: IOTAEditBuffer;
+-  Editor: IOTASourceEditor;
+-  View: IOTAEditView;
+-begin
+-  Editor := GetSourceEditor;
+-  if (Editor = nil) or (Editor.GetEditViewCount = 0) then
+-    Exit;
+-
+-  View := Editor.GetEditView(0);
+-  if View = nil then
+-    Exit;
+-
+-  Buffer := View.GetBuffer;
+-  if Buffer = nil then
+-    Exit;
+-
+-  OldAutoIndent := Buffer.BufferOptions.AutoIndent;
+-  try
+-    Buffer.BufferOptions.AutoIndent := False;
+-    View.Position.InsertText(_Text);
+-    View.Paint;
+-  finally
+-    Buffer.BufferOptions.AutoIndent := OldAutoIndent;
+-  end;
+-end;
+-
+-procedure Tdm_DzBaseExpert.SetSelectedText(const _Text: string);
+-var
+-  OldAutoIndent: Boolean;
+-  Buffer: IOTAEditBuffer;
+-  Block: IOTAEditBlock;
+-  Editor: IOTASourceEditor;
+-  i: Integer;
+-  View: IOTAEditView;
+-begin
+-  Editor := GetSourceEditor;
+-  if Editor = nil then
+-    Exit;
+-  for i := 0 to Editor.GetEditViewCount - 1 do begin
+-    View := Editor.GetEditView(i);
+-    if View = nil then
+-      continue;
+-    Block := View.GetBlock;
+-    if Block.Text &lt;&gt; '' then begin
+-      Buffer := View.GetBuffer;
+-      OldAutoIndent := Buffer.BufferOptions.AutoIndent;
+-      try
+-        Buffer.BufferOptions.AutoIndent := False;
+-        View.Position.InsertText(_Text);
+-        View.Paint;
+-      finally
+-        Buffer.BufferOptions.AutoIndent := OldAutoIndent;
+-      end;
+-      Exit;
+-    end;
+-  end;
+-end;
+-
+-function Tdm_DzBaseExpert.TryGetDelphiCustomMenu(const _Caption: string; out _Item: TMenuItem): Boolean;
+-var
+-  NTAServices: INTAServices;
+-  MainMenu: TMenuItem;
+-begin
+-  Result := Supports(BorlandIDEServices, INTAServices, NTAServices);
+-  if not Result then
+-    Exit;
+-
+-  MainMenu := NTAServices.MainMenu.Items;
+-  _Item := MainMenu.Find(_Caption);
+-  Result := Assigned(_Item);
+-end;
+-
+-{ TMsgWindow }
+-
+-procedure TMsgWindow.Clear;
+-var
+-  MessageView: IOTAMessageServices;
+-  MessageGroup: IOTAMessageGroup;
+-begin
+-  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
+-    MessageGroup := MessageView.AddMessageGroup(FTitle);
+-    MessageView.ClearMessageGroup(MessageGroup);
+-  end;
+-end;
+-
+-constructor TMsgWindow.Create(const _Title: string);
+-begin
+-  inherited Create;
+-  FTitle := _Title;
+-end;
+-
+-procedure TMsgWindow.Write(const _Msg: string; _Show: Boolean);
+-var
+-  MessageView: IOTAMessageServices;
+-  MessageGroup: IOTAMessageGroup;
+-  st: TStringList;
+-  i: Integer;
+-begin
+-  if Supports(BorlandIDEServices, IOTAMessageServices, MessageView) then begin
+-    st := TStringList.Create;
+-    try
+-      st.Text := _Msg;
+-      MessageGroup := MessageView.AddMessageGroup(FTitle);
+-      if _Show then
+-        MessageView.ShowMessageView(MessageGroup);
+-      for i := 0 to st.Count - 1 do
+-        MessageView.AddTitleMessage(st[i], MessageGroup);
+-    finally
+-      st.Free;
+-    end;
+-  end;
+-end;
+-
+-end.
+-
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.dfm	2007-05-06 14:47:58 UTC (rev 145)
+@@ -1,52 +0,0 @@
+-inherited dm_dzBdsIdeScriptExpert: Tdm_dzBdsIdeScriptExpert
+-  OldCreateOrder = True
+-  OnCreate = DataModuleCreate
+-  OnDestroy = DataModuleDestroy
+-  Height = 219
+-  Width = 217
+-  object TheTimer: TTimer
+-    Enabled = False
+-    Interval = 5000
+-    OnTimer = TheTimerTimer
+-    Left = 24
+-    Top = 16
+-  end
+-  object dws2Unit: Tdws2Unit
+-    Script = dws_Main
+-    Arrays = &lt;&gt;
+-    Classes = &lt;&gt;
+-    Constants = &lt;&gt;
+-    Dependencies.Strings = (
+-      'Classes')
+-    Enumerations = &lt;&gt;
+-    Forwards = &lt;&gt;
+-    Functions = &lt;&gt;
+-    Instances = &lt;&gt;
+-    Records = &lt;&gt;
+-    Synonyms = &lt;&gt;
+-    UnitName = 'dzIdeEditor'
+-    Variables = &lt;&gt;
+-    StaticSymbols = False
+-    Left = 112
+-    Top = 88
+-  end
+-  object dws_Main: TDelphiWebScriptII
+-    Config.CompilerOptions = []
+-    Config.MaxDataSize = 0
+-    Config.Timeout = 0
+-    Left = 24
+-    Top = 88
+-  end
+-  inline dws2ClassesLib: Tdws2ClassesLib
+-    OldCreateOrder = False
+-    Script = dws_Main
+-    Left = 24
+-    Top = 144
+-    Height = 0
+-    Width = 0
+-  end
+-  object dws2FileFunctions: Tdws2FileFunctions
+-    Left = 112
+-    Top = 144
+-  end
+-end
+
+Deleted: utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BdsIdeScriptExpert.pas	2007-05-06 14:47:58 UTC (rev 145)
+@@ -1,343 +0,0 @@
+-unit de.dummzeuch.experts.BdsIdeScriptExpert;
+-
+-interface
+-
+-uses
+-  Windows,
+-  Messages,
+-  SysUtils,
+-  Classes,
+-  Graphics,
+-  Controls,
+-  Forms,
+-  Dialogs,
+-  Menus,
+-  ExtCtrls,
+-  ToolsAPI,
+-  dws2Comp,
+-  dws2Exprs,
+-  dws2StringFunctions,
+-  dws2FileFunctions,
+-  dws2ClassesLibModule,
+-  de.dummzeuch.experts.BaseExpert;
+-
+-type
+-  Tdm_dzBdsIdeScriptExpert = class(Tdm_DzBaseExpert)
+-    TheTimer: TTimer;
+-    dws2Unit: Tdws2Unit;
+-    dws_Main: TDelphiWebScriptII;
+-    dws2ClassesLib: Tdws2ClassesLib;
+-    dws2FileFunctions: Tdws2FileFunctions;
+-    procedure DataModuleCreate(Sender: TObject);
+-    procedure DataModuleDestroy(Sender: TObject);
+-    procedure RunScriptSubItemClick(Sender: TObject);
+-    procedure RunScriptExplainClick(Sender: TObject);
+-    procedure TheTimerTimer(Sender: TObject);
+-  private
+-    FScriptItems: TList;
+-    FScripts: TStringList;
+-
+-    procedure ClearMenuItems(_List: TList);
+-    procedure ClearScriptMenuItems;
+-    procedure LoadScripts;
+-    procedure RefreshMenuItems;
+-    procedure RefreshScriptMenuItems;
+-    procedure SetTimerRefreshing;
+-  private
+-    function Compile(const _Source: string): TProgram;
+-    procedure ExecuteScript(_Code: TStrings);
+-    procedure OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-    procedure OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-    procedure OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-    procedure RegisterOTAFunctions;
+-  end;
+-
+-implementation
+-
+-{$R *.DFM}
+-
+-uses
+-  Registry,
+-  ShellAPI,
+-  dws2Symbols,
+-  dws2Compiler;
+-
+-const
+-  MESSAGE_WINDOW_TITLE = 'BdsIdeScript';
+-  CUSTOM_MENU_CAPTION = 'Scripts';
+-  REGISTRY_BRANCH = 'dzBdsIdeScript';
+-
+-procedure Tdm_dzBdsIdeScriptExpert.ExecuteScript(_Code: TStrings);
+-var
+-  i: Integer;
+-  Prog: TProgram;
+-  Msg: IMsgWindow;
+-begin
+-  Msg := GetMsgWindow(MESSAGE_WINDOW_TITLE);
+-  Msg.Write('Compiling script.');
+-  try
+-    Prog := Compile(_Code.Text);
+-  except
+-    on e: Exception do begin
+-      Msg.Write('Error compiling script:'#13#10 + e.Message, True);
+-      Exit;
+-    end;
+-  end;
+-
+-  Msg.Write('Running script.');
+-  try
+-//    Prog.BeginProgram();
+-    Prog.Execute;
+-//    Prog.EndProgram;
+-
+-    for i := 0 to Prog.Msgs.Count - 1 do
+-      Msg.Write(Prog.Msgs[i].asInfo);
+-    Msg.Write(Tdws2DefaultResult(Prog.Result).Text);
+-
+-  finally
+-    Prog.Free;
+-  end;
+-  Msg.Write('Done.');
+-end;
+-
+-function Tdm_dzBdsIdeScriptExpert.Compile(const _Source: string): TProgram;
+-var
+-  i: Integer;
+-  err: string;
+-begin
+-  Result := dws_Main.Compile(_Source);
+-  if Result.Msgs.HasCompilerErrors then begin
+-    err := '';
+-    for i := 0 to Result.Msgs.Count - 1 do begin
+-      if err &lt;&gt; '' then
+-        err := err + #13#10;
+-      err := err + Result.Msgs[i].asInfo;
+-    end;
+-    Result.Free;
+-    raise Exception.Create(err);
+-  end;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.DataModuleCreate(Sender: TObject);
+-begin
+-  FScriptItems := TList.Create;
+-  FScripts := TStringList.Create;
+-
+-  RefreshMenuItems;
+-
+-  RegisterOTAFunctions;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.DataModuleDestroy(Sender: TObject);
+-begin
+-  ClearScriptMenuItems;
+-  DeleteDelphiCustomMenu(CUSTOM_MENU_CAPTION);
+-  FScripts.Free;
+-  FScriptItems.Free;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  _Info.Result := GetSelectedText;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  SetSelectedText(_Info.Value['_Text']);
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
+-begin
+-  InsertText(_Info.Value['_Text']);
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.RegisterOTAFunctions;
+-var
+-  Item: Tdws2Class;
+-  Meth: Tdws2Method;
+-  Param: Tdws2Parameter;
+-begin
+-  Item := dws2Unit.Classes.Add as Tdws2Class;
+-  Item.Name := 'TIdeEditor';
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'GetSelectedText';
+-  Meth.Kind := mkClassFunction;
+-  Meth.ResultType := 'String';
+-  Meth.OnEval := OnIdeEditorGetSelectedTextEval;
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'SetSelectedText';
+-  Meth.Kind := mkClassProcedure;
+-  Param := Meth.Parameters.Add as Tdws2Parameter;
+-  Param.Name := '_Text';
+-  Param.DataType := 'String';
+-  Meth.OnEval := OnIdeEditorSetSelectedTextEval;
+-
+-  Meth := Item.Methods.Add as Tdws2Method;
+-  Meth.Name := 'InsertText';
+-  Meth.Kind := mkClassProcedure;
+-  Param := Meth.Parameters.Add as Tdws2Parameter;
+-  Param.Name := '_Text';
+-  Param.DataType := 'String';
+-  Meth.OnEval := OnIdeEditorInsertTextEval;
+-end;
+-
+-procedure ListFiles(const Path: string; Strings: TStrings);
+-var
+-  Found: Integer;
+-  SearchRec: TSearchRec;
+-begin
+-  Found := FindFirst(Path, faAnyFile, SearchRec);
+-  while Found = 0 do begin
+-    if (SearchRec.Attr and faDirectory) &lt;&gt; faDirectory then
+-      Strings.Add(SearchRec.Name);
+-    Found := FindNext(SearchRec);
+-  end;
+-  FindClose(SearchRec);
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.LoadScripts;
+-var
+-  Folder: string;
+-  i: Integer;
+-  Reg: TRegistry;
+-begin
+-  Reg := TRegistry.Create;
+-  try
+-    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH, True);
+-    if not Reg.ValueExists('ScriptFolder') then
+-      { Add the IDE's folder. }
+-      Reg.WriteString('ScriptFolder',
+-        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Scripts')
+-    else
+-      Folder := Reg.ReadString('ScriptFolder');
+-  finally
+-    Reg.Free;
+-  end;
+-  Folder := IncludeTrailingPathDelimiter(Folder);
+-  FScripts.Clear;
+-  ListFiles(Folder + '*.dws', FScripts);
+-  for i := 0 to FScripts.Count - 1 do
+-    FScripts[i] := Folder + FScripts[i];
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.RunScriptExplainClick(Sender: TObject);
+-begin
+-  ShowMessage(
+-    'Scripts should be placed in the folder pointed by '#13 +
+-    'the registry value at:'#13#13 +
+-    'HKCU\' + GetBaseRegistryKey + '\' + REGISTRY_BRANCH +
+-    #13#13'The value should be assigned to &quot;ScriptFolder&quot;.' +
+-    #13#13'You can always refresh the script list by clicking this item.'
+-    );
+-  RefreshMenuItems;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.TheTimerTimer(Sender: TObject);
+-begin
+-  RefreshMenuItems;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.RefreshMenuItems;
+-begin
+-  RefreshScriptMenuItems;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.RefreshScriptMenuItems;
+-var
+-  i: Integer;
+-  Item, ScriptMenu: TMenuItem;
+-begin
+-  ScriptMenu := GetDelphiCustomMenu(CUSTOM_MENU_CAPTION);
+-  if ScriptMenu = nil then begin { The menu may not exist yet. }
+-    TheTimer.Enabled := True;
+-    Exit;
+-  end;
+-
+-  LoadScripts;
+-  ClearScriptMenuItems;
+-
+-  for i := 0 to FScripts.Count - 1 do begin
+-    Item := TMenuItem.Create(nil);
+-    FScriptItems.Add(Item);
+-    Item.Caption := ChangeFileExt(ExtractFileName(FScripts[i]), '');
+-    Item.Tag := i;
+-    Item.OnClick := RunScriptSubItemClick;
+-    ScriptMenu.Add(Item);
+-  end;
+-
+-  Item := TMenuItem.Create(nil);
+-  FScriptItems.Add(Item);
+-  Item.Caption := '(customize)';
+-  Item.OnClick := RunScriptExplainClick;
+-  ScriptMenu.Add(Item);
+-  SetTimerRefreshing;
+-
+-  ScriptMenu.Visible := FScripts.Count &gt; 0;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.ClearMenuItems(_List: TList);
+-var
+-  i: Integer;
+-begin
+-  if (not Assigned(_List)) or (_List.Count = 0) then
+-    Exit;
+-  for i := 0 to _List.Count - 1 do
+-    TMenuItem(_List[i]).Free;
+-  _List.Clear;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.ClearScriptMenuItems;
+-begin
+-  ClearMenuItems(FScriptItems);
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.SetTimerRefreshing;
+-var
+-  Reg: TRegistry;
+-begin
+-  Reg := TRegistry.Create;
+-  try
+-    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH + '\Options', True);
+-    if Reg.ValueExists('Refresh') then begin
+-      TheTimer.Enabled := Reg.ReadBool('Refresh');
+-    end else begin
+-      Reg.WriteBool('Refresh', True);
+-      TheTimer.Enabled := True;
+-    end;
+-  finally
+-    Reg.Free;
+-  end;
+-end;
+-
+-procedure Tdm_dzBdsIdeScriptExpert.RunScriptSubItemClick(Sender: TObject);
+-var
+-  Code: TStringList;
+-  FileName: string;
+-  Idx: Integer;
+-  Msg: IMsgWindow;
+-begin
+-  Idx := (Sender as TComponent).Tag;
+-  FileName := FScripts[Idx];
+-  Msg := GetMsgWindow(MESSAGE_WINDOW_TITLE);
+-  Msg.Clear;
+-  Msg.Write('Loading script ' + FileName);
+-  Code := TStringList.Create;
+-  try
+-    Code.LoadFromFile(FileName);
+-    ExecuteScript(Code);
+-  finally
+-    Code.Free;
+-  end;
+-end;
+-
+-var
+-  Expert: Tdm_dzBdsIdeScriptExpert;
+-
+-initialization
+-  Expert := Tdm_dzBdsIdeScriptExpert.Create(nil);
+-finalization
+-  Expert.Free;
+-end.
+-
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dpk	2007-05-06 14:47:58 UTC (rev 145)
+@@ -22,9 +22,8 @@
+ {$WRITEABLECONST ON}
+ {$MINENUMSIZE 1}
+ {$IMAGEBASE $400000}
+-{$DESCRIPTION 'BDS IDE Scripting using Delphi Web Script II'}
++{$DESCRIPTION 'dummzeuch.de - BDS IDE Scripting Expert'}
+ {$LIBSUFFIX '100'}
+-{$LIBVERSION '1.0'}
+ {$DESIGNONLY}
+ {$IMPLICITBUILD OFF}
+ 
+@@ -33,10 +32,11 @@
+   designide,
+   dws2VCLRuntime,
+   dws2Runtime,
+-  dws2ClassesLibrary;
++  dws2ClassesLibrary,
++  dzBdsIdeScriptInterfaces;
+ 
+ contains
+-  de.dummzeuch.experts.BdsIdeScriptExpert in 'de.dummzeuch.experts.BdsIdeScriptExpert.pas' {dm_dzBdsIdeScriptExpert: TDataModule},
+-  de.dummzeuch.experts.BaseExpert in 'de.dummzeuch.experts.BaseExpert.pas' {dm_DzBaseExpert: TDataModule};
++  de.dummzeuch.experts.BdsIdeScriptExpert.Expert in 'src\de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas' {dm_dzBdsIdeScriptExpert: TDataModule},
++  de.dummzeuch.experts.BaseExpert in 'src\de.dummzeuch.experts.BaseExpert.pas' {dm_DzBaseExpert: TDataModule};
+ 
+ end.
+
+Modified: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dproj	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.dproj	2007-05-06 14:47:58 UTC (rev 145)
+@@ -1,11 +1,12 @@
+-&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+   &lt;PropertyGroup&gt;
+     &lt;ProjectGuid&gt;{44cac5b7-0797-4334-9402-468a20b16190}&lt;/ProjectGuid&gt;
+     &lt;MainSource&gt;dzBdsIdeScript.dpk&lt;/MainSource&gt;
+     &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+     &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+     &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzBdsIdeScript100.bpl.1.0&lt;/DCC_DependencyCheckOutputName&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzBdsIdeScript100.bpl&lt;/DCC_DependencyCheckOutputName&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+     &lt;Version&gt;7.0&lt;/Version&gt;
+@@ -23,11 +24,7 @@
+     &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+     &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
+     &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;$(BDS)\Bin\bds.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;BDS IDE Scripting using Delphi Web Script II&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;1.0&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;B!
+ uild&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;
+-      
+-      
+-      &lt;Excluded_Packages Name=&quot;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzBdsIdeScript100.bpl.1.0&quot;&gt;BDS IDE Scripting using Delphi Web Script II&lt;/Excluded_Packages&gt;
+-    &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScript.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;HostApplication&quot;&gt;$(BDS)\Bin\bds.exe&lt;/Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - BDS IDE Scripting Expert&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;1.1&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;!
+ &gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Excluded_Packages&gt;&lt;/Exclude!
+ d_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScript.dp!
+ k&lt;/Sourc
+e&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+   &lt;/ProjectExtensions&gt;
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;ItemGroup&gt;
+@@ -38,11 +35,12 @@
+     &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2ClassesLibrary.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2Runtime.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2VCLRuntime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dzBdsIdeScriptInterfaces.dcp&quot; /&gt;
+     &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\vcl.dcp&quot; /&gt;
+-    &lt;DCCReference Include=&quot;de.dummzeuch.experts.BaseExpert.pas&quot;&gt;
++    &lt;DCCReference Include=&quot;src\de.dummzeuch.experts.BaseExpert.pas&quot;&gt;
+       &lt;Form&gt;dm_DzBaseExpert&lt;/Form&gt;
+     &lt;/DCCReference&gt;
+-    &lt;DCCReference Include=&quot;de.dummzeuch.experts.BdsIdeScriptExpert.pas&quot;&gt;
++    &lt;DCCReference Include=&quot;src\de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas&quot;&gt;
+       &lt;Form&gt;dm_dzBdsIdeScriptExpert&lt;/Form&gt;
+     &lt;/DCCReference&gt;
+     &lt;None Include=&quot;ModelSupport_dzBdsIdeScript\default.txaPackage&quot; /&gt;
+
+Added: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.groupproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.groupproj	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript.groupproj	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,49 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{6c147b39-6e78-46ce-a011-b3fd6b0b9dd8}&lt;/ProjectGuid&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ItemGroup /&gt;
++  &lt;ItemGroup /&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Default.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType /&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject xmlns=&quot;&quot;&gt;&lt;Default.Personality&gt;&lt;/Default.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Target Name=&quot;dzBdsIdeScriptInterfaces&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScriptInterfaces.dproj&quot; Targets=&quot;&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dzBdsIdeScriptInterfaces:Clean&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScriptInterfaces.dproj&quot; Targets=&quot;Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dzBdsIdeScriptInterfaces:Make&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScriptInterfaces.dproj&quot; Targets=&quot;Make&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dzBdsIdeScript&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScript.dproj&quot; Targets=&quot;&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dzBdsIdeScript:Clean&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScript.dproj&quot; Targets=&quot;Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dzBdsIdeScript:Make&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScript.dproj&quot; Targets=&quot;Make&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dzBdsIdeScript_DWS2&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScript_DWS2.dproj&quot; Targets=&quot;&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dzBdsIdeScript_DWS2:Clean&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScript_DWS2.dproj&quot; Targets=&quot;Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;dzBdsIdeScript_DWS2:Make&quot;&gt;
++    &lt;MSBuild Projects=&quot;dzBdsIdeScript_DWS2.dproj&quot; Targets=&quot;Make&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;Build&quot;&gt;
++    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces;dzBdsIdeScript;dzBdsIdeScript_DWS2&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;Clean&quot;&gt;
++    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces:Clean;dzBdsIdeScript:Clean;dzBdsIdeScript_DWS2:Clean&quot; /&gt;
++  &lt;/Target&gt;
++  &lt;Target Name=&quot;Make&quot;&gt;
++    &lt;CallTarget Targets=&quot;dzBdsIdeScriptInterfaces:Make;dzBdsIdeScript:Make;dzBdsIdeScript_DWS2:Make&quot; /&gt;
++  &lt;/Target&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dpk	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dpk	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,36 @@
++package dzBdsIdeScriptInterfaces;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'dummzeuch.de - interfaces for dzBdsIdeScript'}
++{$LIBSUFFIX '100'}
++{$RUNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl;
++
++contains
++  de.dummzeuch.ScriptHandler.Manager in 'src\de.dummzeuch.ScriptHandler.Manager.pas';
++
++end.
+
+Added: utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dproj	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScriptInterfaces.dproj	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,37 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{1ca8af38-c375-4146-9045-b06a869ae28d}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;dzBdsIdeScriptInterfaces.dpk&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzBdsIdeScriptInterfaces100.bpl&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DcuOutput&gt;dcu&lt;/DCC_DcuOutput&gt;
++    &lt;DCC_ObjOutput&gt;dcu&lt;/DCC_ObjOutput&gt;
++    &lt;DCC_HppOutput&gt;dcu&lt;/DCC_HppOutput&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - interfaces for dzBdsIdeScript&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;1.1&lt;/Package_Options&gt;&lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;!
+ &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScriptInterfaces.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.!
+ Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dzBdsIdeScriptInterfaces.dpk&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\rtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;src\de.dummzeuch.ScriptHandler.Manager.pas&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dpk	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,41 @@
++package dzBdsIdeScript_DWS2;
++
++{$R *.res}
++{$ALIGN 8}
++{$ASSERTIONS ON}
++{$BOOLEVAL OFF}
++{$DEBUGINFO ON}
++{$EXTENDEDSYNTAX ON}
++{$IMPORTEDDATA ON}
++{$IOCHECKS ON}
++{$LOCALSYMBOLS ON}
++{$LONGSTRINGS ON}
++{$OPENSTRINGS ON}
++{$OPTIMIZATION ON}
++{$OVERFLOWCHECKS OFF}
++{$RANGECHECKS OFF}
++{$REFERENCEINFO ON}
++{$SAFEDIVIDE OFF}
++{$STACKFRAMES OFF}
++{$TYPEDADDRESS OFF}
++{$VARSTRINGCHECKS ON}
++{$WRITEABLECONST OFF}
++{$MINENUMSIZE 1}
++{$IMAGEBASE $400000}
++{$DESCRIPTION 'dummzeuch.de - BDS IDE scripting using Delphi Web Script 2'}
++{$LIBSUFFIX '100'}
++{$DESIGNONLY}
++{$IMPLICITBUILD OFF}
++
++requires
++  rtl,
++  dws2VCLRuntime,
++  dws2Runtime,
++  dws2ClassesLibrary,
++  dzBdsIdeScriptInterfaces;
++
++contains
++  de.dummzeuch.ScriptHandler.DWS2 in 'src\de.dummzeuch.ScriptHandler.DWS2.pas';
++
++end.
++
+
+Added: utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/dzBdsIdeScript_DWS2.dproj	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,40 @@
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{5606ee84-b6ae-4659-8779-dc746861e8b7}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;dzBdsIdeScript_DWS2.dpk&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzBdsIdeScript_DWS2100.bpl&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType&gt;Package&lt;/Borland.ProjectType&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;Package_Options&gt;&lt;Package_Options Name=&quot;ImplicitBuild&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;DesigntimeOnly&quot;&gt;True&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;RuntimeOnly&quot;&gt;False&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibSuffix&quot;&gt;100&lt;/Package_Options&gt;&lt;Package_Options Name=&quot;LibVersion&quot;&gt;1.1&lt;/Package_Options&gt;  &lt;Package_Options Name=&quot;PackageDescription&quot;&gt;dummzeuch.de - BDS IDE scripting using Delphi Web Script 2&lt;/Package_Options&gt;
++    &lt;/Package_Options&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademar!
+ ks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;dzBdsIdeScript_DWS2.dpk&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;dzBdsIdeScript_DWS2.dpk&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2ClassesLibrary.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2Runtime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dws2VCLRuntime.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\dzBdsIdeScriptInterfaces.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;C:\Documents and Settings\developer\rtl.dcp&quot; /&gt;
++    &lt;DCCReference Include=&quot;src\de.dummzeuch.ScriptHandler.DWS2.pas&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+
+Property changes on: utilities/dzBdsIdeScript/trunk/src
+___________________________________________________________________
+Name: svn:ignore
+   + de.dummzeuch.experts.BaseExpert.dcu
+*.dcu
+
+
+Added: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.ScriptHandler.DWS2.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.ScriptHandler.DWS2.pas	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.ScriptHandler.DWS2.pas	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,214 @@
++unit de.dummzeuch.ScriptHandler.DWS2;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  dws2Comp,
++  dws2Exprs,
++  dws2StringFunctions,
++  dws2FileFunctions,
++  dws2ClassesLibModule,
++  de.dummzeuch.ScriptHandler.Manager;
++
++type
++  TScriptHandlerDWS2 = class(TInterfacedObject, IScriptHandler)
++  private
++    dws_Main: TDelphiWebScriptII;
++    dws2Unit: Tdws2Unit;
++    dws2FileFunctions: Tdws2FileFunctions;
++    FTextAccess: IEditorTextAccess;
++    {: compiles the source and returns an executable TProgram }
++    function Compile(const _Source: string): TProgram;
++    {: registers the IdeEditorXxxx scripting functions for accessing the editor text }
++    procedure RegisterOTAFunctions;
++  private // event functions called from the script
++    {: implements the script function IdeEditorGetSelectedText }
++    procedure OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++    {: implements the script function IdeEditorSetSelectedText }
++    procedure OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++    {: implements the script function IdeEditorInsertText }
++    procedure OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++  private // implementation of IScriptHandler
++    {: @returns '.dws' }
++    function GetScriptExtension: string;
++    {: @returns 'Delphi Web Script II' }
++    function GetName: string;
++    {: executes the script stored in the TStrings }
++    procedure Execute(_TextAccess: IEditorTextAccess; _Output: IMessageOutput;
++      _Code: TStrings);
++  public
++    constructor Create;
++    destructor Destroy; override;
++  end;
++
++implementation
++
++uses
++  dws2Compiler,
++  dws2Symbols;
++
++const
++  DWS_SCRIPT_EXTENSION = '.dws';
++  DWS_SCRIPT_NAME = 'Delphi Web Script II';
++
++
++{ TScriptHandler }
++
++constructor TScriptHandlerDWS2.Create;
++begin
++  inherited Create;
++
++  dws_Main := TDelphiWebScriptII.Create(nil);
++  with dws_Main do begin
++    Name := 'dws_Main';
++    Config.CompilerOptions := [];
++    Config.MaxDataSize := 0;
++    Config.Timeout := 0;
++  end;
++
++  dws2ClassesLib := Tdws2ClassesLib.Create(nil);
++  with dws2ClassesLib do
++    Script := dws_Main;
++
++  dws2Unit := Tdws2Unit.Create(nil);
++  with dws2Unit do begin
++    Name := 'dws2Unit';
++    Dependencies.Clear;
++    Dependencies.Add('Classes');
++    UnitName := 'dzIdeEditor';
++    StaticSymbols := False;
++    Script := dws_Main;
++  end;
++
++  dws2FileFunctions := Tdws2FileFunctions.Create(nil);
++  with dws2FileFunctions do begin
++    Name := 'dws2FileFunctions';
++  end;
++
++  RegisterOTAFunctions;
++end;
++
++destructor TScriptHandlerDWS2.Destroy;
++begin
++  dws2Unit.Free;
++  dws_Main.Free;
++  inherited;
++end;
++
++function TScriptHandlerDWS2.Compile(const _Source: string): TProgram;
++var
++  i: Integer;
++  err: string;
++begin
++  Result := dws_Main.Compile(_Source);
++  if Result.Msgs.HasCompilerErrors then begin
++    err := '';
++    for i := 0 to Result.Msgs.Count - 1 do begin
++      if err &lt;&gt; '' then
++        err := err + #13#10;
++      err := err + Result.Msgs[i].asInfo;
++    end;
++    Result.Free;
++    raise Exception.Create(err);
++  end;
++end;
++
++procedure TScriptHandlerDWS2.Execute(_TextAccess: IEditorTextAccess; _Output: IMessageOutput;
++  _Code: TStrings);
++var
++  i: Integer;
++  Prog: TProgram;
++begin
++  FTextAccess := _TextAccess;
++//  Msg := GetMsgWindow(MESSAGE_WINDOW_TITLE);
++  _Output.Write('Compiling script.');
++  try
++    Prog := Compile(_Code.Text);
++  except
++    on e: Exception do begin
++      _Output.Write('Error compiling script:'#13#10 + e.Message, True);
++      Exit;
++    end;
++  end;
++
++  _Output.Write('Running script.');
++  try
++//    Prog.BeginProgram();
++    Prog.Execute;
++//    Prog.EndProgram;
++
++    for i := 0 to Prog.Msgs.Count - 1 do
++      _Output.Write(Prog.Msgs[i].asInfo);
++    _Output.Write(Tdws2DefaultResult(Prog.Result).Text);
++
++  finally
++    Prog.Free;
++  end;
++  _Output.Write('Done.');
++end;
++
++function TScriptHandlerDWS2.GetName: string;
++begin
++  Result := DWS_SCRIPT_NAME;
++end;
++
++function TScriptHandlerDWS2.GetScriptExtension: string;
++begin
++  Result := DWS_SCRIPT_EXTENSION;
++end;
++
++procedure TScriptHandlerDWS2.OnIdeEditorGetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  _Info.Result := FTextAccess.GetSelectedText;
++end;
++
++procedure TScriptHandlerDWS2.OnIdeEditorInsertTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  FTextAccess.InsertText(_Info.Value['_Text']);
++end;
++
++procedure TScriptHandlerDWS2.OnIdeEditorSetSelectedTextEval(_Info: TProgramInfo; _ExtObject: TObject);
++begin
++  FTextAccess.SetSelectedText(_Info.Value['_Text']);
++end;
++
++procedure TScriptHandlerDWS2.RegisterOTAFunctions;
++var
++  Item: Tdws2Class;
++  Meth: Tdws2Method;
++  Param: Tdws2Parameter;
++begin
++  Item := dws2Unit.Classes.Add as Tdws2Class;
++  Item.Name := 'TIdeEditor';
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'GetSelectedText';
++  Meth.Kind := mkClassFunction;
++  Meth.ResultType := 'String';
++  Meth.OnEval := OnIdeEditorGetSelectedTextEval;
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'SetSelectedText';
++  Meth.Kind := mkClassProcedure;
++  Param := Meth.Parameters.Add as Tdws2Parameter;
++  Param.Name := '_Text';
++  Param.DataType := 'String';
++  Meth.OnEval := OnIdeEditorSetSelectedTextEval;
++
++  Meth := Item.Methods.Add as Tdws2Method;
++  Meth.Name := 'InsertText';
++  Meth.Kind := mkClassProcedure;
++  Param := Meth.Parameters.Add as Tdws2Parameter;
++  Param.Name := '_Text';
++  Param.DataType := 'String';
++  Meth.OnEval := OnIdeEditorInsertTextEval;
++end;
++
++initialization
++  GetScriptManager.RegisterHandler(TScriptHandlerDWS2.Create);
++finalization
++  GetScriptManager.UnregisterHandler(DWS_SCRIPT_NAME);
++end.
++
+
+Added: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.ScriptHandler.Manager.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.ScriptHandler.Manager.pas	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.ScriptHandler.Manager.pas	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,104 @@
++unit de.dummzeuch.ScriptHandler.Manager;
++
++interface
++
++uses
++  Windows,
++  SysUtils,
++  Classes;
++
++type
++  IEditorTextAccess = interface ['{FDD3CA3C-7B2C-4E7C-B688-1F1F9E8E9D80}']
++    function GetSelectedText: string;
++    procedure SetSelectedText(const _Text: string);
++    procedure InsertText(const _Text: string);
++  end;
++
++type
++  IMessageOutput = interface ['{8A5887AD-EB2F-43AC-A120-E6B93F21A280}']
++    procedure Write(const _Msg: string; _Show: Boolean = False);
++  end;
++
++type
++  IScriptHandler = interface ['{95602CF2-2F60-4611-87B3-6493301B9747}']
++    procedure Execute(_TextAccess: IEditorTextAccess; _Output: IMessageOutput; _Script: TStrings);
++    function GetScriptExtension: string;
++    function GetName: string;
++  end;
++
++type
++  IScriptHandlerManager = interface ['{4552B47D-AE45-4D83-A34F-1C0F944B6272}']
++    procedure RegisterHandler(_ScriptHandler: IScriptHandler);
++    procedure UnregisterHandler(const _Name: string);
++    function GetHandler(const _Extension: string): IScriptHandler;
++    function GetHandlers(_Idx: integer): IScriptHandler;
++    function Count: integer;
++  end;
++
++function GetScriptManager: IScriptHandlerManager;
++
++implementation
++
++type
++  TScriptHandlerManager = class(TInterfacedObject, IScriptHandlerManager)
++  private
++    procedure RegisterHandler(_ScriptHandler: IScriptHandler);
++    procedure UnregisterHandler(const _Name: string);
++    function GetHandler(const _Extension: string): IScriptHandler;
++    function GetHandlers(_Idx: integer): IScriptHandler;
++    function Count: integer;
++  end;
++
++function GetScriptManager: IScriptHandlerManager;
++begin
++  Result := TScriptHandlerManager.Create;
++end;
++
++var
++  RegisteredHandlers: TInterfaceList;
++
++function TScriptHandlerManager.Count: integer;
++begin
++  Result := RegisteredHandlers.Count;
++end;
++
++function TScriptHandlerManager.GetHandler(const _Extension: string): IScriptHandler;
++var
++  i: Integer;
++begin
++  for i := 0 to RegisteredHandlers.Count - 1 do begin
++    Result := RegisteredHandlers[i] as IScriptHandler;
++    if AnsiSameText(Result.GetScriptExtension, _Extension) then
++      exit;
++  end;
++  Result := nil;
++end;
++
++function TScriptHandlerManager.GetHandlers(_Idx: integer): IScriptHandler;
++begin
++  Result := RegisteredHandlers[_Idx] as IScriptHandler;
++end;
++
++procedure TScriptHandlerManager.RegisterHandler(_ScriptHandler: IScriptHandler);
++begin
++  RegisteredHandlers.Add(_ScriptHandler);
++end;
++
++procedure TScriptHandlerManager.UnregisterHandler(const _Name: string);
++var
++  i: Integer;
++begin
++  for i := 0 to RegisteredHandlers.Count - 1 do begin
++    if AnsiSameText((RegisteredHandlers[i] as IScriptHandler).GetName, _Name) then begin
++      RegisteredHandlers.Delete(i);
++      exit;
++    end;
++  end;
++end;
++
++initialization
++  RegisteredHandlers := TInterfaceList.Create;
++finalization
++  RegisteredHandlers.Free;
++end.
++
+
+Copied: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BaseExpert.dfm (from rev 143, utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.dfm)
+
+Copied: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BaseExpert.pas (from rev 143, utilities/dzBdsIdeScript/trunk/de.dummzeuch.experts.BaseExpert.pas)
+
+Added: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.dfm
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.dfm	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.dfm	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,14 @@
++inherited dm_dzBdsIdeScriptExpert: Tdm_dzBdsIdeScriptExpert
++  OldCreateOrder = True
++  OnCreate = DataModuleCreate
++  OnDestroy = DataModuleDestroy
++  Height = 219
++  Width = 217
++  object TheTimer: TTimer
++    Enabled = False
++    Interval = 5000
++    OnTimer = TheTimerTimer
++    Left = 24
++    Top = 16
++  end
++end
+
+Added: utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas
+===================================================================
+--- utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas	2007-05-05 21:24:07 UTC (rev 144)
++++ utilities/dzBdsIdeScript/trunk/src/de.dummzeuch.experts.BdsIdeScriptExpert.Expert.pas	2007-05-06 14:47:58 UTC (rev 145)
+@@ -0,0 +1,272 @@
++unit de.dummzeuch.experts.BdsIdeScriptExpert.Expert;
++
++interface
++
++uses
++  Windows,
++  Messages,
++  SysUtils,
++  Classes,
++  Graphics,
++  Controls,
++  Forms,
++  Dialogs,
++  Menus,
++  ExtCtrls,
++  ToolsAPI,
++  de.dummzeuch.experts.BaseExpert,
++  de.dummzeuch.ScriptHandler.Manager;
++
++type
++  Tdm_dzBdsIdeScriptExpert = class(Tdm_DzBaseExpert, IEditorTextAccess)
++    TheTimer: TTimer;
++    procedure DataModuleCreate(Sender: TObject);
++    procedure DataModuleDestroy(Sender: TObject);
++    procedure RunScriptSubItemClick(Sender: TObject);
++    procedure RunScriptExplainClick(Sender: TObject);
++    procedure TheTimerTimer(Sender: TObject);
++  private
++    {: contains all TMenuItems created for scripts }
++    FScriptItems: TList;
++    {: contains the names of all script files }
++    FScripts: TStringList;
++    {: frees all items in the script menu and clears the FScriptItems list }
++    procedure FreeScriptMenuItems;
++    {: initializes the FScripts list of available script files }
++    procedure InitScriptList;
++    {: recreates the script menu items, called once on startup and
++       after that periodically in the TheTimeTimer event }
++    procedure RefreshMenuItems;
++    {: enables the refresh timer based on the setting in the registry }
++    procedure SetTimerRefreshing;
++//    procedure LoadScriptHandlers;
++  end;
++
++implementation
++
++{$R *.DFM}
++
++uses
++  Registry;
++
++const
++  MESSAGE_WINDOW_TITLE = 'BdsIdeScript';
++  CUSTOM_MENU_CAPTION = 'Scripts';
++  REGISTRY_BRANCH = 'dzBdsIdeScript';
++
++procedure Tdm_dzBdsIdeScriptExpert.DataModuleCreate(Sender: TObject);
++begin
++  FScriptItems := TList.Create;
++  FScripts := TStringList.Create;
++
++//  LoadScriptHandlers;
++  RefreshMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.DataModuleDestroy(Sender: TObject);
++begin
++  FreeScriptMenuItems;
++  DeleteDelphiCustomMenu(CUSTOM_MENU_CAPTION);
++  FScripts.Free;
++  FScriptItems.Free;
++end;
++
++procedure ListFiles(const Path: string; Strings: TStrings);
++var
++  Found: Integer;
++  SearchRec: TSearchRec;
++begin
++  Found := FindFirst(Path, faAnyFile, SearchRec);
++  while Found = 0 do begin
++    if (SearchRec.Attr and faDirectory) &lt;&gt; faDirectory then
++      Strings.Add(SearchRec.Name);
++    Found := FindNext(SearchRec);
++  end;
++  FindClose(SearchRec);
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.InitScriptList;
++var
++  Folder: string;
++  i: Integer;
++  Reg: TRegistry;
++  Handler: IScriptHandler;
++  HandlerIdx: Integer;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH, True);
++    if not Reg.ValueExists('ScriptFolder') then
++      { Add the IDE's folder. }
++      Reg.WriteString('ScriptFolder',
++        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Scripts')
++    else
++      Folder := Reg.ReadString('ScriptFolder');
++  finally
++    Reg.Free;
++  end;
++  Folder := IncludeTrailingPathDelimiter(Folder);
++
++  FScripts.Clear;
++  for HandlerIdx := 0 to GetScriptManager.Count - 1 do begin
++    Handler := GetScriptManager.GetHandlers(HandlerIdx);
++    ListFiles(Folder + '*' + Handler.GetScriptExtension, FScripts);
++    for i := 0 to FScripts.Count - 1 do
++      FScripts[i] := Folder + FScripts[i];
++  end;
++end;
++
++//procedure Tdm_dzBdsIdeScriptExpert.LoadScriptHandlers;
++//var
++//  Packages: TStringList;
++//  Filename: string;
++//  i: Integer;
++//begin
++//  Filename := GetModuleName(hInstance);
++//  Packages := TStringList.Create;
++//  try
++//    ListFiles(ExtractFilePath(Filename) + 'dzBdsIdeScript_*.bpl.*', Packages);
++//    for i := 0 to Packages.Count - 1 do begin
++//      LoadPackage(Packages[i]);
++//    end;
++//  finally
++//    Packages.Free;
++//  end;
++//end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RunScriptExplainClick(Sender: TObject);
++begin
++  ShowMessage(
++    'Scripts should be placed in the folder pointed by '#13 +
++    'the registry value at:'#13#13 +
++    'HKCU\' + GetBaseRegistryKey + '\' + REGISTRY_BRANCH +
++    #13#13'The value should be assigned to &quot;ScriptFolder&quot;.' +
++    #13#13'You can always refresh the script list by clicking this item.'
++    );
++  RefreshMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.TheTimerTimer(Sender: TObject);
++begin
++  RefreshMenuItems;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RefreshMenuItems;
++var
++  i: Integer;
++  Item, ScriptMenu: TMenuItem;
++begin
++  ScriptMenu := GetDelphiCustomMenu(CUSTOM_MENU_CAPTION);
++  if ScriptMenu = nil then begin { The menu may not exist yet. }
++    TheTimer.Enabled := True;
++    Exit;
++  end;
++
++  InitScriptList;
++  FreeScriptMenuItems;
++
++  for i := 0 to FScripts.Count - 1 do begin
++    Item := TMenuItem.Create(nil);
++    FScriptItems.Add(Item);
++    Item.Caption := ChangeFileExt(ExtractFileName(FScripts[i]), '');
++    Item.Tag := i;
++    Item.OnClick := RunScriptSubItemClick;
++    ScriptMenu.Add(Item);
++  end;
++
++  Item := TMenuItem.Create(nil);
++  FScriptItems.Add(Item);
++  Item.Caption := '(customize)';
++  Item.OnClick := RunScriptExplainClick;
++  ScriptMenu.Add(Item);
++  SetTimerRefreshing;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.FreeScriptMenuItems;
++var
++  i: Integer;
++begin
++  if (not Assigned(FScriptItems)) or (FScriptItems.Count = 0) then
++    Exit;
++  for i := 0 to FScriptItems.Count - 1 do
++    TMenuItem(FScriptItems[i]).Free;
++  FScriptItems.Clear;
++end;
++
++procedure Tdm_dzBdsIdeScriptExpert.SetTimerRefreshing;
++var
++  Reg: TRegistry;
++begin
++  Reg := TRegistry.Create;
++  try
++    Reg.OpenKey(GetBaseRegistryKey + '\' + REGISTRY_BRANCH + '\Options', True);
++    if Reg.ValueExists('Refresh') then begin
++      TheTimer.Enabled := Reg.ReadBool('Refresh');
++    end else begin
++      Reg.WriteBool('Refresh', True);
++      TheTimer.Enabled := True;
++    end;
++  finally
++    Reg.Free;
++  end;
++end;
++
++type
++  TMsgWindowWrapper = class(TInterfacedObject, IMessageOutput)
++  private
++    FMsgWindow: IMsgWindow;
++    procedure Write(const _Msg: string; _Show: Boolean = False);
++  public
++    constructor Create(_MsgWindow: IMsgWindow);
++  end;
++
++procedure Tdm_dzBdsIdeScriptExpert.RunScriptSubItemClick(Sender: TObject);
++var
++  Code: TStringList;
++  FileName: string;
++  Idx: Integer;
++  Msg: IMsgWindow;
++  ScriptHandler: IScriptHandler;
++begin
++  Msg := GetMsgWindow(MESSAGE_WINDOW_TITLE);
++  Msg.Clear;
++
++  Idx := (Sender as TComponent).Tag;
++  FileName := FScripts[Idx];
++  Msg.Write('Loading script ' + FileName);
++
++  ScriptHandler := GetScriptManager.GetHandler(ExtractFileExt(FileName));
++  if not Assigned(ScriptHandler) then
++    raise exception.Create('No script handler registered for that script type.');
++
++  Code := TStringList.Create;
++  try
++    Code.LoadFromFile(FileName);
++    ScriptHandler.Execute(Self, TMsgWindowWrapper.Create(GetMsgWindow(MESSAGE_WINDOW_TITLE)), Code);
++  finally
++    Code.Free;
++  end;
++end;
++
++{ TMsgWindowWrapper }
++
++constructor TMsgWindowWrapper.Create(_MsgWindow: IMsgWindow);
++begin
++  inherited Create;
++  FMsgWindow := _MsgWindow;
++end;
++
++procedure TMsgWindowWrapper.Write(const _Msg: string; _Show: Boolean);
++begin
++  FMsgWindow.Write(_Msg, _Show);
++end;
++
++var
++  Expert: Tdm_dzBdsIdeScriptExpert;
++
++initialization
++  Expert := Tdm_dzBdsIdeScriptExpert.Create(nil);
++finalization
++  Expert.Free;
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000019.html">[Dzchart-svncheckins] r144 - utilities/dzBdsIdeScript/trunk
+</A></li>
+	<LI>Next message: <A HREF="000021.html">[Dzchart-svncheckins] r146 - in utilities/dzBdsIdeScript/trunk: .	src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,2182 @@
+From twm at mail.berlios.de  Sat Apr 23 12:18:47 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:18:47 +0200
+Subject: [Dzchart-svncheckins] r566 - utilities/dzLib/trunk/forms
+Message-ID: <20110423101847.AAFB84814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:18:47 +0200 (Sat, 23 Apr 2011)
+New Revision: 566
+
+Modified:
+   utilities/dzLib/trunk/forms/w_dzDialog.pas
+Log:
+indentation
+
+Modified: utilities/dzLib/trunk/forms/w_dzDialog.pas
+===================================================================
+--- utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-03-09 11:09:19 UTC (rev 565)
++++ utilities/dzLib/trunk/forms/w_dzDialog.pas	2011-04-23 10:18:47 UTC (rev 566)
+@@ -357,7 +357,7 @@
+     frm.DialogType := _DialogType;
+     frm.GenerateControls;
+ 	if _Caption <> '' then
+-      frm.Caption := _Caption;
++    frm.Caption := _Caption;
+     TForm_CenterOn(frm, _Owner);
+     Result := frm.ShowModal;
+   finally
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:21:44 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:21:44 +0200
+Subject: [Dzchart-svncheckins] r567 - utilities/dzLib/trunk/src
+Message-ID: <20110423102144.3E2F64814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:21:43 +0200 (Sat, 23 Apr 2011)
+New Revision: 567
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzClassUtils.pas
+Log:
+new procedures:
+* TStrings_DeleteStrings
+* TStrings_BeginUpdate
+* TIniFile_ClearSection
+* TIniFile_WriteSectionValues
+* TIniFile_ReadSectionKeys (formerly TIniFile_ReadSection)
+* TIniFile_ReadSectionValues
+
+Modified: utilities/dzLib/trunk/src/u_dzClassUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzClassUtils.pas	2011-04-23 10:18:47 UTC (rev 566)
++++ utilities/dzLib/trunk/src/u_dzClassUtils.pas	2011-04-23 10:21:43 UTC (rev 567)
+@@ -49,6 +49,11 @@
+ /// @returns true, if it was found and deleted, false if not </summary>
+ function TStrings_DeleteString(_Strings: TStrings; const _s: string): boolean;
+ 
++///<summary>
++/// Deletes all strings in toDelete from Strings, if they exist.
++/// @returns the number of strings that were deleted </summary>
++function TStrings_DeleteStrings(_Strings: TStrings; _toDelete: TStrings): integer;
++
+ /// <summary>
+ /// frees the object and delets the entry from the list
+ /// </summary>
+@@ -61,6 +66,11 @@
+ /// @returns true, if found, false otherwise
+ function TStrings_GetObjectIndex(_Strings: TStrings; _Obj: pointer; out _Idx: integer): boolean;
+ 
++///<summary>
++/// Convenience function that calls Strings.BeginUpdate and returns an interface which calls
++/// Strings.EndUpdate when it is freed. </summary>
++function TStrings_BeginUpdate(_Strings: TStrings): IInterface;
++
+ /// <summary>
+ /// Free a TList object an all TObjects it contains
+ /// NOTE: this function is obsolete, use contnrs.TObjectList instead!
+@@ -199,11 +209,28 @@
+ /// Writes a date in ISO format to the ini file </summary>
+ procedure TIniFile_WriteDate(_Ini: TCustomIniFile; const _Section, _Ident: string; const _Value: TDateTime);
+ 
++///<summary>
++/// Clears all entries in the given section but does not delete the section header.
++///</summary>
++procedure TIniFile_ClearSection(_Ini: TCustomIniFile; const _Section: string);
++
++///<summary>
++/// Clears all entries in the given section and writes the values from the TStrings to it
++/// </summary>
++procedure TIniFile_WriteSectionValues(_Ini: TCustomIniFile; const _Section: string; _sl: TStrings);
++
+ /// <summary>
+-/// Reads the given section from the given .INI file and returns it as a TStrings
++/// Reads the given section from the given .INI file and returns all its keys as a TStrings
++/// (This is short for opening the file, calling Ini.ReadSection and closing it.)
+ /// @raises Exception if the section does not exist. </summary>
+-procedure TIniFile_ReadSection(const _Filename, _Section: string; _sl: TStrings); inline;
++procedure TIniFile_ReadSectionKeys(const _Filename, _Section: string; _sl: TStrings); inline;
+ 
++/// <summary>
++/// Reads the given section from the given .INI file and returns it as Name=Value pairs.
++/// (This is short for opening the file, calling Ini.ReadSectionValues and closing it.)
++/// @raises Exception if the section does not exist. </summary>
++procedure TIniFile_ReadSectionValues(const _Filename, _Section: string; _sl: TStrings); inline;
++
+ implementation
+ 
+ uses
+@@ -299,6 +326,16 @@
+     _Strings.Delete(Idx);
+ end;
+ 
++function TStrings_DeleteStrings(_Strings: TStrings; _toDelete: TStrings): integer;
++var
++  i: integer;
++begin
++  Result := 0;
++  for i := 0 to _toDelete.Count - 1 do
++    if TStrings_DeleteString(_Strings, _toDelete[i]) then
++      Inc(Result);
++end;
++
+ procedure TStrings_DeleteAndFreeObject(_Strings: TStrings; _Idx: integer);
+ begin
+   _Strings.Objects[_Idx].Free;
+@@ -319,6 +356,20 @@
+   end;
+ end;
+ 
++type
++  TStringsUpdateInt = class(TInterfacedObject, IInterface)
++  private
++    FStrings: TStrings;
++  public
++    constructor Create(_Strings: TStrings);
++    destructor Destroy; override;
++  end;
++
++function TStrings_BeginUpdate(_Strings: TStrings): IInterface;
++begin
++  Result := TStringsUpdateInt.Create(_Strings);
++end;
++
+ function TStream_WriteString(_Stream: TStream; const _s: string): integer;
+ begin
+   Result := _Stream.Write(pChar(_s)^, Length(_s));
+@@ -530,8 +581,35 @@
+     raise Exception.CreateFmt(_('Invalid integer value "%s" in ini file for [%s]%s'), [s, _Section, _Ident]);
+ end;
+ 
+-procedure TIniFile_ReadSection(const _Filename, _Section: string; _sl: TStrings);
++procedure TIniFile_ClearSection(_Ini: TCustomIniFile; const _Section: string);
+ var
++  sl: TStringList;
++  i: integer;
++begin
++  sl := TStringlist.Create;
++  try
++    _Ini.ReadSection(_Section, sl);
++    for i := 0 to sl.Count - 1 do
++      _Ini.DeleteKey(_Section, sl[i]);
++  finally
++    FreeAndNil(sl);
++  end;
++end;
++
++procedure TIniFile_WriteSectionValues(_Ini: TCustomIniFile; const _Section: string; _sl: TStrings);
++var
++  i: integer;
++  Key: string;
++begin
++  TIniFile_ClearSection(_Ini, _Section);
++  for i := 0 to _sl.Count - 1 do begin
++    Key := _sl.Names[i];
++    _Ini.WriteString(_Section, Key, _sl.Values[Key]);
++  end;
++end;
++
++procedure TIniFile_ReadSectionKeys(const _Filename, _Section: string; _sl: TStrings);
++var
+   Ini: TMemIniFile;
+ begin
+   Ini := TMemIniFile.Create(_Filename);
+@@ -544,5 +622,35 @@
+   end;
+ end;
+ 
++procedure TIniFile_ReadSectionValues(const _Filename, _Section: string; _sl: TStrings); inline;
++var
++  Ini: TMemIniFile;
++begin
++  Ini := TMemIniFile.Create(_Filename);
++  try
++    if not Ini.SectionExists(_Section) then
++      raise Exception.CreateFmt('Section %s does not exist in file %s.', [_Section, _Filename]);
++    Ini.ReadSectionValues(_Section, _sl);
++  finally
++    FreeAndNil(Ini);
++  end;
++end;
++
++{ TStringsUpdateInt }
++
++constructor TStringsUpdateInt.Create(_Strings: TStrings);
++begin
++  inherited Create;
++  FStrings := _Strings;
++  FStrings.BeginUpdate;
++end;
++
++destructor TStringsUpdateInt.Destroy;
++begin
++  if Assigned(FStrings) then
++    FStrings.EndUpdate;
++  inherited;
++end;
++
+ end.
+ 
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:23:17 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:23:17 +0200
+Subject: [Dzchart-svncheckins] r568 - utilities/dzLib/trunk/src
+Message-ID: <20110423102317.924DC4814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:23:17 +0200 (Sat, 23 Apr 2011)
+New Revision: 568
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+Log:
+Changed all calls to FDataset[...] to use FieldByName so the error message if the field das not exist includes the table name.
+
+Modified: utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2011-04-23 10:21:43 UTC (rev 567)
++++ utilities/dzLib/trunk/src/u_dzDatasetHelpers.pas	2011-04-23 10:23:17 UTC (rev 568)
+@@ -138,6 +138,8 @@
+ type
+   ///<summary> implements the IDatasetHelper interface </summary>
+   TDatasetHelper = class(TInterfacedObject, IDatasetHelper)
++  private
++    function FieldByName(const _Fieldname: string): TField;
+   protected
+     FDataset: TDataset;
+     FTableName: string;
+@@ -272,9 +274,16 @@
+   FDataset.Delete;
+ end;
+ 
++function TDatasetHelper.FieldByName(const _Fieldname: string): TField;
++begin
++  Result := FDataset.FindField(_FieldName);
++  if not Assigned(Result) then
++    raise EDatabaseError.CreateFmt(_('Field "%s" not found in table "%s".'), [_Fieldname, FTablename]);
++end;
++
+ function TDatasetHelper.FieldAsDate(const _Fieldname: string): TDateTime;
+ begin
+-  Result := Var2DateTimeEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname);
++  Result := Var2DateTimeEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname);
+ end;
+ 
+ function TDatasetHelper.FieldAsDate(const _Fieldname: string; _Default: TDateTime): TDateTime;
+@@ -285,12 +294,12 @@
+ 
+ function TDatasetHelper.TryFieldAsDate(const _Fieldname: string; out _Date: TDateTime): boolean;
+ begin
+-  Result := not IsEmpty and TryVar2DateTime(FDataset[_Fieldname], _Date);
++  Result := not IsEmpty and TryVar2DateTime(FieldByName(_FieldName).Value, _Date);
+ end;
+ 
+ function TDatasetHelper.TryFieldAsExtended(const _Fieldname: string; out _Value: extended): boolean;
+ begin
+-  Result := not IsEmpty and TryVar2Ext(FDataset[_Fieldname], _Value);
++  Result := not IsEmpty and TryVar2Ext(FieldByName(_FieldName).Value, _Value);
+ end;
+ 
+ function TDatasetHelper.TryFieldAsGuid(const _Fieldname: string; out _Value: TNullableGuid): boolean;
+@@ -298,64 +307,64 @@
+   if IsEmpty then
+     Result := false
+   else begin
+-    _Value.AssignVariant(FDataset[_Fieldname]);
++    _Value.AssignVariant(FieldByName(_FieldName).Value);
+     Result := _Value.IsValid;
+   end;
+ end;
+ 
+ function TDatasetHelper.TryFieldAsInteger(const _Fieldname: string; out _Value: integer): boolean;
+ begin
+-  Result := not IsEmpty and TryVar2Int(FDataset[_Fieldname], _Value);
++  Result := not IsEmpty and TryVar2Int(FieldByName(_FieldName).Value, _Value);
+ end;
+ 
+ function TDatasetHelper.FieldAsDouble(const _Fieldname: string): double;
+ begin
+-  Result := Var2DblEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname);
++  Result := Var2DblEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname);
+ end;
+ 
+ function TDatasetHelper.FieldAsDouble(const _Fieldname, _Error: string): double;
+ begin
+-  Result := Var2DblEx(FDataset[_Fieldname], _Error);
++  Result := Var2DblEx(FieldByName(_FieldName).Value, _Error);
+ end;
+ 
+ function TDatasetHelper.FieldAsExtended(const _Fieldname: string): extended;
+ begin
+-  Result := Var2ExtEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname);
++  Result := Var2ExtEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname);
+ end;
+ 
+ function TDatasetHelper.FieldAsExtended(const _Fieldname: string; const _Default: extended): extended;
+ begin
+-  Result := Var2Ext(FDataset[_Fieldname], _Default);
++  Result := Var2Ext(FieldByName(_FieldName).Value, _Default);
+ end;
+ 
+ function TDatasetHelper.FieldAsExtended(const _Fieldname, _Error: string): extended;
+ begin
+-  Result := Var2ExtEx(FDataset[_Fieldname], _Error);
++  Result := Var2ExtEx(FieldByName(_FieldName).Value, _Error);
+ end;
+ 
+ function TDatasetHelper.FieldAsGuid(const _FieldName: string): TNullableGuid;
+ begin
+-  Result.AssignVariant(FDataset[_FieldName]);
++  Result.AssignVariant(FieldByName(_FieldName).Value);
+ end;
+ 
+ function TDatasetHelper.FieldAsInteger(const _Fieldname: string): integer;
+ begin
+-  Result := Var2IntEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname);
++  Result := Var2IntEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname);
+ end;
+ 
+ function TDatasetHelper.FieldAsInteger(const _Fieldname, _Error: string): integer;
+ begin
+-  Result := Var2IntEx(FDataset[_Fieldname], _Error);
++  Result := Var2IntEx(FieldByName(_FieldName).Value, _Error);
+ end;
+ 
+ function TDatasetHelper.FieldAsString(const _Fieldname: string): string;
+ begin
+-  Result := Trim(Var2StrEx(FDataset[_Fieldname], FTableName + '.' + _Fieldname));
++  Result := Trim(Var2StrEx(FieldByName(_FieldName).Value, FTableName + '.' + _Fieldname));
+ end;
+ 
+ function TDatasetHelper.TryFieldAsString(const _Fieldname: string; out _Value: string): boolean;
+ begin
+-  Result := not IsEmpty and TryVar2Str(FDataset[_Fieldname], _Value);
++  Result := not IsEmpty and TryVar2Str(FieldByName(_FieldName).Value, _Value);
+ end;
+ 
+ function TDatasetHelper.FieldAsBoolean(const _FieldName: string): boolean;
+@@ -371,7 +380,7 @@
+ 
+ function TDatasetHelper.TryFieldAsDouble(const _Fieldname: string; out _Value: double): boolean;
+ begin
+-  Result := not IsEmpty and TryVar2Dbl(FDataset[_Fieldname], _Value);
++  Result := not IsEmpty and TryVar2Dbl(FieldByName(_FieldName).Value, _Value);
+ end;
+ 
+ function TDatasetHelper.FieldAsInteger(const _Fieldname: string; _Default: integer): integer;
+@@ -382,7 +391,7 @@
+ 
+ function TDatasetHelper.FieldAsString(const _Fieldname, _Default: string): string;
+ begin
+-  Result := Trim(Var2Str(FDataset[_Fieldname], _Default));
++  Result := Trim(Var2Str(FieldByName(_FieldName).Value, _Default));
+ end;
+ 
+ function TDatasetHelper.FieldAsBoolean(const _FieldName: string; _Default: boolean): boolean;
+@@ -393,14 +402,14 @@
+ procedure TDatasetHelper.SetFieldStringNotEmpty(const _Fieldname, _Value: string);
+ begin
+   if _Value = '' then
+-    FDataset.Fields.FieldByName(_Fieldname).Clear
++    FieldByName(_FieldName).Clear
+   else
+-    FDataset[_Fieldname] := _Value;
++    FieldByName(_FieldName).Value := _Value;
+ end;
+ 
+ procedure TDatasetHelper.ClearField(const _Fieldname: string);
+ begin
+-  FDataset.Fields.FieldByName(_Fieldname).Clear
++  FieldByName(_FieldName).Clear;
+ end;
+ 
+ procedure TDatasetHelper.Close;
+@@ -480,7 +489,7 @@
+ 
+ function TDatasetHelper.GetFieldValue(const _FieldName: string): Variant;
+ begin
+-  Result := FDataset[_FieldName];
++  Result := FieldByName(_FieldName).Value;
+ end;
+ 
+ function TDatasetHelper.HasField(const _Fieldname: string): boolean;
+@@ -495,7 +504,7 @@
+ 
+ procedure TDatasetHelper.SetFieldValue(const _FieldName: string; const _Value: Variant);
+ begin
+-  FDataset[_FieldName] := _Value;
++  FieldByName(_FieldName).Value := _Value;
+ end;
+ 
+ function TDatasetHelper.TrySetFieldValue(const _FieldName: string; const _Value: Variant): boolean;
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:24:12 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:24:12 +0200
+Subject: [Dzchart-svncheckins] r569 - utilities/dzLib/trunk/src
+Message-ID: <20110423102412.137464814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:24:11 +0200 (Sat, 23 Apr 2011)
+New Revision: 569
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzNameValueList.pas
+Log:
+new methods TNameValueList.LoadFrom, .SaveTo and .Delete
+
+Modified: utilities/dzLib/trunk/src/u_dzNameValueList.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzNameValueList.pas	2011-04-23 10:23:17 UTC (rev 568)
++++ utilities/dzLib/trunk/src/u_dzNameValueList.pas	2011-04-23 10:24:11 UTC (rev 569)
+@@ -45,13 +45,16 @@
+     function Add(const _Name, _Value: string): integer; reintroduce; overload;
+     function ByNameDef(const _Name, _Default: string): string;
+     function Find(const _Name: string; out _Value: string): boolean; overload;
++    procedure LoadFrom(_Strings: TStrings);
++    procedure SaveTo(_Strings: TStrings);
++    procedure Delete(const _Name: string);
+     property ByName[const _Name: string]: string read GetByName write SetByName;
+   end;
+ 
+ implementation
+ 
+ uses
+-  u_dztranslator;
++  u_dzTranslator;
+ 
+ {$INCLUDE 't_dzSortedObjectListTemplate.tpl'}
+ 
+@@ -96,6 +99,34 @@
+     raise ENameNotFound.CreateFmt(_('Entry "%s" not found.'), [_Name]);
+ end;
+ 
++procedure TNameValueList.Delete(const _Name: string);
++var
++  Idx: integer;
++begin
++  if Find(_Name, Idx) then
++    Extract(Idx).Free;
++end;
++
++procedure TNameValueList.LoadFrom(_Strings: TStrings);
++var
++  i: Integer;
++  Name: string;
++begin
++  Clear;
++  for i := 0 to _Strings.Count - 1 do begin
++    Name := _Strings.Names[i];
++    Add(Name, _Strings.Values[Name]);
++  end;
++end;
++
++procedure TNameValueList.SaveTo(_Strings: TStrings);
++var
++  i: Integer;
++begin
++  for i := 0 to Count - 1 do
++    _Strings.Values[Items[i].Name] := Items[i].Value;
++end;
++
+ procedure TNameValueList.SetByName(const _Name, _Value: string);
+ var
+   Idx: integer;
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:24:29 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:24:29 +0200
+Subject: [Dzchart-svncheckins] r570 - utilities/dzLib/trunk/src
+Message-ID: <20110423102429.B2A8B4814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:24:29 +0200 (Sat, 23 Apr 2011)
+New Revision: 570
+
+Added:
+   utilities/dzLib/trunk/src/u_dzUnsortedNameValueList.pas
+Log:
+new unsorted name value list
+
+Added: utilities/dzLib/trunk/src/u_dzUnsortedNameValueList.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzUnsortedNameValueList.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzUnsortedNameValueList.pas	2011-04-23 10:24:29 UTC (rev 570)
+@@ -0,0 +1,150 @@
++unit u_dzUnsortedNameValueList;
++
++interface
++
++uses
++  SysUtils,
++  Classes,
++  u_dzNameValueList;
++
++{$DEFINE __DZ_OBJECT_LIST_TEMPLATE__}
++type
++  _LIST_ANCESTOR_ = TObject;
++  _ITEM_TYPE_ = TNameValue;
++  _KEY_TYPE_ = string;
++{$INCLUDE 't_dzObjectListTemplate.tpl'}
++
++type
++  {: unsorted list for storing TNameValue items }
++  TUnsortedNameValueList = class(_DZ_OBJECT_LIST_TEMPLATE_)
++  private
++    function GetByName(const _Name: string): string;
++    procedure SetByName(const _Name, _Value: string);
++  public
++    function Add(const _Name, _Value: string): integer; reintroduce; overload;
++    function Add(const _NameValue: string): integer; reintroduce; overload;
++    function ByNameDef(const _Name, _Default: string): string;
++    function Find(const _Name: string; out _Value: string): boolean; overload;
++    function Find(const _Name: string; out _Idx: integer): boolean; overload;
++    procedure LoadFrom(_Strings: TStrings);
++    procedure SaveTo(_Strings: TStrings);
++    // Checks for duplicate names and empty values
++    function IsValid(var _Error: string): boolean;
++    property ByName[const _Name: string]: string read GetByName write SetByName;
++  end;
++
++implementation
++
++uses
++  u_dzTranslator;
++
++{$INCLUDE 't_dzObjectListTemplate.tpl'}
++
++{ TUnsortedNameValueList }
++
++function TUnsortedNameValueList.Add(const _Name, _Value: string): integer;
++begin
++  Result := Add(TNameValue.Create(_Name, _Value));
++end;
++
++function TUnsortedNameValueList.Add(const _NameValue: string): integer;
++var
++  p: integer;
++begin
++  p := Pos('=', _NameValue);
++  if p = 0 then
++    raise Exception.CreateFmt(_('NameValue "%s" does not contain a "=".'), [_NameValue]);
++  Result := Add(Copy(_NameValue, 1, p - 1), Copy(_NameValue, p + 1));
++end;
++
++function TUnsortedNameValueList.Find(const _Name: string; out _Idx: integer): boolean;
++var
++  i: integer;
++  nv: TNameValue;
++begin
++  for i := 0 to Count - 1 do begin
++    nv := Items[i];
++    if SameText(_Name, nv.Name) then begin
++      _Idx := i;
++      Result := true;
++      exit;
++    end;
++  end;
++  Result := False;
++end;
++
++function TUnsortedNameValueList.Find(const _Name: string; out _Value: string): boolean;
++var
++  Idx: integer;
++begin
++  Result := Find(_Name, Idx);
++  if Result then
++    _Value := Items[Idx].Value;
++end;
++
++function TUnsortedNameValueList.GetByName(const _Name: string): string;
++begin
++  if not Find(_Name, Result) then
++    raise ENameNotFound.CreateFmt(_('Entry "%s" not found.'), [_Name]);
++end;
++
++function TUnsortedNameValueList.IsValid(var _Error: string): boolean;
++var
++  i: integer;
++  j: integer;
++  Item: TNameValue;
++begin
++  Result := false;
++  for i := 0 to Count - 1 do begin
++    Item := Items[i];
++    for j := i + 1 to Count - 1 do
++      if SameText(Item.Name, Items[j].Name) then begin
++        _Error := Format(_('Duplicate value name "%s".'), [Item.Name]);
++        exit;
++      end;
++    if Item.Value = '' then begin
++      _Error := Format(_('Empty value for "%s".'), [Item.Name]);
++      exit;
++    end;
++  end;
++  Result := true;
++end;
++
++procedure TUnsortedNameValueList.LoadFrom(_Strings: TStrings);
++var
++  i: Integer;
++  Name: string;
++begin
++  Clear;
++  for i := 0 to _Strings.Count - 1 do begin
++    Name := _Strings.Names[i];
++    Add(Name, _Strings.Values[Name]);
++  end;
++end;
++
++procedure TUnsortedNameValueList.SaveTo(_Strings: TStrings);
++var
++  i: Integer;
++begin
++  for i := 0 to Count - 1 do
++    _Strings.Values[Items[i].Name] := Items[i].Value;
++end;
++
++procedure TUnsortedNameValueList.SetByName(const _Name, _Value: string);
++var
++  Idx: integer;
++begin
++  if Find(_Name, Idx) then
++    Items[Idx].Value := _Value
++  else
++    Add(TNameValue.Create(_Name, _Value));
++end;
++
++function TUnsortedNameValueList.ByNameDef(const _Name, _Default: string): string;
++begin
++  if not Find(_Name, Result) then
++    Result := _Default;
++end;
++
++end.
++
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:25:29 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:25:29 +0200
+Subject: [Dzchart-svncheckins] r571 - utilities/dzLib/trunk/src
+Message-ID: <20110423102529.84FD24814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:25:29 +0200 (Sat, 23 Apr 2011)
+New Revision: 571
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+new procedures
+* FindMatchingDirs
+* FindMatchingFiles
+* ContainsWildcard
+* GenerateBackupFilename
+
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-04-23 10:24:29 UTC (rev 570)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2011-04-23 10:25:29 UTC (rev 571)
+@@ -583,6 +583,32 @@
+     class function DeleteMatchingFiles(const _Dir, _Mask: string; const _ExceptMasks: array of string;
+       _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
+ 
++    ///<summary>
++    /// Gets a list of directories matching the given mask.
++    /// @param Mask is the name mask to match, note that it can contain wildcards only in the
++    ///             last part of the name (e.g. 'c:\grmpf*\trallala' will NOT work)
++    /// @param sl is a TStrings to which all matching directories will be added (it will not be cleared)
++    ///           it can be NIL if the caller only wants the count, not the actual list.
++    /// @param IncludePath determines whether the list should contain only the directory names or
++    ///                    the full paths.
++    /// @returns the number of matching directories
++    ///</summary>
++    class function FindMatchingDirs(const _Mask: string; _sl: TStrings; _IncludePath: boolean = false): integer;
++
++    ///<summary>
++    /// Gets a list of files matching the given mask. Only regular files will be found, no
++    /// directories, no hidden files, no readonly files (files with faArchive will be found).
++    /// See TSimpleDirEnumerator if you need more flexibility.
++    /// @param Mask is the name mask to match, note that it can contain wildcards only in the
++    ///             last part of the name (e.g. 'c:\grmpf*\trallala' will NOT work)
++    /// @param sl is a TStrings to which all matching files will be added (it will not be cleared)
++    ///           it can be NIL if the caller only wants the count, not the actual list.
++    /// @param IncludePath determines whether the list should contain only the file names or
++    ///                    the full paths.
++    /// @returns the number of matching files
++    ///</summary>
++    class function FindMatchingFiles(const _Mask: string; _sl: TStrings; _IncludePath: boolean = false): integer;
++
+     /// <summary>
+     /// tries to find a matching file
+     /// @param Mask is the filename mask to match
+@@ -593,6 +619,8 @@
+     class function FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
+ 
+     ///<summary>
++    /// Returns true, if the given file exists. Note that wildcards are not supported! If you
++    /// need wildcards, use FindMatchingFile.
+     /// @param RaiseException determines whether an exception should be raised if the file does not exist
+     /// @raises Exception if the file does not exist and RaiseException is true
+     class function FileExists(const _Filename: string; _RaiseException: boolean = false): boolean;
+@@ -669,12 +697,14 @@
+     /// </summary>
+     class function IsValidFilename(const _s: string; out _ErrPos: integer; _AllowDot: boolean = true): boolean; overload;
+ 
++    class function ContainsWildcard(const _Mask: string): boolean;
++
+     /// <summary> Returns true if the file exists and is readonly </summary>
+     class function IsFileReadonly(const _Filename: string): boolean;
+ 
+     /// <summary>
+     /// creates a backup of the file appending the current date and time to the base
+-    /// file name. See also TFileGenerationHandler.
++    /// file name. See also TFileGenerationHandler and GenerateBackupFilename
+     /// @param Filename is the name of the file to back up
+     /// @param BackupDir is a directory in which to create the backup file, if empty
+     ///                  the same directory as the original file is used
+@@ -682,6 +712,15 @@
+     /// </summary>
+     class function BackupFile(const _Filename: string; _BackupDir: string = ''): string;
+ 
++    ///<summary>
++    /// Generates a backup of the filename by appending the current date and time to the base
++    /// @param Filename is the name of the file to back up
++    /// @param BackupDir is a directory in which to create the backup file, if empty
++    ///                  the same directory as the original file is used
++    /// @returns the full filename for the backup file
++    ///</summary>
++    class function GenerateBackupFilename(const _Filename: string; _BackupDir: string = ''): string;
++
+     /// <summary>
+     /// @returns a TFileInfoRec containing the filename, filesize and last access
+     ///          timestamp of the file
+@@ -1272,7 +1311,7 @@
+   end;
+ end;
+ 
+-class function TFileSystem.BackupFile(const _Filename: string; _BackupDir: string = ''): string;
++class function TFileSystem.GenerateBackupFilename(const _Filename: string; _BackupDir: string = ''): string;
+ var
+   Ext: string;
+   FilenameOnly: string;
+@@ -1285,9 +1324,19 @@
+   Ext := ExtractFileExt(FilenameOnly);
+   Base := ChangeFileExt(FilenameOnly, '');
+   Result := _BackupDir + Base + '_' + ReplaceChars(DateTime2Iso(now, true), ': ', '-_') + Ext;
++end;
++
++class function TFileSystem.BackupFile(const _Filename: string; _BackupDir: string = ''): string;
++begin
++  Result := GenerateBackupFilename(_Filename, _BackupDir);
+   CopyFile(_Filename, Result, true);
+ end;
+ 
++class function TFileSystem.ContainsWildcard(const _Mask: string): boolean;
++begin
++  Result := (Pos('?', _Mask) > 0) or (Pos('*', _Mask) > 0);
++end;
++
+ class function TFileSystem.CopyFile(const _Source, _Dest: string; _Flags: TCopyFileFlagSet): boolean;
+ begin
+   Result := CopyFile(_Source, _Dest,
+@@ -1584,6 +1633,26 @@
+     raise Exception.CreateFmt(_('Directory not found: %s'), [_DirName]);
+ end;
+ 
++class function TFileSystem.FindMatchingDirs(const _Mask: string; _sl: TStrings;
++  _IncludePath: boolean = false): integer;
++var
++  enum: TSimpleDirEnumerator;
++begin
++  enum := TSimpleDirEnumerator.Create(_Mask, [dfaDirectory, dfaArchive]);
++  try
++    enum.MustHaveAttr := [dfaDirectory];
++    Result := enum.FindAll(_sl, _IncludePath);
++  finally
++    FreeAndNil(enum);
++  end;
++end;
++
++class function TFileSystem.FindMatchingFiles(const _Mask: string; _sl: TStrings;
++  _IncludePath: boolean): integer;
++begin
++  Result := TSimpleDirEnumerator.Execute(_Mask, _sl, [dfaArchive], _IncludePath);
++end;
++
+ class function TFileSystem.FindMatchingFile(const _Mask: string; out _Filename: string): TMatchingFileResult;
+ var
+   sr: TSearchRec;
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:27:39 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:27:39 +0200
+Subject: [Dzchart-svncheckins] r572 - utilities/dzLib/trunk/src
+Message-ID: <20110423102739.652804814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:27:39 +0200 (Sat, 23 Apr 2011)
+New Revision: 572
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+new procedures:
+* TStringGrid_SetNonfixedCell
+* TStringGrid_GetNonfixedCell
+* TStringGrid_AppendRow
+* TTabControl_GetSelectedObject
+* TComboBox_Change
+* TListView_BeginUpdate
+* TListView_GetSelected
+* TGroupBox_SetFileCaption
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-04-23 10:25:29 UTC (rev 571)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2011-04-23 10:27:39 UTC (rev 572)
+@@ -158,6 +158,9 @@
+ ///          @returns the index of the new column </summary>
+ function TStringGrid_AddColumn(_Grid: TStringGrid; const _Caption: string): integer;
+ 
++procedure TStringGrid_SetNonfixedCell(_Grid: TStringGrid; _col, _row: integer; const _Text: string);
++function TStringGrid_GetNonfixedCell(_Grid: TStringGrid; _col, _row: integer): string;
++
+ ///<summary> exports the contents of the string grid to a tab separated text file (deprecated, use TGrid_ExportTofile instead)
+ ///          @param Grid is the string grid to export
+ ///          @param Filename is the name of the text file to create </summary>
+@@ -188,6 +191,9 @@
+ ///          @returns the inserted row index or -1 if the row cannot be inserted </summary>
+ function TStringGrid_InsertRow(_Grid: TStringGrid; _Row: integer = -1): integer;
+ 
++///<summary> Appends a row to the string grid and returns the index of the new row </summary>
++function TStringGrid_AppendRow(_Grid: TStringGrid): integer;
++
+ ///<summary> Tries to convert the grid cell to a double, if an error occurs, it raises
+ ///          an exception and optionally focuses the cell.
+ ///          @param Grid is the grid containing the data
+@@ -290,6 +296,12 @@
+ ///          to display horizontal text in tabs on the left or right hand side </summary>
+ procedure TTabControl_AdjustTabWidth(_TabControl: TTabControl; _Form: TForm; _MinWidth: integer = 80);
+ 
++///<summary> Gets the object associated with the currently selected tab
++///          @param TabControl is the TTabControl to work on
++///          @param Obj is the object of the selected tab, only valid if Result=true
++///          @returns true, if TabIndex <> -1 </summary>
++function TTabControl_GetSelectedObject(_TabControl: TTabControl; out _Obj: pointer): boolean;
++
+ ///<summary> Enables longer SimpleText (longer than 127 characters)
+ ///          Call once to enable. Works, by adding a single panel with owner drawing and
+ ///          setting the StatusBar's OnDrawPanel to a custom drawing method.
+@@ -380,7 +392,11 @@
+ ///          @returns the index of the newly selected item or -1 if it doesn't exist </summary>
+ function TComboBox_Select(_cmb: TCustomComboBox; const _Item: string; _DefaultIdx: integer = -1): integer;
+ 
+-///<summary> Selects an item (or no Item, if Idx = -1) without triggering an OnChange event </summary>
++///<summary> Calls the protected Change method of the combobox </summary>
++procedure TComboBox_Change(_cmb: TCustomCombo);
++
++///<summary> Selects an item (or no Item, if Idx = -1) without triggering an OnChange event
++///          (I am not even sure whether setting the item index always triggers an OnChange event.) </summary>
+ procedure TComboBox_SelectWithoutChangeEvent(_cmb: TComboBox; _Idx: integer);
+ 
+ ///<summary> Sets the control to readonly by adding a TPanel as parent and disable it. Note that this does
+@@ -581,6 +597,10 @@
+ ///          @param Form is the TForm to unmerge </summary>
+ procedure UnMergeForm(_Form: TCustomForm); deprecated; // use a frame instead
+ 
++///<summary> Calls lv.Items.BeginUpdate and returns an interface which, when released calls
++///          lv.Items.EndUpdate. </summary>
++function TListView_BeginUpdate(_lv: TListView): IInterface;
++
+ ///<summary> free all lv.Items[n].Data objects and then clear the items </summary>
+ procedure TListView_ClearWithObjects(_lv: TListView);
+ 
+@@ -591,6 +611,9 @@
+ ///<summary> Returns the number of selected items in the ListView </summary>
+ function TListView_GetSelectedCount(_lv: TListView): integer;
+ 
++function TListView_GetSelected(_Lv: TListView; out _Idx: integer): boolean; overload;
++function TListView_GetSelected(_lv: TListView; out _Item: TListItem): boolean; overload;
++
+ ///<summary> Returns the first item in the radio group with the caption ItemText </summary>
+ function TRadioGroup_GetButton(_rg: TRadioGroup; _ItemText: string): TRadioButton; overload;
+ ///<summary> Returns the ItemIdx'th item in the radio group </summary>
+@@ -615,6 +638,12 @@
+ //          @returns true, if Execute was called and returned true, false otherwise </summary>
+ function TAction_SetCheckedExecute(_act: TCustomAction; _Checked: boolean): boolean;
+ 
++///<summary> Sets the caption of a groupbox in the form '<prefix:><filename>' shortening the
++///          filename in the path part using '..' so the file name itself should be visible.
++///          Note that the Prefix is used as is, so include any whitespace and punctuation you
++///          might want to see. </summary>
++function TGroupBox_SetFileCaption(_grp: TCustomGroupBox; const _Prefix: string; const _Filename: string): string;
++
+ implementation
+ 
+ uses
+@@ -631,7 +660,8 @@
+ {$ENDIF GIFByRx}
+   u_dzConvertUtils,
+   u_dzStringUtils,
+-  u_dzClassUtils;
++  u_dzClassUtils,
++  FileCtrl;
+ 
+ function _(const _s: string): string; inline;
+ begin
+@@ -823,6 +853,16 @@
+     _Grid.Cells[c, _Grid.FixedRows] := '';
+ end;
+ 
++procedure TStringGrid_SetNonfixedCell(_Grid: TStringGrid; _col, _row: integer; const _Text: string);
++begin
++  _Grid.Cells[_col + _Grid.FixedCols, _row + _Grid.FixedRows] := _Text;
++end;
++
++function TStringGrid_GetNonfixedCell(_Grid: TStringGrid; _col, _row: integer): string;
++begin
++  Result := _Grid.Cells[_col + _Grid.FixedCols, _row + _Grid.FixedRows];
++end;
++
+ function TStringGrid_AddColumn(_Grid: TStringGrid; const _Caption: string): integer;
+ var
+   i: Integer;
+@@ -913,6 +953,12 @@
+   Result := _Row;
+ end;
+ 
++function TStringGrid_AppendRow(_Grid: TStringGrid): integer;
++begin
++  Result := _Grid.RowCount;
++  _Grid.RowCount := Result + 1;
++end;
++
+ function TStringGrid_CellToDouble(_grid: TStringGrid; _Col, _Row: integer; _FocusCell: boolean = true): double;
+ var
+   s: string;
+@@ -1286,6 +1332,16 @@
+   end;
+ end;
+ 
++function TTabControl_GetSelectedObject(_TabControl: TTabControl; out _Obj: pointer): boolean;
++var
++  Idx: Integer;
++begin
++  Idx := _TabControl.TabIndex;
++  Result := (Idx <> -1);
++  if Result then
++    _Obj := _TabControl.Tabs.Objects[Idx];
++end;
++
+ type
+   // Note: This class is never instantiated, only the DrawPanel method will be used
+   //       without ever referencing the self pointer (which is NIL), so it should work
+@@ -1391,7 +1447,7 @@
+   out _Obj: pointer; _FocusControl: boolean = false): boolean;
+ begin
+   _Idx := _cmb.ItemIndex;
+-  Result := _Idx <> -1;
++  Result := (_Idx <> -1);
+   if Result then
+     _Obj := _cmb.Items.Objects[_Idx]
+   else if _FocusControl then
+@@ -1641,6 +1697,15 @@
+   _Cmb.ItemIndex := Result;
+ end;
+ 
++type
++  TComboHack = class(TCustomCombo)
++  end;
++
++procedure TComboBox_Change(_cmb: TCustomCombo);
++begin
++  TComboHack(_cmb).Change;
++end;
++
+ procedure TComboBox_SelectWithoutChangeEvent(_cmb: TComboBox; _Idx: integer);
+ var
+   Event: TNotifyEvent;
+@@ -2218,6 +2283,21 @@
+   _lv.Clear;
+ end;
+ 
++type
++  TListViewEndUpdateClass = class(TInterfacedObject, IInterface)
++  private
++    FListView: TListView;
++  public
++    constructor Create(_ListView: TListView);
++    destructor Destroy; override;
++  end;
++
++function TListView_BeginUpdate(_lv: TListView): IInterface;
++begin
++  _lv.Items.BeginUpdate;
++  Result := TListViewEndUpdateClass.Create(_lv);
++end;
++
+ function TRadioGroup_GetButton(_rg: TRadioGroup; _ItemIdx: integer): TRadioButton;
+ // taken from http://delphi.about.com/od/adptips2006/qt/radiogroupbtns.htm
+ begin
+@@ -2288,6 +2368,26 @@
+       Inc(Result);
+ end;
+ 
++function TListView_GetSelected(_Lv: TListView; out _Idx: integer): boolean;
++var
++  Idx: integer;
++begin
++  Idx := _Lv.ItemIndex;
++  Result := (Idx <> -1);
++  if Result then
++    _Idx := Idx;
++end;
++
++function TListView_GetSelected(_lv: TListView; out _Item: TListItem): boolean;
++var
++  Item: TListItem;
++begin
++  Item := _lv.Selected;
++  Result := Assigned(Item);
++  if Result then
++    _Item := Item;
++end;
++
+ function TAction_SetCheckedExecute(_act: TCustomAction; _Checked: boolean): boolean;
+ begin
+   Result := _act.Checked <> _Checked;
+@@ -2295,6 +2395,21 @@
+     Result := _act.Execute;
+ end;
+ 
++type
++  THackGroupBox = class(TCustomGroupBox)
++  end;
++
++function TGroupBox_SetFileCaption(_grp: TCustomGroupBox; const _Prefix: string; const _Filename: string): string;
++var
++  Len: Integer;
++  grp: THackGroupBox;
++begin
++  grp := THackGroupBox(_grp);
++  Len := grp.Canvas.TextWidth(_Prefix);
++  Result := _Prefix + MinimizeName(_Filename, grp.Canvas, grp.Width - Len);
++  grp.Caption := Result;
++end;
++
+ function TStatusBar_GetClickedPanel(_sb: TStatusBar): integer;
+ // call this to determine which panel of a TStatusBar has been clicked
+ // Note: This assumes, that the status bar actually was clicked, so only call it
+@@ -2455,6 +2570,21 @@
+ end;
+ {$ENDIF DELPHI2009_UP}
+ 
++{ TListViewEndUpdateClass }
++
++constructor TListViewEndUpdateClass.Create(_ListView: TListView);
++begin
++  inherited Create;
++  FListView := _ListView;
++end;
++
++destructor TListViewEndUpdateClass.Destroy;
++begin
++  if Assigned(FListView) then
++    FListView.Items.EndUpdate;
++  inherited;
++end;
++
+ initialization
+ finalization
+   FreeAndNil(gblCheckListBoxHelper);
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:27:59 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:27:59 +0200
+Subject: [Dzchart-svncheckins] r573 - in utilities/dzLib/trunk/translations:
+	de en fr
+Message-ID: <20110423102759.ED6C34814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:27:59 +0200 (Sat, 23 Apr 2011)
+New Revision: 573
+
+Modified:
+   utilities/dzLib/trunk/translations/de/dzlib.po
+   utilities/dzLib/trunk/translations/en/dzlib.po
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+translations
+
+Modified: utilities/dzLib/trunk/translations/de/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/de/dzlib.po	2011-04-23 10:27:39 UTC (rev 572)
++++ utilities/dzLib/trunk/translations/de/dzlib.po	2011-04-23 10:27:59 UTC (rev 573)
+@@ -6,7 +6,7 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: dzLib 1.0\n"
+-"POT-Creation-Date: 2011-03-01 09:46\n"
++"POT-Creation-Date: 2011-03-23 08:54\n"
+ "PO-Revision-Date: 2010-07-13 10:18+0100\n"
+ "Last-Translator: Thomas Mueller <info at schniering.com>\n"
+ "Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+@@ -17,26 +17,26 @@
+ "X-Poedit-Language: German\n"
+ "X-Poedit-Country: GERMANY\n"
+ 
+-#: u_dzClassUtils.pas:397
++#: u_dzClassUtils.pas:445
+ msgid "no matching object found"
+ msgstr "kein passendes Objekt gefunden"
+ 
+-#: u_dzClassUtils.pas:435
++#: u_dzClassUtils.pas:483
+ #, object-pascal-format
+ msgid "Invalid empty string value in ini file for [%s]%s"
+ msgstr "Ung?ltige Leerstring-Wert in ini-Datei f?r [%s]%s"
+ 
+-#: u_dzClassUtils.pas:466
++#: u_dzClassUtils.pas:526
+ #, object-pascal-format
+ msgid "Invalid floating point value \"%s\" in ini file for [%s]%s"
+ msgstr "Ung?ltiger Flie?kommawert \"%s\" in ini-Datei f?r [%s]%s"
+ 
+-#: u_dzClassUtils.pas:488
++#: u_dzClassUtils.pas:548
+ #, object-pascal-format
+ msgid "Invalid date value \"%s\" in ini file for [%s]%s"
+ msgstr "Ung?ltiger Datumswert \"%s\" in ini-Datei f?r [%s]%s"
+ 
+-#: u_dzClassUtils.pas:502
++#: u_dzClassUtils.pas:562
+ #, object-pascal-format
+ msgid "Invalid integer value \"%s\" in ini file for [%s]%s"
+ msgstr "Ung?ltiger Ganzzahlwert \"%s\" in ini-Datei f?r [%s]%s"
+@@ -312,62 +312,63 @@
+ msgstr "Ung?ltige Dateiflags"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:945
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:935
++#: u_dzFileUtils.pas:953
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) beim Aufruf von Windows.GetTempPath (zweiter)"
+ 
+-#: u_dzFileUtils.pas:987
++#: u_dzFileUtils.pas:1005
+ msgid "<no volume name>"
+ msgstr "<kein Volume-Name>"
+ 
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
++#: u_dzFileUtils.pas:1024 u_dzFileUtils.pas:1629
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) creating directory \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim Erstellen des Verzeichnisses \"%s\""
+ 
+-#: u_dzFileUtils.pas:1030
++#: u_dzFileUtils.pas:1048
+ #, object-pascal-format
+ msgid "Could not find a unique directory name based on \"%s\""
+ msgstr "Konnte keinen eindeutigen Verzeichnisnamen basierend auf \"%s\" finden."
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:1066
++#: u_dzFileUtils.pas:1087
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) beim Aufruf von Windows.GetTempFileName"
+ 
+-#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
++#: u_dzFileUtils.pas:1142 u_dzFileUtils.pas:1148
+ #, object-pascal-format
+ msgid "File not found: \"%s\""
+ msgstr "Datei nicht gefunden: \"%s\""
+ 
+-#: u_dzFileUtils.pas:1172
++#: u_dzFileUtils.pas:1193
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) beim Aufruf von Windows.GetShortPathname"
+ 
+-#: u_dzFileUtils.pas:1174
++#: u_dzFileUtils.pas:1195
+ #, object-pascal-format
+ msgid "Short pathname is longer than MAX_PATH (%d) characters"
+ msgstr "Kurzer Pfad ist l?nger als MAX_PATH (%d) Zeichen"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1186
++#. duplicate % so they get passed through the format function
++#: u_dzFileUtils.pas:1207 u_dzFileUtils.pas:1233
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
+ msgstr "Fehler %%1:s (%%0:d) beim Verschieben von \"%s\" nach \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1204
++#: u_dzFileUtils.pas:1251
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim ?ndern des Schreibschutz-Flags von \"%s\""
+@@ -375,50 +376,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
++#: u_dzFileUtils.pas:1271 u_dzFileUtils.pas:1397 u_dzFileUtils.pas:1470
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
+ msgstr "Fehler %%1:s (%%0:d) beim Kopieren von \"%s\" nach \"%s\"."
+ 
+-#: u_dzFileUtils.pas:1338
++#: u_dzFileUtils.pas:1385
+ #, object-pascal-format
+ msgid "Error %s (%s) in progress callback while trying to copy \"%s\" to \"%s\"."
+ msgstr "Fehler %s (%s) im Fortschritts-Callback beim Kopieren von \"%s\" nach \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1453
++#: u_dzFileUtils.pas:1500
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim L?schen der Datei \"%s\""
+ 
+-#: u_dzFileUtils.pas:1523
++#: u_dzFileUtils.pas:1570
+ #, object-pascal-format
+ msgid "File not found: %s"
+ msgstr "Datei nicht gefunden: %s"
+ 
+-#: u_dzFileUtils.pas:1537
++#: u_dzFileUtils.pas:1584
+ #, object-pascal-format
+ msgid "Directory not found: %s"
+ msgstr "Verzeichnis nicht gefunden: \"%s\""
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1574
++#: u_dzFileUtils.pas:1621
+ #, object-pascal-format
+ msgid "Error creating directory \"%s\": %s (%s)"
+ msgstr "Fehler beim Erstellen des Verzeichnisses \"%s\": %s (%s)"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1601
++#: u_dzFileUtils.pas:1648
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting directory \"%s\""
+ msgstr "Fehler %%1:s (%%0:d) beim L?schen des Verzeichnisses \"%s\""
+ 
+-#: u_dzFileUtils.pas:1619
++#: u_dzFileUtils.pas:1666
+ #, object-pascal-format
+ msgid "\"%s\" does not exist or is not a directory"
+ msgstr "\"%s\" existiert nicht oder ist kein Verzeichnis"
+ 
+-#: u_dzFileUtils.pas:1893
++#: u_dzFileUtils.pas:1940
+ msgid "Combination of ResultContainsNumber and KeepOriginal is not allowed"
+ msgstr "Kombination von ResultContainsNumber und KeepOriginal ist nicht erlaubt"
+ 
+@@ -488,6 +489,7 @@
+ msgid "Error \"%1:s (%0:d)\" while trying to acquire mutex."
+ msgstr "Fehler %1:s (%0:d) beim Versuch das Mutex zu erwerben."
+ 
++#: u_dzNameValueList.pas:98 u_dzUnsortedNameValueList.pas:88
+ #: u_dzNameValueList.pas:96
+ #, object-pascal-format
+ msgid "Entry \"%s\" not found."
+@@ -578,6 +580,21 @@
+ msgid "%s accessing file %s"
+ msgstr "%s beim Zugriff auf Datei %s"
+ 
++#: u_dzUnsortedNameValueList.pas:56
++#, object-pascal-format
++msgid "NameValue \"%s\" does not contain a \"=\"."
++msgstr "NameValue \"%s\" enth?lt kein \"=\"."
++
++#: u_dzUnsortedNameValueList.pas:102
++#, object-pascal-format
++msgid "Duplicate value name \"%s\"."
++msgstr "Doppelter Wert-Name \"%s\"."
++
++#: u_dzUnsortedNameValueList.pas:106
++#, object-pascal-format
++msgid "Empty value for \"%s\"."
++msgstr "Leerer Wert f?r \"%s\"."
++
+ #. do not translate
+ #. do not translate
+ #. do not translate
+@@ -612,33 +629,37 @@
+ msgid "Variant can not be converted to %s"
+ msgstr "Variant kann nicht nach %s konvertiert werden"
+ 
+-#: u_dzVclUtils.pas:647
++#: u_dzVclUtils.pas:660
+ #, object-pascal-format
+ msgid "Glyph string contained invalid character at position %d."
+ msgstr "Der Glyph-Text beinhaltet ein ung?ltiges Zeichen an Position %d."
+ 
+-#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
++#: u_dzVclUtils.pas:940 u_dzVclUtils.pas:987
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid floating point value."
+ msgstr "\"%s\" ist kein g?ltiger Flie?kommawert."
+ 
+-#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
++#: u_dzVclUtils.pas:955 u_dzVclUtils.pas:1019 u_dzVclUtils.pas:1032
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid integer value."
+ msgstr "\"%s\" ist kein g?ltiger Integerwert."
+ 
+-#: u_dzVclUtils.pas:1407
++#: u_dzVclUtils.pas:1430
+ msgid "No item selected in combobox"
+ msgstr "Kein Eintrag der Combobox ausgew?hlt"
+ 
+-#: u_dzVclUtils.pas:1426
++#: u_dzVclUtils.pas:1449
+ msgid "No item selected in listbox"
+ msgstr "Kein Eintrag der Listbox ausgew?hlt"
+ 
+-#: u_dzVclUtils.pas:1990
++#: u_dzVclUtils.pas:2013
+ msgid "JPEG Files"
+ msgstr "JPEG Dateien"
+ 
++#: u_dzVclUtils.pas:2465
++msgid "Ctrl+Return to 'click' right button."
++msgstr "Strg+Enter zum 'Klicken' des rechten Buttons."
++
+ #: u_dzVersionInfo.pas:277
+ #, object-pascal-format
+ msgid "Invalid version part (%d)"
+@@ -709,11 +730,11 @@
+ msgid "Invalid modal result %d."
+ msgstr "Ung?ltiger modaler R?ckgabewert %d."
+ 
+-#: w_dzDialog.pas:519
++#: w_dzDialog.pas:522
+ msgid "Do not show again."
+ msgstr "Nicht nochmal anzeigen."
+ 
+-#: w_dzDialog.pas:601
++#: w_dzDialog.pas:604
+ #, object-pascal-format
+ msgid ""
+ "An error occurred:\n"
+@@ -723,15 +744,15 @@
+ "%s"
+ 
+ #. 400;
+-#: w_dzDialog.pas:625
++#: w_dzDialog.pas:628
+ msgid "Additional information:"
+ msgstr "Erweiterte Informationen:"
+ 
+-#: w_dzDialog.pas:645 w_dzDialog.pas:755 w_dzDialog.pas:802
++#: w_dzDialog.pas:648 w_dzDialog.pas:758 w_dzDialog.pas:805
+ msgid "&Details >>"
+ msgstr "&Details >>"
+ 
+-#: w_dzDialog.pas:805
++#: w_dzDialog.pas:808
+ msgid "&Details <<"
+ msgstr "&Details <<"
+ 
+
+Modified: utilities/dzLib/trunk/translations/en/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/en/dzlib.po	2011-04-23 10:27:39 UTC (rev 572)
++++ utilities/dzLib/trunk/translations/en/dzlib.po	2011-04-23 10:27:59 UTC (rev 573)
+@@ -6,7 +6,7 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: dzLib 1.0\n"
+-"POT-Creation-Date: 2011-03-01 09:46\n"
++"POT-Creation-Date: 2011-03-23 08:54\n"
+ "PO-Revision-Date: 2010-07-13 10:18+0100\n"
+ "Last-Translator: Thomas Mueller <info at schniering.com>\n"
+ "Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+@@ -17,26 +17,26 @@
+ "X-Poedit-Language: English\n"
+ "X-Poedit-Country: UNITED STATES\n"
+ 
+-#: u_dzClassUtils.pas:397
++#: u_dzClassUtils.pas:445
+ msgid "no matching object found"
+ msgstr "no matching object found"
+ 
+-#: u_dzClassUtils.pas:435
++#: u_dzClassUtils.pas:483
+ #, object-pascal-format
+ msgid "Invalid empty string value in ini file for [%s]%s"
+ msgstr "Invalid empty string value in ini file for [%s]%s"
+ 
+-#: u_dzClassUtils.pas:466
++#: u_dzClassUtils.pas:526
+ #, object-pascal-format
+ msgid "Invalid floating point value \"%s\" in ini file for [%s]%s"
+ msgstr "Invalid floating point value \"%s\" in ini file for [%s]%s"
+ 
+-#: u_dzClassUtils.pas:488
++#: u_dzClassUtils.pas:548
+ #, object-pascal-format
+ msgid "Invalid date value \"%s\" in ini file for [%s]%s"
+ msgstr "Invalid date value \"%s\" in ini file for [%s]%s"
+ 
+-#: u_dzClassUtils.pas:502
++#: u_dzClassUtils.pas:562
+ #, object-pascal-format
+ msgid "Invalid integer value \"%s\" in ini file for [%s]%s"
+ msgstr "Invalid integer value \"%s\" in ini file for [%s]%s"
+@@ -312,62 +312,63 @@
+ msgstr "Invalid file flags"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:945
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:935
++#: u_dzFileUtils.pas:953
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ 
+-#: u_dzFileUtils.pas:987
++#: u_dzFileUtils.pas:1005
+ msgid "<no volume name>"
+ msgstr "<no volume name>"
+ 
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
++#: u_dzFileUtils.pas:1024 u_dzFileUtils.pas:1629
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) creating directory \"%s\""
+ msgstr "Error %%1:s (%%0:d) creating directory \"%s\""
+ 
+-#: u_dzFileUtils.pas:1030
++#: u_dzFileUtils.pas:1048
+ #, object-pascal-format
+ msgid "Could not find a unique directory name based on \"%s\""
+ msgstr "Could not find a unique directory name based on \"%s\""
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:1066
++#: u_dzFileUtils.pas:1087
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ 
+-#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
++#: u_dzFileUtils.pas:1142 u_dzFileUtils.pas:1148
+ #, object-pascal-format
+ msgid "File not found: \"%s\""
+ msgstr "File not found: \"%s\""
+ 
+-#: u_dzFileUtils.pas:1172
++#: u_dzFileUtils.pas:1193
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ 
+-#: u_dzFileUtils.pas:1174
++#: u_dzFileUtils.pas:1195
+ #, object-pascal-format
+ msgid "Short pathname is longer than MAX_PATH (%d) characters"
+ msgstr "Short pathname is longer than MAX_PATH (%d) characters"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1186
++#. duplicate % so they get passed through the format function
++#: u_dzFileUtils.pas:1207 u_dzFileUtils.pas:1233
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
+ msgstr "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1204
++#: u_dzFileUtils.pas:1251
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
+ msgstr "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
+@@ -375,50 +376,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
++#: u_dzFileUtils.pas:1271 u_dzFileUtils.pas:1397 u_dzFileUtils.pas:1470
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
+ msgstr "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
+ 
+-#: u_dzFileUtils.pas:1338
++#: u_dzFileUtils.pas:1385
+ #, object-pascal-format
+ msgid "Error %s (%s) in progress callback while trying to copy \"%s\" to \"%s\"."
+ msgstr "Error %s (%s) in progress callback while trying to copy \"%s\" to \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1453
++#: u_dzFileUtils.pas:1500
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+ msgstr "Error %%1:s (%%0:d) deleting file \"%s\""
+ 
+-#: u_dzFileUtils.pas:1523
++#: u_dzFileUtils.pas:1570
+ #, object-pascal-format
+ msgid "File not found: %s"
+ msgstr "File not found: %s"
+ 
+-#: u_dzFileUtils.pas:1537
++#: u_dzFileUtils.pas:1584
+ #, object-pascal-format
+ msgid "Directory not found: %s"
+ msgstr "Directory not found: %s"
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1574
++#: u_dzFileUtils.pas:1621
+ #, object-pascal-format
+ msgid "Error creating directory \"%s\": %s (%s)"
+ msgstr "Error creating directory \"%s\": %s (%s)"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1601
++#: u_dzFileUtils.pas:1648
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting directory \"%s\""
+ msgstr "Error %%1:s (%%0:d) deleting directory \"%s\""
+ 
+-#: u_dzFileUtils.pas:1619
++#: u_dzFileUtils.pas:1666
+ #, object-pascal-format
+ msgid "\"%s\" does not exist or is not a directory"
+ msgstr "\"%s\" does not exist or is not a directory"
+ 
+-#: u_dzFileUtils.pas:1893
++#: u_dzFileUtils.pas:1940
+ msgid "Combination of ResultContainsNumber and KeepOriginal is not allowed"
+ msgstr "Combination of ResultContainsNumber and KeepOriginal is not allowed"
+ 
+@@ -488,6 +489,7 @@
+ msgid "Error \"%1:s (%0:d)\" while trying to acquire mutex."
+ msgstr "Error \"%1:s (%0:d)\" while trying to acquire mutex."
+ 
++#: u_dzNameValueList.pas:98 u_dzUnsortedNameValueList.pas:88
+ #: u_dzNameValueList.pas:96
+ #, object-pascal-format
+ msgid "Entry \"%s\" not found."
+@@ -578,6 +580,21 @@
+ msgid "%s accessing file %s"
+ msgstr "%s accessing file %s"
+ 
++#: u_dzUnsortedNameValueList.pas:56
++#, object-pascal-format
++msgid "NameValue \"%s\" does not contain a \"=\"."
++msgstr "NameValue \"%s\" does not contain a \"=\"."
++
++#: u_dzUnsortedNameValueList.pas:102
++#, object-pascal-format
++msgid "Duplicate value name \"%s\"."
++msgstr "Duplicate value name \"%s\"."
++
++#: u_dzUnsortedNameValueList.pas:106
++#, object-pascal-format
++msgid "Empty value for \"%s\"."
++msgstr "Empty value for \"%s\"."
++
+ #. do not translate
+ #. do not translate
+ #. do not translate
+@@ -612,33 +629,37 @@
+ msgid "Variant can not be converted to %s"
+ msgstr "Variant can not be converted to %s"
+ 
+-#: u_dzVclUtils.pas:647
++#: u_dzVclUtils.pas:660
+ #, object-pascal-format
+ msgid "Glyph string contained invalid character at position %d."
+ msgstr "Glyph string contained invalid character at position %d."
+ 
+-#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
++#: u_dzVclUtils.pas:940 u_dzVclUtils.pas:987
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid floating point value."
+ msgstr "\"%s\" is not a valid floating point value."
+ 
+-#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
++#: u_dzVclUtils.pas:955 u_dzVclUtils.pas:1019 u_dzVclUtils.pas:1032
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid integer value."
+ msgstr "\"%s\" is not a valid integer value."
+ 
+-#: u_dzVclUtils.pas:1407
++#: u_dzVclUtils.pas:1430
+ msgid "No item selected in combobox"
+ msgstr "No item selected in combobox"
+ 
+-#: u_dzVclUtils.pas:1426
++#: u_dzVclUtils.pas:1449
+ msgid "No item selected in listbox"
+ msgstr "No item selected in listbox"
+ 
+-#: u_dzVclUtils.pas:1990
++#: u_dzVclUtils.pas:2013
+ msgid "JPEG Files"
+ msgstr "JPEG Files"
+ 
++#: u_dzVclUtils.pas:2465
++msgid "Ctrl+Return to 'click' right button."
++msgstr "Ctrl+Return to 'click' right button."
++
+ #: u_dzVersionInfo.pas:277
+ #, object-pascal-format
+ msgid "Invalid version part (%d)"
+@@ -709,11 +730,11 @@
+ msgid "Invalid modal result %d."
+ msgstr "Invalid modal result %d."
+ 
+-#: w_dzDialog.pas:519
++#: w_dzDialog.pas:522
+ msgid "Do not show again."
+ msgstr "Do not show again."
+ 
+-#: w_dzDialog.pas:601
++#: w_dzDialog.pas:604
+ #, object-pascal-format
+ msgid ""
+ "An error occurred:\n"
+@@ -723,15 +744,15 @@
+ "%s"
+ 
+ #. 400;
+-#: w_dzDialog.pas:625
++#: w_dzDialog.pas:628
+ msgid "Additional information:"
+ msgstr "Additional information:"
+ 
+-#: w_dzDialog.pas:645 w_dzDialog.pas:755 w_dzDialog.pas:802
++#: w_dzDialog.pas:648 w_dzDialog.pas:758 w_dzDialog.pas:805
+ msgid "&Details >>"
+ msgstr "&Details >>"
+ 
+-#: w_dzDialog.pas:805
++#: w_dzDialog.pas:808
+ msgid "&Details <<"
+ msgstr "&Details <<"
+ 
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2011-04-23 10:27:39 UTC (rev 572)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2011-04-23 10:27:59 UTC (rev 573)
+@@ -6,7 +6,7 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: dzLib\n"
+-"POT-Creation-Date: 2011-03-01 09:46\n"
++"POT-Creation-Date: 2011-03-23 08:54\n"
+ "PO-Revision-Date: 2010-10-10 20:17+0100\n"
+ "Last-Translator: RH\n"
+ "Language-Team: Thomas Mueller <dzlib at dummzeuch.de>\n"
+@@ -17,26 +17,26 @@
+ "X-Poedit-Language: French\n"
+ "X-Poedit-Country: FRANCE\n"
+ 
+-#: u_dzClassUtils.pas:397
++#: u_dzClassUtils.pas:445
+ msgid "no matching object found"
+ msgstr "aucun objet correspondant trouv?"
+ 
+-#: u_dzClassUtils.pas:435
++#: u_dzClassUtils.pas:483
+ #, object-pascal-format
+ msgid "Invalid empty string value in ini file for [%s]%s"
+ msgstr "Cha?ne valeur non valide dans le fichier ini pour [%s]%s"
+ 
+-#: u_dzClassUtils.pas:466
++#: u_dzClassUtils.pas:526
+ #, fuzzy, object-pascal-format
+ msgid "Invalid floating point value \"%s\" in ini file for [%s]%s"
+ msgstr "valeur du point flottante non valide %s dans le fichier ini pour [%s]%s"
+ 
+-#: u_dzClassUtils.pas:488
++#: u_dzClassUtils.pas:548
+ #, fuzzy, object-pascal-format
+ msgid "Invalid date value \"%s\" in ini file for [%s]%s"
+ msgstr "valeur enti?re non valide \"%s\" dans le fichier ini pour [%s]%s"
+ 
+-#: u_dzClassUtils.pas:502
++#: u_dzClassUtils.pas:562
+ #, object-pascal-format
+ msgid "Invalid integer value \"%s\" in ini file for [%s]%s"
+ msgstr "valeur enti?re non valide \"%s\" dans le fichier ini pour [%s]%s"
+@@ -313,62 +313,63 @@
+ msgstr "Flags fichiers non valide"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:927
++#: u_dzFileUtils.pas:945
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath"
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:935
++#: u_dzFileUtils.pas:953
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ msgstr "TFileSystem.GetTempPath: %1:s (code: %0:d) calling Windows.GetTempPath (2nd)"
+ 
+-#: u_dzFileUtils.pas:987
++#: u_dzFileUtils.pas:1005
+ msgid "<no volume name>"
+ msgstr ""
+ 
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1006 u_dzFileUtils.pas:1582
++#: u_dzFileUtils.pas:1024 u_dzFileUtils.pas:1629
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) creating directory \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de la cr?ation du r?pertoire \"%s\""
+ 
+-#: u_dzFileUtils.pas:1030
++#: u_dzFileUtils.pas:1048
+ #, object-pascal-format
+ msgid "Could not find a unique directory name based on \"%s\""
+ msgstr "Impossible de trouver un nom de r?pertoire unique sur la base de \"%s\""
+ 
+ #. GetLastError must be called before _(), otherwise the error code gets lost
+-#: u_dzFileUtils.pas:1066
++#: u_dzFileUtils.pas:1087
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ msgstr "TFileSystem.GetTempFilename: %1:s (Code: %0:d) calling Windows.GetTempFileName"
+ 
+-#: u_dzFileUtils.pas:1121 u_dzFileUtils.pas:1127
++#: u_dzFileUtils.pas:1142 u_dzFileUtils.pas:1148
+ #, object-pascal-format
+ msgid "File not found: \"%s\""
+ msgstr "Fichier non trouv?: \"%s\""
+ 
+-#: u_dzFileUtils.pas:1172
++#: u_dzFileUtils.pas:1193
+ #, no-object-pascal-format
+ msgid "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ msgstr "TFileSystem.GetShortPathname: %1:s (Code: %0:d) calling Windows.GetShortPathname"
+ 
+-#: u_dzFileUtils.pas:1174
++#: u_dzFileUtils.pas:1195
+ #, object-pascal-format
+ msgid "Short pathname is longer than MAX_PATH (%d) characters"
+ msgstr "La longueur du chemin de fichier d?passe MAX_PATH (%d) caract?res"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1186
++#. duplicate % so they get passed through the format function
++#: u_dzFileUtils.pas:1207 u_dzFileUtils.pas:1233
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to move \"%s\" to \"%s\"."
+ msgstr "Erreur %%1:s (%%0:d) lors du d?placement de \"%s\" vers \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1204
++#: u_dzFileUtils.pas:1251
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while changing the readonly flag of \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors du changement de l'indicateur lecture seule de \"%s\""
+@@ -376,50 +377,50 @@
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1224 u_dzFileUtils.pas:1350 u_dzFileUtils.pas:1423
++#: u_dzFileUtils.pas:1271 u_dzFileUtils.pas:1397 u_dzFileUtils.pas:1470
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) while trying to copy \"%s\" to \"%s\"."
+ msgstr "Erreur %%1:s (%%0:d) lors de la copie de \"%s\" vers \"%s\"."
+ 
+-#: u_dzFileUtils.pas:1338
++#: u_dzFileUtils.pas:1385
+ #, object-pascal-format
+ msgid "Error %s (%s) in progress callback while trying to copy \"%s\" to \"%s\"."
+ msgstr "Erreur %s?(%s)  dans processus callback en essayant de copier \"%s\" vers \"%s\"."
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1453
++#: u_dzFileUtils.pas:1500
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting file \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de l'effacement du fichier \"%s\""
+ 
+-#: u_dzFileUtils.pas:1523
++#: u_dzFileUtils.pas:1570
+ #, object-pascal-format
+ msgid "File not found: %s"
+ msgstr "Fichier non trouv?: %s"
+ 
+-#: u_dzFileUtils.pas:1537
++#: u_dzFileUtils.pas:1584
+ #, object-pascal-format
+ msgid "Directory not found: %s"
+ msgstr "R?pertoire non trouv?: %s"
+ 
+ #. ForceDirectories can raise EInOutError if the directory path contains empty parts
+-#: u_dzFileUtils.pas:1574
++#: u_dzFileUtils.pas:1621
+ #, object-pascal-format
+ msgid "Error creating directory \"%s\": %s (%s)"
+ msgstr "Erreur lors de la creation du r?pertoire \"%s\": %s (%s)"
+ 
+ #. duplicate % so they get passed through the format function
+-#: u_dzFileUtils.pas:1601
++#: u_dzFileUtils.pas:1648
+ #, object-pascal-format
+ msgid "Error %%1:s (%%0:d) deleting directory \"%s\""
+ msgstr "Erreur %%1:s (%%0:d) lors de l'effacement du r?pertoire \"%s\""
+ 
+-#: u_dzFileUtils.pas:1619
++#: u_dzFileUtils.pas:1666
+ #, object-pascal-format
+ msgid "\"%s\" does not exist or is not a directory"
+ msgstr "\"%s\" n'existe pas ou n'est pas un r?p?rtoire"
+ 
+-#: u_dzFileUtils.pas:1893
++#: u_dzFileUtils.pas:1940
+ msgid "Combination of ResultContainsNumber and KeepOriginal is not allowed"
+ msgstr "Combinaison de ResultContainsNumber et KeepOriginal n'est pas possible"
+ 
+@@ -503,6 +504,7 @@
+ msgid "Error \"%1:s (%0:d)\" while trying to acquire mutex."
+ msgstr "Error \"%1:s (%0:d)\"  lors d'aquisition de mutex."
+ 
++#: u_dzNameValueList.pas:98 u_dzUnsortedNameValueList.pas:88
+ #: u_dzNameValueList.pas:96
+ #, object-pascal-format
+ msgid "Entry \"%s\" not found."
+@@ -593,6 +595,21 @@
+ msgid "%s accessing file %s"
+ msgstr "%s lors de l'acc?s de fichier %s"
+ 
++#: u_dzUnsortedNameValueList.pas:56
++#, object-pascal-format
++msgid "NameValue \"%s\" does not contain a \"=\"."
++msgstr ""
++
++#: u_dzUnsortedNameValueList.pas:102
++#, object-pascal-format
++msgid "Duplicate value name \"%s\"."
++msgstr ""
++
++#: u_dzUnsortedNameValueList.pas:106
++#, object-pascal-format
++msgid "Empty value for \"%s\"."
++msgstr ""
++
+ #. do not translate
+ #. do not translate
+ #. do not translate
+@@ -627,34 +644,38 @@
+ msgid "Variant can not be converted to %s"
+ msgstr "Un variant ne peut pas ?tre converti en %s"
+ 
+-#: u_dzVclUtils.pas:647
++#: u_dzVclUtils.pas:660
+ #, object-pascal-format
+ msgid "Glyph string contained invalid character at position %d."
+ msgstr "Glyph cha?ne contenue un caract?re non valide ? position %d."
+ 
+-#: u_dzVclUtils.pas:917 u_dzVclUtils.pas:964
++#: u_dzVclUtils.pas:940 u_dzVclUtils.pas:987
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid floating point value."
+ msgstr "\"%s\" n'est pas une valeur d?cimale correcte."
+ 
+ # Integer = Dezimalzahl?
+-#: u_dzVclUtils.pas:932 u_dzVclUtils.pas:996 u_dzVclUtils.pas:1009
++#: u_dzVclUtils.pas:955 u_dzVclUtils.pas:1019 u_dzVclUtils.pas:1032
+ #, object-pascal-format
+ msgid "\"%s\" is not a valid integer value."
+ msgstr "\"%s\" n'est pas une valeur d?cimale correcte."
+ 
+-#: u_dzVclUtils.pas:1407
++#: u_dzVclUtils.pas:1430
+ msgid "No item selected in combobox"
+ msgstr "Aucun ?l?ment s?lectionn? dans combobox"
+ 
+-#: u_dzVclUtils.pas:1426
++#: u_dzVclUtils.pas:1449
+ msgid "No item selected in listbox"
+ msgstr "Aucun ?l?ment s?lectionn? dans listbox"
+ 
+-#: u_dzVclUtils.pas:1990
++#: u_dzVclUtils.pas:2013
+ msgid "JPEG Files"
+ msgstr "Fichiers JPEG"
+ 
++#: u_dzVclUtils.pas:2465
++msgid "Ctrl+Return to 'click' right button."
++msgstr ""
++
+ #: u_dzVersionInfo.pas:277
+ #, object-pascal-format
+ msgid "Invalid version part (%d)"
+@@ -726,11 +747,11 @@
+ msgid "Invalid modal result %d."
+ msgstr "R?sultat modal non valide %d."
+ 
+-#: w_dzDialog.pas:519
++#: w_dzDialog.pas:522
+ msgid "Do not show again."
+ msgstr "Ne pas afficher de nouveau."
+ 
+-#: w_dzDialog.pas:601
++#: w_dzDialog.pas:604
+ #, object-pascal-format
+ msgid ""
+ "An error occurred:\n"
+@@ -740,15 +761,15 @@
+ "%s"
+ 
+ #. 400;
+-#: w_dzDialog.pas:625
++#: w_dzDialog.pas:628
+ msgid "Additional information:"
+ msgstr "Informations compl?mentaires:"
+ 
+-#: w_dzDialog.pas:645 w_dzDialog.pas:755 w_dzDialog.pas:802
++#: w_dzDialog.pas:648 w_dzDialog.pas:758 w_dzDialog.pas:805
+ msgid "&Details >>"
+ msgstr "&D?tails >>"
+ 
+-#: w_dzDialog.pas:805
++#: w_dzDialog.pas:808
+ msgid "&Details <<"
+ msgstr "&D?tails <<"
+ 
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:28:41 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:28:41 +0200
+Subject: [Dzchart-svncheckins] r574 -
+	utilities/dzLib/trunk/Packages/Delphi2007
+Message-ID: <20110423102841.6A67D4814C9@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:28:41 +0200 (Sat, 23 Apr 2011)
+New Revision: 574
+
+Modified:
+   utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsD.dproj
+   utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk
+   utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj
+Log:
+updated packages
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsD.dproj
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsD.dproj	2011-04-23 10:27:59 UTC (rev 573)
++++ utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsD.dproj	2011-04-23 10:28:41 UTC (rev 574)
+@@ -25,23 +25,20 @@
+     <Borland.Personality>Delphi.Personality</Borland.Personality>
+     <Borland.ProjectType>Package</Borland.ProjectType>
+     <BorlandProject>
+-<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters><Parameters Name="HostApplication">C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe</Parameters></Parameters><Package_Options><Package_Options Name="ImplicitBuild">False</Package_Options><Package_Options Name="DesigntimeOnly">True</Package_Options><Package_Options Name="RuntimeOnly">False</Package_Options><Package_Options Name="LibSuffix">110</Package_Options><Package_Options Name="PackageDescription">dzComponents designtime package</Package_Options></Package_Options><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Na
+ me="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1031</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">dzComponentsD.dpk</Source>
+ </Source><Excluded_Packages>
+-      
+-      
+-    </Excluded_Packages></Delphi.Personality></BorlandProject></BorlandProject>
++<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters><Parameters Name="HostApplication">C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe</Parameters></Parameters><Package_Options><Package_Options Name="ImplicitBuild">False</Package_Options><Package_Options Name="DesigntimeOnly">True</Package_Options><Package_Options Name="RuntimeOnly">False</Package_Options><Package_Options Name="LibSuffix">110</Package_Options><Package_Options Name="PackageDescription">dzComponents designtime package</Package_Options></Package_Options><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Na
+ me="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1031</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">dzComponentsD.dpk</Source>
+ </Source><Excluded_Packages></Excluded_Packages></Delphi.Personality></BorlandProject></BorlandProject>
+   </ProjectExtensions>
+   <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+   <ItemGroup>
+     <DelphiCompile Include="dzComponentsD.dpk">
+       <MainSource>MainSource</MainSource>
+     </DelphiCompile>
+-    <DCCReference Include="..\..\components\dbrtl.dcp" />
+-    <DCCReference Include="..\..\components\dzComponentsR.dcp" />
+-    <DCCReference Include="..\..\components\rtl.dcp" />
+     <DCCReference Include="..\..\components\u_dzShellControlsReg.pas" />
+     <DCCReference Include="..\..\components\u_dzVirtualStringGridReg.pas" />
+-    <DCCReference Include="..\..\components\vcl.dcp" />
+-    <DCCReference Include="..\..\components\vcldb.dcp" />
+-    <DCCReference Include="..\..\components\vclx.dcp" />
++    <DCCReference Include="dbrtl.dcp" />
++    <DCCReference Include="dzComponentsR.dcp" />
++    <DCCReference Include="rtl.dcp" />
++    <DCCReference Include="vcl.dcp" />
++    <DCCReference Include="vcldb.dcp" />
++    <DCCReference Include="vclx.dcp" />
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk	2011-04-23 10:27:59 UTC (rev 573)
++++ utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dpk	2011-04-23 10:28:41 UTC (rev 574)
+@@ -37,7 +37,12 @@
+   dbrtl,
+   vclshlctrls,
+   Jcl,
+-  vcljpg;
++  vcljpg,
++  bdertl,
++  adortl,
++  JvSystemD11R,
++  JvCoreD11R,
++  JclVcl;
+ 
+ contains
+   c_dzVirtualStringGrid in '..\..\components\c_dzVirtualStringGrid.pas',
+@@ -55,6 +60,9 @@
+   u_dzVersionInfo in '..\..\src\u_dzVersionInfo.pas',
+   u_dzOsUtils in '..\..\src\u_dzOsUtils.pas',
+   u_dzVclUtils in '..\..\src\u_dzVclUtils.pas',
+-  c_dzShellControls in '..\..\components\c_dzShellControls.pas';
++  c_dzShellControls in '..\..\components\c_dzShellControls.pas',
++  u_dzTranslatorAdo in '..\..\src\u_dzTranslatorAdo.pas',
++  u_dzTranslatorDb in '..\..\src\u_dzTranslatorDb.pas',
++  u_dzTranslatorJVCL in '..\..\src\u_dzTranslatorJVCL.pas';
+ 
+ end.
+
+Modified: utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj
+===================================================================
+--- utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj	2011-04-23 10:27:59 UTC (rev 573)
++++ utilities/dzLib/trunk/Packages/Delphi2007/dzComponentsR.dproj	2011-04-23 10:28:41 UTC (rev 574)
+@@ -34,8 +34,6 @@
+     <BorlandProject>
+ <BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><Package_Options><Package_Options Name="ImplicitBuild">False</Package_Options><Package_Options Name="DesigntimeOnly">False</Package_Options><Package_Options Name="RuntimeOnly">True</Package_Options><Package_Options Name="LibSuffix">110</Package_Options><Package_Options Name="PackageDescription">dzCompoments runtime package</Package_Options></Package_Options><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Spec
+ ial">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1031</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">dzComponentsR.dpk</Source></Source><Excluded_Packages>
+       
+-      
+-      
+       <Excluded_Packages Name="$(BDS)\bin\dclIntraweb_90_100.bpl">VCL for the Web 9.0 Design Package for CodeGear RAD Studio</Excluded_Packages>
+     </Excluded_Packages></Delphi.Personality></BorlandProject></BorlandProject>
+   </ProjectExtensions>
+@@ -46,14 +44,6 @@
+     </DelphiCompile>
+     <DCCReference Include="..\..\components\c_dzShellControls.pas" />
+     <DCCReference Include="..\..\components\c_dzVirtualStringGrid.pas" />
+-    <DCCReference Include="..\..\components\dbrtl.dcp" />
+-    <DCCReference Include="..\..\components\Jcl.dcp" />
+-    <DCCReference Include="..\..\components\rtl.dcp" />
+-    <DCCReference Include="..\..\components\vcl.dcp" />
+-    <DCCReference Include="..\..\components\vcldb.dcp" />
+-    <DCCReference Include="..\..\components\vcljpg.dcp" />
+-    <DCCReference Include="..\..\components\vclshlctrls.dcp" />
+-    <DCCReference Include="..\..\components\vclx.dcp" />
+     <DCCReference Include="..\..\src\u_dzClassUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzConvertUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzDateUtils.pas" />
+@@ -65,8 +55,24 @@
+     <DCCReference Include="..\..\src\u_dzShellApiUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzStringUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzTranslator.pas" />
++    <DCCReference Include="..\..\src\u_dzTranslatorAdo.pas" />
++    <DCCReference Include="..\..\src\u_dzTranslatorDb.pas" />
++    <DCCReference Include="..\..\src\u_dzTranslatorJVCL.pas" />
+     <DCCReference Include="..\..\src\u_dzVariantUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzVclUtils.pas" />
+     <DCCReference Include="..\..\src\u_dzVersionInfo.pas" />
++    <DCCReference Include="adortl.dcp" />
++    <DCCReference Include="bdertl.dcp" />
++    <DCCReference Include="dbrtl.dcp" />
++    <DCCReference Include="Jcl.dcp" />
++    <DCCReference Include="JclVcl.dcp" />
++    <DCCReference Include="JvCoreD11R.dcp" />
++    <DCCReference Include="JvSystemD11R.dcp" />
++    <DCCReference Include="rtl.dcp" />
++    <DCCReference Include="vcl.dcp" />
++    <DCCReference Include="vcldb.dcp" />
++    <DCCReference Include="vcljpg.dcp" />
++    <DCCReference Include="vclshlctrls.dcp" />
++    <DCCReference Include="vclx.dcp" />
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
+
+
+
+From twm at mail.berlios.de  Sat Apr 23 12:49:41 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sat, 23 Apr 2011 12:49:41 +0200
+Subject: [Dzchart-svncheckins] r575 -
+	utilities/dzLib/trunk/tools/DbCreator/src
+Message-ID: <20110423104942.6A04E4814CB@sheep.berlios.de>
+
+Author: twm
+Date: 2011-04-23 12:49:41 +0200 (Sat, 23 Apr 2011)
+New Revision: 575
+
+Modified:
+   utilities/dzLib/trunk/tools/DbCreator/src/dzdbCreator.dproj
+Log:
+
+
+Modified: utilities/dzLib/trunk/tools/DbCreator/src/dzdbCreator.dproj
+===================================================================
+--- utilities/dzLib/trunk/tools/DbCreator/src/dzdbCreator.dproj	2011-04-23 10:28:41 UTC (rev 574)
++++ utilities/dzLib/trunk/tools/DbCreator/src/dzdbCreator.dproj	2011-04-23 10:49:41 UTC (rev 575)
+@@ -59,14 +59,6 @@
+     <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+     <BorlandProject>
+ <BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">39</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1033</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">iCD. GmbH</VersionInfoKeys><VersionInfoKeys Name="FileDescription">Database Conversion 
+ Tool</VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.39</VersionInfoKeys><VersionInfoKeys Name="InternalName">accessexport</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright">copyright 2001-2004 by headwork consulting GmbH, 2005-2006 by iCD. GmbH</VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename">accessexport.exe</VersionInfoKeys><VersionInfoKeys Name="ProductName">iCD Database Tools</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">dzdbCreator.dpr</Source></Source><Excluded_Packages>
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+-      
+       <Excluded_Packages Name="C:\Documents and Settings\All Users\Documents\RAD Studio\5.0\Bpl\dzComponentsD110.bpl">dzComponents designtime package</Excluded_Packages>
+     </Excluded_Packages></Delphi.Personality></BorlandProject></BorlandProject>
+   </ProjectExtensions>
+
+
+

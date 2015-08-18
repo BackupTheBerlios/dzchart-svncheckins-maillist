@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r401 - in utilities/dzCmdLineParser/trunk: .	translations translations/en
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r401%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09translations%20translations/en&In-Reply-To=%3C201003131131.o2DBVvX2028076%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000261.html">
+   <LINK REL="Next"  HREF="000263.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r401 - in utilities/dzCmdLineParser/trunk: .	translations translations/en</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r401%20-%20in%20utilities/dzCmdLineParser/trunk%3A%20.%0A%09translations%20translations/en&In-Reply-To=%3C201003131131.o2DBVvX2028076%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r401 - in utilities/dzCmdLineParser/trunk: .	translations translations/en">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 13 12:31:57 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000261.html">[Dzchart-svncheckins] r400 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000263.html">[Dzchart-svncheckins] r402 - utilities
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#262">[ date ]</a>
+              <a href="thread.html#262">[ thread ]</a>
+              <a href="subject.html#262">[ subject ]</a>
+              <a href="author.html#262">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-13 12:31:55 +0100 (Sat, 13 Mar 2010)
+New Revision: 401
+
+Added:
+   utilities/dzCmdLineParser/trunk/translations/en/
+   utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po
+Modified:
+   utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+Log:
+* added English translations
+* corrected comments
+
+Modified: utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd
+===================================================================
+--- utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-03-13 11:24:20 UTC (rev 400)
++++ utilities/dzCmdLineParser/trunk/UpdateTranslations.cmd	2010-03-13 11:31:55 UTC (rev 401)
+@@ -1,6 +1,7 @@
+ @rem This batch will
+ @rem * call dxgettext to extract all strings to translate
+ @rem * call msgremove remove any strings stored in the ignore.po file
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> * call msgmerge to merge German and English translations with the new template
+ 
+ set BASE=.
+ 
+@@ -13,7 +14,7 @@
+ @rem merge German translations
+ msgmerge --no-wrap --update %BASE%\translations\de\dzCmdLineParser.po %BASE%\filtered.po
+ 
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">- at rem</A> merge Eerman translations
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> merge English translations
+ msgmerge --no-wrap --update %BASE%\translations\en\dzCmdLineParser.po %BASE%\filtered.po
+ 
+ pause
+
+Added: utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po
+===================================================================
+--- utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po	2010-03-13 11:24:20 UTC (rev 400)
++++ utilities/dzCmdLineParser/trunk/translations/en/dzCmdLineParser.po	2010-03-13 11:31:55 UTC (rev 401)
+@@ -0,0 +1,101 @@
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the PACKAGE package.
++# FIRST AUTHOR &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">EMAIL at ADDRESS</A>&gt;, YEAR.
++#
++msgid &quot;&quot;
++msgstr &quot;&quot;
++&quot;Project-Id-Version: dzCmdLineParser 1.0\n&quot;
++&quot;POT-Creation-Date: 2009-06-30 11:42\n&quot;
++&quot;PO-Revision-Date: 2009-06-30 11:46+0100\n&quot;
++&quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">info at schniering.com</A>&gt;\n&quot;
++&quot;MIME-Version: 1.0\n&quot;
++&quot;Content-Type: text/plain; charset=UTF-8\n&quot;
++&quot;Content-Transfer-Encoding: 8bit\n&quot;
++&quot;X-Generator: dxgettext 1.2.2\n&quot;
++&quot;Language-Team: twm &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzcmdlineparser at dummzeuch.de</A>&gt;\n&quot;
++&quot;X-Poedit-Language: English\n&quot;
++&quot;X-Poedit-Country: UNITED STATES\n&quot;
++
++#: u_dzCmdLineParserStates.pas:197
++#: u_dzCmdLineParserStates.pas:217
++#: u_dzCmdLineParserStates.pas:231
++#: u_dzCmdLineParserStates.pas:254
++#: u_dzCmdLineParserStates.pas:270
++#: u_dzCmdLineParserStates.pas:313
++#: u_dzCmdLineParserStates.pas:335
++#: u_dzCmdLineParserStates.pas:377
++msgid &quot;Invalid character \&quot;%s\&quot;.&quot;
++msgstr &quot;Invalid character \&quot;%s\&quot;.&quot;
++
++#: u_dzDefaultMain.pas:136
++msgid &quot;This program does nothing yet.&quot;
++msgstr &quot;This program does nothing yet.&quot;
++
++#: u_dzDefaultMain.pas:145
++msgid &quot;Error: %s&quot;
++msgstr &quot;Error: %s&quot;
++
++#: u_dzDefaultMain.pas:149
++msgid &quot;Synopsis: %s %s&quot;
++msgstr &quot;Synopsis: %s %s&quot;
++
++#: u_dzDefaultMain.pas:150
++msgid &quot;Parameters:&quot;
++msgstr &quot;Parameters:&quot;
++
++#: u_dzDefaultMain.pas:152
++msgid &quot;Options:&quot;
++msgstr &quot;Options:&quot;
++
++#: u_dzDefaultMain.pas:163
++msgid &quot;Write a startup log to the given file.&quot;
++msgstr &quot;Write a startup log to the given file.&quot;
++
++#: u_dzGetOpt.pas:160
++msgid &quot;[options]&quot;
++msgstr &quot;[options]&quot;
++
++#: u_dzGetOpt.pas:227
++msgid &quot;%s is not a registered option.&quot;
++msgstr &quot;%s is not a registered option.&quot;
++
++#: u_dzGetOpt.pas:306
++msgid &quot;There are too many parameters.&quot;
++msgstr &quot;There are too many parameters.&quot;
++
++#: u_dzGetOpt.pas:316
++#: u_dzGetOpt.pas:322
++msgid &quot;There are not enough %s parameters (min: %d)&quot;
++msgstr &quot;There are not enough %s parameters (min: %d)&quot;
++
++#: u_dzGetOpt.pas:329
++msgid &quot;Option %s is unknown&quot;
++msgstr &quot;Option %s is unknown&quot;
++
++#: u_dzGetOpt.pas:333
++msgid &quot;Option %s requires a value.&quot;
++msgstr &quot;Option %s requires a value.&quot;
++
++#: u_dzGetOpt.pas:377
++msgid &quot;display parameter help&quot;
++msgstr &quot;display parameter help&quot;
++
++#: u_dzOptionDescList.pas:120
++msgid &quot;Option name cannot be empty.&quot;
++msgstr &quot;Option name cannot be empty.&quot;
++
++#: u_dzOptionDescList.pas:123
++msgid &quot;Option name must start with an alphanumeric character.&quot;
++msgstr &quot;Option name must start with an alphanumeric character.&quot;
++
++#: u_dzOptionDescList.pas:126
++msgid &quot;Option name contains invalid character \&quot;%s\&quot; at position %d.&quot;
++msgstr &quot;Option name contains invalid character \&quot;%s\&quot; at position %d.&quot;
++
++#. should never happen
++#: u_dzOptionDescList.pas:136
++#: u_dzOptionDescList.pas:141
++msgid &quot;value&quot;
++msgstr &quot;value&quot;
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000261.html">[Dzchart-svncheckins] r400 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000263.html">[Dzchart-svncheckins] r402 - utilities
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#262">[ date ]</a>
+              <a href="thread.html#262">[ thread ]</a>
+              <a href="subject.html#262">[ subject ]</a>
+              <a href="author.html#262">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

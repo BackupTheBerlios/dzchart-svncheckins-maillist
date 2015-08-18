@@ -1,0 +1,311 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r142 - utilities/dzCmdLineParser/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r142%20-%20utilities/dzCmdLineParser/trunk&In-Reply-To=%3C200705052035.l45KZn56011925%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000016.html">
+   <LINK REL="Next"  HREF="000018.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r142 - utilities/dzCmdLineParser/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r142%20-%20utilities/dzCmdLineParser/trunk&In-Reply-To=%3C200705052035.l45KZn56011925%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r142 - utilities/dzCmdLineParser/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat May  5 22:35:49 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000016.html">[Dzchart-svncheckins] r141 - in component/trunk: . Packages	Packages/Delphi2006 Packages/Delphi2007	Packages/Delphi2007/dcu examples examples/test-d2007
+</A></li>
+        <LI>Next message: <A HREF="000018.html">[Dzchart-svncheckins] r143 - in	utilities/dzBdsIdeScript/trunk/dws2: . Libraries	Libraries/ClassesLib Libraries/delphi2007 Source bds4	delphi2007 design
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#17">[ date ]</a>
+              <a href="thread.html#17">[ thread ]</a>
+              <a href="subject.html#17">[ subject ]</a>
+              <a href="author.html#17">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-05-05 22:35:47 +0200 (Sat, 05 May 2007)
+New Revision: 142
+
+Added:
+   utilities/dzCmdLineParser/trunk/CmdLineParserTest.dproj
+Log:
+added Delphi2007 support
+
+Added: utilities/dzCmdLineParser/trunk/CmdLineParserTest.dproj
+===================================================================
+--- utilities/dzCmdLineParser/trunk/CmdLineParserTest.dproj	2007-05-05 20:31:13 UTC (rev 141)
++++ utilities/dzCmdLineParser/trunk/CmdLineParserTest.dproj	2007-05-05 20:35:47 UTC (rev 142)
+@@ -0,0 +1,234 @@
++&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{ff87c54f-7bb3-4fb0-8be9-da726c81d33c}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;CmdLineParserTest.dpr&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;CmdLineParserTest.exe&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_ImageBase&gt;700000&lt;/DCC_ImageBase&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\Source\DUnit\src;D:\source\berlios.dztemplates\Units;D:\source\berlios.dztemplates\Templates&lt;/DCC_IncludePath&gt;
++    &lt;DCC_Define&gt;_CONSOLE_TESTRUNNER;RELEASE&lt;/DCC_Define&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++    &lt;DCC_Description&gt;RTS Highlighter Extensions&lt;/DCC_Description&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_ImageBase&gt;700000&lt;/DCC_ImageBase&gt;
++    &lt;DCC_Define&gt;_CONSOLE_TESTRUNNER;DEBUG&lt;/DCC_Define&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++    &lt;DCC_Description&gt;RTS Highlighter Extensions&lt;/DCC_Description&gt;
++    &lt;DCC_UnitSearchPath&gt;..\dzTemplates\units;..\dztemplates\templates&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;..\dzTemplates\units;..\dztemplates\templates&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;..\dzTemplates\units;..\dztemplates\templates&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;..\dzTemplates\units;..\dztemplates\templates&lt;/DCC_IncludePath&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType /&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject xmlns=&quot;&quot;&gt; &lt;Delphi.Personality&gt;   &lt;Parameters&gt;
++      &lt;Parameters Name=&quot;HostApplication&quot;&gt;C:\Delphi7\Bin\delphi32.exe&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;
++      &lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;
++    &lt;/Parameters&gt;
++    &lt;Language&gt;
++      &lt;Language Name=&quot;RootDir&quot;&gt;C:\Delphi7\Bin\&lt;/Language&gt;
++    &lt;/Language&gt;
++    &lt;VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;DLL&quot;&gt;True&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;Locale&quot;&gt;4105&lt;/VersionInfo&gt;
++      &lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;
++    &lt;/VersionInfo&gt;
++    &lt;VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;
++      &lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;
++    &lt;/VersionInfoKeys&gt;
++    &lt;Excluded_Packages&gt;
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldb100.bpl&quot;&gt;Borland Database Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\bin\dclado100.bpl&quot;&gt;Borland ADO DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldbx100.bpl&quot;&gt;Borland dbExpress Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclib100.bpl&quot;&gt;Borland InterBase Express Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclnet100.bpl&quot;&gt;Borland Internet Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclIndyCore100.bpl&quot;&gt;Indy 10 Core Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIndyProtocols100.bpl&quot;&gt;Indy 10 Protocols Design Time&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclmid100.bpl&quot;&gt;Borland MyBase DataAccess Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dclbde100.bpl&quot;&gt;Borland BDE DB Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;C:\Program Files\Borland\BDS\4.0\Bin\dbx100.bpl&quot;&gt;Borland SQL Explorer UI Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\applet100.bpl&quot;&gt;Borland Control Panel Applet Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclact100.bpl&quot;&gt;Borland ActionBar Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclsoap100.bpl&quot;&gt;Borland SOAP Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\bcbie100.bpl&quot;&gt;Borland C++Builder Internet Explorer 5 Components Package&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcltee100.bpl&quot;&gt;TeeChart Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcldbxcds100.bpl&quot;&gt;Borland SimpleDataset Component (DBX)&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl&quot;&gt;Intraweb 8.0 Design Package for Borland Development Studio 2006&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
++      &lt;Excluded_Packages Name=&quot;c:\program files\borland\bds\4.0\Bin\dclie100.bpl&quot;&gt;Internet Explorer Components&lt;/Excluded_Packages&gt;
++    &lt;/Excluded_Packages&gt;
++    &lt;Source&gt;
++      &lt;Source Name=&quot;MainSource&quot;&gt;CmdLineParserTest.dpr&lt;/Source&gt;
++    &lt;/Source&gt;
++  &lt;/Delphi.Personality&gt; &lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;CmdLineParserTest.dpr&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;u_dzCmdLineParser.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzCmdLineParser_UnitTest.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzGetOpt.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzGetOpt_UnitTest.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzOptionDescList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzOptionFoundList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzOptionNameList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzParamDescList.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;u_dzParamFoundList.pas&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000016.html">[Dzchart-svncheckins] r141 - in component/trunk: . Packages	Packages/Delphi2006 Packages/Delphi2007	Packages/Delphi2007/dcu examples examples/test-d2007
+</A></li>
+	<LI>Next message: <A HREF="000018.html">[Dzchart-svncheckins] r143 - in	utilities/dzBdsIdeScript/trunk/dws2: . Libraries	Libraries/ClassesLib Libraries/delphi2007 Source bds4	delphi2007 design
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#17">[ date ]</a>
+              <a href="thread.html#17">[ thread ]</a>
+              <a href="subject.html#17">[ subject ]</a>
+              <a href="author.html#17">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

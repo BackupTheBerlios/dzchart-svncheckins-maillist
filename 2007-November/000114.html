@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r245 - in utilities/dzPrepBuild/trunk: .	buildtools src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r245%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%0A%09buildtools%20src&In-Reply-To=%3C200711011524.lA1FO5HB018432%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000113.html">
+   <LINK REL="Next"  HREF="000115.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r245 - in utilities/dzPrepBuild/trunk: .	buildtools src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r245%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%0A%09buildtools%20src&In-Reply-To=%3C200711011524.lA1FO5HB018432%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r245 - in utilities/dzPrepBuild/trunk: .	buildtools src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Nov  1 16:24:05 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000113.html">[Dzchart-svncheckins] r244 - utilities/dzCmdLineParser/trunk
+</A></li>
+        <LI>Next message: <A HREF="000115.html">[Dzchart-svncheckins] r246 - utilities/dzPrepBuild/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#114">[ date ]</a>
+              <a href="thread.html#114">[ thread ]</a>
+              <a href="subject.html#114">[ subject ]</a>
+              <a href="author.html#114">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-11-01 16:23:45 +0100 (Thu, 01 Nov 2007)
+New Revision: 245
+
+Modified:
+   utilities/dzPrepBuild/trunk/
+   utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+Log:
+adapted to new search paths and moving u_dzDefaultMain from dzlib to dzCmdLineParser
+
+
+Property changes on: utilities/dzPrepBuild/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs\dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs\dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk</A>
+libs\dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs\jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1</A>
+
+   + libs\dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs\dzCmdLineParser\src <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src</A>
+libs\dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs\jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1</A>
+
+
+Modified: utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+===================================================================
+(Binary files differ)
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2007-11-01 15:17:48 UTC (rev 244)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2007-11-01 15:23:45 UTC (rev 245)
+@@ -14,10 +14,10 @@
+   u_DofVersionInfo in 'u_DofVersionInfo.pas',
+   u_IniVersionInfo in 'u_IniVersionInfo.pas',
+   u_CentralIniVersionInfo in 'u_CentralIniVersionInfo.pas',
+-  u_dzDefaultMain in '..\libs\dzlib\src\u_dzDefaultMain.pas',
+   u_PrepBuildMain in 'u_PrepBuildMain.pas',
+   u_DummyVersionInfo in 'u_DummyVersionInfo.pas',
+-  u_AbstractVersionInfo in 'u_AbstractVersionInfo.pas';
++  u_AbstractVersionInfo in 'u_AbstractVersionInfo.pas',
++  u_dzDefaultMain in '..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas';
+ 
+ {$R *_icon.res}
+ {$R *_version.res}
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-11-01 15:17:48 UTC (rev 244)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2007-11-01 15:23:45 UTC (rev 245)
+@@ -25,10 +25,10 @@
+     &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
+     &lt;DCC_Define&gt;DEBUG;no_translation;NO_TRANSLATION_HINT&lt;/DCC_Define&gt;
+     &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
+-    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_IncludePath&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;..\libs\dzlib\src;..\libs\dzCmdLineParser\src;..\libs\dztemplates\templates;..\libs\dztemplates\units;..\libs\jcl\source;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl&lt;/DCC_IncludePath&gt;
+     &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+     &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+     &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+@@ -40,8 +40,6 @@
+ &lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;RunParams&quot;&gt;--incbuild --readini=src\prepbuild --exec=prep.cmd&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;2057&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;Excluded_Packages&gt;
+       
+       
+-      
+-      
+       &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dclofficexp100.bpl&quot;&gt;Microsoft Office XP Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+       &lt;Excluded_Packages Name=&quot;$(BDS)\bin\dcloffice2k100.bpl&quot;&gt;Microsoft Office 2000 Sample Automation Server Wrapper Components&lt;/Excluded_Packages&gt;
+     &lt;/Excluded_Packages&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;PrepBuild.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;/Delphi.Personality&gt;&lt;ModelSupport&gt;False&lt;/ModelSupport&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+@@ -54,7 +52,7 @@
+     &lt;DelphiCompile Include=&quot;PrepBuild.dpr&quot;&gt;
+       &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+     &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;..\libs\dzlib\src\u_dzDefaultMain.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\libs\dzCmdLineParser\src\u_dzDefaultMain.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;d_BdsProjVersionInfo.pas&quot;&gt;
+       &lt;Form&gt;dm_BdsProjVersionInfo&lt;/Form&gt;
+       &lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2007-11-01 15:17:48 UTC (rev 244)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2007-11-01 15:23:45 UTC (rev 245)
+@@ -1,3 +1,3 @@
+ [Version Info]
+-Build=104
++Build=109
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2007-11-01 15:17:48 UTC (rev 244)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2007-11-01 15:23:45 UTC (rev 245)
+@@ -16,7 +16,7 @@
+ [Version Info Keys]
+ CompanyName=dummzeuch.de
+ FileDescription=commandline and IDE prebuild tool
+-FileVersion=1.1.0.104
++FileVersion=1.1.0.109
+ InternalName=PrepBuild
+ LegalCopyright=Copyright 2002-2007 by Thomas Mueller
+ LegalTrademarks=
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000113.html">[Dzchart-svncheckins] r244 - utilities/dzCmdLineParser/trunk
+</A></li>
+	<LI>Next message: <A HREF="000115.html">[Dzchart-svncheckins] r246 - utilities/dzPrepBuild/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#114">[ date ]</a>
+              <a href="thread.html#114">[ thread ]</a>
+              <a href="subject.html#114">[ subject ]</a>
+              <a href="author.html#114">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r606 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r606%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110913182055.CC51B48125B%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000462.html">
+   <LINK REL="Next"  HREF="000464.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r606 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r606%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110913182055.CC51B48125B%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r606 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Tue Sep 13 20:20:55 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000462.html">[Dzchart-svncheckins] r605 - utilities/dzLib/trunk/forms
+</A></li>
+        <LI>Next message: <A HREF="000464.html">[Dzchart-svncheckins] r607 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#463">[ date ]</a>
+              <a href="thread.html#463">[ thread ]</a>
+              <a href="subject.html#463">[ subject ]</a>
+              <a href="author.html#463">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-09-13 20:20:55 +0200 (Tue, 13 Sep 2011)
+New Revision: 606
+
+Added:
+   utilities/dzLib/trunk/src/u_dzTempBufferDouble.pas
+Log:
+a buffer for temporarily storing double data, this is meant for passing measurement data from a background thread to the foreground thread without having to use a critical section or similar. Only one thread can write and only one can read.
+
+Added: utilities/dzLib/trunk/src/u_dzTempBufferDouble.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzTempBufferDouble.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzTempBufferDouble.pas	2011-09-13 18:20:55 UTC (rev 606)
+@@ -0,0 +1,106 @@
++unit u_dzTempBufferDouble;
++
++interface
++
++uses
++  Windows;
++
++type
++  TDoubleArray = array of Double;
++
++type
++  TdzTempBufferDouble = class
++  private
++  {(*}
++  type
++    TBuffer = record
++      Values: TDoubleArray;
++      Count: integer;
++    end;
++    PBuffer = ^TBuffer;
++  {*)}
++  private
++    FBuffer: PBuffer;
++    FSpare: PBuffer;
++    FCapacity: Integer;
++    procedure AllocBuf(var _Buffer: PBuffer);
++    procedure FreeBuf(var _Buffer: PBuffer);
++  public
++    constructor Create(_Capacity: Integer);
++    destructor Destroy; override;
++    function TryAdd(const _Value: Double): Boolean;
++    function TryGet(var _Values: TDoubleArray): Boolean;
++  end;
++
++implementation
++
++{ TdzTempBufferDouble }
++
++constructor TdzTempBufferDouble.Create(_Capacity: Integer);
++begin
++  inherited Create;
++  FCapacity := _Capacity;
++  AllocBuf(FBuffer);
++  AllocBuf(FSpare);
++end;
++
++destructor TdzTempBufferDouble.Destroy;
++begin
++  FCapacity := 0;
++  FreeBuf(FSpare);
++  FreeBuf(FBuffer);
++  inherited;
++end;
++
++procedure TdzTempBufferDouble.AllocBuf(var _Buffer: PBuffer);
++begin
++  New(_Buffer);
++  SetLength(_Buffer^.Values, FCapacity);
++  _Buffer.Count := 0;
++end;
++
++procedure TdzTempBufferDouble.FreeBuf(var _Buffer: PBuffer);
++begin
++  if Assigned(_Buffer) then begin
++    SetLength(_Buffer.Values, 0);
++    Dispose(_Buffer);
++    _Buffer := nil;
++  end;
++end;
++
++function TdzTempBufferDouble.TryGet(var _Values: TDoubleArray): Boolean;
++var
++  Buf: PBuffer;
++  cnt: Integer;
++  i: Integer;
++begin
++  Result := True;
++  FSpare.Count := 0;
++  Buf := PBuffer(InterlockedExchange(Integer(FBuffer), Integer(FSpare)));
++  cnt := Buf.Count;
++  SetLength(_Values, cnt);
++  for i := 0 to cnt - 1 do
++    _Values[i] := Buf.Values[i];
++  FSpare := Buf;
++  FSpare.Count := 0;
++end;
++
++function TdzTempBufferDouble.TryAdd(const _Value: Double): Boolean;
++var
++  cnt: Integer;
++  Buf: PBuffer;
++begin
++  Buf := FBuffer;
++  cnt := Buf.Count;
++  if Cnt &gt;= FCapacity then begin
++    Result := False;
++    exit;
++  end;
++  Buf.Values[cnt] := _Value;
++  Inc(cnt);
++  Buf.Count := cnt;
++  Result := (Buf = FBuffer);
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000462.html">[Dzchart-svncheckins] r605 - utilities/dzLib/trunk/forms
+</A></li>
+	<LI>Next message: <A HREF="000464.html">[Dzchart-svncheckins] r607 - utilities/buildtools/trunk
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#463">[ date ]</a>
+              <a href="thread.html#463">[ thread ]</a>
+              <a href="subject.html#463">[ subject ]</a>
+              <a href="author.html#463">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

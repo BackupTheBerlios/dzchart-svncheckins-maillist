@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r131 -	utilities/dzFeedReader/trunk/SimpleRss/Source
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-January/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r131%20-%0A%09utilities/dzFeedReader/trunk/SimpleRss/Source&In-Reply-To=%3C200701252101.l0PL1mWq008590%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000006.html">
+   <LINK REL="Next"  HREF="000008.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r131 -	utilities/dzFeedReader/trunk/SimpleRss/Source</H1>
+    <B>twm at BerliOS</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r131%20-%0A%09utilities/dzFeedReader/trunk/SimpleRss/Source&In-Reply-To=%3C200701252101.l0PL1mWq008590%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r131 -	utilities/dzFeedReader/trunk/SimpleRss/Source">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Jan 25 22:01:48 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000006.html">[Dzchart-svncheckins] r130 - utilities/dzBdsIdeScript/trunk
+</A></li>
+        <LI>Next message: <A HREF="000008.html">[Dzchart-svncheckins] r132 -	utilities/dzFeedReader/trunk/dzFeedReader
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-01-25 22:01:48 +0100 (Thu, 25 Jan 2007)
+New Revision: 131
+
+Modified:
+   utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleParserBase.pas
+   utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleRSS.pas
+Log:
+made it independed of a particular DOM vendor
+
+Modified: utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleParserBase.pas
+===================================================================
+--- utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleParserBase.pas	2007-01-04 16:18:21 UTC (rev 130)
++++ utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleParserBase.pas	2007-01-25 21:01:48 UTC (rev 131)
+@@ -37,6 +37,7 @@
+ type
+   TSimpleParserBase = class(TObject)
+   private
++    function CheckTextNode(_Node: IXmlNode): variant;
+   protected
+     FSimpleRSS: TSimpleRSS;
+     function ContainsNode(_ChildNodes: IXMLNodeList; const _NodeName: string;
+@@ -55,7 +56,9 @@
+ implementation
+ 
+ uses
+-  Variants;
++  Variants,
++  xmldom,
++  XMLConst;
+ 
+ constructor TSimpleParserBase.Create(SimpleRSS: TSimpleRSS);
+ begin
+@@ -63,12 +66,33 @@
+   FSimpleRSS := SimpleRSS;
+ end;
+ 
++function TSimpleParserBase.CheckTextNode(_Node: IXmlNode): variant;
++var
++  i: integer;
++  Node: IXMLNode;
++begin
++  if not _Node.DOMNode.hasChildNodes then begin
++    Result := null
++  end else begin
++    Result := '';
++    for i := 0 to _Node.ChildNodes.Count - 1 do begin
++      Node := _Node.ChildNodes[i];
++      if not (Node.DOMNode.NodeType in [ELEMENT_NODE, TEXT_NODE, CDATA_SECTION_NODE, ENTITY_REFERENCE_NODE]) then
++        raise EXMLDocError.CreateFmt(SNotSingleTextNode, [_Node.DOMNode.nodeName]);
++      Result := Result + GetNodeValue(Node, '');
++    end;
++  end;
++end;
++
+ function TSimpleParserBase.GetNodeValue(_Node: IXmlNode; const _Default: string = ''): string;
+ begin
+   try
+-    if Assigned(_Node) then
+-      Result := VarToStrDef(_Node.NodeValue, _Default)
+-    else
++    if Assigned(_Node) then begin
++      if _Node.NodeType = ntElement then begin
++        Result := VarToStrDef(CheckTextNode(_Node), _Default);
++      end else
++        Result := VarToStrDef(_Node.NodeValue, _Default)
++    end else
+       Result := _Default;
+   except
+     Result := 'error parsing NodeValue'
+
+Modified: utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleRSS.pas
+===================================================================
+--- utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleRSS.pas	2007-01-04 16:18:21 UTC (rev 130)
++++ utilities/dzFeedReader/trunk/SimpleRss/Source/SimpleRSS.pas	2007-01-25 21:01:48 UTC (rev 131)
+@@ -115,6 +115,7 @@
+   FXMLFile.Active := False;
+   FXMLFile.Free;
+   FXMLFile := TXMLDocument.Create(Self);
++//  FXMLFile.DOMVendor := GetDOMVendor('Open XML 3.2');
+   FXMLFile.DOMVendor := GetDOMVendor('Open XML');
+   FXMLFile.Active := True;
+ end;
+@@ -125,6 +126,7 @@
+   FChannel := TRSSChannel.Create;
+   FItems := TRSSItems.Create(Self, TRSSItem);
+   FXMLFile := TXMLDocument.Create(Self);
++//  FXMLFile.DOMVendor := GetDOMVendor('Open XML 3.2');
+   FXMLFile.DOMVendor := GetDOMVendor('Open XML');
+   FXMLFile.Active := True;
+   FVersion := strRSSVersion;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000006.html">[Dzchart-svncheckins] r130 - utilities/dzBdsIdeScript/trunk
+</A></li>
+	<LI>Next message: <A HREF="000008.html">[Dzchart-svncheckins] r132 -	utilities/dzFeedReader/trunk/dzFeedReader
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

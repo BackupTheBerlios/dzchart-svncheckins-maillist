@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r516 - utilities/buildtools/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r516%20-%20utilities/buildtools/trunk&In-Reply-To=%3C20101023131040.ECEA34801E6%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000373.html">
+   <LINK REL="Next"  HREF="000375.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r516 - utilities/buildtools/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r516%20-%20utilities/buildtools/trunk&In-Reply-To=%3C20101023131040.ECEA34801E6%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r516 - utilities/buildtools/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Oct 23 15:10:40 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000373.html">[Dzchart-svncheckins] r515 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000375.html">[Dzchart-svncheckins] r517 - in utilities/IniFileFormatter/trunk: .	locale locale/de locale/de/LC_MESSAGES locale/en	locale/en/LC_MESSAGES locale/fr locale/fr/LC_MESSAGES
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#374">[ date ]</a>
+              <a href="thread.html#374">[ thread ]</a>
+              <a href="subject.html#374">[ subject ]</a>
+              <a href="author.html#374">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-23 15:10:40 +0200 (Sat, 23 Oct 2010)
+New Revision: 516
+
+Modified:
+   utilities/buildtools/trunk/doExtractTranslations.cmd
+Log:
+added some more if exist to reduce error messages
+
+Modified: utilities/buildtools/trunk/doExtractTranslations.cmd
+===================================================================
+--- utilities/buildtools/trunk/doExtractTranslations.cmd	2010-10-23 12:17:54 UTC (rev 515)
++++ utilities/buildtools/trunk/doExtractTranslations.cmd	2010-10-23 13:10:40 UTC (rev 516)
+@@ -13,8 +13,11 @@
+ 
+ set BASE=.
+ %~dp0\dxgettext %MASKS% -r -b %BASE%\src -o %BASE%
++if not exist %BASE%\ignore.po goto noIgnore
+ %~dp0\msgremove %BASE%\default.po -i %BASE%\ignore.po -o %BASE%\filtered.po
+ move %BASE%\filtered.po %BASE%\default.po
++:noIgnore
++
+ set POFILES=%POFILES% %BASE%\default.po
+ %~dp0\msgcat -o default.po %POFILES%
+ 
+@@ -42,11 +45,25 @@
+ @rem subroutine for handling a language
+ :HandLng
+ @echo ** handling language %LNG% **
++
+ @rem merge translations
+ %~dp0\msgmerge --no-wrap --update locale\%LNG%\lc_messages\default.po default.po
++
+ @rem compile
+ %~dp0\msgfmt locale\%LNG%\lc_messages\default.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\default.mo
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">- at rem</A> add Delphi, sigunits and dzlib translations
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> add Delphi translations
++if not exist libs\dxgettext\translations\%LNG%\delphi2007.po goto noDelphi
+ %~dp0\msgfmt libs\dxgettext\translations\%LNG%\delphi2007.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\delphi2007.mo
++:noDelphi
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> add sigunits translations
++if not exist libs\sigunits\translations\%LNG%\sigunits.po goto noSigUnits
+ %~dp0\msgfmt libs\sigunits\translations\%LNG%\sigunits.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\sigunits.mo
++:noSigUnits
++
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at rem</A> add sigunits and dzlib translations
++if not exist libs\dzlib\translations\%LNG%\dzlib.po goto noDzLib
+ %~dp0\msgfmt libs\dzlib\translations\%LNG%\dzlib.po --output-file=%OUTDIR%\locale\%LNG%\lc_messages\dzlib.mo
++:noDzLib
++goto :eof
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000373.html">[Dzchart-svncheckins] r515 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000375.html">[Dzchart-svncheckins] r517 - in utilities/IniFileFormatter/trunk: .	locale locale/de locale/de/LC_MESSAGES locale/en	locale/en/LC_MESSAGES locale/fr locale/fr/LC_MESSAGES
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#374">[ date ]</a>
+              <a href="thread.html#374">[ thread ]</a>
+              <a href="subject.html#374">[ subject ]</a>
+              <a href="author.html#374">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

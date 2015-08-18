@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r489 - utilities/dzContextMenu/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r489%20-%20utilities/dzContextMenu/trunk&In-Reply-To=%3C20101001124729.0D13548108F%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000347.html">
+   <LINK REL="Next"  HREF="000349.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r489 - utilities/dzContextMenu/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r489%20-%20utilities/dzContextMenu/trunk&In-Reply-To=%3C20101001124729.0D13548108F%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r489 - utilities/dzContextMenu/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 14:47:29 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000347.html">[Dzchart-svncheckins] r488 - utilities/buildtools/trunk
+</A></li>
+        <LI>Next message: <A HREF="000349.html">[Dzchart-svncheckins] r490 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#348">[ date ]</a>
+              <a href="thread.html#348">[ thread ]</a>
+              <a href="subject.html#348">[ subject ]</a>
+              <a href="author.html#348">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 14:47:28 +0200 (Fri, 01 Oct 2010)
+New Revision: 489
+
+Added:
+   utilities/dzContextMenu/trunk/Build_Project.cmd
+Log:
+build script
+
+Added: utilities/dzContextMenu/trunk/Build_Project.cmd
+===================================================================
+--- utilities/dzContextMenu/trunk/Build_Project.cmd	                        (rev 0)
++++ utilities/dzContextMenu/trunk/Build_Project.cmd	2010-10-01 12:47:28 UTC (rev 489)
+@@ -0,0 +1,47 @@
+<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">+ at echo</A> off
++REM - nimmt an, dass das uebergeordnete Verzeichnis gleichzeitig der Name des Projekts ist,
++REM - extrahiert ihn und ruft dann msbuild mit %projekt%.dproj auf.
++
++setlocal
++if not &quot;%project%&quot;==&quot;&quot; goto projgiven
++call :GetLastDir %0
++set project=%result%
++pushd %directory%
++
++:projgiven
++
++echo building project %project%.dproj
++
++call buildtools\InitForDelphi2011.cmd
++
++pushd src
++msbuild %project%.dproj
++popd
++popd
++endlocal
++
++if errorlevel 1 goto error
++if &quot;%BatchBuild%&quot;==&quot;1&quot; goto nopause
++pause
++:nopause
++goto :eof
++
++:error
++echo ************************************
++echo ***** Error building %project% *****
++echo ************************************
++pause
++goto :eof
++
++:GetLastDir
++rem Pfad extrahieren
++set directory=%~p1%
++rem backslash (=letztes Zeichen)  entfernen
++set directory=%directory:~0,-1%
++rem &quot;Dateienamen&quot; (= letztes Verzeichnis des Pfades) extrahieren
++call :LastItem %directory%
++goto :eof
++
++:LastItem
++set result=%~n1%
++goto :eof
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000347.html">[Dzchart-svncheckins] r488 - utilities/buildtools/trunk
+</A></li>
+	<LI>Next message: <A HREF="000349.html">[Dzchart-svncheckins] r490 - in utilities/dzContextMenu/trunk: . src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#348">[ date ]</a>
+              <a href="thread.html#348">[ thread ]</a>
+              <a href="subject.html#348">[ subject ]</a>
+              <a href="author.html#348">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

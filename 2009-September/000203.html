@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r337 - utilities/dzLib/trunk/dzAdoDb/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2009-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r337%20-%20utilities/dzLib/trunk/dzAdoDb/src&In-Reply-To=%3C200909251438.n8PEc5Re011563%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000202.html">
+   <LINK REL="Next"  HREF="000204.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r337 - utilities/dzLib/trunk/dzAdoDb/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r337%20-%20utilities/dzLib/trunk/dzAdoDb/src&In-Reply-To=%3C200909251438.n8PEc5Re011563%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r337 - utilities/dzLib/trunk/dzAdoDb/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Sep 25 16:38:05 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000202.html">[Dzchart-svncheckins] r336 - 3rd/jedi_inc/trunk
+</A></li>
+        <LI>Next message: <A HREF="000204.html">[Dzchart-svncheckins] r338 - utilities/dzLib/trunk/dzAdoDb/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2009-09-25 16:38:04 +0200 (Fri, 25 Sep 2009)
+New Revision: 337
+
+Modified:
+   utilities/dzLib/trunk/dzAdoDb/src/c_dzAdoConnection.pas
+Log:
+new method SplitConnectionString
+
+Modified: utilities/dzLib/trunk/dzAdoDb/src/c_dzAdoConnection.pas
+===================================================================
+--- utilities/dzLib/trunk/dzAdoDb/src/c_dzAdoConnection.pas	2009-09-25 14:36:24 UTC (rev 336)
++++ utilities/dzLib/trunk/dzAdoDb/src/c_dzAdoConnection.pas	2009-09-25 14:38:04 UTC (rev 337)
+@@ -18,6 +18,15 @@
+   TAdoServerType = (asUnknown, asJet, asMsSql, asOracle);
+ 
+ type
++  TConnectionInfoRec = record
++    ServerType: TAdoServerType;
++    ServerName: string;
++    Database: string;
++    Username: string;
++    Parts: array of string;
++  end;
++
++type
+   ///&lt;summary&gt; This TAdoConnection descendant solves the problem of Connections
+   ///          staying open when opened in the designer. The Connected property
+   ///          will never be saved to the .DFM file and therefore always be false.
+@@ -29,6 +38,7 @@
+     class function EditConnectionString(_ParentHandle: THandle; var _ConnectionString: string): boolean; overload;
+     function DetermineServerType: TAdoServerType; overload;
+     class function DetermineServerType(const _ConnectionString: string): TAdoServerType; overload;
++    class function SplitConnectionString(const _ConnectionString: string): TConnectionInfoRec;
+   published
+     procedure ClearConnectionObject;
+     property Connected stored false;
+@@ -71,21 +81,47 @@
+   s: WideString;
+ begin
+   DataInit := CreateComObject(CLSID_DataLinks) as IDataInitialize;
+-  if _ConnectionString &lt;&gt; '' then
+-    begin
+-      s := _ConnectionString;
+-      DataInit.GetDataSource(nil, CLSCTX_INPROC_SERVER,
+-        PWideChar(s), IUnknown, DataSource);
+-    end;
++  if _ConnectionString &lt;&gt; '' then begin
++    s := _ConnectionString;
++    DataInit.GetDataSource(nil, CLSCTX_INPROC_SERVER,
++      PWideChar(s), IUnknown, DataSource);
++  end;
+   DBPrompt := CreateComObject(CLSID_DataLinks) as IDBPromptInitialize;
+   Result := Succeeded(DBPrompt.PromptDataSource(nil, _ParentHandle,
+     DBPROMPTOPTIONS_PROPERTYSHEET, 0, nil, nil, IUnknown, DataSource));
+-  if Result then
+-    begin
+-      InitStr := nil;
+-      DataInit.GetInitializationString(DataSource, True, InitStr);
+-      _ConnectionString := InitStr;
++  if Result then begin
++    InitStr := nil;
++    DataInit.GetInitializationString(DataSource, True, InitStr);
++    _ConnectionString := InitStr;
++  end;
++end;
++
++class function TdzAdoConnection.SplitConnectionString(const _ConnectionString: string): TConnectionInfoRec;
++var
++  sl: TStringList;
++  s: string;
++  i: Integer;
++begin
++  Result.ServerType := DetermineServerType(_ConnectionString);
++  sl := TStringList.Create;
++  try
++    sl.Delimiter := ';';
++    sl.StrictDelimiter := true;
++    sl.DelimitedText := _ConnectionString;
++    SetLength(Result.Parts, sl.Count);
++    for i := 0 to sl.Count - 1 do begin
++      Result.Parts[i] := sl[i];
++      s := sl.Names[i];
++      if SameText(s, 'User ID') then
++        Result.Username := sl.Values[s]
++      else if SameText(s, 'Data Source') then
++        Result.ServerName := sl.Values[s]
++      else if SameText(s, 'Initial Catalog') then
++        Result.Database := sl.Values[s];
+     end;
++  finally
++    sl.Free;
++  end;
+ end;
+ 
+ function TdzAdoConnection.EditConnectionString(_ParentHandle: THandle): boolean;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000202.html">[Dzchart-svncheckins] r336 - 3rd/jedi_inc/trunk
+</A></li>
+	<LI>Next message: <A HREF="000204.html">[Dzchart-svncheckins] r338 - utilities/dzLib/trunk/dzAdoDb/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

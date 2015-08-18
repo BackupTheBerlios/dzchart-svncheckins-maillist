@@ -1,0 +1,272 @@
+From twm at mail.berlios.de  Sun Nov 20 14:12:01 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:12:01 +0100
+Subject: [Dzchart-svncheckins] r612 - utilities
+Message-ID: <20111120131201.41AB9481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:12:00 +0100 (Sun, 20 Nov 2011)
+New Revision: 612
+
+Removed:
+   utilities/Delphi7Help4Bds/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:12:34 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:12:34 +0100
+Subject: [Dzchart-svncheckins] r613 - utilities
+Message-ID: <20111120131234.1DE3C481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:12:33 +0100 (Sun, 20 Nov 2011)
+New Revision: 613
+
+Removed:
+   utilities/dzlibraries/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:12:46 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:12:46 +0100
+Subject: [Dzchart-svncheckins] r614 - utilities
+Message-ID: <20111120131246.AEFA8481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:12:46 +0100 (Sun, 20 Nov 2011)
+New Revision: 614
+
+Removed:
+   utilities/buildtools/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:13:03 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:13:03 +0100
+Subject: [Dzchart-svncheckins] r615 - utilities
+Message-ID: <20111120131303.D047B481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:13:03 +0100 (Sun, 20 Nov 2011)
+New Revision: 615
+
+Removed:
+   utilities/dzLib/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:25:46 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:25:46 +0100
+Subject: [Dzchart-svncheckins] r616 - utilities
+Message-ID: <20111120132546.4EB70481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:25:45 +0100 (Sun, 20 Nov 2011)
+New Revision: 616
+
+Removed:
+   utilities/calendar/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:27:44 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:27:44 +0100
+Subject: [Dzchart-svncheckins] r617 - 3rd
+Message-ID: <20111120132744.58DE1481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:27:43 +0100 (Sun, 20 Nov 2011)
+New Revision: 617
+
+Removed:
+   3rd/tregexpr/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:27:55 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:27:55 +0100
+Subject: [Dzchart-svncheckins] r618 - 3rd
+Message-ID: <20111120132755.3A0CD481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:27:55 +0100 (Sun, 20 Nov 2011)
+New Revision: 618
+
+Removed:
+   3rd/jedi_inc/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:28:05 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:28:05 +0100
+Subject: [Dzchart-svncheckins] r619 - 3rd
+Message-ID: <20111120132805.58399481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:28:05 +0100 (Sun, 20 Nov 2011)
+New Revision: 619
+
+Removed:
+   3rd/jcl/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:28:12 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:28:12 +0100
+Subject: [Dzchart-svncheckins] r620 - 3rd
+Message-ID: <20111120132812.CB938481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:28:12 +0100 (Sun, 20 Nov 2011)
+New Revision: 620
+
+Removed:
+   3rd/dunit/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 14:50:13 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 14:50:13 +0100
+Subject: [Dzchart-svncheckins] r621 - utilities
+Message-ID: <20111120135013.ED94A481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 14:50:13 +0100 (Sun, 20 Nov 2011)
+New Revision: 621
+
+Removed:
+   utilities/dzAutoSave/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 15:54:10 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 15:54:10 +0100
+Subject: [Dzchart-svncheckins] r622 - utilities
+Message-ID: <20111120145411.368EF481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 15:54:10 +0100 (Sun, 20 Nov 2011)
+New Revision: 622
+
+Removed:
+   utilities/dzBdsIdeScript/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 15:56:14 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 15:56:14 +0100
+Subject: [Dzchart-svncheckins] r623 - utilities
+Message-ID: <20111120145615.1CD46481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 15:56:14 +0100 (Sun, 20 Nov 2011)
+New Revision: 623
+
+Removed:
+   utilities/dzStateEngine/
+Log:
+
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 16:22:54 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 16:22:54 +0100
+Subject: [Dzchart-svncheckins] r624 - utilities
+Message-ID: <20111120152254.9EE31481531@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 16:22:54 +0100 (Sun, 20 Nov 2011)
+New Revision: 624
+
+Removed:
+   utilities/ccpack/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 20 19:03:53 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 20 Nov 2011 19:03:53 +0100
+Subject: [Dzchart-svncheckins] r625 - utilities
+Message-ID: <20111120180353.BB16B481450@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-20 19:03:53 +0100 (Sun, 20 Nov 2011)
+New Revision: 625
+
+Removed:
+   utilities/dzConfig/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 27 11:59:58 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 27 Nov 2011 11:59:58 +0100
+Subject: [Dzchart-svncheckins] r626 - utilities
+Message-ID: <20111127105958.B573248283D@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-27 11:59:58 +0100 (Sun, 27 Nov 2011)
+New Revision: 626
+
+Removed:
+   utilities/dzLiveTemplates/
+Log:
+moved to sourceforge
+
+
+
+From twm at mail.berlios.de  Sun Nov 27 19:54:47 2011
+From: twm at mail.berlios.de (twm at mail.berlios.de)
+Date: Sun, 27 Nov 2011 19:54:47 +0100
+Subject: [Dzchart-svncheckins] r627 - utilities
+Message-ID: <20111127185447.7E86048283D@sheep.berlios.de>
+
+Author: twm
+Date: 2011-11-27 19:54:47 +0100 (Sun, 27 Nov 2011)
+New Revision: 627
+
+Removed:
+   utilities/dzFeedReader/
+Log:
+moved to sourceforge
+
+
+

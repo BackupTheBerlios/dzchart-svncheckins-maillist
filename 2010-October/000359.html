@@ -1,0 +1,371 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r500 - in utilities/dzContextMenu/trunk: . src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-October/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r500%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101001174725.B650448109B%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000358.html">
+   <LINK REL="Next"  HREF="000360.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r500 - in utilities/dzContextMenu/trunk: . src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r500%20-%20in%20utilities/dzContextMenu/trunk%3A%20.%20src&In-Reply-To=%3C20101001174725.B650448109B%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r500 - in utilities/dzContextMenu/trunk: . src">twm at mail.berlios.de
+       </A><BR>
+    <I>Fri Oct  1 19:47:25 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000358.html">[Dzchart-svncheckins] r499 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000360.html">[Dzchart-svncheckins] r501 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#359">[ date ]</a>
+              <a href="thread.html#359">[ thread ]</a>
+              <a href="subject.html#359">[ subject ]</a>
+              <a href="author.html#359">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-10-01 19:47:25 +0200 (Fri, 01 Oct 2010)
+New Revision: 500
+
+Added:
+   utilities/dzContextMenu/trunk/dzcontextmenu.ini
+Modified:
+   utilities/dzContextMenu/trunk/
+   utilities/dzContextMenu/trunk/menu.ini
+   utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+   utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+   utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+Log:
+* now uses TdzConfig to determine the ini file from which to read the menu (unfortunately that requires the JCL as external but I didn't want to reinvent the wheel)
+* moved some code to TMenuItemEx methods
+* now allows for disabled menu entries if no executable is configured
+* 
+
+
+
+Property changes on: utilities/dzContextMenu/trunk
+___________________________________________________________________
+Modified: svn:externals
+   - libs/dzLib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk</A>
+libs/dztemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+buildtools <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk</A>
+
+   + libs/dzLib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk</A>
+libs/dztemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/2.000/trunk">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/2.000/trunk</A>
+buildtools <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/buildtools/trunk</A>
+
+
+Added: utilities/dzContextMenu/trunk/dzcontextmenu.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/dzcontextmenu.ini	                        (rev 0)
++++ utilities/dzContextMenu/trunk/dzcontextmenu.ini	2010-10-01 17:47:25 UTC (rev 500)
+@@ -0,0 +1,8 @@
++[global]
++usercfg=C:\src\berlios\dzContextMenu\menu.ini
++[global-with-variables]
++usercfg={CSIDL_APPDATA}\{Appname}\menu.ini
++commoncfg={CSIDL_APPDATA}\{Appname}\menu.ini
++[alternatively_use_non_roaming_profile]
++menu={CSIDL_LOCAL_APPDATA}\{Appname}\menu.ini
++
+
+Modified: utilities/dzContextMenu/trunk/menu.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/menu.ini	2010-10-01 17:39:43 UTC (rev 499)
++++ utilities/dzContextMenu/trunk/menu.ini	2010-10-01 17:47:25 UTC (rev 500)
+@@ -6,26 +6,33 @@
+ Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
+ Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
+ Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
+--=n1
++-=
+ Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
+ Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
+ Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
+--=n2
++-=
+ Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+ Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
+ Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++-=
++Text Editor=C:\Program Files\Notepad++\notepad++.exe
++Local Menu=
+ 
+ [BDS.DpkFile]
+ extension=.dpk
+ Delphi 2011 (XE)=C:\Program Files\Embarcadero\RAD Studio\8.0\bin\bds.exe
+ Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
+ Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
++-=
+ Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
+ Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
+ Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++-=
+ Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+ Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
+ Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++-=
++Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BDS.DProjFile]
+ extension=.dproj
+@@ -33,6 +40,8 @@
+ Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
+ Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
+ Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++-=
++Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BDS.GroupProjFile]
+ extension=.groupproj
+@@ -40,20 +49,28 @@
+ Delphi 2010=C:\Program Files\Embarcadero\RAD Studio\7.0\bin\bds.exe
+ Delphi 2009=C:\Program Files\CodeGear\RAD Studio\6.0\bin\bds.exe
+ Delphi 2007=C:\Program Files\CodeGear\RAD Studio\5.0\bin\bds.exe
++-=
++Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BDS.ProjectFile]
+ extension=.bdsproj
+ Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
+ Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++-=
++Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BDS.ProjectGroup]
+ extension=.bdsgroup
+ Delphi 2006=C:\Program Files\Borland\BDS\4.0\Bin\bds.exe
+ Delphi 2005=C:\Program Files\Borland\BDS\3.0\Bin\bds.exe
++-=
++Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+ [BorlandProjectGroup]
+ extension=.bpg
+ Delphi 7=C:\Program Files\Borland\Delphi7\Bin\delphi32.exe
+ Delphi 6=C:\Program Files\Borland\Delphi6\Bin\delphi32.exe
+ Delphi 5=C:\Program Files\Borland\Delphi5\Bin\delphi32.exe
++-=
++Text Editor=C:\Program Files\Notepad++\notepad++.exe
+ 
+
+Modified: utilities/dzContextMenu/trunk/src/d_ContextMenu.pas
+===================================================================
+--- utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-01 17:39:43 UTC (rev 499)
++++ utilities/dzContextMenu/trunk/src/d_ContextMenu.pas	2010-10-01 17:47:25 UTC (rev 500)
+@@ -40,11 +40,9 @@
+   u_dzShellApiUtils,
+   u_dzFileUtils,
+   u_dzOsUtils,
+-  u_dzExecutor;
++  u_dzExecutor,
++  u_dzConfigUtils;
+ 
+-const
+-  INI_FILE = 'menu.ini';
+-
+ var
+   gblIni: TMemIniFile = nil;
+ 
+@@ -52,9 +50,11 @@
+   TMenuItemEx = class(TMenuItem)
+   private
+     FExecutable: string;
++    procedure SetExecutable(const _Value: string);
+   public
++    procedure AddToSubmenu(_SubMenu: HMenu; _Position: integer; var _Id: integer);
+     procedure Execute(_Files: TStrings);
+-    property Executable: string read FExecutable write FExecutable;
++    property Executable: string read FExecutable write SetExecutable;
+   end;
+ 
+ constructor Tdm_ContextMenu.Create(_Owner: TComponent);
+@@ -154,30 +154,14 @@
+ procedure Tdm_ContextMenu.UpdateSubmenu(_SubMenu: HMenu; var _Id: integer);
+ var
+   i: integer;
+-  mi: TMenuItem;
+-  mii: TMenuItemInfo;
++  mi: TMenuItemeX;
+ begin
+   UpdatePopup;
+ 
+   for i := 0 to ThePopupMenu.Items.Count - 1 do begin
+-    mi := ThePopupMenu.Items[i];
+-
+-    FillChar(mii, sizeof(mii), 0);
+-    mii.cbSize := sizeof(mii);
+-    mii.fMask := MIIM_CHECKMARKS or MIIM_ID or MIIM_TYPE or MIIM_STATE or MIIM_DATA;
+-    mii.wID := _Id;
+-    mii.hSubMenu := _SubMenu;
+-    if mi.IsLine then
+-      mii.fType := MFT_SEPARATOR
+-    else
+-      mii.fType := MFT_STRING;
+-    mii.fState := MFS_ENABLED;
+-    mii.dwItemData := integer(mi);
+-    mii.dwTypeData := PChar(mi.Caption);
+-    InsertMenuItem(_SubMenu, i, LongBool(True), mii);
+-    Inc(_Id);
++    mi := ThePopupMenu.Items[i] as TMenuItemEx;
++    mi.AddToSubmenu(_SubMenu, i, _Id);
+   end;
+-
+ end;
+ 
+ class function Tdm_ContextMenu.IniFile: TMemIniFile;
+@@ -187,13 +171,16 @@
+ 
+ procedure Initialize;
+ var
+-  AppDataDir: string;
+-  ModuleName: string;
+   IniName: string;
++  cfg: TdzConfig;
+ begin
+-  ModuleName := GetModuleFilename;
+-  AppDataDir := TWindowsShell.GetAppDataDir;
+-  IniName := itpd(AppDataDir) + ChangeFileExt(ExtractFileName(ModuleName), '') + '\' + INI_FILE;
++  cfg := TdzConfig.Create(HInstance);
++  try
++    cfg.ExeName := 'menu';
++    IniName := cfg.GetUserCfgFile(false);
++  finally
++    FreeAndNil(cfg);
++  end;
+   gblIni := TMemIniFile.Create(IniName);
+ end;
+ 
+@@ -225,6 +212,35 @@
+   end;
+ end;
+ 
++procedure TMenuItemEx.SetExecutable(const _Value: string);
++begin
++  FExecutable := _Value;
++  Enabled := (FExecutable &lt;&gt; '');
++end;
++
++procedure TMenuItemEx.AddToSubmenu(_SubMenu: HMenu; _Position: integer; var _Id: integer);
++var
++  mii: TMenuItemInfo;
++begin
++  FillChar(mii, sizeof(mii), 0);
++  mii.cbSize := sizeof(mii);
++  mii.fMask := MIIM_CHECKMARKS or MIIM_ID or MIIM_TYPE or MIIM_STATE or MIIM_DATA;
++  mii.wID := _Id;
++  mii.hSubMenu := _SubMenu;
++  if IsLine then
++    mii.fType := MFT_SEPARATOR
++  else
++    mii.fType := MFT_STRING;
++  if Enabled then
++    mii.fState := MFS_ENABLED
++  else
++    mii.fState := MFS_DISABLED;
++  mii.dwItemData := integer(self);
++  mii.dwTypeData := PChar(Caption);
++  Windows.InsertMenuItem(_SubMenu, _Position, LongBool(True), mii);
++  Inc(_Id);
++end;
++
+ initialization
+ {$IFDEF show_attach_dialog}
+   MessageBox(0, 'Attach debugger now!', 'Initialization', MB_ICONINFORMATION or MB_OK);
+
+Modified: utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-01 17:39:43 UTC (rev 499)
++++ utilities/dzContextMenu/trunk/src/dzContextMenu_version.ini	2010-10-01 17:47:25 UTC (rev 500)
+@@ -1,12 +1,12 @@
+ [Version Info]
+ AutoIncBuild=0
+-Build=33
++Build=74
+ MajorVer=1
+ MinorVer=0
+ Release=0
+ 
+ [Version Info Keys]
+-FileVersion=1.0.0.33
++FileVersion=1.0.0.74
+ ProductVersion={today}
+ FileDescription=configurable context menu for windows explorer
+ OriginalFilename=dzContextMenu.dll
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-10-01 17:39:43 UTC (rev 499)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dpr	2010-10-01 17:47:25 UTC (rev 500)
+@@ -3,7 +3,8 @@
+ uses
+   ComServ,
+   u_ContextMenuHandler in 'u_ContextMenuHandler.pas',
+-  d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule};
++  d_ContextMenu in 'd_ContextMenu.pas' {dm_ContextMenu: TDataModule},
++  u_dzConfigUtils in '..\libs\dzLib\src\u_dzConfigUtils.pas';
+ 
+ exports
+   DllGetClassObject,
+
+Modified: utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj
+===================================================================
+--- utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-10-01 17:39:43 UTC (rev 499)
++++ utilities/dzContextMenu/trunk/src/dzcontextmenu.dproj	2010-10-01 17:47:25 UTC (rev 500)
+@@ -25,7 +25,7 @@
+ 		&lt;/PropertyGroup&gt;
+ 		&lt;PropertyGroup Condition=&quot;'$(Base)'!=''&quot;&gt;
+ 			&lt;DCC_MapFile&gt;3&lt;/DCC_MapFile&gt;
+-			&lt;DCC_UnitSearchPath&gt;..\libs\dzlib\src;..\libs\dzlib\jedi_inc;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
++			&lt;DCC_UnitSearchPath&gt;..\libs\dzlib\src;..\libs\dzlib\jedi_inc;..\libs\jcl\source\include;..\libs\jcl\source\common;..\libs\jcl\source\windows;..\libs\jcl\source\vcl;$(DCC_UnitSearchPath)&lt;/DCC_UnitSearchPath&gt;
+ 			&lt;DCC_Define&gt;NO_TRANSLATION;$(DCC_Define)&lt;/DCC_Define&gt;
+ 			&lt;DCC_UsePackage&gt;vcl;vclx;VclSmp;rtl;vclimg;svnui;svn;bdertl;vclactnband;vcldb;dbrtl;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;vclib;ibxpress;adortl;IndyProtocols;inet;vclie;inetdb;webdsnap;websnap;inetdbbde;inetdbxpress;soaprtl;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;dbexpress;dbxcds&lt;/DCC_UsePackage&gt;
+ 			&lt;DCC_ImageBase&gt;00400000&lt;/DCC_ImageBase&gt;
+@@ -64,6 +64,7 @@
+ 				&lt;Form&gt;dm_ContextMenu&lt;/Form&gt;
+ 				&lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+ 			&lt;/DCCReference&gt;
++			&lt;DCCReference Include=&quot;..\libs\dzLib\src\u_dzConfigUtils.pas&quot;/&gt;
+ 			&lt;BuildConfiguration Include=&quot;Release&quot;&gt;
+ 				&lt;Key&gt;Cfg_2&lt;/Key&gt;
+ 				&lt;CfgParent&gt;Base&lt;/CfgParent&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000358.html">[Dzchart-svncheckins] r499 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000360.html">[Dzchart-svncheckins] r501 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#359">[ date ]</a>
+              <a href="thread.html#359">[ thread ]</a>
+              <a href="subject.html#359">[ subject ]</a>
+              <a href="author.html#359">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

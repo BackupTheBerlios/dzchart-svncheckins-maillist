@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r375 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r375%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C201002221447.o1MEloGF025411%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000241.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r375 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r375%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C201002221447.o1MEloGF025411%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r375 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Feb 22 15:47:50 CET 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000241.html">[Dzchart-svncheckins] r376 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#240">[ date ]</a>
+              <a href="thread.html#240">[ thread ]</a>
+              <a href="subject.html#240">[ subject ]</a>
+              <a href="author.html#240">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-02-22 15:47:50 +0100 (Mon, 22 Feb 2010)
+New Revision: 375
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzFileUtils.pas
+Log:
+additional overloaded versions of TFileSystem.DeleteMatchingFiles
+
+Modified: utilities/dzLib/trunk/src/u_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzFileUtils.pas	2010-01-31 16:29:13 UTC (rev 374)
++++ utilities/dzLib/trunk/src/u_dzFileUtils.pas	2010-02-22 14:47:50 UTC (rev 375)
+@@ -525,7 +525,11 @@
+     /// @raises EOSError if there was an error and RaiseException was true
+     /// &lt;/summary&gt;
+     class function DeleteMatchingFiles(const _Dir, _Mask: string;
+-      _RaiseException: boolean = true; _Force: boolean = false; _ExceptMask: string = ''): integer;
++      _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
++    class function DeleteMatchingFiles(const _Dir, _Mask: string; _ExceptMask: string = '';
++      _RaiseException: boolean = true; _Force: boolean = false): integer; overload; deprecated;
++    class function DeleteMatchingFiles(const _Dir, _Mask: string; const _ExceptMasks: array of string;
++      _RaiseException: boolean = true; _Force: boolean = false): integer; overload;
+ 
+     /// &lt;summary&gt;
+     /// tries to find a matching file
+@@ -1275,7 +1279,36 @@
+ end;
+ 
+ class function TFileSystem.DeleteMatchingFiles(const _Dir, _Mask: string;
+-  _RaiseException: boolean = true; _Force: boolean = false; _ExceptMask: string = ''): integer;
++  _RaiseException, _Force: boolean): integer;
++begin
++  Result := DeleteMatchingFiles(_Dir, _Mask, [], _RaiseException, _Force);
++end;
++
++class function TFileSystem.DeleteMatchingFiles(const _Dir, _Mask: string;
++  _ExceptMask: string; _RaiseException, _Force: boolean): integer;
++begin
++  Result := DeleteMatchingFiles(_Dir, _Mask, [_ExceptMask], _RaiseException, _Force);
++end;
++
++class function TFileSystem.DeleteMatchingFiles(const _Dir, _Mask: string;
++  const _ExceptMasks: array of string; _RaiseException,
++  _Force: boolean): integer;
++
++  function MatchesAnyExceptMask(const _s: string): boolean;
++  var
++    i: Integer;
++    Mask: string;
++  begin
++    for i := Low(_ExceptMasks) to High(_ExceptMasks) do begin
++      Mask := LowerCase(_ExceptMasks[i]);
++      if MatchesMask(_s, Mask) then begin
++        Result := true;
++        exit;
++      end;
++    end;
++    Result := false;
++  end;
++
+ var
+   sr: TSearchRec;
+   Dir: string;
+@@ -1283,21 +1316,21 @@
+   Assert(_Dir &lt;&gt; '', 'Dir parameter must not be an empty string');
+   Assert(_Mask &lt;&gt; '', 'Dir parameter must not be an empty string');
+ 
+-  _ExceptMask := LowerCase(_ExceptMask);
+   Result := 0;
+   Dir := IncludeTrailingPathDelimiter(_Dir);
+-  if 0 = FindFirst(Dir + _Mask, faAnyFile, sr) then
++  if 0 = FindFirst(Dir + _Mask, faAnyFile, sr) then begin
+     try
+       repeat
+         if (sr.Name &lt;&gt; '.') and (sr.Name &lt;&gt; '..') then
+           if ((sr.Attr and (SysUtils.faVolumeID or SysUtils.faDirectory)) = 0) then
+-            if (_ExceptMask = '') or not MatchesMask(LowerCase(sr.Name), _ExceptMask) then
++            if not MatchesAnyExceptMask(LowerCase(sr.Name)) then
+               if not DeleteFile(Dir + sr.Name, _RaiseException, _Force) then
+                 Inc(Result);
+       until 0 &lt;&gt; FindNext(sr);
+     finally
+       FindClose(sr);
+     end;
++  end;
+ end;
+ 
+ class function TFileSystem.FileExists(const _Filename: string): boolean;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000241.html">[Dzchart-svncheckins] r376 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#240">[ date ]</a>
+              <a href="thread.html#240">[ thread ]</a>
+              <a href="subject.html#240">[ subject ]</a>
+              <a href="author.html#240">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

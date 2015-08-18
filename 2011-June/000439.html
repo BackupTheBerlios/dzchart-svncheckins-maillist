@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r581 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-June/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r581%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110605150323.CD176481259%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000438.html">
+   <LINK REL="Next"  HREF="000440.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r581 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r581%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110605150323.CD176481259%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r581 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Jun  5 17:03:23 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000438.html">[Dzchart-svncheckins] r580 - utilities/dzLib/trunk/dbcreator
+</A></li>
+        <LI>Next message: <A HREF="000440.html">[Dzchart-svncheckins] r582 - in utilities/dzLib/trunk: src	translations/fr
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#439">[ date ]</a>
+              <a href="thread.html#439">[ thread ]</a>
+              <a href="subject.html#439">[ subject ]</a>
+              <a href="author.html#439">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-06-05 17:03:23 +0200 (Sun, 05 Jun 2011)
+New Revision: 581
+
+Added:
+   utilities/dzLib/trunk/src/u_dzAdoDbUniqueId.pas
+Log:
+Class for creating unique (longint) database ids without using autoinc fields (works for MS Access and only if only one program is accessing the database)
+
+Added: utilities/dzLib/trunk/src/u_dzAdoDbUniqueId.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzAdoDbUniqueId.pas	                        (rev 0)
++++ utilities/dzLib/trunk/src/u_dzAdoDbUniqueId.pas	2011-06-05 15:03:23 UTC (rev 581)
+@@ -0,0 +1,125 @@
++unit u_dzAdoDbUniqueId;
++
++// NOTE: This works only if only one programm accesses the database!
++
++interface
++
++uses
++  SysUtils,
++  ADODB;
++
++type
++  ITableIdProvider = interface ['{ABB6B50B-3518-46CE-A646-02EF92078533}']
++    function GetNewId(_Count: integer = 1): integer;
++  end;
++
++type
++  TAdoDbUniqueIdProvider = class
++  private
++    FIdTable: TADOTable;
++  protected
++    function GetNewId(const _TableName: string; _Count: integer): integer;
++  public
++    ///&lt;summary&gt; IdTable is the table containing the IDs
++   ///          It must contain two columns:
++    ///          TableName: Text
++    ///	         LastID: LongInt &lt;/summary&gt;
++    constructor Create(_IdTable: TAdoTable);
++    destructor Destroy; override;
++    function GetTableIdProvider(const _TableName: string): ITableIdProvider;
++  end;
++
++type
++  TTableIdProvider = class(TInterfacedObject, ITableIdProvider)
++  private
++    FIdProvider: TAdoDbUniqueIdProvider;
++    FTableName: string;
++  public
++    constructor Create(_IdProvider: TAdoDbUniqueIdProvider; const _TableName: string);
++    ///&lt;summary&gt; Returns unique IDs for the table
++    ///          @param Count is the number of IDs requested, defaults to 1
++    ///          @returns the first of Count IDs &lt;/summary&gt;
++    function GetNewId(_Count: integer = 1): integer;
++  end;
++
++implementation
++
++{ TAdoDbUniqueIdProvider }
++
++constructor TAdoDbUniqueIdProvider.Create(_IdTable: TAdoTable);
++begin
++  Assert(Assigned(_IdTable));
++  Assert(not _IdTable.Active);
++
++  inherited Create;
++  FIdTable := _IdTable;
++  FIdTable.LockType := ltPessimistic;
++  FIdTable.DisableControls;
++  FIdTable.Active := True;
++end;
++
++destructor TAdoDbUniqueIdProvider.Destroy;
++begin
++  if Assigned(FIdTable) then begin
++    FIdTable.Active := False;
++    FIdTable.EnableControls;
++  end;
++  inherited;
++end;
++
++function TAdoDbUniqueIdProvider.GetNewId(const _TableName: string; _Count: integer): integer;
++var
++  qry: TAdoQuery;
++begin
++  if not FIdTable.Locate('TableName', _TableName, []) then begin
++    FIdTable.Insert;
++    FIdTable['TableName'] := _TableName;
++    qry := TADOQuery.Create(nil);
++    try
++      qry.DisableControls;
++      qry.Connection := FIdTable.Connection;
++      qry.SQL.Text := 'SELECT Max(ID) as MaxId FROM ' + _TableName;
++      qry.Prepared := true;
++      qry.Open;
++      if qry.IsEmpty then
++        Result := 0
++      else
++        Result := qry.FieldByName('MaxId').AsInteger;
++    finally
++      FreeAndNil(qry);
++    end;
++  end else begin
++    FIdTable.Edit;
++    Result := FIdTable.FieldByName('LastId').AsInteger;
++  end;
++  try
++    Inc(Result, _Count);
++    FIdTable.FieldByName('LastId').AsInteger := Result;
++    FIdTable.Post;
++  except
++    FIdTable.Cancel;
++    raise;
++  end;
++end;
++
++function TAdoDbUniqueIdProvider.GetTableIdProvider(const _TableName: string): ITableIdProvider;
++begin
++  Result := TTableIdProvider.Create(Self, _TableName);
++end;
++
++{ TTableIdProvider }
++
++constructor TTableIdProvider.Create(_IdProvider: TAdoDbUniqueIdProvider; const _TableName: string);
++begin
++  inherited Create;
++  FIdProvider := _IdProvider;
++  FTableName := _TableName;
++end;
++
++function TTableIdProvider.GetNewId(_Count: integer): integer;
++begin
++  Result := FIdProvider.GetNewId(FTableName, _Count);
++end;
++
++end.
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000438.html">[Dzchart-svncheckins] r580 - utilities/dzLib/trunk/dbcreator
+</A></li>
+	<LI>Next message: <A HREF="000440.html">[Dzchart-svncheckins] r582 - in utilities/dzLib/trunk: src	translations/fr
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#439">[ date ]</a>
+              <a href="thread.html#439">[ thread ]</a>
+              <a href="subject.html#439">[ subject ]</a>
+              <a href="author.html#439">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

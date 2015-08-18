@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r576 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2011-June/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r576%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110602184844.455F7480C67%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000435.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r576 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r576%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C20110602184844.455F7480C67%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r576 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Jun  2 20:48:44 CEST 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000435.html">[Dzchart-svncheckins] r577 - in utilities/dzLib/trunk: forms src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#434">[ date ]</a>
+              <a href="thread.html#434">[ thread ]</a>
+              <a href="subject.html#434">[ subject ]</a>
+              <a href="author.html#434">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2011-06-02 20:48:43 +0200 (Thu, 02 Jun 2011)
+New Revision: 576
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzGoogleTranslate.pas
+Log:
+added GetBranding method which returns &quot;powered by Google&quot; as required by the API license
+
+Modified: utilities/dzLib/trunk/src/u_dzGoogleTranslate.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzGoogleTranslate.pas	2011-04-23 10:49:41 UTC (rev 575)
++++ utilities/dzLib/trunk/src/u_dzGoogleTranslate.pas	2011-06-02 18:48:43 UTC (rev 576)
+@@ -25,6 +25,9 @@
+     /// @param TargetLang is the target language code, e.g. 'de', see the API description
+     ///                   for a list of possible values. &lt;/summary&gt;
+     constructor Create(const _SourceLang, _TargetLang: string);
++    ///&lt;summary&gt;The Google Translate API license requires you to display this branding near
++    ///         the input and result of translations. &lt;/summary&gt;
++    function GetBranding: string;
+     function Translate(const _Input: string): string;
+     ///&lt;summary&gt; Referrer is the url to the website using the translation service &lt;/summary&gt;
+     property Referrer: string read FReferrer write FReferrer;
+@@ -131,6 +134,11 @@
+     Result := 28591;
+ end;
+ 
++function TGoogleTranslate.GetBranding: string;
++begin
++  Result := 'powered by Google';
++end;
++
+ function TGoogleTranslate.Translate(const _Input: string): string;
+ const
+   url_template = '<A HREF="http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&amp;langpair=%s|%s&amp;q=%s">http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&amp;langpair=%s|%s&amp;q=%s</A>';
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000435.html">[Dzchart-svncheckins] r577 - in utilities/dzLib/trunk: forms src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#434">[ date ]</a>
+              <a href="thread.html#434">[ thread ]</a>
+              <a href="subject.html#434">[ subject ]</a>
+              <a href="author.html#434">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

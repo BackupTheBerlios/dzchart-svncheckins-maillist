@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r419 - utilities/dzPrepBuild/trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r419%20-%20utilities/dzPrepBuild/trunk&In-Reply-To=%3C201003271227.o2RCR1nW025147%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000279.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r419 - utilities/dzPrepBuild/trunk</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r419%20-%20utilities/dzPrepBuild/trunk&In-Reply-To=%3C201003271227.o2RCR1nW025147%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r419 - utilities/dzPrepBuild/trunk">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 27 13:27:01 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000279.html">[Dzchart-svncheckins] r418 - utilities/buildtools/trunk/templates
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#280">[ date ]</a>
+              <a href="thread.html#280">[ thread ]</a>
+              <a href="subject.html#280">[ subject ]</a>
+              <a href="author.html#280">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-27 13:27:00 +0100 (Sat, 27 Mar 2010)
+New Revision: 419
+
+Modified:
+   utilities/dzPrepBuild/trunk/
+   utilities/dzPrepBuild/trunk/ReadMe.txt
+Log:
+* changed \ to / in lib path due to stupid change in TortoiseSVN
+* updated/fixed readme.txt
+
+
+Property changes on: utilities/dzPrepBuild/trunk
+___________________________________________________________________
+Name: svn:externals
+   - libs\dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs\dzCmdLineParser\src <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src</A>
+libs\dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs\jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1</A>
+
+   + libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser\src <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src</A>
+libs/dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/1</A>
+
+
+Modified: utilities/dzPrepBuild/trunk/ReadMe.txt
+===================================================================
+--- utilities/dzPrepBuild/trunk/ReadMe.txt	2010-03-27 12:12:56 UTC (rev 418)
++++ utilities/dzPrepBuild/trunk/ReadMe.txt	2010-03-27 12:27:00 UTC (rev 419)
+@@ -2,7 +2,7 @@
+ for Delphi projects when compiling using the dcc32.exe commandline
+ compiler. It can also be used as a Pre-Build tool in Delphi 2007.
+ 
+-I can read and update three different kinds of sources for the
++It can read and update three different kinds of sources for the
+ version information:
+ * &lt;projectname&gt;.dof files (used up to Delphi 7)
+ * &lt;projectname&gt;.bdsproj files (used in BDS 2005 and 2006)
+@@ -31,7 +31,7 @@
+ del &lt;projectname&gt;.cfg
+ dcc32 [... options ...] &lt;projectname&gt;.dpr
+ 
+-[... other stuff, e.g. create a tag in the sCM ...]
++[... other stuff, e.g. create a tag in the SCM ...]
+ 
+ -------------
+ 
+@@ -72,7 +72,7 @@
+ del &lt;projectname&gt;.cfg
+ dcc32 [... options ...] &lt;projectname&gt;.dpr
+ 
+-[... other stuff, e.g. create a tag in the sCM ...]
++[... other stuff, e.g. create a tag in the SCM ...]
+ 
+ -------------
+ 
+@@ -105,16 +105,15 @@
+           --Trademark=&quot;%dzVersion.Trademark%&quot;
+           --Comments=&quot;build on %dzDateTime%&quot;
+ 
+-(all this goes into one line, I just wrapped it to improve readability)
++(all this must go into one line, I just wrapped it to improve readability)
+ 
+ The following environment variables can be used (in addition to the ones
+ that are usually set):
+ 
+ %dzDate% - the current date in ISO format (yyyy-mm-dd)
+ %dzTime% - the current time in 24 hour format (hh:mm:ss)
+-%dzDateTime% - both, date and time as yyyy-mm-dd hh:mm:ss
++%dzDateTime% - combination of the above (yyyy-mm-dd hh:mm:ss)
+ %dzMyDocuments% - the My Documents folder of the current user
+-
+ %dzProject% - the project name passed by the --ReadDof / --ReadBdsProj
+               or --ReadIni option without extension
+ 
+@@ -143,8 +142,8 @@
+ 
+ You may ask why I am using a second script instead of doing everything
+ in PrepBuild itself. The answer is that I didn't want to add too
+-much functionality to the tool but also wanted the maximu on flexibility.
+-Using this second script, I can use the version info and also the
++much functionality to the tool but also wanted the maximum of flexibility.
++With this second script, I can use the version info and also the
+ build timestamp to modify the version information. Others may want to
+ add the user name to the version info, so they can just use the
+ standard environment variable %USERNAME% to add it. You might even want
+@@ -164,7 +163,7 @@
+ way to modify them. So, what do you do?
+ 
+ The first thing is disabling the version information in the project
+-options. Since the IDE doesn't do it right, there is no point in
++options. Since the IDE doesn't do it correctly, there is no point in
+ letting it manage the version info. Instead you use a .ini file
+ to store it. This .ini file goes into your source code repository
+ together with the code. In addtion you have got another .ini file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000279.html">[Dzchart-svncheckins] r418 - utilities/buildtools/trunk/templates
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#280">[ date ]</a>
+              <a href="thread.html#280">[ thread ]</a>
+              <a href="subject.html#280">[ subject ]</a>
+              <a href="author.html#280">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

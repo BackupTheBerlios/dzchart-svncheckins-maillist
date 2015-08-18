@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r377 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r377%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C201002221450.o1MEojfG025586%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000241.html">
+   <LINK REL="Next"  HREF="000243.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r377 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r377%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C201002221450.o1MEojfG025586%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r377 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Mon Feb 22 15:50:45 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000241.html">[Dzchart-svncheckins] r376 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000243.html">[Dzchart-svncheckins] r378 - 3rd
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#242">[ date ]</a>
+              <a href="thread.html#242">[ thread ]</a>
+              <a href="subject.html#242">[ subject ]</a>
+              <a href="author.html#242">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-02-22 15:50:44 +0100 (Mon, 22 Feb 2010)
+New Revision: 377
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzVclUtils.pas
+Log:
+* TGrid_SetRowCount and TGrid_SetColCount are now functions
+* new procedure TGrid_SetNonfixedColCount for setting the number of non-fixed columns
+
+
+
+Modified: utilities/dzLib/trunk/src/u_dzVclUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzVclUtils.pas	2010-02-22 14:48:47 UTC (rev 376)
++++ utilities/dzLib/trunk/src/u_dzVclUtils.pas	2010-02-22 14:50:44 UTC (rev 377)
+@@ -118,12 +118,18 @@
+ ///          @param IncludeFixed determines whether the fixed rows/columns are also exported &lt;/summary&gt;
+ procedure TGrid_ExportToFile(_Grid: TCustomGrid; const _Filename: string; _IncludeFixed: boolean = false);
+ 
+-///&lt;summary&gt; sets the row count, taking the fixed rows into account &lt;/summary&gt;
+-procedure TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer);
++///&lt;summary&gt; sets the row count, taking the fixed rows into account
++///          @returns the new RowCount &lt;/summary&gt;
++function TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer): integer;
+ 
+-///&lt;summary&gt; sets the column count, taking the fixed columns into account &lt;/summary&gt;
+-procedure TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer);
++///&lt;summary&gt; sets the column count, taking the fixed columns into account
++///          @returns the new ColCount &lt;/summary&gt;
++function TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
+ 
++///&lt;summary&gt; sets the nonfixd column count
++///          @returns the new ColCount &lt;/summary&gt;
++function TGrid_SetNonfixedColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
++
+ ///&lt;summary&gt; sets the row count to FixedRows + 1 and clears all non-fixed cells &lt;/summary&gt;
+ procedure TStringGrid_Clear(_Grid: TStringGrid);
+ 
+@@ -670,28 +676,39 @@
+   end;
+ end;
+ 
+-procedure TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer);
++function TGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer): integer;
+ var
+   Grid: TGridHack;
+ begin
+   Grid := TGridHack(_Grid);
+   if Grid.FixedRows &gt;= _RowCount then
+-    Grid.RowCount := Grid.FixedRows + 1
++    Result := Grid.FixedRows + 1
+   else
+-    Grid.RowCount := _RowCount;
++    Result := _RowCount;
++  Grid.RowCount := Result;
+ end;
+ 
+-procedure TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer);
++function TGrid_SetColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
+ var
+   Grid: TGridHack;
+ begin
+   Grid := TGridHack(_Grid);
+   if Grid.FixedCols &gt;= _ColCount then
+-    Grid.ColCount := Grid.FixedCols + 1
++    Result := Grid.FixedCols + 1
+   else
+-    Grid.ColCount := _ColCount;
++    Result := _ColCount;
++  Grid.ColCount := Result;
+ end;
+ 
++function TGrid_SetNonfixedColCount(_Grid: TCustomGrid; _ColCount: integer): integer;
++var
++  Grid: TGridHack;
++begin
++  Grid := TGridHack(_Grid);
++  Result := Grid.FixedCols + _ColCount;
++  Grid.ColCount := Result;
++end;
++
+ procedure TStringGrid_SetRowCount(_Grid: TCustomGrid; _RowCount: integer);
+ begin
+   TGrid_SetRowCount(_Grid, _RowCount);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000241.html">[Dzchart-svncheckins] r376 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000243.html">[Dzchart-svncheckins] r378 - 3rd
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#242">[ date ]</a>
+              <a href="thread.html#242">[ thread ]</a>
+              <a href="subject.html#242">[ subject ]</a>
+              <a href="author.html#242">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

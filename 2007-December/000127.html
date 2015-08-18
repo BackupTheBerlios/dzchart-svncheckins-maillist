@@ -1,0 +1,1458 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r258 - in utilities/dzLib/trunk: . tests	tests/dzconvertutils tests/dzfileutils tests/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r258%20-%20in%20utilities/dzLib/trunk%3A%20.%20tests%0A%09tests/dzconvertutils%20tests/dzfileutils%20tests/src&In-Reply-To=%3C200712161543.lBGFh4nD000807%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000126.html">
+   <LINK REL="Next"  HREF="000128.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r258 - in utilities/dzLib/trunk: . tests	tests/dzconvertutils tests/dzfileutils tests/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r258%20-%20in%20utilities/dzLib/trunk%3A%20.%20tests%0A%09tests/dzconvertutils%20tests/dzfileutils%20tests/src&In-Reply-To=%3C200712161543.lBGFh4nD000807%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r258 - in utilities/dzLib/trunk: . tests	tests/dzconvertutils tests/dzfileutils tests/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Dec 16 16:43:04 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000126.html">[Dzchart-svncheckins] r257 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000128.html">[Dzchart-svncheckins] r259 - in utilities/dzLib/trunk: src tests	tests/dcu tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#127">[ date ]</a>
+              <a href="thread.html#127">[ thread ]</a>
+              <a href="subject.html#127">[ subject ]</a>
+              <a href="author.html#127">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2007-12-16 16:42:58 +0100 (Sun, 16 Dec 2007)
+New Revision: 258
+
+Added:
+   utilities/dzLib/trunk/tests/src/
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr
+   utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj
+   utilities/dzLib/trunk/tests/src/Testu_dzClassUtils.pas
+   utilities/dzLib/trunk/tests/src/Testu_dzConvertUtils.pas
+   utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas
+Removed:
+   utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr
+   utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj
+   utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas
+   utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas
+Modified:
+   utilities/dzLib/trunk/
+   utilities/dzLib/trunk/tests/
+Log:
+* added tests for u_dzClassUtils
+* moved unit test source to subdir src and corrected paths
+
+
+Property changes on: utilities/dzLib/trunk
+___________________________________________________________________
+Name: svn:ignore
+   + default.po
+default_de.mo
+filtered.po
+
+
+
+Property changes on: utilities/dzLib/trunk/tests
+___________________________________________________________________
+Name: svn:ignore
+   + DUnitTests_dzLib.exe
+dunit.ini
+
+
+Deleted: utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr
+===================================================================
+--- utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr	2007-12-16 15:35:48 UTC (rev 257)
++++ utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr	2007-12-16 15:42:58 UTC (rev 258)
+@@ -1,42 +0,0 @@
+-program DUnitTests_dzLib;
+-{
+-
+-  Delphi DUnit Test Project
+-  -------------------------
+-  This project contains the DUnit test framework and the GUI/Console test runners.
+-  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
+-  to use the console test runner.  Otherwise the GUI test runner will be used by 
+-  default.
+-
+-}
+-
+-{$IFDEF CONSOLE_TESTRUNNER}
+-{$APPTYPE CONSOLE}
+-{$ENDIF}
+-
+-uses
+-  Forms,
+-  TestFramework,
+-  GUITestRunner,
+-  TextTestRunner,
+-  u_dzFileUtils in '..\src\u_dzFileUtils.pas',
+-  Testu_dzFileUtils in 'dzfileutils\Testu_dzFileUtils.pas',
+-  u_dzMiscUtils in '..\src\u_dzMiscUtils.pas',
+-  u_dzStringUtils in '..\src\u_dzStringUtils.pas',
+-  u_dzConvertUtils in '..\src\u_dzConvertUtils.pas',
+-  u_dzTranslator in '..\src\u_dzTranslator.pas',
+-  u_dzDateUtils in '..\src\u_dzDateUtils.pas',
+-  u_dzUnitTestUtils in '..\src\u_dzUnitTestUtils.pas',
+-  u_dzVariantUtils in '..\src\u_dzVariantUtils.pas',
+-  Testu_dzConvertUtils in 'dzconvertutils\Testu_dzConvertUtils.pas';
+-
+-{$R *.RES}
+-
+-begin
+-  Application.Initialize;
+-  if IsConsole then
+-    TextTestRunner.RunRegisteredTests
+-  else
+-    GUITestRunner.RunRegisteredTests;
+-end.
+-
+
+Deleted: utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj
+===================================================================
+--- utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj	2007-12-16 15:35:48 UTC (rev 257)
++++ utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj	2007-12-16 15:42:58 UTC (rev 258)
+@@ -1,55 +0,0 @@
+-&#65279;&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
+-  &lt;PropertyGroup&gt;
+-    &lt;ProjectGuid&gt;{9732bdc0-39a6-4dbb-817c-3fb77772e288}&lt;/ProjectGuid&gt;
+-    &lt;MainSource&gt;DUnitTests_dzLib.dpr&lt;/MainSource&gt;
+-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
+-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
+-    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
+-    &lt;DCC_DependencyCheckOutputName&gt;DUnitTests_dzLib.exe&lt;/DCC_DependencyCheckOutputName&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
+-    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
+-    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
+-    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+-    &lt;Version&gt;7.0&lt;/Version&gt;
+-    &lt;DCC_Define&gt;DEBUG;_CONSOLE_TESTRUNNER;no_translation&lt;/DCC_Define&gt;
+-    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\jedi_inc&lt;/DCC_UnitSearchPath&gt;
+-    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\jedi_inc&lt;/DCC_ResourcePath&gt;
+-    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\jedi_inc&lt;/DCC_ObjPath&gt;
+-    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\jedi_inc&lt;/DCC_IncludePath&gt;
+-    &lt;DCC_DcuOutput&gt;dcu&lt;/DCC_DcuOutput&gt;
+-    &lt;DCC_ObjOutput&gt;dcu&lt;/DCC_ObjOutput&gt;
+-    &lt;DCC_HppOutput&gt;dcu&lt;/DCC_HppOutput&gt;
+-    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
+-    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
+-    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
+-    &lt;DCC_IntegerOverflowCheck&gt;True&lt;/DCC_IntegerOverflowCheck&gt;
+-    &lt;DCC_RangeChecking&gt;True&lt;/DCC_RangeChecking&gt;
+-  &lt;/PropertyGroup&gt;
+-  &lt;ProjectExtensions&gt;
+-    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
+-    &lt;Borland.ProjectType /&gt;
+-    &lt;BorlandProject&gt;
+-&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionI!
+ nfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;DUnitTests_dzLib.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;UnitTesting&gt;&lt;TestFramework&gt;DUnit / Delphi Win32&lt;/TestFramework&gt;&lt;TestRunner&gt;GUI&lt;/TestRunner&gt;&lt;/UnitTesting&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
+-  &lt;/ProjectExtensions&gt;
+-  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+-  &lt;ItemGroup&gt;
+-    &lt;DelphiCompile Include=&quot;DUnitTests_dzLib.dpr&quot;&gt;
+-      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
+-    &lt;/DelphiCompile&gt;
+-    &lt;DCCReference Include=&quot;..\src\u_dzConvertUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\src\u_dzDateUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\src\u_dzFileUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\src\u_dzMiscUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\src\u_dzStringUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\src\u_dzTranslator.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\src\u_dzUnitTestUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;..\src\u_dzVariantUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;dzconvertutils\Testu_dzConvertUtils.pas&quot; /&gt;
+-    &lt;DCCReference Include=&quot;dzfileutils\Testu_dzFileUtils.pas&quot; /&gt;
+-  &lt;/ItemGroup&gt;
+-&lt;/Project&gt;
+\ No newline at end of file
+
+Deleted: utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas	2007-12-16 15:35:48 UTC (rev 257)
++++ utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas	2007-12-16 15:42:58 UTC (rev 258)
+@@ -1,105 +0,0 @@
+-unit Testu_dzConvertUtils;
+-
+-interface
+-
+-uses
+-  Windows,
+-  Classes,
+-  SysUtils,
+-  TestFramework,
+-  u_dzConvertUtils,
+-  u_dzUnitTestUtils;
+-
+-type
+-  TestDecimalConversion = class(TdzTestCase)
+-  protected
+-    FDecDigit2LongOutOfRangeValue: char;
+-    procedure DecDigit2LongOutOfRange;
+-  published
+-    procedure TestIsDecDigit;
+-    procedure TestisDec(const _s: string);
+-    procedure TestDecDigit2Long(_a: char);
+-    procedure TestDec2Long(const _s: string);
+-    procedure TestLong2Dec2(_l: ULong);
+-    procedure TestLong2Dec4(_l: ULong);
+-    procedure TestLong2DecN(_l: ULong; _n: ULong);
+-    procedure TestLong2Dec(_l: ULong);
+-  end;
+-
+-implementation
+-
+-{ TestDecimalConversion }
+-
+-procedure TestDecimalConversion.TestDec2Long(const _s: string);
+-begin
+-end;
+-
+-procedure TestDecimalConversion.DecDigit2LongOutOfRange;
+-begin
+-  CheckEquals(0, DecDigit2Long(FDecDigit2LongOutOfRangeValue));
+-end;
+-
+-procedure TestDecimalConversion.TestDecDigit2Long(_a: char);
+-var
+-  c: char;
+-begin
+-  for c := chr(0) to chr(255) do begin
+-    if c in ['0'..'9'] then
+-      CheckEquals(Ord(c) - Ord('0'), DecDigit2Long(c))
+-    else begin
+-      FDecDigit2LongOutOfRangeValue := c;
+-      CheckException(DecDigit2LongOutOfRange, EDigitOutOfRange);
+-    end;
+-  end;
+-end;
+-
+-procedure TestDecimalConversion.TestisDec(const _s: string);
+-begin
+-  CheckTrue(isDec('0'));
+-  CheckTrue(isDec('1'));
+-  CheckTrue(isDec('12'));
+-  CheckTrue(isDec('18945'));
+-  CheckTrue(isDec('0845'));
+-  CheckTrue(isDec('000000'));
+-  CheckTrue(isDec('90894514908'));
+-  CheckFalse(isDec('a'));
+-  CheckFalse(isDec('1a425'));
+-  CheckFalse(isDec('-2345'));
+-  CheckFalse(isDec('0000001a'));
+-end;
+-
+-procedure TestDecimalConversion.TestIsDecDigit;
+-var
+-  c: char;
+-begin
+-  for c := chr(0) to chr(255) do
+-    if c in ['0'..'9'] then
+-      CheckTrue(isDecDigit(c))
+-    else
+-      CheckFalse(isDecDigit(c));
+-end;
+-
+-procedure TestDecimalConversion.TestLong2Dec(_l: ULong);
+-begin
+-
+-end;
+-
+-procedure TestDecimalConversion.TestLong2Dec2(_l: ULong);
+-begin
+-
+-end;
+-
+-procedure TestDecimalConversion.TestLong2Dec4(_l: ULong);
+-begin
+-
+-end;
+-
+-procedure TestDecimalConversion.TestLong2DecN(_l, _n: ULong);
+-begin
+-
+-end;
+-
+-initialization
+-  RegisterTest(TestDecimalConversion.Suite);
+-end.
+-
+
+Deleted: utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas	2007-12-16 15:35:48 UTC (rev 257)
++++ utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas	2007-12-16 15:42:58 UTC (rev 258)
+@@ -1,806 +0,0 @@
+-unit Testu_dzFileUtils;
+-
+-interface
+-
+-uses
+-  Windows,
+-  Classes,
+-  SysUtils,
+-  TestFramework,
+-  u_dzFileUtils,
+-  u_dzUnitTestUtils;
+-
+-type
+-  TFileSystemTestCase = class(TdzTestCase)
+-  protected
+-    FTestDir: string;
+-    procedure SetUp; override;
+-    procedure TearDown; override;
+-    function CreateTestFile(const _Filename, _Content: string): string;
+-    procedure CheckTestfile(const _Filename, _Content: string);
+-    procedure CheckSubdirExists(const _Dirname: string);
+-  end;
+-
+-type
+-  TestTFileSystem = class(TFileSystemTestCase)
+-  private
+-    FCallbackCount: integer;
+-    FSourceFile: string;
+-    FDestFile: string;
+-    procedure ProgressContinue(_Status: TCopyProgressStatus;
+-      var _Continue: TCopyProgressStatus.TProgressResult);
+-    procedure ProgressCancel(_Status: TCopyProgressStatus;
+-      var _Continue: TCopyProgressStatus.TProgressResult);
+-  protected
+-    procedure SetUp; override;
+-    procedure TearDown; override;
+-  published
+-    procedure TestCopyFileWithProgressContinue;
+-    procedure TestCopyFileWithProgressCancel;
+-    procedure TestMoveFileWithProgressCancel;
+-  end;
+-
+-  TestTDirectorySync = class(TFileSystemTestCase)
+-  private
+-    FLargeContent: string;
+-    FDirA: string;
+-    FDirB: string;
+-    FSync: TDirectorySync;
+-    FFile1: string;
+-    FFile2: string;
+-    FFile3: string;
+-    FFile4: string;
+-    FFile5: string;
+-    FFile6: string;
+-    FFileA7: string;
+-    FFileB7: string;
+-    FCallbacks: TStringList;
+-    FExistingFiles: TStringList;
+-    procedure OnSyncDirAbort(_Sender: TObject; const _Src, _Dst: string);
+-    procedure OnDirSyncCallback(_Sender: TObject; const _Src, _Dst: string);
+-    procedure OnFileSyncCallback(_Sender: TObject; const _Src, _Dst: string; _Total, _Done: Int64);
+-    procedure OnFileExistsCallback(_Sender: TObject; const _SrcFile, _DstFile: TFileInfoRec; var _Action: TFileExistsAction);
+-    procedure CheckSameText(const _Expected, _Actual, _Msg: string);
+-  protected
+-    procedure SetUp; override;
+-    procedure TearDown; override;
+-  published
+-    procedure TestSyncOneWay;
+-    procedure TestSyncBoth;
+-    procedure TestSyncAbortImmediately;
+-    procedure TestSyncOneWayCallback;
+-    procedure TestCheckOneWay;
+-  end;
+-
+-  TestTFileGenerationHandler_Base = class(TFileSystemTestCase)
+-  private
+-    FHandler: TFileGenerationHandler;
+-  protected
+-    procedure SetUp; override;
+-    procedure TearDown; override;
+-  end;
+-
+-  TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_NotKeep = class(TestTFileGenerationHandler_Base)
+-  published
+-    procedure TestNoneExisting;
+-    procedure TestOneExisting;
+-    procedure TestAllExisting;
+-  end;
+-
+-  TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_Keep = class(TestTFileGenerationHandler_Base)
+-  published
+-    procedure TestNoneExisting;
+-    procedure TestOneExisting;
+-    procedure TestAllExisting;
+-  end;
+-
+-  TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep = class(TestTFileGenerationHandler_Base)
+-  protected
+-    procedure SetUp; override;
+-  published
+-    procedure TestNoneExisting;
+-    procedure TestOneExisting;
+-    procedure TestTwoExisting;
+-    procedure TestAllExisting;
+-  end;
+-
+-  TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep = class(TestTFileGenerationHandler_Base)
+-  protected
+-    procedure SetUp; override;
+-  published
+-    procedure TestNoneExisting;
+-    procedure TestOneExisting;
+-    procedure TestTwoExisting;
+-    procedure TestAllExisting;
+-  end;
+-
+-  TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber_NotKeep = class(TestTFileGenerationHandler_Base)
+-  protected
+-    procedure SetUp; override;
+-  published
+-    procedure TestNoneExisting;
+-    procedure TestOneExisting;
+-    procedure TestAllExisting;
+-  end;
+-
+-  TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber_NotKeep = class(TestTFileGenerationHandler_Base)
+-  protected
+-    procedure SetUp; override;
+-  published
+-    procedure TestNoneExisting;
+-    procedure TestOneExisting;
+-    procedure TestAllExisting;
+-  end;
+-
+-implementation
+-
+-{ TFileSystemTestCase }
+-
+-procedure TFileSystemTestCase.CheckTestfile(const _Filename, _Content: string);
+-var
+-  t: TextFile;
+-  s: string;
+-begin
+-  Check(FileExists(FTestDir + _Filename), _Filename + ' does not exist');
+-  AssignFile(t, FTestDir + _Filename);
+-  Reset(t);
+-  Read(t, s);
+-  Close(t);
+-  CheckEquals(_Content, s, 'content of file ' + _Filename);
+-end;
+-
+-procedure TFileSystemTestCase.CheckSubdirExists(const _Dirname: string);
+-begin
+-  Check(DirectoryExists(FTestDir + _Dirname), 'directory ' + _Dirname + ' missing');
+-end;
+-
+-function TFileSystemTestCase.CreateTestFile(const _Filename, _Content: string): string;
+-var
+-  t: TextFile;
+-begin
+-  Result := FTestDir + _Filename;
+-  AssignFile(t, Result);
+-  Rewrite(t);
+-  WriteLn(t, _Content);
+-  Close(t);
+-end;
+-
+-procedure TFileSystemTestCase.SetUp;
+-begin
+-  inherited;
+-  FTestDir := itpd(TFileSystem.CreateUniqueDirectory());
+-end;
+-
+-procedure TFileSystemTestCase.TearDown;
+-begin
+-  TFileSystem.DelTree(FTestDir);
+-  inherited;
+-end;
+-
+-const
+-  GENERATION_FILENAME = 'hallo';
+-  GENERATION_SUFFIX = '.txt';
+-
+-{ TestTFileSystem }
+-
+-procedure TestTFileSystem.ProgressCancel(_Status: TCopyProgressStatus;
+-  var _Continue: TCopyProgressStatus.TProgressResult);
+-begin
+-  _Continue := prCancel;
+-  Inc(FCallbackCount);
+-end;
+-
+-procedure TestTFileSystem.ProgressContinue(_Status: TCopyProgressStatus;
+-  var _Continue: TCopyProgressStatus.TProgressResult);
+-begin
+-  _Continue := prContinue;
+-  Inc(FCallbackCount);
+-end;
+-
+-procedure TestTFileSystem.SetUp;
+-const
+-  SOURCEFILE = 'sourcefile.txt';
+-  DESTFILE = 'destfile.txt';
+-begin
+-  inherited;
+-  FCallbackCount := 0;
+-  FSourceFile := CreateTestFile(SOURCEFILE, 'source');
+-  FDestFile := FTestDir + DESTFILE;
+-  if FileExists(FDestFile) then
+-    TFileSystem.DeleteFile(FDestFile);
+-end;
+-
+-procedure TestTFileSystem.TearDown;
+-begin
+-  inherited;
+-  TFileSystem.DeleteFile(FSourceFile, false);
+-  TFileSystem.DeleteFile(FDestFile, false);
+-end;
+-
+-procedure TestTFileSystem.TestCopyFileWithProgressContinue;
+-var
+-  Res: TFileSystem.TCopyFileWithProgressResult;
+-begin
+-  Res := TFileSystem.CopyFileWithProgress(FSourceFile, FDestFile, ProgressContinue);
+-  Check(Res = cfwOK, 'aborted or error');
+-  CheckTrue(FileExists(FDestFile), 'destination file missing');
+-  CheckEquals(2, FCallbackCount, 'Callback count wrong');
+-end;
+-
+-procedure TestTFileSystem.TestMoveFileWithProgressCancel;
+-var
+-  Res: TFileSystem.TCopyFileWithProgressResult;
+-begin
+-  Res := TFileSystem.MoveFileWithProgress(FSourceFile, FDestFile, ProgressCancel, []);
+-  Check(Res = cfwOK, 'aborted expected');
+-  CheckFalse(FileExists(FDestFile), 'destination file exists');
+-end;
+-
+-procedure TestTFileSystem.TestCopyFileWithProgressCancel;
+-var
+-  Res: TFileSystem.TCopyFileWithProgressResult;
+-begin
+-  Res := TFileSystem.CopyFileWithProgress(FSourceFile, FDestFile, ProgressCancel, []);
+-  Check(Res = cfwAborted, 'aborted expected');
+-  CheckEquals(1, FCallbackCount, 'Callback count wrong');
+-end;
+-
+-{ TestTFileGenerationHandler_Base }
+-
+-procedure TestTFileGenerationHandler_Base.SetUp;
+-begin
+-  inherited;
+-  FHandler := TFileGenerationHandler.Create(FTestDir + GENERATION_FILENAME, GENERATION_SUFFIX);
+-end;
+-
+-procedure TestTFileGenerationHandler_Base.TearDown;
+-begin
+-  FHandler.Free;
+-  inherited;
+-end;
+-
+-{ TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber }
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_NotKeep.TestAllExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '2');
+-  CreateTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '3');
+-  CreateTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '4');
+-  CreateTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '5');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '2');
+-  CheckTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '3');
+-  CheckTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '4');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_5' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_NotKeep.TestNoneExisting;
+-var
+-  s: string;
+-begin
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_NotKeep.TestOneExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_2' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-{ TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_Keep }
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_Keep.TestAllExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '2');
+-  CreateTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '3');
+-  CreateTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '4');
+-  CreateTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '5');
+-  s := FHandler.Execute(True);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '2');
+-  CheckTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '3');
+-  CheckTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '4');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_5' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_Keep.TestNoneExisting;
+-var
+-  s: string;
+-begin
+-  s := FHandler.Execute(true);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_Keep.TestOneExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(true);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_2' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-{ TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber }
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep.SetUp;
+-begin
+-  inherited;
+-  FHandler.OldestIsHighest := false;
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep.TestAllExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '5');
+-  CreateTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '4');
+-  CreateTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '3');
+-  CreateTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '2');
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '2');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '3');
+-  CheckTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '4');
+-  CheckTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '5');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_5' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep.TestNoneExisting;
+-var
+-  s: string;
+-begin
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep.TestOneExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_2' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep.TestTwoExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '2');
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '2');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_3' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-{ TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep }
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep.SetUp;
+-begin
+-  inherited;
+-  FHandler.OldestIsHighest := false;
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep.TestAllExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '5');
+-  CreateTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '4');
+-  CreateTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '3');
+-  CreateTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '2');
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(true);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '5');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '2');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '3');
+-  CheckTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '4');
+-  CheckTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '5');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_5' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep.TestNoneExisting;
+-var
+-  s: string;
+-begin
+-  s := FHandler.Execute(true);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep.TestOneExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(true);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '1');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_2' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep.TestTwoExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '2');
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(true);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + GENERATION_SUFFIX, s, 'filename');
+-  CheckTestfile(GENERATION_FILENAME + GENERATION_SUFFIX, '2');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '2');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_3' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-{ TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber }
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber_NotKeep.SetUp;
+-begin
+-  inherited;
+-  FHandler.ResultContainsNumber := true;
+-end;
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber_NotKeep.TestAllExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '2');
+-  CreateTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '3');
+-  CreateTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '4');
+-  CreateTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '5');
+-  CreateTestfile(GENERATION_FILENAME + '_5' + GENERATION_SUFFIX, '6');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '2');
+-  CheckTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '3');
+-  CheckTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '4');
+-  CheckTestfile(GENERATION_FILENAME + '_5' + GENERATION_SUFFIX, '5');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_6' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber_NotKeep.TestNoneExisting;
+-var
+-  s: string;
+-begin
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber_NotKeep.TestOneExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '1');
+-end;
+-
+-{ TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber }
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber_NotKeep.SetUp;
+-begin
+-  inherited;
+-  FHandler.OldestIsHighest := false;
+-  FHandler.ResultContainsNumber := true;
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber_NotKeep.TestAllExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CreateTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '2');
+-  CreateTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '3');
+-  CreateTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '4');
+-  CreateTestfile(GENERATION_FILENAME + '_5' + GENERATION_SUFFIX, '5');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + '_5' + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '2');
+-  CheckTestfile(GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, '3');
+-  CheckTestfile(GENERATION_FILENAME + '_3' + GENERATION_SUFFIX, '4');
+-  CheckTestfile(GENERATION_FILENAME + '_4' + GENERATION_SUFFIX, '5');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_6' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber_NotKeep.TestNoneExisting;
+-var
+-  s: string;
+-begin
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-end;
+-
+-procedure TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber_NotKeep.TestOneExisting;
+-var
+-  s: string;
+-begin
+-  CreateTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  s := FHandler.Execute(false);
+-  CheckEquals(FTestDir + GENERATION_FILENAME + '_2' + GENERATION_SUFFIX, s, 'filename');
+-  CheckFalse(FileExists(s), 'file exists');
+-  CheckTestfile(GENERATION_FILENAME + '_1' + GENERATION_SUFFIX, '1');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_3' + GENERATION_SUFFIX), 'additional backup file exists');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_4' + GENERATION_SUFFIX), 'additional backup file exists');
+-  CheckFalse(FileExists(FTestDir + GENERATION_FILENAME + '_5' + GENERATION_SUFFIX), 'additional backup file exists');
+-end;
+-
+-{ TestTDirectorySync }
+-
+-procedure TestTDirectorySync.SetUp;
+-begin
+-  inherited;
+-  FDirA := FTestDir + 'a\';
+-  FDirB := FTestDir + 'b\';
+-  TFileSystem.CreateDir(FDirA);
+-  TFileSystem.CreateDir(FDirB);
+-
+-  FLargeContent := StringOfChar('a', 5 * 1024 * 1024);
+-
+-  FFile1 := CreateTestfile('a\file1.txt', 'File1');
+-  FFile2 := CreateTestfile('a\.txt', 'File2');
+-  FFile3 := CreateTestfile('a\file3', FLargeContent);
+-  TFileSystem.CreateDir(FDirA + '\Sub1');
+-  TFileSystem.CreateDir(FDirA + '\Sub2');
+-  FFile4 := CreateTestfile('a\Sub2\file4.txt', 'File4');
+-
+-  FFile5 := CreateTestFile('b\file5.txt', 'File5');
+-  TFileSystem.CreateDir(FDirB + '\Sub3');
+-  FFile6 := CreateTestFile('b\sub3\file6.txt', 'File6');
+-  TFileSystem.CreateDir(FDirB + '\Sub4');
+-
+-  TFileSystem.CreateDir(FDirA + '\Sub5');
+-  TFileSystem.CreateDir(FDirB + '\Sub5');
+-
+-  TFileSystem.CreateDir(FDirA + '\Sub6');
+-  TFileSystem.CreateDir(FDirB + '\Sub6');
+-  FFileA7 := CreateTestFile('a\sub6\file7.txt', 'FileA7');
+-  FFileB7 := CreateTestFile('b\sub6\file7.txt', 'FileB7');
+-
+-  FCallbacks := TStringList.Create;
+-
+-  FSync := TDirectorySync.Create;
+-end;
+-
+-procedure TestTDirectorySync.TearDown;
+-begin
+-  FSync.Free;
+-  FCallbacks.Free;
+-  inherited;
+-end;
+-
+-procedure TestTDirectorySync.TestSyncOneWay;
+-var
+-  Enum: TSimpleDirEnumerator;
+-  Files: TStringList;
+-  cnt: integer;
+-begin
+-  FSync.SyncOneWay(FDirA, FDirB);
+-  Enum := TSimpleDirEnumerator.Create(FDirB + '*.*');
+-  try
+-    Files := TStringList.Create;
+-    cnt := Enum.FindAll(Files);
+-    Files.Free;
+-  finally
+-    Enum.Free;
+-  end;
+-  CheckEquals(10, cnt, 'number of files and subdirs');
+-  CheckTestfile('b\' + ExtractFileName(FFile1), 'File1');
+-  CheckTestfile('b\' + ExtractFileName(FFile2), 'File2');
+-  CheckTestfile('b\' + ExtractFileName(FFile3), FLargeContent);
+-  CheckSubdirExists('b\Sub1');
+-  CheckSubdirExists('b\Sub2');
+-  CheckTestfile('b\Sub2\' + ExtractFileName(FFile4), 'File4');
+-  CheckTestfile('b\' + ExtractFileName(FFile5), 'File5');
+-  CheckSubdirExists('b\Sub3');
+-  CheckTestfile('b\Sub3\' + ExtractFileName(FFile6), 'File6');
+-  CheckSubdirExists('b\Sub4');
+-
+-  CheckSubdirExists('b\Sub5');
+-  CheckSubdirExists('b\Sub6');
+-  CheckTestfile('b\Sub6\' + ExtractFileName(FFileB7), 'FileB7');
+-end;
+-
+-procedure TestTDirectorySync.TestSyncOneWayCallback;
+-var
+-  Expected: TStringList;
+-  i: Integer;
+-begin
+-  FSync.OnSyncingDir := OnDirSyncCallback;
+-  FSync.OnSyncingFile := OnFileSyncCallback;
+-  FSync.SyncOneWay(FDirA, FDirB);
+-
+-  Expected := TStringList.Create;
+-  try
+-    Expected.Add(FDirA + ' -&gt; ' + FDirB);
+-    Expected.Add(FDirA + '.txt -&gt; ' + FDirB + '.txt (0 of 7)');
+-    Expected.Add(FDirA + '.txt -&gt; ' + FDirB + '.txt (7 of 7)');
+-    Expected.Add(FDirA + 'file1.txt -&gt; ' + FDirB + 'file1.txt (0 of 7)');
+-    Expected.Add(FDirA + 'file1.txt -&gt; ' + FDirB + 'file1.txt (7 of 7)');
+-    for i := 0 to 80 do
+-      Expected.Add(FDirA + 'file3 -&gt; ' + FDirB + Format('file3 (%d of 5242882)', [i * 65536]));
+-    Expected.Add(FDirA + 'file3 -&gt; ' + FDirB + 'file3 (5242882 of 5242882)');
+-    Expected.Add(FDirA + 'Sub1 -&gt; ' + FDirB + 'Sub1');
+-    Expected.Add(FDirA + 'Sub2 -&gt; ' + FDirB + 'Sub2');
+-    Expected.Add(FDirA + 'Sub2\file4.txt -&gt; ' + FDirB + 'Sub2\file4.txt (0 of 7)');
+-    Expected.Add(FDirA + 'Sub2\file4.txt -&gt; ' + FDirB + 'Sub2\file4.txt (7 of 7)');
+-    Expected.Add(FDirA + 'Sub5 -&gt; ' + FDirB + 'Sub5');
+-    Expected.Add(FDirA + 'Sub6 -&gt; ' + FDirB + 'Sub6');
+-    CheckEqualsMultiline(Expected.Text, FCallbacks.Text);
+-  finally
+-    Expected.Free;
+-  end;
+-end;
+-
+-procedure TestTDirectorySync.OnDirSyncCallback(_Sender: TObject; const _Src, _Dst: string);
+-begin
+-  FCallbacks.Add(_Src + ' -&gt; ' + _Dst);
+-end;
+-
+-procedure TestTDirectorySync.OnFileSyncCallback(_Sender: TObject; const _Src, _Dst: string; _Total, _Done: Int64);
+-begin
+-  FCallbacks.Add(_Src + ' -&gt; ' + _Dst + ' (' + IntToStr(_Done) + ' of ' + IntToStr(_Total) + ')');
+-end;
+-
+-procedure TestTDirectorySync.OnSyncDirAbort(_Sender: TObject; const _Src, _Dst: string);
+-begin
+-  SysUtils.Abort;
+-end;
+-
+-procedure TestTDirectorySync.CheckSameText(const _Expected, _Actual, _Msg: string);
+-begin
+-  if not SameText(_Expected, _Actual) then
+-    FailNotEquals(_Expected, _Actual, _Msg);
+-end;
+-
+-procedure TestTDirectorySync.OnFileExistsCallback(_Sender: TObject; const _SrcFile, _DstFile: TFileInfoRec; var _Action: TFileExistsAction);
+-begin
+-  FExistingFiles.Add(_SrcFile.Filename + ' &lt;&gt; ' + _DstFile.Filename);
+-  CheckEquals(_SrcFile.Size, _DstFile.Size, 'Size');
+-  CheckEquals(_SrcFile.Timestamp, _DstFile.Timestamp, 'Timestamp');
+-end;
+-
+-procedure TestTDirectorySync.TestCheckOneWay;
+-begin
+-  FExistingFiles := TStringList.Create;
+-  try
+-    FSync.OnFileExists := OnFileExistsCallback;
+-    FSync.CheckOneWay(FDirA, FDirB);
+-    CheckEquals(1, FExistingFiles.Count, 'existing count');
+-    CheckSameText(FFileA7 + ' &lt;&gt; ' + FFileB7, FExistingFiles[0], 'File7');
+-  finally
+-    FExistingFiles.Free;
+-  end;
+-end;
+-
+-procedure TestTDirectorySync.TestSyncAbortImmediately;
+-var
+-  Enum: TSimpleDirEnumerator;
+-  Files: TStringList;
+-  cnt: integer;
+-begin
+-  FSync.OnSyncingDir := OnSyncDirAbort;
+-  try
+-    FSync.SyncOneWay(FDirA, FDirB);
+-  except on EAbort do
+-      ;
+-  end;
+-  Enum := TSimpleDirEnumerator.Create(FDirB + '*.*');
+-  try
+-    Files := TStringList.Create;
+-    cnt := Enum.FindAll(Files);
+-    Files.Free;
+-  finally
+-    Enum.Free;
+-  end;
+-  CheckEquals(5, cnt, 'number of files and subdirs');
+-end;
+-
+-procedure TestTDirectorySync.TestSyncBoth;
+-var
+-  Enum: TSimpleDirEnumerator;
+-  Files: TStringList;
+-  cnt: integer;
+-begin
+-  FSync.SyncBothWays(FDirA, FDirB);
+-
+-  Enum := TSimpleDirEnumerator.Create(FDirB + '*.*');
+-  try
+-    Files := TStringList.Create;
+-    cnt := Enum.FindAll(Files);
+-    Files.Free;
+-  finally
+-    Enum.Free;
+-  end;
+-  CheckEquals(10, cnt, 'number of files and subdirs');
+-  CheckTestfile('b\' + ExtractFileName(FFile1), 'File1');
+-  CheckTestfile('b\' + ExtractFileName(FFile2), 'File2');
+-  CheckTestfile('b\' + ExtractFileName(FFile3), FLargeContent);
+-  CheckSubdirExists('b\Sub1');
+-  CheckSubdirExists('b\Sub2');
+-  CheckTestfile('b\Sub2\' + ExtractFileName(FFile4), 'File4');
+-  CheckTestfile('b\' + ExtractFileName(FFile5), 'File5');
+-  CheckSubdirExists('b\Sub3');
+-  CheckTestfile('b\Sub3\' + ExtractFileName(FFile6), 'File6');
+-  CheckSubdirExists('b\Sub4');
+-
+-  CheckSubdirExists('b\Sub5');
+-  CheckSubdirExists('b\Sub6');
+-  CheckTestfile('b\Sub6\' + ExtractFileName(FFileB7), 'FileB7');
+-
+-  Enum := TSimpleDirEnumerator.Create(FDirA + '*.*');
+-  try
+-    Files := TStringList.Create;
+-    cnt := Enum.FindAll(Files);
+-    Files.Free;
+-  finally
+-    Enum.Free;
+-  end;
+-  CheckEquals(10, cnt, 'number of files and subdirs');
+-  CheckTestfile('a\' + ExtractFileName(FFile1), 'File1');
+-  CheckTestfile('a\' + ExtractFileName(FFile2), 'File2');
+-  CheckTestfile('a\' + ExtractFileName(FFile3), FLargeContent);
+-  CheckSubdirExists('a\Sub1');
+-  CheckSubdirExists('a\Sub2');
+-  CheckTestfile('a\Sub2\' + ExtractFileName(FFile4), 'File4');
+-  CheckTestfile('a\' + ExtractFileName(FFile5), 'File5');
+-  CheckSubdirExists('a\Sub3');
+-  CheckTestfile('a\Sub3\' + ExtractFileName(FFile6), 'File6');
+-  CheckSubdirExists('a\Sub4');
+-
+-  Check(DirectoryExists(FDirA + 'Sub5'), 'directory Sub5 missing');
+-  Check(DirectoryExists(FDirA + 'Sub6'), 'directory Sub6 missing');
+-  CheckTestfile('a\Sub6\' + ExtractFileName(FFileB7), 'FileA7');
+-end;
+-
+-initialization
+-  RegisterTest(TestTFileSystem.Suite);
+-  RegisterTest(TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_NotKeep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_OldestIsHighest_NotResultContainsNumber_Keep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_NotKeep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_NotOldestIsHighest_NotResultContainsNumber_Keep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_OldestIsHighest_ResultContainsNumber_NotKeep.Suite);
+-  RegisterTest(TestTFileGenerationHandler_NotOldestIsHighest_ResultContainsNumber_NotKeep.Suite);
+-  RegisterTest(TestTDirectorySync.Suite);
+-end.
+-
+
+Copied: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr (from rev 257, utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr)
+===================================================================
+--- utilities/dzLib/trunk/tests/DUnitTests_dzLib.dpr	2007-12-16 15:35:48 UTC (rev 257)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dpr	2007-12-16 15:42:58 UTC (rev 258)
+@@ -0,0 +1,44 @@
++program DUnitTests_dzLib;
++{
++
++  Delphi DUnit Test Project
++  -------------------------
++  This project contains the DUnit test framework and the GUI/Console test runners.
++  Add &quot;CONSOLE_TESTRUNNER&quot; to the conditional defines entry in the project options 
++  to use the console test runner.  Otherwise the GUI test runner will be used by 
++  default.
++
++}
++
++{$IFDEF CONSOLE_TESTRUNNER}
++{$APPTYPE CONSOLE}
++{$ENDIF}
++
++uses
++  Forms,
++  TestFramework,
++  GUITestRunner,
++  TextTestRunner,
++  u_dzFileUtils in '..\..\src\u_dzFileUtils.pas',
++  Testu_dzFileUtils in 'Testu_dzFileUtils.pas',
++  u_dzMiscUtils in '..\..\src\u_dzMiscUtils.pas',
++  u_dzStringUtils in '..\..\src\u_dzStringUtils.pas',
++  u_dzConvertUtils in '..\..\src\u_dzConvertUtils.pas',
++  u_dzTranslator in '..\..\src\u_dzTranslator.pas',
++  u_dzDateUtils in '..\..\src\u_dzDateUtils.pas',
++  u_dzUnitTestUtils in '..\..\src\u_dzUnitTestUtils.pas',
++  u_dzVariantUtils in '..\..\src\u_dzVariantUtils.pas',
++  Testu_dzConvertUtils in 'Testu_dzConvertUtils.pas',
++  Testu_dzClassUtils in 'Testu_dzClassUtils.pas',
++  u_dzClassUtils in '..\..\src\u_dzClassUtils.pas';
++
++{$R *.RES}
++
++begin
++  Application.Initialize;
++  if IsConsole then
++    TextTestRunner.RunRegisteredTests
++  else
++    GUITestRunner.RunRegisteredTests;
++end.
++
+
+Copied: utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj (from rev 257, utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj)
+===================================================================
+--- utilities/dzLib/trunk/tests/DUnitTests_dzLib.dproj	2007-12-16 15:35:48 UTC (rev 257)
++++ utilities/dzLib/trunk/tests/src/DUnitTests_dzLib.dproj	2007-12-16 15:42:58 UTC (rev 258)
+@@ -0,0 +1,59 @@
++&#65279;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
++&lt;Project xmlns=&quot;<A HREF="http://schemas.microsoft.com/developer/msbuild/2003">http://schemas.microsoft.com/developer/msbuild/2003</A>&quot;&gt;
++  &lt;PropertyGroup&gt;
++    &lt;ProjectGuid&gt;{9732bdc0-39a6-4dbb-817c-3fb77772e288}&lt;/ProjectGuid&gt;
++    &lt;MainSource&gt;DUnitTests_dzLib.dpr&lt;/MainSource&gt;
++    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Debug&lt;/Configuration&gt;
++    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;
++    &lt;DCC_DCCCompiler&gt;DCC32&lt;/DCC_DCCCompiler&gt;
++    &lt;DCC_DependencyCheckOutputName&gt;..\DUnitTests_dzLib.exe&lt;/DCC_DependencyCheckOutputName&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_DebugInformation&gt;False&lt;/DCC_DebugInformation&gt;
++    &lt;DCC_LocalDebugSymbols&gt;False&lt;/DCC_LocalDebugSymbols&gt;
++    &lt;DCC_SymbolReferenceInfo&gt;0&lt;/DCC_SymbolReferenceInfo&gt;
++    &lt;DCC_Define&gt;RELEASE&lt;/DCC_Define&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
++    &lt;Version&gt;7.0&lt;/Version&gt;
++    &lt;DCC_Define&gt;DEBUG;_CONSOLE_TESTRUNNER;no_translation&lt;/DCC_Define&gt;
++    &lt;DCC_UnitSearchPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_UnitSearchPath&gt;
++    &lt;DCC_ResourcePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_ResourcePath&gt;
++    &lt;DCC_ObjPath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_ObjPath&gt;
++    &lt;DCC_IncludePath&gt;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;$(BDS)\Source\DUnit\src;..\..\jedi_inc&lt;/DCC_IncludePath&gt;
++    &lt;DCC_DcuOutput&gt;..\dcu&lt;/DCC_DcuOutput&gt;
++    &lt;DCC_ObjOutput&gt;..\dcu&lt;/DCC_ObjOutput&gt;
++    &lt;DCC_HppOutput&gt;..\dcu&lt;/DCC_HppOutput&gt;
++    &lt;DCC_SYMBOL_PLATFORM&gt;False&lt;/DCC_SYMBOL_PLATFORM&gt;
++    &lt;DCC_UNIT_PLATFORM&gt;False&lt;/DCC_UNIT_PLATFORM&gt;
++    &lt;DCC_Optimize&gt;False&lt;/DCC_Optimize&gt;
++    &lt;DCC_IntegerOverflowCheck&gt;True&lt;/DCC_IntegerOverflowCheck&gt;
++    &lt;DCC_RangeChecking&gt;True&lt;/DCC_RangeChecking&gt;
++    &lt;DCC_ExeOutput&gt;..&lt;/DCC_ExeOutput&gt;
++  &lt;/PropertyGroup&gt;
++  &lt;ProjectExtensions&gt;
++    &lt;Borland.Personality&gt;Delphi.Personality&lt;/Borland.Personality&gt;
++    &lt;Borland.ProjectType /&gt;
++    &lt;BorlandProject&gt;
++&lt;BorlandProject&gt;&lt;Delphi.Personality&gt;&lt;Parameters&gt;&lt;Parameters Name=&quot;UseLauncher&quot;&gt;False&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadAllSymbols&quot;&gt;True&lt;/Parameters&gt;&lt;Parameters Name=&quot;LoadUnspecifiedSymbols&quot;&gt;False&lt;/Parameters&gt;&lt;/Parameters&gt;&lt;VersionInfo&gt;&lt;VersionInfo Name=&quot;IncludeVerInfo&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;AutoIncBuild&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MajorVer&quot;&gt;1&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;MinorVer&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Release&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Build&quot;&gt;0&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Debug&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;PreRelease&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Special&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Private&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;DLL&quot;&gt;False&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;Locale&quot;&gt;1033&lt;/VersionInfo&gt;&lt;VersionInfo Name=&quot;CodePage&quot;&gt;1252&lt;/VersionInfo&gt;&lt;/VersionInfo&gt;&lt;VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;CompanyName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;FileDescription&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionI!
+ nfoKeys Name=&quot;FileVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;InternalName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalCopyright&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;LegalTrademarks&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;OriginalFilename&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductName&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;ProductVersion&quot;&gt;1.0.0.0&lt;/VersionInfoKeys&gt;&lt;VersionInfoKeys Name=&quot;Comments&quot;&gt;&lt;/VersionInfoKeys&gt;&lt;/VersionInfoKeys&gt;&lt;Source&gt;&lt;Source Name=&quot;MainSource&quot;&gt;DUnitTests_dzLib.dpr&lt;/Source&gt;&lt;/Source&gt;&lt;/Delphi.Personality&gt;&lt;UnitTesting&gt;&lt;TestFramework&gt;DUnit / Delphi Win32&lt;/TestFramework&gt;&lt;TestRunner&gt;GUI&lt;/TestRunner&gt;&lt;/UnitTesting&gt;&lt;/BorlandProject&gt;&lt;/BorlandProject&gt;
++  &lt;/ProjectExtensions&gt;
++  &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
++  &lt;ItemGroup&gt;
++    &lt;DelphiCompile Include=&quot;DUnitTests_dzLib.dpr&quot;&gt;
++      &lt;MainSource&gt;MainSource&lt;/MainSource&gt;
++    &lt;/DelphiCompile&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzClassUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzConvertUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzDateUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzFileUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzMiscUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzStringUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzTranslator.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzUnitTestUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\..\src\u_dzVariantUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;Testu_dzClassUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;Testu_dzConvertUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;Testu_dzFileUtils.pas&quot; /&gt;
++  &lt;/ItemGroup&gt;
++&lt;/Project&gt;
+\ No newline at end of file
+
+Added: utilities/dzLib/trunk/tests/src/Testu_dzClassUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/tests/src/Testu_dzClassUtils.pas	2007-12-16 15:35:48 UTC (rev 257)
++++ utilities/dzLib/trunk/tests/src/Testu_dzClassUtils.pas	2007-12-16 15:42:58 UTC (rev 258)
+@@ -0,0 +1,196 @@
++unit Testu_dzClassUtils;
++
++interface
++uses
++  Windows,
++  Classes,
++  SysUtils,
++  TestFramework,
++  u_dzClassUtils,
++  u_dzUnitTestUtils;
++
++type
++  TestTStringsUtils = class(TdzTestCase)
++  private
++    FCounter: Integer;
++  protected
++    FList: TStringList;
++  public
++    procedure SetUp; override;
++    procedure TearDown; override;
++  published
++    procedure TestTStrings_RemoveTrailingSpaces;
++    procedure TestTStrings_FreeWithObjects;
++    procedure TestTStrings_FreeAllObjects;
++    procedure TestTStrings_DeleteAndFreeObject;
++    procedure TestTStrings_StringByObj;
++    procedure TestTStrings_TryStringByObj;
++  end;
++
++type
++  TestTStreamUtils = class(TdzTestCase)
++  protected
++    FStream: TStringStream;
++  public
++    procedure SetUp; override;
++    procedure TearDown; override;
++  published
++    procedure TestTestTStream_WriteString;
++    procedure TestTStream_WriteStringLn;
++    procedure TestTStream_ReadStringLn;
++    procedure TestTStream_WriteFmtLn;
++  end;
++
++implementation
++
++{ TestTStringsUtils }
++
++procedure TestTStringsUtils.SetUp;
++begin
++  inherited;
++  FList := TStringList.Create;
++  FList.Add('a');
++  FList.Add('b ');
++  FList.Add('c');
++  FList.Add('d');
++  FList.Add('e ');
++  FList.Add('f');
++end;
++
++procedure TestTStringsUtils.TearDown;
++begin
++  FList.Free;
++  inherited;
++end;
++
++type
++  TMyObj = class
++  private
++    FCounter: PInteger;
++  public
++    constructor Create(_Counter: PInteger);
++    destructor Destroy; override;
++  end;
++
++{ TMyObj }
++
++constructor TMyObj.Create(_Counter: PInteger);
++begin
++  inherited Create;
++  FCounter := _Counter;
++end;
++
++destructor TMyObj.Destroy;
++begin
++  Inc(FCounter^);
++  inherited;
++end;
++
++procedure TestTStringsUtils.TestTStrings_DeleteAndFreeObject;
++begin
++  FCounter := 0;
++  FList.Objects[0] := TMyObj.Create(@FCounter);
++  TStrings_DeleteAndFreeObject(FList, 0);
++  CheckEquals(1, FCounter, 'Destructor has not been called');
++end;
++
++procedure TestTStringsUtils.TestTStrings_FreeAllObjects;
++begin
++  FCounter := 0;
++  FList.Objects[0] := TMyObj.Create(@FCounter);
++  FList.Objects[2] := TMyObj.Create(@FCounter);
++  FList.Objects[3] := TMyObj.Create(@FCounter);
++  FList.Objects[4] := TMyObj.Create(@FCounter);
++  TStrings_FreeAllObjects(FList);
++  CheckEquals(4, FCounter, 'Destructor has not been called 4 times');
++end;
++
++procedure TestTStringsUtils.TestTStrings_FreeWithObjects;
++var
++  List: TStringList;
++begin
++  FCounter := 0;
++  List := FList;
++  FList := nil;
++  List.Objects[0] := TMyObj.Create(@FCounter);
++  List.Objects[2] := TMyObj.Create(@FCounter);
++  List.Objects[3] := TMyObj.Create(@FCounter);
++  List.Objects[4] := TMyObj.Create(@FCounter);
++  TStrings_FreeWithObjects(List);
++  CheckEquals(4, FCounter, 'Destructor has not been called 4 times');
++end;
++
++procedure TestTStringsUtils.TestTStrings_RemoveTrailingSpaces;
++begin
++  TStrings_RemoveTrailingSpaces(FList);
++  CheckEqualsMultiline('a'#13#10'b'#13#10'c'#13#10'd'#13#10'e'#13#10'f'#13#10,
++    FList.Text);
++end;
++
++procedure TestTStringsUtils.TestTStrings_StringByObj;
++var
++  MyObj: TMyObj;
++begin
++  MyObj := TMyObj.Create(@FCounter);
++  FList.Objects[3] := MyObj;
++  CheckEquals('d', TStrings_StringByObj(FList, MyObj));
++end;
++
++procedure TestTStringsUtils.TestTStrings_TryStringByObj;
++var
++  MyObj: TMyObj;
++  s: string;
++begin
++  MyObj := TMyObj.Create(@FCounter);
++  FList.Objects[3] := MyObj;
++  CheckTrue(TStrings_TryStringByObj(FList, MyObj, s));
++  CheckEquals('d', s);
++end;
++
++{ TestTStreamUtils }
++
++procedure TestTStreamUtils.SetUp;
++begin
++  inherited;
++  FStream := TStringStream.Create('hello world'#13#10);
++  FStream.Seek(0, soEnd);
++end;
++
++procedure TestTStreamUtils.TearDown;
++begin
++  FStream.Free;
++  inherited;
++end;
++
++procedure TestTStreamUtils.TestTestTStream_WriteString;
++begin
++  TStream_WriteString(FStream, 'hello again');
++  CheckEquals('hello world'#13#10'hello again', FStream.DataString);
++end;
++
++procedure TestTStreamUtils.TestTStream_ReadStringLn;
++var
++  s: string;
++begin
++  FStream.Seek(0, soBeginning);
++  CheckEquals(11, TStream_ReadStringLn(FStream, s));
++  CheckEquals('hello world', s);
++end;
++
++procedure TestTStreamUtils.TestTStream_WriteFmtLn;
++begin
++  TStream_WriteFmtLn(FStream, 'hello %s', ['again']);
++  CheckEquals('hello world'#13#10'hello again'#13#10, FStream.DataString);
++end;
++
++procedure TestTStreamUtils.TestTStream_WriteStringLn;
++begin
++  TStream_WriteStringLn(FStream, 'hello again');
++  CheckEquals('hello world'#13#10'hello again'#13#10, FStream.DataString);
++end;
++
++initialization
++  RegisterTest('ClassUtils', TestTStringsUtils.Suite);
++  RegisterTest('ClassUtils', TestTStreamUtils.Suite);
++end.
++
+
+Copied: utilities/dzLib/trunk/tests/src/Testu_dzConvertUtils.pas (from rev 257, utilities/dzLib/trunk/tests/dzconvertutils/Testu_dzConvertUtils.pas)
+
+Copied: utilities/dzLib/trunk/tests/src/Testu_dzFileUtils.pas (from rev 257, utilities/dzLib/trunk/tests/dzfileutils/Testu_dzFileUtils.pas)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000126.html">[Dzchart-svncheckins] r257 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000128.html">[Dzchart-svncheckins] r259 - in utilities/dzLib/trunk: src tests	tests/dcu tests/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#127">[ date ]</a>
+              <a href="thread.html#127">[ thread ]</a>
+              <a href="subject.html#127">[ subject ]</a>
+              <a href="author.html#127">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

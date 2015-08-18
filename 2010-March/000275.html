@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r414 - in utilities/dzLib/trunk: src	translations/fr
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r414%20-%20in%20utilities/dzLib/trunk%3A%20src%0A%09translations/fr&In-Reply-To=%3C201003271124.o2RBOHfp000204%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000274.html">
+   <LINK REL="Next"  HREF="000276.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r414 - in utilities/dzLib/trunk: src	translations/fr</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r414%20-%20in%20utilities/dzLib/trunk%3A%20src%0A%09translations/fr&In-Reply-To=%3C201003271124.o2RBOHfp000204%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r414 - in utilities/dzLib/trunk: src	translations/fr">twm at mail.berlios.de
+       </A><BR>
+    <I>Sat Mar 27 12:24:17 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000274.html">[Dzchart-svncheckins] r413 - utilities/dzLib/trunk/IniFileFormatter
+</A></li>
+        <LI>Next message: <A HREF="000276.html">[Dzchart-svncheckins] r415 - utilities/buildtools/trunk/templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#275">[ date ]</a>
+              <a href="thread.html#275">[ thread ]</a>
+              <a href="subject.html#275">[ subject ]</a>
+              <a href="author.html#275">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-03-27 12:24:15 +0100 (Sat, 27 Mar 2010)
+New Revision: 414
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzDateUtils.pas
+   utilities/dzLib/trunk/translations/fr/dzlib.po
+Log:
+new function Str2Date and TryStr2Date
+
+Modified: utilities/dzLib/trunk/src/u_dzDateUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzDateUtils.pas	2010-03-13 12:55:29 UTC (rev 413)
++++ utilities/dzLib/trunk/src/u_dzDateUtils.pas	2010-03-27 11:24:15 UTC (rev 414)
+@@ -68,10 +68,14 @@
+ function ddmmyyyy2Date(const _s: string): TDateTime;
+ function Tryddmmyyyy2Date(const _s: string; out _Date: TDateTime): boolean;
+ 
++function TryStr2Date(const _s: string; out _dt: TDateTime): boolean;
++function Str2Date(const _s: string): TDateTime;
++
+ implementation
+ 
+ uses
+   SysUtils,
++  SysConst,
+   DateUtils,
+   u_dzStringUtils;
+ 
+@@ -233,5 +237,33 @@
+   Result := StrToDateTime(_s, Settings);
+ end;
+ 
++function TryStr2Date(const _s: string; out _dt: TDateTime): boolean;
++var
++  UKSettings: TFormatSettings;
++begin
++  Result := true;
++  // Try several different formats
++  // format configured in Windows
++  if not TryStrToDate(_s, _dt) then
++    // German dd.mm.yyyy
++    if not Tryddmmyyyy2Date(_s, _dt) then
++      // ISO yyyy-mm-dd
++      if not TryIso2Date(_s, _dt) then begin
++        // United Kingdom: dd/mm/yyyy
++        UKSettings := GetUserDefaultLocaleSettings;
++        UKSettings.DateSeparator := '/';
++        UKSettings.ShortDateFormat := 'dd/mm/yyyy';
++        if not TryStrToDate(_s, _dt, UKSettings) then
++          // nothing worked, give up
++          Result := false;
++      end;
++end;
++
++function Str2Date(const _s: string): TDateTime;
++begin
++  if not TryStr2Date(_s, Result) then
++    raise EConvertError.CreateResFmt(@SInvalidDate, [_s]);
++end;
++
+ end.
+ 
+
+Modified: utilities/dzLib/trunk/translations/fr/dzlib.po
+===================================================================
+--- utilities/dzLib/trunk/translations/fr/dzlib.po	2010-03-13 12:55:29 UTC (rev 413)
++++ utilities/dzLib/trunk/translations/fr/dzlib.po	2010-03-27 11:24:15 UTC (rev 414)
+@@ -4,7 +4,7 @@
+ # Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;, 2008.
+ #
+ msgid &quot;&quot;
+-msgstr &quot;Project-Id-Version: dzLib 1.0\n&quot;
++msgstr &quot;Project-Id-Version: dzLib\n&quot;
+ &quot;POT-Creation-Date: 2010-03-13 12:46\n&quot;
+ &quot;PO-Revision-Date: 2008-09-04 05:41-0800\n&quot;
+ &quot;Last-Translator: Thomas Mueller &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">dzlib at dummzeuch.de</A>&gt;\n&quot;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000274.html">[Dzchart-svncheckins] r413 - utilities/dzLib/trunk/IniFileFormatter
+</A></li>
+	<LI>Next message: <A HREF="000276.html">[Dzchart-svncheckins] r415 - utilities/buildtools/trunk/templates
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#275">[ date ]</a>
+              <a href="thread.html#275">[ thread ]</a>
+              <a href="subject.html#275">[ subject ]</a>
+              <a href="author.html#275">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

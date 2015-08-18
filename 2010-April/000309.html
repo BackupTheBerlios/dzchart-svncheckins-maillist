@@ -1,0 +1,716 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r449 - in utilities/dzPrepBuild/trunk: .	buildtools src testdata
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r449%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%0A%09buildtools%20src%20testdata&In-Reply-To=%3C201004111818.o3BIIlol003983%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000308.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r449 - in utilities/dzPrepBuild/trunk: .	buildtools src testdata</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r449%20-%20in%20utilities/dzPrepBuild/trunk%3A%20.%0A%09buildtools%20src%20testdata&In-Reply-To=%3C201004111818.o3BIIlol003983%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r449 - in utilities/dzPrepBuild/trunk: .	buildtools src testdata">twm at mail.berlios.de
+       </A><BR>
+    <I>Sun Apr 11 20:18:47 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000308.html">[Dzchart-svncheckins] r448 - 3rd/tregexpr/0.952/tags/1/Help
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#309">[ date ]</a>
+              <a href="thread.html#309">[ thread ]</a>
+              <a href="subject.html#309">[ subject ]</a>
+              <a href="author.html#309">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2010-04-11 20:18:29 +0200 (Sun, 11 Apr 2010)
+New Revision: 449
+
+Added:
+   utilities/dzPrepBuild/trunk/testdata/SVN_Version.ini
+Modified:
+   utilities/dzPrepBuild/trunk/
+   utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+   utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+   utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+   utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+   utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/d_XmlVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas
+   utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+   utilities/dzPrepBuild/trunk/src/u_VersionInfo.pas
+   utilities/dzPrepBuild/trunk/testdata/OriginalTestproject_Version.ini
+Log:
+* added support for variables {read:&lt;IniFileDescriptor&gt;}, {thisyear}, {today}, {now}
+* removed switches --ProductVersionToDate and --ProductVersionToDateTime again, since they can be replaced with the new variables
+
+
+
+Property changes on: utilities/dzPrepBuild/trunk
+___________________________________________________________________
+Name: svn:ignore
+   - __history
+dcu
+IncBuildNo.cfg
+IncBuildNo.exe
+IncBuildNo.res
+PrepBuild.exe
+PrepBuild.res
+PrepBuild.dsk
+testproject.rc
+
+   + __history
+dcu
+IncBuildNo.cfg
+IncBuildNo.exe
+IncBuildNo.res
+PrepBuild.exe
+PrepBuild.res
+PrepBuild.dsk
+testproject.rc
+PrepBuild.dpr.lnk
+
+Name: svn:externals
+   - libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser\src <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src</A>
+libs/dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2</A>
+
+   + libs/dzlib <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzLib/trunk</A>
+libs/dzCmdLineParser\src <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src">https://svn.berlios.de/svnroot/repos/dzchart/utilities/dzCmdLineParser/trunk/src</A>
+libs/dzTemplates <A HREF="https://svn.berlios.de/svnroot/repos/dztemplates/trunk">https://svn.berlios.de/svnroot/repos/dztemplates/trunk</A>
+libs/jcl <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2">https://svn.berlios.de/svnroot/repos/dzchart/3rd/jcl/1.99/tags/2</A>
+libs/tregexpr <A HREF="https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1">https://svn.berlios.de/svnroot/repos/dzchart/3rd/tregexpr/0.952/tags/1</A>
+
+
+Modified: utilities/dzPrepBuild/trunk/buildtools/PrepBuild.exe
+===================================================================
+(Binary files differ)
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dpr
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dpr	2010-04-11 18:18:29 UTC (rev 449)
+@@ -26,7 +26,8 @@
+   u_dzOptionNameList in '..\libs\dzCmdLineParsersrc\u_dzOptionNameList.pas',
+   u_dzOptionFoundList in '..\libs\dzCmdLineParsersrc\u_dzOptionFoundList.pas',
+   w_dzDialog in '..\libs\dzlib\forms\w_dzDialog.pas' {f_dzDialog},
+-  u_dzJclUtils in '..\libs\dzlib\src\u_dzJclUtils.pas';
++  u_dzJclUtils in '..\libs\dzlib\src\u_dzJclUtils.pas',
++  RegExpr in '..\libs\tregexpr\Source\RegExpr.pas';
+ 
+ {$R *_icon.res}
+ {$R *_version.res}
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild.dproj
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild.dproj	2010-04-11 18:18:29 UTC (rev 449)
+@@ -45,7 +45,7 @@
+   &lt;Import Project=&quot;$(MSBuildBinPath)\Borland.Delphi.Targets&quot; /&gt;
+   &lt;PropertyGroup&gt;
+     &lt;PreBuildEvent&gt;subwcrev .. SVN_Version_template.ini SVN_Version.ini
+-..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --updateini=$(PROJECTPATH)  --productversiontodate --WriteRc=$(PROJECTPATH) --exec=..\buildtools\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
++..\buildtools\prepbuild.exe --incbuild --readini=$(PROJECTPATH) --updateini=$(PROJECTPATH) --WriteRc=$(PROJECTPATH) --exec=..\buildtools\prep.cmd $(SAVE)&lt;/PreBuildEvent&gt;
+   &lt;/PropertyGroup&gt;
+   &lt;ItemGroup&gt;
+     &lt;DelphiCompile Include=&quot;PrepBuild.dpr&quot;&gt;
+@@ -62,6 +62,7 @@
+       &lt;Form&gt;f_dzDialog&lt;/Form&gt;
+     &lt;/DCCReference&gt;
+     &lt;DCCReference Include=&quot;..\libs\dzlib\src\u_dzJclUtils.pas&quot; /&gt;
++    &lt;DCCReference Include=&quot;..\libs\tregexpr\Source\RegExpr.pas&quot; /&gt;
+     &lt;DCCReference Include=&quot;d_BdsProjVersionInfo.pas&quot;&gt;
+       &lt;Form&gt;dm_BdsProjVersionInfo&lt;/Form&gt;
+       &lt;DesignClass&gt;TDataModule&lt;/DesignClass&gt;
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_BuildNo.ini	2010-04-11 18:18:29 UTC (rev 449)
+@@ -1,4 +1,4 @@
+ [Version Info]
+-Build=270
+-FileVersion=1.2.0.270
++Build=305
++FileVersion=1.2.0.305
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/PrepBuild_Version.ini	2010-04-11 18:18:29 UTC (rev 449)
+@@ -10,13 +10,10 @@
+ FileDescription=commandline and IDE prebuild tool
+ FileVersion=redirect:PrepBuild_BuildNo.ini,Version Info,FileVersion
+ InternalName=PrepBuild
+-LegalCopyright=Copyright 2002-2010 by Thomas Mueller
++LegalCopyright=Copyright 2002-{ThisYear} by Thomas Mueller
+ LegalTrademarks=
+ OriginalFilename=PrepBuild.exe
+ ProductName=PrepBuild
+-ProductVersion=2010-04-11
+-Comments=Use at your own risk
+-SVNURL=<A HREF="https://twm@svn.berlios.de/svnroot/repos/dzchart/utilities/dzPrepBuild/trunk">https://twm@svn.berlios.de/svnroot/repos/dzchart/utilities/dzPrepBuild/trunk</A>
+-SVNVersionRange=427:429
+-SVNLocalModifications=no
++ProductVersion={today}
++Comments=&lt;svn range=\&quot;{read:svn_version.ini,SVN,VersionRange}\&quot; modified=\&quot;{read:svn_version.ini,SVN,LocalModifications}\&quot; url=\&quot;{read:svn_version.ini,SVN,url}\&quot; /&gt;
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/d_BdsProjVersionInfo.pas	2010-04-11 18:18:29 UTC (rev 449)
+@@ -14,11 +14,10 @@
+ 
+ type
+   Tdm_BdsProjVersionInfo = class(Tdm_XmlVersionInfo)
+-  private
+   protected
+     procedure InitVersionNodes; override;
+   public
+-    class function FilenameFor(const _Project: string): string; override;
++    constructor Create(const _Project: string);
+   end;
+ 
+ implementation
+@@ -27,9 +26,9 @@
+ 
+ { Tdm_BdsProjVersionInfo }
+ 
+-class function Tdm_BdsProjVersionInfo.FilenameFor(const _Project: string): string;
++constructor Tdm_BdsProjVersionInfo.Create(const _Project: string);
+ begin
+-  Result := ChangeFileExt(_Project, '.bdsproj');
++  inherited Create(ChangeFileExt(_Project, '.bdsproj'));
+ end;
+ 
+ procedure Tdm_BdsProjVersionInfo.InitVersionNodes;
+
+Modified: utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.pas	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/d_DProjVersionInfo.pas	2010-04-11 18:18:29 UTC (rev 449)
+@@ -18,16 +18,16 @@
+   protected
+     procedure InitVersionNodes; override;
+   public
+-    class function FilenameFor(const _Project: string): string; override;
++    constructor Create(const _Project: string);
+   end;
+ 
+ implementation
+ 
+ {$R *.dfm}
+ 
+-class function Tdm_DprojVersionInfo.FilenameFor(const _Project: string): string;
++constructor Tdm_DprojVersionInfo.Create(const _Project: string);
+ begin
+-  Result := ChangeFileExt(_Project, '.dproj');
++  inherited Create(ChangeFileExt(_Project, '.dproj'));
+ end;
+ 
+ procedure Tdm_DprojVersionInfo.InitVersionNodes;
+
+Modified: utilities/dzPrepBuild/trunk/src/d_XmlVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/d_XmlVersionInfo.pas	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/d_XmlVersionInfo.pas	2010-04-11 18:18:29 UTC (rev 449)
+@@ -17,7 +17,7 @@
+   Tdm_XmlVersionInfo = class(TDataModule, IVersionInfoAccess)
+     ProjDoc: TXMLDocument;
+   private
+-    FProjectName: string;
++    FProjectFilename: string;
+     function GetChildNodeContent(_Parent: IXMLNode; const _NodeName, _AttrName: string): string;
+     function GetVersionInfo(const _Name: string): string;
+     function GetVersionInfoKey(const _Name: string): string;
+@@ -39,9 +39,8 @@
+     FVersionInfoKeys: IXMLNode;
+     procedure InitVersionNodes; virtual; abstract;
+   public
+-    constructor Create(const _Project: string); reintroduce;
++    constructor Create(const _FullFilename: string); reintroduce;
+     destructor Destroy; override;
+-    class function FilenameFor(const _Project: string): string; virtual; abstract;
+   end;
+ 
+ implementation
+@@ -98,10 +97,10 @@
+   end;
+ end;
+ 
+-constructor Tdm_XmlVersionInfo.Create(const _Project: string);
++constructor Tdm_XmlVersionInfo.Create(const _FullFilename: string);
+ begin
+   inherited Create(nil);
+-  FProjectName := _Project;
++  FProjectFilename := _FullFilename;
+   FXmlFilename := VerInfoFilename;
+   ProjDoc.FileName := FXmlFilename;
+   ProjDoc.Active := True;
+@@ -120,6 +119,8 @@
+ 
+ procedure Tdm_XmlVersionInfo.ReadFromFile(_VerInfo: TVersionInfo);
+ begin
++  _VerInfo.Source := VerInfoFilename;
++
+   _VerInfo.AutoIncBuild := SameText(GetVersionInfo('AutoIncBuild'), 'True');
+ 
+   _VerInfo.MajorVer := StrToIntDef(GetVersionInfo('MajorVer'), 0);
+@@ -171,7 +172,7 @@
+ 
+ function Tdm_XmlVersionInfo.VerInfoFilename: string;
+ begin
+-  Result := FilenameFor(FProjectName);
++  Result := FProjectFilename;
+ end;
+ 
+ // standard TInterfacedObject implementation of IInterface
+
+Modified: utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/u_CentralIniVersionInfo.pas	2010-04-11 18:18:29 UTC (rev 449)
+@@ -18,15 +18,13 @@
+      used to maintain/increment a central build number for several branches of
+      a project where the files have different version numbers but the build
+      number should be increased for a build of any of these versions. }
+-  TCentralVersionInfo = class(TIniVersionInfo, IVersionInfoAccess)
++  TCentralIniVersionInfo = class(TIniVersionInfo, IVersionInfoAccess)
+   private
+     FProjectName: string;
+     procedure GetRedirIdentInfo(const _RedirString: string; out _Filename, _Section, _Ident: string);
+     procedure GetRedirSectionInfo(_Redir: string; out _Filename, _Section: string);
+     procedure AdjustFilename(var _Filename: string);
+   protected
+-    function VerInfoFilename: string;
+-    //
+     function ReadString(const _Section, _Ident: string; _Default: string): string; override;
+     procedure WriteString(const _Section, _Ident: string; _Value: string); override;
+   public
+@@ -35,7 +33,6 @@
+                           The constructor appends &quot;_Version.ini&quot; to this
+                           name and tries to open the file }
+     constructor Create(const _ProjectName: string);
+-    class function FilenameFor(const _ProjectName: string): string;
+   end;
+ 
+ implementation
+@@ -51,18 +48,12 @@
+ 
+ { TCentralVersionInfo }
+ 
+-constructor TCentralVersionInfo.Create(const _ProjectName: string);
++constructor TCentralIniVersionInfo.Create(const _ProjectName: string);
+ begin
+-  FProjectName := _ProjectName;
+-  inherited Create(VerInfoFilename, VERSION_INFO_SECTION, VERSION_INFO_KEYS_SECTION);
++  inherited Create(ChangeFileExt(_ProjectName, '_Version.ini'), VERSION_INFO_SECTION, VERSION_INFO_KEYS_SECTION);
+ end;
+ 
+-class function TCentralVersionInfo.FilenameFor(const _ProjectName: string): string;
+-begin
+-  Result := ChangeFileExt(_ProjectName, '') + '_Version.ini';
+-end;
+-
+-procedure TCentralVersionInfo.AdjustFilename(var _Filename: string);
++procedure TCentralIniVersionInfo.AdjustFilename(var _Filename: string);
+ var
+   Path: string;
+ begin
+@@ -73,14 +64,14 @@
+   end;
+ end;
+ 
+-procedure TCentralVersionInfo.GetRedirSectionInfo(_Redir: string; out _Filename, _Section: string);
++procedure TCentralIniVersionInfo.GetRedirSectionInfo(_Redir: string; out _Filename, _Section: string);
+ begin
+   _Filename := ExtractStr(_Redir, ',');
+   _Section := _Redir;
+   AdjustFilename(_Filename);
+ end;
+ 
+-procedure TCentralVersionInfo.GetRedirIdentInfo(const _RedirString: string;
++procedure TCentralIniVersionInfo.GetRedirIdentInfo(const _RedirString: string;
+   out _Filename, _Section, _Ident: string);
+ var
+   Redir: string;
+@@ -92,7 +83,7 @@
+   AdjustFilename(_Filename);
+ end;
+ 
+-function TCentralVersionInfo.ReadString(const _Section, _Ident: string; _Default: string): string;
++function TCentralIniVersionInfo.ReadString(const _Section, _Ident: string; _Default: string): string;
+ var
+   Redir: string;
+   IniFile: TMemIniFile;
+@@ -123,12 +114,7 @@
+   end;
+ end;
+ 
+-function TCentralVersionInfo.VerInfoFilename: string;
+-begin
+-  Result := FilenameFor(FProjectName);
+-end;
+-
+-procedure TCentralVersionInfo.WriteString(const _Section, _Ident: string; _Value: string);
++procedure TCentralIniVersionInfo.WriteString(const _Section, _Ident: string; _Value: string);
+ var
+   Redir: string;
+   IniFile: TMemIniFile;
+
+Modified: utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/u_DofVersionInfo.pas	2010-04-11 18:18:29 UTC (rev 449)
+@@ -15,8 +15,6 @@
+   TDofVersionInfo = class(TIniVersionInfo, IVersionInfoAccess)
+   private
+     FProjectName: string;
+-  protected
+-    function VerInfoFilename: string;
+   public
+     {: Creates a TDofVersionInfo instance. Succeeds, if the file exists
+        and IncludeVerInfo is &lt;&gt; 0
+@@ -51,10 +49,5 @@
+   Result := ChangeFileExt(_ProjectName, '.dof');
+ end;
+ 
+-function TDofVersionInfo.VerInfoFilename: string;
+-begin
+-  Result := FilenameFor(FProjectName);
+-end;
+-
+ end.
+ 
+
+Modified: utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/u_IniVersionInfo.pas	2010-04-11 18:18:29 UTC (rev 449)
+@@ -23,7 +23,9 @@
+     function ReadBool(const _Section, _Ident: string; _Default: boolean): boolean; virtual;
+     procedure WriteBool(const _Section, _Ident: string; _Value: boolean); virtual;
+   private
+-  protected // implementation of IVersionInfo
++    FIniFilename: string;
++  protected // implement IVersionInfoAccess
++    function VerInfoFilename: string;
+     procedure ReadFromFile(_VerInfo: TVersionInfo);
+     procedure WriteToFile(_VerInfo: TVersionInfo);
+   public
+@@ -53,6 +55,7 @@
+   const _InfoKeysSection: string);
+ begin
+   inherited Create;
++  FIniFilename := _FullFilename;
+   if not FileExists(_FullFilename) then
+     raise ENoVersionInfo.CreateFmt(_('File %s does not exist.'), [_FullFilename]);
+   FInfoSection := _InfoSection;
+@@ -85,6 +88,11 @@
+   Result := FIniFile.ReadString(_Section, _Ident, _Default);
+ end;
+ 
++function TIniVersionInfo.VerInfoFilename: string;
++begin
++  Result := FIniFilename;
++end;
++
+ procedure TIniVersionInfo.WriteBool(const _Section, _Ident: string; _Value: boolean);
+ begin
+   WriteInteger(_Section, _Ident, Ord(_Value));
+@@ -102,6 +110,8 @@
+ 
+ procedure TIniVersionInfo.ReadFromFile(_VerInfo: TVersionInfo);
+ begin
++  _VerInfo.Source := VerInfoFilename;
++
+   _VerInfo.AutoIncBuild := ReadBool(FInfoSection, 'AutoIncBuild', False);
+ 
+   _VerInfo.Build := ReadInteger(FInfoSection, 'Build', 0);
+
+Modified: utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/u_PrepBuildMain.pas	2010-04-11 18:18:29 UTC (rev 449)
+@@ -68,16 +68,16 @@
+     WriteLn(t, {    } ' {');
+     WriteLn(t, {    } '  BLOCK &quot;040904E4&quot;');
+     WriteLn(t, {    } '  {');
+-    WriteLn(t, Format('   VALUE &quot;CompanyName&quot;, &quot;%s\000&quot;', [_VersionInfo.CompanyName]));
+-    WriteLn(t, Format('   VALUE &quot;FileDescription&quot;, &quot;%s\000&quot;', [_VersionInfo.FileDescription]));
+-    WriteLn(t, Format('   VALUE &quot;FileVersion&quot;, &quot;%s\000&quot;', [_VersionInfo.FileVersion]));
+-    WriteLn(t, Format('   VALUE &quot;InternalName&quot;, &quot;%s\000&quot;', [_VersionInfo.InternalName]));
+-    WriteLn(t, Format('   VALUE &quot;LegalCopyright&quot;, &quot;%s\000&quot;', [_VersionInfo.LegalCopyright]));
+-    WriteLn(t, Format('   VALUE &quot;LegalTrademarks&quot;, &quot;%s\000&quot;', [_VersionInfo.LegalTrademarks]));
+-    WriteLn(t, Format('   VALUE &quot;OriginalFilename&quot;, &quot;%s\000&quot;', [_VersionInfo.OriginalFilename]));
+-    WriteLn(t, Format('   VALUE &quot;ProductName&quot;, &quot;%s\000&quot;', [_VersionInfo.ProductName]));
+-    WriteLn(t, Format('   VALUE &quot;ProductVersion&quot;, &quot;%s\000&quot;', [_VersionInfo.ProductVersion]));
+-    WriteLn(t, Format('   VALUE &quot;Comments&quot;, &quot;%s\000&quot;', [_VersionInfo.Comments]));
++    WriteLn(t, Format('   VALUE &quot;CompanyName&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.CompanyName)]));
++    WriteLn(t, Format('   VALUE &quot;FileDescription&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.FileDescription)]));
++    WriteLn(t, Format('   VALUE &quot;FileVersion&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.FileVersion)]));
++    WriteLn(t, Format('   VALUE &quot;InternalName&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.InternalName)]));
++    WriteLn(t, Format('   VALUE &quot;LegalCopyright&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.LegalCopyright)]));
++    WriteLn(t, Format('   VALUE &quot;LegalTrademarks&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.LegalTrademarks)]));
++    WriteLn(t, Format('   VALUE &quot;OriginalFilename&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.OriginalFilename)]));
++    WriteLn(t, Format('   VALUE &quot;ProductName&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.ProductName)]));
++    WriteLn(t, Format('   VALUE &quot;ProductVersion&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.ProductVersion)]));
++    WriteLn(t, Format('   VALUE &quot;Comments&quot;, &quot;%s\000&quot;', [_VersionInfo.ResolveVariables(_VersionInfo.Comments)]));
+     WriteLn(t, {    } '  }');
+     WriteLn(t, {    } ' }');
+     WriteLn(t, {    } ' BLOCK &quot;VarFileInfo&quot;');
+@@ -206,7 +206,7 @@
+   if FGetOpt.OptionPassed('ReadIni', Project) then begin
+     if Assigned(VerInfoAccess) then
+       raise Exception.Create(_('You can only pass one of --ReadDof, --ReadBdsproj, --ReadDproj  or --ReadIni'));
+-    VerInfoAccess := TCentralVersionInfo.Create(Project);
++    VerInfoAccess := TCentralIniVersionInfo.Create(Project);
+   end;
+ 
+   if FGetOpt.OptionPassed('ReadDproj', Project) then begin
+@@ -276,17 +276,6 @@
+       WriteLn('Setting ProductVersion to ', VersionInfo.ProductVersion);
+     end;
+ 
+-    dt := Now;
+-    if FGetOpt.OptionPassed('ProductVersionToDate') then begin
+-      VersionInfo.ProductVersion := DateTimeToString('yyyy-mm-dd', dt);
+-      WriteLn('Setting ProductVersion to ', VersionInfo.ProductVersion);
+-    end;
+-
+-    if FGetOpt.OptionPassed('ProductVersionToDateTime') then begin
+-      VersionInfo.ProductVersion := DateTimeToString('yyyy-mm-dd hh:nn:ss', dt);
+-      WriteLn('Setting ProductVersion to ', VersionInfo.ProductVersion);
+-    end;
+-
+     if FGetOpt.OptionPassed('Company', Param) then begin
+       VersionInfo.CompanyName := UnquoteStr(Param);
+       WriteLn('Setting CompanyName to ', VersionInfo.CompanyName);
+@@ -328,7 +317,7 @@
+     end;
+ 
+     if FGetOpt.OptionPassed('UpdateIni', Param) then begin
+-      VerInfoAccess := TCentralVersionInfo.Create(Param);
++      VerInfoAccess := TCentralIniVersionInfo.Create(Param);
+       WriteLn('Updating ', VerInfoAccess.VerInfoFilename);
+       VerInfoAccess.WriteToFile(VersionInfo);
+     end;
+@@ -381,8 +370,6 @@
+   FGetOpt.RegisterOption('OriginalName', _('set the original file name (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Product', _('set the product name (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('ProductVersion', _('set the product version (overwrites value from -ReadXxx option)'), true);
+-  FGetOpt.RegisterOption('ProductVersionToDate', _('set the proodcut version to the current date  (overwrites value from -ReadXxx and ProductVersion option)'), false);
+-  FGetOpt.RegisterOption('ProductVersionToDateTime', _('set the proodcut version to the current date and time (overwrites value from -ReadXxx and ProductVersion option)'), false);
+   FGetOpt.RegisterOption('Company', _('set the company name (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Copyright', _('set the legal copyright (overwrites value from -ReadXxx option)'), true);
+   FGetOpt.RegisterOption('Trademark', _('set the legal trademark (overwrites value from -ReadXxx option)'), true);
+
+Modified: utilities/dzPrepBuild/trunk/src/u_VersionInfo.pas
+===================================================================
+--- utilities/dzPrepBuild/trunk/src/u_VersionInfo.pas	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/src/u_VersionInfo.pas	2010-04-11 18:18:29 UTC (rev 449)
+@@ -24,6 +24,9 @@
+     FInternalName: string;
+     FOriginalFilename: string;
+     FComments: string;
++    FSource: string;
++    function ResolveVariable(const _s: string): string;
++    procedure AdjustFilename(var _Filename: string);
+   protected
+     function GetAutoIncBuild: boolean;
+     procedure SetAutoIncBuild(_AutoIncBuild: Boolean); virtual;
+@@ -61,6 +64,9 @@
+     procedure SetProductVersion(_ProductVersion: string); virtual;
+   public
+     procedure UpdateFileVersion;
++    function ResolveVariables(const _s: string): string;
++
++    property Source: string read FSource write FSource;
+     //
+     property AutoIncBuild: boolean read GetAutoIncBuild write SetAutoIncBuild;
+     //
+@@ -83,10 +89,20 @@
+ 
+ implementation
+ 
++uses
++  RegExpr,
++  StrUtils,
++  DateUtils,
++  IniFiles,
++  u_dzStringUtils,
++  u_dzDateUtils;
++
+ { TVersionInfo }
+ 
+ procedure TVersionInfo.Assign(_VersionInfo: TVersionInfo);
+ begin
++  Source := _VersionInfo.Source;
++
+   AutoIncBuild := _VersionInfo.AutoIncBuild;
+ 
+   MajorVer := _VersionInfo.MajorVer;
+@@ -106,6 +122,77 @@
+   ProductVersion := _VersionInfo.ProductVersion;
+ end;
+ 
++procedure TVersionInfo.AdjustFilename(var _Filename: string);
++var
++  Path: string;
++begin
++  Path := ExtractFilePath(_Filename);
++  if (Path = '') or ((Path[1] &lt;&gt; '\') and (Copy(Path, 2, 1) &lt;&gt; ':')) then begin
++     // Path is relative, so make it relative to the main .ini/project file
++    _Filename := ExtractFilePath(FSource) + _Filename;
++  end;
++end;
++
++function TVersionInfo.ResolveVariable(const _s: string): string;
++var
++  Redir: string;
++  fn: string;
++  Section: string;
++  Ident: string;
++  IniFile: TMemIniFile;
++begin
++  if UStartsWith('read:', _s) then begin
++    Redir := Copy(_s, Length('read:') + 1);
++    fn := ExtractStr(Redir, ',');
++    Section := ExtractStr(Redir, ',');
++    Ident := Redir;
++    AdjustFilename(fn);
++    IniFile := TMemIniFile.Create(fn);
++    try
++      Result := IniFile.ReadString(Section, Ident, '');
++    finally
++      IniFile.Free;
++    end;
++  end else if SameText('thisyear', _s) then begin
++    Result := IntToStr(YearOf(Date));
++  end else if SameText('today', _s) then begin
++    Result := DateTime2Iso(Date, False);
++  end else if SameText('now', _s) then begin
++    Result := DateTime2Iso(Date, True);
++  end else
++    Result := _s;
++end;
++
++function TVersionInfo.ResolveVariables(const _s: string): string;
++var
++  re: TRegExpr;
++  Found: Boolean;
++  s: string;
++  Start: Integer;
++  Ende: integer;
++begin
++  Result := '';
++  Start := 1;
++  re := TRegExpr.Create;
++  try
++    re.Expression := '\{(.*?)\}';
++    re.Compile;
++    Found := re.Exec(_s);
++    while Found do begin
++      Ende := re.MatchPos[0];
++      Result := Result + Copy(_s, Start, Ende - Start);
++      Start := Ende + re.MatchLen[0];
++      s := re.Match[1];
++      s := ResolveVariable(s);
++      Result := Result + s;
++      Found := re.ExecNext;
++    end;
++    Result := Result + TailStr(_s, Start);
++  finally
++    re.Free;
++  end;
++end;
++
+ function TVersionInfo.GetAutoIncBuild: boolean;
+ begin
+   Result := FAutoIncBuild;
+
+Modified: utilities/dzPrepBuild/trunk/testdata/OriginalTestproject_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/OriginalTestproject_Version.ini	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/testdata/OriginalTestproject_Version.ini	2010-04-11 18:18:29 UTC (rev 449)
+@@ -5,23 +5,16 @@
+ MinorVer=0
+ Release=0
+ Build=redirect:Testproject_Build.ini,Version Info,Build
+-Debug=0
+-PreRelease=0
+-Special=0
+-Private=0
+-DLL=0
+-Locale=1033
+-CodePage=1252
+ 
+ [Version Info Keys]
+ CompanyName=www.dummzeuch.de
+ FileDescription=Testproject
+-FileVersion=
++FileVersion=1.0.0.3
+ InternalName=testproject
+-LegalCopyright=Copyright 2002-2007 by Thomas Mueller
++LegalCopyright=Copyright 2002-{ThisYear} by Thomas Mueller
+ LegalTrademarks=
+ OriginalFilename=testproject.exe
+ ProductName=Testproduct
+-ProductVersion=2007-07-22
+-Comments=internal use only
++ProductVersion={today}
++Comments=&lt;svn range=&quot;{read:svn_version.ini,SVN,VersionRange}&quot; modified=&quot;{read:svn_version.ini,SVN,LocalModifications}&quot; url=&quot;{read:svn_version.ini,SVN,url}&quot; /&gt;
+ 
+
+Added: utilities/dzPrepBuild/trunk/testdata/SVN_Version.ini
+===================================================================
+--- utilities/dzPrepBuild/trunk/testdata/SVN_Version.ini	2010-04-11 18:12:14 UTC (rev 448)
++++ utilities/dzPrepBuild/trunk/testdata/SVN_Version.ini	2010-04-11 18:18:29 UTC (rev 449)
+@@ -0,0 +1,4 @@
++[SVN]
++URL=<A HREF="https://twm@svn.berlios.de/svnroot/repos/dzchart/utilities/dzPrepBuild/trunk">https://twm@svn.berlios.de/svnroot/repos/dzchart/utilities/dzPrepBuild/trunk</A>
++VersionRange=434:440
++LocalModifications=yes
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000308.html">[Dzchart-svncheckins] r448 - 3rd/tregexpr/0.952/tags/1/Help
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#309">[ date ]</a>
+              <a href="thread.html#309">[ thread ]</a>
+              <a href="subject.html#309">[ subject ]</a>
+              <a href="author.html#309">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Dzchart-svncheckins] r299 - utilities/dzLib/trunk/src
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/dzchart-svncheckins/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r299%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041044.m84AiMhE006319%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000165.html">
+   <LINK REL="Next"  HREF="000167.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Dzchart-svncheckins] r299 - utilities/dzLib/trunk/src</H1>
+    <B>twm at mail.berlios.de</B> 
+    <A HREF="mailto:dzchart-svncheckins%40lists.berlios.de?Subject=Re%3A%20%5BDzchart-svncheckins%5D%20r299%20-%20utilities/dzLib/trunk/src&In-Reply-To=%3C200809041044.m84AiMhE006319%40sheep.berlios.de%3E"
+       TITLE="[Dzchart-svncheckins] r299 - utilities/dzLib/trunk/src">twm at mail.berlios.de
+       </A><BR>
+    <I>Thu Sep  4 12:44:22 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000165.html">[Dzchart-svncheckins] r298 - utilities/dzLib/trunk/src
+</A></li>
+        <LI>Next message: <A HREF="000167.html">[Dzchart-svncheckins] r300 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#166">[ date ]</a>
+              <a href="thread.html#166">[ thread ]</a>
+              <a href="subject.html#166">[ subject ]</a>
+              <a href="author.html#166">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: twm
+Date: 2008-09-04 12:44:21 +0200 (Thu, 04 Sep 2008)
+New Revision: 299
+
+Modified:
+   utilities/dzLib/trunk/src/u_dzClassUtils.pas
+Log:
+* changed all pasdoc comments to xmldoc
+* replaced resource strings with calls to DGetText(..., 'dzlib')
+
+
+Modified: utilities/dzLib/trunk/src/u_dzClassUtils.pas
+===================================================================
+--- utilities/dzLib/trunk/src/u_dzClassUtils.pas	2008-09-04 10:35:11 UTC (rev 298)
++++ utilities/dzLib/trunk/src/u_dzClassUtils.pas	2008-09-04 10:44:21 UTC (rev 299)
+@@ -54,7 +54,7 @@
+ procedure TList_FreeWithItems(var _List: TList); deprecated; // use contnrs.TObjectList
+ 
+ /// &lt;summary&gt;
+-// Write a string to the stream
++/// Write a string to the stream
+ /// @param Stream is the TStream to write to.
+ /// @param s is the string to write
+ /// @returns the number of bytes written.
+@@ -62,7 +62,7 @@
+ function TStream_WriteString(_Stream: TStream; const _s: string): integer;
+ 
+ /// &lt;summary&gt;
+-// Write a ShortString to the stream as binary, that is the length byte followed by len content bytes
++/// Write a ShortString to the stream as binary, that is the length byte followed by len content bytes
+ /// @param Stream is the TStream to write to.
+ /// @param s is the string to write
+ /// @returns the number of bytes written.
+@@ -70,7 +70,7 @@
+ function TStream_WriteShortStringBinary(_Stream: TStream; const _s: ShortString): integer;
+ 
+ /// &lt;summary&gt;
+-// Reads a ShortString as written by TStream_WriteShortStringBinary
++/// Reads a ShortString as written by TStream_WriteShortStringBinary
+ /// @param Stream is the TStream to write to.
+ /// @returns the string read
+ /// &lt;/summary&gt;
+@@ -144,10 +144,13 @@
+ 
+ uses
+   StrUtils,
++  u_dzTranslator,
+   u_dzStringUtils;
+ 
+-resourcestring
+-  RS_NO_MATCHING_OBJECT_FOUND = 'no matching object found';
++function _(const _s: string): string; inline;
++begin
++  Result := u_dzTranslator.DGetText(_s, 'dzlib');
++end;
+ 
+ procedure TList_FreeWithItems(var _List: TList);
+ var
+@@ -302,7 +305,7 @@
+ begin
+   if not TStrings_TryStringByObj(_Strings, _Obj, Result) then begin
+     if _RaiseException then
+-      raise EObjectNotFound.Create(RS_NO_MATCHING_OBJECT_FOUND);
++      raise EObjectNotFound.Create(_('no matching object found'));
+     Result := '';
+   end;
+ end;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000165.html">[Dzchart-svncheckins] r298 - utilities/dzLib/trunk/src
+</A></li>
+	<LI>Next message: <A HREF="000167.html">[Dzchart-svncheckins] r300 - utilities/dzLib/trunk/src
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#166">[ date ]</a>
+              <a href="thread.html#166">[ thread ]</a>
+              <a href="subject.html#166">[ subject ]</a>
+              <a href="author.html#166">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/dzchart-svncheckins">More information about the dzchart-svncheckins
+mailing list</a><br>
+</body></html>
